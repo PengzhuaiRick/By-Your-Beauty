@@ -11,6 +11,7 @@
 @implementation TestViewController
 -(void)viewDidLoad{
     self.title = @"测试";
+    NSLog(@"");
 }
 - (IBAction)tes:(id)sender {
 //    [UIView animateWithDuration:0.5 animations:^{

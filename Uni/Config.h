@@ -25,9 +25,14 @@
  */
 #define KMainScreenHeight [UIScreen mainScreen].bounds.size.height
 
-
+/**
+ *   当前系统是7.0或以上
+ */
 #define IS_IOS7_OR_LATER ([[UIDevice currentDevice].systemVersion floatValue] >=7.0)
 
+/**
+ *   当前系统是8.0或以上
+ */
 #define IS_IOS8_OR_LATER ([[UIDevice currentDevice].systemVersion floatValue] >=8.0)
 
 #endif /* Config_h */

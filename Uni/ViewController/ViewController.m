@@ -19,11 +19,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   
+    NSLog(@"");
     [self.view addSubview:_tv.view];
 
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
     [self.view addGestureRecognizer:pan];
+    
+    
 }
 -(void)viewWillAppear:(BOOL)animated{
      self.navigationController.navigationBarHidden=YES;

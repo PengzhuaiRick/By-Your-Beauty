@@ -17,7 +17,8 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+   
+    
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
     TestViewController* tc = [st instantiateViewControllerWithIdentifier:@"TestViewController"];

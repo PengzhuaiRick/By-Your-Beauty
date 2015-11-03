@@ -10,7 +10,7 @@
 
 @implementation BaseViewModel
 -(void)postWithSerCode:(int)code params:(NSMutableDictionary *)params{
-    
+    NSLog(@"");
     NSURL *URL = [NSURL URLWithString:@"http://example.com/resources/123.json"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10];
     AFHTTPRequestOperation *op = [[AFHTTPRequestOperation alloc] initWithRequest:request];

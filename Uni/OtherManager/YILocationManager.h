@@ -27,7 +27,7 @@ typedef void(^GetLocationMessageBlock)(YIUserLocationMessage *locationMsg);
 
 #pragma mark -控制方法
 /**
- *   开始定位
+ *   开始定位 
  */
 -(void)startUpdateUserLoaction;
 

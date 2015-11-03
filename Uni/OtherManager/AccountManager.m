@@ -36,7 +36,7 @@
 + (NSString*)token
 {
     NSString *token = [[[self class] shared] token];
-    return token;
+     return token;
 }
 
 #pragma mark 保存token的静态方法

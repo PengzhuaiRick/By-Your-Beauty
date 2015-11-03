@@ -10,4 +10,11 @@
 #define UniHeader_pch
 #import "Config.h"
 
+/**
+ *  是否第一次登陆
+ */
+#define FIRSTINSTALL @"firstInstall"
+
+
+
 #endif /* UniHeader_pch */

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface AccountManager : NSObject
-
+//NSLog(@"");
 /**
  *  本地存储用户token
  */
@@ -54,7 +54,7 @@
 - (void)clear;
 
 /**
- *  清楚所有保存的字段
+ *     清楚所有保存的字段
  */
 - (void)clearAll;
 

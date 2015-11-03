@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+//NSLog(@"");
 @interface YIUserLocationMessage : NSObject
 
 @property (nonatomic,copy) NSString* state;            //国家

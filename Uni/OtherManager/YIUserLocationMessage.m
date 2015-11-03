@@ -9,5 +9,5 @@
 #import "YIUserLocationMessage.h"
 
 @implementation YIUserLocationMessage
-
+//NSLog(@"");
 @end
