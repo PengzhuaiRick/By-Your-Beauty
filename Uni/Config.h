@@ -10,10 +10,24 @@
 #define Config_h
 
 /**
+ *  是否第一次登陆
+ */
+#define FIRSTINSTALL @"firstInstall"
+
+
+
+
+/**
  *  当前系统版本号
  */
 #define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
 
+
+/**
+ *  获取当前版本号
+ *
+ */
+#define CURRENTVERSION [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]
 
 /**
  *  系统屏幕宽度

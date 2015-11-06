@@ -49,11 +49,17 @@
         locationManager.delegate=self;
         locationManager.distanceFilter = kCLDistanceFilterNone; // meters
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
-        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-            //[locationManager requestAlwaysAuthorization];
-            [locationManager requestWhenInUseAuthorization];
+        //[locationManager requestAlwaysAuthorization];
+//        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+//            [locationManager requestWhenInUseAuthorization];
+#ifdef IS_IOS8_OR_LATER
+        [locationManager requestAlwaysAuthorization];
+        locationManager.allowsBackgroundLocationUpdates=YES;
+#endif
+        if ([CLLocationManager significantLocationChangeMonitoringAvailable])
+            [locationManager startMonitoringSignificantLocationChanges];
         
-        [locationManager startUpdatingLocation];
+       // [locationManager startMonitoringSignificantLocationChanges];
     }else{
         #ifdef IS_IOS8_OR_LATER
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"定位不成功 ,请确认开启定位" preferredStyle:UIAlertControllerStyleAlert];
@@ -106,8 +112,9 @@
 #pragma mark  定位CLLocationManager  CLLocationManagerDelegate方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
 //    [manager stopUpdatingLocation];
-    userLocInfo = [[YIUserLocationMessage alloc]init];
+    
     CLLocation* loca=locations.lastObject;
+   
     CLGeocoder* gecocoder = [[CLGeocoder alloc]init];
     [gecocoder reverseGeocodeLocation:loca completionHandler:^(NSArray *placemarks, NSError *error) {
         if (placemarks.count>0) {
@@ -120,6 +127,7 @@
                 city = place.administrativeArea;
                 
             }
+            userLocInfo = [YIUserLocationMessage share];
             userLocInfo.latitude =[NSString stringWithFormat:@"%f",loca.coordinate.latitude] ;
             userLocInfo.longitude =[NSString stringWithFormat:@"%f",loca.coordinate.longitude] ;
             userLocInfo.altitude =[NSString stringWithFormat:@"%f",loca.altitude] ;
@@ -142,7 +150,7 @@
             
         }
     }];
-    [manager stopUpdatingLocation];
+   // [manager stopUpdatingLocation];
 }
 
 -(BOOL)IsChinese:(NSString *)str {

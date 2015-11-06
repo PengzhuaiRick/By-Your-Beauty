@@ -9,11 +9,9 @@
 #ifndef UniHeader_pch
 #define UniHeader_pch
 #import "Config.h"
+#import "ReactiveCocoa.h"
 
-/**
- *  是否第一次登陆
- */
-#define FIRSTINSTALL @"firstInstall"
+
 
 
 

@@ -9,5 +9,12 @@
 #import "YIUserLocationMessage.h"
 
 @implementation YIUserLocationMessage
-//NSLog(@"");
++(id)share{
+    static dispatch_once_t  onceToken;
+    static YIUserLocationMessage *sSharedInstance;
+    dispatch_once(&onceToken, ^{
+        sSharedInstance = [[YIUserLocationMessage alloc] init];
+    });
+    return sSharedInstance;
+}
 @end

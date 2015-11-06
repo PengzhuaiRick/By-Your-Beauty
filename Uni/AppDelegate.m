@@ -8,7 +8,8 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "TestViewController.h"
+#import "MainViewController.h"
+#import "YILocationManager.h"
 @interface AppDelegate ()
 
 @end
@@ -19,17 +20,50 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
     
+    [self judgeFirstTime];
+    //[self locateStart:launchOptions];
+    [self.window makeKeyAndVisible];
+    return YES;
+
+}
+
+-(void)judgeFirstTime{
+    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+    NSString* first = [user valueForKey:FIRSTINSTALL];
+    if (first.length>0){
+        [self setupViewController];
+    }
+    else{
+        [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];
+        [user synchronize];
+        [self setupGuideController];
+    }
+    
+    
+}
+#pragma mark 开始引导页
+-(void)setupGuideController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* welcome = [st instantiateViewControllerWithIdentifier:@"UNWelcomeController"];
+    self.window.rootViewController = welcome;
+}
+
+#pragma mark 开始主界面
+-(void)setupViewController{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
-    TestViewController* tc = [st instantiateViewControllerWithIdentifier:@"TestViewController"];
+    MainViewController* tc = [st instantiateViewControllerWithIdentifier:@"MainViewController"];
     UINavigationController* NAV = [[UINavigationController alloc]initWithRootViewController:tc];
     UINavigationController* NAV1 = [[UINavigationController alloc]initWithRootViewController:vc];
     vc.tv = NAV;
     self.window.rootViewController = NAV1 ;
-    [self.window makeKeyAndVisible];
-    return YES;
-    
+}
 
+
+-(void)locateStart:(NSDictionary *)launchOptions{
+    
+    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey])
+        [[YILocationManager sharedInstance]startUpdateUserLoaction];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

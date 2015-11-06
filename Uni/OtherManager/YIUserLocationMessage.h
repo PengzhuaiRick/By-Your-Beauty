@@ -19,5 +19,5 @@
 @property (nonatomic,copy) NSString* altitude;         //海拔高度
 @property (nonatomic,copy) NSString* detailmessage;    //详细地址
 
-
++(id)share;
 @end
