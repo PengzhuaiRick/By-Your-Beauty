@@ -11,6 +11,7 @@
 #import "MainBottomController.h"
 #import "MainViewModel.h"
 #import "MainMoveTransition.h"
+#import "MainMidView.h"
 
 @interface MainViewController ()<UINavigationControllerDelegate>{
     UIView* topView;
@@ -24,15 +25,21 @@
 @implementation MainViewController
 -(void)viewWillAppear:(BOOL)animated{
     self.navigationController.delegate = self;
-    if (_midView.subviews.count == 0) {
-        [_midView addSubview:midController.tableView];
-    }
+//    if (_midView.subviews.count == 0) {
+//        [_midView addSubview:midController.tableView];
+//    }
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
     [self setupScroller];
     [self addChildController];
+    
+    
+    NSNumber* num = [NSNumber numberWithInt:2];
+    NSDictionary* dic = [NSDictionary dictionaryWithObject:num forKey:@"type"];
+    MainViewModel* model = [[MainViewModel alloc]init];
+    [model requestViewModelCheckVersion:API_URL_CheckVersion andParams:dic];
 }
 -(void)setupNavigation{
     self.title = @"首页";
@@ -67,22 +74,24 @@
 }
 
 -(void)fangda{
-
     [self.navigationController pushViewController:midController animated:YES];
 }
 -(void)addChildController{
     UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-    midController.tableView.frame = CGRectMake(0, 0, _midView.frame.size.width, _midView.frame.size.height);
-    [_midView addSubview:midController.tableView];
+//    midController.tableView.frame = CGRectMake(0, 0, _midView.frame.size.width, _midView.frame.size.height);
+    MainMidView* midview = [[MainMidView alloc]initWithFrame:CGRectMake(0, 0,  _midView.frame.size.width, _midView.frame.size.height) headerTitle:@"我已预约"];
+    [_midView addSubview:midview];
     
-    buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-    buttomController.tableView.scrollEnabled = NO;
+//    buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+//    buttomController.tableView.scrollEnabled = NO;
    // [self addChildViewController:buttomController];
-    buttomController.view.frame = CGRectMake(0, 0, _buttomView.frame.size.width, _buttomView.frame.size.height);
-    [_buttomView addSubview:buttomController.view];
+    //buttomController.view.frame = CGRectMake(0, 0, _buttomView.frame.size.width, _buttomView.frame.size.height);
+    MainMidView* bottomView = [[MainMidView alloc]initWithFrame:CGRectMake(0, 0,  _buttomView.frame.size.width, _buttomView.frame.size.height) headerTitle:@"未预约"];
+    [_buttomView addSubview:bottomView];
     
 }
+
 #pragma mark <UINavigationControllerDelegate>
 - (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                    animationControllerForOperation:(UINavigationControllerOperation)operation

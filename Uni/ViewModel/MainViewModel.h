@@ -7,8 +7,15 @@
 //
 
 #import "BaseViewModel.h"
-
+#import "MainViewRequest.h"
 @interface MainViewModel : BaseViewModel
 
-+ (UIImage *)imageFromView: (UIView *) theView  atFrame:(CGRect)r;
+
+/**
+ *  请求版本号
+ *
+ *  @param code   业务吗
+ *  @param params 参数
+ */
+-(void)requestViewModelCheckVersion:(NSString*)code andParams:(NSDictionary *)params;
 @end

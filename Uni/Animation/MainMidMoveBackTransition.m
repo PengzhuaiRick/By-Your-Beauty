@@ -23,15 +23,17 @@
     UIView *containerView = [transitionContext containerView];
     CGRect re = mv.midView.frame;
     UIView* snapShow = [md.view snapshotViewAfterScreenUpdates:YES];
+    [md.view removeFromSuperview];
+    [mv.midView addSubview:md.view];
     mv.view.frame = [transitionContext finalFrameForViewController:mv];
     [containerView addSubview:mv.view];
     [containerView addSubview:snapShow];
 
     [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
-        md.view.frame = re;
-        md.view.alpha = 0;
-        snapShow.frame = re;
+//        md.view.frame = re;
+//        md.view.alpha = 0;
         
+        snapShow.alpha = 0;
     } completion:^(BOOL finished) {
         [mv.midView addSubview:md.view];
         [snapShow removeFromSuperview];

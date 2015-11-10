@@ -23,7 +23,7 @@
     CGRect re = mv.midView.frame;
     md.view.frame = [transitionContext finalFrameForViewController:md];
     md.view.alpha = 0;
-    
+    [md.view removeFromSuperview];
     [containerView addSubview:md.view];
     
     

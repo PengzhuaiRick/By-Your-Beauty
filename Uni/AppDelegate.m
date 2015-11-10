@@ -10,6 +10,8 @@
 #import "ViewController.h"
 #import "MainViewController.h"
 #import "YILocationManager.h"
+#import "APService.h"
+#import "AccountManager.h"
 @interface AppDelegate ()
 
 @end
@@ -21,8 +23,11 @@
    
     
     [self judgeFirstTime];
-    //[self locateStart:launchOptions];
+    [self locateStart:launchOptions];
+    //[self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
+    
+    [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     return YES;
 
 }
@@ -31,7 +36,11 @@
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     NSString* first = [user valueForKey:FIRSTINSTALL];
     if (first.length>0){
+//        AccountManager* manager = [[AccountManager alloc]init];
+//        if (manager.token.length>1)
         [self setupViewController];
+//        else
+//            [self setupLoginController];
     }
     else{
         [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];
@@ -57,13 +66,54 @@
     UINavigationController* NAV1 = [[UINavigationController alloc]initWithRootViewController:vc];
     vc.tv = NAV;
     self.window.rootViewController = NAV1 ;
+    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController.view.alpha = 0;
+    [UIView animateWithDuration:1 animations:^{
+            self.window.rootViewController.view.alpha = 1;
+    }];
+    
 }
-
+#pragma mark 开始登陆界面
+-(void)setupLoginController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"LoginController"];
+    self.window.rootViewController = vc;
+}
 
 -(void)locateStart:(NSDictionary *)launchOptions{
     
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey])
         [[YILocationManager sharedInstance]startUpdateUserLoaction];
+}
+
+#pragma mark 配置JP推送
+-(void)setupJPush:(NSDictionary *)launchOptions{
+#if __IPHONE_OS_VERSION_MAX_ALLOWED > __IPHONE_7_1
+    if ([[UIDevice currentDevice].systemVersion floatValue] >= 8.0) {
+        //categories
+        [APService
+         registerForRemoteNotificationTypes:(UIUserNotificationTypeBadge |
+                                             UIUserNotificationTypeSound |
+                                             UIUserNotificationTypeAlert)
+         categories:nil];
+    } else {
+        //categories nil
+        [APService
+         registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge|
+                                             UIRemoteNotificationTypeSound|
+                                             UIRemoteNotificationTypeAlert)
+#else
+         //categories nil
+         categories:nil];
+        [APService
+         registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge |
+                                             UIRemoteNotificationTypeSound |
+                                             UIRemoteNotificationTypeAlert)
+#endif
+         // Required
+         categories:nil];
+    }
+    [APService setupWithOption:launchOptions];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -88,4 +138,23 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    // Required
+    [APService registerDeviceToken:deviceToken];
+}
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    // Required
+    [APService handleRemoteNotification:userInfo];
+}
+- (void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void
+                        (^)(UIBackgroundFetchResult))completionHandler {
+    // IOS 7 Support Required
+    [APService handleRemoteNotification:userInfo];
+    completionHandler(UIBackgroundFetchResultNewData);
+}
 @end

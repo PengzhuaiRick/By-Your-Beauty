@@ -10,8 +10,9 @@
 
 @interface ViewController ()<UIGestureRecognizerDelegate>
 {
+    CGPoint startPoint;
     CGPoint currentPoint;
-   
+    
 }
 @end
 
@@ -22,18 +23,9 @@
     [self.view addSubview:_tv.view];
 
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
-    pan.delegate = self;
-    //[self.view addGestureRecognizer:pan];
+    //pan.delegate = self;
+    [self.view addGestureRecognizer:pan];
     
-    UISwipeGestureRecognizer* swipeL = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipe:)];
-    swipeL.delegate = self;
-    swipeL.direction = UISwipeGestureRecognizerDirectionLeft;
-    [self.view addGestureRecognizer:swipeL];
-    
-    UISwipeGestureRecognizer* swipeR = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(handleSwipe:)];
-    swipeR.delegate = self;
-    swipeR.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:swipeR];
 }
 -(void)viewWillAppear:(BOOL)animated{
      self.navigationController.navigationBarHidden=YES;
@@ -54,20 +46,52 @@
 
 -(void)handlePan1:(UIPanGestureRecognizer*)pan{
      CGPoint point = [pan translationInView:[self view]];
-    //NSLog(@"%@",NSStringFromCGPoint(point));
+   // NSLog(@" 恶风   %@",NSStringFromCGPoint(point));
     if (pan.state == UIGestureRecognizerStateBegan) {
+        startPoint = point;
         currentPoint = point;
-    }if (pan.state == UIGestureRecognizerStateChanged) {
-         _tv.view.frame = CGRectMake(_tv.view.frame.origin.x+(point.x-currentPoint.x), 0, self.view.frame.size.width,self.view.frame.size.height);
-        currentPoint = point;
+    }
+    else if (pan.state == UIGestureRecognizerStateChanged) {
+        float offX =_tv.view.frame.origin.x+(point.x-currentPoint.x);
+        if (offX>-1 && offX<KMainScreenWidth-101){
+            _tv.view.frame = CGRectMake(offX,
+                                     0,
+                                     self.view.frame.size.width,
+                                     self.view.frame.size.height);
+            currentPoint = point;
+        }
+    }
+    else if(pan.state == UIGestureRecognizerStateEnded){
+        float offset = currentPoint.x - startPoint.x;
+        if (offset>0) {
+            if (offset>80)
+            [UIView animateWithDuration:0.2 animations:^{
+                _tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
+            }];
+            else
+                [UIView animateWithDuration:0.2 animations:^{
+                    _tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
+                }];
+        }else if (offset<0 ){
+            if (offset < -80)
+                [UIView animateWithDuration:0.2 animations:^{
+                    _tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
+                }];
+            else
+                [UIView animateWithDuration:0.2 animations:^{
+                    _tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
+                }];
+
+            
+        }
     }
 }
 
--(void)handleSwipe:(UISwipeGestureRecognizer*)swipe{
-    NSLog(@"%lu",(unsigned long)swipe.direction);
-}
--(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-{
-    return YES;
-}
+//-(void)handleSwipe:(UISwipeGestureRecognizer*)swipe{
+//    NSLog(@"谁打我  %lu",(unsigned long)swipe.direction);
+//}
+//-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+//{
+//    return YES;
+//}
 @end

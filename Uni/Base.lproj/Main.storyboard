@@ -565,7 +565,6 @@
         <!--Navigation Controller-->
         <scene sceneID="rKl-g1-gn9">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FIU-EV-Tx5" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController id="H7A-fE-x3a" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ry8-sZ-VqL">
@@ -577,6 +576,7 @@
                         <segue destination="vAI-1i-bdi" kind="relationship" relationship="rootViewController" id="4im-KH-HpP"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FIU-EV-Tx5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-221" y="-805"/>
         </scene>
