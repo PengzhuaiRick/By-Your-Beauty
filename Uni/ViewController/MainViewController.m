@@ -25,16 +25,14 @@
 @implementation MainViewController
 -(void)viewWillAppear:(BOOL)animated{
     self.navigationController.delegate = self;
-//    if (_midView.subviews.count == 0) {
-//        [_midView addSubview:midController.tableView];
-//    }
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
     [self setupScroller];
     [self addChildController];
-    
+   
     
     NSNumber* num = [NSNumber numberWithInt:2];
     NSDictionary* dic = [NSDictionary dictionaryWithObject:num forKey:@"type"];
@@ -43,6 +41,7 @@
 }
 -(void)setupNavigation{
     self.title = @"首页";
+    //[self.navigationController.navigationBar setBarTintColor:[UIColor yellowColor]];
 }
 
 #pragma mark 设置Scroller

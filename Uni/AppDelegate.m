@@ -26,7 +26,6 @@
     [self locateStart:launchOptions];
     //[self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
-    
     [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     return YES;
 
@@ -38,9 +37,9 @@
     if (first.length>0){
 //        AccountManager* manager = [[AccountManager alloc]init];
 //        if (manager.token.length>1)
-        [self setupViewController];
+//        [self setupViewController];
 //        else
-//            [self setupLoginController];
+            [self setupLoginController];
     }
     else{
         [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];

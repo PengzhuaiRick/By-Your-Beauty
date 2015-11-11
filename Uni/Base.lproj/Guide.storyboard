@@ -83,11 +83,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="请输入手机号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KSr-X9-vkJ">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="15875313047" borderStyle="roundedRect" placeholder="请输入手机号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KSr-X9-vkJ">
                                                     <rect key="frame" x="13" y="7" width="299" height="30"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="namePhonePad"/>
                                                 </textField>
                                             </subviews>
                                             <animations/>
@@ -111,7 +111,7 @@
                                                     <rect key="frame" x="13" y="7" width="181" height="30"/>
                                                     <animations/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="namePhonePad"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kXF-Jz-iiO">
                                                     <rect key="frame" x="202" y="6" width="110" height="30"/>
@@ -181,6 +181,15 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Root View Controller" id="KYo-TC-4bj"/>
+                    <connections>
+                        <outlet property="codeBtn" destination="kXF-Jz-iiO" id="8yi-n0-O83"/>
+                        <outlet property="codeField" destination="nCc-IF-2d9" id="RJ5-sI-Yla"/>
+                        <outlet property="femaleBtn" destination="pQp-Pe-zdE" id="rJ2-Rc-inH"/>
+                        <outlet property="loginBtn" destination="FwW-Z3-cc1" id="DO4-uB-LSa"/>
+                        <outlet property="maleBtn" destination="VoT-Xb-Als" id="BGi-Sp-aIJ"/>
+                        <outlet property="nikeName" destination="37L-Rr-Zwz" id="lLa-kT-eZ1"/>
+                        <outlet property="phoneField" destination="KSr-X9-vkJ" id="bq0-I8-f8w"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6yd-Wo-jlv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

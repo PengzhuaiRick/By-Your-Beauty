@@ -37,4 +37,8 @@
 
 //请求欢迎页
 #define API_URL_Welcome @"welcome"
+
+//短信接口
+#define API_URL_Login @"login"
+
 #endif /* URLconfig_h */

@@ -15,6 +15,8 @@
 		180CD3A21BDF180A00C912FE /* UniTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 180CD3A11BDF180A00C912FE /* UniTests.m */; };
 		180CD3AD1BDF180A00C912FE /* UniUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 180CD3AC1BDF180A00C912FE /* UniUITests.m */; };
 		180CD3BB1BDF294E00C912FE /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = 180CD3BA1BDF294E00C912FE /* Podfile */; settings = {ASSET_TAGS = (); }; };
+		181347AC1BF33D50001674D9 /* UNILoginViewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 181347AB1BF33D50001674D9 /* UNILoginViewRequest.m */; settings = {ASSET_TAGS = (); }; };
+		181347AF1BF33E6D001674D9 /* UNILoginViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 181347AE1BF33E6D001674D9 /* UNILoginViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		1840FD771BE0712100DC78BC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840FD751BE0712100DC78BC /* ViewController.m */; settings = {ASSET_TAGS = (); }; };
 		1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882FA611BE739C300CC8D51 /* BaseViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D621BE99EC100DD7826 /* UNWelcomeController.m */; settings = {ASSET_TAGS = (); }; };
@@ -86,6 +88,10 @@
 		180CD3AC1BDF180A00C912FE /* UniUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UniUITests.m; sourceTree = "<group>"; };
 		180CD3AE1BDF180A00C912FE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		180CD3BA1BDF294E00C912FE /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		181347AA1BF33D50001674D9 /* UNILoginViewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILoginViewRequest.h; sourceTree = "<group>"; };
+		181347AB1BF33D50001674D9 /* UNILoginViewRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILoginViewRequest.m; sourceTree = "<group>"; };
+		181347AD1BF33E6D001674D9 /* UNILoginViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILoginViewModel.h; sourceTree = "<group>"; };
+		181347AE1BF33E6D001674D9 /* UNILoginViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILoginViewModel.m; sourceTree = "<group>"; };
 		1840FD741BE0712100DC78BC /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		1840FD751BE0712100DC78BC /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		184168D31BE3219A0082B50E /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
@@ -302,6 +308,8 @@
 				1882FA611BE739C300CC8D51 /* BaseViewModel.m */,
 				18DDD5741BEB5971005F7765 /* MainViewModel.h */,
 				18DDD5751BEB5971005F7765 /* MainViewModel.m */,
+				181347AD1BF33E6D001674D9 /* UNILoginViewModel.h */,
+				181347AE1BF33E6D001674D9 /* UNILoginViewModel.m */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -398,6 +406,8 @@
 				18F096671BF1C99400B60A3D /* BaseRequest.m */,
 				18F096691BF1CA1D00B60A3D /* MainViewRequest.h */,
 				18F0966A1BF1CA1D00B60A3D /* MainViewRequest.m */,
+				181347AA1BF33D50001674D9 /* UNILoginViewRequest.h */,
+				181347AB1BF33D50001674D9 /* UNILoginViewRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -637,8 +647,10 @@
 				18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */,
 				18C745991BF03400000062AF /* MainMidView.m in Sources */,
 				18D5722E1BE883560055DE7F /* AccountManager.m in Sources */,
+				181347AF1BF33E6D001674D9 /* UNILoginViewModel.m in Sources */,
 				18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */,
 				18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */,
+				181347AC1BF33D50001674D9 /* UNILoginViewRequest.m in Sources */,
 				18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */,
 				18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */,
 				18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */,
@@ -729,6 +741,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -772,6 +785,7 @@
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = NO;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -800,6 +814,7 @@
 			baseConfigurationReference = CC983AFC1975CF64E0417469 /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Uni/UniHeader.pch";
 				INFOPLIST_FILE = Uni/Info.plist;
@@ -819,6 +834,7 @@
 			baseConfigurationReference = 213A9FBAEEC5FF5FD3BE2190 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Uni/UniHeader.pch";
 				INFOPLIST_FILE = Uni/Info.plist;
