@@ -28,6 +28,10 @@
 		18BA7D741BEA066500DD7826 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BA7D731BEA066500DD7826 /* MapKit.framework */; };
 		18BA7D781BEA169300DD7826 /* MainMidController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D771BEA169300DD7826 /* MainMidController.m */; settings = {ASSET_TAGS = (); }; };
 		18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D7A1BEA16B900DD7826 /* MainBottomController.m */; settings = {ASSET_TAGS = (); }; };
+		18BF0A041BF44428000AE604 /* LLARingSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A031BF44428000AE604 /* LLARingSpinnerView.m */; settings = {ASSET_TAGS = (); }; };
+		18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A061BF4740F000AE604 /* UNIAppDeleRequest.m */; settings = {ASSET_TAGS = (); }; };
+		18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A0C1BF48984000AE604 /* UNIWelController.m */; settings = {ASSET_TAGS = (); }; };
+		18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A101BF49BDF000AE604 /* YIToast.m */; settings = {ASSET_TAGS = (); }; };
 		18C745961BF0334E000062AF /* Guide.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C745941BF0334E000062AF /* Guide.storyboard */; settings = {ASSET_TAGS = (); }; };
 		18C745991BF03400000062AF /* MainMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C745981BF03400000062AF /* MainMidView.m */; settings = {ASSET_TAGS = (); }; };
 		18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7459D1BF047F9000062AF /* MainMidCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -113,6 +117,14 @@
 		18BA7D771BEA169300DD7826 /* MainMidController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMidController.m; sourceTree = "<group>"; };
 		18BA7D791BEA16B900DD7826 /* MainBottomController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainBottomController.h; sourceTree = "<group>"; };
 		18BA7D7A1BEA16B900DD7826 /* MainBottomController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainBottomController.m; sourceTree = "<group>"; };
+		18BF0A021BF44428000AE604 /* LLARingSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLARingSpinnerView.h; sourceTree = "<group>"; };
+		18BF0A031BF44428000AE604 /* LLARingSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLARingSpinnerView.m; sourceTree = "<group>"; };
+		18BF0A051BF4740F000AE604 /* UNIAppDeleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppDeleRequest.h; sourceTree = "<group>"; };
+		18BF0A061BF4740F000AE604 /* UNIAppDeleRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppDeleRequest.m; sourceTree = "<group>"; };
+		18BF0A0B1BF48984000AE604 /* UNIWelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIWelController.h; sourceTree = "<group>"; };
+		18BF0A0C1BF48984000AE604 /* UNIWelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIWelController.m; sourceTree = "<group>"; };
+		18BF0A0F1BF49BDF000AE604 /* YIToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YIToast.h; sourceTree = "<group>"; };
+		18BF0A101BF49BDF000AE604 /* YIToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YIToast.m; sourceTree = "<group>"; };
 		18C745951BF0334E000062AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Uni/Base.lproj/Guide.storyboard; sourceTree = "<group>"; };
 		18C745971BF03400000062AF /* MainMidView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMidView.h; sourceTree = "<group>"; };
 		18C745981BF03400000062AF /* MainMidView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMidView.m; sourceTree = "<group>"; };
@@ -232,6 +244,7 @@
 				18F096651BF1C91A00B60A3D /* Request */,
 				18D572291BE883560055DE7F /* OtherManager */,
 				18DDD5771BEB603C005F7765 /* Animation */,
+				18BF0A001BF443F2000AE604 /* ThirdTool */,
 				18D5720F1BE867FE0055DE7F /* Library */,
 				180CD3931BDF180A00C912FE /* Assets.xcassets */,
 				180CD3951BDF180A00C912FE /* LaunchScreen.storyboard */,
@@ -319,6 +332,8 @@
 			children = (
 				18BA7D611BE99EC100DD7826 /* UNWelcomeController.h */,
 				18BA7D621BE99EC100DD7826 /* UNWelcomeController.m */,
+				18BF0A0B1BF48984000AE604 /* UNIWelController.h */,
+				18BF0A0C1BF48984000AE604 /* UNIWelController.m */,
 			);
 			path = Guide;
 			sourceTree = "<group>";
@@ -345,6 +360,33 @@
 				18BA7D7A1BEA16B900DD7826 /* MainBottomController.m */,
 			);
 			path = Main;
+			sourceTree = "<group>";
+		};
+		18BF0A001BF443F2000AE604 /* ThirdTool */ = {
+			isa = PBXGroup;
+			children = (
+				18BF0A0E1BF49BDF000AE604 /* ToastView */,
+				18BF0A011BF44428000AE604 /* LLARingSpinnerView */,
+			);
+			path = ThirdTool;
+			sourceTree = "<group>";
+		};
+		18BF0A011BF44428000AE604 /* LLARingSpinnerView */ = {
+			isa = PBXGroup;
+			children = (
+				18BF0A021BF44428000AE604 /* LLARingSpinnerView.h */,
+				18BF0A031BF44428000AE604 /* LLARingSpinnerView.m */,
+			);
+			path = LLARingSpinnerView;
+			sourceTree = "<group>";
+		};
+		18BF0A0E1BF49BDF000AE604 /* ToastView */ = {
+			isa = PBXGroup;
+			children = (
+				18BF0A0F1BF49BDF000AE604 /* YIToast.h */,
+				18BF0A101BF49BDF000AE604 /* YIToast.m */,
+			);
+			path = ToastView;
 			sourceTree = "<group>";
 		};
 		18C7459B1BF047CF000062AF /* Cell */ = {
@@ -408,6 +450,8 @@
 				18F0966A1BF1CA1D00B60A3D /* MainViewRequest.m */,
 				181347AA1BF33D50001674D9 /* UNILoginViewRequest.h */,
 				181347AB1BF33D50001674D9 /* UNILoginViewRequest.m */,
+				18BF0A051BF4740F000AE604 /* UNIAppDeleRequest.h */,
+				18BF0A061BF4740F000AE604 /* UNIAppDeleRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -645,14 +689,18 @@
 				18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */,
 				180CD38C1BDF180A00C912FE /* AppDelegate.m in Sources */,
 				18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */,
+				18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */,
 				18C745991BF03400000062AF /* MainMidView.m in Sources */,
 				18D5722E1BE883560055DE7F /* AccountManager.m in Sources */,
 				181347AF1BF33E6D001674D9 /* UNILoginViewModel.m in Sources */,
 				18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */,
 				18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */,
 				181347AC1BF33D50001674D9 /* UNILoginViewRequest.m in Sources */,
+				18BF0A041BF44428000AE604 /* LLARingSpinnerView.m in Sources */,
 				18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */,
 				18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */,
+				18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */,
+				18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */,
 				18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */,
 				18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */,
 				18BA7D701BE9B8FD00DD7826 /* MainViewController.m in Sources */,

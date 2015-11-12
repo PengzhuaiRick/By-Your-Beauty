@@ -9,8 +9,11 @@
 #import "UNILoginViewModel.h"
 
 @implementation UNILoginViewModel
--(void)requestVertificationCode:(NSString*)code andParams:(NSDictionary*)param{
-    UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
-    [request requestVertificationCode:code andParams:param];
+-(void)requestVertificationCode:(NSArray*)code andParams:(NSDictionary*)param{
+//    UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
+//    //[request requestVertificationCode:code andParams:param];
+//    request.rqvertifivaBlock = ^(NSString* ph,NSString* llt,NSString* rc,NSString*tip,NSError* er){
+//        
+//        };
 }
 @end

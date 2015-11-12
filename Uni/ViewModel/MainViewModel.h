@@ -17,5 +17,5 @@
  *  @param code   业务吗
  *  @param params 参数
  */
--(void)requestViewModelCheckVersion:(NSString*)code andParams:(NSDictionary *)params;
+-(void)requestViewModelCheckVersion:(NSArray*)code andParams:(NSDictionary *)params;
 @end

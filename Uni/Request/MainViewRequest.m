@@ -10,16 +10,21 @@
 
 @implementation MainViewRequest
 
--(void)requestCheckVersion:(NSString*)code andParams:(NSDictionary *)params{
-    [self postWithSerCode:code params:params];
+-(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
+//    NSLog(@"requestSucceed  %@",dic);
+//    NSString* param1 = array[0];
+//    NSString* param2 = array[1];
+//    
+//    int code = [[self safeObject:dic ForKey:@"code"] intValue];
+//    NSString* tips = [self safeObject:dic ForKey:@"tips"];
+   
 }
 
--(void)requestSucceed:(NSDictionary*)dic{
-    NSLog(@"requestSucceed  %@",dic);
-    _reqheckVersion(1.02,@"hahah");
-}
+-(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
+//    NSString* param1 = array[0];
+//    NSString* param2 = array[1];
 
--(void)requestFailed:(NSError *)err{
-    NSLog(@"requestFailed  %@",err);
+  
+
 }
 @end

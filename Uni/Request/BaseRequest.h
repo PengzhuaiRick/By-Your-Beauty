@@ -16,7 +16,7 @@
  *  @param code   业务码
  *  @param params 参数
  */
--(void)postWithSerCode:(NSString*)code params:(NSDictionary *)params;
+-(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params;
 
 
 /**
@@ -25,7 +25,7 @@
  *  @param code   业务码
  *  @param params 参数
  */
--(void)getWithSerCode:(NSString*)code params:(NSDictionary *)params;
+-(void)getWithSerCode:(NSArray*)code params:(NSDictionary *)params;
 
 /**
  *  删除所有请求
@@ -42,9 +42,9 @@
 + (NSString *)md5Encrypt:(NSString *)str;
 
 
--(void)requestSucceed:(NSDictionary*)dic;
+-(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray*)array;
 
--(void)requestFailed:(NSError *)err;
+-(void)requestFailed:(NSError *)err andIdenCode:(NSArray*)array;
 
 
 - (id)safeObject:(NSDictionary*)dic ForKey:(id)aKey;

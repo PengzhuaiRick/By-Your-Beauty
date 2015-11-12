@@ -9,7 +9,7 @@
 #import "BaseRequest.h"
 
 @implementation BaseRequest
--(void)postWithSerCode:(NSString*)code params:(NSDictionary *)params{
+-(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params{
    
     NSString* URL = [self spliceURL:code];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -17,26 +17,26 @@
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];
     NSLog(@"%@",ddic);
     [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+       // NSLog(@"JSON: %@", responseObject);
         NSLog(@"%@",[responseObject objectForKey:@"tips"]);
-        if ([self respondsToSelector:@selector(requestSucceed:)]) {
-            [self requestSucceed:responseObject];
+        if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
+            [self requestSucceed:responseObject andIdenCode:code];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-        if ([self respondsToSelector:@selector(requestFailed:)]) {
-            [self requestFailed:error];
+        if ([self respondsToSelector:@selector(requestFailed:andIdenCode:)]) {
+            [self requestFailed:error andIdenCode:code];
         }
     }];
     
 }
 
--(void)getWithSerCode:(NSString*)code params:(NSDictionary *)params{
+-(void)getWithSerCode:(NSArray*)code params:(NSDictionary *)params{
     
 }
 
--(NSString*)spliceURL:(NSString*)code{
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_URL,code];
+-(NSString*)spliceURL:(NSArray*)code{
+    NSString* str = [NSString stringWithFormat:@"%@/api.php?c=%@&a=%@",API_URL,code[0],code[1]];
     return str;
 }
 
@@ -66,6 +66,12 @@
     //return jsonData;
 }
 
+-(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
+    
+}
+-(void)requestSucceed:(NSDictionary *)dic andIdenCode:(NSArray *)array{
+    
+}
 
 - (id)safeObject:(NSDictionary*)dic ForKey:(id)aKey
 {

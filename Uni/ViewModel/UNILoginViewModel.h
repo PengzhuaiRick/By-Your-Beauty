@@ -10,5 +10,5 @@
 #import "UNILoginViewRequest.h"
 @interface UNILoginViewModel : BaseViewModel
 
--(void)requestVertificationCode:(NSString*)code andParams:(NSDictionary*)param;
+-(void)requestVertificationCode:(NSArray*)code andParams:(NSDictionary*)param;
 @end

@@ -8,8 +8,8 @@
 
 #import "LoginController.h"
 #import "AppDelegate.h"
-#import "UNILoginViewModel.h"
-
+//#import "UNILoginViewModel.h"
+#import "UNILoginViewRequest.h"
 @interface LoginController (){
     
     __weak IBOutlet UITextField *codeField;    //验证码
@@ -23,7 +23,12 @@
     RACSignal *phoneSignal;
     RACSignal *codeFieldSignal;
     RACSignal *nikeSignal;
+    
+    NSTimer* time;
+    int countDown;
 }
+
+@property(nonatomic,assign)int sex;
 @end
 
 @implementation LoginController
@@ -33,6 +38,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    _sex = 2;
     [self setupPhoneField];
     [self setupCodeField];
     [self setupCodeBtn];
@@ -73,7 +79,9 @@
     phoneSignal =
     [phoneField.rac_textSignal
      map:^id(NSString *text) {
-             return @(text.length == 11?YES:NO);
+         if(![self isMobileNumber:text])
+             return @(NO);
+        return @(text.length == 11?YES:NO);
      }];
 
 }
@@ -100,21 +108,71 @@
         
     }];
     
-    codeFieldSignal =[codeField.rac_textSignal map:^id(NSString* value) {
+    codeFieldSignal =[codeField.rac_textSignal
+                      map:^id(NSString* value) {
         return @(value.length == 6?YES:NO);
     }];
 }
 
 -(void)setupCodeBtn{
+    UIButton* btn = codeBtn ;
+    UITextField* field = phoneField;
+    countDown =60 ;
+    __block NSTimer* t1 = time;
+    
     codeBtn.enabled = NO;
     [RAC(codeBtn,enabled) = phoneSignal map:^id(NSNumber* value) {
         NSLog(@"%@",value);
         return value;
     }];
-    [[codeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        NSLog(@"hahah ");
+    [[codeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+        
+        [LLARingSpinnerView RingSpinnerViewStart];
+        UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
+         [request postWithSerCode:@[API_PARAM_SSMS,
+                                    API_URL_Login]
+                           params:@{@"phone":field.text}];
+//        [request requestVertificationCode:@[API_PARAM_SSMS,API_URL_Login]
+//                                andParams:@{@"phone":field.text}];
+        
+        request.rqvertifivaBlock = ^(NSString* ph,
+                                     NSString* llt,
+                                     NSString* rc,
+                                     NSString*tip,
+                                     NSError* er){
+            [LLARingSpinnerView RingSpinnerViewStop];
+            if (rc != nil){
+                btn.enabled = NO;
+                t1 = [NSTimer scheduledTimerWithTimeInterval:1
+                                                      target:self
+                                                    selector:@selector(sixtySecondCountDown)
+                                                    userInfo:nil
+                                                     repeats:YES];
+            }
+        };
     }];
 }
+#pragma mark 验证码定时器事件
+-(void)sixtySecondCountDown{
+    if (countDown>1) {
+        countDown -- ;
+        NSString* str = [NSString stringWithFormat:@"%ds",countDown];
+        [codeBtn setTitle:str forState:UIControlStateNormal];
+    }else
+        [self timerStop];
+    
+}
+
+#pragma mark 定时器强制停止
+-(void)timerStop{
+    [time invalidate];
+    time = nil;
+    [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
+    codeBtn.enabled=YES;
+    countDown = 60;
+}
+
 
 -(void)setupNikeName{
     nikeSignal =[nikeName.rac_textSignal map:^id(NSString* value) {
@@ -123,16 +181,42 @@
 }
 
 -(void)setupLoginBtn{
+    UITextField* field1 = phoneField;
+    UITextField* field2 = codeField;
+    UITextField* field3 = nikeName;
     loginBtn.enabled = NO;
     RAC(loginBtn,enabled) = [RACSignal combineLatest:@[phoneSignal,codeFieldSignal,nikeSignal]
-                                              reduce:^id(NSNumber* phone,NSNumber* code,NSNumber* nike){
+                                              reduce:^id(NSNumber* phone,
+                                                         NSNumber* code,
+                                                         NSNumber* nike){
           return @([phone boolValue]&&[code boolValue]&&[nike boolValue]);
     }];
-    [[loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-         NSLog(@" heheh ehahah ");
-        self.view.window.backgroundColor = [UIColor whiteColor];
-        AppDelegate* app = [UIApplication sharedApplication].delegate;
-        [app setupViewController];
+    [[loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+        [LLARingSpinnerView RingSpinnerViewStart];
+        UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
+        [request postWithSerCode:@[API_PARAM_UNI,
+                                   API_URL_Login]
+                                params:@{@"code":field1.text,
+                                            @"password":field2.text,
+                                            @"name":field3.text,
+                                            @"sex":@(self.sex)}];
+        
+        request.rqloginBlock = ^(int userId,
+                                 int shopId,
+                                 NSString* token,
+                                 NSString* tips,
+                                 NSError* er){
+             [LLARingSpinnerView RingSpinnerViewStop];
+            if (er==nil) {
+                self.view.window.backgroundColor = [UIColor whiteColor];
+                AppDelegate* app = [UIApplication sharedApplication].delegate;
+                [app setupViewController];
+            }else
+                NSLog(@"%@",er);
+            
+        };
+        
     }];
 }
 

@@ -12,7 +12,11 @@
 #import "YILocationManager.h"
 #import "APService.h"
 #import "AccountManager.h"
-@interface AppDelegate ()
+#import "UNIAppDeleRequest.h"
+#import "UIImageView+AFNetworking.h"
+@interface AppDelegate (){
+    UIImageView* imag;
+}
 
 @end
 
@@ -21,12 +25,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
+   // [self rqCurrentVersion];
     
+    //[self rqWelcomeImage];
     [self judgeFirstTime];
     [self locateStart:launchOptions];
     //[self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
-    [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
+    [self replaceWelcomeImage:@""];
+
+    //[NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     return YES;
 
 }
@@ -37,9 +45,9 @@
     if (first.length>0){
 //        AccountManager* manager = [[AccountManager alloc]init];
 //        if (manager.token.length>1)
-//        [self setupViewController];
+        [self setupViewController];
 //        else
-            [self setupLoginController];
+//            [self setupLoginController];
     }
     else{
         [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];
@@ -83,6 +91,74 @@
     
     if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey])
         [[YILocationManager sharedInstance]startUpdateUserLoaction];
+}
+
+#pragma mark 请求当前版本信息
+-(void)rqCurrentVersion{
+    UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
+    [model postWithSerCode:@[API_PARAM_UNI,
+                             API_URL_CheckVersion]
+                    params:@{@"type":@(2)}];
+    model.reqheckVersion=^(NSString* version,
+                           NSString* url,
+                           NSString* desc,
+                           NSString*tips,
+                           int type,
+                           NSError* er){
+        if (er==nil) {
+            
+        }else{
+            
+        }
+    };
+}
+
+#pragma mark 请求欢迎页面图片
+-(void)rqWelcomeImage{
+    UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
+    [model postWithSerCode:@[API_PARAM_UNI,
+                             API_URL_Welcome]
+                    params:@{@"type":@(2)}];
+    model.rqwelcomeBlock=^(NSString* url,
+                           NSString* tips,
+                           NSError* er){
+        if (er==nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self replaceWelcomeImage:url];
+            });
+            
+        }else{
+            
+        }
+    };
+
+}
+
+
+-(void)replaceWelcomeImage:(NSString*)url{
+//    UIStoryboard* st = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil];
+//    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"LaunchScreen"];
+   imag = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight)];
+    UIImage* image = [UIImage imageNamed:@"Main_Img_Welcome"];
+    imag.image = image;
+    [self.window addSubview:imag];
+    [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(VWIB:) userInfo:nil repeats:NO];
+//    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+//    [img setImageWithURLRequest:req placeholderImage:[UIImage imageNamed:@"Main_Img_Welcome"] success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
+//        
+//    } failure:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, NSError * _Nonnull error) {
+//        
+//    }];
+    
+}
+
+-(void)VWIB:(UIImageView*)IMG{
+    [UIView animateWithDuration:1 delay:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        imag.alpha = 0;
+    } completion:^(BOOL finished) {
+        [imag removeFromSuperview];
+    }];
+    
 }
 
 #pragma mark 配置JP推送

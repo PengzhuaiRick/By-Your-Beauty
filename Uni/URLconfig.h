@@ -15,7 +15,14 @@
 //TOKEN
 #define LOCA_USER_TOKEN @"locaUserToken"
 
-#define API_URL @"http://192.168.0.199:8081/api.php?c=UNI&a="
+
+#define API_URL @"http://192.168.0.199:8081"
+
+// C部分 第一个参数 类型1
+#define API_PARAM_UNI @"UNI"
+
+// C部分 第一个参数 类型2
+#define API_PARAM_SSMS @"SendSMS"
 
 //登录接口：
 #define API_URL_Login @"login"

@@ -9,9 +9,9 @@
 #import "MainViewController.h"
 #import "MainMidController.h"
 #import "MainBottomController.h"
-#import "MainViewModel.h"
 #import "MainMoveTransition.h"
 #import "MainMidView.h"
+#import "MainViewRequest.h"
 
 @interface MainViewController ()<UINavigationControllerDelegate>{
     UIView* topView;
@@ -32,16 +32,11 @@
     [self setupNavigation];
     [self setupScroller];
     [self addChildController];
-   
     
-    NSNumber* num = [NSNumber numberWithInt:2];
-    NSDictionary* dic = [NSDictionary dictionaryWithObject:num forKey:@"type"];
-    MainViewModel* model = [[MainViewModel alloc]init];
-    [model requestViewModelCheckVersion:API_URL_CheckVersion andParams:dic];
 }
+
 -(void)setupNavigation{
     self.title = @"首页";
-    //[self.navigationController.navigationBar setBarTintColor:[UIColor yellowColor]];
 }
 
 #pragma mark 设置Scroller

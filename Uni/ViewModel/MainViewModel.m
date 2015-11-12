@@ -10,12 +10,12 @@
 
 @implementation MainViewModel
 
--(void)requestViewModelCheckVersion:(NSString*)code andParams:(NSDictionary *)params{
-    MainViewRequest* request = [[MainViewRequest alloc]init];
-    [request requestCheckVersion:code andParams:params];
-    request.reqheckVersion = ^(float version,NSString* url){
-        NSLog(@"url  %@",url);
-    };
+-(void)requestViewModelCheckVersion:(NSArray*)code andParams:(NSDictionary *)params{
+//    MainViewRequest* request = [[MainViewRequest alloc]init];
+//    [request requestCheckVersion:code andParams:params];
+//    request.reqheckVersion = ^(float version,NSString* url){
+//        NSLog(@"url  %@",url);
+//    };
 }
 
 @end
