@@ -48,4 +48,7 @@
 //短信接口
 #define API_URL_Login @"login"
 
+//奖励信息接口
+#define API_URL_MRInfo @"myRewardInfo"
+
 #endif /* URLconfig_h */

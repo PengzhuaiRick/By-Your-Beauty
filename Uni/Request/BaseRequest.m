@@ -17,8 +17,8 @@
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];
     NSLog(@"%@",ddic);
     [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-       // NSLog(@"JSON: %@", responseObject);
-        NSLog(@"%@",[responseObject objectForKey:@"tips"]);
+        NSLog(@"JSON: %@", responseObject);
+        NSLog(@"%@",[self safeObject:responseObject ForKey:@"tips"]);
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
             [self requestSucceed:responseObject andIdenCode:code];
         }

@@ -13,30 +13,26 @@
 @implementation MainMidMoveBackTransition
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext{
-    return 0.6f;
+    return 1.f;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext{
-    MainViewController* mv = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    MainMidController* md = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    
+    MainViewController* to = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    MainMidController* from = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIView *containerView = [transitionContext containerView];
-    CGRect re = mv.midView.frame;
-    UIView* snapShow = [md.view snapshotViewAfterScreenUpdates:YES];
-    [md.view removeFromSuperview];
-    [mv.midView addSubview:md.view];
-    mv.view.frame = [transitionContext finalFrameForViewController:mv];
-    [containerView addSubview:mv.view];
-    [containerView addSubview:snapShow];
+    
+    //UIView* snapShow = [from.view snapshotViewAfterScreenUpdates:YES];
+    to.view.alpha = 0.5;
+    [containerView addSubview:to.view];
+    
 
     [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
-//        md.view.frame = re;
-//        md.view.alpha = 0;
+        from.view.transform = CGAffineTransformMakeScale(0.5, 0.5);
+        from.view.alpha = 0.5;
         
-        snapShow.alpha = 0;
+        to.midView.transform = CGAffineTransformIdentity;
+        to.view.alpha = 1;
     } completion:^(BOOL finished) {
-        [mv.midView addSubview:md.view];
-        [snapShow removeFromSuperview];
         //告诉系统动画结束
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
     }];

@@ -47,12 +47,15 @@
 		18C745B41BF07CA3000062AF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C745B31BF07CA3000062AF /* Security.framework */; };
 		18C745B61BF07D92000062AF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C745B51BF07D92000062AF /* libz.tbd */; };
 		18C745B81BF07EE4000062AF /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18C745B71BF07EE4000062AF /* PushConfig.plist */; settings = {ASSET_TAGS = (); }; };
+		18D124641BF5BC440034990F /* UNIShopManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D124631BF5BC440034990F /* UNIShopManage.m */; settings = {ASSET_TAGS = (); }; };
 		18D5722E1BE883560055DE7F /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722B1BE883560055DE7F /* AccountManager.m */; settings = {ASSET_TAGS = (); }; };
 		18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722D1BE883560055DE7F /* YILocationManager.m */; settings = {ASSET_TAGS = (); }; };
 		18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D572311BE891BC0055DE7F /* YIUserLocationMessage.m */; settings = {ASSET_TAGS = (); }; };
 		18D9CBE91BEC801F001EF50C /* MainMidMoveBackTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9CBE81BEC801F001EF50C /* MainMidMoveBackTransition.m */; settings = {ASSET_TAGS = (); }; };
 		18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDD5751BEB5971005F7765 /* MainViewModel.m */; settings = {ASSET_TAGS = (); }; };
 		18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDD5791BEB6074005F7765 /* MainMoveTransition.m */; settings = {ASSET_TAGS = (); }; };
+		18E627831BF9EC1500C4C13C /* UNIMyAppintModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E627821BF9EC1500C4C13C /* UNIMyAppintModel.m */; settings = {ASSET_TAGS = (); }; };
+		18E627861BF9ED3800C4C13C /* UNIBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E627851BF9ED3800C4C13C /* UNIBaseModel.m */; settings = {ASSET_TAGS = (); }; };
 		18F096681BF1C99400B60A3D /* BaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F096671BF1C99400B60A3D /* BaseRequest.m */; settings = {ASSET_TAGS = (); }; };
 		18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F0966A1BF1CA1D00B60A3D /* MainViewRequest.m */; settings = {ASSET_TAGS = (); }; };
 		18F0966F1BF1DE4900B60A3D /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F0966E1BF1DE4900B60A3D /* LoginController.m */; settings = {ASSET_TAGS = (); }; };
@@ -144,6 +147,8 @@
 		18C745B51BF07D92000062AF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		18C745B71BF07EE4000062AF /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		18C745B91BF09F3E000062AF /* URLconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLconfig.h; sourceTree = "<group>"; };
+		18D124621BF5BC440034990F /* UNIShopManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopManage.h; sourceTree = "<group>"; };
+		18D124631BF5BC440034990F /* UNIShopManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopManage.m; sourceTree = "<group>"; };
 		18D5722A1BE883560055DE7F /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		18D5722B1BE883560055DE7F /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
 		18D5722C1BE883560055DE7F /* YILocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YILocationManager.h; sourceTree = "<group>"; };
@@ -157,6 +162,10 @@
 		18DDD5781BEB6074005F7765 /* MainMoveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMoveTransition.h; sourceTree = "<group>"; };
 		18DDD5791BEB6074005F7765 /* MainMoveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMoveTransition.m; sourceTree = "<group>"; };
 		18E3E13D1BE21B41001A9096 /* UniHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniHeader.pch; sourceTree = "<group>"; };
+		18E627811BF9EC1500C4C13C /* UNIMyAppintModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMyAppintModel.h; sourceTree = "<group>"; };
+		18E627821BF9EC1500C4C13C /* UNIMyAppintModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyAppintModel.m; sourceTree = "<group>"; };
+		18E627841BF9ED3800C4C13C /* UNIBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIBaseModel.h; sourceTree = "<group>"; };
+		18E627851BF9ED3800C4C13C /* UNIBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIBaseModel.m; sourceTree = "<group>"; };
 		18F096661BF1C99400B60A3D /* BaseRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseRequest.h; sourceTree = "<group>"; };
 		18F096671BF1C99400B60A3D /* BaseRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseRequest.m; sourceTree = "<group>"; };
 		18F096691BF1CA1D00B60A3D /* MainViewRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewRequest.h; sourceTree = "<group>"; };
@@ -287,6 +296,10 @@
 		1840FD711BE0712100DC78BC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18E627811BF9EC1500C4C13C /* UNIMyAppintModel.h */,
+				18E627821BF9EC1500C4C13C /* UNIMyAppintModel.m */,
+				18E627841BF9ED3800C4C13C /* UNIBaseModel.h */,
+				18E627851BF9ED3800C4C13C /* UNIBaseModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -424,6 +437,8 @@
 				18D572311BE891BC0055DE7F /* YIUserLocationMessage.m */,
 				18D5722A1BE883560055DE7F /* AccountManager.h */,
 				18D5722B1BE883560055DE7F /* AccountManager.m */,
+				18D124621BF5BC440034990F /* UNIShopManage.h */,
+				18D124631BF5BC440034990F /* UNIShopManage.m */,
 				18D5722C1BE883560055DE7F /* YILocationManager.h */,
 				18D5722D1BE883560055DE7F /* YILocationManager.m */,
 			);
@@ -688,9 +703,11 @@
 				18F0966F1BF1DE4900B60A3D /* LoginController.m in Sources */,
 				18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */,
 				180CD38C1BDF180A00C912FE /* AppDelegate.m in Sources */,
+				18E627831BF9EC1500C4C13C /* UNIMyAppintModel.m in Sources */,
 				18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */,
 				18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */,
 				18C745991BF03400000062AF /* MainMidView.m in Sources */,
+				18E627861BF9ED3800C4C13C /* UNIBaseModel.m in Sources */,
 				18D5722E1BE883560055DE7F /* AccountManager.m in Sources */,
 				181347AF1BF33E6D001674D9 /* UNILoginViewModel.m in Sources */,
 				18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */,
@@ -703,6 +720,7 @@
 				18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */,
 				18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */,
 				18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */,
+				18D124641BF5BC440034990F /* UNIShopManage.m in Sources */,
 				18BA7D701BE9B8FD00DD7826 /* MainViewController.m in Sources */,
 				18F096681BF1C99400B60A3D /* BaseRequest.m in Sources */,
 				18BA7D6D1BE9A19100DD7826 /* SMPageControl.m in Sources */,

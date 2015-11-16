@@ -16,12 +16,14 @@
 @implementation MainMidController
 
 -(void)viewWillAppear:(BOOL)animated{
-    self.navigationController.delegate = self;
+   self.navigationController.delegate = self;
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    self.navigationController.delegate = nil;
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
  
-   
 }
 
 

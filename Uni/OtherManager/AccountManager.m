@@ -10,6 +10,8 @@
 
 #define tokenDefaultKey         @"tokenDefaultKey"
 #define userNameDefaultKey    @"userNameDefaultKey"
+#define userIdKey             @"userIdKey"
+#define userShopID            @"userShopId"
 /**
  *  用户token
  */
@@ -78,6 +80,46 @@
     [self syncSetObject:localLoginName forKey:userNameDefaultKey];
 }
 
+#pragma mark 获取token的静态方法
++ (NSNumber*)userId
+{
+    NSNumber *userid = [[[self class] shared] userId];
+    return userid;
+}
+
+#pragma mark 保存token的静态方法
++ (void)setUserId:(NSNumber*)userid{
+    [[[self class] shared] setUserId:userid];
+}
+
+-(void)setUserId:(NSNumber *)userId{
+    if (!userId)userId = nil;
+    [self syncSetObject:userId forKey:userIdKey];
+}
+-(NSNumber *)userId{
+    return (NSNumber*)[self stringWithKey:userIdKey];
+}
+
++(void)setShopId:(NSNumber *)shopId{
+    [[[self class] shared]setShopId:shopId];
+}
+
++(NSNumber *)shopId{
+    NSNumber* shopid = [[[self class]shared]shopId];
+    return shopid;
+}
+
+-(void)setShopId:(NSNumber *)shopId{
+    if (!shopId) shopId = nil;
+    [self syncSetObject:shopId forKey:userShopID];
+}
+-(NSNumber *)shopId{
+    NSNumber* shopid = [self stringWithKey:userShopID];
+    if (!shopid)
+        shopid=nil;
+    
+    return shopid;
+}
 
 - (void)clear
 {
@@ -118,10 +160,10 @@
     [userDefaults synchronize];
 }
 
-- (NSString *)stringWithKey:(NSString *)keyName
+- (id)stringWithKey:(NSString *)keyName
 
 {
-    NSString *string=[[NSUserDefaults standardUserDefaults] valueForKey:keyName];
+    id string=[[NSUserDefaults standardUserDefaults] valueForKey:keyName];
     
     return string;
 }

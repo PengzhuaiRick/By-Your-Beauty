@@ -8,7 +8,7 @@
 
 #import "LoginController.h"
 #import "AppDelegate.h"
-//#import "UNILoginViewModel.h"
+#import "AccountManager.h"
 #import "UNILoginViewRequest.h"
 @interface LoginController (){
     
@@ -27,6 +27,9 @@
     NSTimer* time;
     int countDown;
 }
+@property (weak, nonatomic) IBOutlet UITableViewCell *secondCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *firstCell;
+@property (weak, nonatomic) IBOutlet UITableViewCell *thirldCell;
 
 @property(nonatomic,assign)int sex;
 @end
@@ -46,12 +49,13 @@
     [self setupLoginBtn];
 }
 
+#pragma mark 设置手机号码
 -(void)setupPhoneField{
     UITextField* teft = phoneField;
     [[phoneField.rac_textSignal
      filter:^BOOL(NSString* value) {
 
-         BOOL le =NO;
+         BOOL le =NO;//是否能走下一步
          if (value.length>0) {
              char r = [value characterAtIndex:value.length-1];
              if (r<48||r>57){
@@ -86,6 +90,7 @@
 
 }
 
+#pragma mark 设置验证码输入框
 -(void)setupCodeField{
      UITextField* teft = codeField;
     [[codeField.rac_textSignal
@@ -114,6 +119,7 @@
     }];
 }
 
+#pragma mark 设置验证码按钮
 -(void)setupCodeBtn{
     UIButton* btn = codeBtn ;
     UITextField* field = phoneField;
@@ -125,16 +131,14 @@
         NSLog(@"%@",value);
         return value;
     }];
+    
     [[codeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
-        
         [LLARingSpinnerView RingSpinnerViewStart];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
          [request postWithSerCode:@[API_PARAM_SSMS,
                                     API_URL_Login]
                            params:@{@"phone":field.text}];
-//        [request requestVertificationCode:@[API_PARAM_SSMS,API_URL_Login]
-//                                andParams:@{@"phone":field.text}];
         
         request.rqvertifivaBlock = ^(NSString* ph,
                                      NSString* llt,
@@ -142,6 +146,35 @@
                                      NSString*tip,
                                      NSError* er){
             [LLARingSpinnerView RingSpinnerViewStop];
+            if (llt) {
+                if (self.thirldCell.alpha==1) {
+                    CGRect p1 = self.firstCell.frame;
+                    CGRect p2 = self.secondCell.frame;
+                    p1.origin.y+=44;
+                    p2.origin.y+=44;
+                    [UIView animateWithDuration:0.5 animations:^{
+                        
+                        self.thirldCell.alpha = 0;
+                        self.firstCell.frame = p1;
+                        self.secondCell.frame =p2;
+                    }];
+
+                }
+            }else{
+                if (self.thirldCell.alpha == 0) {
+                    CGRect p1 = self.firstCell.frame;
+                    CGRect p2 = self.secondCell.frame;
+                    p1.origin.y-=44;
+                    p2.origin.y-=44;
+                    [UIView animateWithDuration:0.5 animations:^{
+                        self.thirldCell.alpha = 1;
+                        self.firstCell.frame = p1;
+                        self.secondCell.frame =p2;
+                    }];
+
+                }
+            }
+            
             if (rc != nil){
                 btn.enabled = NO;
                 t1 = [NSTimer scheduledTimerWithTimeInterval:1
@@ -151,7 +184,9 @@
                                                      repeats:YES];
             }
         };
+ 
     }];
+ 
 }
 #pragma mark 验证码定时器事件
 -(void)sixtySecondCountDown{
@@ -173,34 +208,45 @@
     countDown = 60;
 }
 
-
+#pragma mark 设置昵称输入框
 -(void)setupNikeName{
     nikeSignal =[nikeName.rac_textSignal map:^id(NSString* value) {
        return  @(value.length > 3?YES:NO);
     }];
 }
 
+#pragma mark 设置登陆按钮
 -(void)setupLoginBtn{
     UITextField* field1 = phoneField;
     UITextField* field2 = codeField;
     UITextField* field3 = nikeName;
     loginBtn.enabled = NO;
-    RAC(loginBtn,enabled) = [RACSignal combineLatest:@[phoneSignal,codeFieldSignal,nikeSignal]
+    RAC(loginBtn,enabled) = [RACSignal combineLatest:@[phoneSignal,codeFieldSignal]
                                               reduce:^id(NSNumber* phone,
-                                                         NSNumber* code,
-                                                         NSNumber* nike){
-          return @([phone boolValue]&&[code boolValue]&&[nike boolValue]);
+                                                         NSNumber* code){
+          return @([phone boolValue]&&[code boolValue]);
     }];
     [[loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
         [LLARingSpinnerView RingSpinnerViewStart];
+         
+         id sx = @(self.sex); //默认性别
+         if (self.thirldCell.alpha==0)
+             sx=@"";
+         else{
+             if (self->nikeName.text.length==0) {
+                 [YIToast showWithText:@"请输入昵称!"];
+                 return ;
+             }
+            
+         }
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,
                                    API_URL_Login]
                                 params:@{@"code":field1.text,
                                             @"password":field2.text,
                                             @"name":field3.text,
-                                            @"sex":@(self.sex)}];
+                                            @"sex":sx}];
         
         request.rqloginBlock = ^(int userId,
                                  int shopId,
@@ -209,12 +255,17 @@
                                  NSError* er){
              [LLARingSpinnerView RingSpinnerViewStop];
             if (er==nil) {
+                //保存信息
+                [AccountManager setToken:token];
+                [AccountManager setUserId:@(userId)];
+                [AccountManager setShopId:@(shopId)];
+                //跳转
                 self.view.window.backgroundColor = [UIColor whiteColor];
                 AppDelegate* app = [UIApplication sharedApplication].delegate;
                 [app setupViewController];
             }else
                 NSLog(@"%@",er);
-            
+           // [YIToast showWithText:tips];
         };
         
     }];

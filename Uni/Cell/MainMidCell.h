@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#define CELLW self.superview.frame.size.width
+#define CELLH KMainScreenWidth*70/375
 @interface MainMidCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *mainImage;
 @property (weak, nonatomic) IBOutlet UILabel *mainLab;
 @property (weak, nonatomic) IBOutlet UILabel *subLab;
 @property (weak, nonatomic) IBOutlet UIButton *handleBtn;
 
+-(void)updateFrame:(CGRect)re;
 @end

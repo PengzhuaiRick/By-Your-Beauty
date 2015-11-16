@@ -7,7 +7,7 @@
 //
 
 #import "BaseRequest.h"
-
+#import "UNIShopManage.h"
 /**
  *  请求版本号成功Block
  *
@@ -20,10 +20,40 @@
  */
 typedef void(^RQCheckVersion)(NSString* version,NSString* url,NSString* desc,NSString*tips, int type,NSError* er);
 
+
+
+/**
+ *  请求商店信息
+ *
+ *  @param shopName 店铺名
+ *  @param logoUrl  Logo 路径
+ *  @param url      二维码路径
+ *  @param tips     反馈信息
+ *  @param x        经度
+ *  @param y        纬度
+ *  @param er       错误信息
+ */
+typedef void(^RQShopInfoBlock)( UNIShopManage* manager,NSString*tips,NSError* er);
+
+/**
+ *  约满奖励接口
+ *
+ *  @param nextRewardNum 约满次数
+ *  @param num           已约次数
+ *  @param tips          反馈信息
+ */
+typedef void(^RQRewardBlock)(int nextRewardNum,int num,NSString*tips,NSError* er);
+
+//typedef void(^RQAppointmentBlock)(NSArray* array,);
+
 @interface MainViewRequest : BaseRequest
 
 //请求版本号成功Block
 @property(nonatomic,copy)RQCheckVersion reqheckVersion;
 
+//请求商店信息
+@property(nonatomic,copy)RQShopInfoBlock reshopInfoBlock;
 
+//约满奖励接口
+@property(nonatomic,copy)RQRewardBlock rerewardBlock;
 @end

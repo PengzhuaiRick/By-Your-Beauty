@@ -23,7 +23,14 @@
  */
 @property(nonatomic,strong)NSString *localLoginName;
 
-
+/**
+ *  用户ID
+ */
+@property(nonatomic,strong)NSNumber* userId;
+/**
+ *  店铺ID
+ */
+@property(nonatomic,strong)NSNumber* shopId;
 
 + (AccountManager *)shared;
 
@@ -44,6 +51,24 @@
  */
 + (NSString*)token;
 + (void)setToken:(NSString*)token;
+
+
+/**
+ *  获取和设置userId
+ *
+ */
++ (NSNumber*)userId;
++ (void)setUserId:(NSNumber*)userid;
+
+
+/**
+ *  获取和设置店铺ID
+ *
+ *  @param shopId
+ */
++(void)setShopId:(NSNumber *)shopId;
+
++(NSNumber *)shopId;
 
 
 #pragma mark  动态方法

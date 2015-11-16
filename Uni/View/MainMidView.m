@@ -7,7 +7,7 @@
 //
 
 #import "MainMidView.h"
-#import "MainMidCell.h"
+
 @implementation MainMidView
 -(id)initWithFrame:(CGRect)frame headerTitle:(NSString*)string{
     self = [super initWithFrame:frame];
@@ -39,16 +39,22 @@
     return 70;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return 2;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* cellName=@"Cell";
     MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (!cell) {
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
+         [cell updateFrame:_midTableview.frame];
     }
-    //cell.textLabel.text=@"hahahahaha";
+   
     return cell;
+}
+
+-(void)startReloadData:(NSArray*)data{
+    _dataArray = data;
+    [_midTableview reloadData];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

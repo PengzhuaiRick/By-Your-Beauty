@@ -12,27 +12,30 @@
 
 @implementation MainMoveTransition
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext{
-    return 0.6f;
+    return 1.f;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext{
-    MainViewController* mv = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
-    MainMidController* md = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
+    MainViewController* from = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    MainMidController* to = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
       UIView *containerView = [transitionContext containerView];
-    
-    CGRect re = mv.midView.frame;
-    md.view.frame = [transitionContext finalFrameForViewController:md];
-    md.view.alpha = 0;
-    [md.view removeFromSuperview];
-    [containerView addSubview:md.view];
+    [containerView addSubview:to.view];
+    to.view.alpha = 0;
+ 
     
     
-    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
-        md.view.alpha = 1;
-        mv.midView.frame = CGRectMake(0, 64,KMainScreenWidth, KMainScreenHeight-64);
+    
+    [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        from.midView.transform = CGAffineTransformMakeScale(2,2);
+        from.view.alpha = 0;
         
+        to.view.transform = CGAffineTransformMakeScale(1, 1);
+        to.view.alpha = 1;
+   
+       
     } completion:^(BOOL finished) {
-        mv.midView.frame = re;
+       // from.view.transform = CGAffineTransformIdentity;
+        //mv.midView.frame = re;
         //告诉系统动画结束
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
     }];

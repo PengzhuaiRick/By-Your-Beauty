@@ -185,10 +185,13 @@
                         <outlet property="codeBtn" destination="kXF-Jz-iiO" id="8yi-n0-O83"/>
                         <outlet property="codeField" destination="nCc-IF-2d9" id="RJ5-sI-Yla"/>
                         <outlet property="femaleBtn" destination="pQp-Pe-zdE" id="rJ2-Rc-inH"/>
+                        <outlet property="firstCell" destination="8sK-kI-aaa" id="T2p-Us-qW6"/>
                         <outlet property="loginBtn" destination="FwW-Z3-cc1" id="DO4-uB-LSa"/>
                         <outlet property="maleBtn" destination="VoT-Xb-Als" id="BGi-Sp-aIJ"/>
                         <outlet property="nikeName" destination="37L-Rr-Zwz" id="lLa-kT-eZ1"/>
                         <outlet property="phoneField" destination="KSr-X9-vkJ" id="bq0-I8-f8w"/>
+                        <outlet property="secondCell" destination="ZUI-4a-8MS" id="lsp-ye-iLo"/>
+                        <outlet property="thirldCell" destination="aLv-h3-kBu" id="p4a-fU-dW0"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6yd-Wo-jlv" userLabel="First Responder" sceneMemberID="firstResponder"/>
