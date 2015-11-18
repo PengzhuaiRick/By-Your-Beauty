@@ -21,7 +21,8 @@
       UIView *containerView = [transitionContext containerView];
     [containerView addSubview:to.view];
     to.view.alpha = 0;
- 
+    to.view.transform = CGAffineTransformMakeScale(0.8, 0.8);
+
     
     
     

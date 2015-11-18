@@ -25,6 +25,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
+    
    // [self rqCurrentVersion];
     
     //[self rqWelcomeImage];
@@ -33,11 +34,34 @@
     //[self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
     [self replaceWelcomeImage:@""];
+    [self setupNavigationStyle];
     //[NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     return YES;
 
 }
 
+#pragma mark 设置导航栏样式
+-(void)setupNavigationStyle{
+    
+    UINavigationBar *bar = [UINavigationBar appearance];
+    
+    //设置返回按钮颜色
+    [bar setTintColor:[UIColor whiteColor]];
+    
+    //设置导航栏标题字体颜色
+    NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
+    [barAttrs setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [barAttrs setObject:[UIFont boldSystemFontOfSize:18] forKey:NSFontAttributeName];
+    [bar setTitleTextAttributes:barAttrs];
+    
+    //
+    UIBarButtonItem *item = [UIBarButtonItem appearance];
+    NSMutableDictionary *itemAttrs = [NSMutableDictionary dictionaryWithDictionary:barAttrs];
+    [itemAttrs setObject:[UIFont boldSystemFontOfSize:14] forKey:NSFontAttributeName];
+    [item setTitleTextAttributes:itemAttrs forState:UIControlStateNormal];
+    [item setTitleTextAttributes:itemAttrs forState:UIControlStateHighlighted];
+    [item setTitleTextAttributes:itemAttrs forState:UIControlStateDisabled];
+}
 -(void)judgeFirstTime{
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     NSString* first = [user valueForKey:FIRSTINSTALL];

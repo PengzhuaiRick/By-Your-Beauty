@@ -1,14 +1,16 @@
 //
 //  MainMidController.m
 //  Uni
-//  首页中部
+//  首页中部 我已预约列表
 //  Created by apple on 15/11/4.
 //  Copyright © 2015年 apple. All rights reserved.
 //
 
 #import "MainMidController.h"
 #import "MainMidMoveBackTransition.h"
-
+#import "MainMidCell.h"
+#import "MainViewRequest.h"
+#import <MJRefresh/MJRefresh.h>
 @interface MainMidController ()<UINavigationControllerDelegate>
 
 @end
@@ -23,22 +25,92 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
- 
+    _num = (int)_myData.count;
+    [self setupNavigation];
+   // [self setupTableviewHeader:@"我已预约"];
+    [self setupTableviewFootView];
+    [self startRequestInfo];
+    
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        
+    }];
+    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        
+    }];
+    //[self.tableView.header beginRefreshing];
 }
 
+-(void)setupNavigation{
+    self.tableView.layer.masksToBounds=YES;
+    self.tableView.layer.cornerRadius = 5;
+    self.tableView.backgroundColor = [UIColor whiteColor];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(void)setupTableviewHeader:(NSString*)string{
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, KMainScreenWidth*0.06)];
+    view.image =[UIImage imageNamed:@"mian_img_cellH"];
+    UILabel* lab = [[UILabel alloc]initWithFrame:
+                    CGRectMake(10, 5,  self.tableView.frame.size.width-10, KMainScreenWidth*0.05)];
+    lab.text=string;
+    lab.textColor = [UIColor colorWithHexString:@"575757"];
+    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+    [view addSubview:lab];
+    self.tableView.tableHeaderView = view;
+}
+
+-(void)setupTableviewFootView{
+    UIView* bView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,  self.tableView.frame.size.width, 5)];
+//    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,  self.tableView.frame.size.width, 5)];
+//    view.image =[UIImage imageNamed:@"main_img_cellF"];
+//    bView.backgroundColor = [UIColor clearColor];
+//    [bView addSubview:view];
+    self.tableView.tableFooterView = bView;
+}
+
 #pragma mark - Table view data source
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return _num;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return KMainScreenWidth*70/320;
+}
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString* name = @"CellName";
+    MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    if (!cell)
+        cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
+    
+    [cell setupCellContent:_myData[0] andType:1];
+    return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+-(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
+    return YES;
+}
+
+-(void)reflashTabel:(int)Num{
+    _num = Num;
+    [self.tableView reloadData];
+}
+-(void)insertTableViewData{
+    _num = 10;
+    [self.tableView reloadData];
+}
+-(void)deleteTableViewData:(int)Num{
+    _num = Num;
+    [self.tableView reloadData];
+}
 
 #pragma mark <UINavigationControllerDelegate>
 - (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
@@ -51,15 +123,30 @@
   
 }
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
+#pragma mark 开始请求我已预约项目
+-(void)startRequestInfo{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        MainViewRequest* request = [[MainViewRequest alloc]init];
+        [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
+                          params:@{@"userId":@(1),
+                                   @"token":@"abcdxxa",
+                                   @"shopId":@(1),
+                                   @"page":@(0),@"size":@(20)}];
+        request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!err) {
+                    if (myAppointArr){
+                        self.myData =[NSMutableArray arrayWithArray:myAppointArr];
+                        [self reflashTabel:2];
+                    }
+                    else
+                        [YIToast showText:tips];
+                }else
+                    [YIToast showText:tips];
+            });
+        };
+    });
 }
-*/
 
 /*
 // Override to support conditional editing of the table view.

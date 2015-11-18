@@ -23,8 +23,22 @@
     UILabel* shopAddressLab;
     UIImageView* VIPImage;
     UIImageView* shopLogo;
+    
+    CGRect topRe;
+    CGRect midRe;
+    CGRect buttomRe;
+    
+    CGRect midTabRe;
+    CGRect buttonTabRe;
+    
+    CGSize scrollSize;
+    
+    UITapGestureRecognizer* midGesture;
+    UITapGestureRecognizer* buttomGesture;
 }
 
+@property(nonatomic,strong) MainMidController* midController ;
+@property(nonatomic,strong) MainBottomController* buttomController;
 @end
 
 @implementation MainViewController
@@ -38,15 +52,19 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self setupNavigation];
     [self setupScroller];
-    [self addChildController];
+   // [self addChildController];
+     [self addChildController1];
     [self startRequestShopInfo];
-    [self startRequestAppointInfo];
+    //[self startRequestAppointInfo];
 }
 #pragma mark
 -(void)setupNavigation{
     self.title = @"首页";
+    [self preferredStatusBarStyle];
+    
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"e23469"];
     self.view.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
     UIBarButtonItem* bar = [[UIBarButtonItem alloc]init];
@@ -83,24 +101,27 @@
 
     UIImage* imag =[UIImage imageNamed:@"main_img_top"];
     float imgH = imag.size.height*(KMainScreenWidth-bj*2)/imag.size.width;
-    UIImageView* topImg = [[UIImageView alloc]initWithFrame:CGRectMake(bj,bj,KMainScreenWidth-bj*2,imgH)];
+    topRe =CGRectMake(bj,bj,KMainScreenWidth-bj*2,imgH);
+    UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
     topImg.image = imag;
     [myScroller addSubview:topImg];
     topView = topImg;
     
     [self setupTopImageSubView];
+    midRe =CGRectMake(bj,CGRectGetMaxY(topImg.frame)+bj, KMainScreenWidth-bj*2, gd);
+    _midView= [[UIView  alloc]initWithFrame:midRe];
     
-    _midView= [[UIView  alloc]initWithFrame:CGRectMake(bj,CGRectGetMaxY(topImg.frame)+bj*2, KMainScreenWidth-bj*2, gd)];
-    _midView.tag = 10;
     [myScroller addSubview:_midView];
     
-    _buttomView= [[UIView  alloc]initWithFrame:CGRectMake(bj, CGRectGetMaxY(_midView.frame)+bj, KMainScreenWidth-bj*2, gd)];
+    buttomRe =CGRectMake(bj, CGRectGetMaxY(_midView.frame)+bj, KMainScreenWidth-bj*2, gd);
+    _buttomView= [[UIView  alloc]initWithFrame:buttomRe];
     _buttomView.tag = 11;
     [myScroller addSubview:_buttomView];
     
-    int sgd = CGRectGetMaxY(_buttomView.frame)+40;//最大高度
+    int sgd = CGRectGetMaxY(_buttomView.frame);//最大高度
     
-     myScroller.contentSize = CGSizeMake(KMainScreenWidth, sgd);
+    scrollSize= CGSizeMake(KMainScreenWidth, sgd);
+    myScroller.contentSize =scrollSize;
 }
 
 #pragma mark 设置顶图的子视图
@@ -140,16 +161,11 @@
 
 #pragma mark 点击手势跳转事件
 -(void)showMoreInfo:(UIGestureRecognizer*)gesture{
-     UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if (gesture.view.tag == 10) {
-        MainMidController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-        [self.navigationController pushViewController:midController animated:YES];
-    }else if (gesture.view.tag == 11){
-        MainBottomController* buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-         [self.navigationController pushViewController:buttomController animated:YES];
+        [self midViewAnimationEvent];
+            }else if (gesture.view.tag == 11){
+                [self buttomViewAnimationEvent];
     }
-    
-    
 }
 #pragma mark 添加两个列表
 -(void)addChildController{
@@ -169,6 +185,52 @@
     fafview = bottomView;
     UITapGestureRecognizer* tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
     [_buttomView addGestureRecognizer:tap1];
+}
+-(void)addChildController1{
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midView.frame.size.width, KMainScreenWidth*0.06)];
+    view.userInteractionEnabled=YES;
+    view.tag = 10;
+    view.image =[UIImage imageNamed:@"mian_img_cellH"];
+    UILabel* lab = [[UILabel alloc]initWithFrame:
+                    CGRectMake(10, 5,  _midView.frame.size.width-10, KMainScreenWidth*0.05)];
+    lab.text=@"我已预约";
+    lab.textColor = [UIColor colorWithHexString:@"575757"];
+    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+    [view addSubview:lab];
+    [_midView addSubview:view];
+    
+    midGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
+    [view addGestureRecognizer:midGesture];
+    
+    
+    UIImageView* view1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _buttomView.frame.size.width, KMainScreenWidth*0.06)];
+    view1.userInteractionEnabled=YES;
+    view1.tag = 11;
+    view1.image =[UIImage imageNamed:@"mian_img_cellH"];
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:
+                    CGRectMake(10, 5,  _buttomView.frame.size.width-10, KMainScreenWidth*0.05)];
+    lab1.text=@"我的项目";
+    lab1.textColor = [UIColor colorWithHexString:@"575757"];
+    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+    [view1 addSubview:lab1];
+    [_buttomView addSubview:view1];
+    buttomGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
+    [view1 addGestureRecognizer:buttomGesture];
+
+    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+    self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+    
+    midTabRe = CGRectMake(0, view.frame.size.height, _midView.frame.size.width, _midView.frame.size.height-view.frame.size.height);
+    self.midController.tableView.frame = midTabRe;
+    
+    buttonTabRe =CGRectMake(0, view1.frame.size.height, _buttomView.frame.size.width, _buttomView.frame.size.height-view1.frame.size.height);
+    self.buttomController.tableView.frame =buttonTabRe;
+    
+    [_midView addSubview:self.midController.view];
+    [_buttomView addSubview:self.buttomController.view];
+    [self addChildViewController:self.midController];
+    [self addChildViewController:self.buttomController];
 }
 
 #pragma mark 请求店铺信息
@@ -266,8 +328,12 @@
         request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
-                    if (myAppointArr)
-                        [self->hahview startReloadData:myAppointArr andType:1];
+                    if (myAppointArr){
+                       self.midController.myData =[NSMutableArray arrayWithArray:myAppointArr];
+                        [self.midController reflashTabel:2];
+//                        self.midData = [NSMutableArray arrayWithArray:myAppointArr];
+//                        [self->hahview startReloadData:myAppointArr andType:1];
+                    }
                     else
                         [YIToast showText:tips];
                 }else
@@ -285,8 +351,12 @@
         request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
-                    if (myProjectArr)
-                        [self->fafview startReloadData:myProjectArr andType:2];
+                    if (myProjectArr){
+                        self.buttomController.myData =[NSMutableArray arrayWithArray:myProjectArr];
+                        [self.buttomController reflashTabel:2];
+//                        self.bottomData=[NSMutableArray arrayWithArray:myProjectArr];
+//                        [self->fafview startReloadData:myProjectArr andType:2];
+                    }
                     else
                         [YIToast showText:tips];
                 }else
@@ -299,6 +369,111 @@
 }
 
 
+#pragma mark 中部视图动画事件
+-(void)midViewAnimationEvent{
+    CGRect re = _midView.frame;
+    if (re.origin.y>100) {
+        self->myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
+        [UIView animateWithDuration:0.5 delay:0
+             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             CGRect top = self->topView.frame;
+                             float yy = top.size.height- 15;
+                             self->topView.frame =CGRectMake(top.origin.x, top.origin.y-yy, top.size.width, top.size.height);
+                             
+                             CGRect buttom = self.buttomView.frame;
+                             self.buttomView.frame = CGRectMake(buttom.origin.x,KMainScreenHeight-64-20,buttom.size.width, buttom.size.height);
+                             
+                             self.midView.frame = CGRectMake(re.origin.x
+                                                             , re.origin.y-yy,
+                                                             re.size.width,
+                                                             KMainScreenHeight-64-(re.origin.y-yy)-50);
+                             self.midController.tableView.frame = CGRectMake(0,self.midController.tableView.frame.origin.y,
+                                                                             re.size.width, KMainScreenHeight-64-(re.origin.y-yy)-50);
+                             [self.midController insertTableViewData];
+                         } completion:^(BOOL finished) {
+                             self->buttomGesture.enabled=NO;
+                         }];
+        
+    }else{
+        [UIView animateWithDuration:0.5 delay:0
+             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self->topView.frame = self->topRe;
+                             self.midView.frame = self->midRe;
+                             self.buttomView.frame = self->buttomRe;
+                             self.midController.tableView.frame = self->midTabRe;
+                             [self.midController deleteTableViewData:2];
+                         }completion:^(BOOL finished) {
+                             self->buttomGesture.enabled=YES;
+                             self->myScroller.contentSize = self->scrollSize;
+                         }];
+    }
+
+}
+
+#pragma mark 底部视图动画事件
+-(void)buttomViewAnimationEvent{
+    CGRect re = _buttomView.frame;
+    if (re.origin.y>KMainScreenHeight/2) {
+         myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
+        [UIView animateWithDuration:0.5 delay:0
+             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             CGRect top = self->topView.frame;
+                             float yy = top.size.height- 15;//露出15像素
+                             self->topView.frame =CGRectMake(top.origin.x, top.origin.y-yy, top.size.width, top.size.height);
+                             
+                             CGRect mid = self.midView.frame;
+                             self.midView.frame = CGRectMake(mid.origin.x
+                                                             , mid.origin.y-yy,
+                                                             mid.size.width,
+                                                             KMainScreenWidth*0.05+5);
+                             self.midController.tableView.frame = CGRectMake(0,self.midController.tableView.frame.origin.y,
+                                                                             mid.size.width, KMainScreenWidth*0.05+5);
+                             [self.midController deleteTableViewData:0];
+                             
+                             
+                             float by =mid.origin.y-yy+KMainScreenWidth*0.05+13;// self.midView的Y+H
+                             self.buttomView.frame = CGRectMake(re.origin.x,by
+                                                                ,re.size.width,
+                                                                KMainScreenHeight-64-by-20);
+                             self.buttomController.tableView.frame = CGRectMake(0, self->buttonTabRe.origin.y, self->buttonTabRe.size.width, KMainScreenHeight-64-by-20);
+                             [self.buttomController insertTableViewData];
+                             
+                         } completion:^(BOOL finished) {
+                             self->midGesture.enabled=NO;
+                         }];
+        
+    }else{
+        [UIView animateWithDuration:0.5 delay:0
+             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
+                            options:UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             self->topView.frame = self->topRe;
+                             self.midView.frame = self->midRe;
+                             self.buttomView.frame = self->buttomRe;
+                             self.midController.tableView.frame = self->midTabRe;
+                             self.buttomController.tableView.frame = self->buttonTabRe;
+                             
+                             [self.midController reflashTabel:2];
+                             [self.buttomController deleteTableViewData:2];
+                         }completion:^(BOOL finished) {
+                             self->midGesture.enabled=YES;
+                             self->myScroller.contentSize = self->scrollSize;
+                         }];
+    }
+
+}
+
+#pragma mark 设置状态栏字体颜色
+-(UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
+}
+
 #pragma mark <UINavigationControllerDelegate>
 - (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                    animationControllerForOperation:(UINavigationControllerOperation)operation
@@ -306,26 +481,11 @@
                                                   toViewController:(UIViewController *)toVC{
     MainMoveTransition *transition = [[MainMoveTransition alloc]init];
     return transition;
-//    if ([toVC isKindOfClass:[MainMidController class]]) {
-//        MainMoveTransition *transition = [[MainMoveTransition alloc]init];
-//        return transition;
-//    }else{
-//        return nil;
-//    }
 }
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
