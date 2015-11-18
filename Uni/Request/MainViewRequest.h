@@ -8,6 +8,8 @@
 
 #import "BaseRequest.h"
 #import "UNIShopManage.h"
+#import "UNIMyAppintModel.h"
+#import "UNIMyProjectModel.h"
 /**
  *  请求版本号成功Block
  *
@@ -44,9 +46,30 @@ typedef void(^RQShopInfoBlock)( UNIShopManage* manager,NSString*tips,NSError* er
  */
 typedef void(^RQRewardBlock)(int nextRewardNum,int num,NSString*tips,NSError* er);
 
-//typedef void(^RQAppointmentBlock)(NSArray* array,);
+/**
+ *  请求我已预约项目
+ *
+ *  @param array UNIMyAppintModel 的对象数组
+ *  @param tips  反馈信息
+ *  @param er    错误信息
+ */
+typedef void(^RQAppointmentBlock)(NSArray* array,NSString* tips,NSError* er);
+
+/**
+ *  请求我的项目
+ *
+ *  @param array UNIMyProjectModel 的对象数组
+ *  @param tips  反馈信息
+ *  @param er    错误信息
+ */
+typedef void(^RQMyProjectBlock)(NSArray* array,NSString* tips,NSError* er);
+
+
 
 @interface MainViewRequest : BaseRequest
+
+
+
 
 //请求版本号成功Block
 @property(nonatomic,copy)RQCheckVersion reqheckVersion;
@@ -56,4 +79,10 @@ typedef void(^RQRewardBlock)(int nextRewardNum,int num,NSString*tips,NSError* er
 
 //约满奖励接口
 @property(nonatomic,copy)RQRewardBlock rerewardBlock;
+
+//请求我已预约项目
+@property(nonatomic,copy)RQAppointmentBlock reappointmentBlock;
+
+//请求我的项目
+@property(nonatomic,copy)RQMyProjectBlock remyProjectBlock;
 @end

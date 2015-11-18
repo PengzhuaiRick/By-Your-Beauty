@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1808385A1BFACDA200727B61 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 180838591BFACDA200727B61 /* UIColor+HexString.m */; settings = {ASSET_TAGS = (); }; };
+		1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1808385C1BFAE63600727B61 /* UNIMyProjectModel.m */; settings = {ASSET_TAGS = (); }; };
 		180CD3891BDF180A00C912FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 180CD3881BDF180A00C912FE /* main.m */; };
 		180CD38C1BDF180A00C912FE /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 180CD38B1BDF180A00C912FE /* AppDelegate.m */; };
 		180CD3921BDF180A00C912FE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 180CD3901BDF180A00C912FE /* Main.storyboard */; };
@@ -80,6 +82,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		180838581BFACDA200727B61 /* UIColor+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexString.h"; sourceTree = "<group>"; };
+		180838591BFACDA200727B61 /* UIColor+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexString.m"; sourceTree = "<group>"; };
+		1808385B1BFAE63600727B61 /* UNIMyProjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMyProjectModel.h; sourceTree = "<group>"; };
+		1808385C1BFAE63600727B61 /* UNIMyProjectModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyProjectModel.m; sourceTree = "<group>"; };
 		180CD3841BDF180A00C912FE /* Uni.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Uni.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		180CD3881BDF180A00C912FE /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		180CD38A1BDF180A00C912FE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -215,6 +221,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		180838571BFACDA200727B61 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				180838581BFACDA200727B61 /* UIColor+HexString.h */,
+				180838591BFACDA200727B61 /* UIColor+HexString.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
 		180CD37B1BDF180A00C912FE = {
 			isa = PBXGroup;
 			children = (
@@ -300,6 +315,8 @@
 				18E627821BF9EC1500C4C13C /* UNIMyAppintModel.m */,
 				18E627841BF9ED3800C4C13C /* UNIBaseModel.h */,
 				18E627851BF9ED3800C4C13C /* UNIBaseModel.m */,
+				1808385B1BFAE63600727B61 /* UNIMyProjectModel.h */,
+				1808385C1BFAE63600727B61 /* UNIMyProjectModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -378,6 +395,7 @@
 		18BF0A001BF443F2000AE604 /* ThirdTool */ = {
 			isa = PBXGroup;
 			children = (
+				180838571BFACDA200727B61 /* Categories */,
 				18BF0A0E1BF49BDF000AE604 /* ToastView */,
 				18BF0A011BF44428000AE604 /* LLARingSpinnerView */,
 			);
@@ -717,6 +735,7 @@
 				18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */,
 				18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */,
 				18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */,
+				1808385A1BFACDA200727B61 /* UIColor+HexString.m in Sources */,
 				18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */,
 				18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */,
 				18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */,
@@ -725,6 +744,7 @@
 				18F096681BF1C99400B60A3D /* BaseRequest.m in Sources */,
 				18BA7D6D1BE9A19100DD7826 /* SMPageControl.m in Sources */,
 				18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */,
+				1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */,
 				180CD3891BDF180A00C912FE /* main.m in Sources */,
 				18D9CBE91BEC801F001EF50C /* MainMidMoveBackTransition.m in Sources */,
 				1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */,

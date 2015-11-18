@@ -12,7 +12,10 @@
 -(id)initWithFrame:(CGRect)frame headerTitle:(NSString*)string{
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundColor = [UIColor clearColor];
         UITableView* tab = [[UITableView alloc]initWithFrame:frame style:UITableViewStylePlain];
+        tab.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        tab.backgroundColor= [UIColor clearColor];
         tab.delegate = self;
         tab.dataSource = self;
         [self addSubview:tab];
@@ -24,19 +27,25 @@
 }
 
 -(void)setupTableviewHeader:(NSString*)string{
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 50)];
-    UILabel* lab = [[UILabel alloc]initWithFrame:view.frame];
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, KMainScreenWidth*0.05)];
+    view.image =[UIImage imageNamed:@"mian_img_cellH"];
+    UILabel* lab = [[UILabel alloc]initWithFrame:
+                    CGRectMake(10, 5,  _midTableview.frame.size.width-10, KMainScreenWidth*0.05)];
     lab.text=string;
+    lab.textColor = [UIColor colorWithHexString:@"575757"];
+    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
     [view addSubview:lab];
     _midTableview.tableHeaderView = view;
 }
 
 -(void)setupTableviewFootView{
-    _midTableview.tableFooterView = [UIView new];
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,  _midTableview.frame.size.width, 5)];
+    view.image =[UIImage imageNamed:@"main_img_cellF"];
+    _midTableview.tableFooterView = view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 70;
+    return KMainScreenWidth*70/320;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 2;
@@ -46,13 +55,15 @@
     MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (!cell) {
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
-         [cell updateFrame:_midTableview.frame];
+        // [cell updateFrame:_midTableview.frame];
     }
-   
+    [cell setupCellContent:_dataArray.lastObject andType:type];
     return cell;
 }
 
--(void)startReloadData:(NSArray*)data{
+
+-(void)startReloadData:(NSArray*)data andType:(int)type1{
+    type=type1;
     _dataArray = data;
     [_midTableview reloadData];
 }

@@ -14,5 +14,6 @@
 #import "LLARingSpinnerView.h"
 #import "YIToast.h"
 #import "UIImageView+WebCache.h"
+#import "UIColor+HexString.h"
 
 #endif /* UniHeader_pch */

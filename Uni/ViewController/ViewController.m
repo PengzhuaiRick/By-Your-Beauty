@@ -39,7 +39,7 @@
 }
 - (IBAction)shouye:(id)sender {
     [UIView animateWithDuration:0.5 animations:^{
-        _tv.view.frame = CGRectMake(100, 0, self.view.frame.size.width,self.view.frame.size.height);
+        self.tv.view.frame = CGRectMake(100, 0, self.view.frame.size.width,self.view.frame.size.height);
     }];
 }
 
@@ -66,20 +66,20 @@
         if (offset>0) {
             if (offset>80)
             [UIView animateWithDuration:0.2 animations:^{
-                _tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
+                self.tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
             }];
             else
                 [UIView animateWithDuration:0.2 animations:^{
-                    _tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
+                    self.tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
                 }];
         }else if (offset<0 ){
             if (offset < -80)
                 [UIView animateWithDuration:0.2 animations:^{
-                    _tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
+                    self.tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
                 }];
             else
                 [UIView animateWithDuration:0.2 animations:^{
-                    _tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
+                    self.tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
                 }];
 
             

@@ -22,9 +22,30 @@
     if ([param1 isEqualToString:API_PARAM_UNI]) {
         //获取已预约信息
         if([param2 isEqualToString:API_URL_Appoint]){
-            
+            if (code == 0) {
+                NSArray* result = [self safeObject:dic ForKey:@"result"];
+                NSMutableArray* array = [NSMutableArray arrayWithCapacity:result.count];
+                for (NSDictionary* dia in result) {
+                    UNIMyAppintModel * model = [[UNIMyAppintModel alloc]initWithDic:dia];
+                    [array addObject:model];
+                }
+                _reappointmentBlock(array,tips,nil);
+            }else
+                _reappointmentBlock(nil,tips,nil);
         }
-        
+        //获取我的未预约项目
+        if ([param2 isEqualToString:API_URL_MyProjectInfo]) {
+            if (code==0) {
+                NSArray* result = [self safeObject:dic ForKey:@"result"];
+                NSMutableArray* array = [NSMutableArray arrayWithCapacity:result.count];
+                for (NSDictionary* dia in result) {
+                    UNIMyProjectModel * model = [[UNIMyProjectModel alloc]initWithDic:dia];
+                    [array addObject:model];
+                }
+                _remyProjectBlock(array,tips,nil);
+            }
+            _remyProjectBlock(nil,tips,nil);
+        }
         //获取商铺信息
         if ([param2 isEqualToString:API_URL_ShopInfo] ) {
             if (code == 0) {
@@ -57,18 +78,21 @@
     
     if ([param1 isEqualToString:API_PARAM_UNI]) {
         //获取已预约信息
-        if ([param2 isEqualToString:API_URL_Appoint]) {
-            
-        }
+        if ([param2 isEqualToString:API_URL_Appoint])
+            _reappointmentBlock(nil,nil,err);
+        
         //商店信息
         if ([param2 isEqualToString:API_URL_ShopInfo] )
             _reshopInfoBlock(nil,nil,err);
         
         
         //获取奖励信息
-        if ([param2 isEqualToString:API_URL_MRInfo]) {
+        if ([param2 isEqualToString:API_URL_MRInfo]) 
              _rerewardBlock(-1,-1,nil,err);
-        }
+        
+        //获取我的未预约项目
+        if ([param1 isEqualToString:API_URL_MyProjectInfo])
+            _remyProjectBlock(nil,nil,err);
     }
 
 

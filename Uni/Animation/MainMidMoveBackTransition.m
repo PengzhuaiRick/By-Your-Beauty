@@ -9,7 +9,7 @@
 #import "MainMidMoveBackTransition.h"
 #import "MainMidController.h"
 #import "MainViewController.h"
-
+#import "MainBottomController.h"
 @implementation MainMidMoveBackTransition
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext{
@@ -18,7 +18,7 @@
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext{
     MainViewController* to = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    MainMidController* from = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    UIViewController* from = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIView *containerView = [transitionContext containerView];
     
     //UIView* snapShow = [from.view snapshotViewAfterScreenUpdates:YES];
@@ -29,8 +29,10 @@
     [UIView animateWithDuration:[self transitionDuration:transitionContext] delay:0.0f usingSpringWithDamping:0.6f initialSpringVelocity:1.0f options:UIViewAnimationOptionCurveLinear animations:^{
         from.view.transform = CGAffineTransformMakeScale(0.5, 0.5);
         from.view.alpha = 0.5;
-        
-        to.midView.transform = CGAffineTransformIdentity;
+        if ([from isKindOfClass:[MainMidController class]])
+            to.midView.transform = CGAffineTransformIdentity;
+        else if ([from isKindOfClass:[MainBottomController class]])
+            to.buttomView.transform = CGAffineTransformIdentity;
         to.view.alpha = 1;
     } completion:^(BOOL finished) {
         //告诉系统动画结束

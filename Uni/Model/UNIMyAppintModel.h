@@ -1,7 +1,7 @@
 //
 //  UNIMyAppintModel.h
 //  Uni
-//
+//  我已预约的Model
 //  Created by apple on 15/11/16.
 //  Copyright © 2015年 apple. All rights reserved.
 //
@@ -15,7 +15,7 @@
 @property(nonatomic,copy)NSString* time;   //预约时间
 @property(nonatomic,copy)NSString* createTime;//下单时间
 @property(nonatomic,assign)int costTime;//服务时长
-@property(nonatomic,assign)int status; //预约状态
+@property(nonatomic,assign)int status; //预约状态  1—待确认；2—待服务
 
 -(id)initWithDic:(NSDictionary*)dic;
 @end

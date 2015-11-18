@@ -15,11 +15,9 @@
 #import "AccountManager.h"
 
 @interface MainViewController ()<UINavigationControllerDelegate>{
-    MainMidController* midController;
-    MainBottomController* buttomController;
     __weak IBOutlet UIScrollView *myScroller;
-    UIView* hahview;
-    
+    MainMidView* hahview;
+    MainMidView* fafview;
     UIImageView* topView;
     UILabel* shopNameLab;
     UILabel* shopAddressLab;
@@ -31,10 +29,6 @@
 
 @implementation MainViewController
 
--(void)setupNavigation{
-    self.title = @"首页";
-}
-
 -(void)viewWillAppear:(BOOL)animated{
     self.navigationController.delegate = self;
     
@@ -44,103 +38,48 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //[self startRequestShopInfo];
-    [self startRequestAppointInfo];
     [self setupNavigation];
     [self setupScroller];
     [self addChildController];
+    [self startRequestShopInfo];
+    [self startRequestAppointInfo];
 }
-
-#pragma mark 请求店铺信息
--(void)startRequestShopInfo{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        //AccountManager* manager = [AccountManager shared];
-        MainViewRequest* request = [[MainViewRequest alloc]init];
-        [request postWithSerCode:@[API_PARAM_UNI,API_URL_ShopInfo]
-                          params:@{@"shopId":@(1),
-                                   @"token":@"abcdxxa",
-                                   @"userId":@(1)}];
-        request.reshopInfoBlock=^(UNIShopManage* manager,NSString*tips,NSError* er){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (!er) {
-                    if (manager) {
-                        self->shopNameLab.text = manager.shopName;
-                        [self->shopLogo sd_setImageWithURL:[NSURL URLWithString:manager.logoUrl]
-                                          placeholderImage:[UIImage imageNamed:@"main_img_shopLog"]];
-                    }else
-                        [YIToast showText:tips];
-                    
-                }else{
-                    
-                }
-                
-            });
-
-        };
-        
-        //请求约满奖励
-        MainViewRequest* request1 = [[MainViewRequest alloc]init];
-        [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MRInfo]
-                          params:@{@"shopId":@(1),
-                                   @"token":@"abcdxxa",
-                                   @"userId":@(1)}];
-        request1.rerewardBlock=^(int nextRewardNum,int num,NSString*tips,NSError* er){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (!er) {
-                    if (nextRewardNum!=-1) {
-                        float jc = (self->topView.frame.size.width-30)/nextRewardNum;
-                        for (int i = 0; i<nextRewardNum; i++) {
-                            UIImageView* img = [[UIImageView alloc]initWithFrame:
-                                                CGRectMake(10+(jc*i), self->topView.frame.size.height-40, jc, 14)];
-                            if (i<num)
-                                img.image = [UIImage imageNamed:@"main_img_bluePro"];
-                            else
-                                img.image = [UIImage imageNamed:@"main_img_proLess"];
-                             [self->topView addSubview:img];
-                            
-                            UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(img.frame.size.width-10, 2, 10, 10)];
-                            lab.text = [NSString stringWithFormat:@"%i",i+1];
-                            lab.textColor = [UIColor whiteColor];
-                            lab.textAlignment = NSTextAlignmentCenter;
-                            lab.font = [UIFont boldSystemFontOfSize:8];
-                            [img addSubview:lab];
-                        }
-                        UIImageView* awardImge = [[UIImageView alloc]initWithFrame:CGRectMake(self->topView.frame.size.width-35, self->topView.frame.size.height-55,30,35)];
-                        if (nextRewardNum ==num)
-                            awardImge.image = [UIImage imageNamed:@"main_img_award"];
-                        else
-                            awardImge.image = [UIImage imageNamed:@"main_img_unaward"];
-                        [self->topView addSubview:awardImge];
-                    }else
-                        [YIToast showText:tips];
-                }else{
-                    
-                }
-            });
-        };
-    });
-
+#pragma mark
+-(void)setupNavigation{
+    self.title = @"首页";
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"e23469"];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
+    UIBarButtonItem* bar = [[UIBarButtonItem alloc]init];
+    bar.image = [UIImage imageNamed:@"main_btn_function"];
+    bar.style = UIBarButtonItemStyleDone;
+    bar.tintColor = [UIColor whiteColor];
+    bar.target = self;
+    bar.action=@selector(navigationControllerLeftBarAction:);
+    self.navigationItem.leftBarButtonItem = bar;
 }
-
-#pragma mark 开始请求我已预约项目
--(void)startRequestAppointInfo{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        MainViewRequest* request = [[MainViewRequest alloc]init];
-        [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
-                          params:@{@"userId":@(1),
-                                   @"token":@"abcdxxa",
-                                   @"shopId":@(1),
-                                   @"page":@(0),@"size":@(20)}];
-    });
+#pragma mark 功能按钮事件
+-(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
+    float x = self.navigationController.view.frame.origin.x;
+    [UIView animateWithDuration:0.2 animations:^{
+        if (x==0)
+            self.navigationController.view.frame =
+            CGRectMake(KMainScreenWidth-100,
+                                         0,self.view.frame.size.width
+                                         ,self.view.frame.size.height);
+        else
+            self.navigationController.view.frame =
+            CGRectMake(0,
+                       0,self.view.frame.size.width
+                       ,self.view.frame.size.height);
+ 
+    }];
 }
-
 #pragma mark 设置Scroller
 -(void)setupScroller{
-    int sgd = 736;//最大高度
-    int bj = 8;   //边界
-    float gd = (sgd - bj*3)/3; //view 高度
     
-    myScroller.contentSize = CGSizeMake(KMainScreenWidth, sgd);
+    int bj = 8;   //边界
+    //float gd = (sgd - bj*3)/3; //view 高度
+    float gd = (KMainScreenWidth*70/320)*2+40;
 
     UIImage* imag =[UIImage imageNamed:@"main_img_top"];
     float imgH = imag.size.height*(KMainScreenWidth-bj*2)/imag.size.width;
@@ -151,16 +90,17 @@
     
     [self setupTopImageSubView];
     
-    
-    _midView= [[UIView  alloc]initWithFrame:CGRectMake(bj,CGRectGetMaxY(topImg.frame)+bj, KMainScreenWidth-bj*2, gd)];
-    _midView.layer.borderWidth = 1;
-    _midView.layer.borderColor = [UIColor blackColor].CGColor;
+    _midView= [[UIView  alloc]initWithFrame:CGRectMake(bj,CGRectGetMaxY(topImg.frame)+bj*2, KMainScreenWidth-bj*2, gd)];
+    _midView.tag = 10;
     [myScroller addSubview:_midView];
     
     _buttomView= [[UIView  alloc]initWithFrame:CGRectMake(bj, CGRectGetMaxY(_midView.frame)+bj, KMainScreenWidth-bj*2, gd)];
-    _buttomView.layer.borderWidth = 1;
-    _buttomView.layer.borderColor = [UIColor blueColor].CGColor;
+    _buttomView.tag = 11;
     [myScroller addSubview:_buttomView];
+    
+    int sgd = CGRectGetMaxY(_buttomView.frame)+40;//最大高度
+    
+     myScroller.contentSize = CGSizeMake(KMainScreenWidth, sgd);
 }
 
 #pragma mark 设置顶图的子视图
@@ -197,47 +137,181 @@
     VIPImage = VIPimg;
 }
 
--(void)updataShopInfo{
-    UNIShopManage* manager = [UNIShopManage getShopData];
-    shopNameLab.text = manager.shopName;
-}
 
--(void)fangda:(UIGestureRecognizer*)gesture{
-  
-       [self.navigationController pushViewController:midController animated:YES];
+#pragma mark 点击手势跳转事件
+-(void)showMoreInfo:(UIGestureRecognizer*)gesture{
+     UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    if (gesture.view.tag == 10) {
+        MainMidController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+        [self.navigationController pushViewController:midController animated:YES];
+    }else if (gesture.view.tag == 11){
+        MainBottomController* buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+         [self.navigationController pushViewController:buttomController animated:YES];
+    }
+    
     
 }
+#pragma mark 添加两个列表
 -(void)addChildController{
-    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-//    midController.tableView.frame = CGRectMake(0, 0, _midView.frame.size.width, _midView.frame.size.height);
-    MainMidView* midview = [[MainMidView alloc]initWithFrame:CGRectMake(0, 0,  _midView.frame.size.width, _midView.frame.size.height) headerTitle:@"我已预约"];
+    MainMidView* midview = [[MainMidView alloc]initWithFrame:
+                            CGRectMake(0, 0,  _midView.frame.size.width, _midView.frame.size.height) headerTitle:@"我已预约"];
     hahview = midview;
     [_midView addSubview:midview];
     
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(fangda:)];
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
     [_midView addGestureRecognizer:tap];
     
-//    buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-//    buttomController.tableView.scrollEnabled = NO;
-   // [self addChildViewController:buttomController];
-    //buttomController.view.frame = CGRectMake(0, 0, _buttomView.frame.size.width, _buttomView.frame.size.height);
-    MainMidView* bottomView = [[MainMidView alloc]initWithFrame:CGRectMake(0, 0,  _buttomView.frame.size.width, _buttomView.frame.size.height) headerTitle:@"未预约"];
+    
+    MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
+                               CGRectMake(0, 0,  _buttomView.frame.size.width, _buttomView.frame.size.height)
+                                                    headerTitle:@"我的项目"];
     [_buttomView addSubview:bottomView];
+    fafview = bottomView;
+    UITapGestureRecognizer* tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
+    [_buttomView addGestureRecognizer:tap1];
 }
+
+#pragma mark 请求店铺信息
+-(void)startRequestShopInfo{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        //AccountManager* manager = [AccountManager shared];
+        MainViewRequest* request = [[MainViewRequest alloc]init];
+        [request postWithSerCode:@[API_PARAM_UNI,API_URL_ShopInfo]
+                          params:@{@"shopId":@(1),
+                                   @"token":@"abcdxxa",
+                                   @"userId":@(1)}];
+        request.reshopInfoBlock=^(UNIShopManage* manager,NSString*tips,NSError* er){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!er) {
+                    if (manager) {
+                        if (manager.shopName.length>11) {
+                            self->shopNameLab.text = [manager.shopName substringToIndex:11];
+                            self->shopAddressLab.text =[manager.shopName substringFromIndex:11];
+                        }else{
+                            self->shopNameLab.text = manager.shopName;
+                            CGRect re =self->shopAddressLab.frame;
+                            self->shopAddressLab.hidden=YES;
+                            self->VIPImage.frame = CGRectMake(re.origin.x, re.origin.y,
+                                                              self->VIPImage.frame.size.width,
+                                                               self->VIPImage.frame.size.height);
+                        }
+                        
+                        [self->shopLogo sd_setImageWithURL:[NSURL URLWithString:manager.logoUrl]
+                                          placeholderImage:[UIImage imageNamed:@"main_img_shopLog"]];
+                    }else
+                        [YIToast showText:tips];
+                    
+                }else
+                    [YIToast showText:tips];
+                
+                
+            });
+            
+        };
+        
+        //请求约满奖励
+        MainViewRequest* request1 = [[MainViewRequest alloc]init];
+        [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MRInfo]
+                           params:@{@"shopId":@(1),
+                                    @"token":@"abcdxxa",
+                                    @"userId":@(1)}];
+        request1.rerewardBlock=^(int nextRewardNum,int num,NSString*tips,NSError* er){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!er) {
+                    if (nextRewardNum!=-1) {
+                        float jc = (self->topView.frame.size.width-30)/nextRewardNum;
+                        for (int i = 0; i<nextRewardNum; i++) {
+                            UIImageView* img = [[UIImageView alloc]initWithFrame:
+                                                CGRectMake(10+(jc*i), self->topView.frame.size.height-40, jc, 14)];
+                            if (i<num)
+                                img.image = [UIImage imageNamed:@"main_img_bluePro"];
+                            else
+                                img.image = [UIImage imageNamed:@"main_img_proLess"];
+                            [self->topView addSubview:img];
+                            
+                            UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(img.frame.size.width-10, 2, 10, 10)];
+                            lab.text = [NSString stringWithFormat:@"%i",i+1];
+                            lab.textColor = [UIColor whiteColor];
+                            lab.textAlignment = NSTextAlignmentCenter;
+                            lab.font = [UIFont boldSystemFontOfSize:8];
+                            [img addSubview:lab];
+                        }
+                        UIImageView* awardImge = [[UIImageView alloc]initWithFrame:
+                                                  CGRectMake(self->topView.frame.size.width-35,
+                                                             self->topView.frame.size.height-55,30,35)];
+                        if (nextRewardNum ==num)
+                            awardImge.image = [UIImage imageNamed:@"main_img_award"];
+                        else
+                            awardImge.image = [UIImage imageNamed:@"main_img_unaward"];
+                        [self->topView addSubview:awardImge];
+                    }else
+                        [YIToast showText:tips];
+                }else
+                    [YIToast showText:tips];
+            });
+        };
+    });
+    
+}
+
+#pragma mark 开始请求我已预约项目
+-(void)startRequestAppointInfo{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        MainViewRequest* request = [[MainViewRequest alloc]init];
+        [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
+                          params:@{@"userId":@(1),
+                                   @"token":@"abcdxxa",
+                                   @"shopId":@(1),
+                                   @"page":@(0),@"size":@(20)}];
+        request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!err) {
+                    if (myAppointArr)
+                        [self->hahview startReloadData:myAppointArr andType:1];
+                    else
+                        [YIToast showText:tips];
+                }else
+                    [YIToast showText:tips];
+            });
+        };
+        
+        
+        MainViewRequest* request1 = [[MainViewRequest alloc]init];
+        [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
+                           params:@{@"userId":@(1),
+                                    @"token":@"abcdxxa",
+                                    @"shopId":@(1),
+                                    @"page":@(0),@"size":@(20)}];
+        request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!err) {
+                    if (myProjectArr)
+                        [self->fafview startReloadData:myProjectArr andType:2];
+                    else
+                        [YIToast showText:tips];
+                }else
+                    [YIToast showText:tips];
+            });
+        };
+        
+        
+    });
+}
+
 
 #pragma mark <UINavigationControllerDelegate>
 - (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                    animationControllerForOperation:(UINavigationControllerOperation)operation
                                                 fromViewController:(UIViewController *)fromVC
                                                   toViewController:(UIViewController *)toVC{
-    
-    if ([toVC isKindOfClass:[MainMidController class]]) {
-        MainMoveTransition *transition = [[MainMoveTransition alloc]init];
-        return transition;
-    }else{
-        return nil;
-    }
+    MainMoveTransition *transition = [[MainMoveTransition alloc]init];
+    return transition;
+//    if ([toVC isKindOfClass:[MainMidController class]]) {
+//        MainMoveTransition *transition = [[MainMoveTransition alloc]init];
+//        return transition;
+//    }else{
+//        return nil;
+//    }
 }
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];

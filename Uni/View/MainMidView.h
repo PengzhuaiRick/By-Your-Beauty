@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "MainMidCell.h"
 
-@interface MainMidView : UIView<UITableViewDataSource,UITableViewDelegate>
+@interface MainMidView : UIView<UITableViewDataSource,UITableViewDelegate>{
+    int type;
+}
 @property(nonatomic,strong)UITableView* midTableview;
 @property(nonatomic,strong)NSArray* dataArray;
 
+-(void)startReloadData:(NSArray*)data andType:(int)type1;
 -(id)initWithFrame:(CGRect)frame headerTitle:(NSString*)string;
 @end

@@ -7,13 +7,19 @@
 //
 
 #import "MainBottomController.h"
-
-@interface MainBottomController ()
+#import "MainMidMoveBackTransition.h"
+@interface MainBottomController ()<UINavigationControllerDelegate>
 
 @end
 
 @implementation MainBottomController
 
+-(void)viewWillAppear:(BOOL)animated{
+    self.navigationController.delegate = self;
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    self.navigationController.delegate = nil;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -32,8 +38,17 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
     return 10;
+}
+#pragma mark <UINavigationControllerDelegate>
+- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                   animationControllerForOperation:(UINavigationControllerOperation)operation
+                                                fromViewController:(UIViewController *)fromVC
+                                                  toViewController:(UIViewController *)toVC{
+    
+    MainMidMoveBackTransition *inverseTransition = [[MainMidMoveBackTransition alloc]init];
+    return inverseTransition;
+    
 }
 
 /*
