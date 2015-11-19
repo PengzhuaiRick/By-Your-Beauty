@@ -34,21 +34,30 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rhf-ts-6Ks">
-                                <rect key="frame" x="67" y="239" width="187" height="90"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rek-gj-hqT">
+                                <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                                 <animations/>
-                                <fontDescription key="fontDescription" type="system" pointSize="31"/>
-                                <state key="normal" title="首页"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <action selector="shouye:" destination="BYZ-38-t0r" eventType="touchUpInside" id="CEP-ED-m0A"/>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="fBq-8t-s5k"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="MW8-qB-zWz"/>
                                 </connections>
-                            </button>
+                            </tableView>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="rek-gj-hqT" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="64" id="6GS-02-g9o"/>
+                            <constraint firstItem="rek-gj-hqT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cqa-d9-HWV"/>
+                            <constraint firstItem="rek-gj-hqT" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="dqc-Yz-Mnh"/>
+                            <constraint firstAttribute="trailing" secondItem="rek-gj-hqT" secondAttribute="trailing" id="q49-fL-Ypm"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="X8e-EG-hJP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <outlet property="myTableView" destination="rek-gj-hqT" id="KMh-pt-ZmK"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -81,6 +90,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="vAd-rI-RAm">
+                            <rect key="frame" x="0.0" y="504" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection id="ou7-tM-dkc">
                                 <cells>
@@ -325,6 +340,12 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <view key="tableFooterView" contentMode="scaleToFill" id="OWi-NW-HPY">
+                            <rect key="frame" x="0.0" y="504" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <animations/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </view>
                         <sections>
                             <tableViewSection id="Fuq-nC-HSc">
                                 <cells>

@@ -11,6 +11,6 @@
 @interface ViewController : UIViewController{
 }
 
-@property(nonatomic,strong) UIViewController* tv;
+@property(nonatomic,strong) UINavigationController* tv;
 @end
 

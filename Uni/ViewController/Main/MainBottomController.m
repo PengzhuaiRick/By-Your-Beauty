@@ -10,8 +10,12 @@
 #import "MainMidMoveBackTransition.h"
 #import "MainMidCell.h"
 #import "MainViewRequest.h"
+#import <MJRefresh/MJRefresh.h>
 @interface MainBottomController ()<UINavigationControllerDelegate>
-
+{
+    int pageNum;
+    int pageSize;
+}
 @end
 
 @implementation MainBottomController
@@ -24,17 +28,38 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _num = (int)_myData.count;
     [self setupNavigation];
-    //[self setupTableviewHeader:@"我的项目"];
-    [self setupTableviewFootView];
-     [self startRequestInfo];
+    [self setupParams];
+    [self setupMJReflash];
 }
 -(void)setupNavigation{
-    self.tableView.layer.masksToBounds=YES;
-    self.tableView.layer.cornerRadius = 5;
+    self.title = @"我的项目";
     self.tableView.backgroundColor = [UIColor whiteColor];
 }
+#pragma mark 设置参数
+-(void)setupParams{
+    _num = (int)_myData.count;
+    pageNum = 0;
+    pageSize = 20;
+    
+}
+#pragma mark 设置刷新方法
+-(void)setupMJReflash{
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self->pageNum =0;
+        self->pageSize =(int)self.myData.count;
+        [self startRequestInfo];
+    }];
+     if (_myData.count==20) {
+    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        ++self->pageNum;
+        self->pageSize =(int)self.myData.count+20;
+        [self startRequestInfo];
+    }];
+         self.tableView.footer.hidden = YES;
+     }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -118,10 +143,16 @@
                                     @"page":@(0),@"size":@(20)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
-                if (!err) {
-                    if (myProjectArr){
-                        self.myData =[NSMutableArray arrayWithArray:myProjectArr];
-                        [self reflashTabel:2];
+                self.tableView.footer.hidden = YES;
+                [self.tableView.header endRefreshing];
+                [self.tableView.footer endRefreshing];
+                if (err==nil) {
+                    if (myProjectArr.count>0){
+                        if (self->pageNum == 0)//下拉刷新
+                            [self.myData removeAllObjects];
+                        
+                        [self.myData addObjectsFromArray:myProjectArr];
+                        [self reflashTabel:(int)self.myData.count];
                     }
                     else
                         [YIToast showText:tips];

@@ -36,7 +36,8 @@
     UITapGestureRecognizer* midGesture;
     UITapGestureRecognizer* buttomGesture;
 }
-
+@property(nonatomic,strong) NSArray* midData;
+@property(nonatomic,strong) NSArray* bottomData;
 @property(nonatomic,strong) MainMidController* midController ;
 @property(nonatomic,strong) MainBottomController* buttomController;
 @end
@@ -55,16 +56,16 @@
     
     [self setupNavigation];
     [self setupScroller];
-   // [self addChildController];
-     [self addChildController1];
+    [self addChildController];
+     //[self addChildController1];
     [self startRequestShopInfo];
-    //[self startRequestAppointInfo];
+    [self startRequestAppointInfo];
+    [self startRequestProjectInfo];
 }
 #pragma mark
 -(void)setupNavigation{
     self.title = @"首页";
     [self preferredStatusBarStyle];
-    
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"e23469"];
     self.view.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
     UIBarButtonItem* bar = [[UIBarButtonItem alloc]init];
@@ -96,9 +97,6 @@
 -(void)setupScroller{
     
     int bj = 8;   //边界
-    //float gd = (sgd - bj*3)/3; //view 高度
-    float gd = (KMainScreenWidth*70/320)*2+40;
-
     UIImage* imag =[UIImage imageNamed:@"main_img_top"];
     float imgH = imag.size.height*(KMainScreenWidth-bj*2)/imag.size.width;
     topRe =CGRectMake(bj,bj,KMainScreenWidth-bj*2,imgH);
@@ -107,20 +105,25 @@
     [myScroller addSubview:topImg];
     topView = topImg;
     
+    //float gd = (sgd - bj*3)/3; //view 高度
+    float gd = (KMainScreenHeight-64-CGRectGetMaxY(topImg.frame)-2*bj)/2;
+    
     [self setupTopImageSubView];
     midRe =CGRectMake(bj,CGRectGetMaxY(topImg.frame)+bj, KMainScreenWidth-bj*2, gd);
     _midView= [[UIView  alloc]initWithFrame:midRe];
-    
+    //_midView.backgroundColor = [UIColor whiteColor];
+    _midView.tag = 10;
     [myScroller addSubview:_midView];
     
-    buttomRe =CGRectMake(bj, CGRectGetMaxY(_midView.frame)+bj, KMainScreenWidth-bj*2, gd);
+    buttomRe =CGRectMake(bj, CGRectGetMaxY(_midView.frame)+5, KMainScreenWidth-bj*2, gd);
     _buttomView= [[UIView  alloc]initWithFrame:buttomRe];
+    //_buttomView.backgroundColor = [UIColor yellowColor];
     _buttomView.tag = 11;
     [myScroller addSubview:_buttomView];
     
-    int sgd = CGRectGetMaxY(_buttomView.frame);//最大高度
+    //int sgd = CGRectGetMaxY(_buttomView.frame);//最大高度
     
-    scrollSize= CGSizeMake(KMainScreenWidth, sgd);
+    scrollSize= CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
     myScroller.contentSize =scrollSize;
 }
 
@@ -161,10 +164,18 @@
 
 #pragma mark 点击手势跳转事件
 -(void)showMoreInfo:(UIGestureRecognizer*)gesture{
+    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if (gesture.view.tag == 10) {
-        [self midViewAnimationEvent];
-            }else if (gesture.view.tag == 11){
-                [self buttomViewAnimationEvent];
+        //[self midViewAnimationEvent];
+         self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+        self.midController.myData = [NSMutableArray arrayWithArray:self.midData];
+        //self.midController.myData =self.midData;
+        [self.navigationController pushViewController:self.midController animated:YES];
+    }else if (gesture.view.tag == 11){
+              //  [self buttomViewAnimationEvent];
+        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+        self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
+        [self.navigationController pushViewController:self.buttomController animated:YES];
     }
 }
 #pragma mark 添加两个列表
@@ -281,20 +292,22 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (nextRewardNum!=-1) {
-                        float jc = (self->topView.frame.size.width-30)/nextRewardNum;
-                        for (int i = 0; i<nextRewardNum; i++) {
+                        float jc = (self->topView.frame.size.width-30)/10;
+                        float y = nextRewardNum/10;
+                        for (int i = 0; i<10; i++) {
+                            UIImage* img1 =[UIImage imageNamed:@"main_img_proLess"];
                             UIImageView* img = [[UIImageView alloc]initWithFrame:
-                                                CGRectMake(10+(jc*i), self->topView.frame.size.height-40, jc, 14)];
-                            if (i<num)
+                                                CGRectMake(10+(jc*i), self->topView.frame.size.height-40, jc,img1.size.height*jc/img1.size.width)];
+                            if ((i+1)*y<num)
                                 img.image = [UIImage imageNamed:@"main_img_bluePro"];
                             else
-                                img.image = [UIImage imageNamed:@"main_img_proLess"];
+                                img.image = img1;
                             [self->topView addSubview:img];
                             
-                            UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(img.frame.size.width-10, 2, 10, 10)];
-                            lab.text = [NSString stringWithFormat:@"%i",i+1];
+                            UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,jc,img1.size.height*jc/img1.size.width)];
+                            lab.text = [NSString stringWithFormat:@"%i",(i+1)*nextRewardNum/10];
                             lab.textColor = [UIColor whiteColor];
-                            lab.textAlignment = NSTextAlignmentCenter;
+                            lab.textAlignment = NSTextAlignmentRight;
                             lab.font = [UIFont boldSystemFontOfSize:8];
                             [img addSubview:lab];
                         }
@@ -318,7 +331,6 @@
 
 #pragma mark 开始请求我已预约项目
 -(void)startRequestAppointInfo{
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
                           params:@{@"userId":@(1),
@@ -329,10 +341,10 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
                     if (myAppointArr){
-                       self.midController.myData =[NSMutableArray arrayWithArray:myAppointArr];
-                        [self.midController reflashTabel:2];
-//                        self.midData = [NSMutableArray arrayWithArray:myAppointArr];
-//                        [self->hahview startReloadData:myAppointArr andType:1];
+//                       self.midController.myData =[NSMutableArray arrayWithArray:myAppointArr];
+//                        [self.midController reflashTabel:2];
+                        self.midData = myAppointArr;
+                        [self->hahview startReloadData:myAppointArr andType:1];
                     }
                     else
                         [YIToast showText:tips];
@@ -340,22 +352,23 @@
                     [YIToast showText:tips];
             });
         };
-        
-        
+}
+#pragma mark 开始请求我已预约项目
+-(void)startRequestProjectInfo{
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
                            params:@{@"userId":@(1),
                                     @"token":@"abcdxxa",
                                     @"shopId":@(1),
-                                    @"page":@(0),@"size":@(20)}];
+                                    @"page":@(0),@"size":@(2)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
                     if (myProjectArr){
-                        self.buttomController.myData =[NSMutableArray arrayWithArray:myProjectArr];
-                        [self.buttomController reflashTabel:2];
-//                        self.bottomData=[NSMutableArray arrayWithArray:myProjectArr];
-//                        [self->fafview startReloadData:myProjectArr andType:2];
+                        //                        self.buttomController.myData =[NSMutableArray arrayWithArray:myProjectArr];
+                        //                        [self.buttomController reflashTabel:2];
+                        self.bottomData=myProjectArr;
+                        [self->fafview startReloadData:myProjectArr andType:2];
                     }
                     else
                         [YIToast showText:tips];
@@ -363,11 +376,7 @@
                     [YIToast showText:tips];
             });
         };
-        
-        
-    });
 }
-
 
 #pragma mark 中部视图动画事件
 -(void)midViewAnimationEvent{

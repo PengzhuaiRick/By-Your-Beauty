@@ -34,6 +34,7 @@
 		18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A061BF4740F000AE604 /* UNIAppDeleRequest.m */; settings = {ASSET_TAGS = (); }; };
 		18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A0C1BF48984000AE604 /* UNIWelController.m */; settings = {ASSET_TAGS = (); }; };
 		18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A101BF49BDF000AE604 /* YIToast.m */; settings = {ASSET_TAGS = (); }; };
+		18C315681BFDCDF600B8438E /* UIActionSheet+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */; settings = {ASSET_TAGS = (); }; };
 		18C745961BF0334E000062AF /* Guide.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18C745941BF0334E000062AF /* Guide.storyboard */; settings = {ASSET_TAGS = (); }; };
 		18C745991BF03400000062AF /* MainMidView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C745981BF03400000062AF /* MainMidView.m */; settings = {ASSET_TAGS = (); }; };
 		18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C7459D1BF047F9000062AF /* MainMidCell.m */; settings = {ASSET_TAGS = (); }; };
@@ -134,6 +135,8 @@
 		18BF0A0C1BF48984000AE604 /* UNIWelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIWelController.m; sourceTree = "<group>"; };
 		18BF0A0F1BF49BDF000AE604 /* YIToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YIToast.h; sourceTree = "<group>"; };
 		18BF0A101BF49BDF000AE604 /* YIToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YIToast.m; sourceTree = "<group>"; };
+		18C315661BFDCDF600B8438E /* UIActionSheet+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Blocks.h"; sourceTree = "<group>"; };
+		18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Blocks.m"; sourceTree = "<group>"; };
 		18C745951BF0334E000062AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Uni/Base.lproj/Guide.storyboard; sourceTree = "<group>"; };
 		18C745971BF03400000062AF /* MainMidView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMidView.h; sourceTree = "<group>"; };
 		18C745981BF03400000062AF /* MainMidView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMidView.m; sourceTree = "<group>"; };
@@ -224,6 +227,8 @@
 		180838571BFACDA200727B61 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				18C315661BFDCDF600B8438E /* UIActionSheet+Blocks.h */,
+				18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */,
 				180838581BFACDA200727B61 /* UIColor+HexString.h */,
 				180838591BFACDA200727B61 /* UIColor+HexString.m */,
 			);
@@ -736,6 +741,7 @@
 				18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */,
 				18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */,
 				1808385A1BFACDA200727B61 /* UIColor+HexString.m in Sources */,
+				18C315681BFDCDF600B8438E /* UIActionSheet+Blocks.m in Sources */,
 				18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */,
 				18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */,
 				18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */,

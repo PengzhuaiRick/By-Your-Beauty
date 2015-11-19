@@ -12,7 +12,10 @@
 #import "MainViewRequest.h"
 #import <MJRefresh/MJRefresh.h>
 @interface MainMidController ()<UINavigationControllerDelegate>
-
+{
+    int pageNum;
+    int pageSize;
+}
 @end
 
 @implementation MainMidController
@@ -25,25 +28,45 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _num = (int)_myData.count;
-    [self setupNavigation];
-   // [self setupTableviewHeader:@"我已预约"];
-    [self setupTableviewFootView];
-    [self startRequestInfo];
     
-    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        
-    }];
-    self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
-    }];
-    //[self.tableView.header beginRefreshing];
+    [self setupNavigation];
+    [self setupParams];
+    [self setupMJReflash];
+   // [self setupTableviewHeader:@"我已预约"];
+    //[self setupTableviewFootView];
+    //[self startRequestInfo];
+    
+   
+  //  [self.tableView.header beginRefreshing];
 }
 
 -(void)setupNavigation{
-    self.tableView.layer.masksToBounds=YES;
-    self.tableView.layer.cornerRadius = 5;
+    self.title = @"我已预约";
     self.tableView.backgroundColor = [UIColor whiteColor];
+}
+#pragma mark 设置参数
+-(void)setupParams{
+    _num = (int)_myData.count;
+    pageNum = 0;
+    pageSize = 20;
+
+}
+#pragma mark 设置刷新方法
+-(void)setupMJReflash{
+    self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self->pageNum =0;
+        self->pageSize =(int)self.myData.count;
+        [self startRequestInfoPage];
+    }];
+    if (_myData.count==20) {
+        self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            ++self->pageNum;
+            self->pageSize =(int)self.myData.count+20;
+            [self startRequestInfoPage];
+        }];
+        self.tableView.footer.hidden = YES;
+    }
+   
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,7 +111,8 @@
     if (!cell)
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
     
-    [cell setupCellContent:_myData[0] andType:1];
+    NSLog(@"_myData %@",_myData);
+    [cell setupCellContent:_myData[indexPath.row] andType:1];
     return cell;
 }
 
@@ -124,20 +148,25 @@
 }
 
 #pragma mark 开始请求我已预约项目
--(void)startRequestInfo{
+-(void)startRequestInfoPage{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
                           params:@{@"userId":@(1),
                                    @"token":@"abcdxxa",
                                    @"shopId":@(1),
-                                   @"page":@(0),@"size":@(20)}];
+                                   @"page":@(self->pageNum),@"size":@(self->pageSize)}];
         request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView.header endRefreshing];
+                [self.tableView.footer endRefreshing];
                 if (!err) {
-                    if (myAppointArr){
-                        self.myData =[NSMutableArray arrayWithArray:myAppointArr];
-                        [self reflashTabel:2];
+                    if (myAppointArr.count>0){
+                        if (self->pageNum == 0)//下拉刷新
+                            [self.myData removeAllObjects];
+                        
+                        [self.myData addObjectsFromArray:myAppointArr];
+                        [self reflashTabel:(int)self.myData.count];
                     }
                     else
                         [YIToast showText:tips];

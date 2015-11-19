@@ -112,7 +112,7 @@
 
 -(void)locateStart:(NSDictionary *)launchOptions{
     
-    if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey])
+    //if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey])
         [[YILocationManager sharedInstance]startUpdateUserLoaction];
 }
 

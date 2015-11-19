@@ -16,6 +16,7 @@
         UITableView* tab = [[UITableView alloc]initWithFrame:frame style:UITableViewStylePlain];
         tab.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
         tab.backgroundColor= [UIColor clearColor];
+        tab.scrollEnabled = NO;
         tab.delegate = self;
         tab.dataSource = self;
         [self addSubview:tab];
@@ -39,13 +40,20 @@
 }
 
 -(void)setupTableviewFootView{
-    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,  _midTableview.frame.size.width, 5)];
-    view.image =[UIImage imageNamed:@"main_img_cellF"];
-    _midTableview.tableFooterView = view;
+//    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,  _midTableview.frame.size.width, 5)];
+//    view.image =[UIImage imageNamed:@"main_img_cellF"];
+//    _midTableview.tableFooterView = view;
+    
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, 5)];
+    view.backgroundColor = [UIColor whiteColor];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 5;
+    _midTableview.tableFooterView=view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth*70/320;
+   // return KMainScreenWidth*55/320;
+    return (self.frame.size.height-KMainScreenWidth*0.05-10)/2;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 2;

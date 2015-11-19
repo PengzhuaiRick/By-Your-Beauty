@@ -51,15 +51,15 @@
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation;
         //[locationManager requestAlwaysAuthorization];
 //        if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
-//            [locationManager requestWhenInUseAuthorization];
+            [locationManager requestWhenInUseAuthorization];
 #ifdef IS_IOS8_OR_LATER
         [locationManager requestAlwaysAuthorization];
         locationManager.allowsBackgroundLocationUpdates=YES;
 #endif
-        if ([CLLocationManager significantLocationChangeMonitoringAvailable])
-            [locationManager startMonitoringSignificantLocationChanges];
+//        if ([CLLocationManager significantLocationChangeMonitoringAvailable])
+//            [locationManager startMonitoringSignificantLocationChanges];
         
-       // [locationManager startMonitoringSignificantLocationChanges];
+        [locationManager startMonitoringSignificantLocationChanges];
     }else{
         #ifdef IS_IOS8_OR_LATER
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"定位不成功 ,请确认开启定位" preferredStyle:UIAlertControllerStyleAlert];
@@ -127,26 +127,27 @@
                 city = place.administrativeArea;
                 
             }
-            userLocInfo = [YIUserLocationMessage share];
-            userLocInfo.latitude =[NSString stringWithFormat:@"%f",loca.coordinate.latitude] ;
-            userLocInfo.longitude =[NSString stringWithFormat:@"%f",loca.coordinate.longitude] ;
-            userLocInfo.altitude =[NSString stringWithFormat:@"%f",loca.altitude] ;
+            self->userLocInfo = [YIUserLocationMessage share];
+            self->userLocInfo.latitude =[NSString stringWithFormat:@"%f",loca.coordinate.latitude] ;
+            self->userLocInfo.longitude =[NSString stringWithFormat:@"%f",loca.coordinate.longitude] ;
+            self->userLocInfo.altitude =[NSString stringWithFormat:@"%f",loca.altitude] ;
+          //  NSLog(@"latitude  %f,%f",loca.coordinate.latitude,loca.coordinate.longitude);
             if([self IsChinese:city]){
                 if ([city hasSuffix:@"市直辖市"]) {
-                    userLocInfo.city = [city substringToIndex:city.length-4];
+                    self->userLocInfo.city = [city substringToIndex:city.length-4];
                 }
-                userLocInfo.city = [city substringToIndex:place.locality.length-1];
+                self->userLocInfo.city = [city substringToIndex:place.locality.length-1];
             }
             else
-                userLocInfo.city = city;
+                self->userLocInfo.city = city;
             
-            userLocInfo.state =  place.country;
-            userLocInfo.province = place.administrativeArea;
-            userLocInfo.detailmessage = place.name;
-            self.userLocInfo=userLocInfo;
-            _getLocationMessageBlock(userLocInfo);
+            self->userLocInfo.state =  place.country;
+            self->userLocInfo.province = place.administrativeArea;
+            self->userLocInfo.detailmessage = place.name;
+            self.userLocInfo=self->userLocInfo;
+            self.getLocationMessageBlock(self->userLocInfo);
         }else if(error==nil && placemarks.count==0){;
-            _getLocationMessageBlock(nil);
+            self.getLocationMessageBlock(nil);
             
         }
     }];

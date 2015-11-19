@@ -13,12 +13,15 @@
    
     NSString* URL = [self spliceURL:code];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    for (AFHTTPRequestOperation *operation in manager.operationQueue.operations) {
+        NSLog(@"op.name  %@",operation.request.URL.absoluteString);
+    }
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];
     NSLog(@"%@",ddic);
     [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
-        NSLog(@"%@",[self safeObject:responseObject ForKey:@"tips"]);
+       // NSLog(@"%@",[self safeObject:responseObject ForKey:@"tips"]);
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
             [self requestSucceed:responseObject andIdenCode:code];
         }

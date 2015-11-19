@@ -10,7 +10,7 @@
 
 @implementation UNIAppDeleRequest
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
-    NSLog(@"requestSucceed  %@",dic);
+   // NSLog(@"requestSucceed  %@",dic);
     NSString* param1 = array[0];
     NSString* param2 = array[1];
     

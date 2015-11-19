@@ -11,7 +11,7 @@
 @implementation MainViewRequest
 
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
-    NSLog(@"requestSucceed  %@",dic);
+   // NSLog(@"requestSucceed  %@",dic);
     NSString* param1 = array[0];
     NSString* param2 = array[1];
     
@@ -43,7 +43,7 @@
                     [array addObject:model];
                 }
                 _remyProjectBlock(array,tips,nil);
-            }
+            }else
             _remyProjectBlock(nil,tips,nil);
         }
         //获取商铺信息
