@@ -31,7 +31,7 @@
     UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, KMainScreenWidth*0.05)];
     view.image =[UIImage imageNamed:@"mian_img_cellH"];
     UILabel* lab = [[UILabel alloc]initWithFrame:
-                    CGRectMake(10, 5,  _midTableview.frame.size.width-10, KMainScreenWidth*0.05)];
+                    CGRectMake(10, 2,  _midTableview.frame.size.width-10, KMainScreenWidth*0.05)];
     lab.text=string;
     lab.textColor = [UIColor colorWithHexString:@"575757"];
     lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
@@ -56,7 +56,8 @@
     return (self.frame.size.height-KMainScreenWidth*0.05-10)/2;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    int n = _dataArray.count>=1?2:(int)_dataArray.count;
+    return n ;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* cellName=@"Cell";

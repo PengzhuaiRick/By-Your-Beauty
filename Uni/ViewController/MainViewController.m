@@ -58,9 +58,10 @@
     [self setupScroller];
     [self addChildController];
      //[self addChildController1];
-    [self startRequestShopInfo];
-    [self startRequestAppointInfo];
-    [self startRequestProjectInfo];
+    [self startRequestShopInfo];//请求商家信息
+    [self startRequestReward];//请求约满信息
+    [self startRequestAppointInfo];//请求我已预约
+    [self startRequestProjectInfo];//请求我的项目
 }
 #pragma mark
 -(void)setupNavigation{
@@ -123,7 +124,10 @@
     
     //int sgd = CGRectGetMaxY(_buttomView.frame);//最大高度
     
-    scrollSize= CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
+    int kh = KMainScreenHeight;
+    if (kh<568)
+        kh= 568;
+    scrollSize= CGSizeMake(KMainScreenWidth, kh-64);
     myScroller.contentSize =scrollSize;
 }
 
@@ -244,10 +248,35 @@
     [self addChildViewController:self.buttomController];
 }
 
+#pragma mark 刷新商家信息
+-(void)reflashShopInfo:(UNIShopManage*) manager{
+    if (manager.shopName.length>11) {
+        self->shopNameLab.text = [manager.shopName substringToIndex:11];
+        self->shopAddressLab.text =[manager.shopName substringFromIndex:11];
+    }else{
+        self->shopNameLab.text = manager.shopName;
+        CGRect re =self->shopAddressLab.frame;
+        self->shopAddressLab.hidden=YES;
+        self->VIPImage.frame = CGRectMake(re.origin.x, re.origin.y,
+                                          self->VIPImage.frame.size.width,
+                                          self->VIPImage.frame.size.height);
+    }
+    
+    [self->shopLogo sd_setImageWithURL:[NSURL URLWithString:manager.logoUrl]
+                      placeholderImage:[UIImage imageNamed:@"main_img_shopLog"]];
+
+}
+
 #pragma mark 请求店铺信息
 -(void)startRequestShopInfo{
+    UNIShopManage* shop = [UNIShopManage getShopData];
+    if (shop.shopName) {
+        [self reflashShopInfo:shop];
+        return;
+    }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //AccountManager* manager = [AccountManager shared];
+      
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_ShopInfo]
                           params:@{@"shopId":@(1),
@@ -257,31 +286,21 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (manager) {
-                        if (manager.shopName.length>11) {
-                            self->shopNameLab.text = [manager.shopName substringToIndex:11];
-                            self->shopAddressLab.text =[manager.shopName substringFromIndex:11];
-                        }else{
-                            self->shopNameLab.text = manager.shopName;
-                            CGRect re =self->shopAddressLab.frame;
-                            self->shopAddressLab.hidden=YES;
-                            self->VIPImage.frame = CGRectMake(re.origin.x, re.origin.y,
-                                                              self->VIPImage.frame.size.width,
-                                                               self->VIPImage.frame.size.height);
-                        }
-                        
-                        [self->shopLogo sd_setImageWithURL:[NSURL URLWithString:manager.logoUrl]
-                                          placeholderImage:[UIImage imageNamed:@"main_img_shopLog"]];
+                        [self reflashShopInfo:manager];//刷新商家信息
                     }else
                         [YIToast showText:tips];
-                    
                 }else
                     [YIToast showText:tips];
-                
                 
             });
             
         };
-        
+    });
+}
+
+#pragma mark 请求约满信息
+-(void)startRequestReward{
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //请求约满奖励
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MRInfo]
@@ -326,7 +345,7 @@
             });
         };
     });
-    
+
 }
 
 #pragma mark 开始请求我已预约项目

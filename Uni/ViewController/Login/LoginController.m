@@ -19,6 +19,10 @@
     __weak IBOutlet UIButton *femaleBtn;
     __weak IBOutlet UIButton *codeBtn;         //验证码
     __weak IBOutlet UIButton *loginBtn;
+    __weak IBOutlet UIView *firstView;
+    __weak IBOutlet UIView *secondView;
+    __weak IBOutlet UIView *thirdView;
+    UIImageView *headImge;
     
     RACSignal *phoneSignal;
     RACSignal *codeFieldSignal;
@@ -26,12 +30,15 @@
     
     NSTimer* time;
     int countDown;
+    int imgH;
+    int bShu;
+    int cellH;
 }
 @property (weak, nonatomic) IBOutlet UITableViewCell *secondCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *firstCell;
 @property (weak, nonatomic) IBOutlet UITableViewCell *thirldCell;
 
-@property(nonatomic,assign)int sex;
+@property(nonatomic,assign)int sex; // 男1 女2
 @end
 
 @implementation LoginController
@@ -42,13 +49,54 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _sex = 2;
+    [self setupUI];
     [self setupPhoneField];
     [self setupCodeField];
     [self setupCodeBtn];
     [self setupNikeName];
     [self setupLoginBtn];
+    [self setupSexBtn];
 }
 
+-(void)setupUI{
+    loginBtn.layer.masksToBounds=YES;
+    loginBtn.layer.cornerRadius = 35;
+    
+    UIImage* image1 =[UIImage imageNamed:@"login_btn_sex1"];
+    UIImage* image2 =[UIImage imageNamed:@"login_btn_sex2"];
+    
+    [maleBtn setImage:image2 forState:UIControlStateNormal];
+    [femaleBtn setImage:image2 forState:UIControlStateNormal];
+    
+    [maleBtn setImage:image1 forState:UIControlStateSelected];
+    [femaleBtn setImage:image1 forState:UIControlStateSelected];
+    
+    [maleBtn setImage:image1 forState:UIControlStateHighlighted];
+    [femaleBtn setImage:image1 forState:UIControlStateHighlighted];
+    
+    UIImage* topimage =[UIImage imageNamed:@"login_img_header"];
+    imgH =topimage.size.width*KMainScreenHeight/KMainScreenWidth;
+    int nun = KMainScreenWidth;
+    switch (nun) {
+        case 320:
+            bShu = 0;
+            cellH = 44;
+            break;
+        case 375:
+            bShu = 30;
+            cellH = 55;
+            break;
+        case 414:
+            bShu = 60;
+            cellH = 70;
+            break;
+    }
+    self.tableView.contentInset = UIEdgeInsetsMake(imgH+bShu, 0, 0, 0);
+    headImge = [[UIImageView alloc]initWithFrame:CGRectMake(0, -(imgH+bShu), KMainScreenWidth, imgH)];
+    headImge.image =topimage;
+    headImge.contentMode = UIViewContentModeScaleAspectFill;
+    [self.tableView addSubview:headImge];
+}
 #pragma mark 设置手机号码
 -(void)setupPhoneField{
     UITextField* teft = phoneField;
@@ -270,6 +318,25 @@
         
     }];
 }
+-(void)setupSexBtn{
+    [[maleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(UIButton* x) {
+         self->femaleBtn.selected = NO;
+         x.selected = YES;
+         self.sex = (int)x.tag;
+         NSLog(@"%d",self.sex);
+    }];
+    
+    [[femaleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(UIButton* x) {
+         self->maleBtn.selected = NO;
+         x.selected=YES;
+         self.sex = (int)x.tag;
+         NSLog(@"%d",self.sex);
+
+     }];
+
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -297,7 +364,20 @@
     }
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    CGFloat y = scrollView.contentOffset.y; //如果有导航控制器，这里应该加上导航控制器的高度64
+    if (y< -(imgH+bShu)) {
+        CGRect frame = headImge.frame;
+        frame.origin.y = y;
+        frame.size.height = -y-bShu;
+        headImge.frame = frame;
+    }
+    
+}
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return cellH;
+}
 /*
 #pragma mark - Navigation
 

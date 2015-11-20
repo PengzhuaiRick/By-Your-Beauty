@@ -9,6 +9,8 @@
 #import "ViewController.h"
 #import "MainViewController.h"
 #import "UIActionSheet+Blocks.h"
+#import "UNIShopManage.h"
+#import "YILocationManager.h"
 @interface ViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     CGPoint startPoint;
@@ -74,11 +76,11 @@
         case 0:
             
             break;
-        case 1:
+        case 1://导航到店
             [self callOtherMapApp];
             break;
-        case 2:
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"tel://15017579092"]];
+        case 2://致电商家
+            [self callPhoneToShop];
             break;
         case 3:
             
@@ -141,6 +143,7 @@
     }
 }
 
+#pragma mark 调用其他地图APP
 -(void)callOtherMapApp{
     NSMutableArray* mapsArray = [NSMutableArray arrayWithObjects:@"苹果地图", nil];
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]])
@@ -158,10 +161,17 @@
 
 }
 -(void)selectLocateAppMap:(NSString*)tag{
-    CLLocationCoordinate2D pt = CLLocationCoordinate2DMake(32, 44);
+    YILocationManager* locaMan = [YILocationManager sharedInstance];
+    float myLat = [locaMan.userLocInfo.latitude floatValue];
+    float myLong = [locaMan.userLocInfo.longitude floatValue];
+    CLLocationCoordinate2D pt = CLLocationCoordinate2DMake(myLat, myLong);
     CLLocationCoordinate2D startCoor = pt;
-    CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake(33, 45);
-    NSString *toName = @"";
+    
+    UNIShopManage* shopMan = [UNIShopManage getShopData];
+    float endLat = [shopMan.x floatValue];
+    float endLong = [shopMan.y floatValue];
+    CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake(endLat, endLong);
+    NSString *toName =shopMan.shopName;
     
     
     if ([tag isEqualToString:@"苹果地图"])//苹果地图
@@ -172,7 +182,8 @@
         toLocation.name =toName;
         
         [MKMapItem openMapsWithItems:@[currentAction, toLocation]
-                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,
+                                       MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
         
     }
     if ([tag isEqualToString:@"百度地图"]){
@@ -194,6 +205,12 @@
     }
 }
 
+#pragma mark 调用电话功能
+-(void)callPhoneToShop{
+    UNIShopManage* manager = [UNIShopManage getShopData];
+    NSString* tel = [NSString stringWithFormat:@"tel://%@",manager.telphone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
+}
 
 //-(void)handleSwipe:(UISwipeGestureRecognizer*)swipe{
 //    NSLog(@"谁打我  %lu",(unsigned long)swipe.direction);
