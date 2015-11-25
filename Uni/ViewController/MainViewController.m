@@ -79,15 +79,15 @@
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    float x = self.navigationController.view.frame.origin.x;
+    float x = self.containController.view.frame.origin.x;
     [UIView animateWithDuration:0.2 animations:^{
         if (x==0)
-            self.navigationController.view.frame =
+            self.containController.view.frame =
             CGRectMake(KMainScreenWidth-100,
                                          0,self.view.frame.size.width
                                          ,self.view.frame.size.height);
         else
-            self.navigationController.view.frame =
+            self.containController.view.frame =
             CGRectMake(0,
                        0,self.view.frame.size.width
                        ,self.view.frame.size.height);

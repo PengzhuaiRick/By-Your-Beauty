@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class UNIContainController;
 @interface ViewController : UIViewController{
 }
 
-@property(nonatomic,strong) UINavigationController* tv;
+@property(nonatomic,strong) UNIContainController* tv;
 @end
 

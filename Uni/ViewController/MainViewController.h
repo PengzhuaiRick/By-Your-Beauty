@@ -12,4 +12,5 @@
 
 @property(nonatomic ,strong)UIView* midView;
 @property(nonatomic ,strong)UIView* buttomView;
+@property(nonatomic ,strong)UIViewController* containController;
 @end

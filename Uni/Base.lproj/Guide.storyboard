@@ -78,6 +78,26 @@
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5j5-zB-UMV">
                                                     <rect key="frame" x="30" y="5" width="270" height="40"/>
                                                     <subviews>
+                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" placeholder="请输入手机号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KSr-X9-vkJ">
+                                                            <rect key="frame" x="35" y="8" width="216" height="30"/>
+                                                            <animations/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="30" id="iwi-fO-PPE"/>
+                                                            </constraints>
+                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                            <connections>
+                                                                <outlet property="delegate" destination="272-OT-oaO" id="jzt-XW-pcj"/>
+                                                            </connections>
+                                                        </textField>
+                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qqL-Ih-wfd">
+                                                            <rect key="frame" x="0.0" y="39" width="270" height="1"/>
+                                                            <animations/>
+                                                            <color key="backgroundColor" red="0.76078431372549016" green="0.75686274509803919" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="height" constant="1" id="cB2-l2-sSZ"/>
+                                                            </constraints>
+                                                        </view>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_phone" translatesAutoresizingMaskIntoConstraints="NO" id="jq5-RK-ZHS">
                                                             <rect key="frame" x="0.0" y="14" width="27" height="25"/>
                                                             <animations/>
@@ -86,23 +106,6 @@
                                                                 <constraint firstAttribute="height" constant="25" id="K9y-SF-swt"/>
                                                             </constraints>
                                                         </imageView>
-                                                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="bottom" placeholder="请输入手机号码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KSr-X9-vkJ">
-                                                            <rect key="frame" x="35" y="8" width="216" height="30"/>
-                                                            <animations/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="30" id="iwi-fO-PPE"/>
-                                                            </constraints>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits" keyboardType="namePhonePad"/>
-                                                        </textField>
-                                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qqL-Ih-wfd">
-                                                            <rect key="frame" x="0.0" y="39" width="270" height="1"/>
-                                                            <animations/>
-                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <constraints>
-                                                                <constraint firstAttribute="height" constant="1" id="cB2-l2-sSZ"/>
-                                                            </constraints>
-                                                        </view>
                                                     </subviews>
                                                     <animations/>
                                                     <constraints>
@@ -144,7 +147,10 @@
                                                                 <constraint firstAttribute="height" constant="30" id="v5B-2m-9F5"/>
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                            <textInputTraits key="textInputTraits" keyboardType="namePhonePad"/>
+                                                            <textInputTraits key="textInputTraits"/>
+                                                            <connections>
+                                                                <outlet property="delegate" destination="272-OT-oaO" id="9w8-5j-fnd"/>
+                                                            </connections>
                                                         </textField>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_code" translatesAutoresizingMaskIntoConstraints="NO" id="QN5-Ob-pzH">
                                                             <rect key="frame" x="0.0" y="15" width="27" height="25"/>
@@ -157,7 +163,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gVS-Lx-S39">
                                                             <rect key="frame" x="0.0" y="39" width="140" height="1"/>
                                                             <animations/>
-                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" red="0.76078431372549016" green="0.75686274509803919" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="wOI-86-Tms"/>
                                                             </constraints>
@@ -216,6 +222,9 @@
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                             <textInputTraits key="textInputTraits"/>
+                                                            <connections>
+                                                                <outlet property="delegate" destination="272-OT-oaO" id="pMG-EK-8gC"/>
+                                                            </connections>
                                                         </textField>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_nike" translatesAutoresizingMaskIntoConstraints="NO" id="sbk-J3-SqO">
                                                             <rect key="frame" x="0.0" y="15" width="27" height="25"/>
@@ -228,7 +237,7 @@
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="scp-Wz-Vyv">
                                                             <rect key="frame" x="0.0" y="39" width="140" height="1"/>
                                                             <animations/>
-                                                            <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                            <color key="backgroundColor" red="0.76078431369999999" green="0.75686274509999996" blue="0.75294117650000003" alpha="1" colorSpace="calibratedRGB"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="1" id="vrU-KN-QGU"/>
                                                             </constraints>

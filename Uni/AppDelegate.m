@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import "ViewController.h"
 #import "MainViewController.h"
+#import "UNIContainController.h"
 #import "YILocationManager.h"
 #import "APService.h"
 #import "AccountManager.h"
@@ -68,9 +69,9 @@
     if (first.length>0){
 //        AccountManager* manager = [[AccountManager alloc]init];
 //        if (manager.token.length>1)
-//       [self setupViewController];
+       [self setupViewController];
 //        else
-            [self setupLoginController];
+//            [self setupLoginController];
     }
     else{
         [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];
@@ -91,11 +92,12 @@
 -(void)setupViewController{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
-    MainViewController* tc = [st instantiateViewControllerWithIdentifier:@"MainViewController"];
-    UINavigationController* NAV = [[UINavigationController alloc]initWithRootViewController:tc];
-    UINavigationController* NAV1 = [[UINavigationController alloc]initWithRootViewController:vc];
-    vc.tv = NAV;
-    self.window.rootViewController = NAV1 ;
+    UNIContainController* tc = [st instantiateViewControllerWithIdentifier:@"UNIContainController"];
+    //MainViewController* tc = [st instantiateViewControllerWithIdentifier:@"MainViewController"];
+   // UINavigationController* NAV = [[UINavigationController alloc]initWithRootViewController:tc];
+   // UINavigationController* NAV1 = [[UINavigationController alloc]initWithRootViewController:vc];
+    vc.tv = tc;
+    self.window.rootViewController = vc ;
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController.view.alpha = 0;
     [UIView animateWithDuration:1 animations:^{
@@ -103,6 +105,7 @@
     }];
     
 }
+
 #pragma mark 开始登陆界面
 -(void)setupLoginController{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];

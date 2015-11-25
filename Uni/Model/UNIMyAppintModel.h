@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "UNIBaseModel.h"
 @interface UNIMyAppintModel : UNIBaseModel
-@property(nonatomic,copy)NSString* order ;//预约号
+@property(nonatomic,copy)NSString* myorder ;//预约号
 @property(nonatomic,copy)NSString* projectName;//项目名称
 @property(nonatomic,copy)NSString* logoUrl;// logo地址
 @property(nonatomic,copy)NSString* time;   //预约时间

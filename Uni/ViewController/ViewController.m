@@ -7,16 +7,17 @@
 //
 
 #import "ViewController.h"
-#import "MainViewController.h"
 #import "UIActionSheet+Blocks.h"
 #import "UNIShopManage.h"
 #import "YILocationManager.h"
+#import "UNIContainController.h"
 @interface ViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     CGPoint startPoint;
     CGPoint currentPoint;
     
     NSArray* titleArray;
+    NSArray* imgArray;
 }
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @end
@@ -40,24 +41,39 @@
    }
 
 -(void)setupParams{
-    titleArray = [NSArray arrayWithObjects:@"首页",@"导航到家",@"致电商家",@"我的奖励",@"我的钱包",@"修改密码", nil];
+    titleArray = @[@"首页",
+                   @"导航到家",
+                   @"致电商家",
+                   @"我的奖励",
+                   @"我的钱包",
+                   @"修改密码"];
+    imgArray =@[@"function_img_cell1",
+                @"function_img_cell2",
+                @"function_img_cell3",
+                @"function_img_cell4",
+                @"function_img_cell5",
+                @"function_img_cell6"];
+    
 }
 
 
 -(void)setupTableViewFootview{
     _myTableView.tableFooterView = [UIView new];
 }
--(void)viewWillAppear:(BOOL)animated{
-     self.navigationController.navigationBarHidden=YES;
-}
--(void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.navigationBarHidden=NO;
-}
+//-(void)viewWillAppear:(BOOL)animated{
+//     self.navigationController.navigationBarHidden=YES;
+//}
+//-(void)viewWillDisappear:(BOOL)animated{
+//    self.navigationController.navigationBarHidden=NO;
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return KMainScreenHeight/titleArray.count;
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return titleArray.count;
 }
@@ -68,13 +84,17 @@
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:name];
     }
+    cell.imageView.image = [UIImage imageNamed:imgArray[indexPath.row]];
     cell.textLabel.text = titleArray[indexPath.row];
+    cell.textLabel.textColor = [UIColor colorWithHexString:@"595757"];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.row) {
         case 0:
-            
+            [self closeTheBox];
+            [_tv setupMainController];
             break;
         case 1://导航到店
             [self callOtherMapApp];
@@ -83,13 +103,14 @@
             [self callPhoneToShop];
             break;
         case 3:
-            
+            [self closeTheBox];
+            [_tv setupMyController];
             break;
         case 4:
-            
+            [self closeTheBox];
             break;
         case 5:
-            
+            [self closeTheBox];
             break;
     }
 }
@@ -116,31 +137,30 @@
         float offset = currentPoint.x - startPoint.x;
         if (offset>0) {
             if (offset>80)
-            [UIView animateWithDuration:0.2 animations:^{
-                vv.view.userInteractionEnabled=NO;
-                vv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
-            }];
+                [self openTheBox];
             else
-                [UIView animateWithDuration:0.2 animations:^{
-                   vv.view.userInteractionEnabled=YES;
-                    vv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
-                }];
+                [self closeTheBox];
         }else if (offset<0 ){
             if (offset < -80)
-                [UIView animateWithDuration:0.2 animations:^{
-                  vv.view.userInteractionEnabled=YES;
-                    vv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
-                    
-                }];
+                [self closeTheBox];
             else
-                [UIView animateWithDuration:0.2 animations:^{
-                   vv.view.userInteractionEnabled=NO;
-                   vv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
-                }];
-
-            
+                [self openTheBox];
         }
     }
+}
+-(void)closeTheBox{
+    [UIView animateWithDuration:0.2 animations:^{
+       // self.tv.view.userInteractionEnabled=YES;
+        self.tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
+    }];
+
+}
+-(void)openTheBox{
+    [UIView animateWithDuration:0.2 animations:^{
+        //self.tv.view.userInteractionEnabled=NO;
+        self.tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
+    }];
+
 }
 
 #pragma mark 调用其他地图APP

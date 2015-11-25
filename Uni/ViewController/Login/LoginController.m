@@ -10,7 +10,8 @@
 #import "AppDelegate.h"
 #import "AccountManager.h"
 #import "UNILoginViewRequest.h"
-@interface LoginController (){
+#import "BTKeyboardTool.h"
+@interface LoginController ()<KeyboardToolDelegate>{
     
     __weak IBOutlet UITextField *codeField;    //验证码
     __weak IBOutlet UITextField *phoneField;
@@ -45,7 +46,14 @@
 -(void)viewWillAppear:(BOOL)animated{
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
 }
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIKeyboardWillShowNotification
+                                                 object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIKeyboardWillHideNotification
+                                                 object:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     _sex = 2;
@@ -56,6 +64,8 @@
     [self setupNikeName];
     [self setupLoginBtn];
     [self setupSexBtn];
+    [self addBTkeyBoardTool];
+    [self regirstKeyBoardNotification];
 }
 
 -(void)setupUI{
@@ -75,12 +85,12 @@
     [femaleBtn setImage:image1 forState:UIControlStateHighlighted];
     
     UIImage* topimage =[UIImage imageNamed:@"login_img_header"];
-    imgH =topimage.size.width*KMainScreenHeight/KMainScreenWidth;
+    CGFloat headerH =topimage.size.width*KMainScreenHeight/KMainScreenWidth;
     int nun = KMainScreenWidth;
     switch (nun) {
         case 320:
-            bShu = 0;
-            cellH = 44;
+            bShu = 5;
+            cellH = 47;
             break;
         case 375:
             bShu = 30;
@@ -91,8 +101,9 @@
             cellH = 70;
             break;
     }
-    self.tableView.contentInset = UIEdgeInsetsMake(imgH+bShu, 0, 0, 0);
-    headImge = [[UIImageView alloc]initWithFrame:CGRectMake(0, -(imgH+bShu), KMainScreenWidth, imgH)];
+    imgH =headerH+bShu;
+    self.tableView.contentInset = UIEdgeInsetsMake(imgH, 0, 0, 0);
+    headImge = [[UIImageView alloc]initWithFrame:CGRectMake(0, -imgH, KMainScreenWidth, headerH)];
     headImge.image =topimage;
     headImge.contentMode = UIViewContentModeScaleAspectFill;
     [self.tableView addSubview:headImge];
@@ -176,13 +187,13 @@
     
     codeBtn.enabled = NO;
     [RAC(codeBtn,enabled) = phoneSignal map:^id(NSNumber* value) {
-        NSLog(@"%@",value);
         return value;
     }];
     
     [[codeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
         [LLARingSpinnerView RingSpinnerViewStart];
+         [self.view endEditing:YES];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
          [request postWithSerCode:@[API_PARAM_SSMS,
                                     API_URL_Login]
@@ -198,11 +209,11 @@
                 if (self.thirldCell.alpha==1) {
                     CGRect p1 = self.firstCell.frame;
                     CGRect p2 = self.secondCell.frame;
-                    p1.origin.y+=44;
-                    p2.origin.y+=44;
+                    p1.origin.y+=47;
+                    p2.origin.y+=47;
                     [UIView animateWithDuration:0.5 animations:^{
                         
-                        self.thirldCell.alpha = 0;
+                        self.thirldCell.hidden = YES;
                         self.firstCell.frame = p1;
                         self.secondCell.frame =p2;
                     }];
@@ -212,10 +223,10 @@
                 if (self.thirldCell.alpha == 0) {
                     CGRect p1 = self.firstCell.frame;
                     CGRect p2 = self.secondCell.frame;
-                    p1.origin.y-=44;
-                    p2.origin.y-=44;
+                    p1.origin.y-=47;
+                    p2.origin.y-=47;
                     [UIView animateWithDuration:0.5 animations:^{
-                        self.thirldCell.alpha = 1;
+                        self.thirldCell.hidden =NO;;
                         self.firstCell.frame = p1;
                         self.secondCell.frame =p2;
                     }];
@@ -275,19 +286,20 @@
           return @([phone boolValue]&&[code boolValue]);
     }];
     [[loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(id x) {
+     subscribeNext:^(UIButton* x) {
         [LLARingSpinnerView RingSpinnerViewStart];
-         
+         [self.view endEditing:YES];
          id sx = @(self.sex); //默认性别
-         if (self.thirldCell.alpha==0)
+         if (self.thirldCell.hidden)
              sx=@"";
+         
          else{
              if (self->nikeName.text.length==0) {
                  [YIToast showWithText:@"请输入昵称!"];
                  return ;
              }
-            
          }
+         x.enabled = NO;
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,
                                    API_URL_Login]
@@ -301,6 +313,7 @@
                                  NSString* token,
                                  NSString* tips,
                                  NSError* er){
+            x.enabled = YES;
              [LLARingSpinnerView RingSpinnerViewStop];
             if (er==nil) {
                 //保存信息
@@ -318,6 +331,7 @@
         
     }];
 }
+#pragma mark 设置男女性别按钮
 -(void)setupSexBtn{
     [[maleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
@@ -337,6 +351,105 @@
      }];
 
 }
+#pragma mark 添加键盘BTkeyBoardTool
+-(void)addBTkeyBoardTool{
+    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+    tool.toolDelegate=self;
+    //[tool dismissTwoBtn];
+    phoneField.inputAccessoryView=tool;
+    codeField.inputAccessoryView=tool;
+    nikeName.inputAccessoryView=tool;
+    phoneField.tag = 4;
+    codeField.tag = 5;
+    nikeName.tag = 6;
+}
+-(void)keyboardTool:(BTKeyboardTool*)tool buttonClick:(KeyBoardToolButtonType)type{
+    switch (type)
+    {
+        case kKeyboardToolButtonTypeDone:
+            [self.view endEditing:YES];
+            break;
+        case kKeyboardToolButtonTypeNext:{//下一个
+            UITextField *responder=[self findFirstResponder];
+            //取出下一个响应者
+            int tag =(int)responder.tag+1;
+            if (tag>6)
+                tag=6;
+            UITextField *newResponder=(UITextField*)[self.view viewWithTag:tag];
+            //传递第一响应者
+            [newResponder becomeFirstResponder];}
+            break;
+        case kKeyboardToolButtonTypePervious:{//上一个
+            UITextField *responder=[self findFirstResponder];
+            //取出下一个响应者
+            int tag =(int)responder.tag-1;
+            if (tag<4)
+                tag=4;
+            UITextField *newResponder=(UITextField*)[self.view viewWithTag:tag];
+            //传递第一响应者
+            [newResponder becomeFirstResponder];}
+            break;}
+
+}
+
+#pragma mark 检查当前哪个textField 是第一响应者
+-(UITextField*)findFirstResponder{
+    NSArray* textFields = @[phoneField,codeField,nikeName];
+    for (UITextField* textfield in textFields) {
+        if ([textfield respondsToSelector:@selector(isFirstResponder)]&&[textfield isFirstResponder]) {
+            return textfield;
+        }
+    }
+    return nil;
+}
+
+#pragma mark 注册键盘是事件
+-(void)regirstKeyBoardNotification{
+    //增加监听，当键盘出现或改变时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    //增加监听，当键退出时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+#pragma mark 键盘出现
+-(void)keyboardWillShow:(NSNotification*)notifi{
+    CGRect re =CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
+
+    NSDictionary *info = [notifi userInfo];
+    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGSize keyboardSize = [value CGRectValue].size;
+
+    UITextField* field = [self findFirstResponder];
+    switch (field.tag) {
+        case 4:{
+            float xx = imgH+cellH+keyboardSize.height-KMainScreenHeight;
+            if (xx>0) {
+                re.origin.y-=xx;
+                self.tableView.frame = re;}}
+            break;
+        case 5:{
+            float xx = imgH+cellH*2+keyboardSize.height-KMainScreenHeight;
+            if (xx>0) {
+                re.origin.y-=xx;
+                self.tableView.frame = re;}}
+            break;
+        case 6:{
+            float xx = imgH+cellH*3+keyboardSize.height-KMainScreenHeight;
+            if (xx>0) {
+                re.origin.y-=xx;
+                self.tableView.frame = re;}}
+            break;}
+}
+#pragma mark 键盘隐藏
+-(void)keyboardWillHide:(NSNotification*)notifi{
+    self.tableView.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -355,18 +468,15 @@
     NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
     
     if (([regextestcu evaluateWithObject:mobileNum] == YES))
-    {
         return YES;
-    }
     else
-    {
         return NO;
-    }
+    
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat y = scrollView.contentOffset.y; //如果有导航控制器，这里应该加上导航控制器的高度64
-    if (y< -(imgH+bShu)) {
+    if (y< -imgH) {
         CGRect frame = headImge.frame;
         frame.origin.y = y;
         frame.size.height = -y-bShu;
@@ -378,14 +488,5 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return cellH;
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
