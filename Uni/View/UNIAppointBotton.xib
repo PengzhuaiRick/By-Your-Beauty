@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIView"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="UNIAppointBotton">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="170"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fos-Fo-vNQ">
+                    <rect key="frame" x="135" y="0.0" width="50" height="50"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <state key="normal" title="添加项目"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WXj-Ha-doY">
+                    <rect key="frame" x="125" y="100" width="70" height="70"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="确定预约" backgroundImage="appoint_btn_sure"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y0K-ts-0v7">
+                    <rect key="frame" x="4" y="65" width="140" height="26"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                    <state key="normal" title=" 如需取消请提前致电商家" image="appoint_btn_xunwen">
+                        <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="人数" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DF9-nl-gSQ">
+                    <rect key="frame" x="189" y="68" width="30" height="21"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zuo-EX-RUO">
+                    <rect key="frame" x="277" y="67" width="25" height="21"/>
+                    <animations/>
+                    <state key="normal" title="Button" image="appoint_btn_jia"/>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="o25-pX-wvk">
+                    <rect key="frame" x="221" y="67" width="25" height="21"/>
+                    <animations/>
+                    <state key="normal" title="Button" image="appoint_btn_jian"/>
+                </button>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="526-wv-aWB">
+                    <rect key="frame" x="247" y="63" width="28" height="30"/>
+                    <animations/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                </textField>
+            </subviews>
+            <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="addProBtn" destination="Fos-Fo-vNQ" id="i0q-Ww-M0c"/>
+                <outlet property="jiaBtn" destination="zuo-EX-RUO" id="Gy9-Og-efm"/>
+                <outlet property="jianBnt" destination="o25-pX-wvk" id="FzS-lh-uYP"/>
+                <outlet property="nunField" destination="526-wv-aWB" id="pPG-50-m9U"/>
+                <outlet property="sureBtn" destination="WXj-Ha-doY" id="0nq-sd-iVl"/>
+                <outlet property="xunzhiBtn" destination="y0K-ts-0v7" id="tfY-JN-N5C"/>
+            </connections>
+            <point key="canvasLocation" x="472" y="116"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="appoint_btn_jia" width="30" height="26"/>
+        <image name="appoint_btn_jian" width="30" height="26"/>
+        <image name="appoint_btn_sure" width="70" height="69"/>
+        <image name="appoint_btn_xunwen" width="10" height="10"/>
+    </resources>
+</document>

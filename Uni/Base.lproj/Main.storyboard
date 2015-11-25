@@ -630,6 +630,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yDz-xW-nve"/>
+                    <connections>
+                        <outlet property="myScroller" destination="jbs-3S-Bd8" id="ORU-lh-QVi"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VwE-SB-LV1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

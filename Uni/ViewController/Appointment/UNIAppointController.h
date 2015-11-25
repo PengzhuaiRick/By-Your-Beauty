@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIAppointController : UIViewController
+@property (weak, nonatomic) IBOutlet UIScrollView *myScroller;
 
 @end

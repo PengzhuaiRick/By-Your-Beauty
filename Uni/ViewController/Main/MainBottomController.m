@@ -11,6 +11,7 @@
 #import "MainMidCell.h"
 #import "MainViewRequest.h"
 #import <MJRefresh/MJRefresh.h>
+#import "UNIAppointController.h"
 @interface MainBottomController ()<UINavigationControllerDelegate>
 {
     int pageNum;
@@ -102,6 +103,10 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+    [self.navigationController pushViewController:appoint animated:YES];
+
 }
 
 -(void)reflashTabel:(int)Num{
@@ -125,7 +130,8 @@
                                    animationControllerForOperation:(UINavigationControllerOperation)operation
                                                 fromViewController:(UIViewController *)fromVC
                                                   toViewController:(UIViewController *)toVC{
-    
+    if ([toVC isKindOfClass:[UNIAppointController class]])
+        return nil;
     MainMidMoveBackTransition *inverseTransition = [[MainMidMoveBackTransition alloc]init];
     return inverseTransition;
     
