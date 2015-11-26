@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="f3E-7i-CEI" customClass="UNIMyAppointCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="70"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="f3E-7i-CEI" id="2ct-yH-jAh">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nsf-n5-Woj">
+                        <rect key="frame" x="8" y="10" width="50" height="50"/>
+                        <animations/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iuA-4p-Nkv">
+                        <rect key="frame" x="66" y="10" width="188" height="21"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Snl-8m-IgB">
+                        <rect key="frame" x="66" y="39" width="188" height="21"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HDO-f9-drI">
+                        <rect key="frame" x="262" y="10" width="50" height="50"/>
+                        <animations/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <state key="normal" title="选 择" backgroundImage="appoint_btn_sure"/>
+                    </button>
+                </subviews>
+                <animations/>
+                <constraints>
+                    <constraint firstItem="iuA-4p-Nkv" firstAttribute="leading" secondItem="nsf-n5-Woj" secondAttribute="trailing" constant="8" id="3md-NW-rNh"/>
+                    <constraint firstAttribute="bottom" secondItem="Snl-8m-IgB" secondAttribute="bottom" constant="9" id="6KG-cy-WcX"/>
+                    <constraint firstItem="iuA-4p-Nkv" firstAttribute="top" secondItem="2ct-yH-jAh" secondAttribute="topMargin" constant="2" id="9IP-Ru-p2p"/>
+                    <constraint firstItem="HDO-f9-drI" firstAttribute="leading" secondItem="Snl-8m-IgB" secondAttribute="trailing" constant="8" id="A8z-kn-8Mv"/>
+                    <constraint firstItem="HDO-f9-drI" firstAttribute="width" secondItem="nsf-n5-Woj" secondAttribute="height" multiplier="1:1" id="C9N-fN-74Q"/>
+                    <constraint firstItem="HDO-f9-drI" firstAttribute="top" secondItem="2ct-yH-jAh" secondAttribute="top" constant="10" id="EEd-cu-AI6"/>
+                    <constraint firstAttribute="bottom" secondItem="HDO-f9-drI" secondAttribute="bottom" constant="9" id="HYM-Gs-DUn"/>
+                    <constraint firstItem="Snl-8m-IgB" firstAttribute="top" secondItem="iuA-4p-Nkv" secondAttribute="bottom" constant="8" id="IYB-QG-Gry"/>
+                    <constraint firstItem="nsf-n5-Woj" firstAttribute="top" secondItem="2ct-yH-jAh" secondAttribute="top" constant="10" id="MbI-gm-3Hd"/>
+                    <constraint firstItem="HDO-f9-drI" firstAttribute="height" secondItem="nsf-n5-Woj" secondAttribute="height" id="TON-wD-P73"/>
+                    <constraint firstAttribute="bottom" secondItem="nsf-n5-Woj" secondAttribute="bottom" constant="9" id="d6y-zL-nqP"/>
+                    <constraint firstItem="HDO-f9-drI" firstAttribute="leading" secondItem="iuA-4p-Nkv" secondAttribute="trailing" constant="8" id="e5c-Ot-VW9"/>
+                    <constraint firstItem="nsf-n5-Woj" firstAttribute="leading" secondItem="2ct-yH-jAh" secondAttribute="leading" constant="8" id="gqc-kG-QPf"/>
+                    <constraint firstItem="HDO-f9-drI" firstAttribute="width" secondItem="nsf-n5-Woj" secondAttribute="width" id="iGQ-k1-tuD"/>
+                    <constraint firstAttribute="trailing" secondItem="HDO-f9-drI" secondAttribute="trailing" constant="8" id="lX7-AP-pix"/>
+                    <constraint firstItem="Snl-8m-IgB" firstAttribute="leading" secondItem="nsf-n5-Woj" secondAttribute="trailing" constant="8" id="mFh-D1-gSh"/>
+                    <constraint firstItem="iuA-4p-Nkv" firstAttribute="height" secondItem="Snl-8m-IgB" secondAttribute="height" id="qM0-ac-j0z"/>
+                </constraints>
+            </tableViewCellContentView>
+            <animations/>
+            <connections>
+                <outlet property="functionBtn" destination="HDO-f9-drI" id="2Pf-80-8bA"/>
+                <outlet property="mainImg" destination="nsf-n5-Woj" id="mnu-Rm-DMG"/>
+                <outlet property="mainLab" destination="iuA-4p-Nkv" id="tdX-gr-QJa"/>
+                <outlet property="subLab" destination="Snl-8m-IgB" id="iw9-E6-JHe"/>
+            </connections>
+            <point key="canvasLocation" x="370" y="255"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="appoint_btn_sure" width="70" height="69"/>
+    </resources>
+</document>

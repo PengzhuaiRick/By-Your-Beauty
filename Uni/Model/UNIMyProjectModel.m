@@ -24,5 +24,7 @@
     self.desc = [self safeObject:dic ForKey:@"desc"];
     self.status = [[self safeObject:dic ForKey:@"status"]intValue];
     self.num = [[self safeObject:dic ForKey:@"num"]intValue];
+    self.projectId = [[self safeObject:dic ForKey:@"projectId"]intValue];
+    self.costTime = [[self safeObject:dic ForKey:@"costTime"]intValue];
 }
 @end

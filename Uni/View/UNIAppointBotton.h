@@ -10,7 +10,7 @@
 #import "BTKeyboardTool.h"
 @interface UNIAppointBotton : UIView<KeyboardToolDelegate>
 @property (assign, nonatomic) int member;//人数
-@property (weak, nonatomic) IBOutlet UIButton *addProBtn;//添加项目按钮
+
 @property (weak, nonatomic) IBOutlet UITextField *nunField;
 @property (weak, nonatomic) IBOutlet UIButton *sureBtn;
 @property (weak, nonatomic) IBOutlet UIButton *jiaBtn;

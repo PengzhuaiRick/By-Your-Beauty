@@ -7,7 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIView"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="UNIAppointTop">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="250"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="210"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUc-Em-E3s">
@@ -42,7 +42,7 @@
                     </constraints>
                 </scrollView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TcN-zV-FKB">
-                    <rect key="frame" x="0.0" y="50" width="35" height="200"/>
+                    <rect key="frame" x="0.0" y="50" width="35" height="160"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="GXn-ho-iQB"/>
@@ -53,7 +53,7 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAK-Az-LpV">
-                    <rect key="frame" x="285" y="50" width="35" height="200"/>
+                    <rect key="frame" x="285" y="50" width="35" height="160"/>
                     <animations/>
                     <constraints>
                         <constraint firstAttribute="width" constant="35" id="KOj-70-53G"/>
@@ -64,11 +64,12 @@
                     </state>
                 </button>
                 <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WjI-au-onA">
-                    <rect key="frame" x="35" y="50" width="250" height="200"/>
+                    <rect key="frame" x="35" y="50" width="250" height="160"/>
                     <animations/>
                 </scrollView>
             </subviews>
             <animations/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="gAK-Az-LpV" secondAttribute="trailing" id="1SA-K2-jbc"/>
                 <constraint firstItem="gAK-Az-LpV" firstAttribute="top" secondItem="euy-6D-Wmx" secondAttribute="bottom" constant="5" id="2vF-CG-VX8"/>
@@ -102,7 +103,7 @@
                 <outlet property="topRightBtn" destination="euy-6D-Wmx" id="uYq-Ro-ZiH"/>
                 <outlet property="topScroller" destination="EHv-TX-fmr" id="UxU-o6-I5T"/>
             </connections>
-            <point key="canvasLocation" x="483" y="115"/>
+            <point key="canvasLocation" x="483" y="95"/>
         </view>
     </objects>
     <resources>

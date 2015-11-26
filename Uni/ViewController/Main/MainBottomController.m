@@ -105,6 +105,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+    appoint.model = _myData[indexPath.row];
     [self.navigationController pushViewController:appoint animated:YES];
 
 }

@@ -13,24 +13,6 @@
 
 -(void)setupUI{
     self.member =1;
-    [self.addProBtn setBackgroundColor:[UIColor colorWithHexString:@"c2c1c0"]];
-    self.addProBtn.layer.masksToBounds=YES;
-    self.addProBtn.layer.cornerRadius = 25;
-    
-    [[self.jiaBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(UIButton* x) {
-         self.member++;
-         self.nunField.text = [NSString stringWithFormat:@"%d",self.member];
-     }];
-    
-    [[self.jianBnt rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(UIButton* x) {
-         if (self.member >1) 
-             self.member--;
-         self.nunField.text = [NSString stringWithFormat:@"%d",self.member];
-     }];
-    
-    
     BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
     tool.toolDelegate=self;
     [tool dismissTwoBtn];

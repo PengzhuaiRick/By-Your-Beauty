@@ -16,6 +16,7 @@
 @property(nonatomic,assign)float shopPrice; //本店价格
 @property(nonatomic,assign)int status;// 状态
 @property(nonatomic,assign)int num;// 剩余数量
-
+@property(nonatomic,assign)int costTime;//服务时长
+@property(nonatomic,assign)int projectId;//项目id
 -(id)initWithDic:(NSDictionary*)dic;
 @end

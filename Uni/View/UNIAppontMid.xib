@@ -7,42 +7,43 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UIView"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="UNIAppontMid">
-            <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
+            <rect key="frame" x="0.0" y="0.0" width="320" height="160"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  预约项目" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ne2-ug-AGv">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="30"/>
-                    <animations/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="30" id="E0y-fq-67x"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Cag-Wb-YlH">
-                    <rect key="frame" x="0.0" y="30" width="320" height="120"/>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Cag-Wb-YlH">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="120"/>
                     <animations/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                 </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XSZ-tx-TSS">
+                    <rect key="frame" x="0.0" y="120" width="320" height="40"/>
+                    <animations/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="40" id="Lze-Pb-kgL"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <state key="normal" title="添加项目">
+                        <color key="titleColor" red="0.76078431372549016" green="0.75686274509803919" blue="0.75294117647058822" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
             </subviews>
             <animations/>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
-                <constraint firstItem="ne2-ug-AGv" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="1HW-Y7-aMI"/>
-                <constraint firstItem="Cag-Wb-YlH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="1ZZ-Ed-0pd"/>
-                <constraint firstAttribute="trailing" secondItem="ne2-ug-AGv" secondAttribute="trailing" id="8ir-ua-a4S"/>
-                <constraint firstItem="Cag-Wb-YlH" firstAttribute="top" secondItem="ne2-ug-AGv" secondAttribute="bottom" id="Yem-hI-sLI"/>
-                <constraint firstAttribute="trailing" secondItem="Cag-Wb-YlH" secondAttribute="trailing" id="gdH-fy-ypw"/>
-                <constraint firstItem="ne2-ug-AGv" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xb1-Fg-6TC"/>
-                <constraint firstAttribute="bottom" secondItem="Cag-Wb-YlH" secondAttribute="bottom" id="zPh-MR-RDD"/>
+                <constraint firstItem="Cag-Wb-YlH" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="3vd-0m-ohI"/>
+                <constraint firstAttribute="trailing" secondItem="XSZ-tx-TSS" secondAttribute="trailing" id="7SH-Yq-Kay"/>
+                <constraint firstItem="XSZ-tx-TSS" firstAttribute="top" secondItem="Cag-Wb-YlH" secondAttribute="bottom" id="Fl8-pv-XUg"/>
+                <constraint firstItem="Cag-Wb-YlH" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Rp6-IS-9AN"/>
+                <constraint firstAttribute="bottom" secondItem="XSZ-tx-TSS" secondAttribute="bottom" id="fdA-b9-6mC"/>
+                <constraint firstItem="XSZ-tx-TSS" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="rhQ-q7-qh6"/>
+                <constraint firstAttribute="trailing" secondItem="Cag-Wb-YlH" secondAttribute="trailing" id="unu-Cp-4h4"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
+                <outlet property="addProBtn" destination="XSZ-tx-TSS" id="XpB-3e-K8U"/>
                 <outlet property="myTableView" destination="Cag-Wb-YlH" id="vv7-Df-q0J"/>
-                <outlet property="topLab" destination="ne2-ug-AGv" id="2Ly-jx-1md"/>
             </connections>
-            <point key="canvasLocation" x="461" y="342"/>
+            <point key="canvasLocation" x="461" y="337"/>
         </view>
     </objects>
 </document>

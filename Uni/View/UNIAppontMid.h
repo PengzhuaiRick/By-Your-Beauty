@@ -7,11 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIAppontMid : UIView<UITableViewDataSource,UITableViewDelegate>
-@property (weak, nonatomic) IBOutlet UILabel *topLab;
+#import "UNIMyAppointCell.h"
+@interface UNIAppontMid : UIView<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate>
+@property (strong ,nonatomic)NSMutableArray* myData;
+@property (weak, nonatomic) IBOutlet UIButton *addProBtn;//添加项目按钮
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 
 
 -(void)setupUI;
+
+//添加项目 刷新列表
+-(void)addProject:(id)model;
 @end

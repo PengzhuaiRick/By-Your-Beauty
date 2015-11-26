@@ -51,4 +51,10 @@
 //奖励信息接口
 #define API_URL_MRInfo @"myRewardInfo"
 
+//获取可选时间接口
+#define API_URL_GetFreeTime @"getFreeTime"
+
+//确认预约接口
+#define API_URL_SetAppoint @"setAppoint"
+
 #endif /* URLconfig_h */
