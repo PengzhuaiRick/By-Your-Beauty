@@ -9,8 +9,14 @@
 #import "UNIMyPojectList.h"
 #import "UNIMyAppointCell.h"
 #import "MainViewRequest.h"
-@interface UNIMyPojectList ()<UITableViewDataSource,UITableViewDelegate>
 
+#define CELLH KMainScreenWidth*60/320
+#define MAXTABLEH KMainScreenHeight-64-16  //tableview最大高度
+@interface UNIMyPojectList ()<UITableViewDataSource,UITableViewDelegate>{
+    UIButton* needKnowBtn;//需知按钮
+    CGRect tableRect;//
+    CGRect btnRect;
+}
 @end
 
 
@@ -23,12 +29,14 @@
     [self startRequestInfo];
 }
 -(void)setupData{
+    
     self.title = @"我的项目";
     _myData = [NSMutableArray array];
      self.view.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
 }
 -(void)setupTableView{
-    _myTableview = [[UITableView alloc]initWithFrame: CGRectMake(8, 64+8, KMainScreenWidth-16, KMainScreenHeight-64-16)
+    tableRect =CGRectMake(8, 64+8, KMainScreenWidth-16,MAXTABLEH);
+    _myTableview = [[UITableView alloc]initWithFrame:tableRect
                                                style:UITableViewStylePlain];
     _myTableview.layer.masksToBounds = YES;
     _myTableview.layer.cornerRadius = 5;
@@ -42,7 +50,8 @@
     NSString* btnT = @"项目根据美容院预约安排,如果您的项目不能连续预约,请选择其他时间进行预约";
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setBackgroundColor:[UIColor clearColor]];
-    btn.frame = CGRectMake(8, KMainScreenHeight-30, _myTableview.frame.size.width, 30);
+    btnRect =  CGRectMake(8, KMainScreenHeight-30, _myTableview.frame.size.width, 30);
+    btn.frame =btnRect;
     [btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
     [btn setTitle:btnT forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
@@ -54,9 +63,10 @@
     btn.layer.borderWidth = 0.5;
     btn.layer.borderColor = [UIColor blackColor].CGColor;
     [self.view addSubview:btn];
+    needKnowBtn = btn;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 60;
+    return CELLH;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -112,7 +122,7 @@
 //                            [self.myData removeAllObjects];
 //                        
                        [self.myData addObjectsFromArray:myProjectArr];
-                        [self.myTableview reloadData];
+                        [self modificationUI];
                     }
                     else
                         [YIToast showText:tips];
@@ -126,7 +136,18 @@
 }
 
 -(void)modificationUI{
+    float h = _myData.count*CELLH;
+    float th = 0;
+    if(h>MAXTABLEH)
+        th = MAXTABLEH;
+    else
+        th = h;
+    tableRect.size.height = th;
+    self.myTableview.frame =tableRect;
+    [self.myTableview reloadData];
     
+    needKnowBtn.frame =
+    CGRectMake(btnRect.origin.x, CGRectGetMaxY(_myTableview.frame), btnRect.size.width, btnRect.size.height);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

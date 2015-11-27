@@ -11,7 +11,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="y0K-ts-0v7">
-                    <rect key="frame" x="0.0" y="8" width="140" height="26"/>
+                    <rect key="frame" x="0.0" y="5" width="140" height="26"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <animations/>
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>

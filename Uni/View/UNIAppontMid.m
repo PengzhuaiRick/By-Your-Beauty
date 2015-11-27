@@ -9,14 +9,48 @@
 #import "UNIAppontMid.h"
 
 @implementation UNIAppontMid
--(void)setupUI{
+-(id)initWithFrame:(CGRect)frame{
+    self=[super initWithFrame:frame];
+    if (self) {
+        [self setupUI:frame];
+    }
+    return self;
+}
+
+-(void)setupUI:(CGRect)frame{
     _myData = [NSMutableArray array];
-    _myTableView.dataSource=self;
-    _myTableView.delegate=self;
+    
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, KMainScreenWidth*0.05)];
+    view.image =[UIImage imageNamed:@"mian_img_cellH"];
+    UILabel* lab = [[UILabel alloc]initWithFrame:
+                    CGRectMake(10, 2,  self.frame.size.width-10, KMainScreenWidth*0.05)];
+    lab.text=@"预约项目";
+    lab.textColor = [UIColor colorWithHexString:@"575757"];
+    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+    [view addSubview:lab];
+    [self addSubview: view];
+    
+    _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(view.frame), self.frame.size.width, self.frame.size.height-CGRectGetMaxY(view.frame)-40) style:UITableViewStylePlain];
+    _myTableView.delegate = self;
+    _myTableView.dataSource = self;
+    [self addSubview:_myTableView];
+    
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame), self.frame.size.width, 35);
+    [btn setTitle:@"添加项目" forState:UIControlStateNormal];
+    [btn setBackgroundColor:[UIColor whiteColor]];
+    [btn setTitleColor:[UIColor colorWithHexString:@"c2c1c0"] forState:UIControlStateNormal];
+    [self addSubview:btn];
+    _addProBtn = btn;
+    
+    UIImageView* view1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(btn.frame),  self.frame.size.width, 5)];
+    view1.image =[UIImage imageNamed:@"main_img_cellF"];
+    [self addSubview:view1];
+
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return (self.frame.size.height-30)/2;
+    return KMainScreenWidth*60/320;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

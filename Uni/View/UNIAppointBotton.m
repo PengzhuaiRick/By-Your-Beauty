@@ -12,7 +12,7 @@
 
 
 -(void)setupUI{
-    self.member =1;
+    
     BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
     tool.toolDelegate=self;
     [tool dismissTwoBtn];
@@ -21,7 +21,7 @@
         NSLog(@"%@",x);
     }];
     
-    //[self regirstKeyBoardNotification];
+    self.xunzhiBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*10/320];
 }
 
 -(void)keyboardTool:(BTKeyboardTool *)tool buttonClick:(KeyBoardToolButtonType)type{

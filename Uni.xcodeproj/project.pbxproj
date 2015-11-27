@@ -36,7 +36,6 @@
 		18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A101BF49BDF000AE604 /* YIToast.m */; settings = {ASSET_TAGS = (); }; };
 		18C315681BFDCDF600B8438E /* UIActionSheet+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */; settings = {ASSET_TAGS = (); }; };
 		18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C57CE11C05933D00E30B87 /* UNIAppontMid.m */; settings = {ASSET_TAGS = (); }; };
-		18C57CE41C05934B00E30B87 /* UNIAppontMid.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C57CE31C05934B00E30B87 /* UNIAppontMid.xib */; settings = {ASSET_TAGS = (); }; };
 		18C57CE71C05B04300E30B87 /* UNIAppointBotton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C57CE61C05B04300E30B87 /* UNIAppointBotton.m */; settings = {ASSET_TAGS = (); }; };
 		18C57CE91C05B05300E30B87 /* UNIAppointBotton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C57CE81C05B05300E30B87 /* UNIAppointBotton.xib */; settings = {ASSET_TAGS = (); }; };
 		18C73A7B1C069B1300A3A4CA /* UNIMypointRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C73A7A1C069B1300A3A4CA /* UNIMypointRequest.m */; settings = {ASSET_TAGS = (); }; };
@@ -155,7 +154,6 @@
 		18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Blocks.m"; sourceTree = "<group>"; };
 		18C57CE01C05933D00E30B87 /* UNIAppontMid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppontMid.h; sourceTree = "<group>"; };
 		18C57CE11C05933D00E30B87 /* UNIAppontMid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppontMid.m; sourceTree = "<group>"; };
-		18C57CE31C05934B00E30B87 /* UNIAppontMid.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIAppontMid.xib; sourceTree = "<group>"; };
 		18C57CE51C05B04300E30B87 /* UNIAppointBotton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppointBotton.h; sourceTree = "<group>"; };
 		18C57CE61C05B04300E30B87 /* UNIAppointBotton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppointBotton.m; sourceTree = "<group>"; };
 		18C57CE81C05B05300E30B87 /* UNIAppointBotton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIAppointBotton.xib; sourceTree = "<group>"; };
@@ -379,7 +377,6 @@
 				18E14C331C04721300AA36C8 /* UNIAppointTop.xib */,
 				18C57CE01C05933D00E30B87 /* UNIAppontMid.h */,
 				18C57CE11C05933D00E30B87 /* UNIAppontMid.m */,
-				18C57CE31C05934B00E30B87 /* UNIAppontMid.xib */,
 				18C57CE51C05B04300E30B87 /* UNIAppointBotton.h */,
 				18C57CE61C05B04300E30B87 /* UNIAppointBotton.m */,
 				18C57CE81C05B05300E30B87 /* UNIAppointBotton.xib */,
@@ -737,7 +734,6 @@
 			files = (
 				18E14C341C04721300AA36C8 /* UNIAppointTop.xib in Resources */,
 				18CCA0171C02B84000B90092 /* BTKeyboardTool.xib in Resources */,
-				18C57CE41C05934B00E30B87 /* UNIAppontMid.xib in Resources */,
 				18C745961BF0334E000062AF /* Guide.storyboard in Resources */,
 				180CD3971BDF180A00C912FE /* LaunchScreen.storyboard in Resources */,
 				18C745B81BF07EE4000062AF /* PushConfig.plist in Resources */,

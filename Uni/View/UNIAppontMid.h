@@ -10,11 +10,12 @@
 #import "UNIMyAppointCell.h"
 @interface UNIAppontMid : UIView<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate>
 @property (strong ,nonatomic)NSMutableArray* myData;
-@property (weak, nonatomic) IBOutlet UIButton *addProBtn;//添加项目按钮
-@property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (strong, nonatomic)  UIButton *addProBtn;//添加项目按钮
+@property (strong, nonatomic)  UITableView *myTableView;
 
 
--(void)setupUI;
+
+//-(void)setupUI:(CGRect)frame;
 
 //添加项目 刷新列表
 -(void)addProject:(id)model;

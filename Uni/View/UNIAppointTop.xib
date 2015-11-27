@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
@@ -10,90 +10,73 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="210"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <subviews>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JUc-Em-E3s">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JUc-Em-E3s">
                     <rect key="frame" x="0.0" y="0.0" width="35" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <animations/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="35" id="B2Y-ad-Eql"/>
-                        <constraint firstAttribute="height" constant="45" id="qVL-5c-pyu"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <state key="normal" image="appoint_btn_leftTop">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="euy-6D-Wmx">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="euy-6D-Wmx">
                     <rect key="frame" x="285" y="0.0" width="35" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                     <animations/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="K08-Yi-d7z"/>
-                        <constraint firstAttribute="width" constant="35" id="YRB-BN-NOT"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <state key="normal" image="appoint_btn_rightTop">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EHv-TX-fmr">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="EHv-TX-fmr">
                     <rect key="frame" x="35" y="0.0" width="250" height="45"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <animations/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="45" id="udU-Ja-Hhk"/>
-                    </constraints>
                 </scrollView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TcN-zV-FKB">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="TcN-zV-FKB">
                     <rect key="frame" x="0.0" y="50" width="35" height="160"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <animations/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="35" id="GXn-ho-iQB"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <state key="normal" image="appoint_btn_midLeft">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gAK-Az-LpV">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gAK-Az-LpV">
                     <rect key="frame" x="285" y="50" width="35" height="160"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <animations/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="35" id="KOj-70-53G"/>
-                    </constraints>
                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                     <state key="normal" image="appoint_btn_midRight">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WjI-au-onA">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="WjI-au-onA">
                     <rect key="frame" x="35" y="50" width="250" height="160"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                     <animations/>
                 </scrollView>
+                <view contentMode="scaleToFill" id="Crd-JR-fIJ">
+                    <rect key="frame" x="34" y="0.0" width="1" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" id="y4T-UA-aI8">
+                    <rect key="frame" x="286" y="0.0" width="1" height="45"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" id="nEw-9a-ixv">
+                    <rect key="frame" x="0.0" y="44" width="320" height="1"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                    <animations/>
+                    <color key="backgroundColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
             </subviews>
             <animations/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstAttribute="trailing" secondItem="gAK-Az-LpV" secondAttribute="trailing" id="1SA-K2-jbc"/>
-                <constraint firstItem="gAK-Az-LpV" firstAttribute="top" secondItem="euy-6D-Wmx" secondAttribute="bottom" constant="5" id="2vF-CG-VX8"/>
-                <constraint firstItem="euy-6D-Wmx" firstAttribute="leading" secondItem="EHv-TX-fmr" secondAttribute="trailing" id="5g4-Iz-hG4"/>
-                <constraint firstAttribute="trailing" secondItem="euy-6D-Wmx" secondAttribute="trailing" id="6dB-aH-DQt"/>
-                <constraint firstItem="WjI-au-onA" firstAttribute="top" secondItem="EHv-TX-fmr" secondAttribute="bottom" constant="5" id="BKg-qw-1RR"/>
-                <constraint firstItem="JUc-Em-E3s" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JYH-79-xEZ"/>
-                <constraint firstAttribute="bottom" secondItem="TcN-zV-FKB" secondAttribute="bottom" id="Jqq-qG-Lb7"/>
-                <constraint firstItem="WjI-au-onA" firstAttribute="top" secondItem="EHv-TX-fmr" secondAttribute="bottom" constant="5" id="TKr-vK-UjH"/>
-                <constraint firstAttribute="bottom" secondItem="gAK-Az-LpV" secondAttribute="bottom" id="WzU-v6-lYb"/>
-                <constraint firstItem="gAK-Az-LpV" firstAttribute="leading" secondItem="WjI-au-onA" secondAttribute="trailing" id="XsD-Yq-q82"/>
-                <constraint firstItem="EHv-TX-fmr" firstAttribute="leading" secondItem="JUc-Em-E3s" secondAttribute="trailing" id="aNg-KV-4Fw"/>
-                <constraint firstItem="euy-6D-Wmx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="bT4-zo-3wW"/>
-                <constraint firstAttribute="bottom" secondItem="WjI-au-onA" secondAttribute="bottom" id="g0r-RI-oyt"/>
-                <constraint firstItem="TcN-zV-FKB" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="gvQ-FT-EXj"/>
-                <constraint firstItem="JUc-Em-E3s" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="kUI-LX-SL7"/>
-                <constraint firstItem="TcN-zV-FKB" firstAttribute="top" secondItem="JUc-Em-E3s" secondAttribute="bottom" constant="5" id="lCr-FF-U7v"/>
-                <constraint firstItem="WjI-au-onA" firstAttribute="leading" secondItem="TcN-zV-FKB" secondAttribute="trailing" id="mt7-vs-ayC"/>
-                <constraint firstItem="gAK-Az-LpV" firstAttribute="top" secondItem="euy-6D-Wmx" secondAttribute="bottom" constant="5" id="nEc-I0-e3N"/>
-                <constraint firstItem="gAK-Az-LpV" firstAttribute="leading" secondItem="WjI-au-onA" secondAttribute="trailing" id="pQq-Am-H9e"/>
-                <constraint firstItem="TcN-zV-FKB" firstAttribute="top" secondItem="JUc-Em-E3s" secondAttribute="bottom" constant="5" id="qem-N7-h4s"/>
-                <constraint firstItem="EHv-TX-fmr" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="rF3-FR-aSi"/>
-                <constraint firstItem="euy-6D-Wmx" firstAttribute="leading" secondItem="EHv-TX-fmr" secondAttribute="trailing" id="rRf-sB-FY8"/>
-            </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="midLeftBtn" destination="TcN-zV-FKB" id="kiF-IH-O9w"/>

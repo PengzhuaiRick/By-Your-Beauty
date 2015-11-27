@@ -13,9 +13,9 @@
    
     NSString* URL = [self spliceURL:code];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    for (AFHTTPRequestOperation *operation in manager.operationQueue.operations) {
-        NSLog(@"op.name  %@",operation.request.URL.absoluteString);
-    }
+//    for (AFHTTPRequestOperation *operation in manager.operationQueue.operations) {
+//        NSLog(@"op.name  %@",operation.request.URL.absoluteString);
+//    }
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];
     NSLog(@"%@",ddic);

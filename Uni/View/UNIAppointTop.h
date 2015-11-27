@@ -16,8 +16,9 @@
     int juh;//记录列数
     NSMutableArray* midBtns;//中间预约时间按钮组
 }
-
+@property (assign, nonatomic) int member;//人数
 @property (strong ,nonatomic) UNIMyProjectModel* model;
+@property (assign ,nonatomic) int selectYear;   //年份
 @property (copy, nonatomic) NSString* selectDay; //选择的日期
 @property (copy, nonatomic) NSString* selectTime; //选择的时间段
 @property (assign ,nonatomic)int maxNum; //最大人数
