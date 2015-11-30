@@ -13,8 +13,8 @@
 #import "MainMidView.h"
 #import "MainViewRequest.h"
 #import "AccountManager.h"
-
-@interface MainViewController ()<UINavigationControllerDelegate>{
+#import "UNIAppointController.h"
+@interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate>{
     __weak IBOutlet UIScrollView *myScroller;
     MainMidView* hahview;
     MainMidView* fafview;
@@ -97,6 +97,13 @@
 #pragma mark 设置Scroller
 -(void)setupScroller{
     
+    float scrollContengHight = KMainScreenHeight-64;  // Scroller 的 contentSize的高度
+    if (KMainScreenHeight<568)
+        scrollContengHight=568-64;
+    myScroller.contentSize = CGSizeMake(KMainScreenWidth, scrollContengHight);
+   
+    
+    
     int bj = 8;   //边界
     UIImage* imag =[UIImage imageNamed:@"main_img_top"];
     float imgH = imag.size.height*(KMainScreenWidth-bj*2)/imag.size.width;
@@ -107,9 +114,11 @@
     topView = topImg;
     
     //float gd = (sgd - bj*3)/3; //view 高度
-    float gd = (KMainScreenHeight-64-CGRectGetMaxY(topImg.frame)-2*bj)/2;
+    float gd = (scrollContengHight-CGRectGetMaxY(topImg.frame)-2*bj)/2;
     
     [self setupTopImageSubView];
+    
+    
     midRe =CGRectMake(bj,CGRectGetMaxY(topImg.frame)+bj, KMainScreenWidth-bj*2, gd);
     _midView= [[UIView  alloc]initWithFrame:midRe];
     //_midView.backgroundColor = [UIColor whiteColor];
@@ -182,71 +191,95 @@
         [self.navigationController pushViewController:self.buttomController animated:YES];
     }
 }
+#pragma mark  mainMidView代理方法 点击 mainMidView 的Cell
+-(void)mainMidViewDelegataCell:(int)type{
+    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    if (type == 1) {
+        self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+        self.midController.myData = [NSMutableArray arrayWithArray:self.midData];
+        [self.navigationController pushViewController:self.midController animated:YES];
+    }else if (type == 2){
+        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+        self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
+        [self.navigationController pushViewController:self.buttomController animated:YES];
+    }
+}
+
+#pragma mark  mainMidView代理方法 点击 mainMidView 的button
+-(void)mainMidViewDelegataButton:(id)model{
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+    appoint.model = model;
+    [self.navigationController pushViewController:appoint animated:YES];
+}
+
 #pragma mark 添加两个列表
 -(void)addChildController{
     MainMidView* midview = [[MainMidView alloc]initWithFrame:
                             CGRectMake(0, 0,  _midView.frame.size.width, _midView.frame.size.height) headerTitle:@"我已预约"];
+    midview.delegate=self;
     hahview = midview;
     [_midView addSubview:midview];
     
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
-    [_midView addGestureRecognizer:tap];
+//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
+//    [_midView addGestureRecognizer:tap];
     
     
     MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
                                CGRectMake(0, 0,  _buttomView.frame.size.width, _buttomView.frame.size.height)
                                                     headerTitle:@"我的项目"];
+    bottomView.delegate = self;
     [_buttomView addSubview:bottomView];
     fafview = bottomView;
-    UITapGestureRecognizer* tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
-    [_buttomView addGestureRecognizer:tap1];
+//    UITapGestureRecognizer* tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
+//    [_buttomView addGestureRecognizer:tap1];
 }
--(void)addChildController1{
-    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midView.frame.size.width, KMainScreenWidth*0.06)];
-    view.userInteractionEnabled=YES;
-    view.tag = 10;
-    view.image =[UIImage imageNamed:@"mian_img_cellH"];
-    UILabel* lab = [[UILabel alloc]initWithFrame:
-                    CGRectMake(10, 5,  _midView.frame.size.width-10, KMainScreenWidth*0.05)];
-    lab.text=@"我已预约";
-    lab.textColor = [UIColor colorWithHexString:@"575757"];
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
-    [view addSubview:lab];
-    [_midView addSubview:view];
-    
-    midGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
-    [view addGestureRecognizer:midGesture];
-    
-    
-    UIImageView* view1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _buttomView.frame.size.width, KMainScreenWidth*0.06)];
-    view1.userInteractionEnabled=YES;
-    view1.tag = 11;
-    view1.image =[UIImage imageNamed:@"mian_img_cellH"];
-    UILabel* lab1 = [[UILabel alloc]initWithFrame:
-                    CGRectMake(10, 5,  _buttomView.frame.size.width-10, KMainScreenWidth*0.05)];
-    lab1.text=@"我的项目";
-    lab1.textColor = [UIColor colorWithHexString:@"575757"];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
-    [view1 addSubview:lab1];
-    [_buttomView addSubview:view1];
-    buttomGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
-    [view1 addGestureRecognizer:buttomGesture];
-
-    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-    self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-    
-    midTabRe = CGRectMake(0, view.frame.size.height, _midView.frame.size.width, _midView.frame.size.height-view.frame.size.height);
-    self.midController.tableView.frame = midTabRe;
-    
-    buttonTabRe =CGRectMake(0, view1.frame.size.height, _buttomView.frame.size.width, _buttomView.frame.size.height-view1.frame.size.height);
-    self.buttomController.tableView.frame =buttonTabRe;
-    
-    [_midView addSubview:self.midController.view];
-    [_buttomView addSubview:self.buttomController.view];
-    [self addChildViewController:self.midController];
-    [self addChildViewController:self.buttomController];
-}
+//-(void)addChildController1{
+//    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midView.frame.size.width, KMainScreenWidth*0.06)];
+//    view.userInteractionEnabled=YES;
+//    view.tag = 10;
+//    view.image =[UIImage imageNamed:@"mian_img_cellH"];
+//    UILabel* lab = [[UILabel alloc]initWithFrame:
+//                    CGRectMake(10, 5,  _midView.frame.size.width-10, KMainScreenWidth*0.05)];
+//    lab.text=@"我已预约";
+//    lab.textColor = [UIColor colorWithHexString:@"575757"];
+//    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+//    [view addSubview:lab];
+//    [_midView addSubview:view];
+//    
+//    midGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
+//    [view addGestureRecognizer:midGesture];
+//    
+//    
+//    UIImageView* view1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _buttomView.frame.size.width, KMainScreenWidth*0.06)];
+//    view1.userInteractionEnabled=YES;
+//    view1.tag = 11;
+//    view1.image =[UIImage imageNamed:@"mian_img_cellH"];
+//    UILabel* lab1 = [[UILabel alloc]initWithFrame:
+//                    CGRectMake(10, 5,  _buttomView.frame.size.width-10, KMainScreenWidth*0.05)];
+//    lab1.text=@"我的项目";
+//    lab1.textColor = [UIColor colorWithHexString:@"575757"];
+//    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+//    [view1 addSubview:lab1];
+//    [_buttomView addSubview:view1];
+//    buttomGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
+//    [view1 addGestureRecognizer:buttomGesture];
+//
+//    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+//    self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+//    
+//    midTabRe = CGRectMake(0, view.frame.size.height, _midView.frame.size.width, _midView.frame.size.height-view.frame.size.height);
+//    self.midController.tableView.frame = midTabRe;
+//    
+//    buttonTabRe =CGRectMake(0, view1.frame.size.height, _buttomView.frame.size.width, _buttomView.frame.size.height-view1.frame.size.height);
+//    self.buttomController.tableView.frame =buttonTabRe;
+//    
+//    [_midView addSubview:self.midController.view];
+//    [_buttomView addSubview:self.buttomController.view];
+//    [self addChildViewController:self.midController];
+//    [self addChildViewController:self.buttomController];
+//}
 
 #pragma mark 刷新商家信息
 -(void)reflashShopInfo:(UNIShopManage*) manager{
@@ -507,6 +540,9 @@
                                    animationControllerForOperation:(UINavigationControllerOperation)operation
                                                 fromViewController:(UIViewController *)fromVC
                                                   toViewController:(UIViewController *)toVC{
+    if ([toVC isKindOfClass:[UNIAppointController class]])
+        return nil;
+    
     MainMoveTransition *transition = [[MainMoveTransition alloc]init];
     return transition;
 }

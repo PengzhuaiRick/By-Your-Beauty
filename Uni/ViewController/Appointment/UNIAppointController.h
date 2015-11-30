@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-//@class UNIMyProjectModel;
+@class UNIMyProjectModel;
 @interface UNIAppointController : UIViewController
 
-@property (strong ,nonatomic) id model;
+@property (strong ,nonatomic) UNIMyProjectModel* model;
 
 @property (weak, nonatomic) IBOutlet UIScrollView *myScroller;
 

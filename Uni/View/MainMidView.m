@@ -28,7 +28,7 @@
 }
 
 -(void)setupTableviewHeader:(NSString*)string{
-    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, KMainScreenWidth*0.05)];
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, KMainScreenWidth*16/320)];
     view.image =[UIImage imageNamed:@"mian_img_cellH"];
     UILabel* lab = [[UILabel alloc]initWithFrame:
                     CGRectMake(10, 2,  _midTableview.frame.size.width-10, KMainScreenWidth*0.05)];
@@ -40,15 +40,15 @@
 }
 
 -(void)setupTableviewFootView{
-//    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,  _midTableview.frame.size.width, 5)];
-//    view.image =[UIImage imageNamed:@"main_img_cellF"];
-//    _midTableview.tableFooterView = view;
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,  _midTableview.frame.size.width,KMainScreenWidth*5/320)];
+    view.image =[UIImage imageNamed:@"main_img_cellF"];
+    _midTableview.tableFooterView = view;
     
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, 5)];
-    view.backgroundColor = [UIColor whiteColor];
-    view.layer.masksToBounds = YES;
-    view.layer.cornerRadius = 5;
-    _midTableview.tableFooterView=view;
+//    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, 5)];
+//    view.backgroundColor = [UIColor whiteColor];
+//    view.layer.masksToBounds = YES;
+//    view.layer.cornerRadius = 5;
+//    _midTableview.tableFooterView=view;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -67,7 +67,20 @@
         // [cell updateFrame:_midTableview.frame];
     }
     [cell setupCellContent:_dataArray.lastObject andType:type];
+    
+    if (type==2) {
+        cell.handleBtn.tag = indexPath.row+10;
+        [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+         subscribeNext:^(UIButton* x) {
+             [self.delegate mainMidViewDelegataButton:self.dataArray[x.tag-10]];
+        }];
+    }
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self.delegate mainMidViewDelegataCell:type];
 }
 
 

@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UIButton *jiaBtn;
 @property (weak, nonatomic) IBOutlet UIButton *jianBnt;
 @property (weak, nonatomic) IBOutlet UIButton *xunzhiBtn;
+@property (weak, nonatomic) IBOutlet UILabel *menberLab;
 
 -(void)setupUI;
 @end

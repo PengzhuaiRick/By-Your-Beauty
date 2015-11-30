@@ -55,6 +55,7 @@
     float btnW = (KMainScreenWidth - 70)/3;
     float btnH = _topScroller.frame.size.height;
     _topScroller.contentSize = CGSizeMake(btnW*8,btnH);
+    _topScroller.delegate = self;
     for (int i =0 ; i<8; i++) {
         NSDate *now = nil;
         if (i>0)
@@ -71,7 +72,7 @@
         int weekday = (int) [dateComponent weekday];
         NSString* wenke = weekday==1?@"星期天":weekday==2?@"星期一":weekday==3?@"星期二":weekday==4?@"星期三":weekday==5?@"星期四":weekday==6?@"星期五":weekday==7?@"星期六":@"";
         NSString* str = [NSString stringWithFormat:@"%d-%d %@",month,day,wenke];
-        NSLog(@"month,day,weekday,year  %d, %d, %d, %d",month,day,weekday,year);
+      //  NSLog(@"month,day,weekday,year  %d, %d, %d, %d",month,day,weekday,year);
         
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(btnW*i, 0, btnW, btnH);
@@ -87,6 +88,13 @@
         btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
         [_topScroller addSubview:btn];
         [_topBtns addObject:btn];
+        
+        if (i==0) {
+            [btn setTitleColor:nil forState:UIControlStateSelected];
+            [btn setTitleColor:nil forState:UIControlStateHighlighted];
+            continue;
+        }
+        
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x){
              self.member=1;//重置人数
@@ -101,11 +109,8 @@
               [self startRequest];
         }];
     }
-
     
     [self startRequest];
-    
-    
 }
 
 #pragma mark topLeftBtn
@@ -117,14 +122,11 @@
    // UIScrollView* scroller = self.topScroller;
     [[self.topLeftBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-         x.highlighted=YES;
-         self.topRightBtn.highlighted=YES;
          float xx = self.topScroller.contentOffset.x;
          float wy = xx-self.topScroller.frame.size.width;
-         if(wy<0){
+         if(wy<0)
              wy = 0;
-             x.highlighted=NO;
-         }
+         
          CGPoint position = CGPointMake(wy,0);
          [self.topScroller setContentOffset:position animated:YES];
 
@@ -139,17 +141,11 @@
 
     [[self.topRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-         x.highlighted=YES;
-         self.topLeftBtn.highlighted=YES;
          float xx = self.topScroller.contentOffset.x;
-        // NSLog(@"xx %f",xx);
          float wy = xx+self.topScroller.frame.size.width;
          
-         if(wy>self.topScroller.contentSize.width-self.topScroller.frame.size.width){
+         if(wy>self.topScroller.contentSize.width-self.topScroller.frame.size.width)
              wy = self.topScroller.contentSize.width-self.topScroller.frame.size.width;
-             x.highlighted=NO;
-         }
-
          CGPoint position = CGPointMake(wy, 0);
          [self.topScroller setContentOffset:position animated:YES];
 
@@ -240,6 +236,37 @@
     }
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView == self.topScroller) {
+        float xx = scrollView.contentOffset.x;
+        if (xx==0) {
+            self.topLeftBtn.selected=NO;
+            self.topRightBtn.selected = YES;
+        }else if (xx >= scrollView.contentSize.width- scrollView.contentSize.width/3-50){
+            self.topLeftBtn.selected=YES;
+            self.topRightBtn.selected = NO;
+        }else{
+            self.topLeftBtn.selected=YES;
+            self.topRightBtn.selected = YES;
+        }
+    }
+    if(scrollView == self.midScroller) {
+         float xx = scrollView.contentOffset.x;
+        if (xx==0) {
+            self.midLeftBtn.enabled=NO;
+            self.midRightBtn.enabled = YES;
+        }else if (xx >= scrollView.contentSize.width- scrollView.frame.size.width-50){
+            self.midLeftBtn.enabled=YES;
+            self.midRightBtn.enabled = NO;
+        }else{
+            self.midLeftBtn.enabled=YES;
+            self.midRightBtn.enabled = YES;
+        }
+
+    }
+}
+
+#pragma mark 用颜色转成图片
 -(UIImage*)createImageWithColor:(UIColor*) color
 {
     CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);

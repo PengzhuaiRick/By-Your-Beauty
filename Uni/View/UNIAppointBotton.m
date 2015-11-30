@@ -22,6 +22,13 @@
     }];
     
     self.xunzhiBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*10/320];
+    self.menberLab.font= [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    self.nunField.font= [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    
+    self.sureBtn.titleLabel.numberOfLines = 0;
+    self.sureBtn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    [self.sureBtn setTitle:@"确定\n预约" forState:UIControlStateNormal];
+    self.sureBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
 }
 
 -(void)keyboardTool:(BTKeyboardTool *)tool buttonClick:(KeyBoardToolButtonType)type{

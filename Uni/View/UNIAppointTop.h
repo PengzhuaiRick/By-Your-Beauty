@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UNIMyProjectModel.h"
 #import "UNIMypointRequest.h"
-@interface UNIAppointTop : UIView{
+@interface UNIAppointTop : UIView<UIScrollViewDelegate>{
     int topScrollerNum;
     NSArray* freeTimes;
     int juw;//记录行数

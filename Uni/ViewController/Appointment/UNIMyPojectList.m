@@ -11,7 +11,7 @@
 #import "MainViewRequest.h"
 
 #define CELLH KMainScreenWidth*60/320
-#define MAXTABLEH KMainScreenHeight-64-16  //tableview最大高度
+#define MAXTABLEH KMainScreenHeight-64-30-16  //tableview最大高度
 @interface UNIMyPojectList ()<UITableViewDataSource,UITableViewDelegate>{
     UIButton* needKnowBtn;//需知按钮
     CGRect tableRect;//
@@ -50,7 +50,7 @@
     NSString* btnT = @"项目根据美容院预约安排,如果您的项目不能连续预约,请选择其他时间进行预约";
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setBackgroundColor:[UIColor clearColor]];
-    btnRect =  CGRectMake(8, KMainScreenHeight-30, _myTableview.frame.size.width, 30);
+    btnRect =  CGRectMake(8, KMainScreenHeight-38, _myTableview.frame.size.width, 30);
     btn.frame =btnRect;
     [btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
     [btn setTitle:btnT forState:UIControlStateNormal];
@@ -70,7 +70,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _myData.count;
+    return 20;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -122,7 +122,7 @@
 //                            [self.myData removeAllObjects];
 //                        
                        [self.myData addObjectsFromArray:myProjectArr];
-                        [self modificationUI];
+                        //[self modificationUI];
                     }
                     else
                         [YIToast showText:tips];

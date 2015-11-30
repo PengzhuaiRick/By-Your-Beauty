@@ -24,12 +24,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"我的项目";
-    self.myScroller.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
+    
+    self.title =self.model.projectName;
+    [self setupMyScroller];
     [self setupTopScroller];
     [self setupMidScroller];
     [self setupBottomContent];
     [self regirstKeyBoardNotification];
+}
+
+-(void)setupMyScroller{
+    self.myScroller.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
+    if (KMainScreenHeight<568)
+        self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, 568);
+    else
+        self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
+    
+    
+
 }
 
 #pragma mark 加载顶部Scroller
@@ -109,6 +121,8 @@
                   [YIToast showText:tips];
          };
      }];
+    
+    //加号
     [[botton.jiaBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
          if (self->appointTop.member<self->appointTop.maxNum) {
@@ -118,6 +132,7 @@
         
      }];
     
+    //减号
     [[botton.jianBnt rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
          if (self->appointTop.member >1)
@@ -125,7 +140,7 @@
         // botton.nunField.text = [NSString stringWithFormat:@"%d",botton.member];
      }];
     
-    //认识每次修改都会
+    // 人数 每次修改都会调用
     [RACObserve(appointTop, member)subscribeNext:^(id x) {
         botton.nunField.text = [NSString stringWithFormat:@"%d",self->appointTop.member];
     }];
@@ -178,6 +193,7 @@
 #pragma mark UNIMyPojectListDelegate 代理实现方法
 -(void)UNIMyPojectListDelegateMethod:(id)model{
     [appontMid addProject:model];
+    [appontMid.myTableView reloadData];
 }
 
 -(void)dealloc{
