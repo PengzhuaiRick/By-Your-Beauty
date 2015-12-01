@@ -90,6 +90,7 @@
         [_topBtns addObject:btn];
         
         if (i==0) {
+            [btn setTitleColor:[UIColor colorWithHexString:@"c2c1c0"] forState:UIControlStateNormal];
             [btn setTitleColor:nil forState:UIControlStateSelected];
             [btn setTitleColor:nil forState:UIControlStateHighlighted];
             continue;
@@ -97,6 +98,9 @@
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x){
+             
+             [self.topScroller setContentOffset:CGPointMake(x.frame.origin.x-x.frame.size.width, 0) animated:YES];
+             
              self.member=1;//重置人数
              NSString* str = [x titleForState:UIControlStateNormal];
              self.selectDay=[str componentsSeparatedByString:@" "][0];
@@ -155,8 +159,12 @@
 
 -(void)setupMidScroller{
     int cout= 19;
-    if (cout>6) {
-        int f = cout/6;
+    int f = 1;//能翻的页数
+    if (cout>6){
+        f = cout/6;
+        if (cout%6 > 0)
+            f++;
+    }
         _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width*f ,
                                               _midScroller.frame.size.height);
         [[self.midRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -177,23 +185,22 @@
              }
          }];
 
-    }
+    
     
     [midBtns removeAllObjects];
     
-    juw = 0;
-    juh = 0;
+    juw = 0;//判断时候满三个
+    juh = 0;//判断当前是第一行还是第二行
     
-    float ww =self.midScroller.frame.size.width/3;
-    float btnW = KMainScreenWidth*50/320;
-    float jj = (ww-btnW)/2;
-    //NSLog(@"%f",jj);
+    float ww =self.midScroller.frame.size.width/3; //间隔+按钮的宽+间隔 =完整的间距
+    float btnW = KMainScreenWidth*50/320; //按钮的宽和高
+    float jj = (ww-btnW)/2; //按钮的间距
     for (int i = 0; i<cout; i++) {
         NSDictionary* dic = freeTimes[0];
-        float zuo  = ww*juw+jj+(i/6*self.midScroller.frame.size.width);
+        float zuo  = ww*juw+jj+(i/6*self.midScroller.frame.size.width); //按钮的X坐标
         if (i%3==0)
             zuo = jj+(i/6*self.midScroller.frame.size.width);
-        float xia =0;
+        float xia =0;//按钮的Y坐标
         if (juh==1) {
             xia = btnW+jj;
         }

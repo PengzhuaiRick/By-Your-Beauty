@@ -11,7 +11,7 @@
 #import "MainViewRequest.h"
 
 #define CELLH KMainScreenWidth*60/320
-#define MAXTABLEH KMainScreenHeight-64-30-16  //tableview最大高度
+#define MAXTABLEH KMainScreenHeight-64-30-24  //tableview最大高度
 @interface UNIMyPojectList ()<UITableViewDataSource,UITableViewDelegate>{
     UIButton* needKnowBtn;//需知按钮
     CGRect tableRect;//
@@ -55,7 +55,7 @@
     [btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
     [btn setTitle:btnT forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:8];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*9/320];
     btn.titleLabel.numberOfLines = 0;
     btn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     btn.layer.masksToBounds = YES;
@@ -93,8 +93,8 @@
     cell.functionBtn.tag = indexPath.row+10;
     [[cell.functionBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(UIButton* x) {
-//        id model = self.myData[x.tag-10];
-//        [self.delegate UNIMyPojectListDelegateMethod:model];
+       // id model = self.myData[x.tag-10];
+        [self.delegate UNIMyPojectListDelegateMethod:nil];
         [self.navigationController popViewControllerAnimated:YES];
     }];
     

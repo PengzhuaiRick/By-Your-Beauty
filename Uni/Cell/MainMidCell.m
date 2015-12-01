@@ -27,11 +27,9 @@
     int uiX = 8;
     int uiY = 8;
     _mainImage.frame = CGRectMake(uiX, uiY, CELLH-uiY*2, CELLH-uiY*2);
-    NSLog(@"NSStringFromCGRect(_mainImage.frame)  %@",NSStringFromCGRect(_mainImage.frame));
     
     _handleBtn.frame = CGRectMake(re.size.width-uiX- (CELLH-uiY*2),
                                   uiY, CELLH-uiY*2, CELLH-uiY*2);
-     NSLog(@"NSStringFromCGRect(_mainImage.frame)  %@",NSStringFromCGRect(_handleBtn.frame));
     
     float mainLabW = re.size.width-(CELLH-uiY*2)*2-uiX*2;
     float mainLabH = CELLH/2-8;

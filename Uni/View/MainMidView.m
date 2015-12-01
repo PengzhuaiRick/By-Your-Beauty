@@ -64,7 +64,7 @@
     MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (!cell) {
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
-        // [cell updateFrame:_midTableview.frame];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [cell setupCellContent:_dataArray.lastObject andType:type];
     

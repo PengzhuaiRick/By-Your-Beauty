@@ -46,10 +46,23 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     self.navigationController.delegate = self;
-    
+    NSArray* array =self.containController.view.gestureRecognizers;
+    for (UIGestureRecognizer* ges in array) {
+        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
+            ges.enabled=YES;
+        }
+    }
+
 }
 -(void)viewWillDisappear:(BOOL)animated{
    self.navigationController.delegate = nil;
+    NSArray* array =self.containController.view.gestureRecognizers;
+    for (UIGestureRecognizer* ges in array) {
+        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
+            ges.enabled=NO;
+        }
+    }
+
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -349,7 +362,7 @@
                         for (int i = 0; i<10; i++) {
                             UIImage* img1 =[UIImage imageNamed:@"main_img_proLess"];
                             UIImageView* img = [[UIImageView alloc]initWithFrame:
-                                                CGRectMake(10+(jc*i), self->topView.frame.size.height-40, jc,img1.size.height*jc/img1.size.width)];
+                                                CGRectMake(10+(jc*i), self->topView.frame.size.height-30, jc,img1.size.height*jc/img1.size.width)];
                             if ((i+1)*y<num)
                                 img.image = [UIImage imageNamed:@"main_img_bluePro"];
                             else
@@ -360,12 +373,12 @@
                             lab.text = [NSString stringWithFormat:@"%i",(i+1)*nextRewardNum/10];
                             lab.textColor = [UIColor whiteColor];
                             lab.textAlignment = NSTextAlignmentRight;
-                            lab.font = [UIFont boldSystemFontOfSize:8];
+                            lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*8/320];
                             [img addSubview:lab];
                         }
                         UIImageView* awardImge = [[UIImageView alloc]initWithFrame:
                                                   CGRectMake(self->topView.frame.size.width-35,
-                                                             self->topView.frame.size.height-55,30,35)];
+                                                             self->topView.frame.size.height-45,30,35)];
                         if (nextRewardNum ==num)
                             awardImge.image = [UIImage imageNamed:@"main_img_award"];
                         else

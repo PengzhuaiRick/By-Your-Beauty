@@ -15,6 +15,7 @@
 #import "AccountManager.h"
 #import "UNIAppDeleRequest.h"
 #import "UIImageView+AFNetworking.h"
+#import "AFNetworkReachabilityManager.h"
 @interface AppDelegate (){
     UIImageView* imag;
 }
@@ -26,7 +27,15 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
-    
+    AFNetworkReachabilityManager * mangaer = [AFNetworkReachabilityManager sharedManager];
+    [mangaer startMonitoring];
+    [mangaer setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSLog(@"AFNetworkReachabilityStatus  %ld",(long)status);
+        if (status<0) {
+            [YIToast showText:@"网络异常，请检查网络"];
+            return ;
+        }
+    }];
    // [self rqCurrentVersion];
     
     //[self rqWelcomeImage];
@@ -180,9 +189,9 @@
 
 -(void)VWIB:(UIImageView*)IMG{
     [UIView animateWithDuration:1 delay:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        imag.alpha = 0;
+        self->imag.alpha = 0;
     } completion:^(BOOL finished) {
-        [imag removeFromSuperview];
+        [self->imag removeFromSuperview];
     }];
     
 }

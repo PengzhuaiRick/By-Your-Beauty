@@ -36,9 +36,13 @@
     [self.view addSubview:_tv.view];
     self.view.multipleTouchEnabled=YES;
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
-    //pan.delegate = self;
-    [self.view addGestureRecognizer:pan];
-   }
+    [_tv.view addGestureRecognizer:pan];
+    _tv.panGes = pan;
+    
+    UITapGestureRecognizer* tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeTheBox)];
+    [_tv.view addGestureRecognizer:tap];
+    _tv.tapGes = tap;
+}
 
 -(void)setupParams{
     titleArray = @[@"首页",
@@ -153,14 +157,14 @@
        // self.tv.view.userInteractionEnabled=YES;
         self.tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
     }];
-
+    self.tv.tapGes.enabled=NO;
 }
 -(void)openTheBox{
     [UIView animateWithDuration:0.2 animations:^{
         //self.tv.view.userInteractionEnabled=NO;
         self.tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
     }];
-
+    self.tv.tapGes.enabled=YES;
 }
 
 #pragma mark 调用其他地图APP

@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIContainController : UIViewController
-
-
+@property(nonatomic,strong)UIPanGestureRecognizer* panGes;//侧滑手势;
+@property(nonatomic,strong)UITapGestureRecognizer* tapGes;//点击手势;
 -(void)setupMainController;
 -(void)setupMyController;
 @end

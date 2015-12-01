@@ -17,5 +17,5 @@
 @property (weak, nonatomic) IBOutlet UIButton *xunzhiBtn;
 @property (weak, nonatomic) IBOutlet UILabel *menberLab;
 
--(void)setupUI;
+-(void)setupUI:(CGRect)frace;
 @end
