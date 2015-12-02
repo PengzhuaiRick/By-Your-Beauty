@@ -83,7 +83,7 @@
      CGRect scrollerR = _myScroller.frame;
     UNIAppointBotton* botton = [[NSBundle mainBundle]loadNibNamed:@"UNIAppointBotton" owner:self options:nil].lastObject;
     botton.frame = CGRectMake(8, CGRectGetMaxY(appontMid.frame)+13, scrollerR.size.width-16,  KMainScreenWidth*120/320);
-    [botton setupUI: CGRectMake(8, CGRectGetMaxY(appontMid.frame)+13, scrollerR.size.width-16,  KMainScreenWidth*120/320)];
+    [botton setupUI: CGRectMake(0, 0, KMainScreenWidth-16,  KMainScreenWidth*120/320)];
     [self.myScroller addSubview:botton];
     appointBotton = botton;
     

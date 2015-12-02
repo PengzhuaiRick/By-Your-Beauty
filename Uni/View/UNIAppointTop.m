@@ -170,8 +170,9 @@
         [[self.midRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(id x) {
              int b =(int)self.midScroller.contentOffset.x/self.midScroller.frame.size.width;
+             ++b;
              if (b<f) {
-                 CGPoint point = CGPointMake(self.midScroller.frame.size.width*++b, 0);
+                 CGPoint point = CGPointMake(self.midScroller.frame.size.width*b, 0);
                  [self.midScroller setContentOffset:point animated:YES];
              }
         }];
@@ -246,7 +247,7 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (scrollView == self.topScroller) {
         float xx = scrollView.contentOffset.x;
-        if (xx==0) {
+        if (xx<50) {
             self.topLeftBtn.selected=NO;
             self.topRightBtn.selected = YES;
         }else if (xx >= scrollView.contentSize.width- scrollView.contentSize.width/3-50){
@@ -259,7 +260,7 @@
     }
     if(scrollView == self.midScroller) {
          float xx = scrollView.contentOffset.x;
-        if (xx==0) {
+        if (xx<50) {
             self.midLeftBtn.enabled=NO;
             self.midRightBtn.enabled = YES;
         }else if (xx >= scrollView.contentSize.width- scrollView.frame.size.width-50){

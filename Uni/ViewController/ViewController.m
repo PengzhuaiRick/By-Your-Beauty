@@ -36,10 +36,12 @@
     [self.view addSubview:_tv.view];
     self.view.multipleTouchEnabled=YES;
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
+    pan.delegate=self;
     [_tv.view addGestureRecognizer:pan];
     _tv.panGes = pan;
     
     UITapGestureRecognizer* tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeTheBox)];
+    tap.delegate = self;
     [_tv.view addGestureRecognizer:tap];
     _tv.tapGes = tap;
 }
@@ -128,6 +130,9 @@
         currentPoint = point;
     }
     else if (pan.state == UIGestureRecognizerStateChanged) {
+        if (fabs(point.x-startPoint.x)<40)
+            return;
+        
         float offX =vv.view.frame.origin.x+(point.x-currentPoint.x);
         if (offX>-1 && offX<KMainScreenWidth-101){
             vv.view.frame = CGRectMake(offX,

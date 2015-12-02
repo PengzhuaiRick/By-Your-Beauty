@@ -14,8 +14,20 @@
  */
 #define FIRSTINSTALL @"firstInstall"
 
+/**
+ *  主题颜色
+ */
+#define kMainThemeColor @"e23469"
 
+/**
+ *  背景颜色
+ */
+#define kMainBackGroundColor @"e4e5e9"
 
+/**
+ *  字体灰色颜色
+ */
+#define kMainTitleColor @"c2c1c0"
 
 /**
  *  当前系统版本号

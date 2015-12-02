@@ -80,8 +80,8 @@
 -(void)setupNavigation{
     self.title = @"首页";
     [self preferredStatusBarStyle];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:@"e23469"];
-    self.view.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kMainThemeColor];
+    self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     UIBarButtonItem* bar = [[UIBarButtonItem alloc]init];
     bar.image = [UIImage imageNamed:@"main_btn_function"];
     bar.style = UIBarButtonItemStyleDone;
