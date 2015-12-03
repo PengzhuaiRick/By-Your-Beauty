@@ -49,12 +49,24 @@
 #define API_URL_Login @"login"
 
 //奖励信息接口
-#define API_URL_MRInfo @"myRewardInfo"
+#define API_URL_MRInfo @"rewardInfo"
 
 //获取可选时间接口
 #define API_URL_GetFreeTime @"getFreeTime"
 
 //确认预约接口
 #define API_URL_SetAppoint @"setAppoint"
+
+//获取预约订单详情接口
+#define API_URL_GetAppointInfo @"getAppointInfo"
+
+//获取客妆接口
+#define API_URL_GetSellInfo @"getSellInfo"
+
+//服务评价接口
+#define API_URL_SetAppraise @"setAppraise"
+
+//会员卡详情接口
+#define API_URL_GetCardInfo @"getCardInfo"
 
 #endif /* URLconfig_h */

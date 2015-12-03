@@ -82,7 +82,7 @@
     UILabel* lab = [[UILabel alloc]initWithFrame:
                     CGRectMake(10, 5,  self.tableView.frame.size.width-10, KMainScreenWidth*0.05)];
     lab.text=string;
-    lab.textColor = [UIColor colorWithHexString:@"575757"];
+    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
     [view addSubview:lab];
     self.tableView.tableHeaderView = view;
@@ -113,7 +113,6 @@
     if (!cell)
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
     
-    NSLog(@"_myData %@",_myData);
     [cell setupCellContent:_myData[indexPath.row] andType:1];
     return cell;
 }
@@ -122,6 +121,8 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
+    UNIMyAppintModel* model =_myData[indexPath.row];
+    appoint.order =model.myorder;
     [self.navigationController pushViewController:appoint animated:YES];
     
 }

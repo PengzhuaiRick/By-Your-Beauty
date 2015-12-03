@@ -27,7 +27,7 @@
 /**
  *  字体灰色颜色
  */
-#define kMainTitleColor @"c2c1c0"
+#define kMainTitleColor @"575757"
 
 /**
  *  当前系统版本号

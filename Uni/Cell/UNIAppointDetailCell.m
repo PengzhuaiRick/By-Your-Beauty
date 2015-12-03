@@ -7,18 +7,18 @@
 //
 
 #import "UNIAppointDetailCell.h"
-
+#import "UNIMyAppointInfoModel.h"
 @implementation UNIAppointDetailCell
 
 - (void)awakeFromNib {
-    float cellH = KMainScreenWidth*100/320;
-    float cellW = KMainScreenWidth-16;
+    float cellH = KMainScreenWidth*90/320;
+    float cellW = KMainScreenWidth-32;
     
     UIImage* img = [UIImage imageNamed:@"main_img_cell2"];
     self.mainImg.image = img;
     float imgH = cellH/2;
     float imgW = imgH*img.size.width/img.size.height;
-    float imgX = 8;
+    float imgX = 5;
     float imgY = (cellH - imgH)/2;
     self.mainImg.frame = CGRectMake(imgX, imgY, imgW, imgH);
     
@@ -27,36 +27,53 @@
     float btnY = imgY;
     self.stateBtn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
     self.stateBtn.layer.masksToBounds = YES;
-    self.stateBtn.layer.cornerRadius = KMainScreenWidth*25/320;
+    self.stateBtn.layer.cornerRadius = KMainScreenWidth*22/320;
     [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainTitleColor]];
     self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
     [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
-    float labX = imgX+imgW+5;
-    float labW = cellW - labX - btnWH - 5;
-    float labH = KMainScreenWidth* 25/320;
+    float labX = imgX+imgW;
+    float labW = cellW - labX - btnWH - 10;
+    float labH = KMainScreenWidth* 18/320;
     
-    float lab1Y = 8;
+    float lab1Y =(cellH -3*labH)/2;
     self.label1.frame = CGRectMake(labX, lab1Y, labW, labH);
     self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    self.label1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
 
-    float lab2Y = lab1Y+labH+5;
+    float lab2Y = lab1Y+labH;
     self.label2.frame = CGRectMake(labX, lab2Y, labW, labH);
     self.label2.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    self.label2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
     
-    float lab3Y = lab2Y+labH+5;
+    float lab3Y = lab2Y+labH;
     self.label3.frame = CGRectMake(labX, lab3Y, labW, labH);
     self.label3.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    self.label3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
 }
 
 -(void)setupCellContentWith:(id)model{
-    self.label1.text = @"美国全息皮肤检测";
-    self.label2.text = @"预约时间 : 2015-12-10 12：30";
-    self.label3.text = @"服务时长 : 90分钟";
-    [self.stateBtn setTitle:@"待确定" forState:UIControlStateNormal];
+    UNIMyAppointInfoModel* info = model;
+    self.label1.text = info.projectName;
+    self.label2.text = [NSString stringWithFormat:@"预约时间 : %@",info.createTime ];
+    self.label3.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
+    NSString* titel = nil;
+    switch (info.status) {
+        case 0:
+            titel = @"待安排";
+            break;
+        case 1:
+            titel = @"待确认";
+            break;
+        case 2:
+            titel = @"已完成";
+            break;
+        case 3:
+            titel = @"已取消";
+            break;
+    }
+    [self.stateBtn setTitle:titel forState:UIControlStateNormal];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

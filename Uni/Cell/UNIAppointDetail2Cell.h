@@ -13,5 +13,5 @@
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
--(void)setupCellContentWith:(id)model;
+-(void)setupCellContentWith:(int)state;
 @end

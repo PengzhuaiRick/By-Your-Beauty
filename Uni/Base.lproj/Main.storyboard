@@ -669,34 +669,34 @@
                     <view key="view" contentMode="scaleToFill" id="eXp-ek-JM5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="wTH-Jw-ole">
-                                <rect key="frame" x="8" y="12" width="304" height="548"/>
-                                <animations/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="49I-UP-MDC" id="M2m-bb-8A1"/>
-                                    <outlet property="delegate" destination="49I-UP-MDC" id="BJe-FO-eaS"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="wTH-Jw-ole" firstAttribute="top" secondItem="svA-XG-NQC" secondAttribute="bottom" constant="-52" id="0ph-r5-3Bx"/>
-                            <constraint firstItem="wTH-Jw-ole" firstAttribute="leading" secondItem="eXp-ek-JM5" secondAttribute="leading" constant="8" id="HGX-gL-2Wc"/>
-                            <constraint firstAttribute="trailing" secondItem="wTH-Jw-ole" secondAttribute="trailing" constant="8" id="NYU-xi-V2t"/>
-                            <constraint firstItem="O02-42-S5p" firstAttribute="top" secondItem="wTH-Jw-ole" secondAttribute="bottom" constant="8" id="gZh-ge-RFG"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ABE-oe-ljS"/>
-                    <connections>
-                        <outlet property="myTableView" destination="wTH-Jw-ole" id="tNr-09-RKU"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3KC-f3-jna" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1834" y="-820"/>
+        </scene>
+        <!--会员卡使用详情-->
+        <scene sceneID="ZN1-ez-sbd">
+            <objects>
+                <viewController storyboardIdentifier="UNICardInfoController" title="会员卡使用详情" id="eLc-jS-Xp6" customClass="UNICardInfoController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="P19-Eh-9nj"/>
+                        <viewControllerLayoutGuide type="bottom" id="HMs-74-Nbq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="IUU-Ya-KMR">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="iku-SD-RUH"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="I0w-Ob-RRa" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1828" y="-180"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rKl-g1-gn9">
@@ -829,6 +829,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="F2z-9r-p3J" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1470" y="-820"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="K3S-bf-1HG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sDx-cX-w8j" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ktk-MQ-AR0">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="eLc-jS-Xp6" kind="relationship" relationship="rootViewController" id="Sb8-3r-3BT"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="sQ3-I4-ilX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1470" y="-180"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -43,6 +43,7 @@
     UITapGestureRecognizer* tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeTheBox)];
     tap.delegate = self;
     [_tv.view addGestureRecognizer:tap];
+    tap.enabled=NO;
     _tv.tapGes = tap;
 }
 

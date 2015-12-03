@@ -27,7 +27,7 @@
             }else
                 _regetFreeTime(nil,tips,nil);
         }
-        
+        //确认预约接口
         if ([param2 isEqualToString:API_URL_SetAppoint]) {
             if (code == 0) {
                 NSString* order = [self safeObject:dic ForKey:@"order"];
@@ -48,6 +48,8 @@
         if ([param2 isEqualToString:API_URL_GetFreeTime]) {
              _regetFreeTime(nil,nil,err);
         }
+        
+       // 确认预约接口
         if ([param2 isEqualToString:API_URL_SetAppoint]) {
             _resetAppoint(nil,nil,err);
         }

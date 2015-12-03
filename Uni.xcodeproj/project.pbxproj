@@ -43,6 +43,11 @@
 		18C3ED001C0EF01200B0A192 /* UNIAppointDetail2Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECFE1C0EF01200B0A192 /* UNIAppointDetail2Cell.m */; settings = {ASSET_TAGS = (); }; };
 		18C3ED011C0EF01200B0A192 /* UNIAppointDetail2Cell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C3ECFF1C0EF01200B0A192 /* UNIAppointDetail2Cell.xib */; settings = {ASSET_TAGS = (); }; };
 		18C3ED041C0EF93400B0A192 /* UNIMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ED031C0EF93400B0A192 /* UNIMapAnnotation.m */; settings = {ASSET_TAGS = (); }; };
+		18C3FBF61C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBF51C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m */; settings = {ASSET_TAGS = (); }; };
+		18C3FBF91C1011B70031AFAC /* UNIMyAppointInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBF81C1011B70031AFAC /* UNIMyAppointInfoModel.m */; settings = {ASSET_TAGS = (); }; };
+		18C3FBFD1C1044FD0031AFAC /* UNICardInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBFC1C1044FD0031AFAC /* UNICardInfoController.m */; settings = {ASSET_TAGS = (); }; };
+		18C3FC011C104F890031AFAC /* UNICardInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBFF1C104F880031AFAC /* UNICardInfoCell.m */; settings = {ASSET_TAGS = (); }; };
+		18C3FC021C104F890031AFAC /* UNICardInfoCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C3FC001C104F880031AFAC /* UNICardInfoCell.xib */; settings = {ASSET_TAGS = (); }; };
 		18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C57CE11C05933D00E30B87 /* UNIAppontMid.m */; settings = {ASSET_TAGS = (); }; };
 		18C57CE71C05B04300E30B87 /* UNIAppointBotton.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C57CE61C05B04300E30B87 /* UNIAppointBotton.m */; settings = {ASSET_TAGS = (); }; };
 		18C57CE91C05B05300E30B87 /* UNIAppointBotton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C57CE81C05B05300E30B87 /* UNIAppointBotton.xib */; settings = {ASSET_TAGS = (); }; };
@@ -173,6 +178,15 @@
 		18C3ECFF1C0EF01200B0A192 /* UNIAppointDetail2Cell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIAppointDetail2Cell.xib; sourceTree = "<group>"; };
 		18C3ED021C0EF93400B0A192 /* UNIMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMapAnnotation.h; sourceTree = "<group>"; };
 		18C3ED031C0EF93400B0A192 /* UNIMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMapAnnotation.m; sourceTree = "<group>"; };
+		18C3FBF41C0FEFE60031AFAC /* UNIMyAppointInfoRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMyAppointInfoRequest.h; sourceTree = "<group>"; };
+		18C3FBF51C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyAppointInfoRequest.m; sourceTree = "<group>"; };
+		18C3FBF71C1011B70031AFAC /* UNIMyAppointInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMyAppointInfoModel.h; sourceTree = "<group>"; };
+		18C3FBF81C1011B70031AFAC /* UNIMyAppointInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyAppointInfoModel.m; sourceTree = "<group>"; };
+		18C3FBFB1C1044FD0031AFAC /* UNICardInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNICardInfoController.h; sourceTree = "<group>"; };
+		18C3FBFC1C1044FD0031AFAC /* UNICardInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNICardInfoController.m; sourceTree = "<group>"; };
+		18C3FBFE1C104F880031AFAC /* UNICardInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNICardInfoCell.h; sourceTree = "<group>"; };
+		18C3FBFF1C104F880031AFAC /* UNICardInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNICardInfoCell.m; sourceTree = "<group>"; };
+		18C3FC001C104F880031AFAC /* UNICardInfoCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNICardInfoCell.xib; sourceTree = "<group>"; };
 		18C57CE01C05933D00E30B87 /* UNIAppontMid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppontMid.h; sourceTree = "<group>"; };
 		18C57CE11C05933D00E30B87 /* UNIAppontMid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppontMid.m; sourceTree = "<group>"; };
 		18C57CE51C05B04300E30B87 /* UNIAppointBotton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppointBotton.h; sourceTree = "<group>"; };
@@ -384,6 +398,8 @@
 				18E627851BF9ED3800C4C13C /* UNIBaseModel.m */,
 				1808385B1BFAE63600727B61 /* UNIMyProjectModel.h */,
 				1808385C1BFAE63600727B61 /* UNIMyProjectModel.m */,
+				18C3FBF71C1011B70031AFAC /* UNIMyAppointInfoModel.h */,
+				18C3FBF81C1011B70031AFAC /* UNIMyAppointInfoModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -465,6 +481,7 @@
 		18BA7D751BEA166E00DD7826 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				18C3FBFA1C1044DC0031AFAC /* CardInfo */,
 				18BA7D761BEA169300DD7826 /* MainMidController.h */,
 				18BA7D771BEA169300DD7826 /* MainMidController.m */,
 				18BA7D791BEA16B900DD7826 /* MainBottomController.h */,
@@ -502,6 +519,15 @@
 			path = ToastView;
 			sourceTree = "<group>";
 		};
+		18C3FBFA1C1044DC0031AFAC /* CardInfo */ = {
+			isa = PBXGroup;
+			children = (
+				18C3FBFB1C1044FD0031AFAC /* UNICardInfoController.h */,
+				18C3FBFC1C1044FD0031AFAC /* UNICardInfoController.m */,
+			);
+			path = CardInfo;
+			sourceTree = "<group>";
+		};
 		18C7459B1BF047CF000062AF /* Cell */ = {
 			isa = PBXGroup;
 			children = (
@@ -520,6 +546,9 @@
 				18C3ECFD1C0EF01200B0A192 /* UNIAppointDetail2Cell.h */,
 				18C3ECFE1C0EF01200B0A192 /* UNIAppointDetail2Cell.m */,
 				18C3ECFF1C0EF01200B0A192 /* UNIAppointDetail2Cell.xib */,
+				18C3FBFE1C104F880031AFAC /* UNICardInfoCell.h */,
+				18C3FBFF1C104F880031AFAC /* UNICardInfoCell.m */,
+				18C3FC001C104F880031AFAC /* UNICardInfoCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -613,6 +642,8 @@
 				18BF0A061BF4740F000AE604 /* UNIAppDeleRequest.m */,
 				18C73A791C069B1300A3A4CA /* UNIMypointRequest.h */,
 				18C73A7A1C069B1300A3A4CA /* UNIMypointRequest.m */,
+				18C3FBF41C0FEFE60031AFAC /* UNIMyAppointInfoRequest.h */,
+				18C3FBF51C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -772,6 +803,7 @@
 				18C745961BF0334E000062AF /* Guide.storyboard in Resources */,
 				18C3ECFC1C0EEA2100B0A192 /* UNIAppointDetall1Cell.xib in Resources */,
 				180CD3971BDF180A00C912FE /* LaunchScreen.storyboard in Resources */,
+				18C3FC021C104F890031AFAC /* UNICardInfoCell.xib in Resources */,
 				18C745B81BF07EE4000062AF /* PushConfig.plist in Resources */,
 				18C57CE91C05B05300E30B87 /* UNIAppointBotton.xib in Resources */,
 				18CCA0201C0310F600B90092 /* Function.storyboard in Resources */,
@@ -862,8 +894,10 @@
 				18CCA01E1C030FF600B90092 /* UNIMyRewardController.m in Sources */,
 				18CCA01A1C030B3400B90092 /* UNIContainController.m in Sources */,
 				18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */,
+				18C3FBF91C1011B70031AFAC /* UNIMyAppointInfoModel.m in Sources */,
 				18E14C2F1C046F7700AA36C8 /* UNIAppointController.m in Sources */,
 				18C73A7F1C06F74D00A3A4CA /* UNIMyAppointCell.m in Sources */,
+				18C3FBFD1C1044FD0031AFAC /* UNICardInfoController.m in Sources */,
 				18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */,
 				18C745991BF03400000062AF /* MainMidView.m in Sources */,
 				18E627861BF9ED3800C4C13C /* UNIBaseModel.m in Sources */,
@@ -875,6 +909,7 @@
 				18C3ECFB1C0EEA2100B0A192 /* UNIAppointDetall1Cell.m in Sources */,
 				18BF0A041BF44428000AE604 /* LLARingSpinnerView.m in Sources */,
 				18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */,
+				18C3FC011C104F890031AFAC /* UNICardInfoCell.m in Sources */,
 				18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */,
 				18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */,
 				18C57CE71C05B04300E30B87 /* UNIAppointBotton.m in Sources */,
@@ -895,6 +930,7 @@
 				18C3ECF21C0EC9C900B0A192 /* UNIAppointDetail.m in Sources */,
 				1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */,
 				180CD3891BDF180A00C912FE /* main.m in Sources */,
+				18C3FBF61C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m in Sources */,
 				18C73A831C06FAAD00A3A4CA /* UNIMyPojectList.m in Sources */,
 				18D9CBE91BEC801F001EF50C /* MainMidMoveBackTransition.m in Sources */,
 				1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */,

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIAppointDetail : UIViewController
-@property (weak, nonatomic) IBOutlet UITableView *myTableView;
-
+@property (strong, nonatomic) UITableView *myTableView;
+@property (copy, nonatomic) NSString* order;
 @end

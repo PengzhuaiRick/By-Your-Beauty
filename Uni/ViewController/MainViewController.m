@@ -163,6 +163,10 @@
     [topView addSubview:shopLog];
     shopLogo = shopLog;
     
+    topView.userInteractionEnabled = YES;
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(toCardinfoController)];
+    [topView addGestureRecognizer:tap];
+    
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(shopLog.frame)+10,
                                                             15, topView.frame.size.width*0.7, 20)];
     lab.textColor = [UIColor colorWithRed:226/255.f green:52/255.f blue:105/255.f alpha:1];
@@ -185,6 +189,12 @@
     VIPimg.contentMode = UIViewContentModeScaleAspectFit;
     [topView addSubview:VIPimg];
     VIPImage = VIPimg;
+}
+#pragma mark 跳转到会员卡使用详情界面
+-(void)toCardinfoController{
+    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController* vc = [main instantiateViewControllerWithIdentifier:@"UNICardInfoController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 
@@ -553,11 +563,13 @@
                                    animationControllerForOperation:(UINavigationControllerOperation)operation
                                                 fromViewController:(UIViewController *)fromVC
                                                   toViewController:(UIViewController *)toVC{
-    if ([toVC isKindOfClass:[UNIAppointController class]])
-        return nil;
-    
+    if ([toVC isKindOfClass:[MainMidController class]]||[toVC isKindOfClass:[MainBottomController class]]){
+      
     MainMoveTransition *transition = [[MainMoveTransition alloc]init];
-    return transition;
+        return transition;
+    }
+    return nil;
+                                                            
 }
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
