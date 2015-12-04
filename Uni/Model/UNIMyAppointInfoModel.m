@@ -22,8 +22,10 @@
     self.date = [self safeObject:dic ForKey:@"date"];
     self.createTime = [self safeObject:dic ForKey:@"createTime"];
     self.lastModifiedDate = [self safeObject:dic ForKey:@"lastModifiedDate"];
+    self.logoUrl = [self safeObject:dic ForKey:@"logoUrl"];
     self.status = [[self safeObject:dic ForKey:@"status"]intValue];
     self.projectId = [[self safeObject:dic ForKey:@"projectId"]intValue];
     self.costTime = [[self safeObject:dic ForKey:@"costTime"]intValue];
+    self.ifIntime = [[self safeObject:dic ForKey:@"ifIntime"]intValue];
 }
 @end

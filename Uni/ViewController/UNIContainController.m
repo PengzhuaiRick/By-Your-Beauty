@@ -8,7 +8,7 @@
 
 #import "UNIContainController.h"
 #import "MainViewController.h"
-
+#import "UNIMyRewardController.h"
 @interface UNIContainController ()
 {
     UINavigationController* mainNav;
@@ -56,7 +56,9 @@
     [self removeController];
     if (!myRewardNav) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-        myRewardNav = [st instantiateViewControllerWithIdentifier:@"NavToMyReward"];
+        UNIMyRewardController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
+        mainCtr.containController = self;
+        myRewardNav =[[UINavigationController alloc]initWithRootViewController:mainCtr];
     }
    
     [self.view addSubview:myRewardNav.view];

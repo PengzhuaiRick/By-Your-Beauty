@@ -68,4 +68,20 @@
     }
 }
 
+-(void)setAppointCell:(id)model and:(int)num and:(int)type{
+    UNIMyRewardModel* info = model;
+    [self.handleBtn setBackgroundImage:[UIImage imageNamed:@"main_btn_cell1"] forState:UIControlStateNormal];
+    [self.handleBtn setTitle:[NSString stringWithFormat:@"%d次",num] forState:UIControlStateNormal];
+    
+    if (type==1){
+        self.mainLab.text = [NSString stringWithFormat:@"预约成功满%d次",info.rewardNum];
+        self.mainImage.image = [UIImage imageNamed:@"evaluete_img_reward"];
+    }
+    else{
+        self.mainLab.text = [NSString stringWithFormat:@"准时到店满%d次",info.rewardNum];
+        self.mainImage.image = [UIImage imageNamed:@"card_img_ITreward"];
+    }
+    self.subLab.text = info.goods;
+}
+
 @end

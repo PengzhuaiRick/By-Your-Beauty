@@ -64,9 +64,18 @@
 #define API_URL_GetSellInfo @"getSellInfo"
 
 //服务评价接口
-#define API_URL_SetAppraise @"setAppraise"
+#define API_URL_GoodsAppraise @"setGoodsAppraise"
 
 //会员卡详情接口
 #define API_URL_GetCardInfo @"getCardInfo"
+
+//准时奖励信息接口
+#define API_URL_ITRewardInfo @"intimeRewardInfo"
+
+//我的奖励—约满奖励接口
+#define API_URL_MYRewardInfo @"myRewardInfo"
+
+//我的奖励--准时奖励接口
+#define API_URL_MYITRewardInfo @"myIntimeRewardInfo"
 
 #endif /* URLconfig_h */

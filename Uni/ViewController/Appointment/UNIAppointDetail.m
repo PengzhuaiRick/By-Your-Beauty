@@ -11,6 +11,7 @@
 #import "UNIAppointDetailCell.h"
 #import "UNIAppointDetail2Cell.h"
 #import "UNIMyAppointInfoRequest.h"
+#import "UNIEvaluateController.h"
 @interface UNIAppointDetail ()<UITableViewDataSource,UITableViewDelegate>{
     float topCellH;
     float midCellH;
@@ -25,7 +26,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    [self startRequest];
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIEvaluateController* eva = [story instantiateViewControllerWithIdentifier:@"UNIEvaluateController"];
+    [self.navigationController pushViewController:eva animated:YES];
+    //[self startRequest];
     //[self setupMyTableView];
 }
 -(void)startRequest{
@@ -87,8 +91,8 @@
 -(void)setupTabelViewFootView{
     self.myTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,KMainScreenWidth-32, 1)];
     
-    if (self.orderState != 2)
-        return;
+//    if (self.orderState != 2)
+//        return;
     
     
     float btnWH =KMainScreenWidth*50/320;
@@ -106,7 +110,12 @@
     [self.view addSubview:button];
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-        
+         UNIMyAppointInfoModel* info =self.modelArr.lastObject;
+         NSArray* arr= @[self.order,info.projectName,info.createTime];
+         UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+         UNIEvaluateController* eva = [story instantiateViewControllerWithIdentifier:@"UNIEvaluateController"];
+         eva.data = arr;
+         [self.navigationController pushViewController:eva animated:YES];
     }];
 }
 

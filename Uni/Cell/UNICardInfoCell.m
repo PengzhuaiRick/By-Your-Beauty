@@ -7,7 +7,7 @@
 //
 
 #import "UNICardInfoCell.h"
-
+#import "UNIMyAppointInfoModel.h"
 @implementation UNICardInfoCell
 
 - (void)awakeFromNib {
@@ -32,8 +32,9 @@
     self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
     [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
-    float img2H = cellH/2;
-    self.img2.frame = CGRectMake(btnX, img2H, btnWH, img2H);
+    float img2H = KMainScreenWidth*25/320;
+    float img2Y = cellH -img2H;
+    self.img2.frame = CGRectMake(btnX, img2Y, btnWH, img2H);
     
     float labX = imgX+imgW;
     float labW = cellW - labX - btnWH - 10;
@@ -52,9 +53,32 @@
     
 }
 -(void)setupCellContentWith:(id)model{
-    self.label1.text = @"日本皇室奖励";
-    self.label2.text = @"9-21 15:20";
-    [self.stateBtn setTitle:@"已完成" forState:UIControlStateNormal];
+    UNIMyAppointInfoModel* info = model;
+    self.label1.text = info.projectName;
+    self.label2.text = info.createTime;
+    NSString* titel = nil;
+    switch (info.status) {
+        case 0:
+            titel = @"待安排";
+            break;
+        case 1:
+            titel = @"待确认";
+            break;
+        case 2:
+            titel = @"已完成";
+            break;
+        case 3:
+            titel = @"已取消";
+            break;
+    }
+    [self.stateBtn setTitle:titel forState:UIControlStateNormal];
+    
+    if (info.ifIntime == 0) {
+        self.img2.hidden=YES;
+    }else{
+        self.img2.hidden=NO;
+        self.img2.image = [UIImage imageNamed:@"card_img_CellReward"];
+    }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

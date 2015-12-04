@@ -18,6 +18,12 @@
  */
 typedef void(^RQMyAppointInfo)(NSArray* models,NSString*tips,NSError* er);
 
+/**
+ *  商品评价Block
+ *  @param tips 反馈信息
+ *  @param er   错误信息
+ */
+typedef void(^RQAppraise)(int code, NSString*tips,NSError* er);
 
 @interface UNIMyAppointInfoRequest : BaseRequest
 
@@ -25,4 +31,7 @@ typedef void(^RQMyAppointInfo)(NSArray* models,NSString*tips,NSError* er);
 //获取预约详情Block
 @property(nonatomic , copy) RQMyAppointInfo reqMyAppointInfo;
 
+
+//商品评价Block
+@property(nonatomic , copy) RQAppraise rqAppraise;
 @end

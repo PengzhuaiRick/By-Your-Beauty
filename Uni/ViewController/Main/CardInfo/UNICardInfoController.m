@@ -8,11 +8,14 @@
 
 #import "UNICardInfoController.h"
 #import "UNICardInfoCell.h"
+#import "UNICardInfoRequest.h"
 @interface UNICardInfoController ()<UITableViewDataSource,UITableViewDelegate>{
     UIView* topView;
+    UIView* midView;
     UITableView* myTableView;
+    
 }
-
+@property(nonatomic, strong)NSMutableArray* myData;
 @end
 
 @implementation UNICardInfoController
@@ -20,6 +23,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
+    [self startRequestInTimeInfo];
+    [self startRequestCardInfo];
     [self setupTopview];
     [self setupTableView];
 }
@@ -28,7 +33,46 @@
     self.view .backgroundColor= [UIColor colorWithHexString: kMainBackGroundColor];
     
 }
+#pragma mark 开始请求准时奖励信息
+-(void)startRequestInTimeInfo{
+    UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
+    [request postWithSerCode:@[API_PARAM_UNI,API_URL_ITRewardInfo]
+                      params:@{@"userId":@(1),@"token":@"abcdxxa",@"shopId":@(1)}];
+    request.rqrewardBlock=^(int total,int num,NSString* tips,NSError* err){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (err) {
+                [YIToast showText:err.localizedDescription];
+                return ;
+            }
+            if (total>0) {
+                [self setupmidView:total and:num];
+            }else
+                [YIToast showText:tips];
+        });
+    };
+}
 
+#pragma mark 开始请求会员卡信息
+-(void)startRequestCardInfo{
+    UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
+    [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetCardInfo]
+                      params:@{@"page":@(0),@"size":@(20)}];
+    request.cardInfoBlock=^(NSArray* arr,NSString* tips,NSError* err){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (err) {
+                [YIToast showText:err.localizedDescription];
+                return ;
+            }
+            if (arr && arr.count>0) {
+                [self.myData addObjectsFromArray:arr];
+                [self->myTableView reloadData];
+            }else
+                [YIToast showText:tips];
+        });
+    };
+}
+
+#pragma mark 开始加载准时奖励视图
 -(void)setupTopview{
     float topX = 16;
     float topY = 64+16;
@@ -63,6 +107,7 @@
     UIView * midview = [[UIView alloc]initWithFrame:CGRectMake(0, imgH, topW, midH)];
     midview.backgroundColor = [UIColor whiteColor];
     [top addSubview:midview];
+    midView = midview;
     
     float btnX =labX*4;
     float btnW = topW - btnX*2;
@@ -77,20 +122,21 @@
     btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [top addSubview:btn];
 
-    
+}
+-(void)setupmidView:(int)total and:(int)num{
     UIImage* img3 =[UIImage imageNamed:@"main_img_proLess"];
-    float jc = (midview.frame.size.width-20)/10;
+    float jc = (midView.frame.size.width-20)/total;
     float img3H = img3.size.height*jc/img3.size.width;
-    float img3Y = (midview.frame.size.height - img3H)/2;
-    for (int i = 0; i<10; i++) {
+    float img3Y = (midView.frame.size.height - img3H)/2;
+    for (int i = 0; i<total; i++) {
         
         UIImageView* img = [[UIImageView alloc]initWithFrame:
                             CGRectMake(10+(jc*i),img3Y, jc,img3H)];
-        if (i<3)
+        if (i<num)
             img.image = [UIImage imageNamed:@"main_img_bluePro"];
         else
             img.image = img3;
-        [midview addSubview:img];
+        [midView addSubview:img];
         
         UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,jc-2,img3H)];
         lab.text = [NSString stringWithFormat:@"%i",i+1];
@@ -100,20 +146,23 @@
         [img addSubview:lab];
     }
     
-    UIImage* img4 =[UIImage imageNamed:@"main_img_unaward"];
+    UIImage* img4 =[UIImage imageNamed:@"card_img_ITNreward"];
     float img4W = KMainScreenWidth*25/320;
     float img4H = img4.size.height * img4W / img4.size.width;
-    float img4X = midview.frame.size.width - img4W - 5;
-    float img4Y =(midview.frame.size.height - img4H)/2;
+    float img4X = midView.frame.size.width - img4W - 5;
+    float img4Y =(midView.frame.size.height - img4H)/2;
     UIImageView* awardImge = [[UIImageView alloc]initWithFrame:CGRectMake(img4X,img4Y,img4W,img4H)];
-//    if (nextRewardNum ==num)
-//        awardImge.image = [UIImage imageNamed:@"main_img_award"];
-//    else
-    awardImge.image =img4;
-    [midview addSubview:awardImge];
+        if (total ==num)
+            awardImge.image = [UIImage imageNamed:@"card_img_ITreward"];
+        else
+            awardImge.image =img4;
+    [midView addSubview:awardImge];
 
 }
+
 -(void)setupTableView{
+    self.myData = [NSMutableArray array];
+    
     float tabX = 16;
     float tabY = CGRectGetMaxY(topView.frame)+16;
     float tabW = KMainScreenWidth - tabX*2;
@@ -128,7 +177,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5;
+    return self.myData.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -141,7 +190,8 @@
         cell =[[NSBundle mainBundle]loadNibNamed:@"UNICardInfoCell" owner:self options:nil].lastObject;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    [cell setupCellContentWith:nil];
+    
+    [cell setupCellContentWith:self.myData[indexPath.row]];
     return cell;
 }
 

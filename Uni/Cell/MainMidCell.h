@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UNIMyAppintModel.h"
 #import "UNIMyProjectModel.h"
+#import "UNIMyRewardModel.h"
 #define CELLW self.superview.frame.size.width
 #define CELLH KMainScreenWidth*70/375
 @interface MainMidCell : UITableViewCell
@@ -18,4 +19,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *handleBtn;
 
 -(void)setupCellContent:(id)model andType:(int)type;
+
+-(void)setAppointCell:(id)model and:(int)num and:(int)type;
 @end

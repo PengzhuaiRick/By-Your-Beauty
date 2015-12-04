@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
-        <!--My Reward Controller-->
+        <!--我的奖励界面-->
         <scene sceneID="qZt-9o-fqd">
             <objects>
-                <viewController storyboardIdentifier="UNIMyRewardController" id="wNH-uF-Wys" customClass="UNIMyRewardController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UNIMyRewardController" title="我的奖励界面" id="wNH-uF-Wys" customClass="UNIMyRewardController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="UIv-aD-A93"/>
                         <viewControllerLayoutGuide type="bottom" id="RPP-XE-yfT"/>
@@ -15,12 +15,6 @@
                     <view key="view" contentMode="scaleToFill" id="rJ6-iL-OHd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="Main_Img_Welcome" translatesAutoresizingMaskIntoConstraints="NO" id="0Tp-qu-BFE">
-                                <rect key="frame" x="40" y="208" width="240" height="128"/>
-                                <animations/>
-                            </imageView>
-                        </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -30,6 +24,27 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GgB-IP-8JV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1017" y="318"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="L5G-Wi-sbQ">
+            <objects>
+                <viewController id="3Bh-Kf-6QX" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vU2-j5-Z1P"/>
+                        <viewControllerLayoutGuide type="bottom" id="sGa-Nk-Yl9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="SQw-so-pTY">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Mzv-4G-BQJ"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n77-tv-H2N" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1017" y="966"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Onn-KK-UEL">
@@ -51,8 +66,25 @@
             </objects>
             <point key="canvasLocation" x="637" y="318"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="WoP-79-Htb">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="yrr-cY-jjS" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="JTd-Ob-LDV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="3Bh-Kf-6QX" kind="relationship" relationship="rootViewController" id="IhJ-D6-SVg"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ATz-VY-vhh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="637" y="966"/>
+        </scene>
     </scenes>
-    <resources>
-        <image name="Main_Img_Welcome" width="540" height="960"/>
-    </resources>
 </document>

@@ -10,14 +10,15 @@
 
 @implementation BaseRequest
 -(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params{
-   
+    NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:params];
+    [dic setValue:@(1) forKey:@"userId"];
+    [dic setValue:@"abcdxxa" forKey:@"token"];
+    [dic setValue:@(1) forKey:@"shopId"];
+    
     NSString* URL = [self spliceURL:code];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    for (AFHTTPRequestOperation *operation in manager.operationQueue.operations) {
-//        NSLog(@"op.name  %@",operation.request.URL.absoluteString);
-//    }
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
-    NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];
+    NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:dic] forKey:@"json"];
     NSLog(@"%@",ddic);
     [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON: %@", responseObject);
@@ -31,7 +32,27 @@
             [self requestFailed:error andIdenCode:code];
         }
     }];
-    
+}
+
+-(void)postWithoutUserIdSerCode:(NSArray*)code params:(NSDictionary *)params{
+
+    NSString* URL = [self spliceURL:code];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
+    NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];
+    NSLog(@"%@",ddic);
+    [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        // NSLog(@"%@",[self safeObject:responseObject ForKey:@"tips"]);
+        if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
+            [self requestSucceed:responseObject andIdenCode:code];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        if ([self respondsToSelector:@selector(requestFailed:andIdenCode:)]) {
+            [self requestFailed:error andIdenCode:code];
+        }
+    }];
 }
 
 -(void)getWithSerCode:(NSArray*)code params:(NSDictionary *)params{

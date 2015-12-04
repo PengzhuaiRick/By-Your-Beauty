@@ -1,14 +1,14 @@
 //
-//  UNIMyAppointInfoRequest.m
+//  UNICardInfoRequest.m
 //  Uni
-//  预约详情界面
-//  Created by apple on 15/12/3.
+//
+//  Created by apple on 15/12/4.
 //  Copyright © 2015年 apple. All rights reserved.
 //
 
-#import "UNIMyAppointInfoRequest.h"
+#import "UNICardInfoRequest.h"
 
-@implementation UNIMyAppointInfoRequest
+@implementation UNICardInfoRequest
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
     // NSLog(@"requestSucceed  %@",dic);
     NSString* param1 = array[0];
@@ -17,9 +17,9 @@
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
     
-    //获取预约详情信息
+    //会员卡详情接口
     if ([param1 isEqualToString:API_PARAM_UNI]) {
-        if ([param2 isEqualToString:API_URL_GetAppointInfo]) {
+        if ([param2 isEqualToString:API_URL_GetCardInfo]) {
             if (code == 0) {
                 NSArray* result = [self safeObject:dic ForKey:@"result"];
                 NSMutableArray* models = [NSMutableArray arrayWithCapacity:result.count];
@@ -27,36 +27,35 @@
                     UNIMyAppointInfoModel* model = [[UNIMyAppointInfoModel alloc]initWithDic:dic];
                     [models addObject:model];
                 }
-                _reqMyAppointInfo(models,tips,nil);
+                _cardInfoBlock(models,tips,nil);
             }else
-                _reqMyAppointInfo(nil,tips,nil);
-        }
-        
-        //服务评论
-        if ([param2 isEqualToString:API_URL_GoodsAppraise]) {
-            if (code == 0)
-                _rqAppraise( code,tips,nil);
-            else
-                _rqAppraise( -1,tips,nil);
+                _cardInfoBlock(nil,tips,nil);
+               }
+        //准时奖励
+        if ([param2 isEqualToString:API_URL_ITRewardInfo]) {
+            if (code == 0) {
+                int nextRewardNum = [[self safeObject:dic ForKey:@"nextRewardNum"]intValue];
+                int num = [[self safeObject:dic ForKey:@"num"]intValue];
+                _rqrewardBlock(nextRewardNum,num,tips,nil);
+            }else
+                _rqrewardBlock(-1,-1,tips,nil);
         }
     }
+    
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
     NSString* param1 = array[0];
     NSString* param2 = array[1];
     
-    //获取预约详情信息
+   
     if ([param1 isEqualToString:API_PARAM_UNI]) {
-        if ([param2 isEqualToString:API_URL_GetAppointInfo])
-            _reqMyAppointInfo(nil,nil,err);
-        
-        ////服务评论
-        if ([param2 isEqualToString:API_URL_GoodsAppraise])
-                _rqAppraise( -1,nil,nil);
-        
-
+         //会员卡详情接口
+        if ([param2 isEqualToString:API_URL_GetCardInfo])
+             _cardInfoBlock(nil,nil,err);
+       // 准时奖励
+         if ([param2 isEqualToString:API_URL_ITRewardInfo])
+             _rqrewardBlock(-1,-1,nil,err);
     }
 }
-
 @end
