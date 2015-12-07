@@ -20,16 +20,130 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
+    [self setupBaseUI];
     [self setupUI];
+    if(KMainScreenHeight<568)
+       [self regirstKeyBoardNotification];
 }
 -(void)setupNavigation{
    self.title=@"服务评价";
 }
+-(void)setupBaseUI{
+    float viewX = 15;
+    float viewY = 64+15;
+    float viewW = KMainScreenWidth - 30;
+    float viewH = KMainScreenWidth *230 /320;
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:view];
+    self.mainView = view;
+    
+    float btWH = KMainScreenWidth* 60/320;
+    float btX = (KMainScreenWidth - btWH)/2;
+    float btY = CGRectGetMaxY(view.frame)+30;
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame =CGRectMake(btX, btY, btWH, btWH);
+    [btn setTitle:@"提交" forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
+    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
+    [self.view addSubview:btn];
+    self.submitBnt = btn;
+    
+    
+    float lab1X = 25;
+    float lab1Y = 10;
+    float lab1W = viewW - 50;
+    float lab1H = KMainScreenWidth * 20/320;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y,lab1W, lab1H)];
+    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    lab1.textColor = [UIColor colorWithHexString:kMainThemeColor];
+    [view addSubview:lab1];
+    self.label1 = lab1;
+    
+    float lab2Y = lab1Y+lab1H;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab2Y,lab1W, lab1H)];
+    lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
+    [view addSubview:lab2];
+    self.label2 = lab2;
+    
+    float lab3Y = lab2Y+lab1H;
+    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab3Y,lab1W, lab1H)];
+    lab3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    [view addSubview:lab3];
+    self.label3 = lab3;
+    
+    UIImage* image = [UIImage imageNamed:@"main_img_cell3"];
+    float imgX = 10;
+    float imgY = CGRectGetMaxY(lab3.frame)+25;
+    float imgW = viewW/4;
+    float imgH =image.size.height *imgW /image.size.width;
+    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY,imgW, imgH)];
+    img.image = image;
+    [view addSubview:img];
+    self.mainImg =img;
+    
+    float textX = imgX+imgW;
+    float textY = CGRectGetMaxY(lab3.frame)+10;
+    float textW = viewW - CGRectGetMaxX(img.frame)-10;
+    float textH = KMainScreenWidth *85 /320;
+    UITextView* textView = [[UITextView alloc]initWithFrame:CGRectMake(textX, textY, textW, textH)];
+    [view addSubview:textView];
+    self.textView = textView;
+    
+    float lab4Y = textY+textH+20;
+    float lab4W = KMainScreenWidth*75/320;
+    UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab4Y, lab4W, lab1H)];
+    lab4.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    lab4.text = @"服务满意度:";
+    [view addSubview:lab4];
+    
+    float btnX = CGRectGetMaxX(lab4.frame)+5;
+    float btnY =textY+textH+15;
+    float btnHW = KMainScreenWidth*25/320;
+
+    UIImage* img1 =[UIImage imageNamed:@"evaluate_btn_xing1"];
+    for (int i = 0; i<5; i++) {
+        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame =CGRectMake(btnX+i*btnHW, btnY, btnHW, btnHW);
+        [btn setBackgroundImage:img1 forState:UIControlStateNormal];
+        btn.tag = i+1;
+        [view addSubview:btn];
+        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+         subscribeNext:^(UIButton* x) {
+             [self xingxingTouchAction:btn];
+         }];
+
+        switch (i) {
+            case 0:
+                self.xing1 = btn;
+                break;
+            case 1:
+               self.xing2 = btn;
+                break;
+            case 2:
+               self.xing3 = btn;
+                break;
+            case 3:
+               self.xing4 = btn;
+                break;
+            case 4:
+                self.xing5 = btn;
+                break;
+        }
+    }
+    
+}
 -(void)setupUI{
     grades = 0;
-    self.label1.text = self.data[0];
-    self.label2.text = self.data[1];
-    self.label3.text = self.data[2];
+//    self.label1.text = self.data[0];
+//    self.label2.text = self.data[1];
+//    self.label3.text = self.data[2];
+    self.label1.text = @"时代我弟弟撒时代";
+    self.label2.text = @"的发生为我而过的风格的";
+    self.label3.text = @"身上的发生地方打工";
+
     
     self.mainView.layer.masksToBounds = YES;
     self.mainView.layer.cornerRadius = 10;
@@ -82,7 +196,7 @@
  }
 
 #pragma mark 星星按钮评级
-- (IBAction)xingxingTouchAction:(UIButton*)sender {
+- (void)xingxingTouchAction:(UIButton*)sender {
     grades = (int)sender.tag;
     for (int i=1 ; i<6; i++) {
         UIButton* btn = (UIButton*)[self.mainView viewWithTag:i];
@@ -116,6 +230,42 @@
     
 }
 
+#pragma mark 注册键盘是事件
+-(void)regirstKeyBoardNotification{
+    //增加监听，当键盘出现或改变时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    //增加监听，当键退出时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+-(void)keyboardWillShow:(NSNotification*)notification{
+    self.mainView.frame = CGRectMake(self.mainView.frame.origin.x,
+                                     self.mainView.frame.origin.y-100,
+                                     self.mainView.frame.size.width,
+                                     self.mainView.frame.size.height);
+}
+-(void)keyboardWillHide:(NSNotification*)notification{
+    self.mainView.frame = CGRectMake(self.mainView.frame.origin.x,
+                                     self.mainView.frame.origin.y+100,
+                                     self.mainView.frame.size.width,
+                                     self.mainView.frame.size.height);
+}
+
+-(void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIKeyboardWillShowNotification
+                                                 object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIKeyboardWillHideNotification
+                                                 object:nil];
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

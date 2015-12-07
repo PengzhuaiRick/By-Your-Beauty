@@ -26,9 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UNIEvaluateController* eva = [story instantiateViewControllerWithIdentifier:@"UNIEvaluateController"];
-    [self.navigationController pushViewController:eva animated:YES];
+    
     //[self startRequest];
     //[self setupMyTableView];
 }

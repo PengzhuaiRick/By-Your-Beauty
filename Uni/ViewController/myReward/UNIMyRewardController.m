@@ -9,6 +9,7 @@
 #import "UNIMyRewardController.h"
 #import "MyRewardView.h"
 #import "UNIMyRewardRequest.h"
+#import "UNIRewardListController.h"
 @interface UNIMyRewardController (){
     MyRewardView* appointView;
     MyRewardView* inTimeView;
@@ -103,6 +104,9 @@
      MyRewardView * view = [[MyRewardView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH) andNum:0 andType:1];
     [self.view addSubview:view];
     appointView = view;
+    
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
+    [view addGestureRecognizer:tap];
 }
 
 -(void)setupIntimeView{
@@ -118,6 +122,16 @@
     MyRewardView * view = [[MyRewardView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH) andNum:0 andType:2];
     [self.view addSubview:view];
     inTimeView = view;
+    
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
+    [view addGestureRecognizer:tap];
+
+}
+
+-(void)gotoRewardListController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIRewardListController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "MainMidView.h"
 @interface MainViewController : UIViewController
 
-@property(nonatomic ,strong)UIView* midView;
-@property(nonatomic ,strong)UIView* buttomView;
+@property(nonatomic ,strong)MainMidView* midView;
+@property(nonatomic ,strong)MainMidView* buttomView;
 @property(nonatomic ,strong)UIViewController* containController;
 @end

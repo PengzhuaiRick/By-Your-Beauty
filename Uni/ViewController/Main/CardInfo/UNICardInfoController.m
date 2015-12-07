@@ -9,6 +9,8 @@
 #import "UNICardInfoController.h"
 #import "UNICardInfoCell.h"
 #import "UNICardInfoRequest.h"
+
+#import "UNIEvaluateController.h"
 @interface UNICardInfoController ()<UITableViewDataSource,UITableViewDelegate>{
     UIView* topView;
     UIView* midView;
@@ -27,6 +29,13 @@
     [self startRequestCardInfo];
     [self setupTopview];
     [self setupTableView];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"hehe" style:0 target:self action:@selector(hehe)];
+}
+-(void)hehe{
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIEvaluateController* eva = [story instantiateViewControllerWithIdentifier:@"UNIEvaluateController"];
+    [self.navigationController pushViewController:eva animated:YES];
 }
 -(void)setupNavigation{
     self.title = @"使用会员卡详情";

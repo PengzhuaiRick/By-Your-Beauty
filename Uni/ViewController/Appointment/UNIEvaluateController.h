@@ -9,18 +9,18 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIEvaluateController : UIViewController
-@property (weak, nonatomic) IBOutlet UIView *mainView;
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *label2;
-@property (weak, nonatomic) IBOutlet UILabel *label3;
-@property (weak, nonatomic) IBOutlet UIImageView *mainImg;
-@property (weak, nonatomic) IBOutlet UITextView *textView;
-@property (weak, nonatomic) IBOutlet UIButton *xing1;
-@property (weak, nonatomic) IBOutlet UIButton *xing2;
-@property (weak, nonatomic) IBOutlet UIButton *xing3;
-@property (weak, nonatomic) IBOutlet UIButton *xing4;
-@property (weak, nonatomic) IBOutlet UIButton *xing5;
-@property (weak, nonatomic) IBOutlet UIButton *submitBnt;
+@property (strong, nonatomic)  UIView *mainView;
+@property (strong, nonatomic)  UILabel *label1;
+@property (strong, nonatomic)  UILabel *label2;
+@property (strong, nonatomic)  UILabel *label3;
+@property (strong, nonatomic)  UIImageView *mainImg;
+@property (strong, nonatomic)  UITextView *textView;
+@property (strong, nonatomic)  UIButton *xing1;
+@property (strong, nonatomic)  UIButton *xing2;
+@property (strong, nonatomic)  UIButton *xing3;
+@property (strong, nonatomic)  UIButton *xing4;
+@property (strong, nonatomic)  UIButton *xing5;
+@property (strong, nonatomic)  UIButton *submitBnt;
 
 @property(nonatomic,strong)NSArray* data;
 @end

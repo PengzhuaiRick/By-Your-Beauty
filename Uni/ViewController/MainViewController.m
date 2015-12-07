@@ -10,14 +10,14 @@
 #import "MainMidController.h"
 #import "MainBottomController.h"
 #import "MainMoveTransition.h"
-#import "MainMidView.h"
 #import "MainViewRequest.h"
 #import "AccountManager.h"
 #import "UNIAppointController.h"
-@interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate>{
-    __weak IBOutlet UIScrollView *myScroller;
-    MainMidView* hahview;
-    MainMidView* fafview;
+#import <MJRefresh/MJRefresh.h>
+@interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate>{
+  //  __weak IBOutlet UIScrollView *myScroller;
+    UITableView* myTable;
+    float cellHight;
     UIImageView* topView;
     UILabel* shopNameLab;
     UILabel* shopAddressLab;
@@ -69,7 +69,7 @@
     
     [self setupNavigation];
     [self setupScroller];
-    [self addChildController];
+    //[self addChildController];
      //[self addChildController1];
     [self startRequestShopInfo];//请求商家信息
     [self startRequestReward];//请求约满信息
@@ -109,48 +109,75 @@
 }
 #pragma mark 设置Scroller
 -(void)setupScroller{
-    
-    float scrollContengHight = KMainScreenHeight-64;  // Scroller 的 contentSize的高度
-    if (KMainScreenHeight<568)
-        scrollContengHight=568-64;
-    myScroller.contentSize = CGSizeMake(KMainScreenWidth, scrollContengHight);
    
+    float tabX = 10;
+    float tabY = 64+10;
+    float tabW = KMainScreenWidth - tabX*2;
+    float tabH = KMainScreenHeight - tabX - tabY;
+    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
+    tabview.delegate = self;
+    tabview.dataSource = self;
+    tabview.backgroundColor = [UIColor clearColor];
+    tabview.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tabview.showsVerticalScrollIndicator=NO;
+    [self.view addSubview:tabview];
+    myTable =tabview;
     
-    
-    int bj = 8;   //边界
+   // int bj = 8;   //边界
+    int bj = 0;
     UIImage* imag =[UIImage imageNamed:@"main_img_top"];
-    float imgH = imag.size.height*(KMainScreenWidth-bj*2)/imag.size.width;
-    topRe =CGRectMake(bj,bj,KMainScreenWidth-bj*2,imgH);
+    float imgH = imag.size.height*tabW/imag.size.width;
+    topRe =CGRectMake(bj,bj,tabW,imgH);
     UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
     topImg.image = imag;
-    [myScroller addSubview:topImg];
+    //[myScroller addSubview:topImg];
+    tabview.tableHeaderView = topImg;
     topView = topImg;
     
-    //float gd = (sgd - bj*3)/3; //view 高度
-    float gd = (scrollContengHight-CGRectGetMaxY(topImg.frame)-2*bj)/2;
-    
+    if (KMainScreenHeight<568)
+        cellHight =(568-64-tabX*2-topView.frame.size.height)/2;
+    else
+        cellHight =(KMainScreenHeight-64-tabX*2-topView.frame.size.height)/2;
+
     [self setupTopImageSubView];
     
+    tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self startRequestAppointInfo];//请求我已预约
+        [self startRequestProjectInfo];//请求我的项目
+    }];
     
-    midRe =CGRectMake(bj,CGRectGetMaxY(topImg.frame)+bj, KMainScreenWidth-bj*2, gd);
-    _midView= [[UIView  alloc]initWithFrame:midRe];
-    //_midView.backgroundColor = [UIColor whiteColor];
-    _midView.tag = 10;
-    [myScroller addSubview:_midView];
     
-    buttomRe =CGRectMake(bj, CGRectGetMaxY(_midView.frame)+5, KMainScreenWidth-bj*2, gd);
-    _buttomView= [[UIView  alloc]initWithFrame:buttomRe];
-    //_buttomView.backgroundColor = [UIColor yellowColor];
-    _buttomView.tag = 11;
-    [myScroller addSubview:_buttomView];
-    
-    //int sgd = CGRectGetMaxY(_buttomView.frame);//最大高度
-    
-    int kh = KMainScreenHeight;
-    if (kh<568)
-        kh= 568;
-    scrollSize= CGSizeMake(KMainScreenWidth, kh-64);
-    myScroller.contentSize =scrollSize;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 2;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return cellHight;
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+   
+    UITableViewCell*cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
+    cell.backgroundColor = [UIColor clearColor];
+    cell.selectionStyle =UITableViewCellSelectionStyleNone;
+    if (indexPath.row == 0) {
+        MainMidView* midview = [[MainMidView alloc]initWithFrame:
+                                CGRectMake(0, 8,  tableView.frame.size.width, cellHight-8) headerTitle:@"我已预约"];
+        midview.delegate=self;
+        [cell addSubview:midview];
+        self.midView = midview;
+    }
+    if (indexPath.row == 1) {
+        MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
+                                   CGRectMake(0,8,tableView.frame.size.width,cellHight-8)
+                                                        headerTitle:@"我的项目"];
+        bottomView.delegate = self;
+        [cell addSubview:bottomView];
+        self.buttomView = bottomView;
+
+    }
+    return cell;
 }
 
 #pragma mark 设置顶图的子视图
@@ -241,11 +268,7 @@
     MainMidView* midview = [[MainMidView alloc]initWithFrame:
                             CGRectMake(0, 0,  _midView.frame.size.width, _midView.frame.size.height) headerTitle:@"我已预约"];
     midview.delegate=self;
-    hahview = midview;
     [_midView addSubview:midview];
-    
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
-//    [_midView addGestureRecognizer:tap];
     
     
     MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
@@ -253,57 +276,7 @@
                                                     headerTitle:@"我的项目"];
     bottomView.delegate = self;
     [_buttomView addSubview:bottomView];
-    fafview = bottomView;
-//    UITapGestureRecognizer* tap1 = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
-//    [_buttomView addGestureRecognizer:tap1];
 }
-//-(void)addChildController1{
-//    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midView.frame.size.width, KMainScreenWidth*0.06)];
-//    view.userInteractionEnabled=YES;
-//    view.tag = 10;
-//    view.image =[UIImage imageNamed:@"mian_img_cellH"];
-//    UILabel* lab = [[UILabel alloc]initWithFrame:
-//                    CGRectMake(10, 5,  _midView.frame.size.width-10, KMainScreenWidth*0.05)];
-//    lab.text=@"我已预约";
-//    lab.textColor = [UIColor colorWithHexString:@"575757"];
-//    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
-//    [view addSubview:lab];
-//    [_midView addSubview:view];
-//    
-//    midGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
-//    [view addGestureRecognizer:midGesture];
-//    
-//    
-//    UIImageView* view1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _buttomView.frame.size.width, KMainScreenWidth*0.06)];
-//    view1.userInteractionEnabled=YES;
-//    view1.tag = 11;
-//    view1.image =[UIImage imageNamed:@"mian_img_cellH"];
-//    UILabel* lab1 = [[UILabel alloc]initWithFrame:
-//                    CGRectMake(10, 5,  _buttomView.frame.size.width-10, KMainScreenWidth*0.05)];
-//    lab1.text=@"我的项目";
-//    lab1.textColor = [UIColor colorWithHexString:@"575757"];
-//    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
-//    [view1 addSubview:lab1];
-//    [_buttomView addSubview:view1];
-//    buttomGesture = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(showMoreInfo:)];
-//    [view1 addGestureRecognizer:buttomGesture];
-//
-//    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//    self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-//    self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-//    
-//    midTabRe = CGRectMake(0, view.frame.size.height, _midView.frame.size.width, _midView.frame.size.height-view.frame.size.height);
-//    self.midController.tableView.frame = midTabRe;
-//    
-//    buttonTabRe =CGRectMake(0, view1.frame.size.height, _buttomView.frame.size.width, _buttomView.frame.size.height-view1.frame.size.height);
-//    self.buttomController.tableView.frame =buttonTabRe;
-//    
-//    [_midView addSubview:self.midController.view];
-//    [_buttomView addSubview:self.buttomController.view];
-//    [self addChildViewController:self.midController];
-//    [self addChildViewController:self.buttomController];
-//}
-
 #pragma mark 刷新商家信息
 -(void)reflashShopInfo:(UNIShopManage*) manager{
     if (manager.shopName.length>11) {
@@ -414,12 +387,11 @@
                                    @"page":@(0),@"size":@(20)}];
         request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self->myTable.header endRefreshing];
                 if (!err) {
                     if (myAppointArr){
-//                       self.midController.myData =[NSMutableArray arrayWithArray:myAppointArr];
-//                        [self.midController reflashTabel:2];
                         self.midData = myAppointArr;
-                        [self->hahview startReloadData:myAppointArr andType:1];
+                        [self.midView startReloadData:myAppointArr andType:1];
                     }
                     else
                         [YIToast showText:tips];
@@ -440,10 +412,8 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
                     if (myProjectArr){
-                        //                        self.buttomController.myData =[NSMutableArray arrayWithArray:myProjectArr];
-                        //                        [self.buttomController reflashTabel:2];
                         self.bottomData=myProjectArr;
-                        [self->fafview startReloadData:myProjectArr andType:2];
+                        [self.buttomView startReloadData:myProjectArr andType:2];
                     }
                     else
                         [YIToast showText:tips];
@@ -457,7 +427,7 @@
 -(void)midViewAnimationEvent{
     CGRect re = _midView.frame;
     if (re.origin.y>100) {
-        self->myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
+       // self->myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
         [UIView animateWithDuration:0.5 delay:0
              usingSpringWithDamping:0.5 initialSpringVelocity:0.5
                             options:UIViewAnimationOptionCurveEaseInOut
@@ -492,7 +462,7 @@
                              [self.midController deleteTableViewData:2];
                          }completion:^(BOOL finished) {
                              self->buttomGesture.enabled=YES;
-                             self->myScroller.contentSize = self->scrollSize;
+                             //self->myScroller.contentSize = self->scrollSize;
                          }];
     }
 
@@ -502,7 +472,7 @@
 -(void)buttomViewAnimationEvent{
     CGRect re = _buttomView.frame;
     if (re.origin.y>KMainScreenHeight/2) {
-         myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
+        // myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
         [UIView animateWithDuration:0.5 delay:0
              usingSpringWithDamping:0.5 initialSpringVelocity:0.5
                             options:UIViewAnimationOptionCurveEaseInOut
@@ -547,7 +517,7 @@
                              [self.buttomController deleteTableViewData:2];
                          }completion:^(BOOL finished) {
                              self->midGesture.enabled=YES;
-                             self->myScroller.contentSize = self->scrollSize;
+                            // self->myScroller.contentSize = self->scrollSize;
                          }];
     }
 

@@ -20,15 +20,18 @@
                     </view>
                     <navigationItem key="navigationItem" id="JE2-QF-8WR"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <connections>
+                        <segue destination="3Bh-Kf-6QX" kind="push" id="pM3-uM-dIX"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GgB-IP-8JV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1017" y="318"/>
         </scene>
-        <!--View Controller-->
+        <!--我的奖励列表-->
         <scene sceneID="L5G-Wi-sbQ">
             <objects>
-                <viewController id="3Bh-Kf-6QX" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="UNIRewardListController" title="我的奖励列表" id="3Bh-Kf-6QX" customClass="UNIRewardListController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vU2-j5-Z1P"/>
                         <viewControllerLayoutGuide type="bottom" id="sGa-Nk-Yl9"/>
@@ -44,7 +47,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n77-tv-H2N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="966"/>
+            <point key="canvasLocation" x="1017" y="999"/>
+        </scene>
+        <!--我的奖励订单详细界面-->
+        <scene sceneID="gmG-sN-Q7B">
+            <objects>
+                <viewController storyboardIdentifier="UNIRewardDetail" title="我的奖励订单详细界面" id="J0o-aM-56Y" customClass="UNIRewardDetail" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="8Yk-hE-Vat"/>
+                        <viewControllerLayoutGuide type="bottom" id="8Ds-3M-mB6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pLy-qu-gYA">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="S0G-jJ-FFS"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vGQ-XP-3Pu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1017" y="1646"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Onn-KK-UEL">
@@ -84,7 +108,30 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ATz-VY-vhh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="637" y="966"/>
+            <point key="canvasLocation" x="637" y="999"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="jcp-Lt-91s">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="8hT-rH-NNj" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="487-ZB-HPD">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="J0o-aM-56Y" kind="relationship" relationship="rootViewController" id="GJa-1S-vOv"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7aq-IN-zDg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="637" y="1646"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="IhJ-D6-SVg"/>
+    </inferredMetricsTieBreakers>
 </document>

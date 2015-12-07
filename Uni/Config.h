@@ -30,6 +30,16 @@
 #define kMainTitleColor @"575757"
 
 /**
+ *  按钮背景绿色颜色
+ */
+#define kMainGreenBackColor @"24CDB8"
+
+/**
+ *  按钮背景灰色颜色
+ */
+#define kMainGrayBackColor [UIColor colorWithRed:180/255.f green:180/255.f blue:180/255.f alpha:1]
+
+/**
  *  当前系统版本号
  */
 #define IOS_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
