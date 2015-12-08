@@ -13,4 +13,5 @@
 @property(nonatomic,strong)UITapGestureRecognizer* tapGes;//点击手势;
 -(void)setupMainController;
 -(void)setupMyController;
+-(void)setupWalletController;
 @end

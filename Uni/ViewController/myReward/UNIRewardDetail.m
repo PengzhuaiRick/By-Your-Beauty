@@ -10,7 +10,12 @@
 #import "UNIRewardDetailCell1.h"
 #import "UNIRewardDetailCell2.h"
 #import "UNIRewardDetailCell3.h"
-@interface UNIRewardDetail ()<UITableViewDataSource,UITableViewDelegate>
+
+@interface UNIRewardDetail ()<UITableViewDataSource,UITableViewDelegate>{
+    int cell1H;
+    int cell2H;
+    int cell3H;
+}
 @property(nonatomic,strong)UITableView* myTable;
 @end
 
@@ -27,10 +32,21 @@
 }
 
 -(void)setupTableView{
+    cell1H = 75;
+    cell2H = 80;
+    cell3H = 135;
+    
     float tabX = 10;
     float tabY = 64+8;
     float tabW = KMainScreenWidth - tabX*2;
-    float tabH = KMainScreenHeight - tabX - tabY;
+    float tabH = 0;
+    if(self.model.status == 0){
+        cell1H -= 20;
+        tabH = cell1H+cell2H+cell3H;
+    }
+    else
+        tabH = cell1H+cell2H;
+    
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
     tabview.delegate = self;
     tabview.dataSource = self;
@@ -39,6 +55,19 @@
     tabview.showsVerticalScrollIndicator=NO;
     [self.view addSubview:tabview];
     self.myTable =tabview;
+    
+    float btnWH = 70;
+    float btnX = (KMainScreenWidth - btnWH)/2;
+    float btnY = CGRectGetMaxY(tabview.frame)+30;
+    UIButton* submitBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    submitBtn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
+    [submitBtn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
+    submitBtn.titleLabel.numberOfLines = 0;
+    submitBtn.titleLabel.lineBreakMode = 0;
+    submitBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    [submitBtn setTitle:@"服务\n评价" forState:UIControlStateNormal];
+    [self.view addSubview:submitBtn];
+    
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -48,13 +77,13 @@
     float num =0;
     switch (indexPath.row) {
         case 0:
-            num =75;
+            num =cell1H;
             break;
         case 1:
-              num =85;
+              num =cell2H;
             break;
         case 2:
-              num =135;
+              num =cell3H;
             break;
     }
     return num;
@@ -62,7 +91,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         UNIRewardDetailCell1* cell = [[NSBundle mainBundle]loadNibNamed:@"UNIRewardDetailCell1" owner:self options:nil].lastObject;
-        [cell setupCellContentWith:nil];
+        [cell setupCellContentWith:self.model];
         return cell;
     }
     if (indexPath.row == 1) {

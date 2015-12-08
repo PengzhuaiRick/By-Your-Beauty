@@ -9,12 +9,16 @@
 #import "UNIRewardListController.h"
 #import "UNIRewardListCell.h"
 #import "UNIRewardDetail.h"
-#import <MJRefresh/MJRefresh.h>
-@interface UNIRewardListController ()<UITableViewDataSource,UITableViewDelegate>{
+#import "UNIRewardListView.h"
+@interface UNIRewardListController ()<UIScrollViewDelegate,UNIRewardListViewDelegate>{
     UIView* topView;
+    float scrollerX;
 }
 @property(nonatomic,strong)CALayer* lineLayer;
-@property(nonatomic,strong)UITableView* myTable;
+@property(nonatomic,strong)UIScrollView* myScroller;
+@property(nonatomic,strong)UNIRewardListView* unGetView; //未领
+@property(nonatomic,strong)UNIRewardListView* gotView; //已领
+@property(nonatomic,strong)UNIRewardListView* curentView; //当前列表
 @end
 
 @implementation UNIRewardListController
@@ -28,7 +32,9 @@
 -(void)setupNavigation{
     self.title = @"我的奖励";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    scrollerX = 0;
 }
+
 -(void)setupTopView{
     float topH = KMainScreenWidth * 40/320;
     UIView* top = [[UIView alloc]initWithFrame:CGRectMake(0, 64, KMainScreenWidth, topH)];
@@ -64,15 +70,8 @@
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
-             x.selected=YES;
-             for (int i = 1; i<4; i++) {
-                 UIButton* bt = (UIButton*)[top viewWithTag:i];
-                 if (x!=bt) {
-                     bt.selected = NO;
-                 }
-             }
-             
              [self lineLayerMoveAction:x];
+             [self buttonRequestAction:x];
         }];
     }
     
@@ -85,58 +84,98 @@
 }
 #pragma mark 顶部红色底线滑动事件
 -(void)lineLayerMoveAction:(UIButton*)btn{
-    CGRect layRe = self.lineLayer.frame;
-    [UIView animateWithDuration:0.2 animations:^{
-        self.lineLayer.frame = CGRectMake(btn.frame.origin.x,
-                                          layRe.origin.y,
-                                          layRe.size.width,
-                                          layRe.size.height);
-    }];
+    
+    btn.selected=YES;
+    for (int i = 1; i<4; i++) {
+        UIButton* bt = (UIButton*)[topView viewWithTag:i];
+        if (btn!=bt) {
+            bt.selected = NO;
+        }
+    }
 }
+
+#pragma mark 顶部点击请求事件
+-(void)buttonRequestAction:(UIButton*)btn{
+    [self.myScroller setContentOffset:CGPointMake(KMainScreenWidth* (btn.tag-1),
+                                                  0) animated:YES];
+    switch (btn.tag) {
+        case 2:
+                [self setupUnGetView];
+    
+            break;
+        case 3:
+                [self setupGotView];
+            break;
+    }
+}
+
 -(void)setupTableView{
     float tabX = 10;
     float tabY = CGRectGetMaxY(topView.frame)+tabX;
-    float tabW = KMainScreenWidth - tabX*2;
     float tabH = KMainScreenHeight - tabX - tabY;
-    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
-    tabview.delegate = self;
-    tabview.dataSource = self;
-    tabview.layer.masksToBounds=YES;
-    tabview.layer.cornerRadius = 10;
-    tabview.showsVerticalScrollIndicator=NO;
-    [self.view addSubview:tabview];
-    self.myTable =tabview;
+    UIScrollView* scl = [[UIScrollView alloc]initWithFrame:CGRectMake(0, tabY, KMainScreenWidth, tabH)];
+    scl.contentSize = CGSizeMake(KMainScreenWidth*3, tabH);
+    scl.delegate = self;
+    scl.pagingEnabled = YES;
+    [self.view addSubview:scl];
+    self.myScroller = scl;
     
-    tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-    }];
     
-    tabview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        
-    }];
+    float scW = KMainScreenWidth - 2*tabX;
+    self.curentView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(tabX, 0, scW, tabH) andState:-1];
+    self.curentView.delegate = self;
+    [scl addSubview:self.curentView];
+    
+}
+-(void)setupUnGetView{
+     if (self.unGetView)
+         return;
+    float unX = KMainScreenWidth+10;
+    float unW =  self.curentView.frame.size.width;
+    float unH = self.curentView.frame.size.height;
+    self.unGetView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(unX, 0, unW, unH) andState:0];
+    self.unGetView.delegate = self;
+    [self.myScroller addSubview:self.unGetView];
+
+}
+-(void)setupGotView{
+    if (self.gotView)
+        return;
+    float unX = 2*KMainScreenWidth+10;
+    float unW =  self.curentView.frame.size.width;
+    float unH = self.curentView.frame.size.height;
+    self.gotView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(unX, 0, unW, unH) andState:1];
+    self.gotView.delegate = self;
+    [self.myScroller addSubview:self.gotView];
+
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 70;
-}
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString* name = @"cell";
-    UNIRewardListCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-    if (!cell){
-        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIRewardListCell" owner:self options:nil].lastObject;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    [cell setupCellContentWith:nil];
-    
-    return cell;
-}
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+#pragma mark UNIRewardListView 代理方法
+-(void)UNIRewardListViewDelegate:(id)model{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
     UNIRewardDetail* rd = [st instantiateViewControllerWithIdentifier:@"UNIRewardDetail"];
+    rd.model = model;
     [self.navigationController pushViewController:rd animated:YES];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+    float xx = scrollView.contentOffset.x;
+    if (xx<0 ||xx>2*KMainScreenWidth)
+        return;
+    float zx = xx-scrollerX;
+    scrollerX = xx;
+    CGRect layRe = self.lineLayer.frame;
+    float yd = zx *layRe.size.width/KMainScreenWidth;
+        self.lineLayer.frame = CGRectMake(layRe.origin.x + yd,
+                                          layRe.origin.y,
+                                          layRe.size.width,
+                                          layRe.size.height);
+    if(xx == KMainScreenWidth)
+        [self setupUnGetView];
+    
+    if(xx == 2*KMainScreenWidth)
+        [self setupGotView];
 }
 
 - (void)didReceiveMemoryWarning {

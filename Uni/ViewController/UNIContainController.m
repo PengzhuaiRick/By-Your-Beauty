@@ -14,6 +14,8 @@
     UINavigationController* mainNav;
     //MainViewController* mainCtr;
     UIViewController* myRewardNav;
+    UNIMyRewardController* rewardCtr;
+    UIViewController* wallet;
 }
 @end
 
@@ -41,6 +43,7 @@
     [self setupMainController];
 }
 
+//首页
 -(void)setupMainController{
     [self removeController];
     if (!mainNav) {
@@ -52,17 +55,34 @@
     [self.view addSubview:mainNav.view];
     [self addChildViewController:mainNav];
 }
+
+//我的奖励
 -(void)setupMyController{
     [self removeController];
-    if (!myRewardNav) {
+    if (!rewardCtr) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
         UNIMyRewardController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
         mainCtr.containController = self;
+        rewardCtr = mainCtr;
         myRewardNav =[[UINavigationController alloc]initWithRootViewController:mainCtr];
     }
    
     [self.view addSubview:myRewardNav.view];
     [self addChildViewController:myRewardNav];
+}
+
+//我的钱包
+-(void)setupWalletController{
+    [self removeController];
+    if (!wallet) {
+        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+        UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
+        wallet = view;
+        myRewardNav =[[UINavigationController alloc]initWithRootViewController:view];
+    }
+    [self.view addSubview:myRewardNav.view];
+    [self addChildViewController:myRewardNav];
+  
 }
 
 -(void)removeController{

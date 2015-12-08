@@ -10,9 +10,12 @@
 #import "MyRewardView.h"
 #import "UNIMyRewardRequest.h"
 #import "UNIRewardListController.h"
+#import <MJRefresh/MJRefresh.h>
 @interface UNIMyRewardController (){
     MyRewardView* appointView;
     MyRewardView* inTimeView;
+    int page1;// 约满页数
+    int page2;//准时页数
 }
 
 @end
@@ -21,16 +24,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
+    [self setupUI];
     //[self setupMyAppointView];
    // [self setupIntimeView];
     [self startRequestMyAppoint];
     [self startRequestIntime];
 }
+-(void)setupUI{
+    page1 = 0;
+    page2 = 0;
+}
 -(void)startRequestMyAppoint{
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYRewardInfo] params:@{@"size":@(20),@"page":@(0)}];
+    [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYRewardInfo] params:@{@"size":@(20),@"page":@(page1)}];
     request.myrewardBlock=^(NSArray* arr,int total,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self->appointView.midTableview.header endRefreshing];
+            [self->appointView.midTableview.footer endRefreshing];
             if (er) {
                 [YIToast showText:er.localizedDescription];
                 return ;
@@ -45,9 +55,11 @@
 }
 -(void)startRequestIntime{
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYITRewardInfo] params:@{@"size":@(20),@"page":@(0)}];
+    [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYITRewardInfo] params:@{@"size":@(20),@"page":@(page2)}];
     request.intimeBlock=^(NSArray* arr,int total,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self->inTimeView.midTableview.header endRefreshing];
+            [self->inTimeView.midTableview.footer endRefreshing];
             if (er) {
                 [YIToast showText:er.localizedDescription];
                 return ;
@@ -104,6 +116,17 @@
      MyRewardView * view = [[MyRewardView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH) andNum:0 andType:1];
     [self.view addSubview:view];
     appointView = view;
+    appointView.midTableview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self->page1 = 0;
+        [self->appointView.dataArray removeAllObjects];
+        [self startRequestMyAppoint];
+    }];
+    
+    appointView.midTableview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        self->page1++;
+         [self startRequestMyAppoint];
+    }];
+
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
     [view addGestureRecognizer:tap];
@@ -123,6 +146,17 @@
     [self.view addSubview:view];
     inTimeView = view;
     
+    inTimeView.midTableview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self->page2 = 0;
+        [self->inTimeView.dataArray removeAllObjects];
+        [self startRequestIntime];
+    }];
+    
+    inTimeView.midTableview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        self->page2++;
+        [self startRequestIntime];
+    }];
+
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
     [view addGestureRecognizer:tap];
 

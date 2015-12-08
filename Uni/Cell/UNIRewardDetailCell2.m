@@ -41,10 +41,10 @@
     self.label3.textColor = [UIColor colorWithHexString:kMainTitleColor];
     self.label3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*17/320];
     
-    self.label4.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    self.label4.textColor = [UIColor colorWithHexString:kMainThemeColor];
     self.label4.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
     
-    self.label5.textColor = [UIColor colorWithHexString:kMainThemeColor];
+    self.label5.textColor = [UIColor colorWithHexString:kMainTitleColor];
     self.label5.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
     
     self.label6.textColor = kMainGrayBackColor;

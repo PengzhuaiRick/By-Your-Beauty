@@ -42,16 +42,19 @@
     [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
--(void)setupCellContentWith:(NSArray*)model{
-    int state = [model[0] intValue];
-    self.label1.text =[NSString stringWithFormat:@"订 单 号 : %@",model[1]] ;
-    self.label2.text =[NSString stringWithFormat:@"下单时间 : %@",model[2]];
-//    if (state != 3) {
-//        self.label3.hidden = YES;
-//    }else
-        self.label3.text =[NSString stringWithFormat:@"取消时间 : %@",model[3]];
-    
-    [self.stateBtn setTitle:@"已领取" forState:UIControlStateNormal];
+-(void)setupCellContentWith:(UNIRewardListModel*)model{
+    int state = model.status;
+    self.label1.text =[NSString stringWithFormat:@"订 单 号 : "] ;
+    self.label2.text =[NSString stringWithFormat:@"下单时间 : "];
+    if (state != 1) {
+        self.label3.hidden = YES;
+    }else{
+        self.label3.hidden = NO;
+        self.label3.text =[NSString stringWithFormat:@"取消时间 : "];}
+    if (state == 0)
+        [self.stateBtn setTitle:@"未领取" forState:UIControlStateNormal];
+    else
+        [self.stateBtn setTitle:@"已领取" forState:UIControlStateNormal];
 }
 
 

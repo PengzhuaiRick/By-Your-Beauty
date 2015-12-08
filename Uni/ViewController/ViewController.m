@@ -115,6 +115,7 @@
             break;
         case 4:
             [self closeTheBox];
+            [_tv setupWalletController];
             break;
         case 5:
             [self closeTheBox];

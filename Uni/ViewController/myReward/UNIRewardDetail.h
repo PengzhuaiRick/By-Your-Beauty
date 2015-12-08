@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class UNIRewardListModel;
 @interface UNIRewardDetail : UIViewController
-
+@property(nonatomic,strong)UNIRewardListModel* model;
 @end

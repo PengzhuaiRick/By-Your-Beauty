@@ -32,7 +32,7 @@
             }else
                 _myrewardBlock(nil,-1,tips,nil);
             }
-        }
+        
         //准时奖励
         if ([param2 isEqualToString:API_URL_MYITRewardInfo]) {
             if (code == 0) {
@@ -43,13 +43,29 @@
                     UNIMyRewardModel* model = [[UNIMyRewardModel alloc]initWithDic:dic];
                     [models addObject:model];
                 }
-            _intimeBlock(models,num,tips,nil);
+                _intimeBlock(models,num,tips,nil);
             }
             else
                 _intimeBlock(nil,-1,tips,nil);
         }
-    
 
+        //客妆-我的奖励列表
+        if ([param2 isEqualToString:API_URL_MYRewardList]) {
+            if (code == 0) {
+                NSArray* result = [self safeObject:dic ForKey:@"result"];
+                NSMutableArray* models = [NSMutableArray arrayWithCapacity:result.count];
+                for (NSDictionary* dic in result) {
+                    UNIRewardListModel* model = [[UNIRewardListModel alloc]initWithDic:dic];
+                    [models addObject:model];
+                }
+                _rewardListBlock(models,tips,nil);
+            }else
+                _rewardListBlock(nil,tips,nil);
+        }
+        
+
+}
+    
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
@@ -63,6 +79,10 @@
         // 准时奖励
         if ([param2 isEqualToString:API_URL_MYITRewardInfo])
             _intimeBlock(nil,-1,nil,err);
+        
+        //客妆-我的奖励列表
+        if ([param2 isEqualToString:API_URL_MYRewardList])
+             _rewardListBlock(nil,nil,err);
     }
 }
 

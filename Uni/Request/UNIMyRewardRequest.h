@@ -8,6 +8,7 @@
 
 #import "BaseRequest.h"
 #import "UNIMyRewardModel.h"
+#import "UNIRewardListModel.h"
 /**
  * 我的奖励—约满奖励Bloack
  *
@@ -28,6 +29,15 @@ typedef void(^MyRewardBlock)(NSArray* arr,int num,NSString* tips,NSError* err);
  */
 typedef void(^INTimeBlock)(NSArray* arr,int num,NSString* tips,NSError* err);
 
+/**
+ *  客妆-我的奖励列表
+ *
+ *  @param arr  UNIRewardListModel 对象数组
+ *  @param tips 反馈信息
+ *  @param err  错误信息
+ */
+typedef void(^RewardListBlock)(NSArray* arr,NSString* tips,NSError* err);
+
 @interface UNIMyRewardRequest : BaseRequest
 
 //我的奖励—约满奖励
@@ -35,4 +45,7 @@ typedef void(^INTimeBlock)(NSArray* arr,int num,NSString* tips,NSError* err);
 
 //我的奖励--准时奖励接口
 @property(nonatomic,copy)INTimeBlock intimeBlock;
+
+//客妆-我的奖励列表
+@property(nonatomic,copy)RewardListBlock rewardListBlock;
 @end

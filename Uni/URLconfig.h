@@ -78,4 +78,10 @@
 //我的奖励--准时奖励接口
 #define API_URL_MYITRewardInfo @"myIntimeRewardInfo"
 
+//客妆奖励接口
+#define API_URL_SellReward @"sellReward"
+
+//我的奖励列表接口
+#define API_URL_MYRewardList @"myRewardList"
+
 #endif /* URLconfig_h */

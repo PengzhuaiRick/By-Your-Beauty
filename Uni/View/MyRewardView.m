@@ -12,29 +12,35 @@
 -(id)initWithFrame:(CGRect)frame andNum:(int)num andType:(int)ty{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor clearColor];
-        self.dataArray = [NSMutableArray array];
-        float tabY =KMainScreenWidth*16/320;
-        float tabH = frame.size.height -tabY -KMainScreenWidth*10/320;
-        UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, tabY, frame.size.width,tabH)
-                                                       style:UITableViewStylePlain];
-        tab.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        tab.backgroundColor= [UIColor whiteColor];
-        tab.delegate = self;
-        tab.dataSource = self;
-        [self addSubview:tab];
-        _midTableview = tab;
-        
         type = ty;
         total = num;
-        NSString* string = @"约满奖励";
-        if (type == 2)
-            string = @"准时奖励";
-        
-        [self setupTableviewHeader:string];
-        [self setupTableviewFootView];
+        self.backgroundColor = [UIColor clearColor];
+        self.dataArray = [NSMutableArray array];
+        [self setupTableView];
     }
     return self;
+}
+-(void)setupTableView{
+    float tabY =KMainScreenWidth*16/320;
+    float tabH = self.frame.size.height -tabY -KMainScreenWidth*10/320;
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, tabY, self.frame.size.width,tabH)
+                                                   style:UITableViewStylePlain];
+    tab.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    tab.backgroundColor= [UIColor whiteColor];
+    tab.delegate = self;
+    tab.dataSource = self;
+    [self addSubview:tab];
+    _midTableview = tab;
+    
+    
+    NSString* string = @"约满奖励";
+    if (type == 2)
+        string = @"准时奖励";
+    
+    [self setupTableviewHeader:string];
+    [self setupTableviewFootView];
+    
+   
 }
 
 -(void)setupTableviewHeader:(NSString*)string{

@@ -7,7 +7,7 @@
 //
 
 #import "UNIRewardListCell.h"
-
+#import "UNIRewardListModel.h"
 @implementation UNIRewardListCell
 
 - (void)awakeFromNib {
@@ -56,12 +56,18 @@
 }
 
 -(void)setupCellContentWith:(id)model{
-    [self.mainImg sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"evaluete_img_reward"]];
-    self.label1.text =@"日本皇室酵素精油";
-    self.label2.text = @"规格 : 200ml x1";
-    self.label3.text = @"9-25 10:20";
-   // [self.stateBtn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
-    [self.stateBtn setTitle:@"到店\n领取" forState:UIControlStateNormal];
+    UNIRewardListModel* info = model;
+    [self.mainImg sd_setImageWithURL:nil//[NSURL URLWithString:info.logoUrl]
+                    placeholderImage:[UIImage imageNamed:@"evaluete_img_reward"]];
+    self.label1.text =info.projectName;
+    self.label2.text =[NSString stringWithFormat:@"规格 : %@ x%d",info.specifications,info.num];
+    self.label3.text = [info.time substringWithRange:NSMakeRange(5, 11)];
+    
+    if (info.status==0) {
+         [self.stateBtn setTitle:@"到店\n领取" forState:UIControlStateNormal];
+        [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainGreenBackColor]];
+    }else
+        [self.stateBtn setTitle:@"已领取" forState:UIControlStateNormal];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
