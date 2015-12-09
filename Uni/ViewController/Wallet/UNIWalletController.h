@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIWalletController : UIViewController
-
+@property(nonatomic ,strong)UIViewController* containController;
 @end

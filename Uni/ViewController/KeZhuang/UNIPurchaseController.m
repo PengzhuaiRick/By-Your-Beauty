@@ -1,22 +1,19 @@
 //
-//  UNIWalletList.m
+//  UNIPurchaseController.m
 //  Uni
-//  钱包明细
-//  Created by apple on 15/12/8.
+//  购买界面
+//  Created by apple on 15/12/9.
 //  Copyright © 2015年 apple. All rights reserved.
 //
 
-#import "UNIWalletList.h"
-#import "UNIWalletCell.h"
-#import <MJRefresh/MJRefresh.h>
-@interface UNIWalletList ()<UITableViewDataSource,UITableViewDelegate>{
-}
+#import "UNIPurchaseController.h"
+#import "UNIPurchaseCell.h"
+#import "UNIPurChaseView.h"
+@interface UNIPurchaseController ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView* myTable;
-@property(nonatomic, assign)int page;  ////当前
-@property(nonatomic,strong)NSMutableArray* allArray;
 @end
 
-@implementation UNIWalletList
+@implementation UNIPurchaseController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,12 +22,11 @@
     [self setupTableView];
 }
 -(void)setupNavigation{
-    self.title = @"钱包明细";
+    self.title = @"商品评论";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
 }
 -(void)setupData{
-    self.page = 0;
-    self.allArray = [NSMutableArray array];
+   
 }
 -(void)startRequest{
     
@@ -38,6 +34,8 @@
 -(void)setupTableView{
     float tabX = 10;
     float tabY = 64+8;
+    if (IOS_VERSION<9.0)
+        tabY = 8;
     float tabW = KMainScreenWidth - tabX*2;
     float tabH = KMainScreenHeight - 64 - tabX*2;
     
@@ -49,38 +47,30 @@
     tabview.showsVerticalScrollIndicator=NO;
     [self.view addSubview:tabview];
     self.myTable =tabview;
-    
-    tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        self.page = 0;
-        [self.allArray removeAllObjects];
-        [self startRequest];
-    }];
-    
-    tabview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        self.page++;
-        [self startRequest];
-    }];
-
-    
+    [self setupTabViewFooter];
 }
 
+-(void)setupTabViewFooter{
+    UNIPurChaseView* view = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, 200) andPrice:12];
+    self.myTable.tableFooterView = view;
+}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 70;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return 1;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"cell";
-    UNIWalletCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    UNIPurchaseCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIWalletCell" owner:self options:nil].lastObject;
+        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIPurchaseCell" owner:self options:nil].lastObject;
     }
     [cell setupCellContentWith:nil];
-       return cell;
+    return cell;
 }
 
 - (void)didReceiveMemoryWarning {

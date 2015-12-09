@@ -14,6 +14,9 @@
 #import "AccountManager.h"
 #import "UNIAppointController.h"
 #import <MJRefresh/MJRefresh.h>
+
+#import "UNIGoodsDeatilController.h"
+
 @interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate>{
   //  __weak IBOutlet UIScrollView *myScroller;
     UITableView* myTable;
@@ -89,6 +92,9 @@
     bar.target = self;
     bar.action=@selector(navigationControllerLeftBarAction:);
     self.navigationItem.leftBarButtonItem = bar;
+    
+    UIBarButtonItem* right = [[UIBarButtonItem alloc]initWithTitle:@"客妆" style:0 target:self action:@selector(navigationControllerRightBarAction:)];
+    self.navigationItem.rightBarButtonItem = right;
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -107,11 +113,20 @@
  
     }];
 }
+#pragma mark 跳转客妆界面
+-(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+   UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    [self.navigationController pushViewController:good animated:YES];
+}
+
 #pragma mark 设置Scroller
 -(void)setupScroller{
    
     float tabX = 10;
     float tabY = 64+10;
+    if (IOS_VERSION<9.0)
+        tabY = 7;
     float tabW = KMainScreenWidth - tabX*2;
     float tabH = KMainScreenHeight - tabX - tabY;
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
@@ -120,6 +135,7 @@
     tabview.backgroundColor = [UIColor clearColor];
     tabview.separatorStyle = UITableViewCellSeparatorStyleNone;
     tabview.showsVerticalScrollIndicator=NO;
+    
     [self.view addSubview:tabview];
     myTable =tabview;
     

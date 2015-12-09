@@ -40,7 +40,7 @@
     
     //[self rqWelcomeImage];
     [self judgeFirstTime];
-    [self locateStart:launchOptions];
+    //[self locateStart:launchOptions];
     //[self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
     [self replaceWelcomeImage:@""];

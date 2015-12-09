@@ -9,13 +9,14 @@
 #import "UNIContainController.h"
 #import "MainViewController.h"
 #import "UNIMyRewardController.h"
+#import "UNIWalletController.h"
 @interface UNIContainController ()
 {
     UINavigationController* mainNav;
     //MainViewController* mainCtr;
     UIViewController* myRewardNav;
     UNIMyRewardController* rewardCtr;
-    UIViewController* wallet;
+    UNIWalletController* wallet;
 }
 @end
 
@@ -76,7 +77,8 @@
     [self removeController];
     if (!wallet) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-        UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
+        UNIWalletController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
+         view.containController = self;
         wallet = view;
         myRewardNav =[[UINavigationController alloc]initWithRootViewController:view];
     }

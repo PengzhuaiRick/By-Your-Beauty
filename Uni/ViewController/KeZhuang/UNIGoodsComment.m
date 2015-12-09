@@ -1,22 +1,21 @@
 //
-//  UNIWalletList.m
+//  UNIGoodsComment.m
 //  Uni
-//  钱包明细
-//  Created by apple on 15/12/8.
+//  客妆商品评价
+//  Created by apple on 15/12/9.
 //  Copyright © 2015年 apple. All rights reserved.
 //
 
-#import "UNIWalletList.h"
-#import "UNIWalletCell.h"
+#import "UNIGoodsComment.h"
+#import "UNIGoodsCommentCell.h"
 #import <MJRefresh/MJRefresh.h>
-@interface UNIWalletList ()<UITableViewDataSource,UITableViewDelegate>{
-}
+@interface UNIGoodsComment ()<UITableViewDataSource,UITableViewDelegate>
 @property(nonatomic,strong)UITableView* myTable;
 @property(nonatomic, assign)int page;  ////当前
 @property(nonatomic,strong)NSMutableArray* allArray;
 @end
 
-@implementation UNIWalletList
+@implementation UNIGoodsComment
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,7 +24,7 @@
     [self setupTableView];
 }
 -(void)setupNavigation{
-    self.title = @"钱包明细";
+    self.title = @"商品评论";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
 }
 -(void)setupData{
@@ -38,6 +37,8 @@
 -(void)setupTableView{
     float tabX = 10;
     float tabY = 64+8;
+    if (IOS_VERSION<9.0)
+        tabY = 8;
     float tabW = KMainScreenWidth - tabX*2;
     float tabH = KMainScreenHeight - 64 - tabX*2;
     
@@ -60,13 +61,13 @@
         self.page++;
         [self startRequest];
     }];
-
+    
     
 }
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 70;
+    return 105;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -75,12 +76,12 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"cell";
-    UNIWalletCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    UNIGoodsCommentCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIWalletCell" owner:self options:nil].lastObject;
+        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIGoodsCommentCell" owner:self options:nil].lastObject;
     }
     [cell setupCellContentWith:nil];
-       return cell;
+    return cell;
 }
 
 - (void)didReceiveMemoryWarning {

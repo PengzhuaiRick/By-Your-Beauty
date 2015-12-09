@@ -76,7 +76,6 @@
         self.page++;
         [self startRequest];
     }];
-    tabview.footer.automaticallyHidden=YES;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
