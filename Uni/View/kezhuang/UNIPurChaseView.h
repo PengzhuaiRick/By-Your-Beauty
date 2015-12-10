@@ -10,6 +10,9 @@
 
 @interface UNIPurChaseView : UIView<UITableViewDataSource,UITableViewDelegate>{
     float gPrice;
+    float cell1;
+    float cell2;
+    float restH;
 }
 @property(nonatomic,strong)UITableView* myTableview;
 -(id)initWithFrame:(CGRect)frame andPrice:(CGFloat)price;

@@ -324,9 +324,7 @@
       
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_ShopInfo]
-                          params:@{@"shopId":@(1),
-                                   @"token":@"abcdxxa",
-                                   @"userId":@(1)}];
+                          params:nil];
         request.reshopInfoBlock=^(UNIShopManage* manager,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {

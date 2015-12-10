@@ -30,7 +30,7 @@
 
 -(void)setupCellContentWith:(id)model{
     
-    self.mainImag.image = [UIImage imageNamed:@"main_img_cell2"];
+    self.mainImag.image = [UIImage imageNamed:@"KZ_img_wallet"];
     self.label1.text=@"日本皇室酵素风吕护理";
     self.label2.text=@"2015-09-21 15:21";
     

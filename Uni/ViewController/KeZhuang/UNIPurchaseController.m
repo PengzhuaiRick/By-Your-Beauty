@@ -40,10 +40,9 @@
     float tabH = KMainScreenHeight - 64 - tabX*2;
     
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
+    tabview.backgroundColor = [UIColor clearColor];
     tabview.delegate = self;
     tabview.dataSource = self;
-    tabview.layer.masksToBounds=YES;
-    tabview.layer.cornerRadius = 10;
     tabview.showsVerticalScrollIndicator=NO;
     [self.view addSubview:tabview];
     self.myTable =tabview;
@@ -51,8 +50,10 @@
 }
 
 -(void)setupTabViewFooter{
-    UNIPurChaseView* view = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, 200) andPrice:12];
-    self.myTable.tableFooterView = view;
+    UIView* footer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, 200)];
+    UNIPurChaseView* view = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 10, _myTable.frame.size.width, 200) andPrice:12];
+    [footer addSubview:view];
+    self.myTable.tableFooterView = footer;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

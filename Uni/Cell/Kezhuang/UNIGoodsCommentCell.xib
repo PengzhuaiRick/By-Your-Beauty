@@ -14,13 +14,13 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="104"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="LPY-ha-dVf">
-                        <rect key="frame" x="14" y="8" width="40" height="40"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KZ_img_userImg" id="LPY-ha-dVf">
+                        <rect key="frame" x="20" y="8" width="45" height="45"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="张小姐" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mW2-jm-x0H">
-                        <rect key="frame" x="56" y="8" width="173" height="20"/>
+                        <rect key="frame" x="73" y="8" width="173" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -28,27 +28,27 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_btn_xing2" id="WHb-qR-nIM">
-                        <rect key="frame" x="56" y="31" width="17" height="17"/>
+                        <rect key="frame" x="73" y="31" width="17" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                     </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_btn_xing2" id="eWS-pL-tRU">
-                        <rect key="frame" x="74" y="31" width="17" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <animations/>
-                    </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_btn_xing1" id="gIK-JS-eaE">
                         <rect key="frame" x="91" y="31" width="17" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                     </imageView>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_btn_xing1" id="gIK-JS-eaE">
+                        <rect key="frame" x="108" y="31" width="17" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <animations/>
+                    </imageView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_btn_xing1" id="mrU-l3-VqX">
-                        <rect key="frame" x="125" y="31" width="17" height="17"/>
+                        <rect key="frame" x="142" y="31" width="17" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2015-12-08 12:23" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ZLh-3h-u9D">
-                        <rect key="frame" x="147" y="29" width="120" height="21"/>
+                        <rect key="frame" x="164" y="29" width="120" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -56,7 +56,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="evaluate_btn_xing1" id="yzg-8D-dC7">
-                        <rect key="frame" x="109" y="31" width="17" height="17"/>
+                        <rect key="frame" x="126" y="31" width="17" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                     </imageView>
@@ -87,6 +87,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="KZ_img_userImg" width="40" height="40"/>
         <image name="evaluate_btn_xing1" width="25" height="23"/>
         <image name="evaluate_btn_xing2" width="25" height="23"/>
     </resources>

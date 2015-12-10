@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
     </dependencies>
     <scenes>
@@ -22,11 +23,33 @@
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <connections>
                         <segue destination="zYc-fJ-m4Y" kind="push" id="F6t-Ji-I4X"/>
+                        <segue destination="5Xg-L9-avA" kind="push" id="5TK-Jh-XfZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R4O-NL-Duc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="962" y="366"/>
+        </scene>
+        <!--支付页面-->
+        <scene sceneID="unM-D3-pAJ">
+            <objects>
+                <viewController storyboardIdentifier="UNIPurchaseController" title="支付页面" id="5Xg-L9-avA" customClass="UNIPurchaseController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zdt-YZ-bY5"/>
+                        <viewControllerLayoutGuide type="bottom" id="3f4-05-SaB"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eqz-Jy-XyH">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="t5z-z6-sv4"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Bxw-ey-YxL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="962" y="995"/>
         </scene>
         <!--商品评论-->
         <scene sceneID="DmZ-4e-Hfw">
@@ -90,8 +113,29 @@
             </objects>
             <point key="canvasLocation" x="577" y="-293"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="o9m-Qj-eOp">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ttq-i3-kY0" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="6lg-Al-Hwg">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="5Xg-L9-avA" kind="relationship" relationship="rootViewController" id="Hb2-y2-Sku"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XVO-g9-w4V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="586" y="995"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
         <segue reference="F6t-Ji-I4X"/>
+        <segue reference="5TK-Jh-XfZ"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -88,6 +88,7 @@
 		18C745B41BF07CA3000062AF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C745B31BF07CA3000062AF /* Security.framework */; };
 		18C745B61BF07D92000062AF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C745B51BF07D92000062AF /* libz.tbd */; };
 		18C745B81BF07EE4000062AF /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18C745B71BF07EE4000062AF /* PushConfig.plist */; settings = {ASSET_TAGS = (); }; };
+		18C92C0B1C19625C002778C3 /* UNIGoodsDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */; settings = {ASSET_TAGS = (); }; };
 		18CCA0161C02B84000B90092 /* BTKeyboardTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA0141C02B84000B90092 /* BTKeyboardTool.m */; settings = {ASSET_TAGS = (); }; };
 		18CCA0171C02B84000B90092 /* BTKeyboardTool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18CCA0151C02B84000B90092 /* BTKeyboardTool.xib */; settings = {ASSET_TAGS = (); }; };
 		18CCA01A1C030B3400B90092 /* UNIContainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA0191C030B3400B90092 /* UNIContainController.m */; settings = {ASSET_TAGS = (); }; };
@@ -288,6 +289,8 @@
 		18C745B51BF07D92000062AF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		18C745B71BF07EE4000062AF /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		18C745B91BF09F3E000062AF /* URLconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLconfig.h; sourceTree = "<group>"; };
+		18C92C091C19625C002778C3 /* UNIGoodsDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsDetailRequest.h; sourceTree = "<group>"; };
+		18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGoodsDetailRequest.m; sourceTree = "<group>"; };
 		18CCA0131C02B84000B90092 /* BTKeyboardTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTKeyboardTool.h; sourceTree = "<group>"; };
 		18CCA0141C02B84000B90092 /* BTKeyboardTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTKeyboardTool.m; sourceTree = "<group>"; };
 		18CCA0151C02B84000B90092 /* BTKeyboardTool.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTKeyboardTool.xib; sourceTree = "<group>"; };
@@ -717,6 +720,15 @@
 			path = JPush;
 			sourceTree = "<group>";
 		};
+		18C92C081C19623A002778C3 /* Kezhuang */ = {
+			isa = PBXGroup;
+			children = (
+				18C92C091C19625C002778C3 /* UNIGoodsDetailRequest.h */,
+				18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */,
+			);
+			path = Kezhuang;
+			sourceTree = "<group>";
+		};
 		18CCA0121C02B84000B90092 /* KeyboardTool */ = {
 			isa = PBXGroup;
 			children = (
@@ -834,6 +846,7 @@
 		18F096651BF1C91A00B60A3D /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				18C92C081C19623A002778C3 /* Kezhuang */,
 				18F096661BF1C99400B60A3D /* BaseRequest.h */,
 				18F096671BF1C99400B60A3D /* BaseRequest.m */,
 				18F096691BF1CA1D00B60A3D /* MainViewRequest.h */,
@@ -1163,6 +1176,7 @@
 				18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */,
 				18D124641BF5BC440034990F /* UNIShopManage.m in Sources */,
 				18BA7D701BE9B8FD00DD7826 /* MainViewController.m in Sources */,
+				18C92C0B1C19625C002778C3 /* UNIGoodsDetailRequest.m in Sources */,
 				18FD49781C16748900C07BF5 /* UNIRewardListModel.m in Sources */,
 				18E661D51C118067000042B7 /* MyRewardView.m in Sources */,
 				18C3ECF61C0ED53300B0A192 /* UNIAppointDetailCell.m in Sources */,

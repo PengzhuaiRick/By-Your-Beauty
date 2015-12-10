@@ -8,9 +8,18 @@
 
 #import "UNIPurChaseView.h"
 #import "UNIPurStyleCell.h"
+#import "UIActionSheet+Blocks.h"
+#import "UNIShopManage.h"
+#import "YILocationManager.h"
 @implementation UNIPurChaseView
 -(id)initWithFrame:(CGRect)frame andPrice:(CGFloat)price{
-    self = [super initWithFrame:frame];
+        cell1 = 40;
+        cell2 = 60;
+        restH  = self.frame.size.width/5+25+100;
+    float h = cell1*3+cell2*2+restH;
+    self = [super initWithFrame:CGRectMake(frame.origin.x,
+                                           frame.origin.y,
+                                           frame.size.width, h)];
     if (self) {
         gPrice = price;
         [self setupTableView];
@@ -19,12 +28,12 @@
 }
 
 -(void)setupTableView{
-    float btnWH =self.frame.size.width;
-    float btnY = 25;
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-btnWH-btnY) style:UITableViewStylePlain];
-    tab.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    tab.backgroundColor= [UIColor clearColor];
+    float btnWH =self.frame.size.width/5;
+    float btnJG = 25;
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-btnWH-btnJG) style:UITableViewStylePlain];
     tab.scrollEnabled = NO;
+    tab.layer.masksToBounds=YES;
+    tab.layer.cornerRadius = 10;
     tab.delegate = self;
     tab.dataSource = self;
     [self addSubview:tab];
@@ -33,6 +42,7 @@
     
     
     float btnX = (self.frame.size.width-btnWH)/2;
+    float btnY = CGRectGetMaxY(tab.frame)+25;
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame =CGRectMake(btnX, btnY, btnWH, btnWH);
@@ -52,14 +62,14 @@
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, 5, 80, 20)];
     lab1.text = [NSString stringWithFormat:@"￥%.2f",gPrice];
     lab1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab1.font = [UIFont boldSystemFontOfSize:13];
+    lab1.font = [UIFont boldSystemFontOfSize:15];
     [view addSubview:lab1];
     
     
     float lab2X = labX - 50;
-    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, 5, 50, 20)];
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, 5, 30, 20)];
     lab2.text = @"合计";
-    lab2.font = [UIFont boldSystemFontOfSize:13];
+    lab2.font = [UIFont boldSystemFontOfSize:15];
     [view addSubview:lab2];
 
     
@@ -67,9 +77,9 @@
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    float cellH = 40;
+    float cellH = cell1;
     if (indexPath.row==3 ||indexPath.row == 4) {
-        cellH = 55;
+        cellH = cell2;
     }
     return cellH;
 }
@@ -82,9 +92,12 @@
             if (indexPath.row == 3) {
                 cell.label1.text = @"微信支付";
                 cell.label2.text = @"使用微信支付";
+                cell.mainImg.image = [UIImage imageNamed:@"KZ_img_weixin"];
+                cell.stateBtn.selected=YES;
             }else{
                 cell.label1.text = @"支付宝";
                 cell.label2.text = @"使用支付宝";
+                cell.mainImg.image = [UIImage imageNamed:@"KZ_img_zhifubao"];
             }
             return cell;
         }else{
@@ -96,7 +109,7 @@
             }
             switch (indexPath.row) {
                 case 0:
-                    cell.textLabel.text = @"请您到XX美容院领取您的宝贝";
+                    cell.textLabel.text = @"  请您到XX美容院领取您的宝贝";
                     cell.textLabel.textColor = [UIColor colorWithHexString:kMainThemeColor];
                     cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
                     break;
@@ -121,8 +134,84 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //[self.delegate mainMidViewDelegataCell:type];
+    switch (indexPath.row) {
+        case 1://导航到店
+            [self callOtherMapApp];
+            break;
+        case 2://致电商家
+            [self callPhoneToShop];
+            break;
+    }
 }
+#pragma mark 调用其他地图APP
+-(void)callOtherMapApp{
+    NSMutableArray* mapsArray = [NSMutableArray arrayWithObjects:@"苹果地图", nil];
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]])
+        [mapsArray addObject:@"百度地图"];
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]])
+        [mapsArray addObject:@"高德地图"];
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]])
+        [mapsArray addObject:@"Google地图"];
+    
+    [UIActionSheet showInView:self withTitle:@"本机地图" cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:mapsArray tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
+        NSString* mapName = [actionSheet buttonTitleAtIndex:buttonIndex];
+        [self selectLocateAppMap:mapName];
+    }];
+    
+    
+}
+-(void)selectLocateAppMap:(NSString*)tag{
+    YILocationManager* locaMan = [YILocationManager sharedInstance];
+    float myLat = [locaMan.userLocInfo.latitude floatValue];
+    float myLong = [locaMan.userLocInfo.longitude floatValue];
+    CLLocationCoordinate2D pt = CLLocationCoordinate2DMake(myLat, myLong);
+    CLLocationCoordinate2D startCoor = pt;
+    
+    UNIShopManage* shopMan = [UNIShopManage getShopData];
+    float endLat = [shopMan.x floatValue];
+    float endLong = [shopMan.y floatValue];
+    CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake(endLat, endLong);
+    NSString *toName =shopMan.shopName;
+    
+    
+    if ([tag isEqualToString:@"苹果地图"])//苹果地图
+    {
+        MKMapItem *currentAction = [MKMapItem mapItemForCurrentLocation];
+        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil];
+        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:placemark];
+        toLocation.name =toName;
+        
+        [MKMapItem openMapsWithItems:@[currentAction, toLocation]
+                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,
+                                       MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
+        
+    }
+    if ([tag isEqualToString:@"百度地图"]){
+        //百度地图
+        NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=transit",
+                                startCoor.latitude, startCoor.longitude, endCoor.latitude, endCoor.longitude, toName]stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }
+    if ([tag isEqualToString:@"高德地图"]){
+        //高德地图
+        NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=applicationScheme&poiname=fangheng&poiid=BGVIS&lat=%f&lon=%f&dev=0&style=3",
+                                toName, endCoor.latitude, endCoor.longitude]stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }
+    if ([tag isEqualToString:@"Google地图"]){
+        //Google地图
+        NSString *urlString = [[NSString stringWithFormat:@"comgooglemaps://?saddr=&daddr=%f,%f¢er=%f,%f&directionsmode=transit", endCoor.latitude, endCoor.longitude, startCoor.latitude, startCoor.longitude]stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+    }
+}
+
+#pragma mark 调用电话功能
+-(void)callPhoneToShop{
+    UNIShopManage* manager = [UNIShopManage getShopData];
+    NSString* tel = [NSString stringWithFormat:@"tel://%@",manager.telphone];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
+}
+
 
 
 /*
