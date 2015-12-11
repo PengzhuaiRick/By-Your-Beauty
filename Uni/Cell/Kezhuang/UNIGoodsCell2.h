@@ -13,6 +13,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *label2; //
 @property (weak, nonatomic) IBOutlet UILabel *label3; //
 @property (weak, nonatomic) IBOutlet UILabel *label4; //
+@property (weak, nonatomic) IBOutlet UILabel *title2;
+@property (weak, nonatomic) IBOutlet UILabel *title3;
+@property (weak, nonatomic) IBOutlet UILabel *title4;
 
 -(void)setupCellContentWith:(id)model;
 @end

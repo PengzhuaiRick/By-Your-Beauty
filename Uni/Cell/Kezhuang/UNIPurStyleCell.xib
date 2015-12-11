@@ -7,7 +7,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="9Lb-eN-yZV" customClass="UNIPurStyleCell">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="9Lb-eN-yZV" customClass="UNIPurStyleCell">
             <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Lb-eN-yZV" id="5Ok-4M-3lS">
@@ -34,11 +34,11 @@
                         <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="21"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="wbF-lZ-5OF">
-                        <rect key="frame" x="272" y="19" width="25" height="25"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KZ_btn_payStyle1" id="NSI-ay-PFf">
+                        <rect key="frame" x="275" y="17" width="30" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                    </button>
+                    </imageView>
                 </subviews>
                 <animations/>
             </tableViewCellContentView>
@@ -47,9 +47,12 @@
                 <outlet property="label1" destination="sXf-0I-KbF" id="72o-c0-mwR"/>
                 <outlet property="label2" destination="2U1-k9-9Q6" id="r8W-YM-xLb"/>
                 <outlet property="mainImg" destination="ys3-ZE-lPF" id="O44-Km-zQm"/>
-                <outlet property="stateBtn" destination="wbF-lZ-5OF" id="hqk-Ya-nYv"/>
+                <outlet property="stateImg" destination="NSI-ay-PFf" id="8y5-uA-f0x"/>
             </connections>
             <point key="canvasLocation" x="326" y="364.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="KZ_btn_payStyle1" width="30" height="30"/>
+    </resources>
 </document>

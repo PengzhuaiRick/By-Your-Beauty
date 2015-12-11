@@ -13,8 +13,7 @@
 - (void)awakeFromNib {
     self.layer.masksToBounds=YES;
     self.layer.cornerRadius = 5;
-    self.backView.layer.masksToBounds=YES;
-    self.backView.layer.cornerRadius = 5;
+   
 }
 
 -(void)setupCellContentWith:(id)model{

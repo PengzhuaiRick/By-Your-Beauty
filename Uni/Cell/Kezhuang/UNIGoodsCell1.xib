@@ -19,8 +19,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="美国爽肤精油" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EsZ-DA-AEE">
-                        <rect key="frame" x="8" y="173" width="205" height="20"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="美国爽肤精油" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EsZ-DA-AEE">
+                        <rect key="frame" x="8" y="173" width="225" height="20"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -52,7 +52,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥8888" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="y9f-bd-G56">
-                        <rect key="frame" x="244" y="173" width="68" height="20"/>
+                        <rect key="frame" x="247" y="173" width="65" height="20"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                         <animations/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -94,6 +94,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="KZ_btn_prise" width="12" height="11"/>
+        <image name="KZ_btn_prise" width="15" height="14"/>
     </resources>
 </document>

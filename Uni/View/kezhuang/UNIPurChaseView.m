@@ -13,13 +13,7 @@
 #import "YILocationManager.h"
 @implementation UNIPurChaseView
 -(id)initWithFrame:(CGRect)frame andPrice:(CGFloat)price{
-        cell1 = 40;
-        cell2 = 60;
-        restH  = self.frame.size.width/5+25+100;
-    float h = cell1*3+cell2*2+restH;
-    self = [super initWithFrame:CGRectMake(frame.origin.x,
-                                           frame.origin.y,
-                                           frame.size.width, h)];
+    self = [super initWithFrame:frame];
     if (self) {
         gPrice = price;
         [self setupTableView];
@@ -28,9 +22,11 @@
 }
 
 -(void)setupTableView{
-    float btnWH =self.frame.size.width/5;
-    float btnJG = 25;
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-btnWH-btnJG) style:UITableViewStylePlain];
+    float btnWH =KMainScreenWidth*70/320;;
+    cell1 = 40;
+    cell2 = 60;
+    float tabH = 4*cell1 +2*cell2;
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, tabH) style:UITableViewStylePlain];
     tab.scrollEnabled = NO;
     tab.layer.masksToBounds=YES;
     tab.layer.cornerRadius = 10;
@@ -38,44 +34,20 @@
     tab.dataSource = self;
     [self addSubview:tab];
     _myTableview = tab;
-    [self setupTableViewFooter];
     
     
     float btnX = (self.frame.size.width-btnWH)/2;
-    float btnY = CGRectGetMaxY(tab.frame)+25;
+    float btnY = CGRectGetMaxY(tab.frame)+15;
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame =CGRectMake(btnX, btnY, btnWH, btnWH);
     [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
     btn.titleLabel.numberOfLines = 0;
     btn.titleLabel.lineBreakMode = 0;
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*17/320];
     [btn setTitle:@"确定\n支付" forState:UIControlStateNormal];
     [self addSubview:btn];
 }
--(void)setupTableViewFooter{
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTableview.frame.size.width, 25)];
-    self.myTableview.tableFooterView = view;
-    
-    float labX =view.frame.size.width -100;
-
-    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, 5, 80, 20)];
-    lab1.text = [NSString stringWithFormat:@"￥%.2f",gPrice];
-    lab1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab1.font = [UIFont boldSystemFontOfSize:15];
-    [view addSubview:lab1];
-    
-    
-    float lab2X = labX - 50;
-    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, 5, 30, 20)];
-    lab2.text = @"合计";
-    lab2.font = [UIFont boldSystemFontOfSize:15];
-    [view addSubview:lab2];
-
-    
-}
-
-
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     float cellH = cell1;
     if (indexPath.row==3 ||indexPath.row == 4) {
@@ -84,52 +56,76 @@
     return cellH;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 5 ;
+    return 6 ;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-        if (indexPath.row==3 ||indexPath.row == 4) {
-            UNIPurStyleCell* cell = [[NSBundle mainBundle]loadNibNamed:@"UNIPurStyleCell" owner:self options:nil].lastObject;
-            if (indexPath.row == 3) {
+        if (indexPath.row == 3) {
+                 UNIPurStyleCell* cell = [[NSBundle mainBundle]loadNibNamed:@"UNIPurStyleCell" owner:self options:nil].lastObject;
                 cell.label1.text = @"微信支付";
                 cell.label2.text = @"使用微信支付";
                 cell.mainImg.image = [UIImage imageNamed:@"KZ_img_weixin"];
-                cell.stateBtn.selected=YES;
-            }else{
+                cell.stateImg.image = [UIImage imageNamed:@"KZ_btn_payStyle2"];
+                wcCell = cell ;
+                return cell;
+            }
+        if (indexPath.row == 4){
+                 UNIPurStyleCell* cell = [[NSBundle mainBundle]loadNibNamed:@"UNIPurStyleCell" owner:self options:nil].lastObject;
                 cell.label1.text = @"支付宝";
                 cell.label2.text = @"使用支付宝";
                 cell.mainImg.image = [UIImage imageNamed:@"KZ_img_zhifubao"];
+                cell.stateImg.image= [UIImage imageNamed:@"KZ_btn_payStyle1"];
+                zfCell = cell;
+                return cell;
             }
-            return cell;
-        }else{
-            static NSString* name = @"cell";
-            UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-            if (!cell) {
-                cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:name];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            }
-            switch (indexPath.row) {
-                case 0:
-                    cell.textLabel.text = @"  请您到XX美容院领取您的宝贝";
-                    cell.textLabel.textColor = [UIColor colorWithHexString:kMainThemeColor];
-                    cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
-                    break;
-                case 1:
-                    cell.textLabel.text = @"广州某街道20号";
-                    cell.textLabel.textColor = [UIColor blackColor];
-                    cell.textLabel.font = [UIFont boldSystemFontOfSize:13];
-                    cell.imageView.image = [UIImage imageNamed:@"function_img_cell2"];
-                    break;
-                case 2:
-                    cell.textLabel.text = @"020-88888888";
-                    cell.textLabel.textColor = [UIColor blackColor];
-                    cell.textLabel.font = [UIFont boldSystemFontOfSize:13];
-                    cell.imageView.image = [UIImage imageNamed:@"function_img_cell3"];
-                    break;
-
-            }
-            return cell;
+    
+    
+        static NSString* name = @"cell";
+        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+        if (!cell) {
+            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:name];
         }
-    return nil;
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"  请您到XX美容院领取您的宝贝";
+                cell.textLabel.textColor = [UIColor colorWithHexString:kMainThemeColor];
+                cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+                break;
+            case 1:
+                cell.textLabel.text = @"广州某街道20号";
+                cell.textLabel.textColor = [UIColor blackColor];
+                cell.textLabel.font = [UIFont boldSystemFontOfSize:13];
+                cell.imageView.image = [UIImage imageNamed:@"function_img_cell2"];
+                cell.accessoryType =UITableViewCellAccessoryDisclosureIndicator;
+                break;
+            case 2:
+                cell.textLabel.text = @"020-88888888";
+                cell.textLabel.textColor = [UIColor blackColor];
+                cell.textLabel.font = [UIFont boldSystemFontOfSize:13];
+                cell.imageView.image = [UIImage imageNamed:@"function_img_cell3"];
+                cell.accessoryType =UITableViewCellAccessoryDisclosureIndicator;
+                break;
+            case 5:{
+                float labX =cell.frame.size.width -90;
+                
+                UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, 10, 80, 20)];
+                lab1.text = [NSString stringWithFormat:@"￥%.2f",gPrice];
+                lab1.textColor = [UIColor colorWithHexString:kMainThemeColor];
+                lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth* 15/320];
+                [cell addSubview:lab1];
+                
+                
+                float lab2W =KMainScreenWidth* 50/320;
+                float lab2X = labX - lab2W;
+                UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X,10,lab2W, 20)];
+                lab2.text = @"合计";
+                lab2.textAlignment = NSTextAlignmentRight;
+                lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth* 15/320];
+                [cell addSubview:lab2];
+            }
+                break;
+    }
+    return cell;
+                return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -140,6 +136,16 @@
             break;
         case 2://致电商家
             [self callPhoneToShop];
+            break;
+        case 3:
+            wcCell.stateImg.image= [UIImage imageNamed:@"KZ_btn_payStyle2"];
+             zfCell.stateImg.image= [UIImage imageNamed:@"KZ_btn_payStyle1"];
+//            wcCell.stateImg.image= [UIImage imageNamed:@"KZ_btn_payStyle1"];
+//            zfCell.stateImg.image= [UIImage imageNamed:@"KZ_btn_payStyle2"];
+            break;
+        case 4:
+            wcCell.stateImg.image= [UIImage imageNamed:@"KZ_btn_payStyle1"];
+            zfCell.stateImg.image= [UIImage imageNamed:@"KZ_btn_payStyle2"];
             break;
     }
 }

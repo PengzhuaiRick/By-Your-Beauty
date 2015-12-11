@@ -12,6 +12,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *mainImg;
 @property (weak, nonatomic) IBOutlet UILabel *label1;
 @property (weak, nonatomic) IBOutlet UILabel *label2;
-@property (weak, nonatomic) IBOutlet UIButton *stateBtn;
+@property (weak, nonatomic) IBOutlet UIImageView *stateImg;
+
 -(void)setupCellContentWith:(id)model;
 @end

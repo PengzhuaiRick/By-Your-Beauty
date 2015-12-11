@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIGoodsCell3 : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIButton *stateBtn;
+
 
 @end

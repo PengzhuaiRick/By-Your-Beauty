@@ -61,7 +61,10 @@
         [self startRequest];
     }];
 
-    
+    if (IOS_VERSION<9.0){
+        tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    }
+
 }
 
 

@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class UNIPurStyleCell;
 @interface UNIPurChaseView : UIView<UITableViewDataSource,UITableViewDelegate>{
     float gPrice;
     float cell1;
     float cell2;
     float restH;
+    UNIPurStyleCell* wcCell;
+    UNIPurStyleCell* zfCell;
 }
 @property(nonatomic,strong)UITableView* myTableview;
 -(id)initWithFrame:(CGRect)frame andPrice:(CGFloat)price;

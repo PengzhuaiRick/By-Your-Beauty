@@ -27,8 +27,9 @@
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
-    //[self startRequest];
-    //[self setupMyTableView];
+   // [self startRequest];
+    [self setupData];
+    [self setupMyTableView];
 }
 -(void)startRequest{
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
@@ -47,7 +48,7 @@
             if (models && models.count>0) {
                 self.modelArr = models;
                 [self setupData];
-                [self setupMyTableView];
+                //[self setupMyTableView];
             }else
                 [YIToast showText:tips];
         });
@@ -103,7 +104,7 @@
     button.titleLabel.numberOfLines = 0;
     button.titleLabel.lineBreakMode = 0;
     button.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
-    [button setTitle:@"服务评价" forState:UIControlStateNormal];
+    [button setTitle:@"服务\n评价" forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
     [self.view addSubview:button];
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -118,7 +119,8 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return _modelArr.count+2;
+    //return _modelArr.count+2;
+    return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -140,7 +142,7 @@
     if (indexPath.row == 0) {
          model = self.modelArr.lastObject;
         UNIAppointDetall1Cell* cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetall1Cell" owner:self options:nil].lastObject;
-        [cell setupCellContentWith:@[@(self.orderState),self.order,model.createTime,model.lastModifiedDate]];
+        //[cell setupCellContentWith:@[@(self.orderState),self.order,model.createTime,model.lastModifiedDate]];
         cell.selectionStyle =UITableViewCellSelectionStyleNone;
         return cell;
     }else if (indexPath.row == self.modelArr.count+1)//最后一个Cell

@@ -22,19 +22,19 @@
                         <color key="textColor" red="0.8862745098" green="0.20392156859999999" blue="0.41176470590000003" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="a3P-yH-g0Y">
-                        <rect key="frame" x="278" y="8" width="30" height="28"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="KZ_btn_next" id="gP2-sf-726">
+                        <rect key="frame" x="287" y="9" width="25" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                         <animations/>
-                    </button>
+                    </imageView>
                 </subviews>
                 <animations/>
             </tableViewCellContentView>
             <animations/>
-            <connections>
-                <outlet property="stateBtn" destination="a3P-yH-g0Y" id="H7R-d4-eGT"/>
-            </connections>
             <point key="canvasLocation" x="513" y="239"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="KZ_btn_next" width="30" height="30"/>
+    </resources>
 </document>

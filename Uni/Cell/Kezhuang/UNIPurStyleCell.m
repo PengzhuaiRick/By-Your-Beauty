@@ -11,9 +11,6 @@
 @implementation UNIPurStyleCell
 
 - (void)awakeFromNib {
-    [self.stateBtn setBackgroundImage:[UIImage imageNamed:@"KZ_btn_payStyle1"] forState:UIControlStateNormal];
-    [self.stateBtn setBackgroundImage:[UIImage imageNamed:@"KZ_btn_payStyle2"] forState:UIControlStateHighlighted];
-    [self.stateBtn setBackgroundImage:[UIImage imageNamed:@"KZ_btn_payStyle2"] forState:UIControlStateSelected];
 }
 
 -(void)setupCellContentWith:(id)model{

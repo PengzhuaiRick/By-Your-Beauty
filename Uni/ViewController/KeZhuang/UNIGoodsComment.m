@@ -37,10 +37,12 @@
 -(void)setupTableView{
     float tabX = 10;
     float tabY = 64+8;
-    if (IOS_VERSION<9.0)
-        tabY = 8;
     float tabW = KMainScreenWidth - tabX*2;
     float tabH = KMainScreenHeight - 64 - tabX*2;
+//    if (IOS_VERSION<9.0){
+//        tabY = 8;
+//        tabH = KMainScreenHeight - tabX*2;
+//    }
     
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
     tabview.delegate = self;
@@ -62,7 +64,10 @@
         [self startRequest];
     }];
     
-    
+    if (IOS_VERSION<9.0){
+        tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    }
+
 }
 
 

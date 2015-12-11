@@ -30,6 +30,7 @@
 		1827CEBC1C15893E00A40B45 /* UNIRewardListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1827CEBA1C15893E00A40B45 /* UNIRewardListCell.xib */; settings = {ASSET_TAGS = (); }; };
 		1840FD771BE0712100DC78BC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840FD751BE0712100DC78BC /* ViewController.m */; settings = {ASSET_TAGS = (); }; };
 		1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882FA611BE739C300CC8D51 /* BaseViewModel.m */; settings = {ASSET_TAGS = (); }; };
+		18864B881C1AB24E00592DA1 /* UNIGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18864B871C1AB24E00592DA1 /* UNIGoodsModel.m */; settings = {ASSET_TAGS = (); }; };
 		188F123A1C16E85100EBE345 /* UNIWalletController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188F12391C16E85100EBE345 /* UNIWalletController.m */; settings = {ASSET_TAGS = (); }; };
 		188F123D1C16EB0B00EBE345 /* UNIWalletList.m in Sources */ = {isa = PBXBuildFile; fileRef = 188F123C1C16EB0B00EBE345 /* UNIWalletList.m */; settings = {ASSET_TAGS = (); }; };
 		1890919A1C15A02A005C84E9 /* UNIRewardDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 189091991C15A02A005C84E9 /* UNIRewardDetail.m */; settings = {ASSET_TAGS = (); }; };
@@ -195,6 +196,8 @@
 		184168D31BE3219A0082B50E /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
 		1882FA601BE739C300CC8D51 /* BaseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewModel.h; sourceTree = "<group>"; };
 		1882FA611BE739C300CC8D51 /* BaseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewModel.m; sourceTree = "<group>"; };
+		18864B861C1AB24E00592DA1 /* UNIGoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsModel.h; sourceTree = "<group>"; };
+		18864B871C1AB24E00592DA1 /* UNIGoodsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGoodsModel.m; sourceTree = "<group>"; };
 		188F12381C16E85100EBE345 /* UNIWalletController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIWalletController.h; sourceTree = "<group>"; };
 		188F12391C16E85100EBE345 /* UNIWalletController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIWalletController.m; sourceTree = "<group>"; };
 		188F123B1C16EB0B00EBE345 /* UNIWalletList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIWalletList.h; sourceTree = "<group>"; };
@@ -512,6 +515,7 @@
 		1840FD711BE0712100DC78BC /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18864B851C1AB23A00592DA1 /* KeZhuang */,
 				18E627811BF9EC1500C4C13C /* UNIMyAppintModel.h */,
 				18E627821BF9EC1500C4C13C /* UNIMyAppintModel.m */,
 				18E627841BF9ED3800C4C13C /* UNIBaseModel.h */,
@@ -583,6 +587,15 @@
 				181347AE1BF33E6D001674D9 /* UNILoginViewModel.m */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		18864B851C1AB23A00592DA1 /* KeZhuang */ = {
+			isa = PBXGroup;
+			children = (
+				18864B861C1AB24E00592DA1 /* UNIGoodsModel.h */,
+				18864B871C1AB24E00592DA1 /* UNIGoodsModel.m */,
+			);
+			path = KeZhuang;
 			sourceTree = "<group>";
 		};
 		188F12371C16E83700EBE345 /* Wallet */ = {
@@ -1191,6 +1204,7 @@
 				18C3FBF61C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m in Sources */,
 				18C73A831C06FAAD00A3A4CA /* UNIMyPojectList.m in Sources */,
 				18D9CBE91BEC801F001EF50C /* MainMidMoveBackTransition.m in Sources */,
+				18864B881C1AB24E00592DA1 /* UNIGoodsModel.m in Sources */,
 				1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */,
 				1827CEBB1C15893E00A40B45 /* UNIRewardListCell.m in Sources */,
 				18BA7D781BEA169300DD7826 /* MainMidController.m in Sources */,
