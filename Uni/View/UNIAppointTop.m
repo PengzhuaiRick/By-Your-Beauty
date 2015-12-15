@@ -101,6 +101,9 @@
              
              [self.topScroller setContentOffset:CGPointMake(x.frame.origin.x-x.frame.size.width, 0) animated:YES];
              
+             CGPoint point = CGPointMake(0, 0);
+             [self.midScroller setContentOffset:point animated:YES];
+             
              self.member=1;//重置人数
              NSString* str = [x titleForState:UIControlStateNormal];
              self.selectDay=[str componentsSeparatedByString:@" "][0];
@@ -158,7 +161,7 @@
 
 
 -(void)setupMidScroller{
-    int cout= 19;
+    int cout= (int)freeTimes.count;
     int f = 1;//能翻的页数
     if (cout>6){
         f = cout/6;
@@ -167,6 +170,7 @@
     }
         _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width*f ,
                                               _midScroller.frame.size.height);
+    _midScroller.pagingEnabled=YES;
         [[self.midRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(id x) {
              int b =(int)self.midScroller.contentOffset.x/self.midScroller.frame.size.width;
@@ -197,7 +201,7 @@
     float btnW = KMainScreenWidth*50/320; //按钮的宽和高
     float jj = (ww-btnW)/2; //按钮的间距
     for (int i = 0; i<cout; i++) {
-        NSDictionary* dic = freeTimes[0];
+        NSDictionary* dic = freeTimes[i];
         float zuo  = ww*juw+jj+(i/6*self.midScroller.frame.size.width); //按钮的X坐标
         if (i%3==0)
             zuo = jj+(i/6*self.midScroller.frame.size.width);

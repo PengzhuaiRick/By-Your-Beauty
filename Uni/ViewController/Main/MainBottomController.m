@@ -39,7 +39,8 @@
 }
 #pragma mark 设置参数
 -(void)setupParams{
-    _num = (int)_myData.count;
+    _myData = [NSMutableArray array];
+    
     pageNum = 0;
     pageSize = 20;
     
@@ -86,7 +87,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _num;
+    return _myData.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return KMainScreenWidth*70/320;
@@ -97,7 +98,7 @@
     if (!cell)
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
     
-    [cell setupCellContent:_myData[0] andType:2];
+    [cell setupCellContent:_myData[indexPath.row] andType:2];
     return cell;
 }
 
@@ -111,17 +112,16 @@
 }
 
 -(void)reflashTabel:(int)Num{
-    _num = Num;
+   
     [self.tableView reloadData];
 }
 
 -(void)insertTableViewData{
-    _num = 10;
+    
     [self.tableView reloadData];
     
 }
 -(void)deleteTableViewData:(int)Num{
-    _num = Num;
     [self.tableView reloadData];
 }
 

@@ -117,7 +117,7 @@
 -(void)setupHeaderview{
     
     float topW = KMainScreenWidth - 10*2;
-    float topH = KMainScreenWidth* 100/320;
+    float topH = KMainScreenWidth* 120/320;
     UIView* top = [[UIView alloc]initWithFrame:CGRectMake(0, 0, topW, topH)];
     self.myTable.tableHeaderView = top;
     
@@ -158,7 +158,7 @@
     CALayer* line = [CALayer layer];
      float lineX =10;
     float lineW = midView.frame.size.width - 2*lineX;
-    float lineH = 5;
+    float lineH = KMainScreenWidth*3/320;
     float lineY = (midView.frame.size.height - lineH)/2;
     line.frame = CGRectMake(lineX, lineY, lineW, lineH);
     line.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor].CGColor;
@@ -167,30 +167,32 @@
     [midView.layer addSublayer:line];
     
     NSArray* colors = @[@"KZ_img_red",@"KZ_img_orange",@"KZ_img_green",@"KZ_img_red",@"KZ_img_orange"];
-    NSArray* imgNames = @[@"KZ_img_good",@"KZ_img_bofang",@"KZ_img_aixin",@"KZ_img_xing",@"KZ_img_xing"];
+    NSArray* imgNames = @[@"KZ_img_good",@"KZ_img_bofang",@"KZ_img_aixin",@"KZ_img_xing",@"KZ_img_zuanshi"];
     NSArray* stringS = @[@"5人返￥5",@"10人返￥15",@"20人返￥25",@"25人返￥30",@"30人返￥35"];
     float jg = midView.frame.size.width/6;
     for (int i =0; i<colors.count; i++) {
         UIImage* img = [UIImage imageNamed:colors[i]];
-        UIImageView* imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 15, 15)];
+        float imgWH =KMainScreenWidth*12/320;
+        UIImageView* imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imgWH, imgWH)];
         //imgView.contentMode=UIViewContentModeScaleAspectFit;
         imgView.center = CGPointMake( (i+1)*jg,midView.frame.size.height/2);
         imgView.image = img;
         [midView addSubview:imgView];
         
         UIImage* img1 = [UIImage imageNamed:imgNames[i]];
-        UIImageView* imgView1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+        float img2WH =KMainScreenWidth*22/320;
+        UIImageView* imgView1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img2WH, img2WH+4)];
         //imgView1.contentMode=UIViewContentModeScaleAspectFit;
         imgView1.image = img1;
         
         float centerX = 0;
         float labCenterY = 0;
         if ((i+1)%2==0){
-            centerX = CGRectGetMaxY(imgView.frame)+imgView.frame.size.height/2+5;
-            labCenterY = imgView.frame.origin.y - imgView.frame.size.height/2-5;
+            centerX = CGRectGetMaxY(imgView.frame)+imgView.frame.size.height/2+8;
+            labCenterY = imgView.frame.origin.y - imgView.frame.size.height/2-8;
         }else{
-            centerX = imgView.frame.origin.y - imgView.frame.size.height/2-5;
-            labCenterY =  CGRectGetMaxY(imgView.frame)+imgView.frame.size.height/2+5;
+            centerX = imgView.frame.origin.y - imgView.frame.size.height/2-8;
+            labCenterY =  CGRectGetMaxY(imgView.frame)+imgView.frame.size.height/2+8;
         }
         imgView1.center = CGPointMake((i+1)*jg, centerX);
        
@@ -209,13 +211,14 @@
 #pragma mark 加载webView
 -(void)setupWebView{
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_myTable.frame), _myTable.frame.size.width, _myScroller.frame.size.height)];
-
-    [web loadHTMLString:model.desc baseURL:nil];
+    NSString* urlString = [NSString stringWithFormat:@"%@/shopadmin/Public/Home/Detail/goods?id=%d",API_URL,model.projectId];
+    NSLog(@"urlString %@",urlString);
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    [web loadRequest:request];
     [_myScroller addSubview:web];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"heightForRowAtIndexPath ");
     float cell = 0;
     switch (indexPath.row) {
         case 0:
@@ -239,7 +242,6 @@
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"cellForRowAtIndexPath");
     switch (indexPath.row) {
         case 0:{
             UNIGoodsCell1* cell =[[NSBundle mainBundle]loadNibNamed:@"UNIGoodsCell1" owner:self options:nil].lastObject;

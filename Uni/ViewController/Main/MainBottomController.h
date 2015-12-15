@@ -9,8 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MainBottomController : UITableViewController
-
-@property(nonatomic,assign)int num;
 @property(nonatomic,strong)NSMutableArray* myData;
 
 //刷新列表

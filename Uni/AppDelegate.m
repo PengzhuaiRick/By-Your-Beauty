@@ -40,8 +40,8 @@
     
     //[self rqWelcomeImage];
     [self judgeFirstTime];
-    //[self locateStart:launchOptions];
-    //[self setupJPush:launchOptions];
+    [self locateStart:launchOptions];
+    [self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
     [self replaceWelcomeImage:@""];
     [self setupNavigationStyle];
@@ -67,7 +67,7 @@
     //
     UIBarButtonItem *item = [UIBarButtonItem appearance];
     NSMutableDictionary *itemAttrs = [NSMutableDictionary dictionaryWithDictionary:barAttrs];
-    [itemAttrs setObject:[UIFont boldSystemFontOfSize:14] forKey:NSFontAttributeName];
+    [itemAttrs setObject:[UIFont boldSystemFontOfSize:KMainScreenWidth*16/320] forKey:NSFontAttributeName];
     [item setTitleTextAttributes:itemAttrs forState:UIControlStateNormal];
     [item setTitleTextAttributes:itemAttrs forState:UIControlStateHighlighted];
     [item setTitleTextAttributes:itemAttrs forState:UIControlStateDisabled];
@@ -124,8 +124,8 @@
 
 -(void)locateStart:(NSDictionary *)launchOptions{
     
-    //if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey])
-        [[YILocationManager sharedInstance]startUpdateUserLoaction];
+   // if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey])
+        [[YILocationManager sharedInstance] startUpdateUserLoaction];
 }
 
 #pragma mark 请求当前版本信息
@@ -159,7 +159,7 @@
                            NSError* er){
         if (er==nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self replaceWelcomeImage:url];
+              //  [self replaceWelcomeImage:url];
             });
             
         }else{
@@ -230,18 +230,62 @@
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
-
+//后台
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    //self.inBackground = YES;
+    if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
+    { //Check if our iOS version supports multitasking I.E iOS 4
+        
+        if ([[UIDevice
+              currentDevice] isMultitaskingSupported])
+        { //Check if device supports mulitasking
+            
+            UIApplication *application = [UIApplication
+                                          sharedApplication]; //Get the shared application instance
+            
+            __block UIBackgroundTaskIdentifier background_task; //Create a task object
+            
+            background_task = [application beginBackgroundTaskWithExpirationHandler: ^{
+                /*
+                 当应用程序后台停留的时间为0时，会执行下面的操作（应用程序后台停留的时间为600s，可以通过backgroundTimeRemaining查看）
+                 */
+                [application endBackgroundTask: background_task]; //Tell the system that we are done with the tasks
+                background_task = UIBackgroundTaskInvalid; //Set the task to be invalid
+                
+                
+                //System will be shutting down the app at any point in time now
+            }];
+            
+            
+            // Background tasks require you to use asyncrous tasks
+            
+            
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                
+                [[YILocationManager sharedInstance] startUpdateUserLoaction];
+                
+                
+                //Perform your tasks that your application requires
+                NSLog(@"time remain:%f", application.backgroundTimeRemaining);
+                [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
+                background_task = UIBackgroundTaskInvalid; //Invalidate the background_task
+            });
+        }
+    }
+
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 
+//前台
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+//    if ([CLLocationManager significantLocationChangeMonitoringAvailable]){
+//        YILocationManager* manager = [YILocationManager sharedInstance];
+//        [manager.locationManager startUpdatingLocation];
+//        [manager.locationManager stopMonitoringSignificantLocationChanges];
+//    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -252,11 +296,13 @@
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Required
+     NSLog(@"%@", [NSString stringWithFormat:@"Device Token: %@", deviceToken]);
     [APService registerDeviceToken:deviceToken];
 }
 - (void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo {
     // Required
+    NSLog(@"收到通知:%@", userInfo);
     [APService handleRemoteNotification:userInfo];
 }
 - (void)application:(UIApplication *)application
@@ -264,7 +310,13 @@ didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void
                         (^)(UIBackgroundFetchResult))completionHandler {
     // IOS 7 Support Required
+     NSLog(@"收到通知:%@", userInfo);
     [APService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
+}
+
+- (void)application:(UIApplication *)application
+didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
 }
 @end

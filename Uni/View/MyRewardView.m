@@ -92,6 +92,7 @@
 }
 
 -(void)startReflashTableView:(NSArray*)arr{
+    [self.dataArray removeAllObjects];
     [self.dataArray addObjectsFromArray:arr];
     [self.midTableview reloadData];
 }

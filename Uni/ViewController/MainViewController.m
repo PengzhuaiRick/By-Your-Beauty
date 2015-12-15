@@ -69,7 +69,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     [self setupNavigation];
     [self setupScroller];
     //[self addChildController];
@@ -125,7 +124,7 @@
    
     float tabX = 10;
     float tabY = 64+10;
-    if (IOS_VERSION<9.0)
+//    if (IOS_VERSION<9.0)
         tabY = 7;
     float tabW = KMainScreenWidth - tabX*2;
     float tabH = KMainScreenHeight - tabX - tabY;
@@ -179,14 +178,14 @@
     cell.selectionStyle =UITableViewCellSelectionStyleNone;
     if (indexPath.row == 0) {
         MainMidView* midview = [[MainMidView alloc]initWithFrame:
-                                CGRectMake(0, 8,  tableView.frame.size.width, cellHight-8) headerTitle:@"我已预约"];
+                                CGRectMake(0,5,  tableView.frame.size.width, cellHight-5) headerTitle:@"我已预约"];
         midview.delegate=self;
         [cell addSubview:midview];
         self.midView = midview;
     }
     if (indexPath.row == 1) {
         MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
-                                   CGRectMake(0,8,tableView.frame.size.width,cellHight-8)
+                                   CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
                                                         headerTitle:@"我的项目"];
         bottomView.delegate = self;
         [cell addSubview:bottomView];
@@ -262,11 +261,11 @@
     UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if (type == 1) {
         self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-        self.midController.myData = [NSMutableArray arrayWithArray:self.midData];
+       // self.midController.myData = [NSMutableArray arrayWithArray:self.midData];
         [self.navigationController pushViewController:self.midController animated:YES];
     }else if (type == 2){
         self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-        self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
+        //self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
         [self.navigationController pushViewController:self.buttomController animated:YES];
     }
 }

@@ -15,6 +15,7 @@
     UINavigationController* mainNav;
     //MainViewController* mainCtr;
     UIViewController* myRewardNav;
+    UINavigationController* walletNav;
     UNIMyRewardController* rewardCtr;
     UNIWalletController* wallet;
 }
@@ -80,10 +81,10 @@
         UNIWalletController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
          view.containController = self;
         wallet = view;
-        myRewardNav =[[UINavigationController alloc]initWithRootViewController:view];
+        walletNav =[[UINavigationController alloc]initWithRootViewController:view];
     }
-    [self.view addSubview:myRewardNav.view];
-    [self addChildViewController:myRewardNav];
+    [self.view addSubview:walletNav.view];
+    [self addChildViewController:walletNav];
   
 }
 

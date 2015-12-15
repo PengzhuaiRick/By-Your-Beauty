@@ -14,9 +14,10 @@ typedef void(^GetLocationMessageBlock)(YIUserLocationMessage *locationMsg);
 @interface YILocationManager : NSObject<CLLocationManagerDelegate>
 {
     int Ifstop;
-    CLLocationManager *locationManager;
+   
     
 }
+@property(nonatomic , strong) CLLocationManager *locationManager;
 
 @property(nonatomic , strong)YIUserLocationMessage* userLocInfo;
 

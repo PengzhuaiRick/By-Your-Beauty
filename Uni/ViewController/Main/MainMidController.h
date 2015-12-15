@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface MainMidController : UITableViewController
-@property(nonatomic,assign)int num;
 @property(nonatomic,strong)NSMutableArray* myData;
 
 

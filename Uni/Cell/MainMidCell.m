@@ -63,7 +63,7 @@
         self.handleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.035];
         self.handleBtn.titleLabel.numberOfLines = 0;
         self.handleBtn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-        [self.handleBtn setBackgroundImage:[UIImage imageNamed:@"main_btn_cell2"] forState:UIControlStateNormal];
+        [self.handleBtn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
        
     }
 }

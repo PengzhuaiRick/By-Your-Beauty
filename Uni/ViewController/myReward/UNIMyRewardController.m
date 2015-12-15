@@ -21,6 +21,26 @@
 @end
 
 @implementation UNIMyRewardController
+
+-(void)viewWillAppear:(BOOL)animated{
+    NSArray* array =self.containController.view.gestureRecognizers;
+    for (UIGestureRecognizer* ges in array) {
+        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
+            ges.enabled=YES;
+        }
+    }
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    NSArray* array =self.containController.view.gestureRecognizers;
+    for (UIGestureRecognizer* ges in array) {
+        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
+            ges.enabled=NO;
+        }
+    }
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
@@ -118,7 +138,6 @@
     appointView = view;
     appointView.midTableview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->page1 = 0;
-        [self->appointView.dataArray removeAllObjects];
         [self startRequestMyAppoint];
     }];
     
@@ -148,7 +167,6 @@
     
     inTimeView.midTableview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->page2 = 0;
-        [self->inTimeView.dataArray removeAllObjects];
         [self startRequestIntime];
     }];
     

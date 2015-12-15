@@ -13,6 +13,24 @@
 @end
 
 @implementation UNIWalletController
+-(void)viewWillAppear:(BOOL)animated{
+    NSArray* array =self.containController.view.gestureRecognizers;
+    for (UIGestureRecognizer* ges in array) {
+        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
+            ges.enabled=YES;
+        }
+    }
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    NSArray* array =self.containController.view.gestureRecognizers;
+    for (UIGestureRecognizer* ges in array) {
+        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
+            ges.enabled=NO;
+        }
+    }
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

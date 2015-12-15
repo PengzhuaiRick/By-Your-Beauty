@@ -48,6 +48,8 @@
     tabview.showsVerticalScrollIndicator=NO;
     [self.view addSubview:tabview];
     self.myTable =tabview;
+    if (IOS_VERSION>9.0)
+        tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     [self setupTabViewFooter];
 }
 

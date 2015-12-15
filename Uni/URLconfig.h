@@ -18,6 +18,13 @@
 
 #define API_URL @"http://192.168.0.199:8081"
 
+//极光推送
+#define APNSAppKey @"8c76934a7b516967128ea8b4"
+#define APNSMasterSecret @"954989e225869603cef4d00b"
+
+
+
+
 // C部分 第一个参数 类型1
 #define API_PARAM_UNI @"UNI"
 

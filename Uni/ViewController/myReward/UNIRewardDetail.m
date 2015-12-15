@@ -56,6 +56,10 @@
     [self.view addSubview:tabview];
     self.myTable =tabview;
     
+    if (IOS_VERSION<9.0) {
+        tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    }
+    
     float btnWH = 70;
     float btnX = (KMainScreenWidth - btnWH)/2;
     float btnY = CGRectGetMaxY(tabview.frame)+30;
@@ -71,7 +75,10 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    int number = 2;
+    if(self.model.status == 0)
+        number = 3;
+       return number;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     float num =0;

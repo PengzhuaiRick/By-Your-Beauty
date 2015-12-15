@@ -35,14 +35,18 @@
      self.view.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
 }
 -(void)setupTableView{
-    tableRect =CGRectMake(8, 64+8, KMainScreenWidth-16,MAXTABLEH);
+   
+        tableRect =CGRectMake(8, 64+8, KMainScreenWidth-16,MAXTABLEH);
     _myTableview = [[UITableView alloc]initWithFrame:tableRect
                                                style:UITableViewStylePlain];
     _myTableview.layer.masksToBounds = YES;
     _myTableview.layer.cornerRadius = 5;
     _myTableview.delegate =self;
     _myTableview.dataSource = self;
-    
+    if (IOS_VERSION<9.0)
+        _myTableview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    if (IOS_VERSION>9.0)
+        _myTableview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     [self.view addSubview:_myTableview];
     
     _myTableview.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTableview.frame.size.width, 30)];

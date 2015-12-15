@@ -39,7 +39,7 @@
     //[self startRequestInfo];
     
    
-  //  [self.tableView.header beginRefreshing];
+  [self startRequestInfoPage];
 }
 
 -(void)setupNavigation{
@@ -48,7 +48,8 @@
 }
 #pragma mark 设置参数
 -(void)setupParams{
-    _num = (int)_myData.count;
+    _myData = [NSMutableArray array];
+   //_num = (int)_myData.count;
     pageNum = 0;
     pageSize = 20;
 
@@ -57,18 +58,20 @@
 -(void)setupMJReflash{
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->pageNum =0;
-        self->pageSize =(int)self.myData.count;
+        self->pageSize =20;
         [self startRequestInfoPage];
     }];
-    if (_myData.count==20) {
+    if (self.myData.count>=20) {
         self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             ++self->pageNum;
-            self->pageSize =(int)self.myData.count+20;
+            self->pageSize =20;
             [self startRequestInfoPage];
         }];
+    }else
         self.tableView.footer.hidden = YES;
-    }
-   
+    
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,7 +104,7 @@
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _num;
+    return _myData.count;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -131,15 +134,12 @@
 }
 
 -(void)reflashTabel:(int)Num{
-    _num = Num;
     [self.tableView reloadData];
 }
 -(void)insertTableViewData{
-    _num = 10;
     [self.tableView reloadData];
 }
 -(void)deleteTableViewData:(int)Num{
-    _num = Num;
     [self.tableView reloadData];
 }
 
@@ -173,8 +173,11 @@
                         if (self->pageNum == 0)//下拉刷新
                             [self.myData removeAllObjects];
                         
+                        if (myAppointArr.count<20)
+                            self.tableView.footer.hidden=YES;
+                        
                         [self.myData addObjectsFromArray:myAppointArr];
-                        [self reflashTabel:(int)self.myData.count];
+                        [self.tableView reloadData];
                     }
                     else
                         [YIToast showText:tips];

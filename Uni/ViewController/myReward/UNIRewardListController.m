@@ -70,8 +70,8 @@
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
-             [self lineLayerMoveAction:x];
-             [self buttonRequestAction:x];
+             [self btnChangeTextColor:x];
+             [self buttonLoadViewAction:x];
         }];
     }
     
@@ -82,8 +82,8 @@
     [top.layer addSublayer:lay];
     self.lineLayer = lay;
 }
-#pragma mark 顶部红色底线滑动事件
--(void)lineLayerMoveAction:(UIButton*)btn{
+#pragma mark 按钮改变字体颜色
+-(void)btnChangeTextColor:(UIButton*)btn{
     
     btn.selected=YES;
     for (int i = 1; i<4; i++) {
@@ -94,8 +94,8 @@
     }
 }
 
-#pragma mark 顶部点击请求事件
--(void)buttonRequestAction:(UIButton*)btn{
+#pragma mark 按钮加载视图
+-(void)buttonLoadViewAction:(UIButton*)btn{
     [self.myScroller setContentOffset:CGPointMake(KMainScreenWidth* (btn.tag-1),
                                                   0) animated:YES];
     switch (btn.tag) {
@@ -171,11 +171,19 @@
                                           layRe.origin.y,
                                           layRe.size.width,
                                           layRe.size.height);
-    if(xx == KMainScreenWidth)
-        [self setupUnGetView];
     
-    if(xx == 2*KMainScreenWidth)
+    int tag = 1;
+    if(xx == KMainScreenWidth){
+        [self setupUnGetView];
+        tag = 2;
+    }
+    
+    if(xx == 2*KMainScreenWidth){
         [self setupGotView];
+        tag = 3;
+    }
+    UIButton* btn = (UIButton*)[topView viewWithTag:tag];
+    [self btnChangeTextColor:btn];
 }
 
 - (void)didReceiveMemoryWarning {

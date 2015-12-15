@@ -71,4 +71,9 @@
  */
 #define IS_IOS8_OR_LATER ([[UIDevice currentDevice].systemVersion floatValue] >=8.0)
 
+/**
+ *   当前系统是9.0或以上
+ */
+#define IS_IOS9_OR_LATER ([[UIDevice currentDevice].systemVersion floatValue] >=9.0)
+
 #endif /* Config_h */

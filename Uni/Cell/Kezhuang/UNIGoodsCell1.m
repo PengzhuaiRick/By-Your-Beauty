@@ -15,7 +15,6 @@
 }
 -(void)setupCellContentWith:(id)model{
     UNIGoodsModel* info = model;
-    
     NSDictionary *attribute = @{NSFontAttributeName: self.label1.font};
     CGSize size = [info.projectName boundingRectWithSize:CGSizeMake(self.label1.frame.size.width, 200)
                                                  options: NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading attributes:attribute context:nil].size;
