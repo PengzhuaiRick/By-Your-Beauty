@@ -23,7 +23,7 @@
 
 -(void)setupTableView{
     float btnWH =KMainScreenWidth*70/320;;
-    cell1 = 40;
+    cell1 = KMainScreenWidth*40/320;
     cell2 = 60;
     float tabH = 4*cell1 +2*cell2;
     UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, tabH) style:UITableViewStylePlain];
@@ -88,29 +88,31 @@
             case 0:
                 cell.textLabel.text = @"  请您到XX美容院领取您的宝贝";
                 cell.textLabel.textColor = [UIColor colorWithHexString:kMainThemeColor];
-                cell.textLabel.font = [UIFont boldSystemFontOfSize:14];
+                cell.textLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
                 break;
             case 1:
                 cell.textLabel.text = @"广州某街道20号";
                 cell.textLabel.textColor = [UIColor blackColor];
-                cell.textLabel.font = [UIFont boldSystemFontOfSize:13];
+                cell.textLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
                 cell.imageView.image = [UIImage imageNamed:@"function_img_cell2"];
                 cell.accessoryType =UITableViewCellAccessoryDisclosureIndicator;
                 break;
             case 2:
                 cell.textLabel.text = @"020-88888888";
                 cell.textLabel.textColor = [UIColor blackColor];
-                cell.textLabel.font = [UIFont boldSystemFontOfSize:13];
+                cell.textLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
                 cell.imageView.image = [UIImage imageNamed:@"function_img_cell3"];
                 cell.accessoryType =UITableViewCellAccessoryDisclosureIndicator;
                 break;
             case 5:{
-                float labX =cell.frame.size.width -90;
-                
-                UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, 10, 80, 20)];
-                lab1.text = [NSString stringWithFormat:@"￥%.2f",gPrice];
+                NSString* string = [NSString stringWithFormat:@"￥%.2f",gPrice];
+                UIFont* font =[UIFont boldSystemFontOfSize:KMainScreenWidth* 15/320];
+                float labW =string.length*(KMainScreenWidth* 15/320); 
+                float labX =tableView.frame.size.width -8 - labW;
+                UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, 10, labW, 20)];
+                lab1.text =string;
                 lab1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-                lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth* 15/320];
+                lab1.font =font;
                 [cell addSubview:lab1];
                 
                 

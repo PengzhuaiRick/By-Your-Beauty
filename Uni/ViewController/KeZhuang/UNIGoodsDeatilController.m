@@ -15,6 +15,7 @@
 #import "UNIPurchaseController.h"
 #import <MJRefresh/MJRefresh.h>
 #import "UNIGoodsDetailRequest.h"
+#import "UNIImageAndTextController.h"
 @interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate>{
     UIView* midView;
    // float tableH;
@@ -54,7 +55,8 @@
                 [self setupMyScroller];
                  [self setupData];
                 [self setupTableView];
-            }
+            }else
+                [YIToast showText:tips];
         });
     };
 }
@@ -291,7 +293,12 @@
         case 1:
             
             break;
-        case 2:
+        case 2:{
+            UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+            UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
+            imgAndText.projectId = model.projectId;
+            [self.navigationController pushViewController:imgAndText animated:YES];
+        }
             break;
         case 3:{
             

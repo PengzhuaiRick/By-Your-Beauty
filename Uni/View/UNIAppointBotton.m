@@ -28,10 +28,10 @@
     self.sureBtn.titleLabel.numberOfLines = 0;
     self.sureBtn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     [self.sureBtn setTitle:@"确定\n预约" forState:UIControlStateNormal];
-    self.sureBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
+    self.sureBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*17/320];
     
     
-    float uiH = 8;
+    float uiH = 0;
     
     float xuzhiW = KMainScreenWidth*140/320;
     float xuzhiH = KMainScreenWidth*26/320;
@@ -58,7 +58,7 @@
     float memberX = jianX - memberW - 2;
     self.menberLab.frame = CGRectMake(memberX,uiH, memberW, memberH);
     
-    float sureWH = KMainScreenWidth*60/320;
+    float sureWH = KMainScreenWidth*70/320;
     float sureX = (frace.size.width - sureWH)/2 ;
     float sureY = frace.size.height - sureWH - 10;
     self.sureBtn.frame = CGRectMake(sureX,sureY, sureWH, sureWH);

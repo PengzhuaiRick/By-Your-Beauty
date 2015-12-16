@@ -22,6 +22,7 @@
 @property (copy, nonatomic) NSString* selectDay; //选择的日期
 @property (copy, nonatomic) NSString* selectTime; //选择的时间段
 @property (assign ,nonatomic)int maxNum; //最大人数
+@property (assign ,nonatomic)int numDay; //用来计算本地通知的触发时间
 
 @property (strong, nonatomic)NSMutableArray* topBtns;
 @property (weak, nonatomic) IBOutlet UIButton *topLeftBtn;

@@ -71,6 +71,9 @@
 #define API_URL_GetSellInfo @"getSellInfo"
 
 //服务评价接口
+#define API_URL_SetServiceAppraise @"setServiceAppraise"
+
+//商品评价接口
 #define API_URL_GoodsAppraise @"setGoodsAppraise"
 
 //会员卡详情接口

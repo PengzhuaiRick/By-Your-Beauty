@@ -70,11 +70,24 @@
     
     [self.prideBtn setTitle:[NSString stringWithFormat:@" %d",info.likesNum] forState:UIControlStateNormal];
     
+    [[self.prideBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        [UIView animateWithDuration:0.3 animations:^{
+            self.prideBtn.transform =CGAffineTransformMakeScale(2,2);
+            self.prideBtn.alpha = 0;
+        }completion:^(BOOL finished) {
+            self.prideBtn.transform = CGAffineTransformIdentity;
+            self.prideBtn.alpha = 1;
+            NSString* numString = [self.prideBtn titleForState:UIControlStateNormal];
+            int num =[numString intValue];
+            [self.prideBtn setTitle:[NSString stringWithFormat:@" %d",++num] forState:UIControlStateNormal];
+        }];
+    }];
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
-    // Configure the view for the selected state
 }
 
 @end

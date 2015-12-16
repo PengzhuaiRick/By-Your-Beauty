@@ -29,10 +29,7 @@
    // NSString* string = self.selectDay;
     NSString* string = @"2015-11-24";
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetFreeTime] params:@{@"userId":@(1),
-                                                                           @"token":@"abcdxxa",
-                                                                           @"shopId":@(1),
-                                                                           @"projectId":@(self.model.projectId),
+    [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetFreeTime] params:@{@"projectId":@(self.model.projectId),
                                                                            @"date":string,
                                                                            @"costTime":@(50)
                                                                            }];
@@ -75,6 +72,7 @@
       //  NSLog(@"month,day,weekday,year  %d, %d, %d, %d",month,day,weekday,year);
         
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.tag = i;
         btn.frame = CGRectMake(btnW*i, 0, btnW, btnH);
         [btn setTitle:str forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor colorWithHexString:@"595757"] forState:UIControlStateNormal];
@@ -98,7 +96,7 @@
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x){
-             
+             self.numDay = (int)x.tag;
              [self.topScroller setContentOffset:CGPointMake(x.frame.origin.x-x.frame.size.width, 0) animated:YES];
              
              CGPoint point = CGPointMake(0, 0);

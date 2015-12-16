@@ -47,7 +47,7 @@
     if ([CLLocationManager locationServicesEnabled]) {
        // Ifstop=0;
         if(!_locationManager)
-            _locationManager =[[CLLocationManager alloc]init];
+        _locationManager =[[CLLocationManager alloc]init];
         _locationManager.delegate=self;
         //_locationManager.pausesLocationUpdatesAutomatically=NO;//更新是否自动暂停
         _locationManager.distanceFilter = kCLDistanceFilterNone; // 任何运动均接受，任何运动将会触发定位更新

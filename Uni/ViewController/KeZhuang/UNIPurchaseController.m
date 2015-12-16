@@ -9,7 +9,8 @@
 #import "UNIPurchaseController.h"
 #import "UNIPurchaseCell.h"
 #import "UNIPurChaseView.h"
-@interface UNIPurchaseController ()<UITableViewDataSource,UITableViewDelegate>
+#import "BTKeyboardTool.h"
+@interface UNIPurchaseController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate>
 @property(nonatomic,strong)UITableView* myTable;
 @end
 
@@ -22,7 +23,7 @@
     [self setupTableView];
 }
 -(void)setupNavigation{
-    self.title = @"商品评论";
+    self.title = @"商品购买";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
 }
 -(void)setupData{
@@ -61,7 +62,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 86;
+    return [UNIPurchaseCell CellHight];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -73,9 +74,19 @@
     UNIPurchaseCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
         cell = [[NSBundle mainBundle]loadNibNamed:@"UNIPurchaseCell" owner:self options:nil].lastObject;
+        BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+        tool.toolDelegate = self;
+        cell.countField.inputAccessoryView = tool;
+        [tool dismissTwoBtn];
     }
     [cell setupCellContentWith:nil];
     return cell;
+}
+
+-(void)keyboardTool:(BTKeyboardTool *)tool buttonClick:(KeyBoardToolButtonType)type{
+    if (type == kKeyboardToolButtonTypeDone) {
+        [self.view endEditing:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

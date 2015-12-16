@@ -40,8 +40,8 @@
     
     //[self rqWelcomeImage];
     [self judgeFirstTime];
-    [self locateStart:launchOptions];
-    [self setupJPush:launchOptions];
+    //[self locateStart:launchOptions];
+    //[self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
     [self replaceWelcomeImage:@""];
     [self setupNavigationStyle];
@@ -61,13 +61,13 @@
     //设置导航栏标题字体颜色
     NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
     [barAttrs setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
-    [barAttrs setObject:[UIFont boldSystemFontOfSize:18] forKey:NSFontAttributeName];
+    [barAttrs setObject:[UIFont boldSystemFontOfSize:KMainScreenWidth*17/320] forKey:NSFontAttributeName];
     [bar setTitleTextAttributes:barAttrs];
     
     //
     UIBarButtonItem *item = [UIBarButtonItem appearance];
     NSMutableDictionary *itemAttrs = [NSMutableDictionary dictionaryWithDictionary:barAttrs];
-    [itemAttrs setObject:[UIFont boldSystemFontOfSize:KMainScreenWidth*16/320] forKey:NSFontAttributeName];
+    [itemAttrs setObject:[UIFont boldSystemFontOfSize:KMainScreenWidth*15/320] forKey:NSFontAttributeName];
     [item setTitleTextAttributes:itemAttrs forState:UIControlStateNormal];
     [item setTitleTextAttributes:itemAttrs forState:UIControlStateHighlighted];
     [item setTitleTextAttributes:itemAttrs forState:UIControlStateDisabled];
@@ -131,7 +131,7 @@
 #pragma mark 请求当前版本信息
 -(void)rqCurrentVersion{
     UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
-    [model postWithSerCode:@[API_PARAM_UNI,
+    [model postWithoutUserIdSerCode:@[API_PARAM_UNI,
                              API_URL_CheckVersion]
                     params:@{@"type":@(2)}];
     model.reqheckVersion=^(NSString* version,
@@ -151,7 +151,7 @@
 #pragma mark 请求欢迎页面图片
 -(void)rqWelcomeImage{
     UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
-    [model postWithSerCode:@[API_PARAM_UNI,
+    [model postWithoutUserIdSerCode:@[API_PARAM_UNI,
                              API_URL_Welcome]
                     params:@{@"type":@(2)}];
     model.rqwelcomeBlock=^(NSString* url,
@@ -240,38 +240,41 @@
               currentDevice] isMultitaskingSupported])
         { //Check if device supports mulitasking
             
-            UIApplication *application = [UIApplication
-                                          sharedApplication]; //Get the shared application instance
+//             BOOL backgroundAccepted = [[UIApplication sharedApplication] setKeepAliveTimeout:600 handler:^{
+                 [self backgroundHandler];
+//             }];
             
-            __block UIBackgroundTaskIdentifier background_task; //Create a task object
-            
-            background_task = [application beginBackgroundTaskWithExpirationHandler: ^{
-                /*
-                 当应用程序后台停留的时间为0时，会执行下面的操作（应用程序后台停留的时间为600s，可以通过backgroundTimeRemaining查看）
-                 */
-                [application endBackgroundTask: background_task]; //Tell the system that we are done with the tasks
-                background_task = UIBackgroundTaskInvalid; //Set the task to be invalid
-                
-                
-                //System will be shutting down the app at any point in time now
-            }];
-            
-            
-            // Background tasks require you to use asyncrous tasks
-            
-            
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                
-                [[YILocationManager sharedInstance] startUpdateUserLoaction];
-                
-                
-                //Perform your tasks that your application requires
-                NSLog(@"time remain:%f", application.backgroundTimeRemaining);
-                [application endBackgroundTask: background_task]; //End the task so the system knows that you are done with what you need to perform
-                background_task = UIBackgroundTaskInvalid; //Invalidate the background_task
-            });
         }
     }
+
+}
+
+#pragma mark 申请后台任务
+-(void)backgroundHandler{
+    UIApplication *application = [UIApplication
+                                  sharedApplication];
+    
+    __block UIBackgroundTaskIdentifier background_task;
+    background_task = [application beginBackgroundTaskWithExpirationHandler: ^{
+        /*
+         当应用程序后台停留的时间为0时，会执行下面的操作（应用程序后台停留的时间为600s，可以通过backgroundTimeRemaining查看）
+         */
+        
+        [application endBackgroundTask: background_task];
+        background_task = UIBackgroundTaskInvalid;
+        [self backgroundHandler];
+    }];
+    
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        [[YILocationManager sharedInstance] startUpdateUserLoaction];
+        
+        NSLog(@"time remain:%f", application.backgroundTimeRemaining);
+//        [application endBackgroundTask: background_task];
+//        background_task = UIBackgroundTaskInvalid;
+       // [self backgroundHandler];
+    });
 
 }
 
@@ -281,11 +284,8 @@
 
 //前台
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-//    if ([CLLocationManager significantLocationChangeMonitoringAvailable]){
-//        YILocationManager* manager = [YILocationManager sharedInstance];
-//        [manager.locationManager startUpdatingLocation];
-//        [manager.locationManager stopMonitoringSignificantLocationChanges];
-//    }
+    [application setApplicationIconBadgeNumber:0];
+    [application cancelAllLocalNotifications];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

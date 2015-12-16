@@ -210,7 +210,8 @@
 #pragma mark 开始提交评论
 -(void)startSubmitComment{
     UNIMyAppointInfoRequest* req = [[UNIMyAppointInfoRequest alloc]init];
-    [req postWithSerCode:@[API_PARAM_UNI,API_URL_GoodsAppraise] params:@{@"goodsId":@"",@"level":@(grades),@"content":self.textView.text}];
+    [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetServiceAppraise]
+                  params:@{@"goodsId":@"",@"level":@(grades),@"content":self.textView.text}];
     req.rqAppraise =^(int code,NSString*tips,NSError* err){
         if (err) {
             [YIToast showText:err.localizedDescription];

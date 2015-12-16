@@ -60,6 +60,7 @@
     }];
          self.tableView.footer.hidden = YES;
      }
+    [self.tableView.header beginRefreshing];
 }
 
 - (void)didReceiveMemoryWarning {

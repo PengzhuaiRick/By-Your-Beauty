@@ -105,18 +105,15 @@
          NSMutableArray* arr = [NSMutableArray array];
          [arr addObject:dic1];
          //[arr addObject:dic];
-         [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint] params:@{@"userId":@(1),
-                                                                           @"token":@"abcdxxa",
-                                                                           @"shopId":@(1),
-                                                                           @"data":arr
-                                                                          }];
+         [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
+                       params:@{@"data":arr}];
          req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
              if (err) {
                  [YIToast showText:[err localizedDescription]];
                  return ;
              }
              if (order) {
-                 
+                 [self locationNotificationTask];
              }else
                   [YIToast showText:tips];
          };
@@ -128,7 +125,8 @@
          if (self->appointTop.member<self->appointTop.maxNum) {
              self->appointTop.member++;
              //botton.nunField.text = [NSString stringWithFormat:@"%d",self->appointTop.member];
-         }
+         }else
+             [YIToast showText:@"已达到预约时间点的最大人数"];
         
      }];
     
@@ -162,6 +160,46 @@
             num = 1;
         botton.nunField.text = [NSString stringWithFormat:@"%d",num];
     }];
+}
+
+#pragma mark 添加本地通知任务
+-(void)locationNotificationTask{
+    NSDate* now = [NSDate date];
+    int zhong = [now.description substringWithRange: NSMakeRange(11,2)].intValue;
+    int fen = [now.description substringWithRange: NSMakeRange(14,2)].intValue;
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    
+    int sec= 0;
+    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
+    int seleZhong = [array[0] intValue];
+    int seleFen = [array[1] intValue];
+    if (appointTop.numDay<3) {
+        if (seleZhong>zhong)
+            sec= (24 - seleZhong + (--zhong))*3600 + abs(seleFen - fen)*60;
+        else
+            sec =(seleZhong - (--zhong))*3600+ abs(seleFen - fen)*60;
+    }else{
+        int tian = appointTop.numDay - 2;
+        if (seleZhong>zhong)
+            sec=tian*24*3600+ (24 - seleZhong + (--zhong))*3600 + abs(seleFen - fen)*60;
+        else
+            sec =tian*24*3600+(seleZhong - (--zhong))*3600+ abs(seleFen - fen)*60;
+    }
+    //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:sec];
+    //设置本地通知的时区
+    localNotification.timeZone = [NSTimeZone defaultTimeZone];
+    //设置通知的内容
+    localNotification.alertBody =  @"您预约的服务时间还有一小时";
+    //设置通知动作按钮的标题
+    localNotification.alertAction = @"查看";
+    //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
+    //            NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:LOCAL_NOTIFY_SCHEDULE_ID,@"id",[NSNumber numberWithInteger:time],@"time",[NSNumber numberWithInt:affair.aid],@"affair.aid", nil];
+    //            localNotification.userInfo = infoDic;
+    //在规定的日期触发通知
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
 -(void)regirstKeyBoardNotification{

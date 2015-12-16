@@ -18,6 +18,12 @@
  */
 -(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params;
 
+/**
+ *  POST请求 没有token userId shopId
+ *  @param code   业务码
+ *  @param params 参数
+ */
+-(void)postWithoutUserIdSerCode:(NSArray*)code params:(NSDictionary *)params;
 
 /**
  *  GET请求

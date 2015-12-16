@@ -346,9 +346,7 @@
         //请求约满奖励
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MRInfo]
-                           params:@{@"shopId":@(1),
-                                    @"token":@"abcdxxa",
-                                    @"userId":@(1)}];
+                           params:nil];
         request1.rerewardBlock=^(int nextRewardNum,int num,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
@@ -394,10 +392,7 @@
 -(void)startRequestAppointInfo{
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
-                          params:@{@"userId":@(1),
-                                   @"token":@"abcdxxa",
-                                   @"shopId":@(1),
-                                   @"page":@(0),@"size":@(20)}];
+                          params:@{@"page":@(0),@"size":@(20)}];
         request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self->myTable.header endRefreshing];
@@ -417,10 +412,7 @@
 -(void)startRequestProjectInfo{
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
-                           params:@{@"userId":@(1),
-                                    @"token":@"abcdxxa",
-                                    @"shopId":@(1),
-                                    @"page":@(0),@"size":@(2)}];
+                           params:@{@"page":@(0),@"size":@(2)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {

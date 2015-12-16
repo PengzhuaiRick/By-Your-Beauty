@@ -34,11 +34,7 @@
 -(void)startRequest{
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
     [rquest postWithSerCode:@[API_PARAM_UNI,API_URL_GetAppointInfo]
-                     params:@{@"userId":@(1),
-                              @"token":@"abcdxxa",
-                              @"shopId":@(1),
-                              @"order":@"1@1448593248"
-                              }];
+                     params:@{@"order":@"1@1448593248"}];
     rquest.reqMyAppointInfo = ^(NSArray* models,NSString* tips ,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
@@ -94,13 +90,13 @@
 //        return;
     
     
-    float btnWH =KMainScreenWidth*50/320;
+    float btnWH =KMainScreenWidth*70/320;
     float btnX = (KMainScreenWidth - btnWH)/2;
     float btnY = CGRectGetMaxY(self.myTableView.frame)+5;
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
     button.layer.masksToBounds = YES;
-    button.layer.cornerRadius = KMainScreenWidth* 25/320;
+    button.layer.cornerRadius = btnWH/2;
     button.titleLabel.numberOfLines = 0;
     button.titleLabel.lineBreakMode = 0;
     button.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
@@ -109,11 +105,11 @@
     [self.view addSubview:button];
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-         UNIMyAppointInfoModel* info =self.modelArr.lastObject;
-         NSArray* arr= @[self.order,info.projectName,info.createTime];
+//         UNIMyAppointInfoModel* info =self.modelArr.lastObject;
+//         NSArray* arr= @[self.order,info.projectName,info.createTime];
          UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
          UNIEvaluateController* eva = [story instantiateViewControllerWithIdentifier:@"UNIEvaluateController"];
-         eva.data = arr;
+       //  eva.data = arr;
          [self.navigationController pushViewController:eva animated:YES];
     }];
 }

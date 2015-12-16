@@ -195,7 +195,7 @@
         [LLARingSpinnerView RingSpinnerViewStart];
          [self.view endEditing:YES];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
-         [request postWithSerCode:@[API_PARAM_SSMS,
+         [request postWithoutUserIdSerCode:@[API_PARAM_SSMS,
                                     API_URL_Login]
                            params:@{@"phone":field.text}];
         
@@ -301,7 +301,7 @@
          }
          x.enabled = NO;
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
-        [request postWithSerCode:@[API_PARAM_UNI,
+        [request postWithoutUserIdSerCode:@[API_PARAM_UNI,
                                    API_URL_Login]
                                 params:@{@"code":field1.text,
                                             @"password":field2.text,
