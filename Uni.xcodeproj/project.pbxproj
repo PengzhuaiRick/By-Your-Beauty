@@ -28,6 +28,13 @@
 		1827CEB71C157CAD00A40B45 /* UNIRewardListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB61C157CAD00A40B45 /* UNIRewardListController.m */; };
 		1827CEBB1C15893E00A40B45 /* UNIRewardListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */; };
 		1827CEBC1C15893E00A40B45 /* UNIRewardListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1827CEBA1C15893E00A40B45 /* UNIRewardListCell.xib */; };
+		182EDD7B1C23B0CE00949337 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 182EDD791C23B0CE00949337 /* AlipaySDK.bundle */; };
+		182EDD7C1C23B0CE00949337 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EDD7A1C23B0CE00949337 /* AlipaySDK.framework */; };
+		182EDD7E1C23B13E00949337 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EDD7D1C23B13E00949337 /* QuartzCore.framework */; };
+		182EDD801C23B14E00949337 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EDD7F1C23B14E00949337 /* CoreText.framework */; };
+		182EDD821C23B1A600949337 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EDD811C23B1A600949337 /* CoreMotion.framework */; };
+		182EDD841C23B1F200949337 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EDD831C23B1F200949337 /* libc++.tbd */; };
+		182EDD871C2405D300949337 /* UIAlertView+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 182EDD861C2405D300949337 /* UIAlertView+Blocks.m */; };
 		1840FD771BE0712100DC78BC /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1840FD751BE0712100DC78BC /* ViewController.m */; };
 		1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882FA611BE739C300CC8D51 /* BaseViewModel.m */; };
 		18864B881C1AB24E00592DA1 /* UNIGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18864B871C1AB24E00592DA1 /* UNIGoodsModel.m */; };
@@ -97,6 +104,7 @@
 		18CCA0201C0310F600B90092 /* Function.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18CCA01F1C0310F600B90092 /* Function.storyboard */; };
 		18CE1FE01C214017000DE133 /* UNIImageAndTextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE1FDF1C214017000DE133 /* UNIImageAndTextController.m */; };
 		18D124641BF5BC440034990F /* UNIShopManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D124631BF5BC440034990F /* UNIShopManage.m */; };
+		18D434A41C229AD0006A8A3F /* UNILocateNotifiDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D434A31C229AD0006A8A3F /* UNILocateNotifiDetail.m */; };
 		18D5722E1BE883560055DE7F /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722B1BE883560055DE7F /* AccountManager.m */; };
 		18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722D1BE883560055DE7F /* YILocationManager.m */; };
 		18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D572311BE891BC0055DE7F /* YIUserLocationMessage.m */; };
@@ -192,6 +200,14 @@
 		1827CEB81C15893E00A40B45 /* UNIRewardListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardListCell.h; sourceTree = "<group>"; };
 		1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardListCell.m; sourceTree = "<group>"; };
 		1827CEBA1C15893E00A40B45 /* UNIRewardListCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIRewardListCell.xib; sourceTree = "<group>"; };
+		182EDD791C23B0CE00949337 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
+		182EDD7A1C23B0CE00949337 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		182EDD7D1C23B13E00949337 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		182EDD7F1C23B14E00949337 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		182EDD811C23B1A600949337 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		182EDD831C23B1F200949337 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		182EDD851C2405D300949337 /* UIAlertView+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIAlertView+Blocks.h"; sourceTree = "<group>"; };
+		182EDD861C2405D300949337 /* UIAlertView+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertView+Blocks.m"; sourceTree = "<group>"; };
 		1840FD741BE0712100DC78BC /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		1840FD751BE0712100DC78BC /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		184168D31BE3219A0082B50E /* Config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Config.h; sourceTree = "<group>"; };
@@ -307,6 +323,8 @@
 		18CE1FDF1C214017000DE133 /* UNIImageAndTextController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIImageAndTextController.m; sourceTree = "<group>"; };
 		18D124621BF5BC440034990F /* UNIShopManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopManage.h; sourceTree = "<group>"; };
 		18D124631BF5BC440034990F /* UNIShopManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopManage.m; sourceTree = "<group>"; };
+		18D434A21C229AD0006A8A3F /* UNILocateNotifiDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILocateNotifiDetail.h; sourceTree = "<group>"; };
+		18D434A31C229AD0006A8A3F /* UNILocateNotifiDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILocateNotifiDetail.m; sourceTree = "<group>"; };
 		18D5722A1BE883560055DE7F /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
 		18D5722B1BE883560055DE7F /* AccountManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountManager.m; sourceTree = "<group>"; };
 		18D5722C1BE883560055DE7F /* YILocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YILocationManager.h; sourceTree = "<group>"; };
@@ -382,8 +400,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18BA7D741BEA066500DD7826 /* MapKit.framework in Frameworks */,
 				18C745B61BF07D92000062AF /* libz.tbd in Frameworks */,
+				182EDD841C23B1F200949337 /* libc++.tbd in Frameworks */,
+				182EDD7C1C23B0CE00949337 /* AlipaySDK.framework in Frameworks */,
+				182EDD821C23B1A600949337 /* CoreMotion.framework in Frameworks */,
+				182EDD801C23B14E00949337 /* CoreText.framework in Frameworks */,
+				182EDD7E1C23B13E00949337 /* QuartzCore.framework in Frameworks */,
+				18BA7D741BEA066500DD7826 /* MapKit.framework in Frameworks */,
 				18C745B41BF07CA3000062AF /* Security.framework in Frameworks */,
 				18C745B21BF07C9B000062AF /* UIKit.framework in Frameworks */,
 				18C745B01BF07C91000062AF /* Foundation.framework in Frameworks */,
@@ -418,6 +441,8 @@
 		180838571BFACDA200727B61 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				182EDD851C2405D300949337 /* UIAlertView+Blocks.h */,
+				182EDD861C2405D300949337 /* UIAlertView+Blocks.m */,
 				18C315661BFDCDF600B8438E /* UIActionSheet+Blocks.h */,
 				18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */,
 				180838581BFACDA200727B61 /* UIColor+HexString.h */,
@@ -513,6 +538,15 @@
 				18250E721C18492C0072F795 /* UNIPurChaseView.m */,
 			);
 			path = kezhuang;
+			sourceTree = "<group>";
+		};
+		182EDD781C23B0CE00949337 /* ZFB */ = {
+			isa = PBXGroup;
+			children = (
+				182EDD791C23B0CE00949337 /* AlipaySDK.bundle */,
+				182EDD7A1C23B0CE00949337 /* AlipaySDK.framework */,
+			);
+			path = ZFB;
 			sourceTree = "<group>";
 		};
 		1840FD711BE0712100DC78BC /* Model */ = {
@@ -771,6 +805,7 @@
 		18D5720F1BE867FE0055DE7F /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				182EDD781C23B0CE00949337 /* ZFB */,
 				18C745A11BF07C24000062AF /* JPush */,
 				18BA7D641BE9A19100DD7826 /* EAIntroView */,
 			);
@@ -814,6 +849,8 @@
 				18C3ECF11C0EC9C900B0A192 /* UNIAppointDetail.m */,
 				18E661D01C116736000042B7 /* UNIEvaluateController.h */,
 				18E661D11C116736000042B7 /* UNIEvaluateController.m */,
+				18D434A21C229AD0006A8A3F /* UNILocateNotifiDetail.h */,
+				18D434A31C229AD0006A8A3F /* UNILocateNotifiDetail.m */,
 			);
 			path = Appointment;
 			sourceTree = "<group>";
@@ -897,6 +934,10 @@
 		4721F7A66D978636E4F252B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				182EDD831C23B1F200949337 /* libc++.tbd */,
+				182EDD811C23B1A600949337 /* CoreMotion.framework */,
+				182EDD7F1C23B14E00949337 /* CoreText.framework */,
+				182EDD7D1C23B13E00949337 /* QuartzCore.framework */,
 				18C745B51BF07D92000062AF /* libz.tbd */,
 				18C745B31BF07CA3000062AF /* Security.framework */,
 				18C745B11BF07C9B000062AF /* UIKit.framework */,
@@ -1035,6 +1076,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				182EDD7B1C23B0CE00949337 /* AlipaySDK.bundle in Resources */,
 				189091A91C15AB18005C84E9 /* UNIRewardDetailCell3.xib in Resources */,
 				18E14C341C04721300AA36C8 /* UNIAppointTop.xib in Resources */,
 				18E3029E1C17FF4600990A14 /* UNIGoodsCell4.xib in Resources */,
@@ -1153,6 +1195,7 @@
 				18E14C2F1C046F7700AA36C8 /* UNIAppointController.m in Sources */,
 				1890919A1C15A02A005C84E9 /* UNIRewardDetail.m in Sources */,
 				18C73A7F1C06F74D00A3A4CA /* UNIMyAppointCell.m in Sources */,
+				182EDD871C2405D300949337 /* UIAlertView+Blocks.m in Sources */,
 				18E302A11C18091900990A14 /* UNIGoodsComment.m in Sources */,
 				1890919E1C15A183005C84E9 /* UNIRewardDetailCell1.m in Sources */,
 				18C3FBFD1C1044FD0031AFAC /* UNICardInfoController.m in Sources */,
@@ -1166,6 +1209,7 @@
 				18E302981C17FDDB00990A14 /* UNIGoodsCell3.m in Sources */,
 				181347AF1BF33E6D001674D9 /* UNILoginViewModel.m in Sources */,
 				18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */,
+				18D434A41C229AD0006A8A3F /* UNILocateNotifiDetail.m in Sources */,
 				18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */,
 				181347AC1BF33D50001674D9 /* UNILoginViewRequest.m in Sources */,
 				18C3ECFB1C0EEA2100B0A192 /* UNIAppointDetall1Cell.m in Sources */,
@@ -1373,6 +1417,10 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Uni/Library/ZFB",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Uni/UniHeader.pch";
 				INFOPLIST_FILE = Uni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1396,6 +1444,10 @@
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Uni/Library/ZFB",
+				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/Uni/UniHeader.pch";
 				INFOPLIST_FILE = Uni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

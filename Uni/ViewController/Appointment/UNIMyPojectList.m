@@ -9,13 +9,15 @@
 #import "UNIMyPojectList.h"
 #import "UNIMyAppointCell.h"
 #import "MainViewRequest.h"
-
+#import <MJRefresh/MJRefresh.h>
 #define CELLH KMainScreenWidth*60/320
 #define MAXTABLEH KMainScreenHeight-64-30-24  //tableview最大高度
 @interface UNIMyPojectList ()<UITableViewDataSource,UITableViewDelegate>{
     UIButton* needKnowBtn;//需知按钮
     CGRect tableRect;//
     CGRect btnRect;
+    int pageNum;
+    int pageSize;
 }
 @end
 
@@ -31,6 +33,8 @@
 -(void)setupData{
     
     self.title = @"我的项目";
+    pageNum = 0;
+    pageSize = 20;
     _myData = [NSMutableArray array];
      self.view.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
 }
@@ -43,11 +47,24 @@
     _myTableview.layer.cornerRadius = 5;
     _myTableview.delegate =self;
     _myTableview.dataSource = self;
+    
     if (IOS_VERSION<9.0)
         _myTableview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     if (IOS_VERSION>9.0)
         _myTableview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     [self.view addSubview:_myTableview];
+    
+    self.myTableview.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self->pageNum =0;
+        self->pageSize =(int)self.myData.count;
+        [self startRequestInfo];
+    }];
+    self.myTableview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            ++self->pageNum;
+            self->pageSize =(int)self.myData.count+20;
+            [self startRequestInfo];
+        }];
+
     
     _myTableview.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTableview.frame.size.width, 30)];
     
@@ -74,7 +91,7 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return _myData.count;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -82,23 +99,27 @@
     UNIMyAppointCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
         cell =[[NSBundle mainBundle]loadNibNamed:@"UNIMyAppointCell" owner:self options:nil].lastObject;
+        cell.mainLab.textColor = [UIColor colorWithHexString:@"ee4b7c"];
+        cell.mainLab.font = [UIFont boldSystemFontOfSize:13];
+        
+        cell.subLab.textColor = [UIColor colorWithHexString:@"c2c1c0"];
+        cell.subLab.font = [UIFont boldSystemFontOfSize:13];
+
     }
+    UNIMyProjectModel* model = _myData[indexPath.row];
     cell.mainImg.image = [UIImage imageNamed:@"main_img_cell1"];
     //  cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
     
-    cell.mainLab.text = @"WODASD";
-    cell.mainLab.textColor = [UIColor colorWithHexString:@"ee4b7c"];
-    cell.mainLab.font = [UIFont boldSystemFontOfSize:13];
+    cell.mainLab.text =model.projectName;
     
-    cell.subLab.text = @"NANANA";
-    cell.subLab.textColor = [UIColor colorWithHexString:@"c2c1c0"];
-    cell.subLab.font = [UIFont boldSystemFontOfSize:13];
-
+    
+    cell.subLab.text = [NSString stringWithFormat:@"服务时长%d分钟",model.costTime];
+    
     cell.functionBtn.tag = indexPath.row+10;
     [[cell.functionBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(UIButton* x) {
-       // id model = self.myData[x.tag-10];
-        [self.delegate UNIMyPojectListDelegateMethod:nil];
+        id model = self.myData[x.tag-10];
+        [self.delegate UNIMyPojectListDelegateMethod:model];
         [self.navigationController popViewControllerAnimated:YES];
     }];
     
@@ -114,19 +135,23 @@
                            params:@{@"userId":@(1),
                                     @"token":@"abcdxxa",
                                     @"shopId":@(1),
-                                    @"page":@(0),@"size":@(20)}];
+                                    @"page":@(self->pageNum),@"size":@(20)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
-//                self.tableView.footer.hidden = YES;
-//                [self.tableView.header endRefreshing];
-//                [self.tableView.footer endRefreshing];
+                
+                [self.myTableview.header endRefreshing];
+                [self.myTableview.footer endRefreshing];
                 if (err==nil) {
                     if (myProjectArr.count>0){
-//                        if (self->pageNum == 0)//下拉刷新
-//                            [self.myData removeAllObjects];
-//                        
+                        if (myProjectArr.count<20)
+                            self.myTableview.footer.hidden = YES;
+                        else
+                             self.myTableview.footer.hidden = NO;
+                        if (self->pageNum == 0)//下拉刷新
+                            [self.myData removeAllObjects];
+                        
                        [self.myData addObjectsFromArray:myProjectArr];
-                        //[self modificationUI];
+                        [self modificationUI];
                     }
                     else
                         [YIToast showText:tips];

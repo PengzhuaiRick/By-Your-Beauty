@@ -7,19 +7,20 @@
 //
 
 #import "UNIAppontMid.h"
-
+#import "UNIMyProjectModel.h"
 @implementation UNIAppontMid
--(id)initWithFrame:(CGRect)frame{
+-(id)initWithFrame:(CGRect)frame andModel:(id)model{
     self=[super initWithFrame:frame];
     if (self) {
+         _myData = [NSMutableArray array];
+        [_myData addObject:model];
         [self setupUI:frame];
     }
     return self;
 }
 
-int number =10;
 -(void)setupUI:(CGRect)frame{
-    _myData = [NSMutableArray array];
+   
 
     UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, KMainScreenWidth*0.05)];
     view.image =[UIImage imageNamed:@"mian_img_cellH"];
@@ -34,8 +35,8 @@ int number =10;
     _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(view.frame), self.frame.size.width, self.frame.size.height-CGRectGetMaxY(view.frame)-40) style:UITableViewStylePlain];
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
-    
     [self addSubview:_myTableView];
+    _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame), self.frame.size.width, 35);
@@ -61,7 +62,7 @@ int number =10;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return number;
+    return _myData.count;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -75,17 +76,24 @@ int number =10;
         cell.rightUtilityButtons = arr;
         cell.delegate = self;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        cell.mainLab.textColor = [UIColor colorWithHexString:@"ee4b7c"];
+        cell.mainLab.font = [UIFont boldSystemFontOfSize:13];
+        
+        cell.subLab.textColor = [UIColor colorWithHexString:@"c2c1c0"];
+        cell.subLab.font = [UIFont boldSystemFontOfSize:13];
     }
-    cell.mainImg.image = [UIImage imageNamed:@"main_img_cell1"];
+    UNIMyProjectModel* model = _myData[indexPath.row];
+    //cell.mainImg.image = [UIImage imageNamed:@"main_img_cell1"];
   //  cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
+    [cell.mainImg sd_setImageWithURL:[NSURL URLWithString:model.logoUrl]
+                    placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
     
-    cell.mainLab.text = @"WODASD";
-    cell.mainLab.textColor = [UIColor colorWithHexString:@"ee4b7c"];
-    cell.mainLab.font = [UIFont boldSystemFontOfSize:13];
+    cell.mainLab.text = model.projectName;
+  
     
-    cell.subLab.text = @"NANANA";
-    cell.subLab.textColor = [UIColor colorWithHexString:@"c2c1c0"];
-    cell.subLab.font = [UIFont boldSystemFontOfSize:13];
+    cell.subLab.text = [NSString stringWithFormat:@"服务时长%d分钟",model.costTime];
+    
     
     cell.functionBtn.hidden=YES;
     return cell;
@@ -93,14 +101,12 @@ int number =10;
 #pragma mark SWTableViewCell 删除代理事件
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index{
     NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
-    //[self.myData removeObjectAtIndex:cellIndexPath.row];
-    number--;
+    [self.myData removeObjectAtIndex:cellIndexPath.row];
     [self.myTableView deleteRowsAtIndexPaths:@[cellIndexPath]
                           withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 -(void)addProject:(id)model{
     //[_myData addObject:model];
-    number++;
     [_myTableView reloadData];
     
 }

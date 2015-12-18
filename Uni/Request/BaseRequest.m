@@ -37,6 +37,7 @@
 -(void)postWithoutUserIdSerCode:(NSArray*)code params:(NSDictionary *)params{
 
     NSString* URL = [self spliceURL:code];
+    
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];

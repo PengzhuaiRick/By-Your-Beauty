@@ -14,7 +14,7 @@
 @property (strong, nonatomic)  UITableView *myTableView;
 
 
-
+-(id)initWithFrame:(CGRect)frame andModel:(id)model;
 //-(void)setupUI:(CGRect)frame;
 
 //添加项目 刷新列表

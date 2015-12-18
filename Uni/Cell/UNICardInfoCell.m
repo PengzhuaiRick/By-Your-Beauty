@@ -28,7 +28,7 @@
     self.stateBtn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
     self.stateBtn.layer.masksToBounds = YES;
     self.stateBtn.layer.cornerRadius = KMainScreenWidth*25/320;
-    [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainTitleColor]];
+    [self.stateBtn setBackgroundColor: kMainGrayBackColor];
     self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
     [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     

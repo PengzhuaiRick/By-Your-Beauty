@@ -100,6 +100,15 @@
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
     
     [cell setupCellContent:_myData[indexPath.row] andType:2];
+    
+    cell.handleBtn.tag = indexPath.row+10;
+    [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(UIButton* x) {
+        UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+        appoint.model =  self.myData[x.tag-10];
+        [self.navigationController pushViewController:appoint animated:YES];
+    }];
     return cell;
 }
 

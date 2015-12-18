@@ -11,6 +11,8 @@
 #import "UNIShopManage.h"
 #import "YILocationManager.h"
 #import "UNIContainController.h"
+#import "AccountManager.h"
+#import "AppDelegate.h"
 @interface ViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     CGPoint startPoint;
@@ -53,7 +55,7 @@
                    @"致电商家",
                    @"我的奖励",
                    @"我的钱包",
-                   @"修改密码"];
+                   @"退出登录"];
     imgArray =@[@"function_img_cell1",
                 @"function_img_cell2",
                 @"function_img_cell3",
@@ -118,6 +120,7 @@
             [_tv setupWalletController];
             break;
         case 5:
+            [self loginOut];
             [self closeTheBox];
             break;
     }
@@ -155,6 +158,7 @@
             if (offset < -80)
                 [self closeTheBox];
             else
+                
                 [self openTheBox];
         }
     }
@@ -243,6 +247,36 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
 }
 
+#pragma mark 调用退出登录
+-(void)loginOut{
+#ifdef IS_IOS9_OR_LATER
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否确定退出登录" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    UIAlertAction *checkAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self cleanAndJump];
+    }];
+    [alertController addAction:checkAction];
+    
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+#else
+    UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"是否确定退出登录" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+    [alertView show];
+#endif
+    
+}
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex>0) {
+        [self cleanAndJump];
+    }
+}
+
+-(void)cleanAndJump{
+    [AccountManager clearAll];
+    AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+    [delegate judgeFirstTime];
+}
 //-(void)handleSwipe:(UISwipeGestureRecognizer*)swipe{
 //    NSLog(@"谁打我  %lu",(unsigned long)swipe.direction);
 //}

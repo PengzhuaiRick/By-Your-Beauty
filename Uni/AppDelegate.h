@@ -13,6 +13,6 @@
 @property (strong, nonatomic) UIWindow *window;
 
 -(void)setupViewController;
-
+-(void)judgeFirstTime;
 @end
 

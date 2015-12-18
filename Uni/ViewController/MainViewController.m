@@ -38,6 +38,7 @@
     
     UITapGestureRecognizer* midGesture;
     UITapGestureRecognizer* buttomGesture;
+    int cellNum;//CELL 的数量
 }
 @property(nonatomic,strong) NSArray* midData;
 @property(nonatomic,strong) NSArray* bottomData;
@@ -76,7 +77,7 @@
     [self startRequestShopInfo];//请求商家信息
     [self startRequestReward];//请求约满信息
     [self startRequestAppointInfo];//请求我已预约
-    [self startRequestProjectInfo];//请求我的项目
+   // [self startRequestProjectInfo];//请求我的项目
 }
 #pragma mark
 -(void)setupNavigation{
@@ -99,17 +100,17 @@
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     float x = self.containController.view.frame.origin.x;
     [UIView animateWithDuration:0.2 animations:^{
-        if (x==0)
+        if (x==0){
             self.containController.view.frame =
             CGRectMake(KMainScreenWidth-100,
                                          0,self.view.frame.size.width
-                                         ,self.view.frame.size.height);
+                       ,self.view.frame.size.height);
+        }
         else
             self.containController.view.frame =
             CGRectMake(0,
                        0,self.view.frame.size.width
                        ,self.view.frame.size.height);
- 
     }];
 }
 #pragma mark 跳转客妆界面
@@ -121,7 +122,8 @@
 
 #pragma mark 设置Scroller
 -(void)setupScroller{
-   
+    cellNum = 0;
+    
     float tabX = 10;
     float tabY = 64+10;
 //    if (IOS_VERSION<9.0)
@@ -145,7 +147,6 @@
     topRe =CGRectMake(bj,bj,tabW,imgH);
     UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
     topImg.image = imag;
-    //[myScroller addSubview:topImg];
     tabview.tableHeaderView = topImg;
     topView = topImg;
     
@@ -158,13 +159,13 @@
     
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self startRequestAppointInfo];//请求我已预约
-        [self startRequestProjectInfo];//请求我的项目
+        //[self startRequestProjectInfo];//请求我的项目
     }];
     
     
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    return cellNum;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -174,23 +175,42 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
    
     UITableViewCell*cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
+        
+    }
     cell.backgroundColor = [UIColor clearColor];
     cell.selectionStyle =UITableViewCellSelectionStyleNone;
+    
     if (indexPath.row == 0) {
-        MainMidView* midview = [[MainMidView alloc]initWithFrame:
+        if (_midData){
+                MainMidView* midview = [[MainMidView alloc]initWithFrame:
                                 CGRectMake(0,5,  tableView.frame.size.width, cellHight-5) headerTitle:@"我已预约"];
-        midview.delegate=self;
-        [cell addSubview:midview];
-        self.midView = midview;
+                midview.delegate=self;
+                [cell addSubview:midview];
+                self.midView = midview;
+                [self.midView startReloadData:_midData andType:1];
+            
+        }
+        else{
+            MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
+                                       CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
+                                                            headerTitle:@"我的项目"];
+                 bottomView.delegate = self;
+                 [cell addSubview:bottomView];
+                 self.buttomView = bottomView;
+             [self.buttomView startReloadData:_bottomData andType:2];
+        }
+        
     }
     if (indexPath.row == 1) {
-        MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
+             MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
                                    CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
                                                         headerTitle:@"我的项目"];
-        bottomView.delegate = self;
-        [cell addSubview:bottomView];
-        self.buttomView = bottomView;
-
+             bottomView.delegate = self;
+             [cell addSubview:bottomView];
+            self.buttomView = bottomView;
+         [self.buttomView startReloadData:_bottomData andType:2];
     }
     return cell;
 }
@@ -241,21 +261,21 @@
 
 
 #pragma mark 点击手势跳转事件
--(void)showMoreInfo:(UIGestureRecognizer*)gesture{
-    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    if (gesture.view.tag == 10) {
-        //[self midViewAnimationEvent];
-         self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-        self.midController.myData = [NSMutableArray arrayWithArray:self.midData];
-        //self.midController.myData =self.midData;
-        [self.navigationController pushViewController:self.midController animated:YES];
-    }else if (gesture.view.tag == 11){
-              //  [self buttomViewAnimationEvent];
-        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-        self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
-        [self.navigationController pushViewController:self.buttomController animated:YES];
-    }
-}
+//-(void)showMoreInfo:(UIGestureRecognizer*)gesture{
+//    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    if (gesture.view.tag == 10) {
+//        //[self midViewAnimationEvent];
+//         self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+//        self.midController.myData = [NSMutableArray arrayWithArray:self.midData];
+//        //self.midController.myData =self.midData;
+//        [self.navigationController pushViewController:self.midController animated:YES];
+//    }else if (gesture.view.tag == 11){
+//              //  [self buttomViewAnimationEvent];
+//        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+//        //self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
+//        [self.navigationController pushViewController:self.buttomController animated:YES];
+//    }
+//}
 #pragma mark  mainMidView代理方法 点击 mainMidView 的Cell
 -(void)mainMidViewDelegataCell:(int)type{
     UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -279,37 +299,20 @@
 }
 
 #pragma mark 添加两个列表
--(void)addChildController{
-    MainMidView* midview = [[MainMidView alloc]initWithFrame:
-                            CGRectMake(0, 0,  _midView.frame.size.width, _midView.frame.size.height) headerTitle:@"我已预约"];
-    midview.delegate=self;
-    [_midView addSubview:midview];
-    
-    
-    MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
-                               CGRectMake(0, 0,  _buttomView.frame.size.width, _buttomView.frame.size.height)
-                                                    headerTitle:@"我的项目"];
-    bottomView.delegate = self;
-    [_buttomView addSubview:bottomView];
-}
-#pragma mark 刷新商家信息
--(void)reflashShopInfo:(UNIShopManage*) manager{
-    if (manager.shopName.length>11) {
-        self->shopNameLab.text = [manager.shopName substringToIndex:11];
-        self->shopAddressLab.text =[manager.shopName substringFromIndex:11];
-    }else{
-        self->shopNameLab.text = manager.shopName;
-        CGRect re =self->shopAddressLab.frame;
-        self->shopAddressLab.hidden=YES;
-        self->VIPImage.frame = CGRectMake(re.origin.x, re.origin.y,
-                                          self->VIPImage.frame.size.width,
-                                          self->VIPImage.frame.size.height);
-    }
-    
-    [self->shopLogo sd_setImageWithURL:[NSURL URLWithString:manager.logoUrl]
-                      placeholderImage:[UIImage imageNamed:@"main_img_shopLog"]];
+//-(void)addChildController{
+//    MainMidView* midview = [[MainMidView alloc]initWithFrame:
+//                            CGRectMake(0, 0,  _midView.frame.size.width, _midView.frame.size.height) headerTitle:@"我已预约"];
+//    midview.delegate=self;
+//    [_midView addSubview:midview];
+//    
+//    
+//    MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
+//                               CGRectMake(0, 0,  _buttomView.frame.size.width, _buttomView.frame.size.height)
+//                                                    headerTitle:@"我的项目"];
+//    bottomView.delegate = self;
+//    [_buttomView addSubview:bottomView];
+//}
 
-}
 
 #pragma mark 请求店铺信息
 -(void)startRequestShopInfo{
@@ -339,6 +342,24 @@
         };
     });
 }
+#pragma mark 刷新商家信息
+-(void)reflashShopInfo:(UNIShopManage*) manager{
+    if (manager.shopName.length>11) {
+        self->shopNameLab.text = [manager.shopName substringToIndex:11];
+        self->shopAddressLab.text =[manager.shopName substringFromIndex:11];
+    }else{
+        self->shopNameLab.text = manager.shopName;
+        CGRect re =self->shopAddressLab.frame;
+        self->shopAddressLab.hidden=YES;
+        self->VIPImage.frame = CGRectMake(re.origin.x, re.origin.y,
+                                          self->VIPImage.frame.size.width,
+                                          self->VIPImage.frame.size.height);
+    }
+    
+    [self->shopLogo sd_setImageWithURL:[NSURL URLWithString:manager.logoUrl]
+                      placeholderImage:[UIImage imageNamed:@"main_img_shopLog"]];
+    
+}
 
 #pragma mark 请求约满信息
 -(void)startRequestReward{
@@ -352,7 +373,7 @@
                 if (!er) {
                     if (nextRewardNum!=-1) {
                         float jc = (self->topView.frame.size.width-30)/10;
-                        float y = nextRewardNum/10;
+                        int y = nextRewardNum/10;
                         for (int i = 0; i<10; i++) {
                             UIImage* img1 =[UIImage imageNamed:@"main_img_proLess"];
                             UIImageView* img = [[UIImageView alloc]initWithFrame:
@@ -364,7 +385,7 @@
                             [self->topView addSubview:img];
                             
                             UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,jc,img1.size.height*jc/img1.size.width)];
-                            lab.text = [NSString stringWithFormat:@"%i",(i+1)*nextRewardNum/10];
+                            lab.text = [NSString stringWithFormat:@"%i",(i+1)*y];
                             lab.textColor = [UIColor whiteColor];
                             lab.textAlignment = NSTextAlignmentRight;
                             lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*8/320];
@@ -392,14 +413,17 @@
 -(void)startRequestAppointInfo{
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
-                          params:@{@"page":@(0),@"size":@(20)}];
+                          params:@{@"page":@(0),@"size":@(2)}];
         request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
+            [self startRequestProjectInfo];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self->myTable.header endRefreshing];
                 if (!err) {
-                    if (myAppointArr){
+                    if (myAppointArr.count>0){
+                        ++self->cellNum;
                         self.midData = myAppointArr;
-                        [self.midView startReloadData:myAppointArr andType:1];
+                        [self->myTable reloadData];
+                       // [self.midView startReloadData:myAppointArr andType:1];
                     }
                     else
                         [YIToast showText:tips];
@@ -416,9 +440,11 @@
         request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
-                    if (myProjectArr){
+                    if (myProjectArr.count>0){
+                        ++self->cellNum;
                         self.bottomData=myProjectArr;
-                        [self.buttomView startReloadData:myProjectArr andType:2];
+                        [self->myTable reloadData];
+                       // [self.buttomView startReloadData:myProjectArr andType:2];
                     }
                     else
                         [YIToast showText:tips];
@@ -429,104 +455,104 @@
 }
 
 #pragma mark 中部视图动画事件
--(void)midViewAnimationEvent{
-    CGRect re = _midView.frame;
-    if (re.origin.y>100) {
-       // self->myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
-        [UIView animateWithDuration:0.5 delay:0
-             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             CGRect top = self->topView.frame;
-                             float yy = top.size.height- 15;
-                             self->topView.frame =CGRectMake(top.origin.x, top.origin.y-yy, top.size.width, top.size.height);
-                             
-                             CGRect buttom = self.buttomView.frame;
-                             self.buttomView.frame = CGRectMake(buttom.origin.x,KMainScreenHeight-64-20,buttom.size.width, buttom.size.height);
-                             
-                             self.midView.frame = CGRectMake(re.origin.x
-                                                             , re.origin.y-yy,
-                                                             re.size.width,
-                                                             KMainScreenHeight-64-(re.origin.y-yy)-50);
-                             self.midController.tableView.frame = CGRectMake(0,self.midController.tableView.frame.origin.y,
-                                                                             re.size.width, KMainScreenHeight-64-(re.origin.y-yy)-50);
-                             [self.midController insertTableViewData];
-                         } completion:^(BOOL finished) {
-                             self->buttomGesture.enabled=NO;
-                         }];
-        
-    }else{
-        [UIView animateWithDuration:0.5 delay:0
-             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             self->topView.frame = self->topRe;
-                             self.midView.frame = self->midRe;
-                             self.buttomView.frame = self->buttomRe;
-                             self.midController.tableView.frame = self->midTabRe;
-                             [self.midController deleteTableViewData:2];
-                         }completion:^(BOOL finished) {
-                             self->buttomGesture.enabled=YES;
-                             //self->myScroller.contentSize = self->scrollSize;
-                         }];
-    }
-
-}
+//-(void)midViewAnimationEvent{
+//    CGRect re = _midView.frame;
+//    if (re.origin.y>100) {
+//       // self->myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
+//        [UIView animateWithDuration:0.5 delay:0
+//             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
+//                            options:UIViewAnimationOptionCurveEaseInOut
+//                         animations:^{
+//                             CGRect top = self->topView.frame;
+//                             float yy = top.size.height- 15;
+//                             self->topView.frame =CGRectMake(top.origin.x, top.origin.y-yy, top.size.width, top.size.height);
+//                             
+//                             CGRect buttom = self.buttomView.frame;
+//                             self.buttomView.frame = CGRectMake(buttom.origin.x,KMainScreenHeight-64-20,buttom.size.width, buttom.size.height);
+//                             
+//                             self.midView.frame = CGRectMake(re.origin.x
+//                                                             , re.origin.y-yy,
+//                                                             re.size.width,
+//                                                             KMainScreenHeight-64-(re.origin.y-yy)-50);
+//                             self.midController.tableView.frame = CGRectMake(0,self.midController.tableView.frame.origin.y,
+//                                                                             re.size.width, KMainScreenHeight-64-(re.origin.y-yy)-50);
+//                             [self.midController insertTableViewData];
+//                         } completion:^(BOOL finished) {
+//                             self->buttomGesture.enabled=NO;
+//                         }];
+//        
+//    }else{
+//        [UIView animateWithDuration:0.5 delay:0
+//             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
+//                            options:UIViewAnimationOptionCurveEaseInOut
+//                         animations:^{
+//                             self->topView.frame = self->topRe;
+//                             self.midView.frame = self->midRe;
+//                             self.buttomView.frame = self->buttomRe;
+//                             self.midController.tableView.frame = self->midTabRe;
+//                             [self.midController deleteTableViewData:2];
+//                         }completion:^(BOOL finished) {
+//                             self->buttomGesture.enabled=YES;
+//                             //self->myScroller.contentSize = self->scrollSize;
+//                         }];
+//    }
+//
+//}
 
 #pragma mark 底部视图动画事件
--(void)buttomViewAnimationEvent{
-    CGRect re = _buttomView.frame;
-    if (re.origin.y>KMainScreenHeight/2) {
-        // myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
-        [UIView animateWithDuration:0.5 delay:0
-             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             CGRect top = self->topView.frame;
-                             float yy = top.size.height- 15;//露出15像素
-                             self->topView.frame =CGRectMake(top.origin.x, top.origin.y-yy, top.size.width, top.size.height);
-                             
-                             CGRect mid = self.midView.frame;
-                             self.midView.frame = CGRectMake(mid.origin.x
-                                                             , mid.origin.y-yy,
-                                                             mid.size.width,
-                                                             KMainScreenWidth*0.05+5);
-                             self.midController.tableView.frame = CGRectMake(0,self.midController.tableView.frame.origin.y,
-                                                                             mid.size.width, KMainScreenWidth*0.05+5);
-                             [self.midController deleteTableViewData:0];
-                             
-                             
-                             float by =mid.origin.y-yy+KMainScreenWidth*0.05+13;// self.midView的Y+H
-                             self.buttomView.frame = CGRectMake(re.origin.x,by
-                                                                ,re.size.width,
-                                                                KMainScreenHeight-64-by-20);
-                             self.buttomController.tableView.frame = CGRectMake(0, self->buttonTabRe.origin.y, self->buttonTabRe.size.width, KMainScreenHeight-64-by-20);
-                             [self.buttomController insertTableViewData];
-                             
-                         } completion:^(BOOL finished) {
-                             self->midGesture.enabled=NO;
-                         }];
-        
-    }else{
-        [UIView animateWithDuration:0.5 delay:0
-             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             self->topView.frame = self->topRe;
-                             self.midView.frame = self->midRe;
-                             self.buttomView.frame = self->buttomRe;
-                             self.midController.tableView.frame = self->midTabRe;
-                             self.buttomController.tableView.frame = self->buttonTabRe;
-                             
-                             [self.midController reflashTabel:2];
-                             [self.buttomController deleteTableViewData:2];
-                         }completion:^(BOOL finished) {
-                             self->midGesture.enabled=YES;
-                            // self->myScroller.contentSize = self->scrollSize;
-                         }];
-    }
-
-}
+//-(void)buttomViewAnimationEvent{
+//    CGRect re = _buttomView.frame;
+//    if (re.origin.y>KMainScreenHeight/2) {
+//        // myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
+//        [UIView animateWithDuration:0.5 delay:0
+//             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
+//                            options:UIViewAnimationOptionCurveEaseInOut
+//                         animations:^{
+//                             CGRect top = self->topView.frame;
+//                             float yy = top.size.height- 15;//露出15像素
+//                             self->topView.frame =CGRectMake(top.origin.x, top.origin.y-yy, top.size.width, top.size.height);
+//                             
+//                             CGRect mid = self.midView.frame;
+//                             self.midView.frame = CGRectMake(mid.origin.x
+//                                                             , mid.origin.y-yy,
+//                                                             mid.size.width,
+//                                                             KMainScreenWidth*0.05+5);
+//                             self.midController.tableView.frame = CGRectMake(0,self.midController.tableView.frame.origin.y,
+//                                                                             mid.size.width, KMainScreenWidth*0.05+5);
+//                             [self.midController deleteTableViewData:0];
+//                             
+//                             
+//                             float by =mid.origin.y-yy+KMainScreenWidth*0.05+13;// self.midView的Y+H
+//                             self.buttomView.frame = CGRectMake(re.origin.x,by
+//                                                                ,re.size.width,
+//                                                                KMainScreenHeight-64-by-20);
+//                             self.buttomController.tableView.frame = CGRectMake(0, self->buttonTabRe.origin.y, self->buttonTabRe.size.width, KMainScreenHeight-64-by-20);
+//                             [self.buttomController insertTableViewData];
+//                             
+//                         } completion:^(BOOL finished) {
+//                             self->midGesture.enabled=NO;
+//                         }];
+//        
+//    }else{
+//        [UIView animateWithDuration:0.5 delay:0
+//             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
+//                            options:UIViewAnimationOptionCurveEaseInOut
+//                         animations:^{
+//                             self->topView.frame = self->topRe;
+//                             self.midView.frame = self->midRe;
+//                             self.buttomView.frame = self->buttomRe;
+//                             self.midController.tableView.frame = self->midTabRe;
+//                             self.buttomController.tableView.frame = self->buttonTabRe;
+//                             
+//                             [self.midController reflashTabel:2];
+//                             [self.buttomController deleteTableViewData:2];
+//                         }completion:^(BOOL finished) {
+//                             self->midGesture.enabled=YES;
+//                            // self->myScroller.contentSize = self->scrollSize;
+//                         }];
+//    }
+//
+//}
 
 #pragma mark 设置状态栏字体颜色
 -(UIStatusBarStyle)preferredStatusBarStyle{

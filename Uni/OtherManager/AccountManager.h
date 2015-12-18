@@ -81,7 +81,7 @@
 /**
  *     清楚所有保存的字段
  */
-- (void)clearAll;
++ (void)clearAll;
 
 /**
  *  判断是否登录

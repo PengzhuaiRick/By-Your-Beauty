@@ -16,6 +16,9 @@
 #import "UNIAppDeleRequest.h"
 #import "UIImageView+AFNetworking.h"
 #import "AFNetworkReachabilityManager.h"
+#import "UNILocateNotifiDetail.h"
+#import "UIAlertView+Blocks.h"
+#import <AlipaySDK/AlipaySDK.h>//支付宝
 @interface AppDelegate (){
     UIImageView* imag;
 }
@@ -232,6 +235,12 @@
 }
 //后台
 - (void)applicationDidEnterBackground:(UIApplication *)application {
+    
+    NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    //获取当前所有的本地通知
+    if (!notificaitons || notificaitons.count <= 0) 
+        return;
+    
     //self.inBackground = YES;
     if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
     { //Check if our iOS version supports multitasking I.E iOS 4
@@ -270,7 +279,7 @@
         
         [[YILocationManager sharedInstance] startUpdateUserLoaction];
         
-        NSLog(@"time remain:%f", application.backgroundTimeRemaining);
+      //  NSLog(@"time remain:%f", application.backgroundTimeRemaining);
 //        [application endBackgroundTask: background_task];
 //        background_task = UIBackgroundTaskInvalid;
        // [self backgroundHandler];
@@ -296,7 +305,7 @@
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     // Required
-     NSLog(@"%@", [NSString stringWithFormat:@"Device Token: %@", deviceToken]);
+    // NSLog(@"%@", [NSString stringWithFormat:@"Device Token: %@", deviceToken]);
     [APService registerDeviceToken:deviceToken];
 }
 - (void)application:(UIApplication *)application
@@ -318,5 +327,62 @@ fetchCompletionHandler:(void
 - (void)application:(UIApplication *)application
 didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"did Fail To Register For Remote Notifications With Error: %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+#ifdef IS_IOS9_OR_LATER
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您预约的项目时间还有一小时" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    UIAlertAction *checkAction = [UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self showLocationNotificationDetail:notification];
+    }];
+    [alertController addAction:checkAction];
+
+    
+    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+#else
+    
+    [UIAlertView showWithTitle:@"提示" message:@"您预约的项目时间还有一小时" style:UIAlertViewStyleDefault cancelButtonTitle:@"取消" otherButtonTitles:@[@"查看"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex>0)
+            [self showLocationNotificationDetail:notification];
+        
+    }];
+#endif
+
+    
+}
+
+-(void)showLocationNotificationDetail:(UILocalNotification *)notification{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+    UNILocateNotifiDetail* vc = [st instantiateViewControllerWithIdentifier:@"UNILocateNotifiDetail"];
+    vc.order = [notification.userInfo objectForKey:@"OrderId"];
+    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:vc];
+    [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
+    
+    //删除本地通知
+     [[UIApplication sharedApplication] cancelLocalNotification:notification];
+}
+
+
+#pragma mark 支付宝协议接口
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+    
+    //如果极简开发包不可用，会跳转支付宝钱包进行支付，需要将支付宝钱包的支付结果回传给开发包
+    if ([url.host isEqualToString:@"safepay"]) {
+        [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
+            //【由于在跳转支付宝客户端支付的过程中，商户app在后台很可能被系统kill了，所以pay接口的callback就会失效，请商户对standbyCallback返回的回调结果进行处理,就是在这个方法里面处理跟callback一样的逻辑】
+            NSLog(@"result = %@",resultDic);
+        }];
+    }
+    if ([url.host isEqualToString:@"platformapi"]){//支付宝钱包快登授权返回authCode
+        
+        [[AlipaySDK defaultService] processAuthResult:url standbyCallback:^(NSDictionary *resultDic) {
+            //【由于在跳转支付宝客户端支付的过程中，商户app在后台很可能被系统kill了，所以pay接口的callback就会失效，请商户对standbyCallback返回的回调结果进行处理,就是在这个方法里面处理跟callback一样的逻辑】
+            NSLog(@"result = %@",resultDic);
+        }];
+    }
+    return YES;
 }
 @end

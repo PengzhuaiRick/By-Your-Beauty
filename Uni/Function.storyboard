@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="8191" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
     </dependencies>
     <scenes>
         <!--我的奖励界面-->
@@ -16,7 +16,6 @@
                     <view key="view" contentMode="scaleToFill" id="rJ6-iL-OHd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="JE2-QF-8WR"/>
@@ -40,7 +39,6 @@
                     <view key="view" contentMode="scaleToFill" id="SQw-so-pTY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Mzv-4G-BQJ"/>
@@ -61,7 +59,6 @@
                     <view key="view" contentMode="scaleToFill" id="pLy-qu-gYA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="S0G-jJ-FFS"/>
@@ -82,7 +79,6 @@
                     <view key="view" contentMode="scaleToFill" id="ATQ-cb-1fH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="fat-R9-ZBd"/>
@@ -106,7 +102,6 @@
                     <view key="view" contentMode="scaleToFill" id="CQq-3X-tAa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="UXm-JW-ny6"/>
@@ -115,6 +110,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9h-LT-2kB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1427" y="2291"/>
+        </scene>
+        <!--本地通知详情-->
+        <scene sceneID="soD-Bt-JFu">
+            <objects>
+                <viewController storyboardIdentifier="UNILocateNotifiDetail" title="本地通知详情" id="MoT-Qn-PCG" customClass="UNILocateNotifiDetail" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qgi-pk-MtG"/>
+                        <viewControllerLayoutGuide type="bottom" id="wO9-jo-Eim"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="lMU-jK-IXG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Rmb-tS-V5g"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="KeU-01-Fxx" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1329" y="3012"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Onn-KK-UEL">
@@ -125,7 +139,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="OP3-cj-jsp">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -145,7 +158,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="JTd-Ob-LDV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -165,7 +177,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="487-ZB-HPD">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -185,7 +196,6 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Oor-Y2-655">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -195,6 +205,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rUF-kT-Z7B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="637" y="2291"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="rRE-nH-MZJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="OSt-Nf-tK6" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CiR-wi-7Ov">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="MoT-Qn-PCG" kind="relationship" relationship="rootViewController" id="NHU-IQ-j6V"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CcE-tU-pWY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="935" y="3012"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <SWTableViewCell.h>
+
 @interface UNIMyAppointCell : SWTableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *mainImg;
 @property (weak, nonatomic) IBOutlet UILabel *mainLab;

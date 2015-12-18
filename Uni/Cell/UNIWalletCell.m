@@ -23,7 +23,7 @@
     self.stateBtn.layer.borderWidth = 0.5;
     self.stateBtn.titleLabel.numberOfLines = 0;
     self.stateBtn.titleLabel.lineBreakMode = 0;
-    self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
     [self.stateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 
 }

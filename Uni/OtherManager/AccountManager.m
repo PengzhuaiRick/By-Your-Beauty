@@ -133,13 +133,14 @@
 
 #pragma mark  清楚所有  用户注册成功后使用
 
-- (void)clearAll
++ (void)clearAll
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:tokenDefaultKey];
-    [userDefaults removeObjectForKey:userNameDefaultValue];
+   // [userDefaults removeObjectForKey:userNameDefaultValue];
+    [userDefaults removeObjectForKey:userIdKey];
+    [userDefaults removeObjectForKey:userShopID];
     [userDefaults synchronize];
-    [self clear];
 }
 
 

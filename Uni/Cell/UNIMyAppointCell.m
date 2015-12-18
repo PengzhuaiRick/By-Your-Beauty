@@ -7,7 +7,6 @@
 //
 
 #import "UNIMyAppointCell.h"
-
 @implementation UNIMyAppointCell
 
 - (void)awakeFromNib {

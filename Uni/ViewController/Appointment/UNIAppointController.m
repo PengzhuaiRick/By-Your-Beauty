@@ -60,7 +60,7 @@
 #pragma mark 加载中部Scroller
 -(void)setupMidScroller{
    // CGRect scrollerR = _myScroller.frame;
-    UNIAppontMid* mid = [[UNIAppontMid alloc]initWithFrame:CGRectMake(8, CGRectGetMaxY(appointTop.frame)+8, KMainScreenWidth-16, KMainScreenWidth*185/320)];
+    UNIAppontMid* mid = [[UNIAppontMid alloc]initWithFrame:CGRectMake(8, CGRectGetMaxY(appointTop.frame)+8, KMainScreenWidth-16, KMainScreenWidth*185/320) andModel:_model];
     [self.myScroller addSubview:mid];
     appontMid = mid;
     
@@ -91,20 +91,18 @@
         [[botton.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
          UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
-         //NSString* date = [NSString stringWithFormat:@"%@ %@",appointTop.selectDay,appointTop.selectTime];
-         NSDictionary* dic = @{@"projectId":@"2",
-                               @"date":@"2015-11-29 14:30:00",
-                               @"costTime":@"30",
-                               @"num":@(1)
-                               };
-         NSDictionary* dic1 = @{@"projectId":@"2",
-                               @"date":@"2015-11-29 15:00:00",
-                               @"costTime":@"30",
-                               @"num":@(1)
-                               };
          NSMutableArray* arr = [NSMutableArray array];
-         [arr addObject:dic1];
-         //[arr addObject:dic];
+          NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
+         int num = self->appointBotton.nunField.text.intValue;
+         for (UNIMyProjectModel* model in self->appontMid.myData) {
+            
+             NSDictionary* dic1 = @{@"projectId":@(model.projectId),
+                                    @"date":date,
+                                    @"costTime":@(model.costTime),
+                                    @"num":@(num)
+                                    };
+              [arr addObject:dic1];
+         }
          [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
                        params:@{@"data":arr}];
          req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
@@ -113,7 +111,7 @@
                  return ;
              }
              if (order) {
-                 [self locationNotificationTask];
+                 [self locationNotificationTask:order];
              }else
                   [YIToast showText:tips];
          };
@@ -163,30 +161,18 @@
 }
 
 #pragma mark 添加本地通知任务
--(void)locationNotificationTask{
-    NSDate* now = [NSDate date];
-    int zhong = [now.description substringWithRange: NSMakeRange(11,2)].intValue;
-    int fen = [now.description substringWithRange: NSMakeRange(14,2)].intValue;
-    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    
-    int sec= 0;
+-(void)locationNotificationTask:(NSString*)order{
+
+   UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+
     NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
     int seleZhong = [array[0] intValue];
-    int seleFen = [array[1] intValue];
-    if (appointTop.numDay<3) {
-        if (seleZhong>zhong)
-            sec= (24 - seleZhong + (--zhong))*3600 + abs(seleFen - fen)*60;
-        else
-            sec =(seleZhong - (--zhong))*3600+ abs(seleFen - fen)*60;
-    }else{
-        int tian = appointTop.numDay - 2;
-        if (seleZhong>zhong)
-            sec=tian*24*3600+ (24 - seleZhong + (--zhong))*3600 + abs(seleFen - fen)*60;
-        else
-            sec =tian*24*3600+(seleZhong - (--zhong))*3600+ abs(seleFen - fen)*60;
-    }
+    NSString* sele = [NSString stringWithFormat:@"%d-%@ %d:%@:00",appointTop.selectYear,appointTop.selectDay,--seleZhong,array[1]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    NSDate* strDate = [dateFormatter dateFromString:sele];
     //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
-    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:sec];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     //设置通知的内容
@@ -196,10 +182,10 @@
     //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-    //            NSDictionary *infoDic = [NSDictionary dictionaryWithObjectsAndKeys:LOCAL_NOTIFY_SCHEDULE_ID,@"id",[NSNumber numberWithInteger:time],@"time",[NSNumber numberWithInt:affair.aid],@"affair.aid", nil];
-    //            localNotification.userInfo = infoDic;
+    NSDictionary *infoDic = @{@"OrderId":order};
+    localNotification.userInfo = infoDic;
     //在规定的日期触发通知
-    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+   [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
 }
 
 -(void)regirstKeyBoardNotification{
@@ -230,7 +216,12 @@
 
 #pragma mark UNIMyPojectListDelegate 代理实现方法
 -(void)UNIMyPojectListDelegateMethod:(id)model{
-    [appontMid addProject:model];
+    UNIMyProjectModel* info = model;
+    for (UNIMyProjectModel* mo in appontMid.myData) {
+        if (mo.projectId == info.projectId)
+            return;
+    }
+    [appontMid.myData addObject:info];
     [appontMid.myTableView reloadData];
 }
 

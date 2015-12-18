@@ -45,10 +45,22 @@
                           placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
         self.mainLab.text = model.projectName;
         self.subLab.text = model.time;
-        if (model.status == 1)
-            [self.handleBtn setTitle:@"待确认" forState:UIControlStateNormal];
-        else if (model.status == 2)
-            [self.handleBtn setTitle:@"待服务" forState:UIControlStateNormal];
+        NSString* btnTitle = @"";
+        switch (model.status) {
+            case 0:
+                btnTitle = @"待确定";
+                break;
+            case 1:
+                btnTitle = @"待服务";
+                break;
+            case 2:
+                btnTitle = @"已完成";
+                break;
+            case 3:
+                btnTitle = @"已取消";
+                break;
+        }
+            [self.handleBtn setTitle:btnTitle forState:UIControlStateNormal];
         self.handleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.036];
         [self.handleBtn setBackgroundImage:[UIImage imageNamed:@"main_btn_cell1"] forState:UIControlStateNormal];
     }

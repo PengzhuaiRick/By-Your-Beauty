@@ -12,37 +12,44 @@
 -(id)initWithFrame:(CGRect)frame headerTitle:(NSString*)string{
     self = [super initWithFrame:frame];
     if (self) {
+        [self setupTableviewHeader:string];
+        [self setupTableviewFootView];
         self.backgroundColor = [UIColor clearColor];
-        UITableView* tab = [[UITableView alloc]initWithFrame:frame style:UITableViewStylePlain];
-        tab.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        tab.backgroundColor= [UIColor clearColor];
+        UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, KMainScreenWidth*16/320, frame.size.width, tabH) style:UITableViewStylePlain];
+        //tab.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        //tab.backgroundColor= [UIColor clearColor];
         tab.scrollEnabled = NO;
         tab.delegate = self;
         tab.dataSource = self;
         [self addSubview:tab];
+        tab.tableFooterView = [UIView new];
         _midTableview = tab;
-        [self setupTableviewHeader:string];
-        [self setupTableviewFootView];
     }
     return self;
 }
 
 -(void)setupTableviewHeader:(NSString*)string{
-    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, KMainScreenWidth*16/320)];
+    tabH = self.frame.size.height -KMainScreenWidth*16/320;
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, KMainScreenWidth*16/320)];
     view.image =[UIImage imageNamed:@"mian_img_cellH"];
     UILabel* lab = [[UILabel alloc]initWithFrame:
-                    CGRectMake(10, 2,  _midTableview.frame.size.width-10, KMainScreenWidth*0.05)];
+                    CGRectMake(10, 2,  self.frame.size.width-10, KMainScreenWidth*0.05)];
     lab.text=string;
     lab.textColor = [UIColor colorWithHexString:@"575757"];
     lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
     [view addSubview:lab];
-    _midTableview.tableHeaderView = view;
+    [self addSubview:view];
+   // _midTableview.tableHeaderView = view;
 }
 
 -(void)setupTableviewFootView{
-    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,  _midTableview.frame.size.width,KMainScreenWidth*5/320)];
+    float viewH = KMainScreenWidth*5/320;
+    tabH-=viewH;
+    float viewY = self.frame.size.height - viewH;
+    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewY,  self.frame.size.width,viewH)];
     view.image =[UIImage imageNamed:@"main_img_cellF"];
-    _midTableview.tableFooterView = view;
+    [self addSubview:view];
+    //_midTableview.tableFooterView = view;
     
 //    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, 5)];
 //    view.backgroundColor = [UIColor whiteColor];
@@ -53,11 +60,11 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
    // return KMainScreenWidth*55/320;
-    return (self.frame.size.height-KMainScreenWidth*0.05-10)/2;
+    return tableView.frame.size.height/2;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int n = _dataArray.count>=1?2:(int)_dataArray.count;
-    return n ;
+    //int n =_dataArray.count>2?2:(int)_dataArray.count;
+    return _dataArray.count;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* cellName=@"Cell";
@@ -66,7 +73,7 @@
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    [cell setupCellContent:_dataArray.lastObject andType:type];
+    [cell setupCellContent:_dataArray[indexPath.row] andType:type];
     
     if (type==2) {
         cell.handleBtn.tag = indexPath.row+10;

@@ -39,6 +39,18 @@
  */
 #define kMainGrayBackColor [UIColor colorWithRed:180/255.f green:180/255.f blue:180/255.f alpha:1]
 
+
+/**
+ *  本地通知数量
+ */
+#define kLocateNotification @"locateNotificateNum"
+
+
+
+
+
+
+
 /**
  *  当前系统版本号
  */

@@ -9,9 +9,9 @@
 #import "UNICardInfoController.h"
 #import "UNICardInfoCell.h"
 #import "UNICardInfoRequest.h"
-
-#import "UNIEvaluateController.h"
+#import <MJRefresh/MJRefresh.h>
 @interface UNICardInfoController ()<UITableViewDataSource,UITableViewDelegate>{
+    int pageNum;
     UIView* topView;
     UIView* midView;
     UITableView* myTableView;
@@ -25,18 +25,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    [self startRequestInTimeInfo];
-    [self startRequestCardInfo];
     [self setupTopview];
     [self setupTableView];
+    [self startRequestInTimeInfo];
+    [self startRequestCardInfo];
+   
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"hehe" style:0 target:self action:@selector(hehe)];
-}
--(void)hehe{
-    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UNIEvaluateController* eva = [story instantiateViewControllerWithIdentifier:@"UNIEvaluateController"];
-    [self.navigationController pushViewController:eva animated:YES];
-}
+   }
+
 -(void)setupNavigation{
     self.title = @"使用会员卡详情";
     self.view .backgroundColor= [UIColor colorWithHexString: kMainBackGroundColor];
@@ -46,7 +42,7 @@
 -(void)startRequestInTimeInfo{
     UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_ITRewardInfo]
-                      params:@{@"userId":@(1),@"token":@"abcdxxa",@"shopId":@(1)}];
+                      params:nil];
     request.rqrewardBlock=^(int total,int num,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (err) {
@@ -65,14 +61,23 @@
 -(void)startRequestCardInfo{
     UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetCardInfo]
-                      params:@{@"page":@(0),@"size":@(20)}];
+                      params:@{@"page":@(pageNum),@"size":@(20)}];
     request.cardInfoBlock=^(NSArray* arr,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
+            [self->myTableView.header endRefreshing];
+            [self->myTableView.footer endRefreshing];
             if (err) {
                 [YIToast showText:err.localizedDescription];
                 return ;
             }
             if (arr && arr.count>0) {
+                if (arr.count<20)
+                    self->myTableView.footer.hidden=YES;
+                else
+                    self->myTableView.footer.hidden=NO;
+                if (self->pageNum == 0) {
+                    [self.myData removeAllObjects];
+                }
                 [self.myData addObjectsFromArray:arr];
                 [self->myTableView reloadData];
             }else
@@ -134,10 +139,11 @@
 }
 -(void)setupmidView:(int)total and:(int)num{
     UIImage* img3 =[UIImage imageNamed:@"main_img_proLess"];
-    float jc = (midView.frame.size.width-20)/total;
+    float jc = (midView.frame.size.width-20)/10;
     float img3H = img3.size.height*jc/img3.size.width;
     float img3Y = (midView.frame.size.height - img3H)/2;
-    for (int i = 0; i<total; i++) {
+    int bs = total/10; //倍数
+    for (int i = 0; i<10; i++) {
         
         UIImageView* img = [[UIImageView alloc]initWithFrame:
                             CGRectMake(10+(jc*i),img3Y, jc,img3H)];
@@ -147,11 +153,11 @@
             img.image = img3;
         [midView addSubview:img];
         
-        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,jc-2,img3H)];
-        lab.text = [NSString stringWithFormat:@"%i",i+1];
+        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,jc,img3H)];
+        lab.text = [NSString stringWithFormat:@"%i",(i+1)*bs];
         lab.textColor = [UIColor whiteColor];
         lab.textAlignment = NSTextAlignmentRight;
-        lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*8/320];
+        lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*7/320];
         [img addSubview:lab];
     }
     
@@ -183,6 +189,18 @@
     myTableView.layer.masksToBounds = YES;
     myTableView.layer.cornerRadius = 5;
     [self.view addSubview:myTableView];
+    
+    myTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self->pageNum =0;
+        [self startRequestCardInfo];
+    }];
+    //if (self.myData.count>=20) {
+        myTableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            ++self->pageNum;
+            [self startRequestCardInfo];
+        }];
+   // }else
+       // myTableView.footer.hidden = YES;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

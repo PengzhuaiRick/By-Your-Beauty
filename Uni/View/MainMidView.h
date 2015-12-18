@@ -17,6 +17,7 @@
 
 @interface MainMidView : UIView<UITableViewDataSource,UITableViewDelegate>{
     int type;
+    float tabH;
 }
 @property(nonatomic,strong)UITableView* midTableview;
 @property(nonatomic,strong)NSArray* dataArray;
