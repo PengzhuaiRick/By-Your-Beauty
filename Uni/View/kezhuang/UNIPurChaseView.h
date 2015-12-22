@@ -17,5 +17,6 @@
     UNIPurStyleCell* zfCell;
 }
 @property(nonatomic,strong)UITableView* myTableview;
+@property(nonatomic,assign)int payStyle; // 1:微信 2:支付宝
 -(id)initWithFrame:(CGRect)frame andPrice:(CGFloat)price;
 @end

@@ -43,6 +43,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupMainController];
+    
+//    [RACObserve(self.view, frame) subscribeNext:^(id x) {
+//        NSLog(@"RACObserve(self.view, frame)  %@",x);
+//    }];
 }
 
 //首页

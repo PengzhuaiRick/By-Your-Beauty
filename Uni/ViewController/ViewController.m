@@ -47,6 +47,8 @@
     [_tv.view addGestureRecognizer:tap];
     tap.enabled=NO;
     _tv.tapGes = tap;
+    
+    
 }
 
 -(void)setupParams{

@@ -40,7 +40,7 @@
     self.jiabtn.frame =CGRectMake(jiaX, jiaY, jiaW, publicH);
     
     float fieldW = KMainScreenWidth* 30/320;
-    float fieldX =jiaX - jiaW;
+    float fieldX =jiaX - fieldW;
     self.countField.frame =CGRectMake(fieldX, jiaY, fieldW, publicH);
     
     float jianX =fieldX- jiaW;

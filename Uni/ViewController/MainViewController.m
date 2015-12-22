@@ -17,6 +17,7 @@
 
 #import "UNIGoodsDeatilController.h"
 
+#import "UNIPurchaseController.h"
 @interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate>{
   //  __weak IBOutlet UIScrollView *myScroller;
     UITableView* myTable;
@@ -115,9 +116,13 @@
 }
 #pragma mark 跳转客妆界面
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
-    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-   UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
-    [self.navigationController pushViewController:good animated:YES];
+//    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+//   UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+//    [self.navigationController pushViewController:good animated:YES];
+    
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIPurchaseController* comment = [st instantiateViewControllerWithIdentifier:@"UNIPurchaseController"];
+    [self.navigationController pushViewController:comment animated:YES];
 }
 
 #pragma mark 设置Scroller

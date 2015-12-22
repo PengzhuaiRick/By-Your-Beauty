@@ -241,7 +241,8 @@
                                                     selector:@selector(sixtySecondCountDown)
                                                     userInfo:nil
                                                      repeats:YES];
-            }
+            }else
+                [YIToast showText:tip];
         };
  
     }];
@@ -316,6 +317,10 @@
             x.enabled = YES;
              [LLARingSpinnerView RingSpinnerViewStop];
             if (er==nil) {
+                if (!token){
+                    [YIToast showText:tips];
+                    return ;
+                }
                 //保存信息
                 [AccountManager setToken:token];
                 [AccountManager setUserId:@(userId)];
@@ -325,7 +330,7 @@
                 AppDelegate* app = [UIApplication sharedApplication].delegate;
                 [app setupViewController];
             }else
-                NSLog(@"%@",er);
+                [YIToast showText:@"请求失败"];
            // [YIToast showWithText:tips];
         };
         
@@ -338,7 +343,6 @@
          self->femaleBtn.selected = NO;
          x.selected = YES;
          self.sex = (int)x.tag;
-         NSLog(@"%d",self.sex);
     }];
     
     [[femaleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -346,8 +350,6 @@
          self->maleBtn.selected = NO;
          x.selected=YES;
          self.sex = (int)x.tag;
-         NSLog(@"%d",self.sex);
-
      }];
 
 }

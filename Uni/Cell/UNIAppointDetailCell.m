@@ -60,10 +60,10 @@
     NSString* titel = nil;
     switch (info.status) {
         case 0:
-            titel = @"待安排";
+            titel = @"待确认";
             break;
         case 1:
-            titel = @"待确认";
+            titel = @"待服务";
             break;
         case 2:
             titel = @"已完成";

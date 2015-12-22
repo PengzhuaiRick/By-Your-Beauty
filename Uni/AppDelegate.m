@@ -19,6 +19,8 @@
 #import "UNILocateNotifiDetail.h"
 #import "UIAlertView+Blocks.h"
 #import <AlipaySDK/AlipaySDK.h>//支付宝
+//#import "WXApi.h"//微信
+#import "WXApiManager.h"
 @interface AppDelegate (){
     UIImageView* imag;
 }
@@ -49,9 +51,21 @@
     [self replaceWelcomeImage:@""];
     [self setupNavigationStyle];
     //[NSThread sleepForTimeInterval:3.0];//设置启动页面时间
+    [self setupWeChat];
     return YES;
 
 }
+#pragma mark 设置微信支付
+-(void)setupWeChat{
+   [WXApi registerApp:WECHATAPPID withDescription:@"Uni To WeChat"];
+}
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+}
+
+//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+//    return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
+//}
 
 #pragma mark 设置导航栏样式
 -(void)setupNavigationStyle{
@@ -79,11 +93,11 @@
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     NSString* first = [user valueForKey:FIRSTINSTALL];
     if (first.length>0){
-//        AccountManager* manager = [[AccountManager alloc]init];
-//        if (manager.token.length>1)
+        AccountManager* manager = [[AccountManager alloc]init];
+        if (manager.token.length>1)
        [self setupViewController];
-//        else
-//            [self setupLoginController];
+        else
+            [self setupLoginController];
     }
     else{
         [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];
@@ -368,6 +382,8 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 #pragma mark 支付宝协议接口
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    
+   [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
     
     //如果极简开发包不可用，会跳转支付宝钱包进行支付，需要将支付宝钱包的支付结果回传给开发包
     if ([url.host isEqualToString:@"safepay"]) {
