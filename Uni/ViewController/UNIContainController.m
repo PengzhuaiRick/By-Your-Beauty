@@ -12,6 +12,8 @@
 #import "UNIWalletController.h"
 @interface UNIContainController ()
 {
+    CGPoint startPoint;
+    CGPoint currentPoint;
     UINavigationController* mainNav;
     //MainViewController* mainCtr;
     UIViewController* myRewardNav;
@@ -19,34 +21,101 @@
     UNIMyRewardController* rewardCtr;
     UNIWalletController* wallet;
 }
+
+
 @end
 
 @implementation UNIContainController
--(void)viewWillAppear:(BOOL)animated{
-    NSArray* array =self.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=YES;
-        }
-    }
-    
-}
--(void)viewWillDisappear:(BOOL)animated{
-    NSArray* array =self.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=NO;
-        }
-    }
-    
-}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupSelf];
+    [self setupNotification];
     [self setupMainController];
+   }
+-(void)setupSelf{
+    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
+    [self.view addGestureRecognizer:pan];
+    self.panGes = pan;
     
-//    [RACObserve(self.view, frame) subscribeNext:^(id x) {
-//        NSLog(@"RACObserve(self.view, frame)  %@",x);
-//    }];
+    UITapGestureRecognizer* tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeTheBox)];
+    [self.view addGestureRecognizer:tap];
+    tap.enabled=NO;
+    self.tapGes = tap;
+    
+    _closing = YES;
+    [RACObserve(self, closing)
+     subscribeNext:^(NSNumber* x) {
+         if (!x.boolValue) {
+             self.tapGes.enabled = YES;
+             for (UIView* view in self.view.subviews)
+                 view.userInteractionEnabled=NO;
+         }else{
+             self.tapGes.enabled = NO;
+             for (UIView* view in self.view.subviews)
+                 view.userInteractionEnabled=YES;
+         }
+     }];
+}
+#pragma mark 设置通知功能
+-(void)setupNotification{
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeTheBox) name:CONTAITVIEWCLOSE object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openTheBox) name:CONTAITVIEWOPEN object:nil];
+}
+
+-(void)handlePan1:(UIPanGestureRecognizer*)pan{
+    CGPoint point = [pan translationInView:[self view]];
+    //UIViewController* vv = _tv.viewControllers.lastObject;
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        startPoint = point;
+        currentPoint = point;
+    }
+    else if (pan.state == UIGestureRecognizerStateChanged) {
+        if (fabs(point.x-startPoint.x)<40)
+            return;
+        
+        float offX =self.view.frame.origin.x+(point.x-currentPoint.x);
+        if (offX>-1 && offX<KMainScreenWidth-101){
+            self.view.frame = CGRectMake(offX,
+                                       0,
+                                       self.view.frame.size.width,
+                                       self.view.frame.size.height);
+            currentPoint = point;
+        }
+    }
+    else if(pan.state == UIGestureRecognizerStateEnded){
+        float offset = currentPoint.x - startPoint.x;
+        if (offset>0) {
+            if (offset>80)
+                [self openTheBox];
+            else
+                [self closeTheBox];
+        }else if (offset<0 ){
+            if (offset < -80)
+                [self closeTheBox];
+            else
+                
+                [self openTheBox];
+        }
+    }
+}
+-(void)closeTheBox{
+    self.closing = YES;
+    [UIView animateWithDuration:0.2 animations:^{
+        // self.tv.view.userInteractionEnabled=YES;
+        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
+    }];
+   // self.tapGes.enabled=NO;
+    
+}
+-(void)openTheBox{
+   
+    [UIView animateWithDuration:0.2 animations:^{
+       
+        self.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
+    }];
+    //self.tapGes.enabled=YES;
+    self.closing=NO;
 }
 
 //首页
@@ -98,7 +167,10 @@
     for (UIViewController* vc in self.childViewControllers)
         [vc removeFromParentViewController];
 }
-
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:CONTAITVIEWOPEN object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:CONTAITVIEWCLOSE object:nil];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

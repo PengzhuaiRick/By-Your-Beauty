@@ -17,7 +17,7 @@
 
 #import "UNIGoodsDeatilController.h"
 
-#import "UNIPurchaseController.h"
+//#import "UNIPurchaseController.h"
 @interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate>{
   //  __weak IBOutlet UIScrollView *myScroller;
     UITableView* myTable;
@@ -99,30 +99,36 @@
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    float x = self.containController.view.frame.origin.x;
-    [UIView animateWithDuration:0.2 animations:^{
-        if (x==0){
-            self.containController.view.frame =
-            CGRectMake(KMainScreenWidth-100,
-                                         0,self.view.frame.size.width
-                       ,self.view.frame.size.height);
-        }
-        else
-            self.containController.view.frame =
-            CGRectMake(0,
-                       0,self.view.frame.size.width
-                       ,self.view.frame.size.height);
-    }];
+//    float x = self.containController.view.frame.origin.x;
+//    [UIView animateWithDuration:0.2 animations:^{
+//        if (x==0){
+//            self.containController.view.frame =
+//            CGRectMake(KMainScreenWidth-100,
+//                                         0,self.view.frame.size.width
+//                       ,self.view.frame.size.height);
+//        }
+//        else
+//            self.containController.view.frame =
+//            CGRectMake(0,
+//                       0,self.view.frame.size.width
+//                       ,self.view.frame.size.height);
+//    }];
+    if (self.containController.closing) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
+    }
+    else{
+         [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
+    }
 }
 #pragma mark 跳转客妆界面
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
-//    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-//   UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
-//    [self.navigationController pushViewController:good animated:YES];
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+   UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    [self.navigationController pushViewController:good animated:YES];
     
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-    UNIPurchaseController* comment = [st instantiateViewControllerWithIdentifier:@"UNIPurchaseController"];
-    [self.navigationController pushViewController:comment animated:YES];
+//    UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+//    UNIPurchaseController* comment = [st instantiateViewControllerWithIdentifier:@"UNIPurchaseController"];
+//    [self.navigationController pushViewController:comment animated:YES];
 }
 
 #pragma mark 设置Scroller
@@ -389,7 +395,12 @@
                                 img.image = img1;
                             [self->topView addSubview:img];
                             
-                            UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,jc,img1.size.height*jc/img1.size.width)];
+                            float labw =jc;
+                            NSString* tit = [NSString stringWithFormat:@"%i",(i+1)*y];
+                            if (tit.length<2) {
+                                labw -= KMainScreenWidth*1/320;
+                            }
+                            UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,labw , img1.size.height*jc/img1.size.width)];
                             lab.text = [NSString stringWithFormat:@"%i",(i+1)*y];
                             lab.textColor = [UIColor whiteColor];
                             lab.textAlignment = NSTextAlignmentRight;

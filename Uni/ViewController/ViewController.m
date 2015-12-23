@@ -13,10 +13,10 @@
 #import "UNIContainController.h"
 #import "AccountManager.h"
 #import "AppDelegate.h"
-@interface ViewController ()<UIGestureRecognizerDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
-    CGPoint startPoint;
-    CGPoint currentPoint;
+//    CGPoint startPoint;
+//    CGPoint currentPoint;
     
     NSArray* titleArray;
     NSArray* imgArray;
@@ -31,24 +31,12 @@
     [self setupParams];
     [self setupSelf];
     [self setupTableViewFootview];
+    
 }
 
 -(void)setupSelf{
-  //  MainViewController* vv = _tv.viewControllers.lastObject;
     [self.view addSubview:_tv.view];
     self.view.multipleTouchEnabled=YES;
-    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
-    pan.delegate=self;
-    [_tv.view addGestureRecognizer:pan];
-    _tv.panGes = pan;
-    
-    UITapGestureRecognizer* tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeTheBox)];
-    tap.delegate = self;
-    [_tv.view addGestureRecognizer:tap];
-    tap.enabled=NO;
-    _tv.tapGes = tap;
-    
-    
 }
 
 -(void)setupParams{
@@ -104,7 +92,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.row) {
         case 0:
-            [self closeTheBox];
+            [_tv closeTheBox];
             [_tv setupMainController];
             break;
         case 1://导航到店
@@ -114,71 +102,71 @@
             [self callPhoneToShop];
             break;
         case 3:
-            [self closeTheBox];
+            [_tv closeTheBox];
             [_tv setupMyController];
             break;
         case 4:
-            [self closeTheBox];
+            [_tv closeTheBox];
             [_tv setupWalletController];
             break;
         case 5:
             [self loginOut];
-            [self closeTheBox];
+            [_tv closeTheBox];
             break;
     }
 }
 
--(void)handlePan1:(UIPanGestureRecognizer*)pan{
-     CGPoint point = [pan translationInView:[self view]];
-    //UIViewController* vv = _tv.viewControllers.lastObject;
-     UIViewController* vv = _tv;
-    if (pan.state == UIGestureRecognizerStateBegan) {
-        startPoint = point;
-        currentPoint = point;
-    }
-    else if (pan.state == UIGestureRecognizerStateChanged) {
-        if (fabs(point.x-startPoint.x)<40)
-            return;
-        
-        float offX =vv.view.frame.origin.x+(point.x-currentPoint.x);
-        if (offX>-1 && offX<KMainScreenWidth-101){
-            vv.view.frame = CGRectMake(offX,
-                                     0,
-                                     self.view.frame.size.width,
-                                     self.view.frame.size.height);
-            currentPoint = point;
-        }
-    }
-    else if(pan.state == UIGestureRecognizerStateEnded){
-        float offset = currentPoint.x - startPoint.x;
-        if (offset>0) {
-            if (offset>80)
-                [self openTheBox];
-            else
-                [self closeTheBox];
-        }else if (offset<0 ){
-            if (offset < -80)
-                [self closeTheBox];
-            else
-                
-                [self openTheBox];
-        }
-    }
-}
--(void)closeTheBox{
-    [UIView animateWithDuration:0.2 animations:^{
-       // self.tv.view.userInteractionEnabled=YES;
-        self.tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
-    }];
-    self.tv.tapGes.enabled=NO;
-}
--(void)openTheBox{
-    [UIView animateWithDuration:0.2 animations:^{
-        //self.tv.view.userInteractionEnabled=NO;
-        self.tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
-    }];
-    self.tv.tapGes.enabled=YES;
-}
+//-(void)handlePan1:(UIPanGestureRecognizer*)pan{
+//     CGPoint point = [pan translationInView:[self view]];
+//    //UIViewController* vv = _tv.viewControllers.lastObject;
+//     UIViewController* vv = _tv;
+//    if (pan.state == UIGestureRecognizerStateBegan) {
+//        startPoint = point;
+//        currentPoint = point;
+//    }
+//    else if (pan.state == UIGestureRecognizerStateChanged) {
+//        if (fabs(point.x-startPoint.x)<40)
+//            return;
+//        
+//        float offX =vv.view.frame.origin.x+(point.x-currentPoint.x);
+//        if (offX>-1 && offX<KMainScreenWidth-101){
+//            vv.view.frame = CGRectMake(offX,
+//                                     0,
+//                                     self.view.frame.size.width,
+//                                     self.view.frame.size.height);
+//            currentPoint = point;
+//        }
+//    }
+//    else if(pan.state == UIGestureRecognizerStateEnded){
+//        float offset = currentPoint.x - startPoint.x;
+//        if (offset>0) {
+//            if (offset>80)
+//                [self openTheBox];
+//            else
+//                [self closeTheBox];
+//        }else if (offset<0 ){
+//            if (offset < -80)
+//                [self closeTheBox];
+//            else
+//                
+//                [self openTheBox];
+//        }
+//    }
+//}
+//-(void)closeTheBox{
+//    [UIView animateWithDuration:0.2 animations:^{
+//       // self.tv.view.userInteractionEnabled=YES;
+//        self.tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
+//    }];
+//    self.tv.tapGes.enabled=NO;
+//}
+//-(void)openTheBox{
+//    [UIView animateWithDuration:0.2 animations:^{
+//        //self.tv.view.userInteractionEnabled=NO;
+//        self.tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
+//    }];
+//    self.tv.tapGes.enabled=YES;
+//}
 
 #pragma mark 调用其他地图APP
 -(void)callOtherMapApp{
@@ -279,11 +267,5 @@
     AppDelegate* delegate = [UIApplication sharedApplication].delegate;
     [delegate judgeFirstTime];
 }
-//-(void)handleSwipe:(UISwipeGestureRecognizer*)swipe{
-//    NSLog(@"谁打我  %lu",(unsigned long)swipe.direction);
-//}
-//-(BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
-//{
-//    return YES;
-//}
+
 @end

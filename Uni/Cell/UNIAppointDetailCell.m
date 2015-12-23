@@ -55,7 +55,7 @@
 -(void)setupCellContentWith:(id)model{
     UNIMyAppointInfoModel* info = model;
     self.label1.text = info.projectName;
-    self.label2.text = [NSString stringWithFormat:@"预约时间 : %@",info.createTime ];
+    self.label2.text = [NSString stringWithFormat:@"预约时间 : %@",[info.createTime substringToIndex:16]];
     self.label3.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
     NSString* titel = nil;
     switch (info.status) {

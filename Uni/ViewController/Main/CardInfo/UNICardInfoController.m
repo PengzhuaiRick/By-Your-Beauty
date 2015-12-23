@@ -152,9 +152,13 @@
         else
             img.image = img3;
         [midView addSubview:img];
-        
-        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,jc,img3H)];
-        lab.text = [NSString stringWithFormat:@"%i",(i+1)*bs];
+        float labw =jc;
+        NSString* tit = [NSString stringWithFormat:@"%i",(i+1)*bs];
+        if (tit.length<2) {
+            labw -= KMainScreenWidth*1/320;
+        }
+        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,labw,img3H)];
+        lab.text = tit;
         lab.textColor = [UIColor whiteColor];
         lab.textAlignment = NSTextAlignmentRight;
         lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*7/320];
@@ -162,16 +166,20 @@
     }
     
     UIImage* img4 =[UIImage imageNamed:@"card_img_ITNreward"];
-    float img4W = KMainScreenWidth*25/320;
+    float img4W = KMainScreenWidth*20/320;
     float img4H = img4.size.height * img4W / img4.size.width;
     float img4X = midView.frame.size.width - img4W - 5;
     float img4Y =(midView.frame.size.height - img4H)/2;
-    UIImageView* awardImge = [[UIImageView alloc]initWithFrame:CGRectMake(img4X,img4Y,img4W,img4H)];
+    UIImageView* awardImge = [[UIImageView alloc]initWithFrame:CGRectMake(0,0,img4W,img4H)];
         if (total ==num)
             awardImge.image = [UIImage imageNamed:@"card_img_ITreward"];
         else
             awardImge.image =img4;
-    [midView addSubview:awardImge];
+    
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(img4X,img4Y,img4W,img4H)];
+    view.backgroundColor = [UIColor whiteColor];
+    [view addSubview:awardImge];
+    [midView addSubview:view];
 
 }
 

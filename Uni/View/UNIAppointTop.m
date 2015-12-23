@@ -123,7 +123,7 @@
     [self.topLeftBtn setImage:[UIImage imageNamed:@"appoint_btn_leftTop"] forState:UIControlStateNormal];
     [self.topLeftBtn setImage:[UIImage imageNamed:@"appoint_btn_leftTop1"] forState:UIControlStateSelected];
     [self.topLeftBtn setImage:[UIImage imageNamed:@"appoint_btn_leftTop1"] forState:UIControlStateHighlighted];
-    self.topLeftBtn.highlighted=NO;
+    self.topLeftBtn.selected=NO;
    // UIScrollView* scroller = self.topScroller;
     [[self.topLeftBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
@@ -142,7 +142,7 @@
     [self.topRightBtn setImage:[UIImage imageNamed:@"appoint_btn_rightTop1"] forState:UIControlStateNormal];
     [self.topRightBtn setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateSelected];
     [self.topRightBtn setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateHighlighted];
-    self.topRightBtn.highlighted=YES;
+    self.topRightBtn.selected=YES;
 
     [[self.topRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
@@ -252,7 +252,7 @@
         if (xx<50) {
             self.topLeftBtn.selected=NO;
             self.topRightBtn.selected = YES;
-        }else if (xx >= scrollView.contentSize.width- scrollView.contentSize.width/3-50){
+        }else if (xx >=scrollView.contentSize.width/2){
             self.topLeftBtn.selected=YES;
             self.topRightBtn.selected = NO;
         }else{

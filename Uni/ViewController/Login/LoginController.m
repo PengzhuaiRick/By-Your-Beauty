@@ -29,7 +29,7 @@
     RACSignal *codeFieldSignal;
     RACSignal *nikeSignal;
     
-    NSTimer* time;
+    //NSTimer* time;
     int countDown;
     int imgH;
     int bShu;
@@ -107,6 +107,11 @@
     headImge.image =topimage;
     headImge.contentMode = UIViewContentModeScaleAspectFill;
     [self.tableView addSubview:headImge];
+    
+    
+    phoneField.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    codeField.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    nikeName.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
 }
 #pragma mark 设置手机号码
 -(void)setupPhoneField{
@@ -132,9 +137,10 @@
     }]subscribeNext:^(NSString* x) {
         if([self isMobileNumber:x]){
             NSLog(@"yes");
-
+            
         }else{
             NSLog(@"no");
+            [YIToast showText:@"请输入正确的电话号码"];
         }
        
     }];
@@ -182,8 +188,6 @@
 -(void)setupCodeBtn{
     UIButton* btn = codeBtn ;
     UITextField* field = phoneField;
-    countDown =60 ;
-    __block NSTimer* t1 = time;
     
     codeBtn.enabled = NO;
     [RAC(codeBtn,enabled) = phoneSignal map:^id(NSNumber* value) {
@@ -209,11 +213,11 @@
                 if (self.thirldCell.alpha==1) {
                     CGRect p1 = self.firstCell.frame;
                     CGRect p2 = self.secondCell.frame;
-                    p1.origin.y+=47;
-                    p2.origin.y+=47;
+                    p1.origin.y+=20;
+                    p2.origin.y+=20;
                     [UIView animateWithDuration:0.5 animations:^{
                         
-                        self.thirldCell.hidden = YES;
+                        self.thirldCell.alpha = 0;
                         self.firstCell.frame = p1;
                         self.secondCell.frame =p2;
                     }];
@@ -223,24 +227,25 @@
                 if (self.thirldCell.alpha == 0) {
                     CGRect p1 = self.firstCell.frame;
                     CGRect p2 = self.secondCell.frame;
-                    p1.origin.y-=47;
-                    p2.origin.y-=47;
+                    p1.origin.y-=20;
+                    p2.origin.y-=20;
                     [UIView animateWithDuration:0.5 animations:^{
-                        self.thirldCell.hidden =NO;;
+                        self.thirldCell.alpha = 1;
                         self.firstCell.frame = p1;
                         self.secondCell.frame =p2;
                     }];
 
                 }
             }
-            
             if (rc != nil){
                 btn.enabled = NO;
-                t1 = [NSTimer scheduledTimerWithTimeInterval:1
+         self->countDown = 60;
+            [NSTimer scheduledTimerWithTimeInterval:1
                                                       target:self
-                                                    selector:@selector(sixtySecondCountDown)
+                                                    selector:@selector(sixtySecondCountDown:)
                                                     userInfo:nil
                                                      repeats:YES];
+         
             }else
                 [YIToast showText:tip];
         };
@@ -249,23 +254,21 @@
  
 }
 #pragma mark 验证码定时器事件
--(void)sixtySecondCountDown{
+-(void)sixtySecondCountDown:(NSTimer*)time1{
     if (countDown>1) {
         countDown -- ;
         NSString* str = [NSString stringWithFormat:@"%ds",countDown];
         [codeBtn setTitle:str forState:UIControlStateNormal];
     }else
-        [self timerStop];
-    
+        [self timerStop:time1];
 }
 
 #pragma mark 定时器强制停止
--(void)timerStop{
-    [time invalidate];
-    time = nil;
+-(void)timerStop:(NSTimer*)time1{
+    [time1 invalidate];
+    time1 = nil;
     [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     codeBtn.enabled=YES;
-    countDown = 60;
 }
 
 #pragma mark 设置昵称输入框
@@ -439,6 +442,7 @@
             float xx = imgH+cellH*2+keyboardSize.height-KMainScreenHeight;
             if (xx>0) {
                 re.origin.y-=xx;
+               // re.size.height-=keyboardSize.height;
                 self.tableView.frame = re;}}
             break;
         case 6:{
@@ -490,5 +494,6 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return cellH;
 }
+
 
 @end

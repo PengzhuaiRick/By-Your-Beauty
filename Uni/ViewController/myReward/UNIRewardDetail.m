@@ -56,9 +56,9 @@
     [self.view addSubview:tabview];
     self.myTable =tabview;
     
-    if (IOS_VERSION<9.0) {
+    //if (IOS_VERSION<9.0) {
         tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
-    }
+  //  }
     
     float btnWH = 70;
     float btnX = (KMainScreenWidth - btnWH)/2;

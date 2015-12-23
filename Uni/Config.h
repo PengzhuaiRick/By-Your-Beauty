@@ -9,6 +9,9 @@
 #ifndef Config_h
 #define Config_h
 
+#define CONTAITVIEWCLOSE @"closeTheBox"
+#define CONTAITVIEWOPEN @"openTheBox"
+
 /**
  *  是否第一次登陆
  */

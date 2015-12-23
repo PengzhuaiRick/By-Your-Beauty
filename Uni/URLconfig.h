@@ -16,7 +16,7 @@
 #define LOCA_USER_TOKEN @"locaUserToken"
 
 
-//#define API_URL @"http://uni.dodwow.com/Uni/uni_api"
+//#define API_URL @"http://uni.dodwow.com/uni_api"
 #define API_URL @"http://192.168.0.199:8081"
 
 // C部分 第一个参数 类型1

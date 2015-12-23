@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "UNIContainController.h"
 @interface UNIMyRewardController : UIViewController
-@property(nonatomic ,strong)UIViewController* containController;
+@property(nonatomic ,strong)UNIContainController* containController;
 @end

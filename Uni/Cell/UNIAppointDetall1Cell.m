@@ -38,11 +38,13 @@
 -(void)setupCellContentWith:(NSArray*)model{
     int state = [model[0] intValue];
     self.label1.text =[NSString stringWithFormat:@"订 单 号 : %@",model[1]] ;
-    self.label2.text =[NSString stringWithFormat:@"下单时间 : %@",model[2]];
+    NSString* text1 = [model[2] substringToIndex:16];
+    self.label2.text =[NSString stringWithFormat:@"下单时间 : %@",text1];
     if (state != 3) {
         self.label3.hidden = YES;
-    }else
-        self.label3.text =[NSString stringWithFormat:@"取消时间 : %@",model[3]];
+    }else{
+        self.label3.text =[NSString stringWithFormat:@"取消时间 : %@",[model[3] substringToIndex:16]];
+    }
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
