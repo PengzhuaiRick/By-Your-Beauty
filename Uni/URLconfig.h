@@ -9,6 +9,8 @@
 #ifndef URLconfig_h
 #define URLconfig_h
 
+#define NETWORKINGPEOBLEM @"请求失败,请检查网络"
+
 // 用户id
 #define LOCA_USER_ID @"locaUserId"
 
@@ -16,8 +18,8 @@
 #define LOCA_USER_TOKEN @"locaUserToken"
 
 
-//#define API_URL @"http://uni.dodwow.com/uni_api"
-#define API_URL @"http://192.168.0.199:8081"
+#define API_URL @"http://uni.dodwow.com/uni_api"
+//#define API_URL @"http://192.168.0.199:8081"
 
 // C部分 第一个参数 类型1
 #define API_PARAM_UNI @"UNI"

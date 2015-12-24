@@ -9,6 +9,7 @@
 #import "MainMidView.h"
 
 @implementation MainMidView
+
 -(id)initWithFrame:(CGRect)frame headerTitle:(NSString*)string{
     self = [super initWithFrame:frame];
     if (self) {
@@ -39,6 +40,7 @@
     lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
     [view addSubview:lab];
     [self addSubview:view];
+    self.titleLab = lab;
    // _midTableview.tableHeaderView = view;
 }
 
@@ -92,6 +94,12 @@
 
 
 -(void)startReloadData:(NSArray*)data andType:(int)type1{
+    if (type1 == 1) {
+        self.titleLab.text = @"我的预约";
+    }
+    if (type1 == 2) {
+        self.titleLab.text = @"我的项目";
+    }
     type=type1;
     _dataArray = data;
     [_midTableview reloadData];

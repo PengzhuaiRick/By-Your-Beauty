@@ -7,13 +7,17 @@
 //
 
 #import "BaseRequest.h"
-
+#import "AccountManager.h"
 @implementation BaseRequest
 -(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params{
     NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:params];
-    [dic setValue:@(1) forKey:@"userId"];
-    [dic setValue:@"abcdxxa" forKey:@"token"];
-    [dic setValue:@(1) forKey:@"shopId"];
+//    [dic setValue:@(1) forKey:@"userId"];
+//    [dic setValue:@"abcdxxa" forKey:@"token"];
+//    [dic setValue:@(1) forKey:@"shopId"];
+    
+    [dic setValue:@([[AccountManager userId] intValue]) forKey:@"userId"];
+    [dic setValue:[AccountManager token] forKey:@"token"];
+    [dic setValue:@([[AccountManager shopId]intValue]) forKey:@"shopId"];
     
     NSString* URL = [self spliceURL:code];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];

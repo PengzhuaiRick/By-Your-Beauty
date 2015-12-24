@@ -138,32 +138,46 @@
 
 }
 -(void)setupmidView:(int)total and:(int)num{
-    UIImage* img3 =[UIImage imageNamed:@"main_img_proLess"];
-    float jc = (midView.frame.size.width-20)/10;
-    float img3H = img3.size.height*jc/img3.size.width;
-    float img3Y = (midView.frame.size.height - img3H)/2;
-    int bs = total/10; //倍数
-    for (int i = 0; i<10; i++) {
+    CALayer* layer = [CALayer layer];
+    layer.backgroundColor = kMainGrayBackColor.CGColor;
+    float layH =KMainScreenWidth*4/320;
+    float layY =midView.frame.size.height - 30;
+    float layW =midView.frame.size.width-30;
+    layer.frame = CGRectMake(15,layY, layW, layH);
+    [midView.layer addSublayer:layer];
+    if (num>0) {
+        CALayer* layer1 = [CALayer layer];
+        layer.backgroundColor = [UIColor colorWithHexString:kMainGreenBackColor].CGColor;
+        float lay1W =layW*num/total;
+        layer1.frame = CGRectMake(15,layY,lay1W, layH);
+        [midView.layer addSublayer:layer1];
         
-        UIImageView* img = [[UIImageView alloc]initWithFrame:
-                            CGRectMake(10+(jc*i),img3Y, jc,img3H)];
-        if (i<num)
-            img.image = [UIImage imageNamed:@"main_img_bluePro"];
-        else
-            img.image = img3;
-        [midView addSubview:img];
-        float labw =jc;
-        NSString* tit = [NSString stringWithFormat:@"%i",(i+1)*bs];
-        if (tit.length<2) {
-            labw -= KMainScreenWidth*1/320;
-        }
-        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0,0,labw,img3H)];
-        lab.text = tit;
-        lab.textColor = [UIColor whiteColor];
-        lab.textAlignment = NSTextAlignmentRight;
-        lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*7/320];
-        [img addSubview:lab];
     }
+    int y = 1;
+    int p = total;
+    if (total>10){
+        y = total/10;
+        p = 10;
+    }
+    float jc = (midView.frame.size.width-30)/p;
+    float btnWH = KMainScreenWidth*12/320;
+    float centerY = layY+layH/2;
+    for (int i = 0; i<p; i++) {
+        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame = CGRectMake(0, 0, btnWH,btnWH);
+        btn.center = CGPointMake(15+jc*(i+1),centerY);
+        btn.layer.masksToBounds = YES;
+        btn.layer.cornerRadius = btnWH/2;
+        NSString* tit = [NSString stringWithFormat:@"%i",(i+1)*y];
+        [btn setTitle:tit forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*8/320];
+        [midView addSubview:btn];
+        if ((i+1)*y < num) {
+            [btn setBackgroundColor:[UIColor colorWithHexString:kMainGreenBackColor]];
+        }else
+            [btn setBackgroundColor:kMainGrayBackColor];
+    }
+
     
     UIImage* img4 =[UIImage imageNamed:@"card_img_ITNreward"];
     float img4W = KMainScreenWidth*20/320;

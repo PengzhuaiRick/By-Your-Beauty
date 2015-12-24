@@ -67,8 +67,10 @@
     
     [[mid.addProBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
+         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@" " style:UIBarButtonItemStylePlain target:self action:nil];
          UIStoryboard* stroy = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
          UNIMyPojectList* list = [stroy instantiateViewControllerWithIdentifier:@"UNIMyPojectList"];
+         list.projectId = self.model.projectId;
          list.delegate = self;
          [self.navigationController pushViewController:list animated:YES];
      }];
@@ -107,13 +109,15 @@
                        params:@{@"data":arr}];
          req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
              if (err) {
-                 [YIToast showText:[err localizedDescription]];
+                 [YIToast showText:NETWORKINGPEOBLEM];
                  return ;
              }
              if (order) {
+                 [YIToast showText:@"预约成功"];
+                 [NSThread sleepForTimeInterval:1];
                  [self locationNotificationTask:order];
              }else
-                  [YIToast showText:tips];
+                  [YIToast showText:@"预约失败"];
          };
      }];
     
@@ -186,6 +190,8 @@
     localNotification.userInfo = infoDic;
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)regirstKeyBoardNotification{

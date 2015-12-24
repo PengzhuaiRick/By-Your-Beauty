@@ -93,11 +93,11 @@
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     NSString* first = [user valueForKey:FIRSTINSTALL];
     if (first.length>0){
-//        AccountManager* manager = [[AccountManager alloc]init];
-//        if (manager.userId.intValue>0)
+        AccountManager* manager = [[AccountManager alloc]init];
+        if (manager.userId.intValue>0)
        [self setupViewController];
-//        else
-//            [self setupLoginController];
+        else
+            [self setupLoginController];
     }
     else{
         [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];

@@ -110,6 +110,8 @@
 		18C745B61BF07D92000062AF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C745B51BF07D92000062AF /* libz.tbd */; };
 		18C745B81BF07EE4000062AF /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18C745B71BF07EE4000062AF /* PushConfig.plist */; };
 		18C92C0B1C19625C002778C3 /* UNIGoodsDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */; };
+		18CC75C01C2B8B6400625205 /* ViewControllerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CC75BE1C2B8B6400625205 /* ViewControllerCell.m */; };
+		18CC75C41C2C127400625205 /* MainViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CC75C31C2C127400625205 /* MainViewCell.m */; };
 		18CCA0161C02B84000B90092 /* BTKeyboardTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA0141C02B84000B90092 /* BTKeyboardTool.m */; };
 		18CCA0171C02B84000B90092 /* BTKeyboardTool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18CCA0151C02B84000B90092 /* BTKeyboardTool.xib */; };
 		18CCA01A1C030B3400B90092 /* UNIContainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA0191C030B3400B90092 /* UNIContainController.m */; };
@@ -426,6 +428,10 @@
 		18C745B91BF09F3E000062AF /* URLconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLconfig.h; sourceTree = "<group>"; };
 		18C92C091C19625C002778C3 /* UNIGoodsDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsDetailRequest.h; sourceTree = "<group>"; };
 		18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGoodsDetailRequest.m; sourceTree = "<group>"; };
+		18CC75BD1C2B8B6400625205 /* ViewControllerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerCell.h; sourceTree = "<group>"; };
+		18CC75BE1C2B8B6400625205 /* ViewControllerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerCell.m; sourceTree = "<group>"; };
+		18CC75C21C2C127400625205 /* MainViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCell.h; sourceTree = "<group>"; };
+		18CC75C31C2C127400625205 /* MainViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCell.m; sourceTree = "<group>"; };
 		18CCA0131C02B84000B90092 /* BTKeyboardTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTKeyboardTool.h; sourceTree = "<group>"; };
 		18CCA0141C02B84000B90092 /* BTKeyboardTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BTKeyboardTool.m; sourceTree = "<group>"; };
 		18CCA0151C02B84000B90092 /* BTKeyboardTool.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BTKeyboardTool.xib; sourceTree = "<group>"; };
@@ -970,6 +976,10 @@
 				18C7459C1BF047F9000062AF /* MainMidCell.h */,
 				18C7459D1BF047F9000062AF /* MainMidCell.m */,
 				18C7459E1BF047F9000062AF /* MainMidCell.xib */,
+				18CC75BD1C2B8B6400625205 /* ViewControllerCell.h */,
+				18CC75BE1C2B8B6400625205 /* ViewControllerCell.m */,
+				18CC75C21C2C127400625205 /* MainViewCell.h */,
+				18CC75C31C2C127400625205 /* MainViewCell.m */,
 				18C73A7C1C06F74D00A3A4CA /* UNIMyAppointCell.h */,
 				18C73A7D1C06F74D00A3A4CA /* UNIMyAppointCell.m */,
 				18C73A7E1C06F74D00A3A4CA /* UNIMyAppointCell.xib */,
@@ -1455,6 +1465,7 @@
 				18E627861BF9ED3800C4C13C /* UNIBaseModel.m in Sources */,
 				18D5722E1BE883560055DE7F /* AccountManager.m in Sources */,
 				1816BD671C27EF2600628931 /* NSDataEx.m in Sources */,
+				18CC75C41C2C127400625205 /* MainViewCell.m in Sources */,
 				188F123D1C16EB0B00EBE345 /* UNIWalletList.m in Sources */,
 				18E302981C17FDDB00990A14 /* UNIGoodsCell3.m in Sources */,
 				181347AF1BF33E6D001674D9 /* UNILoginViewModel.m in Sources */,
@@ -1500,6 +1511,7 @@
 				18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */,
 				18250E771C184E400072F795 /* UNIPurStyleCell.m in Sources */,
 				18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */,
+				18CC75C01C2B8B6400625205 /* ViewControllerCell.m in Sources */,
 				18C3ECF21C0EC9C900B0A192 /* UNIAppointDetail.m in Sources */,
 				1816BD681C27EF2600628931 /* openssl_wrapper.m in Sources */,
 				1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */,

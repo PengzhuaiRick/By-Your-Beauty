@@ -13,6 +13,7 @@
 #import "UNIContainController.h"
 #import "AccountManager.h"
 #import "AppDelegate.h"
+#import "ViewControllerCell.h"
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
 //    CGPoint startPoint;
@@ -31,7 +32,11 @@
     [self setupParams];
     [self setupSelf];
     [self setupTableViewFootview];
-    
+    [self setupNotification];
+}
+-(void)setupNotification{
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callPhoneToShop) name:@"callPhoneToShop" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callOtherMapApp) name:@"callOtherMapApp" object:nil];
 }
 
 -(void)setupSelf{
@@ -59,12 +64,6 @@
 -(void)setupTableViewFootview{
     _myTableView.tableFooterView = [UIView new];
 }
-//-(void)viewWillAppear:(BOOL)animated{
-//     self.navigationController.navigationBarHidden=YES;
-//}
-//-(void)viewWillDisappear:(BOOL)animated{
-//    self.navigationController.navigationBarHidden=NO;
-//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -79,13 +78,13 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"cell";
-    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    ViewControllerCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:name];
+        cell = [[ViewControllerCell alloc]initWithCellH:KMainScreenHeight/titleArray.count reuseIdentifier:name];
     }
-    cell.imageView.image = [UIImage imageNamed:imgArray[indexPath.row]];
-    cell.textLabel.text = titleArray[indexPath.row];
-    cell.textLabel.textColor = [UIColor colorWithHexString:@"595757"];
+    cell.mainImg.image = [UIImage imageNamed:imgArray[indexPath.row]];
+    cell.mainLab.text = titleArray[indexPath.row];
+    cell.mainLab.textColor = [UIColor colorWithHexString:@"595757"];
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -115,58 +114,6 @@
             break;
     }
 }
-
-//-(void)handlePan1:(UIPanGestureRecognizer*)pan{
-//     CGPoint point = [pan translationInView:[self view]];
-//    //UIViewController* vv = _tv.viewControllers.lastObject;
-//     UIViewController* vv = _tv;
-//    if (pan.state == UIGestureRecognizerStateBegan) {
-//        startPoint = point;
-//        currentPoint = point;
-//    }
-//    else if (pan.state == UIGestureRecognizerStateChanged) {
-//        if (fabs(point.x-startPoint.x)<40)
-//            return;
-//        
-//        float offX =vv.view.frame.origin.x+(point.x-currentPoint.x);
-//        if (offX>-1 && offX<KMainScreenWidth-101){
-//            vv.view.frame = CGRectMake(offX,
-//                                     0,
-//                                     self.view.frame.size.width,
-//                                     self.view.frame.size.height);
-//            currentPoint = point;
-//        }
-//    }
-//    else if(pan.state == UIGestureRecognizerStateEnded){
-//        float offset = currentPoint.x - startPoint.x;
-//        if (offset>0) {
-//            if (offset>80)
-//                [self openTheBox];
-//            else
-//                [self closeTheBox];
-//        }else if (offset<0 ){
-//            if (offset < -80)
-//                [self closeTheBox];
-//            else
-//                
-//                [self openTheBox];
-//        }
-//    }
-//}
-//-(void)closeTheBox{
-//    [UIView animateWithDuration:0.2 animations:^{
-//       // self.tv.view.userInteractionEnabled=YES;
-//        self.tv.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
-//    }];
-//    self.tv.tapGes.enabled=NO;
-//}
-//-(void)openTheBox{
-//    [UIView animateWithDuration:0.2 animations:^{
-//        //self.tv.view.userInteractionEnabled=NO;
-//        self.tv.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
-//    }];
-//    self.tv.tapGes.enabled=YES;
-//}
 
 #pragma mark 调用其他地图APP
 -(void)callOtherMapApp{
@@ -266,6 +213,11 @@
     [AccountManager clearAll];
     AppDelegate* delegate = [UIApplication sharedApplication].delegate;
     [delegate judgeFirstTime];
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callOtherMapApp" object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callPhoneToShop" object:nil];
 }
 
 @end

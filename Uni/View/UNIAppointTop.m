@@ -8,7 +8,6 @@
 
 #import "UNIAppointTop.h"
 #import "UNIAppontMid.h"
-#import "AccountManager.h"
 
 @implementation UNIAppointTop
 
@@ -18,6 +17,9 @@
     topScrollerNum = 0;
     _maxNum = 1;
     midBtns = [NSMutableArray array];
+//    NSString* day =[[NSDate date] description];
+//    NSLog(@" dat\y  %@",day);
+//    self.selectDay = [day substringWithRange:NSMakeRange(0, 9)];
    // [self startRequest];
     [self setupTopScrollerContent];
     [self setuptopLeftBtn];
@@ -25,24 +27,52 @@
 }
 
 -(void)startRequest{
-    //AccountManager* account = [AccountManager shared];
-   // NSString* string = self.selectDay;
-    NSString* string = @"2015-11-24";
+    
+    NSString* string = self.selectDay;
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetFreeTime] params:@{@"projectId":@(self.model.projectId),
                                                                            @"date":string,
-                                                                           @"costTime":@(50)
+                                                                           @"costTime":@(self.model.costTime)
                                                                            }];
     request.regetFreeTime=^(NSArray* array,NSString* tips,NSError* err){
-        if (err) {
-            [YIToast showText:[err localizedDescription]];
-            return ;
+        //筛选已经过去了的时间点
+        NSMutableArray* data = [NSMutableArray array];
+        if (array.count>0) {
+            NSString* title1 = [[NSDate date].description substringWithRange:NSMakeRange(11, 5)];
+            NSArray* now = [title1 componentsSeparatedByString:@":"];
+            int xs = [now[0] intValue];
+            int m = [now[1] intValue];
+            for (NSDictionary* dic in array) {
+                NSString* time = [dic objectForKey:@"time"];
+                NSArray* st = [time componentsSeparatedByString:@":"];
+                int selexs = [st[0] intValue];
+                int selem = [st[1] intValue];
+                if (selexs>xs){
+                    [data addObject:dic];
+                    continue;
+                }
+                else if (selexs == xs){
+                    if (selem>m) {
+                        [data addObject:dic];
+                        continue;
+                    }
+                }
+            }
         }
-        if (array) {
-            self->freeTimes = array;
-            [self setupMidScroller];
-        }else
-            [YIToast showText:tips];
+       
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LLARingSpinnerView RingSpinnerViewStop];
+            self.userInteractionEnabled = YES;
+            if (err) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (data.count>0) {
+                self->freeTimes = data;
+                [self setupMidScroller];
+            }else
+                [YIToast showText:@"请求预约时间点失败"];
+        });
     };
 }
 
@@ -81,7 +111,7 @@
         if (i==1){
             btn.selected = YES;
             self.selectYear =year;
-            self.selectDay =[NSString stringWithFormat:@"%d-%d",month,day];
+            self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
         }
         btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
         [_topScroller addSubview:btn];
@@ -104,18 +134,28 @@
              
              self.member=1;//重置人数
              NSString* str = [x titleForState:UIControlStateNormal];
-             self.selectDay=[str componentsSeparatedByString:@" "][0];
+             NSString* monthAndDay =[str componentsSeparatedByString:@" "][0];
+             self.selectDay=[NSString stringWithFormat:@"%d-%@",self.selectYear,monthAndDay];
              for (UIButton* b in self.topBtns) {
                  if (b==x)
                      b.selected=YES;
                  else
                      b.selected=NO;
              }
-              [self startRequest];
+             [LLARingSpinnerView RingSpinnerViewStart];
+             self.userInteractionEnabled = NO;
+             dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                 [NSThread sleepForTimeInterval:1.0];
+                 [self startRequest];
+             });
+             
         }];
     }
-    
-    [self startRequest];
+    [LLARingSpinnerView RingSpinnerViewStart];
+    self.userInteractionEnabled = NO;
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self startRequest];
+    });
 }
 
 #pragma mark topLeftBtn
@@ -189,8 +229,12 @@
          }];
 
     
-    
+    //移除数组里面的按钮对象
     [midBtns removeAllObjects];
+    //移除self.midScroller里面的按钮
+    for (UIView* view in self.midScroller.subviews) {
+        [view removeFromSuperview];
+    }
     
     juw = 0;//判断时候满三个
     juh = 0;//判断当前是第一行还是第二行
@@ -245,6 +289,7 @@
         }];
     }
 }
+
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (scrollView == self.topScroller) {

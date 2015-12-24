@@ -160,10 +160,7 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
-                          params:@{@"userId":@(1),
-                                   @"token":@"abcdxxa",
-                                   @"shopId":@(1),
-                                   @"page":@(self->pageNum),@"size":@(self->pageSize)}];
+                          params:@{@"page":@(self->pageNum),@"size":@(self->pageSize)}];
         request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView.header endRefreshing];

@@ -15,6 +15,7 @@
 
 @interface UNIMyPojectList : UIViewController
 @property (assign,nonatomic)id<UNIMyPojectListDelegate> delegate;
+@property (assign,nonatomic) int projectId;
 @property (strong, nonatomic) NSMutableArray* myData;
 @property (strong, nonatomic) UITableView *myTableview;
 

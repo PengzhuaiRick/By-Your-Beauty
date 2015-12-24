@@ -31,7 +31,6 @@
     [self startRequestInfo];
 }
 -(void)setupData{
-    
     self.title = @"我的项目";
     pageNum = 0;
     pageSize = 20;
@@ -132,10 +131,7 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
-                           params:@{@"userId":@(1),
-                                    @"token":@"abcdxxa",
-                                    @"shopId":@(1),
-                                    @"page":@(self->pageNum),@"size":@(20)}];
+                           params:@{@"page":@(self->pageNum),@"size":@(20)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 
@@ -150,7 +146,11 @@
                         if (self->pageNum == 0)//下拉刷新
                             [self.myData removeAllObjects];
                         
-                       [self.myData addObjectsFromArray:myProjectArr];
+                        for (UNIMyProjectModel* model in myProjectArr) {
+                            if (model.projectId != self.projectId)
+                                [self.myData addObject:model];
+                        }
+                       //[self.myData addObjectsFromArray:myProjectArr];
                         [self modificationUI];
                     }
                     else
@@ -176,7 +176,7 @@
     [self.myTableview reloadData];
     
     needKnowBtn.frame =
-    CGRectMake(btnRect.origin.x, CGRectGetMaxY(_myTableview.frame), btnRect.size.width, btnRect.size.height);
+    CGRectMake(btnRect.origin.x, CGRectGetMaxY(_myTableview.frame)+8, btnRect.size.width, btnRect.size.height);
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

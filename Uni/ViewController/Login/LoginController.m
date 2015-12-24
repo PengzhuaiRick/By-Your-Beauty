@@ -11,6 +11,7 @@
 #import "AccountManager.h"
 #import "UNILoginViewRequest.h"
 #import "BTKeyboardTool.h"
+
 @interface LoginController ()<KeyboardToolDelegate>{
     
     __weak IBOutlet UITextField *codeField;    //验证码
@@ -208,46 +209,49 @@
                                      NSString* rc,
                                      NSString*tip,
                                      NSError* er){
-            [LLARingSpinnerView RingSpinnerViewStop];
-            if (llt) {
-                if (self.thirldCell.alpha==1) {
-                    CGRect p1 = self.firstCell.frame;
-                    CGRect p2 = self.secondCell.frame;
-                    p1.origin.y+=20;
-                    p2.origin.y+=20;
-                    [UIView animateWithDuration:0.5 animations:^{
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [LLARingSpinnerView RingSpinnerViewStop];
+                if (llt) {
+                    if (self.thirldCell.alpha==1) {
+                        CGRect p1 = self.firstCell.frame;
+                        CGRect p2 = self.secondCell.frame;
+                        p1.origin.y+=20;
+                        p2.origin.y+=20;
+                        [UIView animateWithDuration:0.5 animations:^{
+                            
+                            self.thirldCell.alpha = 0;
+                            self.firstCell.frame = p1;
+                            self.secondCell.frame =p2;
+                        }];
                         
-                        self.thirldCell.alpha = 0;
-                        self.firstCell.frame = p1;
-                        self.secondCell.frame =p2;
-                    }];
-
+                    }
+                }else{
+                    if (self.thirldCell.alpha == 0) {
+                        CGRect p1 = self.firstCell.frame;
+                        CGRect p2 = self.secondCell.frame;
+                        p1.origin.y-=20;
+                        p2.origin.y-=20;
+                        [UIView animateWithDuration:0.5 animations:^{
+                            self.thirldCell.alpha = 1;
+                            self.firstCell.frame = p1;
+                            self.secondCell.frame =p2;
+                        }];
+                        
+                    }
                 }
-            }else{
-                if (self.thirldCell.alpha == 0) {
-                    CGRect p1 = self.firstCell.frame;
-                    CGRect p2 = self.secondCell.frame;
-                    p1.origin.y-=20;
-                    p2.origin.y-=20;
-                    [UIView animateWithDuration:0.5 animations:^{
-                        self.thirldCell.alpha = 1;
-                        self.firstCell.frame = p1;
-                        self.secondCell.frame =p2;
-                    }];
-
-                }
-            }
-            if (rc != nil){
-                btn.enabled = NO;
-         self->countDown = 60;
-            [NSTimer scheduledTimerWithTimeInterval:1
-                                                      target:self
-                                                    selector:@selector(sixtySecondCountDown:)
-                                                    userInfo:nil
-                                                     repeats:YES];
-         
-            }else
-                [YIToast showText:tip];
+                if (rc != nil){
+                    btn.enabled = NO;
+                    self->countDown = 60;
+                    [NSTimer scheduledTimerWithTimeInterval:1
+                                                     target:self
+                                                   selector:@selector(sixtySecondCountDown:)
+                                                   userInfo:nil
+                                                    repeats:YES];
+                    
+                }else
+                    [YIToast showText:@"获取验证码失败"];
+            });
+            
         };
  
     }];
@@ -291,10 +295,9 @@
     }];
     [[loginBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-        [LLARingSpinnerView RingSpinnerViewStart];
          [self.view endEditing:YES];
          id sx = @(self.sex); //默认性别
-         if (self.thirldCell.hidden)
+         if (self.thirldCell.alpha==0)
              sx=@"";
          
          else{
@@ -304,6 +307,7 @@
              }
          }
          x.enabled = NO;
+         [LLARingSpinnerView RingSpinnerViewStart];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
         [request postWithoutUserIdSerCode:@[API_PARAM_UNI,
                                    API_URL_Login]
@@ -321,7 +325,7 @@
              [LLARingSpinnerView RingSpinnerViewStop];
             if (er==nil) {
                 if (!token){
-                    [YIToast showText:tips];
+                    [YIToast showText:@"登陆失败"];
                     return ;
                 }
                 //保存信息
@@ -333,7 +337,7 @@
                 AppDelegate* app = [UIApplication sharedApplication].delegate;
                 [app setupViewController];
             }else
-                [YIToast showText:@"请求失败"];
+                [YIToast showText:NETWORKINGPEOBLEM];
            // [YIToast showWithText:tips];
         };
         
@@ -470,7 +474,7 @@
 
 - (BOOL)isMobileNumber:(NSString *)mobileNum
 {
-    NSString * CU = @"^1([3-8][0-8])\\d{8}$";
+    NSString * CU = @"^1([3-8][0-9])\\d{8}$";
     NSPredicate *regextestcu = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", CU];
     
     if (([regextestcu evaluateWithObject:mobileNum] == YES))

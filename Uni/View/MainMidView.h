@@ -19,6 +19,7 @@
     int type;
     float tabH;
 }
+@property(nonatomic,strong)UILabel* titleLab;
 @property(nonatomic,strong)UITableView* midTableview;
 @property(nonatomic,strong)NSArray* dataArray;
 @property(nonatomic,assign) id<MainMidViewDelegate> delegate;
