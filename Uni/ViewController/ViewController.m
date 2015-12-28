@@ -211,6 +211,7 @@
 
 -(void)cleanAndJump{
     [AccountManager clearAll];
+    [UNIShopManage cleanShopinfo];
     AppDelegate* delegate = [UIApplication sharedApplication].delegate;
     [delegate judgeFirstTime];
 }

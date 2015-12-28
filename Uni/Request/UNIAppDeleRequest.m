@@ -18,8 +18,8 @@
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
     
     //检查版本信息
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_CheckVersion]) {
+    if ([param1 isEqualToString:API_PARAM_UNI]){
+       if ( [param2 isEqualToString:API_URL_CheckVersion]) {
         if (code == 0) {
             NSString* version = [self safeObject:dic ForKey:@"version"];
             NSString* desc = [self safeObject:dic ForKey:@"desc"];
@@ -30,14 +30,21 @@
             _reqheckVersion(nil,nil,nil,nil,-1,nil);
     }
     
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_Welcome]) {
+        if ([param2 isEqualToString:API_URL_Welcome]) {
         if (code == 0) {
             NSString* url = [self safeObject:dic ForKey:@"url"];
-            NSString* tips =[self safeObject:dic ForKey:@"tips"];
             _rqwelcomeBlock(url,tips,nil);
         }else
             _rqwelcomeBlock(nil,tips,nil);
+    }
+        //用户到店
+        if ([param2 isEqualToString:API_URL_ArriveShop]) {
+            if (code == 0) {
+                _setArriveShopBlock(0,tips,nil);
+            }else
+                _setArriveShopBlock(-1,tips,nil);
+        }
+
     }
 }
 
@@ -46,16 +53,16 @@
     NSString* param2 = array[1];
     
     //检查版本信息
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_CheckVersion])
-        _reqheckVersion(nil,nil,nil,nil,-1,err);
+    if ([param1 isEqualToString:API_PARAM_UNI]){
+        if ( [param2 isEqualToString:API_URL_CheckVersion])
+            _reqheckVersion(nil,nil,nil,nil,-1,err);
     
-    
-    
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_Welcome])
+        if ([param2 isEqualToString:API_URL_Welcome])
             _rqwelcomeBlock(nil,nil,err);
-    
-
+        //用户到店
+        if ([param2 isEqualToString:API_URL_ArriveShop])
+            _setArriveShopBlock(-1,nil,err);
+        
+    }
 }
 @end

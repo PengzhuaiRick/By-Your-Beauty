@@ -79,6 +79,8 @@
     [self startRequestReward];//请求约满信息
     [self startRequestAppointInfo];//请求我已预约
    // [self startRequestProjectInfo];//请求我的项目
+    
+    [self setupNotification];//注册通知
 }
 #pragma mark
 -(void)setupNavigation{
@@ -93,7 +95,7 @@
     bar.target = self;
     bar.action=@selector(navigationControllerLeftBarAction:);
     self.navigationItem.leftBarButtonItem = bar;
-    
+     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 //    UIBarButtonItem* right = [[UIBarButtonItem alloc]initWithTitle:@"客妆" style:0 target:self action:@selector(navigationControllerRightBarAction:)];
 //    self.navigationItem.rightBarButtonItem = right;
 }
@@ -159,11 +161,11 @@
      [self setupTopImageSubView];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int cellNum = 0;
-    if (self.midData.count>0)
-        ++cellNum;
-    if (self.bottomData.count>0)
-         ++cellNum;
+    int cellNum = 2;
+//    if (self.midData.count>0)
+//        ++cellNum;
+//    if (self.bottomData.count>0)
+//         ++cellNum;
     
     return cellNum;
 }
@@ -190,7 +192,7 @@
 //    if (indexPath.row == 1) {
 //         [cell setupCellWithData:_bottomData type:2];
 //    }
-//    
+    
     
     UITableViewCell*cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
     if (!cell) {
@@ -201,31 +203,31 @@
     cell.selectionStyle =UITableViewCellSelectionStyleNone;
     
     if (indexPath.row == 0) {
-        if (_midData){
+//        if (_midData){
                 MainMidView* midview = [[MainMidView alloc]initWithFrame:
                                 CGRectMake(0,5,  tableView.frame.size.width, cellHight-5) headerTitle:@"我已预约"];
                 midview.delegate=self;
                 [cell addSubview:midview];
                 self.midView = midview;
                 [self.midView startReloadData:_midData andType:1];
-            
-        }
-        else{
-            if (_bottomData.count>0) {
-                MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
-                                           CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
-                                                                headerTitle:@"我的项目"];
-                bottomView.delegate = self;
-                [cell addSubview:bottomView];
-                self.buttomView = bottomView;
-                [self.buttomView startReloadData:_bottomData andType:2];
-            }
-           
-        }
+//
+//        }
+//        else{
+//            if (_bottomData.count>0) {
+//                MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
+//                                           CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
+//                                                                headerTitle:@"我的项目"];
+//                bottomView.delegate = self;
+//                [cell addSubview:bottomView];
+//                self.buttomView = bottomView;
+//                [self.buttomView startReloadData:_bottomData andType:2];
+//            }
+//           
+//        }
         
     }
     if (indexPath.row == 1) {
-         if (_bottomData.count>0) {
+        // if (_bottomData.count>0) {
              MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
                                    CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
                                                         headerTitle:@"我的项目"];
@@ -233,7 +235,7 @@
              [cell addSubview:bottomView];
             self.buttomView = bottomView;
              [self.buttomView startReloadData:_bottomData andType:2];
-         }
+       //  }
     }
     return cell;
 }
@@ -259,8 +261,8 @@
     lab.userInteractionEnabled = YES;
     [topView addSubview:lab];
     shopNameLab = lab;
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(shopNameLabTapGesture:)];
-    [shopNameLab addGestureRecognizer:tap];
+//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(shopNameLabTapGesture:)];
+//    [shopNameLab addGestureRecognizer:tap];
     
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(shopLog.frame)+10,
                                                             CGRectGetMaxY(lab.frame), 100, 15)];
@@ -277,13 +279,24 @@
     [topView addSubview:VIPimg];
     VIPImage = VIPimg;
     
-    //点击到会员卡详情页面的透明按钮
+    //点击透明按钮弹出 导航到店 和 致电商家 功能
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, topView.frame.size.height/2, topView.frame.size.width, topView.frame.size.height/2);
+    btn.frame = CGRectMake(0, 0, topView.frame.size.width, topView.frame.size.height/2);
     btn.backgroundColor = [UIColor clearColor];
     [topView addSubview:btn];
-    alphaBtn = btn;
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         [self shopNameLabTapGesture:nil];
+     }];
+
+    
+    //点击到会员卡详情页面的透明按钮
+    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn1.frame = CGRectMake(0, topView.frame.size.height/2, topView.frame.size.width, topView.frame.size.height/2);
+    btn1.backgroundColor = [UIColor clearColor];
+    [topView addSubview:btn1];
+    alphaBtn = btn1;
+    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(id x) {
         [self toCardinfoController];
     }];
@@ -319,11 +332,11 @@
 
 #pragma mark 请求店铺信息
 -(void)startRequestShopInfo{
-    UNIShopManage* shop = [UNIShopManage getShopData];
-    if (shop.shopName) {
-        [self reflashShopInfo:shop];
-        return;
-    }
+//    UNIShopManage* shop = [UNIShopManage getShopData];
+//    if (shop.shopName) {
+//        [self reflashShopInfo:shop];
+//        return;
+//    }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //AccountManager* manager = [AccountManager shared];
       
@@ -335,29 +348,35 @@
                 if (!er) {
                     if (manager) {
                         [self reflashShopInfo:manager];//刷新商家信息
-                    }else
-                        [YIToast showText:tips];
+                    }
+//                    else
+//                        [YIToast showText:tips];
                 }else
-                    [YIToast showText:tips];
+                    [YIToast showText:NETWORKINGPEOBLEM];
                 
             });
             
         };
     });
 }
-#pragma mark 刷新商家信息
+#pragma mark 刷新商家信息  
 -(void)reflashShopInfo:(UNIShopManage*) manager{
-    if (manager.shopName.length>11) {
-        self->shopNameLab.text = [manager.shopName substringToIndex:11];
-        self->shopAddressLab.text =[manager.shopName substringFromIndex:11];
-    }else{
-        self->shopNameLab.text = manager.shopName;
-        CGRect re =self->shopAddressLab.frame;
-        self->shopAddressLab.hidden=YES;
-        self->VIPImage.frame = CGRectMake(re.origin.x, re.origin.y,
-                                          self->VIPImage.frame.size.width,
-                                          self->VIPImage.frame.size.height);
-    }
+//    if (manager.shopName.length>11) {
+//        self->shopNameLab.text = [manager.shopName substringToIndex:11];
+//        self->shopAddressLab.text =[manager.shopName substringFromIndex:11];
+//    }else{
+//        self->shopNameLab.text = manager.shopName;
+//        CGRect re =self->shopAddressLab.frame;
+//        self->shopAddressLab.hidden=YES;
+//        self->VIPImage.frame = CGRectMake(re.origin.x, re.origin.y,
+//                                          self->VIPImage.frame.size.width,
+//                                          self->VIPImage.frame.size.height);
+//    }
+    
+    NSArray* arr = [manager.shopName componentsSeparatedByString:@"【"];
+    self->shopNameLab.text = arr[0];
+    NSString* arr1 = arr[1];
+    self->shopAddressLab.text = [arr1 substringToIndex:arr1.length-1];
     
     [self->shopLogo sd_setImageWithURL:[NSURL URLWithString:manager.logoUrl]
                       placeholderImage:[UIImage imageNamed:@"main_img_shopLog"]];
@@ -415,7 +434,7 @@
                         [self->alphaBtn.layer addSublayer:layer];
                         if (num>0) {
                             CALayer* layer1 = [CALayer layer];
-                            layer.backgroundColor = [UIColor colorWithHexString:kMainGreenBackColor].CGColor;
+                            layer1.backgroundColor = [UIColor colorWithHexString:kMainGreenBackColor].CGColor;
                             float lay1W =layW*num/nextRewardNum;
                             layer1.frame = CGRectMake(15,layY,lay1W, layH);
                             [self->alphaBtn.layer addSublayer:layer1];
@@ -453,10 +472,11 @@
                         else
                             awardImge.image = [UIImage imageNamed:@"main_img_unaward"];
                         [self->alphaBtn addSubview:awardImge];
-                    }else
-                        [YIToast showText:tips];
+                    }
+//                    else
+//                        [YIToast showText:tips];
                 }else
-                    [YIToast showText:tips];
+                    [YIToast showText:NETWORKINGPEOBLEM];
             });
         };
     });
@@ -478,10 +498,10 @@
                         [self->myTable reloadData];
                        // [self.midView startReloadData:myAppointArr andType:1];
                     }
-                    else
-                        [YIToast showText:tips];
+//                    else
+//                        [YIToast showText:tips];
                 }else
-                    [YIToast showText:tips];
+                    [YIToast showText:NETWORKINGPEOBLEM];
             });
         };
 }
@@ -498,10 +518,11 @@
                         [self->myTable reloadData];
                        // [self.buttomView startReloadData:myProjectArr andType:2];
                     }
-                    else
-                        [YIToast showText:tips];
-                }else
-                    [YIToast showText:tips];
+//                    else
+//                        [YIToast showText:tips];
+                }
+                else
+                    [YIToast showText:NETWORKINGPEOBLEM];
             });
         };
 }
@@ -606,6 +627,20 @@
 //
 //}
 
+#pragma mark 注册通知
+-(void)setupNotification{
+    //预约成功后 刷新 列表 通知
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appointSuccessAndReflash) name:APPOINTANDREFLASH object:nil];
+}
+
+-(void)appointSuccessAndReflash{
+    [myTable.header beginRefreshing];
+}
+
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:APPOINTANDREFLASH object:nil];
+}
+
 #pragma mark 设置状态栏字体颜色
 -(UIStatusBarStyle)preferredStatusBarStyle{
     return UIStatusBarStyleLightContent;
@@ -624,6 +659,8 @@
     return nil;
                                                             
 }
+
+
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
     

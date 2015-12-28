@@ -51,6 +51,8 @@
     left.target = self;
     left.action=@selector(navigationControllerLeftBarAction:);
     self.navigationItem.leftBarButtonItem = left;
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{

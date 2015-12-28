@@ -11,6 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import "YIUserLocationMessage.h"
 typedef void(^GetLocationMessageBlock)(YIUserLocationMessage *locationMsg);
+typedef void(^GetUserLocateInfoBlock)(double x,double y);
 @interface YILocationManager : NSObject<CLLocationManagerDelegate>
 {
     int Ifstop;
@@ -22,6 +23,8 @@ typedef void(^GetLocationMessageBlock)(YIUserLocationMessage *locationMsg);
 @property(nonatomic , strong)YIUserLocationMessage* userLocInfo;
 
 @property(nonatomic , copy)GetLocationMessageBlock getLocationMessageBlock;
+
+@property(nonatomic , copy)GetUserLocateInfoBlock getUserLocBlock;
 
 //@property(nonatomic , copy)NSString* currentCity;//城市
 

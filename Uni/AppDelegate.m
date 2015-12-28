@@ -13,6 +13,7 @@
 #import "YILocationManager.h"
 #import "APService.h"
 #import "AccountManager.h"
+#import "UNIShopManage.h"
 #import "UNIAppDeleRequest.h"
 #import "UIImageView+AFNetworking.h"
 #import "AFNetworkReachabilityManager.h"
@@ -158,6 +159,40 @@
                            int type,
                            NSError* er){
         if (er==nil) {
+            NSString *curVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];      //获取项目版本号
+            float curVersinNum = curVersion.floatValue;
+            float versionNum = version.floatValue;
+            
+            if (versionNum <= curVersinNum)
+                return ;
+            dispatch_async(dispatch_get_main_queue(), ^{
+#ifdef IS_IOS9_OR_LATER
+                UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"更新提示" message:desc preferredStyle:UIAlertControllerStyleAlert];
+                if (type == 1) {
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+                    [alertController addAction:cancelAction];
+                }
+               
+                UIAlertAction *checkAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+                }];
+                [alertController addAction:checkAction];
+                
+                
+                [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+#else
+                
+                NSString* cancelTitle =@"取消";
+                if (type == 1)
+                    cancelTitle=nil;
+                
+                [UIAlertView showWithTitle:@"更新提示" message:desc style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    if (buttonIndex>0)
+                        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+                }];
+#endif
+
+            });
             
         }else{
             
@@ -250,17 +285,15 @@
 //后台
 - (void)applicationDidEnterBackground:(UIApplication *)application {
     
-    NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
     //获取当前所有的本地通知
+    NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
     if (!notificaitons || notificaitons.count <= 0) 
         return;
-    
-    //self.inBackground = YES;
+
     if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
     { //Check if our iOS version supports multitasking I.E iOS 4
         
-        if ([[UIDevice
-              currentDevice] isMultitaskingSupported])
+        if ([[UIDevice currentDevice] isMultitaskingSupported])
         { //Check if device supports mulitasking
             
 //             BOOL backgroundAccepted = [[UIApplication sharedApplication] setKeepAliveTimeout:600 handler:^{
@@ -282,26 +315,79 @@
         /*
          当应用程序后台停留的时间为0时，会执行下面的操作（应用程序后台停留的时间为600s，可以通过backgroundTimeRemaining查看）
          */
-        
+        [self backgroundHandler];
         [application endBackgroundTask: background_task];
         background_task = UIBackgroundTaskInvalid;
-        [self backgroundHandler];
+        //[self backgroundHandler];
     }];
     
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        [[YILocationManager sharedInstance] startUpdateUserLoaction];
+        //[[YILocationManager sharedInstance] startUpdateUserLoaction];
+        [self checkLocationNotification];
         
-      //  NSLog(@"time remain:%f", application.backgroundTimeRemaining);
-//        [application endBackgroundTask: background_task];
-//        background_task = UIBackgroundTaskInvalid;
-       // [self backgroundHandler];
+        NSLog(@"time remain:%f", application.backgroundTimeRemaining);
+
     });
 
 }
 
+-(void)checkLocationNotification{
+    
+    NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    for (UILocalNotification* noti in notificaitons) {
+        NSLog(@"%@",noti.fireDate);
+        
+        NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:noti.fireDate];
+        //判断通知时间是否已经过去  
+        if (timeBetween > (90*60)) {
+            [[UIApplication sharedApplication] cancelLocalNotification:noti];
+            
+            //到预约服务点前十五分钟 开始定位并且检查用户是否到店
+        }else if (timeBetween<(-45*60) && timeBetween <(-90*60)){
+            double shopX = [UNIShopManage getShopData].x.doubleValue;
+            double shopY = [UNIShopManage getShopData].y.doubleValue;
+             CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:shopX longitude:shopY];
+            YILocationManager* manager = [YILocationManager sharedInstance];
+            manager.getUserLocBlock = ^(double x, double y){
+                
+                CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:x longitude:y];
+                double distance  = [curLocation distanceFromLocation:otherLocation];
+                if (distance<300) {
+                    
+                    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                        
+                        UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
+                        model.setArriveShopBlock=^(int code, NSString* tips,NSError* er){
+                            NSLog(@"用户到店 %@",tips);
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [[YILocationManager sharedInstance] stopUpdatingLocation];
+                                [[UIApplication sharedApplication] cancelLocalNotification:noti];
+                            });
+                        };
+                        NSDateFormatter *formatter2 =[[NSDateFormatter alloc] init];
+                        [formatter2 setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                        NSString *arriverTime = [formatter2 stringFromDate:[NSDate date]];
+                        NSString* order = [noti.userInfo objectForKey:@"OrderId"];
+                        [model postWithSerCode:@[API_PARAM_UNI,API_URL_ArriveShop]
+                                        params:@{@"order":order,@"arriverTime":arriverTime}];
+                    });
+                    
+                }
+            };
+            //开始定位
+             [manager startUpdateUserLoaction];
+        }
+    }
+}
+
+-(void)checkUserToShip{
+    
+}
+
 - (void)applicationWillEnterForeground:(UIApplication *)application {
+    [self checkLocationNotification];
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
 

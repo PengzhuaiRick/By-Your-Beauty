@@ -30,17 +30,19 @@
     
     NSString* string = self.selectDay;
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetFreeTime] params:@{@"projectId":@(self.model.projectId),
-                                                                           @"date":string,
-                                                                           @"costTime":@(self.model.costTime)
+    [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetFreeTime]
+                      params:@{@"projectId":@(self.model.projectId),
+                               @"date":string,
+                               @"costTime":@(self.model.costTime)
                                                                            }];
     request.regetFreeTime=^(NSArray* array,NSString* tips,NSError* err){
         //筛选已经过去了的时间点
+        NSString* title = [[NSDate date].description substringToIndex:10];
         NSMutableArray* data = [NSMutableArray array];
-        if (array.count>0) {
+        if ([title isEqualToString: string]) {
             NSString* title1 = [[NSDate date].description substringWithRange:NSMakeRange(11, 5)];
             NSArray* now = [title1 componentsSeparatedByString:@":"];
-            int xs = [now[0] intValue];
+            int xs = [now[0] intValue]+8;
             int m = [now[1] intValue];
             for (NSDictionary* dic in array) {
                 NSString* time = [dic objectForKey:@"time"];
@@ -58,6 +60,8 @@
                     }
                 }
             }
+        }else{
+            [data addObjectsFromArray:array];
         }
        
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -67,11 +71,12 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (data.count>0) {
+            //if (data.count>0) {
                 self->freeTimes = data;
                 [self setupMidScroller];
-            }else
-                [YIToast showText:@"请求预约时间点失败"];
+           // }
+//            else
+//                [YIToast showText:@"请求预约时间点失败"];
         });
     };
 }

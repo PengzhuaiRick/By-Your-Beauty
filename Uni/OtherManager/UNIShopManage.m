@@ -44,4 +44,15 @@
     return path;
 }
 
++(void)cleanShopinfo{
+    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+    [user removeObjectForKey:@"shopName"];
+    [user removeObjectForKey:@"logoUrl"];
+    [user removeObjectForKey:@"address"];
+    [user removeObjectForKey:@"telphone"];
+    [user removeObjectForKey:@"latitude"];
+    [user removeObjectForKey:@"longitude"];
+    [user synchronize];
+    
+}
 @end

@@ -45,6 +45,7 @@
 -(void)setupNavigation{
     self.title = @"我已预约";
     self.tableView.backgroundColor = [UIColor whiteColor];
+     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
 #pragma mark 设置参数
 -(void)setupParams{
@@ -114,7 +115,8 @@
     static NSString* name = @"CellName";
     MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell)
-        cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
+       // cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
+        cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*70/320) reuseIdentifier:name];
     
     [cell setupCellContent:_myData[indexPath.row] andType:1];
     return cell;

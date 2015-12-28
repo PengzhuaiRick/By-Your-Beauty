@@ -90,4 +90,7 @@
 //我的奖励列表接口
 #define API_URL_MYRewardList @"myRewardList"
 
+//客户到店
+#define API_URL_ArriveShop @"setArriveShop"
+
 #endif /* URLconfig_h */

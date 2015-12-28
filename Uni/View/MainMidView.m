@@ -15,18 +15,71 @@
     if (self) {
         [self setupTableviewHeader:string];
         [self setupTableviewFootView];
+        [self setupTabView:frame];
         self.backgroundColor = [UIColor clearColor];
-        UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, KMainScreenWidth*16/320, frame.size.width, tabH) style:UITableViewStylePlain];
-        //tab.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-        //tab.backgroundColor= [UIColor clearColor];
-        tab.scrollEnabled = NO;
-        tab.delegate = self;
-        tab.dataSource = self;
-        [self addSubview:tab];
-        tab.tableFooterView = [UIView new];
-        _midTableview = tab;
-    }
+          }
     return self;
+}
+
+-(void)setupTabView:(CGRect)frame{
+    if (_midTableview)
+        return;
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, KMainScreenWidth*16/320, frame.size.width, tabH) style:UITableViewStylePlain];
+    tab.scrollEnabled = NO;
+    tab.delegate = self;
+    tab.dataSource = self;
+    [self addSubview:tab];
+    tab.tableFooterView = [UIView new];
+    _midTableview = tab;
+
+}
+#pragma mark 设置无数据页面
+-(void)setupNoDataView{
+    if (self.noDataView)
+        return;
+    
+    UIView* noData = [[UIView alloc]initWithFrame:CGRectMake(0, KMainScreenWidth*16/320, self.frame.size.width, tabH)];
+    noData.backgroundColor = [UIColor whiteColor];
+    [self addSubview:noData];
+    self.noDataView = noData;
+    
+    float imgWH =noData.frame.size.height*0.5;
+    float imgY = (noData.frame.size.height - imgWH)/2;
+    UIImageView* imgView = [[UIImageView alloc]initWithFrame:CGRectMake(16, imgY, imgWH, imgWH)];
+    [noData addSubview:imgView];
+    self.noDataImag = imgView;
+    
+    float lab1X = CGRectGetMaxX(imgView.frame)+20;
+    float lab1W = noData.frame.size.width - lab1X - 20;
+    float lab1H = 30;
+    float lab1Y = noData.frame.size.height/2 - lab1H;
+    UILabel* lab1 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
+    lab1.textColor = kMainGrayBackColor;
+    lab1.font = [UIFont boldSystemFontOfSize:20];
+    [noData addSubview:lab1];
+    self.noDataLab1 = lab1;
+    
+    float lab2H = 45;
+    float lab2Y = CGRectGetMaxY(lab1.frame);
+    UILabel* lab2 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab2Y, lab1W, lab2H)];
+    lab2.font = [UIFont boldSystemFontOfSize:15];
+    lab2.textColor = kMainGrayBackColor;
+    lab2.lineBreakMode = NSLineBreakByWordWrapping;
+    lab2.numberOfLines = 0;
+    [noData addSubview:lab2];
+    self.noDataLab2 = lab2;
+}
+
+-(void)setupNoDataViewSubView:(int)ty{
+    if (ty == 1) {
+        self.noDataLab1.text = @"已约完!";
+        self.noDataLab2.text = @"忙里忙外,也要记得体贴自己!\n马上预约,来这里休憩片刻~";
+        self.noDataImag.image = [UIImage imageNamed:@"main_img_nodata1"];
+    }else if (ty == 2){
+        self.noDataLab1.text = @"马上购买去!";
+        self.noDataLab2.text = @"空空如也没关系,\n一大波超值套餐正来袭";
+        self.noDataImag.image = [UIImage imageNamed:@"main_img_nodata2"];
+    }
 }
 
 -(void)setupTableviewHeader:(NSString*)string{
@@ -43,6 +96,7 @@
     self.titleLab = lab;
    // _midTableview.tableHeaderView = view;
 }
+
 
 -(void)setupTableviewFootView{
     float viewH = KMainScreenWidth*5/320;
@@ -72,7 +126,8 @@
     static NSString* cellName=@"Cell";
     MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (!cell) {
-        cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
+       // cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
+        cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, tableView.frame.size.height/2) reuseIdentifier:cellName];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [cell setupCellContent:_dataArray[indexPath.row] andType:type];
@@ -101,8 +156,14 @@
         self.titleLab.text = @"我的项目";
     }
     type=type1;
-    _dataArray = data;
-    [_midTableview reloadData];
+    if (data.count>0) {
+        _dataArray = data;
+        [_midTableview reloadData];
+    }else{
+        [_midTableview removeFromSuperview];
+        [self setupNoDataView];
+        [self setupNoDataViewSubView:type1];
+    }
 }
 /*
 // Only override drawRect: if you perform custom drawing.

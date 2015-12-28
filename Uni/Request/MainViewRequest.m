@@ -52,6 +52,7 @@
                 UNIShopManage* manager =[[UNIShopManage alloc]init];
                 manager.shopName = [self safeObject:dic ForKey:@"shopName"];
                 manager.logoUrl = [self safeObject:dic ForKey:@"logoUrl"];
+                manager.address = [self safeObject:dic ForKey:@"address"];
                 manager.x = [self safeObject:dic ForKey:@"latitude"];
                 manager.y = [self safeObject:dic ForKey:@"longitude"];
                 [UNIShopManage saveShopData:manager];

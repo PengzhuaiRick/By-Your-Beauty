@@ -29,6 +29,15 @@ typedef void(^RQCheckVersion)(NSString* version,NSString* url,NSString* desc,NSS
 typedef void(^RqWelcomeBlock)(NSString* url,NSString* tips,NSError* er);
 
 
+/**
+ *  用户到店Block
+ *
+ *  @param code 是否成功
+ *  @param tips 反馈信息
+ *  @param er   错误信息
+ */
+typedef void(^SetArriveShopBlock)(int code,NSString* tips,NSError* er);
+
 @interface UNIAppDeleRequest : BaseRequest
 
 //请求版本号成功Block
@@ -37,5 +46,8 @@ typedef void(^RqWelcomeBlock)(NSString* url,NSString* tips,NSError* er);
 
 //请求欢迎页面Block
 @property(nonatomic,copy)RqWelcomeBlock rqwelcomeBlock;
+
+//用户到店Block
+@property(nonatomic,copy)SetArriveShopBlock setArriveShopBlock;
 
 @end

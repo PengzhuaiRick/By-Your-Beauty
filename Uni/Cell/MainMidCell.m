@@ -10,10 +10,50 @@
 
 @implementation MainMidCell
 
+
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier{
+    self = [super initWithStyle:0 reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setupUI:cellSize];
+    }
+    return self;
+}
+-(void)setupUI:(CGSize)size{
+    float imgX = 8;
+    float imgY = KMainScreenWidth* 8 /320;
+    float imgWH =size.height - imgY*2;
+    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
+    img.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:img];
+    self.mainImage = img;
+    
+    float btnX = size.width - 8 - imgWH;
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(btnX, imgY, imgWH, imgWH);
+    [self addSubview:btn];
+    self.handleBtn =  btn;
+    
+    float labX = CGRectGetMaxX(img.frame);
+    float labW = size.width - CGRectGetMaxX(img.frame)*2;
+    float labH = KMainScreenWidth* 17/320;
+    float lab1Y = size.height/2 - labH;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
+    lab1.textColor = [UIColor colorWithHexString:@"ee4c7d"];
+    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    [self addSubview:lab1];
+    self.mainLab = lab1;
+    
+    float lab2Y = size.height/2;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
+    lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    [self addSubview:lab2];
+    self.subLab = lab2;
+    
+}
 - (void)awakeFromNib {
     self.mainLab.textColor = [UIColor colorWithHexString:@"ee4c7d"];
-    self.mainLab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.045];
-    self.subLab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.04];
+    self.mainLab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    self.subLab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
     self.mainImage.contentMode = UIViewContentModeScaleAspectFit;
    }
 
@@ -44,11 +84,12 @@
         [self.mainImage sd_setImageWithURL:[NSURL URLWithString:model.logoUrl]
                           placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
         self.mainLab.text = model.projectName;
-        self.subLab.text = model.time;
+        NSString* time = [model.time substringToIndex:model.time.length-3];
+        self.subLab.text = time;
         NSString* btnTitle = @"";
         switch (model.status) {
             case 0:
-                btnTitle = @"待确定";
+                btnTitle = @"待确认";
                 break;
             case 1:
                 btnTitle = @"待服务";
@@ -60,7 +101,8 @@
                 btnTitle = @"已取消";
                 break;
         }
-            [self.handleBtn setTitle:btnTitle forState:UIControlStateNormal];
+        [self.handleBtn setTitle:btnTitle forState:UIControlStateNormal];
+        [self.handleBtn setTitleColor:[UIColor colorWithHexString:kMainTitleColor] forState:UIControlStateNormal];
         self.handleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.036];
         [self.handleBtn setBackgroundImage:[UIImage imageNamed:@"main_btn_cell1"] forState:UIControlStateNormal];
     }

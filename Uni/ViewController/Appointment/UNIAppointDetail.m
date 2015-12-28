@@ -93,8 +93,8 @@
 -(void)setupTabelViewFootView{
     self.myTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,KMainScreenWidth-32, 1)];
     
-//    if (self.orderState != 2)
-//        return;
+    if (self.orderState != 2)
+        return;
     
     
     float btnWH =KMainScreenWidth*70/320;

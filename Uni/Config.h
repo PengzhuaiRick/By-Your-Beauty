@@ -12,6 +12,8 @@
 #define CONTAITVIEWCLOSE @"closeTheBox"
 #define CONTAITVIEWOPEN @"openTheBox"
 
+#define APPOINTANDREFLASH @"APPOINTANDREFLASH"
+
 /**
  *  是否第一次登陆
  */

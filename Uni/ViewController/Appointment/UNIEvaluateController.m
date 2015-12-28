@@ -137,13 +137,14 @@
 }
 -(void)setupUI{
     grades = 0;
-//    self.label1.text = self.data[0];
-//    self.label2.text = self.data[1];
-//    self.label3.text = self.data[2];
-    self.label1.text = @"时代我弟弟撒时代";
-    self.label2.text = @"的发生为我而过的风格的";
-    self.label3.text = @"身上的发生地方打工";
+    self.label1.text =[NSString stringWithFormat:@"订 单 号: %@",self.data[0]] ;
+    self.label2.text =[NSString stringWithFormat:@"服务项目: %@",self.data[1]];
+    self.label3.text =[NSString stringWithFormat:@"预约时间: %@",self.data[1]];;
+//    self.label1.text = @"时代我弟弟撒时代";
+//    self.label2.text = @"的发生为我而过的风格的";
+//    self.label3.text = @"身上的发生地方打工";
 
+    //self.mainImg.image = [UIImage imageNamed:]
     
     self.mainView.layer.masksToBounds = YES;
     self.mainView.layer.cornerRadius = 10;

@@ -25,5 +25,5 @@
  */
 +(void)saveShopData:(UNIShopManage*)shop;
 +(UNIShopManage*)getShopData;
-
++(void)cleanShopinfo;
 @end

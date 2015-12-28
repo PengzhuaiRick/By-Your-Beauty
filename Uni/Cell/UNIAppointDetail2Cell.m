@@ -29,7 +29,7 @@
 
     self.label1.frame = CGRectMake(labX, imgY, labW, labH);
     self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    self.label1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
     
     float mapY = imgY+imgH+8;
     float mapW = cellW - imgX*2;
@@ -43,7 +43,7 @@
     if (state>1) {
         self.mapView.hidden = YES;
     }else{
-    CLLocationCoordinate2D td =CLLocationCoordinate2DMake(23.345461, 44.2334352);
+    CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
     self.mapView.centerCoordinate = td;
         
     UNIMapAnnotation * end =[[UNIMapAnnotation alloc]initWithTitle:manager.shopName andCoordinate:td];

@@ -10,6 +10,8 @@
 #import "UNICardInfoCell.h"
 #import "UNICardInfoRequest.h"
 #import <MJRefresh/MJRefresh.h>
+#import "UNIAppointDetail.h"
+
 @interface UNICardInfoController ()<UITableViewDataSource,UITableViewDelegate>{
     int pageNum;
     UIView* topView;
@@ -29,14 +31,12 @@
     [self setupTableView];
     [self startRequestInTimeInfo];
     [self startRequestCardInfo];
-   
-    
-   }
+}
 
 -(void)setupNavigation{
     self.title = @"使用会员卡详情";
     self.view .backgroundColor= [UIColor colorWithHexString: kMainBackGroundColor];
-    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
 #pragma mark 开始请求准时奖励信息
 -(void)startRequestInTimeInfo{
@@ -46,13 +46,14 @@
     request.rqrewardBlock=^(int total,int num,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (err) {
-                [YIToast showText:err.localizedDescription];
+                [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (total>0) {
                 [self setupmidView:total and:num];
-            }else
-                [YIToast showText:tips];
+            }
+//            else
+//                [YIToast showText:tips];
         });
     };
 }
@@ -67,7 +68,7 @@
             [self->myTableView.header endRefreshing];
             [self->myTableView.footer endRefreshing];
             if (err) {
-                [YIToast showText:err.localizedDescription];
+                [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (arr && arr.count>0) {
@@ -80,8 +81,9 @@
                 }
                 [self.myData addObjectsFromArray:arr];
                 [self->myTableView reloadData];
-            }else
-                [YIToast showText:tips];
+            }
+//            else
+//                [YIToast showText:tips];
         });
     };
 }
@@ -141,13 +143,13 @@
     CALayer* layer = [CALayer layer];
     layer.backgroundColor = kMainGrayBackColor.CGColor;
     float layH =KMainScreenWidth*4/320;
-    float layY =midView.frame.size.height - 30;
+    float layY =(midView.frame.size.height - layH)/2;
     float layW =midView.frame.size.width-30;
     layer.frame = CGRectMake(15,layY, layW, layH);
     [midView.layer addSublayer:layer];
     if (num>0) {
         CALayer* layer1 = [CALayer layer];
-        layer.backgroundColor = [UIColor colorWithHexString:kMainGreenBackColor].CGColor;
+        layer1.backgroundColor = [UIColor colorWithHexString:kMainGreenBackColor].CGColor;
         float lay1W =layW*num/total;
         layer1.frame = CGRectMake(15,layY,lay1W, layH);
         [midView.layer addSublayer:layer1];
@@ -161,7 +163,7 @@
     }
     float jc = (midView.frame.size.width-30)/p;
     float btnWH = KMainScreenWidth*12/320;
-    float centerY = layY+layH/2;
+    float centerY = midView.frame.size.height/2;
     for (int i = 0; i<p; i++) {
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(0, 0, btnWH,btnWH);
@@ -243,7 +245,14 @@
     [cell setupCellContentWith:self.myData[indexPath.row]];
     return cell;
 }
-
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
+    UNIMyAppointInfoModel* model =_myData[indexPath.row];
+    appoint.order =model.order;
+    [self.navigationController pushViewController:appoint animated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -23,6 +23,10 @@
 @property(nonatomic,strong)UITableView* midTableview;
 @property(nonatomic,strong)NSArray* dataArray;
 @property(nonatomic,assign) id<MainMidViewDelegate> delegate;
+@property(nonatomic,strong)UIView* noDataView ;
+@property(nonatomic,strong)UIImageView* noDataImag;
+@property(nonatomic,strong)UILabel* noDataLab1;
+@property(nonatomic,strong)UILabel* noDataLab2;
 
 -(void)startReloadData:(NSArray*)data andType:(int)type1;
 -(id)initWithFrame:(CGRect)frame headerTitle:(NSString*)string;

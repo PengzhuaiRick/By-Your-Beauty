@@ -16,6 +16,9 @@
     MyRewardView* inTimeView;
     int page1;// 约满页数
     int page2;//准时页数
+    
+    NSMutableArray* appointArr;
+    NSMutableArray* inTimeArr;
 }
 
 @end
@@ -48,28 +51,38 @@
     //[self setupMyAppointView];
    // [self setupIntimeView];
     [self startRequestMyAppoint];
-    [self startRequestIntime];
+    //[self startRequestIntime];
 }
 -(void)setupUI{
     page1 = 0;
     page2 = 0;
+    
+    appointArr = [NSMutableArray array ];
+    inTimeArr = [NSMutableArray array ];
 }
 -(void)startRequestMyAppoint{
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYRewardInfo] params:@{@"size":@(20),@"page":@(page1)}];
     request.myrewardBlock=^(NSArray* arr,int total,NSString* tips,NSError* er){
+        
+        [self startRequestIntime];
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self->appointView.midTableview.header endRefreshing];
             [self->appointView.midTableview.footer endRefreshing];
             if (er) {
-                [YIToast showText:er.localizedDescription];
+                [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (arr && arr.count>0) {
+                if (self->page1 == 0)
+                    [self->appointArr removeAllObjects];
+
+                [self->appointArr addObjectsFromArray:arr];
                 [self setupMyAppointView];
-                [self->appointView startReflashTableView:arr];
-            }else
-                [YIToast showText:tips];
+            }
+//            else
+//                [YIToast showText:tips];
         });
     };
 }
@@ -81,14 +94,18 @@
             [self->inTimeView.midTableview.header endRefreshing];
             [self->inTimeView.midTableview.footer endRefreshing];
             if (er) {
-                [YIToast showText:er.localizedDescription];
+                [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (arr && arr.count>0) {
+                if (self->page2 == 0)
+                    [self->inTimeArr removeAllObjects];
+                
+                [self->inTimeArr addObjectsFromArray:arr];
                 [self setupIntimeView];
-                [self->inTimeView startReflashTableView:arr];
-            }else
-                [YIToast showText:tips];
+            }
+//            else
+//                [YIToast showText:tips];
         });
     };
 }
@@ -105,6 +122,8 @@
     bar.target = self;
     bar.action=@selector(navigationControllerLeftBarAction:);
     self.navigationItem.leftBarButtonItem = bar;
+    
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -117,8 +136,14 @@
 }
 -(void)setupMyAppointView{
     
-    if (appointView)
+    if (appointArr.count<1)
         return;
+    
+    
+    if (appointView){
+        [appointView startReflashTableView:appointArr];
+        return;
+    }
     
     float viewX = 15;
     float viewY = 64+15;
@@ -130,6 +155,7 @@
     appointView = view;
     appointView.midTableview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->page1 = 0;
+        [self->appointArr removeAllObjects];
         [self startRequestMyAppoint];
     }];
     
@@ -137,19 +163,27 @@
         self->page1++;
          [self startRequestMyAppoint];
     }];
-
     
+     [appointView startReflashTableView:appointArr];
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
     [view addGestureRecognizer:tap];
 }
 
 -(void)setupIntimeView{
-    
-    if (inTimeView)
+    if (inTimeArr.count<1) {
         return;
+    }
+    
+    if (inTimeView){
+        [inTimeView startReflashTableView:inTimeArr];
+        return;
+    }
     float viewX = 15;
     float viewH = (KMainScreenHeight- 64- viewX*3)/2;
     float viewY = 65+viewH+viewX*2;
+    if (appointArr.count<1)
+        viewY = 64+15;
+    
     float viewW =KMainScreenWidth-viewX*2;
     
     
@@ -166,6 +200,7 @@
         self->page2++;
         [self startRequestIntime];
     }];
+    [inTimeView startReflashTableView:inTimeArr];
 
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
     [view addGestureRecognizer:tap];

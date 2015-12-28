@@ -18,6 +18,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *subLab;
 @property (weak, nonatomic) IBOutlet UIButton *handleBtn;
 
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
+
 -(void)setupCellContent:(id)model andType:(int)type;
 
 -(void)setAppointCell:(id)model and:(int)num and:(int)type;

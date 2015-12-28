@@ -89,9 +89,14 @@
     [self.myScroller addSubview:botton];
     appointBotton = botton;
     
-    
+    //检测是否有 预约时间点 存在，选择了预约时间点 才能进行 确定预约 否则预约按钮不可点击
+//    [RACObserve(appointTop, selectTime)
+//    subscribeNext:^(NSString* x) {
+//        botton.sureBtn.enabled =x.length>0;
+//    }];
         [[botton.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
+         [LLARingSpinnerView RingSpinnerViewStart];
          UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
          NSMutableArray* arr = [NSMutableArray array];
           NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
@@ -107,19 +112,23 @@
          }
          [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
                        params:@{@"data":arr}];
-         req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
-             if (err) {
-                 [YIToast showText:NETWORKINGPEOBLEM];
-                 return ;
-             }
-             if (order) {
-                 [YIToast showText:@"预约成功"];
-                 [NSThread sleepForTimeInterval:1];
-                 [self locationNotificationTask:order];
-             }else
-                  [YIToast showText:@"预约失败"];
-         };
-     }];
+         dispatch_async(dispatch_get_main_queue(), ^{
+             [LLARingSpinnerView RingSpinnerViewStop];
+             req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
+                 if (err) {
+                     [YIToast showText:NETWORKINGPEOBLEM];
+                     return ;
+                 }
+                 if (order) {
+                     [YIToast showText:@"预约成功"];
+                     [NSThread sleepForTimeInterval:1];
+                     [self locationNotificationTask:order];
+                 }else
+                     [YIToast showText:@"预约失败"];
+             };
+
+         });
+             }];
     
     //加号
     [[botton.jiaBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -141,9 +150,9 @@
      }];
     
     // 人数 每次修改都会调用
-    [RACObserve(appointTop, member)subscribeNext:^(id x) {
-        botton.nunField.text = [NSString stringWithFormat:@"%d",self->appointTop.member];
-    }];
+//    [RACObserve(appointTop, member)subscribeNext:^(id x) {
+//        botton.nunField.text = [NSString stringWithFormat:@"%d",self->appointTop.member];
+//    }];
     
     //检测键盘输入人数 是否数字并判断是否超过最大值
     [botton.nunField.rac_textSignal subscribeNext:^(NSString* value) {
@@ -176,6 +185,7 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     NSDate* strDate = [dateFormatter dateFromString:sele];
     //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
+    //localNotification.fireDate =strDate;
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
@@ -191,7 +201,11 @@
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     
+    //预约成功刷新界面
+    [[NSNotificationCenter defaultCenter] postNotificationName:APPOINTANDREFLASH object:nil];
+    
     [self.navigationController popViewControllerAnimated:YES];
+    
 }
 
 -(void)regirstKeyBoardNotification{
