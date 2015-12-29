@@ -266,7 +266,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
-
+    [super viewDidDisappear:animated];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

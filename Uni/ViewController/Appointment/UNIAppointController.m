@@ -178,12 +178,12 @@
 
    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
 
-    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
-    int seleZhong = [array[0] intValue];
-    NSString* sele = [NSString stringWithFormat:@"%d-%@ %d:%@:00",appointTop.selectYear,appointTop.selectDay,--seleZhong,array[1]];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    NSDate* strDate = [dateFormatter dateFromString:sele];
+//    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
+//    int seleZhong = [array[0] intValue];
+//    NSString* sele = [NSString stringWithFormat:@"%d-%@ %d:%@:00",appointTop.selectYear,appointTop.selectDay,--seleZhong,array[1]];
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+  //  NSDate* strDate = [dateFormatter dateFromString:sele];
     //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
     //localNotification.fireDate =strDate;
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];

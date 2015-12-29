@@ -23,9 +23,11 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     self.navigationController.delegate = self;
+    [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     self.navigationController.delegate = nil;
+    [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

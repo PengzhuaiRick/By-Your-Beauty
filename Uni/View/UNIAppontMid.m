@@ -71,17 +71,19 @@
     UNIMyAppointCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
         cell =[[NSBundle mainBundle]loadNibNamed:@"UNIMyAppointCell" owner:self options:nil].lastObject;
-        NSMutableArray* arr = [NSMutableArray array];
-        [arr sw_addUtilityButtonWithColor:[UIColor redColor] title:@"删除"];
-        cell.rightUtilityButtons = arr;
-        cell.delegate = self;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (indexPath.row>0) {
+            NSMutableArray* arr = [NSMutableArray array];
+            [arr sw_addUtilityButtonWithColor:[UIColor redColor] title:@"删除"];
+            cell.rightUtilityButtons = arr;
+            cell.delegate = self;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        cell.mainLab.textColor = [UIColor colorWithHexString:@"ee4b7c"];
-        cell.mainLab.font = [UIFont boldSystemFontOfSize:13];
+            cell.mainLab.textColor = [UIColor colorWithHexString:@"ee4b7c"];
+            cell.mainLab.font = [UIFont boldSystemFontOfSize:13];
         
-        cell.subLab.textColor = [UIColor colorWithHexString:@"c2c1c0"];
-        cell.subLab.font = [UIFont boldSystemFontOfSize:13];
+            cell.subLab.textColor = [UIColor colorWithHexString:@"c2c1c0"];
+            cell.subLab.font = [UIFont boldSystemFontOfSize:13];
+        }
     }
     UNIMyProjectModel* model = _myData[indexPath.row];
     //cell.mainImg.image = [UIImage imageNamed:@"main_img_cell1"];

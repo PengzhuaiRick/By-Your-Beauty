@@ -18,7 +18,7 @@
     return self;
 }
 -(void)setupUI:(CGSize)size{
-    MainMidView* view= [[MainMidView alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height) headerTitle:nil];
+    MainMidView* view= [[MainMidView alloc]initWithFrame:CGRectMake(0, 8, size.width, size.height-8) headerTitle:nil];
     [self addSubview:view];
     self.mainView = view;
 }

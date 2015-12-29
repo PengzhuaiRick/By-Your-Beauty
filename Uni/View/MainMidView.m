@@ -62,7 +62,7 @@
     float lab2H = 45;
     float lab2Y = CGRectGetMaxY(lab1.frame);
     UILabel* lab2 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab2Y, lab1W, lab2H)];
-    lab2.font = [UIFont boldSystemFontOfSize:15];
+    lab2.font = [UIFont boldSystemFontOfSize:13];
     lab2.textColor = kMainGrayBackColor;
     lab2.lineBreakMode = NSLineBreakByWordWrapping;
     lab2.numberOfLines = 0;
@@ -157,10 +157,12 @@
     }
     type=type1;
     if (data.count>0) {
+        [_noDataView removeFromSuperview];
+        _midTableview.hidden = NO;
         _dataArray = data;
         [_midTableview reloadData];
     }else{
-        [_midTableview removeFromSuperview];
+        _midTableview.hidden = YES;
         [self setupNoDataView];
         [self setupNoDataViewSubView:type1];
     }

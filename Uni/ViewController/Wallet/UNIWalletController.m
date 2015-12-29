@@ -20,7 +20,8 @@
             ges.enabled=YES;
         }
     }
-    
+    [super viewWillAppear:animated];
+
 }
 -(void)viewWillDisappear:(BOOL)animated{
     NSArray* array =self.containController.view.gestureRecognizers;
@@ -29,7 +30,7 @@
             ges.enabled=NO;
         }
     }
-    
+    [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {

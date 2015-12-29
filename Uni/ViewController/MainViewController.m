@@ -57,7 +57,7 @@
             ges.enabled=YES;
         }
     }
-
+    [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
    self.navigationController.delegate = nil;
@@ -67,7 +67,7 @@
             ges.enabled=NO;
         }
     }
-
+    [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -175,68 +175,69 @@
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-//    MainViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
-//    if (!cell) {
-//        cell = [[MainViewCell alloc]initWithCellSize:tableView.frame.size reuseIdentifier:@"name"];
-//        cell.mainView.delegate=self;
-//        cell.backgroundColor = [UIColor clearColor];
-//        cell.selectionStyle =UITableViewCellSelectionStyleNone;
-//    }
-//    if (indexPath.row == 0) {
-//        if (_midData){
-//            [cell setupCellWithData:_midData type:1];
-//        }else{
+    MainViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
+    if (!cell) {
+        cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
+        cell.mainView.delegate=self;
+        cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle =UITableViewCellSelectionStyleNone;
+    }
+    if (indexPath.row == 0) {
+ 
+            [cell setupCellWithData:_midData type:1];
+        
+//        else{
 //            [cell setupCellWithData:_bottomData type:2];
 //        }
-//    }
-//    if (indexPath.row == 1) {
-//         [cell setupCellWithData:_bottomData type:2];
-//    }
-    
-    
-    UITableViewCell*cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
-    if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
-        
-    }
-    cell.backgroundColor = [UIColor clearColor];
-    cell.selectionStyle =UITableViewCellSelectionStyleNone;
-    
-    if (indexPath.row == 0) {
-//        if (_midData){
-                MainMidView* midview = [[MainMidView alloc]initWithFrame:
-                                CGRectMake(0,5,  tableView.frame.size.width, cellHight-5) headerTitle:@"我已预约"];
-                midview.delegate=self;
-                [cell addSubview:midview];
-                self.midView = midview;
-                [self.midView startReloadData:_midData andType:1];
-//
-//        }
-//        else{
-//            if (_bottomData.count>0) {
-//                MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
-//                                           CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
-//                                                                headerTitle:@"我的项目"];
-//                bottomView.delegate = self;
-//                [cell addSubview:bottomView];
-//                self.buttomView = bottomView;
-//                [self.buttomView startReloadData:_bottomData andType:2];
-//            }
-//           
-//        }
-        
     }
     if (indexPath.row == 1) {
-        // if (_bottomData.count>0) {
-             MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
-                                   CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
-                                                        headerTitle:@"我的项目"];
-             bottomView.delegate = self;
-             [cell addSubview:bottomView];
-            self.buttomView = bottomView;
-             [self.buttomView startReloadData:_bottomData andType:2];
-       //  }
+         [cell setupCellWithData:_bottomData type:2];
     }
+    
+    
+//    UITableViewCell*cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
+//    if (!cell) {
+//        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
+//        
+//    }
+//    cell.backgroundColor = [UIColor clearColor];
+//    cell.selectionStyle =UITableViewCellSelectionStyleNone;
+//    
+//    if (indexPath.row == 0) {
+////        if (_midData){
+//                MainMidView* midview = [[MainMidView alloc]initWithFrame:
+//                                CGRectMake(0,5,  tableView.frame.size.width, cellHight-5) headerTitle:@"我已预约"];
+//                midview.delegate=self;
+//                [cell addSubview:midview];
+//                self.midView = midview;
+//                [self.midView startReloadData:_midData andType:1];
+////
+////        }
+////        else{
+////            if (_bottomData.count>0) {
+////                MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
+////                                           CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
+////                                                                headerTitle:@"我的项目"];
+////                bottomView.delegate = self;
+////                [cell addSubview:bottomView];
+////                self.buttomView = bottomView;
+////                [self.buttomView startReloadData:_bottomData andType:2];
+////            }
+////           
+////        }
+//        
+//    }
+//    if (indexPath.row == 1) {
+//        // if (_bottomData.count>0) {
+//             MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
+//                                   CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
+//                                                        headerTitle:@"我的项目"];
+//             bottomView.delegate = self;
+//             [cell addSubview:bottomView];
+//            self.buttomView = bottomView;
+//             [self.buttomView startReloadData:_bottomData andType:2];
+//       //  }
+//    }
     return cell;
 }
 
@@ -493,6 +494,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self->myTable.header endRefreshing];
                 if (!err) {
+                    self.midData = nil;
                     if (myAppointArr.count>0){
                         self.midData = myAppointArr;
                         [self->myTable reloadData];
@@ -513,6 +515,7 @@
         request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
+                    self.bottomData = nil;
                     if (myProjectArr.count>0){
                         self.bottomData=myProjectArr;
                         [self->myTable reloadData];

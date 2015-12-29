@@ -50,13 +50,19 @@
                    @"致电商家",
                    @"我的奖励",
                    @"我的钱包",
-                   @"退出登录"];
+                   @"退出登录"
+//                   ,
+//                   @"Copyright @2014-2021\n广州由你电子商务有限公司"
+                   ];
     imgArray =@[@"function_img_cell1",
                 @"function_img_cell2",
                 @"function_img_cell3",
                 @"function_img_cell4",
                 @"function_img_cell5",
-                @"function_img_cell6"];
+                @"function_img_cell6"
+//                ,
+//                @""
+                ];
     
 }
 
@@ -84,7 +90,12 @@
     }
     cell.mainImg.image = [UIImage imageNamed:imgArray[indexPath.row]];
     cell.mainLab.text = titleArray[indexPath.row];
-    cell.mainLab.textColor = [UIColor colorWithHexString:@"595757"];
+    cell.mainLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+//    if (indexPath.row == titleArray.count-1) {
+//        cell.mainLab.font = [UIFont boldSystemFontOfSize:11];
+//        CGRect rec = cell.mainLab.frame;
+//        cell.mainLab.frame = CGRectMake(rec.origin.x, 20, rec.size.width, rec.size.height*2);
+//    }
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

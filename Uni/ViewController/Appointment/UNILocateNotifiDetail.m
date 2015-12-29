@@ -89,6 +89,7 @@
     self.myTableView.dataSource =self;
     self.myTableView.layer.masksToBounds = YES;
     self.myTableView.layer.cornerRadius = 5;
+    self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     [self.view addSubview:self.myTableView];
     [self setupTabelViewFootView];
 }

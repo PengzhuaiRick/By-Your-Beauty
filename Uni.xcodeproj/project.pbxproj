@@ -60,6 +60,7 @@
 		18A231D31C27FCDA00E57795 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A231D11C27FCDA00E57795 /* libcrypto.a */; };
 		18A231D41C27FCDA00E57795 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A231D21C27FCDA00E57795 /* libssl.a */; };
 		18A231DA1C2807A600E57795 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A231D61C2807A600E57795 /* libWeChatSDK.a */; };
+		18AD74C81C3282DA006FA84D /* UNIRewordAndIntimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD74C71C3282DA006FA84D /* UNIRewordAndIntimeCell.m */; };
 		18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D621BE99EC100DD7826 /* UNWelcomeController.m */; };
 		18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D661BE9A19100DD7826 /* EAIntroPage.m */; };
 		18BA7D6C1BE9A19100DD7826 /* EAIntroView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D681BE9A19100DD7826 /* EAIntroView.m */; };
@@ -347,6 +348,8 @@
 		18A231D71C2807A600E57795 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
 		18A231D81C2807A600E57795 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		18A231D91C2807A600E57795 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		18AD74C61C3282DA006FA84D /* UNIRewordAndIntimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewordAndIntimeCell.h; sourceTree = "<group>"; };
+		18AD74C71C3282DA006FA84D /* UNIRewordAndIntimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewordAndIntimeCell.m; sourceTree = "<group>"; };
 		18BA7D611BE99EC100DD7826 /* UNWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNWelcomeController.h; sourceTree = "<group>"; };
 		18BA7D621BE99EC100DD7826 /* UNWelcomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNWelcomeController.m; sourceTree = "<group>"; };
 		18BA7D651BE9A19100DD7826 /* EAIntroPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAIntroPage.h; sourceTree = "<group>"; };
@@ -1010,6 +1013,8 @@
 				18E3027F1C17C3F600990A14 /* UNIWalletCell.h */,
 				18E302801C17C3F600990A14 /* UNIWalletCell.m */,
 				18E302811C17C3F600990A14 /* UNIWalletCell.xib */,
+				18AD74C61C3282DA006FA84D /* UNIRewordAndIntimeCell.h */,
+				18AD74C71C3282DA006FA84D /* UNIRewordAndIntimeCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1441,6 +1446,7 @@
 				180CD38C1BDF180A00C912FE /* AppDelegate.m in Sources */,
 				18E627831BF9EC1500C4C13C /* UNIMyAppintModel.m in Sources */,
 				18E661DB1C118AF0000042B7 /* UNIMyRewardModel.m in Sources */,
+				18AD74C81C3282DA006FA84D /* UNIRewordAndIntimeCell.m in Sources */,
 				189091A81C15AB18005C84E9 /* UNIRewardDetailCell3.m in Sources */,
 				1816BD661C27EF2600628931 /* MD5DataSigner.m in Sources */,
 				18CCA01E1C030FF600B90092 /* UNIMyRewardController.m in Sources */,

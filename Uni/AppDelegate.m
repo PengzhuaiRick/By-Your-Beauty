@@ -22,6 +22,7 @@
 #import <AlipaySDK/AlipaySDK.h>//支付宝
 //#import "WXApi.h"//微信
 #import "WXApiManager.h"
+
 @interface AppDelegate (){
     UIImageView* imag;
 }
