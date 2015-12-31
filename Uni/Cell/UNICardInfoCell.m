@@ -29,7 +29,7 @@
     self.stateBtn.layer.masksToBounds = YES;
     self.stateBtn.layer.cornerRadius = KMainScreenWidth*25/320;
     [self.stateBtn setBackgroundColor: kMainGrayBackColor];
-    self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    self.stateBtn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     float img2H = KMainScreenWidth*25/320;
@@ -43,26 +43,27 @@
     float lab1Y =(cellH -2*labH)/2;
     self.label1.frame = CGRectMake(labX, lab1Y, labW, labH);
     self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    self.label1.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     
     float lab2Y = lab1Y+labH;
     self.label2.frame = CGRectMake(labX, lab2Y, labW, labH);
     self.label2.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    self.label2.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     
     
 }
 -(void)setupCellContentWith:(id)model{
     UNIMyAppointInfoModel* info = model;
     self.label1.text = info.projectName;
-    self.label2.text = info.createTime;
+    NSString* text2 = [info.date substringWithRange:NSMakeRange(5, 11)];
+    self.label2.text = text2;
     NSString* titel = nil;
     switch (info.status) {
         case 0:
-            titel = @"待安排";
+            titel = @"待确认";
             break;
         case 1:
-            titel = @"待确认";
+            titel = @"待服务";
             break;
         case 2:
             titel = @"已完成";

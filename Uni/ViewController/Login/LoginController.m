@@ -72,13 +72,13 @@
     UIView* footer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 100)];
     self.tableView.tableFooterView = footer;
     
-    float btnWH = KMainScreenWidth* 60/320;
+    float btnWH = KMainScreenWidth* 70/320;
     float btnX = (footer.frame.size.width -btnWH)/2;
     float btnY = 30;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
     [btn setTitle:@"登录" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*17/320];
     [btn setBackgroundColor:[UIColor colorWithHexString:kMainGreenBackColor]];
     btn.layer.masksToBounds=YES;
     btn.layer.cornerRadius = btnWH/2;
@@ -121,7 +121,7 @@
     float tetW = self.tableView.frame.size.width - imgX - tetX;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, imgY, tetW, imgWH)];
     field.placeholder = @"请输入手机号码";
-    field.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    field.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [cell addSubview:field];
     phoneField = field;
     
@@ -144,14 +144,14 @@
     
     float btnW = KMainScreenWidth* 100/320;
     float btnX = self.tableView.frame.size.width - imgX - btnW;
-    float btnH = imgWH;
-    float btnY = imgY;
+    float btnH = imgWH+5;
+    float btnY = imgY-5;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
     [btn setTitle:@"获取验证码" forState:UIControlStateNormal];
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = 5;
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     [cell addSubview:btn];
     codeBtn = btn;
@@ -160,7 +160,7 @@
     float tetW = self.tableView.frame.size.width - imgX - tetX - btnW;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, imgY, tetW, imgWH)];
     field.placeholder = @"请输入验证码";
-    field.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    field.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [cell addSubview:field];
     codeField = field;
     
@@ -170,7 +170,7 @@
     lay.frame = CGRectMake(imgX, layY, layW, 0.5);
     lay.backgroundColor = kMainGrayBackColor.CGColor;
     [cell.layer addSublayer:lay];
-    
+        
     [self setupCodeField];
     [self setupCodeBtn];
 }
@@ -189,7 +189,7 @@
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
     [btn setTitle:@"先生" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn.tag = 1;
     [cell addSubview:btn];
@@ -199,7 +199,7 @@
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn1.frame = CGRectMake(btn1X, btnY, btnW, btnH);
     [btn1 setTitle:@"女士" forState:UIControlStateNormal];
-    btn1.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn1.tag = 2;
     [cell addSubview:btn1];
@@ -210,7 +210,7 @@
     float tetW = self.tableView.frame.size.width - imgX - tetX - btnW*2 - 10;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, imgY, tetW, imgWH)];
     field.placeholder = @"请输入昵称";
-    field.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    field.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [cell addSubview:field];
     nikeName = field;
     
@@ -471,6 +471,7 @@
                 [AccountManager setToken:token];
                 [AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
+                [AccountManager setLocalLoginName:field1.text];
                 //跳转
                 self.view.window.backgroundColor = [UIColor whiteColor];
                 AppDelegate* app = [UIApplication sharedApplication].delegate;

@@ -31,7 +31,7 @@
     [self.stateBtn setBackgroundColor:kMainGrayBackColor];
     self.stateBtn.titleLabel.numberOfLines = 0;
     self.stateBtn.titleLabel.lineBreakMode = 0;
-    self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:12];
+    self.stateBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 //
 //    float labX = imgX+imgW;
@@ -41,18 +41,18 @@
 //    float lab1Y =(cellH -3*labH)/2;
 //    self.label1.frame = CGRectMake(labX, lab1Y, labW, labH);
     self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    self.label1.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
 //
 //    float lab2Y = lab1Y+labH;
 //    self.label2.frame = CGRectMake(labX, lab2Y, labW, labH);
     self.label2.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    self.label2.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     
 //
 //    float lab3Y = lab2Y+labH;
 //    self.label3.frame = CGRectMake(labX, lab3Y, labW, labH);
     self.label3.textColor = [UIColor blackColor];
-    self.label3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    self.label3.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
 }
 
 -(void)setupCellContentWith:(id)model{

@@ -12,10 +12,10 @@
 
 - (void)awakeFromNib {
     self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont boldSystemFontOfSize:13];
+    self.label1.font = [UIFont systemFontOfSize:13];
   
     self.label2.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label2.font = [UIFont boldSystemFontOfSize:13];
+    self.label2.font = [UIFont systemFontOfSize:13];
     
     self.stateBtn.layer.masksToBounds = YES;
     self.stateBtn.layer.cornerRadius = 25;
@@ -23,7 +23,7 @@
     self.stateBtn.layer.borderWidth = 0.5;
     self.stateBtn.titleLabel.numberOfLines = 0;
     self.stateBtn.titleLabel.lineBreakMode = 0;
-    self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
+    self.stateBtn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
     [self.stateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
 
 }

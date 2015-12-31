@@ -70,6 +70,13 @@
 
 +(NSNumber *)shopId;
 
+/**
+ *  获取和设置localLoginName
+ *
+ *  @return 用户手机号码
+ */
++(NSString*)localLoginName;
++(void)setLocalLoginName:(NSString *)localLoginName;
 
 #pragma mark  动态方法
 

@@ -29,7 +29,7 @@
     self.stateBtn.layer.masksToBounds = YES;
     self.stateBtn.layer.cornerRadius = KMainScreenWidth*22/320;
     [self.stateBtn setBackgroundColor:kMainGrayBackColor];
-    self.stateBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    self.stateBtn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
     float labX = imgX+imgW;
@@ -39,17 +39,17 @@
     float lab1Y =(cellH -3*labH)/2;
     self.label1.frame = CGRectMake(labX, lab1Y, labW, labH);
     self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
+    self.label1.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
 
     float lab2Y = lab1Y+labH;
     self.label2.frame = CGRectMake(labX, lab2Y, labW, labH);
     self.label2.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
+    self.label2.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
     
     float lab3Y = lab2Y+labH;
     self.label3.frame = CGRectMake(labX, lab3Y, labW, labH);
     self.label3.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
+    self.label3.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
 }
 
 -(void)setupCellContentWith:(id)model{

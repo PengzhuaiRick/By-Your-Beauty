@@ -82,7 +82,7 @@
     self.myTableView.dataSource =self;
     self.myTableView.layer.masksToBounds = YES;
     self.myTableView.layer.cornerRadius = 5;
-    self.myTableView.scrollEnabled=NO;
+   // self.myTableView.scrollEnabled=NO;
     if (KMainScreenHeight<568) {
         self.myTableView.scrollEnabled=YES;
     }
@@ -122,8 +122,8 @@
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    //return _modelArr.count+2;
-    return 3;
+    return _modelArr.count+2;
+    //return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -131,7 +131,7 @@
     if (indexPath.row == 0){
         cellH =topCellH;
     }
-    else if (indexPath.row == indexPath.row+1)//最后一个Cell
+    else if (indexPath.row == _modelArr.count+1)//最后一个Cell
          cellH =bottomCellH;
     else
          cellH = midCellH;

@@ -129,17 +129,19 @@
        // cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
         cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, tableView.frame.size.height/2) reuseIdentifier:cellName];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (type==2) {
+            cell.handleBtn.tag = indexPath.row+10;
+            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+             subscribeNext:^(UIButton* x) {
+                 [self.delegate mainMidViewDelegataButton:self.dataArray[x.tag-10]];
+             }];
+        }
+
     }
     [cell setupCellContent:_dataArray[indexPath.row] andType:type];
     
-    if (type==2) {
-        cell.handleBtn.tag = indexPath.row+10;
-        [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-         subscribeNext:^(UIButton* x) {
-             [self.delegate mainMidViewDelegataButton:self.dataArray[x.tag-10]];
-        }];
-    }
-    return cell;
+       return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -158,6 +160,7 @@
     type=type1;
     if (data.count>0) {
         [_noDataView removeFromSuperview];
+        _noDataView=nil;
         _midTableview.hidden = NO;
         _dataArray = data;
         [_midTableview reloadData];

@@ -70,7 +70,7 @@
          self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@" " style:UIBarButtonItemStylePlain target:self action:nil];
          UIStoryboard* stroy = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
          UNIMyPojectList* list = [stroy instantiateViewControllerWithIdentifier:@"UNIMyPojectList"];
-         list.projectId = self.model.projectId;
+         list.projectIdArr = mid.myData;
          list.delegate = self;
          [self.navigationController pushViewController:list animated:YES];
      }];
@@ -90,10 +90,10 @@
     appointBotton = botton;
     
     //检测是否有 预约时间点 存在，选择了预约时间点 才能进行 确定预约 否则预约按钮不可点击
-//    [RACObserve(appointTop, selectTime)
-//    subscribeNext:^(NSString* x) {
-//        botton.sureBtn.enabled =x.length>0;
-//    }];
+    [RACObserve(appointTop, selectTime)
+    subscribeNext:^(NSString* x) {
+        botton.sureBtn.enabled =x.length>0;
+    }];
         [[botton.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
          [LLARingSpinnerView RingSpinnerViewStart];
@@ -120,9 +120,21 @@
                      return ;
                  }
                  if (order) {
-                     [YIToast showText:@"预约成功"];
-                     [NSThread sleepForTimeInterval:1];
-                     [self locationNotificationTask:order];
+                     //[YIToast showText:@"预约成功"];
+#ifdef IS_IOS9_OR_LATER
+                     UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"预约成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                         [self locationNotificationTask:order];
+                     }];
+                     [alertController addAction:cancelAction];
+                     [self presentViewController:alertController animated:YES completion:nil];
+#else
+                     [UIAlertView showWithTitle:@"用户信息" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                         [self locationNotificationTask:order];
+                     }];
+#endif
+                    // [NSThread sleepForTimeInterval:1];
+                    // [self locationNotificationTask:order];
                  }else
                      [YIToast showText:@"预约失败"];
              };

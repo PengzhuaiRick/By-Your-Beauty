@@ -138,18 +138,25 @@
                 [self.myTableview.header endRefreshing];
                 [self.myTableview.footer endRefreshing];
                 if (err==nil) {
+                    if (self->pageNum == 0)//下拉刷新
+                        [self.myData removeAllObjects];
+                    
+                    if (myProjectArr.count<20)
+                        self.myTableview.footer.hidden = YES;
+                    else
+                        self.myTableview.footer.hidden = NO;
+                    
                     if (myProjectArr.count>0){
-                        if (myProjectArr.count<20)
-                            self.myTableview.footer.hidden = YES;
-                        else
-                             self.myTableview.footer.hidden = NO;
-                        if (self->pageNum == 0)//下拉刷新
-                            [self.myData removeAllObjects];
-                        
-                        for (UNIMyProjectModel* model in myProjectArr) {
-                            if (model.projectId != self.projectId)
-                                [self.myData addObject:model];
+                        NSMutableArray* data = [NSMutableArray arrayWithArray:myProjectArr];
+                        NSMutableArray* data1 = [NSMutableArray arrayWithArray:myProjectArr];
+                        for (UNIMyProjectModel* info in self.projectIdArr) {
+                            for (UNIMyProjectModel* model in data) {
+                                if (model.projectId == info.projectId)
+                                    [data1 removeObject:model];
+                            }
                         }
+                        [self.myData addObjectsFromArray:data1];
+                        
                        //[self.myData addObjectsFromArray:myProjectArr];
                         [self modificationUI];
                     }

@@ -29,7 +29,7 @@
 
     self.label1.frame = CGRectMake(labX, imgY, labW, labH);
     self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
+    self.label1.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
     
     float mapY = imgY+imgH+8;
     float mapW = cellW - imgX*2;

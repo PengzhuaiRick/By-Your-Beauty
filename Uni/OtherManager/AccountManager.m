@@ -72,12 +72,20 @@
     
     return localLoginName;
 }
++(NSString*)localLoginName{
+    NSString *localLoginName = [[[self class] shared] localLoginName];
+    return localLoginName;
+}
 
 #pragma mark 设置localLoginName方法
 -(void)setLocalLoginName:(NSString *)localLoginName
 {
     if (!localLoginName)localLoginName=@"";
     [self syncSetObject:localLoginName forKey:userNameDefaultKey];
+}
+
++(void)setLocalLoginName:(NSString *)localLoginName{
+     [[[self class] shared] setLocalLoginName:localLoginName];
 }
 
 #pragma mark 获取token的静态方法

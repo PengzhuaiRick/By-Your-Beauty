@@ -92,8 +92,14 @@
 }
 
 -(void)startReflashTableView:(NSArray*)arr{
+    NSArray* array =[arr sortedArrayUsingComparator:^NSComparisonResult(UNIMyRewardModel* obj1, UNIMyRewardModel* obj2) {
+        if (obj1.rewardNum > obj2.rewardNum)
+            return NSOrderedDescending;
+        else
+            return NSOrderedAscending;
+    }];
     [self.dataArray removeAllObjects];
-    [self.dataArray addObjectsFromArray:arr];
+    [self.dataArray addObjectsFromArray:array];
     [self.midTableview reloadData];
 }
 

@@ -36,7 +36,7 @@
     float labW = self.frame.size.width - labX;
     float labY = (cellH - labH)/2;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*17/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*17/320];
     lab.lineBreakMode = 0;
     lab.numberOfLines = 0 ;
     [self addSubview:lab];

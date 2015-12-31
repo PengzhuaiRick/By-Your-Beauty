@@ -39,21 +39,21 @@
     float lab1Y = size.height/2 - labH;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor colorWithHexString:@"ee4c7d"];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [self addSubview:lab1];
     self.mainLab = lab1;
     
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
-    lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [self addSubview:lab2];
     self.subLab = lab2;
     
 }
 - (void)awakeFromNib {
     self.mainLab.textColor = [UIColor colorWithHexString:@"ee4c7d"];
-    self.mainLab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
-    self.subLab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    self.mainLab.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    self.subLab.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     self.mainImage.contentMode = UIViewContentModeScaleAspectFit;
    }
 
@@ -114,7 +114,7 @@
         self.subLab.text = [NSString stringWithFormat:@"剩余次数         %i",model.num];
         [self.handleBtn setTitle:@"立即\n预约" forState:UIControlStateNormal];
         [self.handleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        self.handleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.035];
+        self.handleBtn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*0.035];
         self.handleBtn.titleLabel.numberOfLines = 0;
         self.handleBtn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self.handleBtn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];

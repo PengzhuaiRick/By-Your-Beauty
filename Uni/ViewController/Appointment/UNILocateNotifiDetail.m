@@ -101,7 +101,7 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
 
-    return 3;
+    return self.modelArr.count+2;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -109,7 +109,7 @@
     if (indexPath.row == 0){
         cellH =topCellH;
     }
-    else if (indexPath.row == indexPath.row+1)//最后一个Cell
+    else if (indexPath.row == self.modelArr.count+1)//最后一个Cell
         cellH =bottomCellH;
     else
         cellH = midCellH;

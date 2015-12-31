@@ -11,7 +11,7 @@
 #import "UNICardInfoRequest.h"
 #import <MJRefresh/MJRefresh.h>
 #import "UNIAppointDetail.h"
-
+#import "AccountManager.h"
 @interface UNICardInfoController ()<UITableViewDataSource,UITableViewDelegate>{
     int pageNum;
     UIView* topView;
@@ -36,8 +36,26 @@
 -(void)setupNavigation{
     self.title = @"使用会员卡详情";
     self.view .backgroundColor= [UIColor colorWithHexString: kMainBackGroundColor];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"card_bar_user"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemAction:)];
+    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
+
+-(void)rightBarButtonItemAction:(UIBarButtonItem*)item{
+    NSString* msg = [NSString stringWithFormat:@"用户账号: %@",[AccountManager localLoginName]];
+#ifdef IS_IOS9_OR_LATER
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"用户信息" message:msg preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+#else
+    [UIAlertView showWithTitle:@"用户信息" message:msg cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    }];
+#endif
+
+}
+
 #pragma mark 开始请求准时奖励信息
 -(void)startRequestInTimeInfo{
     UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
