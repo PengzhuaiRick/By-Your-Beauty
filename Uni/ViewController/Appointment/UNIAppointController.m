@@ -39,9 +39,6 @@
         self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, 568);
     else
         self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
-    
-    
-
 }
 
 #pragma mark 加载顶部Scroller
@@ -96,50 +93,54 @@
     }];
         [[botton.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-         [LLARingSpinnerView RingSpinnerViewStart];
-         UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
-         NSMutableArray* arr = [NSMutableArray array];
-          NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
-         int num = self->appointBotton.nunField.text.intValue;
-         for (UNIMyProjectModel* model in self->appontMid.myData) {
-            
-             NSDictionary* dic1 = @{@"projectId":@(model.projectId),
-                                    @"date":date,
-                                    @"costTime":@(model.costTime),
-                                    @"num":@(num)
-                                    };
-              [arr addObject:dic1];
-         }
-         [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
-                       params:@{@"data":arr}];
-         dispatch_async(dispatch_get_main_queue(), ^{
-             [LLARingSpinnerView RingSpinnerViewStop];
-             req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
-                 if (err) {
-                     [YIToast showText:NETWORKINGPEOBLEM];
-                     return ;
-                 }
-                 if (order) {
-                     //[YIToast showText:@"预约成功"];
+//         [LLARingSpinnerView RingSpinnerViewStart];
+//         UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
+//         NSMutableArray* arr = [NSMutableArray array];
+//          NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
+//         int num = self->appointBotton.nunField.text.intValue;
+//         for (UNIMyProjectModel* model in self->appontMid.myData) {
+//            
+//             NSDictionary* dic1 = @{@"projectId":@(model.projectId),
+//                                    @"date":date,
+//                                    @"costTime":@(model.costTime),
+//                                    @"num":@(num)
+//                                    };
+//              [arr addObject:dic1];
+//         }
+//         [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
+//                       params:@{@"data":arr}];
+//         dispatch_async(dispatch_get_main_queue(), ^{
+//             [LLARingSpinnerView RingSpinnerViewStop];
+//             req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
+//                 if (err) {
+//                     [YIToast showText:NETWORKINGPEOBLEM];
+//                     return ;
+//                 }
+//                 if (order) {
+//                     //[YIToast showText:@"预约成功"];
 #ifdef IS_IOS9_OR_LATER
                      UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"预约成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
                      UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                         [self locationNotificationTask:order];
+                         [self locationNotificationTask:nil];
+                         // [self locationNotificationTask:order];
                      }];
                      [alertController addAction:cancelAction];
                      [self presentViewController:alertController animated:YES completion:nil];
 #else
                      [UIAlertView showWithTitle:@"用户信息" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                         [self locationNotificationTask:order];
+                         [self locationNotificationTask:nil];
+                         // [self locationNotificationTask:order];
                      }];
 #endif
-                    // [NSThread sleepForTimeInterval:1];
-                    // [self locationNotificationTask:order];
-                 }else
-                     [YIToast showText:@"预约失败"];
-             };
-
-         });
+//                    // [NSThread sleepForTimeInterval:1];
+//                    // [self locationNotificationTask:order];
+//                 }else
+//                     [YIToast showText:@"预约失败"];
+//             };
+//
+//         });
+         
+        
              }];
     
     //加号
@@ -162,9 +163,9 @@
      }];
     
     // 人数 每次修改都会调用
-//    [RACObserve(appointTop, member)subscribeNext:^(id x) {
-//        botton.nunField.text = [NSString stringWithFormat:@"%d",self->appointTop.member];
-//    }];
+    [RACObserve(appointTop, member)subscribeNext:^(id x) {
+        botton.nunField.text = [NSString stringWithFormat:@"%d",self->appointTop.member];
+    }];
     
     //检测键盘输入人数 是否数字并判断是否超过最大值
     [botton.nunField.rac_textSignal subscribeNext:^(NSString* value) {
@@ -181,7 +182,8 @@
             [YIToast showText:@"已到达可预约最大人数"];
         }else if(num<1)
             num = 1;
-        botton.nunField.text = [NSString stringWithFormat:@"%d",num];
+        self->appointTop.member = num;
+       // botton.nunField.text = [NSString stringWithFormat:@"%d",num];
     }];
 }
 
@@ -189,16 +191,31 @@
 -(void)locationNotificationTask:(NSString*)order{
 
    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-
-//    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
+    
+//    NSArray* array = [self->appointTop.selectTime componentsSeparatedByString:@":"];
 //    int seleZhong = [array[0] intValue];
-//    NSString* sele = [NSString stringWithFormat:@"%d-%@ %d:%@:00",appointTop.selectYear,appointTop.selectDay,--seleZhong,array[1]];
+//    NSString* sele = [NSString stringWithFormat:@"%@ %d:%@:00",self->appointTop.selectDay,--seleZhong,array[1]];
 //    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 //    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-  //  NSDate* strDate = [dateFormatter dateFromString:sele];
+//    NSDate* strDate = [dateFormatter dateFromString:sele];
+//    
+//    NSTimeZone *zone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
+//    NSInteger interval = [zone secondsFromGMTForDate: strDate];
+//    NSDate *localeDate = [strDate  dateByAddingTimeInterval: interval];
+//    localNotification.fireDate = localeDate;
+//    NSLog(@"strDate.description %@",localeDate);
+
+    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
+    int seleZhong = [array[0] intValue];
+    NSString* sele = [NSString stringWithFormat:@"%@ %d:%@:00",appointTop.selectDay,--seleZhong,array[1]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    NSDate* strDate = [dateFormatter dateFromString:sele];
     //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
-    //localNotification.fireDate =strDate;
-    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    localNotification.fireDate =strDate;
+    
+    //localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     //设置通知的内容
@@ -208,7 +225,8 @@
     //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-    NSDictionary *infoDic = @{@"OrderId":order};
+   // NSDictionary *infoDic = @{@"OrderId":order};
+     NSDictionary *infoDic = @{@"OrderId":@""};
     localNotification.userInfo = infoDic;
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];

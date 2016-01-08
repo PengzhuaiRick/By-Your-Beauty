@@ -43,7 +43,8 @@
     //[self startRequestInfo];
     
    
-  [self startRequestInfoPage];
+  //[self startRequestInfoPage];
+    [self.tableView.header beginRefreshing];
 }
 
 -(void)setupNavigation{

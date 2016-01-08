@@ -13,7 +13,7 @@
 @implementation MainMidMoveBackTransition
 
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext{
-    return 1.f;
+    return 0.8f;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext{

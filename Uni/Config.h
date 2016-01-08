@@ -124,4 +124,7 @@ MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALWe8nqQhixVAHLgzu2oRJy6JNAtXTyz
 #define WECHATAPPID @"wx2c500aabc49b7269"
 #define WECHATAPPSecret @"282594f4d5ec2be53e9d74d40f7d5d6a"
 
+
+// 百度统计
+#define BAIDUSTATAPPKEY @"5b42736457"
 #endif /* Config_h */

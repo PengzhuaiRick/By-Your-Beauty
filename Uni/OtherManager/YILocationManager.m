@@ -21,10 +21,27 @@
     static YILocationManager *sSharedInstance;
     dispatch_once(&onceToken, ^{
         sSharedInstance = [[YILocationManager alloc] init];
+        
     });
     return sSharedInstance;
 }
+-(id)init{
+    self = [super init];
+    if (self) {
+        _locationManager =[[CLLocationManager alloc]init];
+        _locationManager.delegate=self;
+//        _locationManager.pausesLocationUpdatesAutomatically=NO;//更新是否自动暂停
+        _locationManager.distanceFilter = kCLDistanceFilterNone; // 任何运动均接受，任何运动将会触发定位更新
+        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;// // 设置距离过滤器，超过次距离就更新一次位置
+        if(IS_IOS8_OR_LATER)
+             //[_locationManager requestWhenInUseAuthorization];
+          [_locationManager requestAlwaysAuthorization];
+        if (IS_IOS9_OR_LATER)
+            _locationManager.allowsBackgroundLocationUpdates=YES;
 
+    }
+    return self;
+}
 
 +(void)setUserCurrentCity:(NSString*)city{
     NSUserDefaults* userdef= [NSUserDefaults standardUserDefaults];
@@ -46,19 +63,21 @@
 -(void)startUpdateUserLoaction{
     if ([CLLocationManager locationServicesEnabled]) {
        // Ifstop=0;
-        if(!_locationManager)
-        _locationManager =[[CLLocationManager alloc]init];
-        _locationManager.delegate=self;
-        //_locationManager.pausesLocationUpdatesAutomatically=NO;//更新是否自动暂停
-        _locationManager.distanceFilter = kCLDistanceFilterNone; // 任何运动均接受，任何运动将会触发定位更新
-        _locationManager.desiredAccuracy = kCLLocationAccuracyBest;// // 设置距离过滤器，超过次距离就更新一次位置
-        if(IS_IOS8_OR_LATER)
-             [_locationManager requestAlwaysAuthorization];
-        if (IS_IOS9_OR_LATER)
-        _locationManager.allowsBackgroundLocationUpdates=YES;
+        if(!_locationManager){
+            _locationManager =[[CLLocationManager alloc]init];
+            _locationManager.delegate=self;
+            //_locationManager.pausesLocationUpdatesAutomatically=NO;//更新是否自动暂停
+            _locationManager.distanceFilter = kCLDistanceFilterNone; // 任何运动均接受，任何运动将会触发定位更新
+            _locationManager.desiredAccuracy = kCLLocationAccuracyBest;// // 设置距离过滤器，超过次距离就更新一次位置
+            if(IS_IOS8_OR_LATER)
+                 //[_locationManager requestWhenInUseAuthorization];
+                [_locationManager requestAlwaysAuthorization];
+            if (IS_IOS9_OR_LATER)
+                _locationManager.allowsBackgroundLocationUpdates=YES;
+        }
         
         [_locationManager startUpdatingLocation];
-        //[_locationManager startMonitoringSignificantLocationChanges];
+       // [_locationManager startMonitoringSignificantLocationChanges];
         
     }else{
         #ifdef IS_IOS8_OR_LATER
@@ -131,12 +150,12 @@
 //            self->userLocInfo.longitude =[NSString stringWithFormat:@"%f",loca.coordinate.longitude] ;
 //            self->userLocInfo.altitude =[NSString stringWithFormat:@"%f",loca.altitude] ;
             NSLog(@"latitude  %f,%f",loca.coordinate.latitude,loca.coordinate.longitude);
-            NSString* stri = [NSString stringWithFormat:@"latitude  %f,%f",loca.coordinate.latitude,loca.coordinate.longitude];
+          //  NSString* stri = [NSString stringWithFormat:@"latitude  %f,%f",loca.coordinate.latitude,loca.coordinate.longitude];
             UILocalNotification *localNotification = [[UILocalNotification alloc] init];
             if (localNotification == nil) {
                 return;
             }
-            [YIToast showText:stri];
+            //[YIToast showText:stri];
             if (self.getUserLocBlock)
                 self.getUserLocBlock(loca.coordinate.latitude,loca.coordinate.longitude);
             

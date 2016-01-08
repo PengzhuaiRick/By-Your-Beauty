@@ -12,7 +12,7 @@
 #import "MainBottomController.h"
 @implementation MainMoveTransition
 - (NSTimeInterval)transitionDuration:(id <UIViewControllerContextTransitioning>)transitionContext{
-    return 1.f;
+    return 0.8f;
 }
 
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext{
@@ -38,8 +38,8 @@
    
        
     } completion:^(BOOL finished) {
-       // from.view.transform = CGAffineTransformIdentity;
-        //mv.midView.frame = re;
+        from.view.transform = CGAffineTransformIdentity;
+//        mv.midView.frame = re;
         //告诉系统动画结束
         [transitionContext completeTransition:!transitionContext.transitionWasCancelled];
     }];

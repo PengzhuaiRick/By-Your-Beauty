@@ -144,25 +144,38 @@
     UNIMyAppointInfoModel* model=nil;
     if (indexPath.row == 0) {
          model = self.modelArr.lastObject;
-        UNIAppointDetall1Cell* cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetall1Cell" owner:self options:nil].lastObject;
+        static NSString* name1 = @"UNIAppointDetall1Cell";
+        UNIAppointDetall1Cell* cell = [tableView dequeueReusableCellWithIdentifier:name1];
+        if (!cell){
+            cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetall1Cell" owner:self options:nil].lastObject;
+            cell.selectionStyle =UITableViewCellSelectionStyleNone;}
+        
         [cell setupCellContentWith:@[@(self.orderState),self.order,model.createTime,model.lastModifiedDate]];
-        cell.selectionStyle =UITableViewCellSelectionStyleNone;
+        
         return cell;
     }else if (indexPath.row == self.modelArr.count+1)//最后一个Cell
     {
         model = self.modelArr.lastObject;
-        UNIAppointDetail2Cell* cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetail2Cell" owner:self options:nil].lastObject;
+        static NSString* name3 = @"UNIAppointDetail2Cell";
+        UNIAppointDetail2Cell* cell = [tableView dequeueReusableCellWithIdentifier:name3];
+        if (!cell) {
+            cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetail2Cell" owner:self options:nil].lastObject;
+            cell.selectionStyle =UITableViewCellSelectionStyleNone;
+        }
+        
         [cell setupCellContentWith:model.status];
-         cell.selectionStyle =UITableViewCellSelectionStyleNone;
+        
         return cell;
     }else{
-        static NSString* name = @"cell";
-        UNIAppointDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-        if (!cell)
+        static NSString* name2 = @"UNIAppointDetailCell";
+        UNIAppointDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:name2];
+        if (!cell){
             cell=[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetailCell" owner:self options:nil].lastObject;
+            cell.selectionStyle =UITableViewCellSelectionStyleNone;
+        }
         model =self.modelArr.lastObject;
         [cell setupCellContentWith:model];
-         cell.selectionStyle =UITableViewCellSelectionStyleNone;
+        
         return cell;
     }
     

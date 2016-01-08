@@ -37,7 +37,10 @@
                                                                            }];
     request.regetFreeTime=^(NSArray* array,NSString* tips,NSError* err){
         //筛选已经过去了的时间点
-        NSString* title = [[NSDate date].description substringToIndex:10];
+        NSDateFormatter* dateF = [[NSDateFormatter alloc]init];
+        [dateF setDateFormat:@"yyyy-M-d"];
+        NSString  * title = [dateF stringFromDate:[NSDate date]];
+        
         NSMutableArray* data = [NSMutableArray array];
         if ([title isEqualToString: string]) {
             NSString* title1 = [[NSDate date].description substringWithRange:NSMakeRange(11, 5)];

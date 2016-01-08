@@ -43,7 +43,7 @@
 - (void)intoSystem
 {
     AppDelegate* app =  [UIApplication sharedApplication].delegate;
-    [app setupViewController];
+    [app judgeFirstTime];
 }
 /*
 #pragma mark - Navigation

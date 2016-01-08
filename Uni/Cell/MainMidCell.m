@@ -7,7 +7,7 @@
 //
 
 #import "MainMidCell.h"
-
+#import <CoreText/CoreText.h>
 @implementation MainMidCell
 
 
@@ -85,7 +85,13 @@
                           placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
         self.mainLab.text = model.projectName;
         NSString* time = [model.time substringToIndex:model.time.length-3];
-        self.subLab.text = time;
+        
+        NSMutableAttributedString *attributedString =[[NSMutableAttributedString alloc] initWithString:time];
+        long number = KMainScreenWidth* 2/320;
+        CFNumberRef num = CFNumberCreate(kCFAllocatorDefault,kCFNumberSInt8Type,&number);
+        [attributedString addAttribute:(NSString*)kCTKernAttributeName value:(__bridge id)num range:NSMakeRange(0,[attributedString length])];
+        self.subLab.attributedText = attributedString;
+
         NSString* btnTitle = @"";
         switch (model.status) {
             case 0:
@@ -103,7 +109,7 @@
         }
         [self.handleBtn setTitle:btnTitle forState:UIControlStateNormal];
         [self.handleBtn setTitleColor:[UIColor colorWithHexString:kMainTitleColor] forState:UIControlStateNormal];
-        self.handleBtn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.036];
+        self.handleBtn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*0.036];
         [self.handleBtn setBackgroundImage:[UIImage imageNamed:@"main_btn_cell1"] forState:UIControlStateNormal];
     }
     else if (type == 2){
@@ -111,8 +117,10 @@
         [self.mainImage sd_setImageWithURL:[NSURL URLWithString:model.logoUrl]
                           placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
         self.mainLab.text = model.projectName;
-        self.subLab.text = [NSString stringWithFormat:@"剩余次数         %i",model.num];
-        [self.handleBtn setTitle:@"立即\n预约" forState:UIControlStateNormal];
+        
+        self.subLab.text = [NSString stringWithFormat:@"剩余次数             %i次",model.num];
+        
+        [self.handleBtn setTitle:@"马上\n预约" forState:UIControlStateNormal];
         [self.handleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.handleBtn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*0.035];
         self.handleBtn.titleLabel.numberOfLines = 0;

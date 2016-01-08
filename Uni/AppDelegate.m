@@ -23,8 +23,11 @@
 //#import "WXApi.h"//微信
 #import "WXApiManager.h"
 
+#import "BaiduMobStat.h"//百度统计
+
 @interface AppDelegate (){
     UIImageView* imag;
+    __block UIBackgroundTaskIdentifier background_task;
 }
 
 @end
@@ -54,6 +57,8 @@
     [self setupNavigationStyle];
     //[NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     [self setupWeChat];
+    
+    //[self startBaiduMobStat];//百度统计
     return YES;
 
 }
@@ -121,9 +126,6 @@
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
     UNIContainController* tc = [st instantiateViewControllerWithIdentifier:@"UNIContainController"];
-    //MainViewController* tc = [st instantiateViewControllerWithIdentifier:@"MainViewController"];
-   // UINavigationController* NAV = [[UINavigationController alloc]initWithRootViewController:tc];
-   // UINavigationController* NAV1 = [[UINavigationController alloc]initWithRootViewController:vc];
     vc.tv = tc;
     self.window.rootViewController = vc ;
     self.window.backgroundColor = [UIColor whiteColor];
@@ -280,8 +282,6 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
 //后台
 - (void)applicationDidEnterBackground:(UIApplication *)application {
@@ -296,10 +296,9 @@
         
         if ([[UIDevice currentDevice] isMultitaskingSupported])
         { //Check if device supports mulitasking
-            
-//             BOOL backgroundAccepted = [[UIApplication sharedApplication] setKeepAliveTimeout:600 handler:^{
+    
                  [self backgroundHandler];
-//             }];
+
             
         }
     }
@@ -308,29 +307,22 @@
 
 #pragma mark 申请后台任务
 -(void)backgroundHandler{
-    UIApplication *application = [UIApplication
-                                  sharedApplication];
+    UIApplication *application = [UIApplication sharedApplication];
     
-    __block UIBackgroundTaskIdentifier background_task;
-    background_task = [application beginBackgroundTaskWithExpirationHandler: ^{
+   // __block UIBackgroundTaskIdentifier background_task;
+    background_task = [application beginBackgroundTaskWithExpirationHandler: ^(void){
         /*
          当应用程序后台停留的时间为0时，会执行下面的操作（应用程序后台停留的时间为600s，可以通过backgroundTimeRemaining查看）
          */
         [self backgroundHandler];
-        [application endBackgroundTask: background_task];
-        background_task = UIBackgroundTaskInvalid;
-        //[self backgroundHandler];
+        [application endBackgroundTask: self->background_task];
+        self->background_task = UIBackgroundTaskInvalid;
+       // [self backgroundHandler];
     }];
     
-    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        //[[YILocationManager sharedInstance] startUpdateUserLoaction];
-        [self checkLocationNotification];
-        
+       [[YILocationManager sharedInstance] startUpdateUserLoaction];
+       // [self checkLocationNotification];
         NSLog(@"time remain:%f", application.backgroundTimeRemaining);
-
-    });
 
 }
 
@@ -338,19 +330,24 @@
     
     NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
     for (UILocalNotification* noti in notificaitons) {
-        NSLog(@"%@",noti.fireDate);
+        NSLog(@"checkLocationNotification %@",noti.fireDate);
         
-        NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:noti.fireDate];
+        NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:noti.fireDate];
+        
+        NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:mubiao];
+        float fen = timeBetween /60;
         //判断通知时间是否已经过去  
-        if (timeBetween > (90*60)) {
+        if (fen > 30) {
             [[UIApplication sharedApplication] cancelLocalNotification:noti];
             
             //到预约服务点前十五分钟 开始定位并且检查用户是否到店
-        }else if (timeBetween<(-45*60) && timeBetween <(-90*60)){
-            double shopX = [UNIShopManage getShopData].x.doubleValue;
-            double shopY = [UNIShopManage getShopData].y.doubleValue;
+        }else if (fen>=-15  &&  fen<30 ){
+            UNIShopManage* manage = [UNIShopManage getShopData];
+            double shopX = manage.x.doubleValue;
+            double shopY = manage.y.doubleValue;
              CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:shopX longitude:shopY];
             YILocationManager* manager = [YILocationManager sharedInstance];
+            
             manager.getUserLocBlock = ^(double x, double y){
                 
                 CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:x longitude:y];
@@ -363,8 +360,16 @@
                         model.setArriveShopBlock=^(int code, NSString* tips,NSError* er){
                             NSLog(@"用户到店 %@",tips);
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                [[YILocationManager sharedInstance] stopUpdatingLocation];
-                                [[UIApplication sharedApplication] cancelLocalNotification:noti];
+                                if (code == 0) {
+                                    [[YILocationManager sharedInstance] stopUpdatingLocation];
+                                    [[UIApplication sharedApplication] cancelLocalNotification:noti];
+                                    
+                                    //结束后台服务
+                                    UIApplication *application = [UIApplication sharedApplication];
+                                    [application endBackgroundTask: self->background_task];
+                                    self->background_task = UIBackgroundTaskInvalid;
+
+                                }
                             });
                         };
                         NSDateFormatter *formatter2 =[[NSDateFormatter alloc] init];
@@ -376,9 +381,12 @@
                     });
                     
                 }
+                else [[YILocationManager sharedInstance] stopUpdatingLocation];
             };
+            
             //开始定位
-             [manager startUpdateUserLoaction];
+            [manager startUpdateUserLoaction];
+            
         }
     }
 }
@@ -388,6 +396,9 @@
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
+    [application endBackgroundTask: background_task];
+    background_task = UIBackgroundTaskInvalid;
+
     [self checkLocationNotification];
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }
@@ -395,7 +406,7 @@
 //前台
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [application setApplicationIconBadgeNumber:0];
-    [application cancelAllLocalNotifications];
+   // [application cancelAllLocalNotifications];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
@@ -487,5 +498,16 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
         }];
     }
     return YES;
+}
+
+/**
+ *  初始化百度统计SDK
+ */
+- (void)startBaiduMobStat {
+    BaiduMobStat* statTracker = [BaiduMobStat defaultStat];
+    statTracker.shortAppVersion  = CURRENTVERSION;
+    statTracker.enableDebugOn = YES;
+    
+    [statTracker startWithAppId:BAIDUSTATAPPKEY];
 }
 @end
