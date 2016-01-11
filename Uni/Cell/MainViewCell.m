@@ -7,7 +7,8 @@
 //
 
 #import "MainViewCell.h"
-
+#import "UNIMyAppintModel.h"
+#import "UNIMyProjectModel.h"
 @implementation MainViewCell
 
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier{
@@ -18,12 +19,86 @@
     return self;
 }
 -(void)setupUI:(CGSize)size{
-    MainMidView* view= [[MainMidView alloc]initWithFrame:CGRectMake(0, 8, size.width, size.height-8) headerTitle:nil];
-    [self addSubview:view];
-    self.mainView = view;
-}
+    float imgX = KMainScreenWidth*20/320;
+    float imgY = size.height/3;
+    float imgWH =size.height/3;
+    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
+    img.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:img];
+    self.mainImage = img;
+    
+    float lab3WH = imgWH/2;
+
+    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, lab3WH, lab3WH)];
+    lab3.center = CGPointMake(imgWH, 0);
+    lab3.textColor = [UIColor whiteColor];
+    lab3.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
+    lab3.text = @"3";
+    lab3.textAlignment = NSTextAlignmentCenter;
+    lab3.layer.masksToBounds = YES;
+    lab3.layer.cornerRadius = lab3WH/2;
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*lab3WH/2/320];
+    [img addSubview:lab3];
+    self.numLab = lab3;
+    
+    float btnWH =KMainScreenWidth*60/374;
+    float btnY = (size.height - btnWH)/2;
+    float btnX = size.width - imgX - btnWH;
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
+    btn.titleLabel.numberOfLines = 0;
+    btn.titleLabel.lineBreakMode = 0;
+    [btn setTitle:@"马上\n预约" forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*16/320];
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = btnWH/2;
+    btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
+    btn.layer.borderWidth = 1;
+    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateNormal];
+    btn.hidden = YES;
+    [self addSubview:btn];
+    self.handleBtn =  btn;
+    
+    float labX = CGRectGetMaxX(img.frame)+20;
+    float labW = size.width - CGRectGetMaxX(img.frame)*2;
+    float labH = KMainScreenWidth* 20/320;
+    float lab1Y = size.height/2 - labH;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
+    lab1.textColor = [UIColor blackColor];
+    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    [self addSubview:lab1];
+    self.mainLab = lab1;
+    
+    float lab2Y = size.height/2;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab2.textColor =kMainGrayBackColor;
+    [self addSubview:lab2];
+    self.subLab = lab2;
+    
+
+   }
 -(void)setupCellWithData:(NSArray*)data type:(int)type{
-    [self.mainView startReloadData:data andType:type];
+   
+    if (type == 1) {
+         UNIMyAppintModel* info = data[0];
+         self.handleBtn.hidden = YES;
+        self.mainImage.image = [UIImage imageNamed:@"main_img_cell1"];
+        self.mainLab.text = info.projectName;
+        NSString* str = [info.time substringWithRange:NSMakeRange(0, info.time.length - 3)];
+        NSString* str1 = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
+        self.subLab .text = [NSString stringWithFormat:@"我已预约:%@",str1];
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    if (type == 2) {
+         UNIMyProjectModel* info = data[0];
+        self.handleBtn.hidden = NO;
+        self.mainImage.image = [UIImage imageNamed:@"main_img_cell2"];
+        self.mainLab.text = info.projectName;
+        self.subLab .text = [NSString stringWithFormat:@"剩余%d次",info.num];
+        self.accessoryType = UITableViewCellAccessoryNone;
+    }
+   
 }
 - (void)awakeFromNib {
     // Initialization code

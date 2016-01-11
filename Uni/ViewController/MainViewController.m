@@ -19,27 +19,12 @@
 #import "UIAlertView+Blocks.h"
 #import "MainViewCell.h"
 
+#import "UNIMainProView.h"
+
 @interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate>{
-  //  __weak IBOutlet UIScrollView *myScroller;
     UITableView* myTable;
     float cellHight;
-    UIImageView* topView;
-    UILabel* shopNameLab;
-    UILabel* shopAddressLab;
-    UIImageView* VIPImage;
-    UIImageView* shopLogo;
-    
     CGRect topRe;
-    CGRect midRe;
-    CGRect buttomRe;
-    
-    CGRect midTabRe;
-    CGRect buttonTabRe;
-    CGSize scrollSize;
-    UITapGestureRecognizer* midGesture;
-    UITapGestureRecognizer* buttomGesture;
-    
-    UIButton* alphaBtn;
 }
 @property(nonatomic,strong) NSArray* midData;
 @property(nonatomic,strong) NSArray* bottomData;
@@ -86,18 +71,15 @@
 -(void)setupNavigation{
     self.title = @"美丽由你";
     [self preferredStatusBarStyle];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kMainThemeColor];
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     UIBarButtonItem* bar = [[UIBarButtonItem alloc]init];
     bar.image = [UIImage imageNamed:@"main_btn_function"];
     bar.style = UIBarButtonItemStyleDone;
-    bar.tintColor = [UIColor whiteColor];
     bar.target = self;
     bar.action=@selector(navigationControllerLeftBarAction:);
     self.navigationItem.leftBarButtonItem = bar;
      self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
-//    UIBarButtonItem* right = [[UIBarButtonItem alloc]initWithTitle:@"客妆" style:0 target:self action:@selector(navigationControllerRightBarAction:)];
-//    self.navigationItem.rightBarButtonItem = right;
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -120,53 +102,172 @@
 #pragma mark 设置Scroller
 -(void)setupScroller{
     
-    float tabX = 10;
-    float tabY = 64+10;
-//    if (IOS_VERSION<9.0)
-        tabY = 7;
-    float tabW = KMainScreenWidth - tabX*2;
-    float tabH = KMainScreenHeight - tabX - tabY;
+    float tabX = 0;
+    float tabY = 64;
+    float tabW = KMainScreenWidth ;
+    float tabH = KMainScreenHeight - tabY;
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
     tabview.delegate = self;
     tabview.dataSource = self;
     tabview.backgroundColor = [UIColor clearColor];
-    tabview.separatorStyle = UITableViewCellSeparatorStyleNone;
     tabview.showsVerticalScrollIndicator=NO;
-    
     [self.view addSubview:tabview];
+    if (IOS_VERSION>8.0)
+        tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     myTable =tabview;
     
-   // int bj = 8;   //边界
-    int bj = 0;
-    UIImage* imag =[UIImage imageNamed:@"main_img_top"];
-    float imgH = imag.size.height*tabW/imag.size.width;
-    topRe =CGRectMake(bj,bj,tabW,imgH);
+    float imgH = tabH*0.6;
+    topRe =CGRectMake(0,0,tabW,imgH);
     UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
-    topImg.image = imag;
-    tabview.tableHeaderView = topImg;
+    topImg.image = [UIImage imageNamed:@"main_img_top"];
     topImg.userInteractionEnabled = YES;
-    topView = topImg;
+    tabview.tableHeaderView = topImg;
+    
+    [self setupTabViewHeader:topImg];
+
     
     if (KMainScreenHeight<568)
-        cellHight =(568-64-tabX*2-topView.frame.size.height)/2;
+        cellHight =(568-64-imgH)/2;
     else
-        cellHight =(KMainScreenHeight-64-tabX*2-topView.frame.size.height)/2;
+        cellHight =(KMainScreenHeight-64-imgH)/2;
     
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
          [self startRequestReward];//请求约满信息
         [self startRequestAppointInfo];//请求我已预约
         //[self startRequestProjectInfo];//请求我的项目
     }];
+}
+
+#pragma mark 创建  tableHeaderView
+-(void)setupTabViewHeader:(UIImageView*)imageView{
+    float imgW = imageView.frame.size.width;
+    float imgH = imageView.frame.size.height;
     
-     [self setupTopImageSubView];
+    float proX =KMainScreenWidth*12/320;
+    float proW = imgW/2;
+    float proY =KMainScreenWidth*20/320;
+    UNIMainProView* proView = [[UNIMainProView alloc]initWithFrame:CGRectMake(proX, proY, proW, proW)];
+    proView.backgroundColor =[UIColor clearColor];
+    proView.shapeColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.1];
+    proView.progessColor = [UIColor colorWithHexString:kMainThemeColor];
+    [proView setupProgreaa:9 and:10];
+    [imageView addSubview:proView];
+    
+    float lab1W = proW;
+    float lab1H = 25;
+    float lab1Y = CGRectGetMaxY(proView.frame)-lab1H/2;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(proX, lab1Y, lab1W, lab1H)];
+    lab1.text = @"9/10";
+    lab1.textColor = [UIColor whiteColor];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab1.textAlignment = NSTextAlignmentCenter;
+    [imageView addSubview:lab1];
+    
+    
+    float lab2W = imgH/2-8;
+    float lab2H = 25;
+    float lab2Y =KMainScreenWidth*50/320;
+    float lab2X = imgW/2;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y, lab2W, lab2H)];
+    lab2.text = @"再预约次数";
+    lab2.textColor = [UIColor whiteColor];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab2.textAlignment = NSTextAlignmentCenter;
+    [imageView addSubview:lab2];
+    
+    float lab3H =45;
+    float lab3Y =CGRectGetMaxY(lab2.frame);
+    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab3Y, lab2W, lab3H)];
+    lab3.text = @"1";
+    lab3.textColor = [UIColor whiteColor];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*35/320];
+    lab3.textAlignment = NSTextAlignmentCenter;
+    [imageView addSubview:lab3];
+    
+    float lab4H = 25;
+    float lab4Y =CGRectGetMaxY(lab3.frame);
+    UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab4Y, lab2W, lab4H)];
+    lab4.text = @"可获得一支";
+    lab4.textColor = [UIColor whiteColor];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab4.textAlignment = NSTextAlignmentCenter;
+    [imageView addSubview:lab4];
+    
+    float lab5H = 25;
+    float lab5Y =CGRectGetMaxY(lab4.frame);
+    UILabel* lab5 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab5Y, lab2W, lab5H)];
+    lab5.text = @"300ml ALBION 爽肤精萃液";
+    lab5.textColor = [UIColor whiteColor];
+    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab5.textAlignment = NSTextAlignmentCenter;
+    [imageView addSubview:lab5];
+    
+    float layX = 10;
+    float layY = imgH/4*3;
+    float layW = imgW - layX*2;
+    CALayer* lay =[CALayer layer];
+    lay.frame = CGRectMake(layX, layY, layW, 0.5);
+    lay.backgroundColor = [UIColor whiteColor].CGColor;
+    [imageView.layer addSublayer:lay];
+
+    
+    UIImage* iage = [UIImage imageNamed:@"main_img_kezhuang"];
+    float imgVX = KMainScreenWidth*20/320;
+    float imgVH = imgH/4/2;
+    float imgVW = iage.size.width * imgVH / iage.size.height;
+    float imgVY = imgH/4*3+ ((imgH/4 - imgVH)/2);
+    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgVX, imgVY, imgVW, imgVH)];
+    img.image = iage;
+    [imageView addSubview:img];
+    
+    float btnWH =  KMainScreenWidth*60/374;
+    float btnY =imgH/4*3+(imgH/4 - btnWH)/2;
+    float btnX = imgW - btnWH - imgVX;
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
+    btn.titleLabel.numberOfLines = 0;
+    btn.titleLabel.lineBreakMode = 0;
+    [btn setTitle:@"马上\n购买" forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*16/320];
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = btnWH/2;
+    btn.layer.borderColor = [UIColor whiteColor].CGColor;
+    btn.layer.borderWidth = 1;
+    [imageView addSubview:btn];
+    
+    
+    float lab6H = 20;
+    float lab6Y =imgH/4*3+(imgH/4/2-lab6H);
+    float lab6X =CGRectGetMaxX(img.frame)+8;
+    float lab6W = imgW - lab6X - btnWH - proX*3;
+    UILabel* lab6 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H)];
+    lab6.text = @"ALBION清新莹润滋养护理（五次）";
+    lab6.textColor = [UIColor whiteColor];
+    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    [imageView addSubview:lab6];
+    
+    float lab7Y =CGRectGetMaxY(lab6.frame);
+    float lab7W = KMainScreenWidth*80/320;
+    UILabel* lab7 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab7Y, lab7W, lab6H)];
+    lab7.text = @"活动价";
+    lab7.textColor = [UIColor whiteColor];
+    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    [lab7 sizeToFit];
+    [imageView addSubview:lab7];
+    
+    float lab8Y =CGRectGetMaxY(lab6.frame);
+    float lab8W = KMainScreenWidth*100/320;
+    float lab8X = CGRectGetMaxX(lab7.frame);
+    UILabel* lab8 = [[UILabel alloc]initWithFrame:CGRectMake(lab8X, lab8Y, lab8W, lab6H)];
+    lab8.text = @"￥899";
+    lab8.textColor = [UIColor whiteColor];
+    lab8.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    [imageView addSubview:lab8];
+    
+    lab7.center = CGPointMake(lab7.center.x, lab8.center.y);
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     int cellNum = 2;
-//    if (self.midData.count>0)
-//        ++cellNum;
-//    if (self.bottomData.count>0)
-//         ++cellNum;
-    
     return cellNum;
 }
 
@@ -178,135 +279,17 @@
     MainViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
     if (!cell) {
         cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
-        cell.mainView.delegate=self;
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle =UITableViewCellSelectionStyleNone;
     }
     if (indexPath.row == 0) {
- 
             [cell setupCellWithData:_midData type:1];
-        
-//        else{
-//            [cell setupCellWithData:_bottomData type:2];
-//        }
+
     }
     if (indexPath.row == 1) {
          [cell setupCellWithData:_bottomData type:2];
     }
-    
-    
-//    UITableViewCell*cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
-//    if (!cell) {
-//        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"name"];
-//        
-//    }
-//    cell.backgroundColor = [UIColor clearColor];
-//    cell.selectionStyle =UITableViewCellSelectionStyleNone;
-//    
-//    if (indexPath.row == 0) {
-////        if (_midData){
-//                MainMidView* midview = [[MainMidView alloc]initWithFrame:
-//                                CGRectMake(0,5,  tableView.frame.size.width, cellHight-5) headerTitle:@"我已预约"];
-//                midview.delegate=self;
-//                [cell addSubview:midview];
-//                self.midView = midview;
-//                [self.midView startReloadData:_midData andType:1];
-////
-////        }
-////        else{
-////            if (_bottomData.count>0) {
-////                MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
-////                                           CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
-////                                                                headerTitle:@"我的项目"];
-////                bottomView.delegate = self;
-////                [cell addSubview:bottomView];
-////                self.buttomView = bottomView;
-////                [self.buttomView startReloadData:_bottomData andType:2];
-////            }
-////           
-////        }
-//        
-//    }
-//    if (indexPath.row == 1) {
-//        // if (_bottomData.count>0) {
-//             MainMidView* bottomView = [[MainMidView alloc]initWithFrame:
-//                                   CGRectMake(0,6,tableView.frame.size.width,cellHight-6)
-//                                                        headerTitle:@"我的项目"];
-//             bottomView.delegate = self;
-//             [cell addSubview:bottomView];
-//            self.buttomView = bottomView;
-//             [self.buttomView startReloadData:_bottomData andType:2];
-//       //  }
-//    }
     return cell;
-}
-
-#pragma mark 设置顶图的子视图
--(void)setupTopImageSubView{
-    
-    float imgW = topView.frame.size.width*0.16;
-    UIImageView* shopLog = [[UIImageView alloc]initWithFrame:CGRectMake(15, 15, imgW, imgW)];
-    shopLog.image = [UIImage imageNamed:@"main_img_shopLog"];
-    shopLog.contentMode = UIViewContentModeScaleAspectFit;
-    [topView addSubview:shopLog];
-    shopLogo = shopLog;
-    
-    
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(toCardinfoController)];
-//    [topView addGestureRecognizer:tap];
-    
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(shopLog.frame)+10,
-                                                            15, topView.frame.size.width*0.7, 20)];
-    lab.textColor = [UIColor colorWithRed:226/255.f green:52/255.f blue:105/255.f alpha:1];
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.041];
-    lab.userInteractionEnabled = YES;
-    [topView addSubview:lab];
-    shopNameLab = lab;
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(shopNameLabTapGesture:)];
-//    [shopNameLab addGestureRecognizer:tap];
-    
-    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(CGRectGetMaxX(shopLog.frame)+10,
-                                                            CGRectGetMaxY(lab.frame), 100, 15)];
-    lab2.textColor = [UIColor colorWithRed:226/255.f green:52/255.f blue:105/255.f alpha:1];
-    lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.03];
-    //lab2.text = @"体育东店";
-    [topView addSubview:lab2];
-    shopAddressLab = lab2;
-    
-    UIImageView* VIPimg = [[UIImageView alloc]initWithFrame:CGRectMake(CGRectGetMaxX(shopLog.frame)+10,
-                                                                   CGRectGetMaxY(lab2.frame)+3, 100, 15)];
-    VIPimg.image = [UIImage imageNamed:@"main_img_VIP"];
-    VIPimg.contentMode = UIViewContentModeScaleAspectFit;
-    [topView addSubview:VIPimg];
-    VIPImage = VIPimg;
-    
-    //点击透明按钮弹出 导航到店 和 致电商家 功能
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 0, topView.frame.size.width, topView.frame.size.height/2);
-    btn.backgroundColor = [UIColor clearColor];
-    [topView addSubview:btn];
-    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(id x) {
-         [self shopNameLabTapGesture:nil];
-     }];
-
-    
-    //点击到会员卡详情页面的透明按钮
-    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(0, topView.frame.size.height/2, topView.frame.size.width, topView.frame.size.height/2);
-    btn1.backgroundColor = [UIColor clearColor];
-    [topView addSubview:btn1];
-    alphaBtn = btn1;
-    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
-    subscribeNext:^(id x) {
-        [self toCardinfoController];
-    }];
-}
-#pragma mark 跳转到会员卡使用详情界面
--(void)toCardinfoController{
-    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController* vc = [main instantiateViewControllerWithIdentifier:@"UNICardInfoController"];
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark  mainMidView代理方法 点击 mainMidView 的Cell
@@ -333,11 +316,7 @@
 
 #pragma mark 请求店铺信息
 -(void)startRequestShopInfo{
-//    UNIShopManage* shop = [UNIShopManage getShopData];
-//    if (shop.shopName) {
-//        [self reflashShopInfo:shop];
-//        return;
-//    }
+
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //AccountManager* manager = [AccountManager shared];
       
@@ -362,55 +341,6 @@
 }
 #pragma mark 刷新商家信息  
 -(void)reflashShopInfo:(UNIShopManage*) manager{
-//    if (manager.shopName.length>11) {
-//        self->shopNameLab.text = [manager.shopName substringToIndex:11];
-//        self->shopAddressLab.text =[manager.shopName substringFromIndex:11];
-//    }else{
-//        self->shopNameLab.text = manager.shopName;
-//        CGRect re =self->shopAddressLab.frame;
-//        self->shopAddressLab.hidden=YES;
-//        self->VIPImage.frame = CGRectMake(re.origin.x, re.origin.y,
-//                                          self->VIPImage.frame.size.width,
-//                                          self->VIPImage.frame.size.height);
-//    }
-    
-    NSArray* arr = [manager.shopName componentsSeparatedByString:@"【"];
-    self->shopNameLab.text = arr[0];
-    NSString* arr1 = arr[1];
-    self->shopAddressLab.text = [arr1 substringToIndex:arr1.length-1];
-    
-    [self->shopLogo sd_setImageWithURL:[NSURL URLWithString:manager.logoUrl]
-                      placeholderImage:[UIImage imageNamed:@"main_img_shopLog"]];
-   
-    
-}
-#pragma mark 店名点击功能事件
--(void)shopNameLabTapGesture:(UIGestureRecognizer*)gesture{
-    #ifdef IS_IOS9_OR_LATER
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:cancelAction];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"导航到店" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"callOtherMapApp" object:nil];
-    }];
-    [alertController addAction:action1];
-    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"致电商家" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"callPhoneToShop" object:nil];
-    }];
-    [alertController addAction:action2];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
-    #else
-    [UIAlertView showWithTitle:nil message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"导航到店",@"致电商家"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        if (buttonIndex==1) {
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"callOtherMapApp" object:nil];
-        }
-        if (buttonIndex==2) {
-            [[NSNotificationCenter defaultCenter]postNotificationName:@"callPhoneToShop" object:nil];
-        }
-    }];
-    #endif
-
 }
 #pragma mark 请求约满信息
 -(void)startRequestReward{
@@ -422,60 +352,6 @@
         request1.rerewardBlock=^(int nextRewardNum,int num,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
-                    if (nextRewardNum!=-1) {
-                        for (UIView* view in self->alphaBtn.subviews)
-                            [view removeFromSuperview];
-                        
-                        CALayer* layer = [CALayer layer];
-                        layer.backgroundColor = kMainGrayBackColor.CGColor;
-                        float layH =KMainScreenWidth*4/320;
-                        float layY =self->alphaBtn.frame.size.height - 30;
-                        float layW =self->alphaBtn.frame.size.width-30;
-                        layer.frame = CGRectMake(15,layY, layW, layH);
-                        [self->alphaBtn.layer addSublayer:layer];
-                        if (num>0) {
-                            CALayer* layer1 = [CALayer layer];
-                            layer1.backgroundColor = [UIColor colorWithHexString:kMainGreenBackColor].CGColor;
-                            float lay1W =layW*num/nextRewardNum;
-                            layer1.frame = CGRectMake(15,layY,lay1W, layH);
-                            [self->alphaBtn.layer addSublayer:layer1];
-
-                        }
-                        int y = 1;
-                        int p = nextRewardNum;
-                        if (nextRewardNum>10){
-                            y = nextRewardNum/10;
-                            p = 10;
-                        }
-                         float jc = (self->alphaBtn.frame.size.width-30)/p;
-                        float btnWH = KMainScreenWidth*12/320;
-                        float centerY = layY+layH/2;
-                        for (int i = 0; i<p; i++) {
-                            UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-                            btn.frame = CGRectMake(0, 0, btnWH,btnWH);
-                            btn.center = CGPointMake(15+jc*(i+1),centerY);
-                            btn.layer.masksToBounds = YES;
-                            btn.layer.cornerRadius = btnWH/2;
-                             NSString* tit = [NSString stringWithFormat:@"%i",(i+1)*y];
-                            [btn setTitle:tit forState:UIControlStateNormal];
-                            btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*8/320];
-                            [self->alphaBtn addSubview:btn];
-                            if ((i+1)*y < num) {
-                                [btn setBackgroundColor:[UIColor colorWithHexString:kMainGreenBackColor]];
-                            }else
-                                [btn setBackgroundColor:kMainGrayBackColor];             
-                        }
-                        UIImageView* awardImge = [[UIImageView alloc]initWithFrame:
-                                                  CGRectMake(0, 0,30,35)];
-                        awardImge.center = CGPointMake(self->alphaBtn.frame.size.width-20, centerY-5);
-                        if (nextRewardNum ==num)
-                            awardImge.image = [UIImage imageNamed:@"main_img_award"];
-                        else
-                            awardImge.image = [UIImage imageNamed:@"main_img_unaward"];
-                        [self->alphaBtn addSubview:awardImge];
-                    }
-//                    else
-//                        [YIToast showText:tips];
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
             });
@@ -529,106 +405,6 @@
             });
         };
 }
-
-#pragma mark 中部视图动画事件
-//-(void)midViewAnimationEvent{
-//    CGRect re = _midView.frame;
-//    if (re.origin.y>100) {
-//       // self->myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
-//        [UIView animateWithDuration:0.5 delay:0
-//             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
-//                            options:UIViewAnimationOptionCurveEaseInOut
-//                         animations:^{
-//                             CGRect top = self->topView.frame;
-//                             float yy = top.size.height- 15;
-//                             self->topView.frame =CGRectMake(top.origin.x, top.origin.y-yy, top.size.width, top.size.height);
-//                             
-//                             CGRect buttom = self.buttomView.frame;
-//                             self.buttomView.frame = CGRectMake(buttom.origin.x,KMainScreenHeight-64-20,buttom.size.width, buttom.size.height);
-//                             
-//                             self.midView.frame = CGRectMake(re.origin.x
-//                                                             , re.origin.y-yy,
-//                                                             re.size.width,
-//                                                             KMainScreenHeight-64-(re.origin.y-yy)-50);
-//                             self.midController.tableView.frame = CGRectMake(0,self.midController.tableView.frame.origin.y,
-//                                                                             re.size.width, KMainScreenHeight-64-(re.origin.y-yy)-50);
-//                             [self.midController insertTableViewData];
-//                         } completion:^(BOOL finished) {
-//                             self->buttomGesture.enabled=NO;
-//                         }];
-//        
-//    }else{
-//        [UIView animateWithDuration:0.5 delay:0
-//             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
-//                            options:UIViewAnimationOptionCurveEaseInOut
-//                         animations:^{
-//                             self->topView.frame = self->topRe;
-//                             self.midView.frame = self->midRe;
-//                             self.buttomView.frame = self->buttomRe;
-//                             self.midController.tableView.frame = self->midTabRe;
-//                             [self.midController deleteTableViewData:2];
-//                         }completion:^(BOOL finished) {
-//                             self->buttomGesture.enabled=YES;
-//                             //self->myScroller.contentSize = self->scrollSize;
-//                         }];
-//    }
-//
-//}
-
-#pragma mark 底部视图动画事件
-//-(void)buttomViewAnimationEvent{
-//    CGRect re = _buttomView.frame;
-//    if (re.origin.y>KMainScreenHeight/2) {
-//        // myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
-//        [UIView animateWithDuration:0.5 delay:0
-//             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
-//                            options:UIViewAnimationOptionCurveEaseInOut
-//                         animations:^{
-//                             CGRect top = self->topView.frame;
-//                             float yy = top.size.height- 15;//露出15像素
-//                             self->topView.frame =CGRectMake(top.origin.x, top.origin.y-yy, top.size.width, top.size.height);
-//                             
-//                             CGRect mid = self.midView.frame;
-//                             self.midView.frame = CGRectMake(mid.origin.x
-//                                                             , mid.origin.y-yy,
-//                                                             mid.size.width,
-//                                                             KMainScreenWidth*0.05+5);
-//                             self.midController.tableView.frame = CGRectMake(0,self.midController.tableView.frame.origin.y,
-//                                                                             mid.size.width, KMainScreenWidth*0.05+5);
-//                             [self.midController deleteTableViewData:0];
-//                             
-//                             
-//                             float by =mid.origin.y-yy+KMainScreenWidth*0.05+13;// self.midView的Y+H
-//                             self.buttomView.frame = CGRectMake(re.origin.x,by
-//                                                                ,re.size.width,
-//                                                                KMainScreenHeight-64-by-20);
-//                             self.buttomController.tableView.frame = CGRectMake(0, self->buttonTabRe.origin.y, self->buttonTabRe.size.width, KMainScreenHeight-64-by-20);
-//                             [self.buttomController insertTableViewData];
-//                             
-//                         } completion:^(BOOL finished) {
-//                             self->midGesture.enabled=NO;
-//                         }];
-//        
-//    }else{
-//        [UIView animateWithDuration:0.5 delay:0
-//             usingSpringWithDamping:0.5 initialSpringVelocity:0.5
-//                            options:UIViewAnimationOptionCurveEaseInOut
-//                         animations:^{
-//                             self->topView.frame = self->topRe;
-//                             self.midView.frame = self->midRe;
-//                             self.buttomView.frame = self->buttomRe;
-//                             self.midController.tableView.frame = self->midTabRe;
-//                             self.buttomController.tableView.frame = self->buttonTabRe;
-//                             
-//                             [self.midController reflashTabel:2];
-//                             [self.buttomController deleteTableViewData:2];
-//                         }completion:^(BOOL finished) {
-//                             self->midGesture.enabled=YES;
-//                            // self->myScroller.contentSize = self->scrollSize;
-//                         }];
-//    }
-//
-//}
 
 #pragma mark 注册通知
 -(void)setupNotification{

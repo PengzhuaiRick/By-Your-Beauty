@@ -36,6 +36,7 @@
 @property (strong, nonatomic)  UITableViewCell *secondCell;
 @property (strong, nonatomic)  UITableViewCell *firstCell;
 @property (strong, nonatomic)  UITableViewCell *thirldCell;
+@property (strong, nonatomic)  UITableViewCell *fourthCell;
 
 @property(nonatomic,assign)int sex; // 男1 女2
 @end
@@ -72,16 +73,18 @@
     UIView* footer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 100)];
     self.tableView.tableFooterView = footer;
     
-    float btnWH = KMainScreenWidth* 70/320;
-    float btnX = (footer.frame.size.width -btnWH)/2;
-    float btnY = 30;
+    float btnX = KMainScreenWidth* 30/320;
+    float btnW =footer.frame.size.width - btnX*2;
+    float btnH = KMainScreenWidth* 40/320;
+    float btnY = 10;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
+    btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
     [btn setTitle:@"登录" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*17/320];
-    [btn setBackgroundColor:[UIColor colorWithHexString:kMainGreenBackColor]];
-    btn.layer.masksToBounds=YES;
-    btn.layer.cornerRadius = btnWH/2;
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*17/320];
+    [btn setBackgroundColor:[UIColor clearColor]];
+    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateNormal];
+    btn.layer.borderWidth=1;
+    btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
     [footer addSubview:btn];
     loginBtn = btn;
     
@@ -90,11 +93,13 @@
     return cellH;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
+    return 4;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"cell";
     UITableViewCell* cell = [[UITableViewCell alloc]initWithStyle:0 reuseIdentifier:name];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor = [UIColor clearColor];
     if (indexPath.row ==  0) {
         [self setupFirstCell:cell];
         self.firstCell = cell;
@@ -107,67 +112,68 @@
         [self setupThirdCell:cell];
         self.thirldCell = cell;
     }
+    if (indexPath.row == 3) {
+        [self setupFourthCell:cell];
+        self.fourthCell = cell;
+    }
     return cell;
 }
 -(void)setupFirstCell:(UITableViewCell*)cell{
-    float imgX = 30;
-    float imgWH = cellH /2;
-    float imgY = (cellH - imgWH )/2;
-    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
-    img.image = [UIImage imageNamed:@"login_img_phone"];
-    [cell addSubview:img];
     
-    float tetX = CGRectGetMaxX(img.frame)+5;
-    float tetW = self.tableView.frame.size.width - imgX - tetX;
-    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, imgY, tetW, imgWH)];
-    field.placeholder = @"请输入手机号码";
-    field.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    float tetX = KMainScreenWidth* 40/320;
+    float tetW = self.tableView.frame.size.width  - tetX * 2;
+    float tetH = KMainScreenWidth* 30/320;
+    float tetY = (cellH - tetH)/2;
+    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
+    field.placeholder = @"请输入您的手机号码";
+    field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    field.textColor = [UIColor whiteColor];
     [cell addSubview:field];
     phoneField = field;
     
-    float layY = CGRectGetMaxY(img.frame);
-    float layW = CGRectGetMaxX(field.frame) - imgX;
+    float layX = KMainScreenWidth* 30/320;
+    float layY = CGRectGetMaxY(field.frame);
+    float layW = self.tableView.frame.size.width - layX*2;
     CALayer* lay = [CALayer layer];
-    lay.frame = CGRectMake(imgX, layY, layW, 0.5);
+    lay.frame = CGRectMake(layX, layY, layW, 0.5);
     lay.backgroundColor = kMainGrayBackColor.CGColor;
     [cell.layer addSublayer:lay];
     
     [self setupPhoneField];
 }
 -(void)setupSecondCell:(UITableViewCell*)cell{
-    float imgX = 30;
-    float imgWH = cellH /2;
-    float imgY = (cellH - imgWH )/2;
-    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
-    img.image = [UIImage imageNamed:@"login_img_code"];
-    [cell addSubview:img];
-    
+    float jg = KMainScreenWidth* 30/320;
     float btnW = KMainScreenWidth* 100/320;
-    float btnX = self.tableView.frame.size.width - imgX - btnW;
-    float btnH = imgWH+5;
-    float btnY = imgY-5;
+    float btnX = self.tableView.frame.size.width - btnW - jg;
+    float btnH = KMainScreenWidth* 30/320;
+    float btnY = (cellH - btnH)/2;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
     [btn setTitle:@"获取验证码" forState:UIControlStateNormal];
-    btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = 5;
+    btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
+    btn.layer.borderWidth =1;
     btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-    [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateNormal];
+    [btn setBackgroundColor:[UIColor clearColor]];
     [cell addSubview:btn];
     codeBtn = btn;
     
-    float tetX = CGRectGetMaxX(img.frame)+5;
-    float tetW = self.tableView.frame.size.width - imgX - tetX - btnW;
-    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, imgY, tetW, imgWH)];
+    float tetX =KMainScreenWidth* 40/320;
+    float tetW = self.tableView.frame.size.width  - jg*2 - btnW - 10;
+    float tetH =KMainScreenWidth* 30/320;
+    float tetY = (cellH - tetH)/2;
+    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
     field.placeholder = @"请输入验证码";
-    field.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    field.textColor = [UIColor whiteColor];
+    field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [cell addSubview:field];
     codeField = field;
     
-    float layY = CGRectGetMaxY(img.frame);
-    float layW = CGRectGetMaxX(field.frame)- imgX - 10;
+
+    float layY = CGRectGetMaxY(field.frame);
+    float layW =tetW;
     CALayer* lay = [CALayer layer];
-    lay.frame = CGRectMake(imgX, layY, layW, 0.5);
+    lay.frame = CGRectMake(jg, layY, layW, 0.5);
     lay.backgroundColor = kMainGrayBackColor.CGColor;
     [cell.layer addSublayer:lay];
         
@@ -175,83 +181,93 @@
     [self setupCodeBtn];
 }
 -(void)setupThirdCell:(UITableViewCell*)cell{
-    float imgX = 30;
-    float imgWH = cellH /2;
-    float imgY = (cellH - imgWH )/2;
-    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
-    img.image = [UIImage imageNamed:@"login_img_nike"];
-    [cell addSubview:img];
     
-    float btnW = KMainScreenWidth* 100/320/2;
-    float btnX = self.tableView.frame.size.width - imgX - btnW;
-    float btnH = imgWH;
-    float btnY = imgY ;
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
-    [btn setTitle:@"先生" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn.tag = 1;
-    [cell addSubview:btn];
-    maleBtn = btn;
-    
-    float btn1X = btnX - btnW;
-    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(btn1X, btnY, btnW, btnH);
-    [btn1 setTitle:@"女士" forState:UIControlStateNormal];
-    btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-    [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn1.tag = 2;
-    [cell addSubview:btn1];
-    femaleBtn = btn1;
-
-    
-    float tetX = CGRectGetMaxX(img.frame)+5;
-    float tetW = self.tableView.frame.size.width - imgX - tetX - btnW*2 - 10;
-    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, imgY, tetW, imgWH)];
-    field.placeholder = @"请输入昵称";
+    float tetX = KMainScreenWidth*40/320;
+    float tetW = self.tableView.frame.size.width - tetX*2;
+    float tetH = KMainScreenWidth*30/320;
+    float tetY = (cellH - tetH)/2;
+    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
+    field.placeholder = @"请输入您的姓名";
+    field.textColor = [UIColor whiteColor];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [cell addSubview:field];
     nikeName = field;
     
-    float layY = CGRectGetMaxY(img.frame);
-    float layW = CGRectGetMaxX(field.frame)- imgX;
+    float layX = KMainScreenWidth* 30/320;
+    float layY = CGRectGetMaxY(field.frame);
+    float layW = self.tableView.frame.size.width - layX*2;
     CALayer* lay = [CALayer layer];
-    lay.frame = CGRectMake(imgX, layY, layW, 0.5);
+    lay.frame = CGRectMake(layX, layY, layW, 0.5);
     lay.backgroundColor = kMainGrayBackColor.CGColor;
     [cell.layer addSublayer:lay];
     
     [self setupNikeName];
-    [self setupSexBtn];
+    
+}
+-(void)setupFourthCell:(UITableViewCell*)cell{
+        float btnX = KMainScreenWidth*40/320;
+        float btnW = self.tableView.frame.size.width/2 - btnX;
+        float btnH = KMainScreenWidth*30/320;
+        float btnY = (cellH - btnH)/2 ;
+        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
+        [btn setTitle:@"女士" forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        btn.tag = 2;
+        [cell addSubview:btn];
+        femaleBtn = btn;
+    
+        float btn1X =self.tableView.frame.size.width/2 ;
+        UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn1.frame = CGRectMake(btn1X, btnY, btnW, btnH);
+        [btn1 setTitle:@"男士" forState:UIControlStateNormal];
+        btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+        [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        btn1.tag = 1;
+        [cell addSubview:btn1];
+        maleBtn = btn1;
+    
+        [self setupSexBtn];
     [self setupLoginBtn];
     [self addBTkeyBoardTool];
 }
 
-
 -(void)setupUI{
-    UIImage* topimage =[UIImage imageNamed:@"login_img_header"];
-    CGFloat headerH =topimage.size.width*KMainScreenHeight/KMainScreenWidth;
+    UIImageView* bg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_menu"]];
+    bg.frame = CGRectMake(0, 0, self.view.frame.size.width , self.view.frame.size.height);
+    [self.view addSubview:bg];
+    
+    UIView* bgview = [[UIView alloc]initWithFrame:bg.frame];
+    bgview.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+    [bg addSubview:bgview];
+
+    self.tableView.backgroundView = bg;
+    
     int nun = KMainScreenWidth;
     switch (nun) {
         case 320:
-            bShu = 5;
             cellH = 47;
             break;
         case 375:
-            bShu = 30;
             cellH = 55;
             break;
         case 414:
-            bShu = 60;
             cellH = 70;
             break;
     }
-    imgH =headerH+bShu;
-    self.tableView.contentInset = UIEdgeInsetsMake(imgH, 0, 0, 0);
-    headImge = [[UIImageView alloc]initWithFrame:CGRectMake(0, -imgH, KMainScreenWidth, headerH)];
+  
+    
+    UIView* header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, KMainScreenWidth*200/320)];
+    
+    UIImage* topimage =[UIImage imageNamed:@"login_img_header"];
+    float imaH = header.frame.size.height*0.7;
+    float imaW = topimage.size.width * imaH / topimage.size.height;
+    headImge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imaW ,imaH)];
     headImge.image =topimage;
-    headImge.contentMode = UIViewContentModeScaleAspectFill;
-    [self.tableView addSubview:headImge];
+    headImge.center = header.center;
+    [header addSubview:headImge];
+    self.tableView.tableHeaderView = header;
 }
 #pragma mark 设置手机号码
 -(void)setupPhoneField{
@@ -638,16 +654,16 @@
     
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    CGFloat y = scrollView.contentOffset.y; //如果有导航控制器，这里应该加上导航控制器的高度64
-    if (y< -imgH) {
-        CGRect frame = headImge.frame;
-        frame.origin.y = y;
-        frame.size.height = -y-bShu;
-        headImge.frame = frame;
-    }
-    
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    CGFloat y = scrollView.contentOffset.y; //如果有导航控制器，这里应该加上导航控制器的高度64
+//    if (y< -imgH) {
+//        CGRect frame = headImge.frame;
+//        frame.origin.y = y;
+//        frame.size.height = -y-bShu;
+//        headImge.frame = frame;
+//    }
+//    
+//}
 
 
 

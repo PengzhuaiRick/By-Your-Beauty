@@ -33,29 +33,10 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rek-gj-hqT">
-                                <rect key="frame" x="0.0" y="0.0" width="220" height="568"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="fBq-8t-s5k"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="MW8-qB-zWz"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="rek-gj-hqT" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="6GS-02-g9o"/>
-                            <constraint firstItem="rek-gj-hqT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="cqa-d9-HWV"/>
-                            <constraint firstItem="rek-gj-hqT" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="dqc-Yz-Mnh"/>
-                            <constraint firstAttribute="trailing" secondItem="rek-gj-hqT" secondAttribute="trailing" constant="100" id="q49-fL-Ypm"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="X8e-EG-hJP"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
-                    <connections>
-                        <outlet property="myTableView" destination="rek-gj-hqT" id="KMh-pt-ZmK"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

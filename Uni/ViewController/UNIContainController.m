@@ -34,6 +34,8 @@
     [self setupMainController];
    }
 -(void)setupSelf{
+    self.edag = 60;
+    
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
     [self.view addGestureRecognizer:pan];
     self.panGes = pan;
@@ -112,7 +114,7 @@
    
     [UIView animateWithDuration:0.2 animations:^{
        
-        self.view.frame = CGRectMake(KMainScreenWidth-100, 0, self.view.frame.size.width,self.view.frame.size.height);
+        self.view.frame = CGRectMake(KMainScreenWidth-self.edag, 0, self.view.frame.size.width,self.view.frame.size.height);
     }];
     //self.tapGes.enabled=YES;
     self.closing=NO;

@@ -60,6 +60,7 @@
 		18A231D31C27FCDA00E57795 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A231D11C27FCDA00E57795 /* libcrypto.a */; };
 		18A231D41C27FCDA00E57795 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A231D21C27FCDA00E57795 /* libssl.a */; };
 		18A231DA1C2807A600E57795 /* libWeChatSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A231D61C2807A600E57795 /* libWeChatSDK.a */; };
+		18A47D941C4385AC00943574 /* UNIMainProView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18A47D931C4385AC00943574 /* UNIMainProView.m */; };
 		18AD74C81C3282DA006FA84D /* UNIRewordAndIntimeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18AD74C71C3282DA006FA84D /* UNIRewordAndIntimeCell.m */; };
 		18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D621BE99EC100DD7826 /* UNWelcomeController.m */; };
 		18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D661BE9A19100DD7826 /* EAIntroPage.m */; };
@@ -351,6 +352,8 @@
 		18A231D71C2807A600E57795 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
 		18A231D81C2807A600E57795 /* WXApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApi.h; sourceTree = "<group>"; };
 		18A231D91C2807A600E57795 /* WXApiObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiObject.h; sourceTree = "<group>"; };
+		18A47D921C4385AC00943574 /* UNIMainProView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMainProView.h; sourceTree = "<group>"; };
+		18A47D931C4385AC00943574 /* UNIMainProView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMainProView.m; sourceTree = "<group>"; };
 		18AD74C61C3282DA006FA84D /* UNIRewordAndIntimeCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewordAndIntimeCell.h; sourceTree = "<group>"; };
 		18AD74C71C3282DA006FA84D /* UNIRewordAndIntimeCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewordAndIntimeCell.m; sourceTree = "<group>"; };
 		18BA7D611BE99EC100DD7826 /* UNWelcomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNWelcomeController.h; sourceTree = "<group>"; };
@@ -824,6 +827,8 @@
 				18250E701C1848D20072F795 /* kezhuang */,
 				18C745971BF03400000062AF /* MainMidView.h */,
 				18C745981BF03400000062AF /* MainMidView.m */,
+				18A47D921C4385AC00943574 /* UNIMainProView.h */,
+				18A47D931C4385AC00943574 /* UNIMainProView.m */,
 				18E14C301C0471DE00AA36C8 /* UNIAppointTop.h */,
 				18E14C311C0471DE00AA36C8 /* UNIAppointTop.m */,
 				18E14C331C04721300AA36C8 /* UNIAppointTop.xib */,
@@ -1527,6 +1532,7 @@
 				18E3029D1C17FF4600990A14 /* UNIGoodsCell4.m in Sources */,
 				18E14C321C0471DE00AA36C8 /* UNIAppointTop.m in Sources */,
 				18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */,
+				18A47D941C4385AC00943574 /* UNIMainProView.m in Sources */,
 				18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */,
 				18D124641BF5BC440034990F /* UNIShopManage.m in Sources */,
 				18BA7D701BE9B8FD00DD7826 /* MainViewController.m in Sources */,

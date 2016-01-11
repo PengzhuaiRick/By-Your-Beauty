@@ -10,6 +10,7 @@
 
 @interface UNIContainController : UIViewController
 @property(nonatomic,assign)BOOL closing;
+@property(nonatomic,assign)float edag;
 @property(nonatomic,strong)UIPanGestureRecognizer* panGes;//侧滑手势;
 @property(nonatomic,strong)UITapGestureRecognizer* tapGes;//点击手势;
 

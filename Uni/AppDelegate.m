@@ -80,11 +80,11 @@
     UINavigationBar *bar = [UINavigationBar appearance];
     
     //设置返回按钮颜色
-    [bar setTintColor:[UIColor whiteColor]];
+    [bar setTintColor:[UIColor blackColor]];
     
     //设置导航栏标题字体颜色
     NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
-    [barAttrs setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [barAttrs setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
     [barAttrs setObject:[UIFont boldSystemFontOfSize:KMainScreenWidth*17/320] forKey:NSFontAttributeName];
     [bar setTitleTextAttributes:barAttrs];
     

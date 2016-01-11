@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MainMidView.h"
+
 @interface MainViewCell : UITableViewCell
-@property(nonatomic,strong)MainMidView* mainView;
+@property (strong, nonatomic)  UIImageView *mainImage;
+@property (strong, nonatomic)  UILabel *mainLab;
+@property (strong, nonatomic)  UILabel *subLab;
+@property (strong, nonatomic)  UILabel *numLab;
+@property (strong, nonatomic)  UIButton *handleBtn;
 
 -(void)setupCellWithData:(NSArray*)data type:(int)type;
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
