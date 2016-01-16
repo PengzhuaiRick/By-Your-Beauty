@@ -34,7 +34,7 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self setupSelf];
     [self setupNavigation];
     [self setupParams];
     [self setupMJReflash];
@@ -49,8 +49,13 @@
 
 -(void)setupNavigation{
     self.title = @"我已预约";
-    self.tableView.backgroundColor = [UIColor whiteColor];
      self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+}
+
+-(void)setupSelf{
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
+    view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
+    self.tableView.tableHeaderView =view;
 }
 #pragma mark 设置参数
 -(void)setupParams{
@@ -114,14 +119,14 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth*70/320;
+    return KMainScreenWidth*90/320;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"CellName";
     MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell)
        // cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
-        cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*70/320) reuseIdentifier:name];
+        cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
     
     [cell setupCellContent:_myData[indexPath.row] andType:1];
     return cell;
@@ -168,7 +173,7 @@
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
                           params:@{@"page":@(self->pageNum),@"size":@(self->pageSize)}];
-        request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
+        request.reappointmentBlock =^(int count,NSArray* myAppointArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.tableView.header endRefreshing];
                 [self.tableView.footer endRefreshing];

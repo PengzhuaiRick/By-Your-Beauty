@@ -7,7 +7,7 @@
 //
 
 #import "UNIWalletList.h"
-#import "UNIWalletCell.h"
+//#import "UNIWalletCell.h"
 #import <MJRefresh/MJRefresh.h>
 @interface UNIWalletList ()<UITableViewDataSource,UITableViewDelegate>{
 }
@@ -80,13 +80,13 @@
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString* name = @"cell";
-    UNIWalletCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-    if (!cell) {
-        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIWalletCell" owner:self options:nil].lastObject;
-    }
-    [cell setupCellContentWith:nil];
-       return cell;
+//    static NSString* name = @"cell";
+//    UNIWalletCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+//    if (!cell) {
+//        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIWalletCell" owner:self options:nil].lastObject;
+//    }
+//    [cell setupCellContentWith:nil];
+       return nil;
 }
 
 - (void)didReceiveMemoryWarning {

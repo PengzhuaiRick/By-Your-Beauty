@@ -22,85 +22,76 @@
     [self setupNavigation];
     [self setupBaseUI];
     [self setupUI];
-    if(KMainScreenHeight<568)
        [self regirstKeyBoardNotification];
 }
 -(void)setupNavigation{
    self.title=@"服务评价";
 }
 -(void)setupBaseUI{
-    float viewX = 15;
+    float viewX = 0;
     float viewY = 64+15;
-    float viewW = KMainScreenWidth - 30;
-    float viewH = KMainScreenWidth *230 /320;
+    float viewW = KMainScreenWidth;
+    float viewH = KMainScreenHeight ;
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];
     view.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:view];
     self.mainView = view;
     
-    float btWH = KMainScreenWidth* 60/320;
-    float btX = (KMainScreenWidth - btWH)/2;
-    float btY = CGRectGetMaxY(view.frame)+30;
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame =CGRectMake(btX, btY, btWH, btWH);
-    [btn setTitle:@"提交" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
-    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
-    [self.view addSubview:btn];
-    self.submitBnt = btn;
-    
-    
-    float lab1X = 25;
-    float lab1Y = 10;
-    float lab1W = viewW - 50;
-    float lab1H = KMainScreenWidth * 20/320;
-    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y,lab1W, lab1H)];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
-    lab1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    [view addSubview:lab1];
-    self.label1 = lab1;
-    
-    float lab2Y = lab1Y+lab1H;
-    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab2Y,lab1W, lab1H)];
-    lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
-    lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    [view addSubview:lab2];
-    self.label2 = lab2;
-    
-    float lab3Y = lab2Y+lab1H;
-    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab3Y,lab1W, lab1H)];
-    lab3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
-    lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    [view addSubview:lab3];
-    self.label3 = lab3;
-    
-    UIImage* image = [UIImage imageNamed:@"main_img_cell3"];
-    float imgX = 10;
-    float imgY = CGRectGetMaxY(lab3.frame)+25;
-    float imgW = viewW/4;
-    float imgH =image.size.height *imgW /image.size.width;
+    UIImage* image = [UIImage imageNamed:@"evaluate_img_top"];
+    float imgX = 0;
+    float imgY =0;
+    float imgW = viewW;
+    float imgH =image.size.height*imgW/image.size.width;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY,imgW, imgH)];
     img.image = image;
     [view addSubview:img];
     self.mainImg =img;
     
-    float textX = imgX+imgW;
-    float textY = CGRectGetMaxY(lab3.frame)+10;
-    float textW = viewW - CGRectGetMaxX(img.frame)-10;
-    float textH = KMainScreenWidth *85 /320;
-    UITextView* textView = [[UITextView alloc]initWithFrame:CGRectMake(textX, textY, textW, textH)];
-    [view addSubview:textView];
-    self.textView = textView;
+    float lab1X = 16;
+    float lab1H = KMainScreenWidth * 20/320;
+    float lab1Y = imgH - lab1H-10;
+    float lab1W = imgW - lab1X*2;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y,lab1W, lab1H)];
+    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab1.textColor = [UIColor whiteColor];
+    [img addSubview:lab1];
+    self.label1 = lab1;
     
-    float lab4Y = textY+textH+20;
-    float lab4W = KMainScreenWidth*75/320;
-    UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab4Y, lab4W, lab1H)];
+    
+    float lab2X = 16 ;
+    float lab2H = KMainScreenWidth * 20/320;
+    float lab2Y = CGRectGetMaxY(img.frame)+10;
+    float lab2W = viewW - 2*lab2X;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y,lab2W, lab2H)];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
+    [view addSubview:lab2];
+    self.label2 = lab2;
+    
+    
+    float lab3X = 16 ;
+    float lab3H = KMainScreenWidth * 20/320;
+    float lab3Y = CGRectGetMaxY(lab2.frame);
+    float lab3W = viewW - 2*lab2X;
+    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y,lab3W, lab3H)];
+    lab3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab3.textColor = kMainGrayBackColor;
+    [view addSubview:lab3];
+    self.label3 = lab3;
+    
+    float lab4X = 16 ;
+    float lab4H = KMainScreenWidth * 20/320;
+    float lab4Y = CGRectGetMaxY(lab3.frame)+10;
+    float lab4W = viewW /2;
+    UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab4X, lab4Y, lab4W, lab4H)];
     lab4.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
-    lab4.text = @"服务满意度:";
+     lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    lab4.text = @"服务满意度";
     [view addSubview:lab4];
     
-    float btnX = CGRectGetMaxX(lab4.frame)+5;
-    float btnY =textY+textH+15;
+    
+    float btnX = viewW/2+5;
+    float btnY =lab4Y;
     float btnHW = KMainScreenWidth*25/320;
 
     UIImage* img1 =[UIImage imageNamed:@"evaluate_btn_xing1"];
@@ -134,24 +125,38 @@
         }
     }
     
+    float textX = 16;
+    float textY = btnY + btnHW +10;
+    float textW = viewW - 2*textX;
+    float textH = KMainScreenWidth *100 /320;
+    UITextView* textView = [[UITextView alloc]initWithFrame:CGRectMake(textX, textY, textW, textH)];
+    textView.text = @"  写下你对本次服务宝贵意见,长度在50-1001字以内.";
+    [view addSubview:textView];
+    self.textView = textView;
+
+    float btWH = KMainScreenWidth* 70/320;
+    float btX = (KMainScreenWidth - btWH)/2;
+    float btY = CGRectGetMaxY(textView.frame)+30;
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame =CGRectMake(btX, btY, btWH, btWH);
+    [btn setTitle:@"提交" forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = btWH/2;
+    [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
+    [view addSubview:btn];
+    self.submitBnt = btn;
+
 }
 -(void)setupUI{
     grades = 0;
-    self.label1.text =[NSString stringWithFormat:@"订 单 号: %@",self.data[0]] ;
-    self.label2.text =[NSString stringWithFormat:@"服务项目: %@",self.data[1]];
-    self.label3.text =[NSString stringWithFormat:@"预约时间: %@",self.data[1]];;
-//    self.label1.text = @"时代我弟弟撒时代";
-//    self.label2.text = @"的发生为我而过的风格的";
-//    self.label3.text = @"身上的发生地方打工";
+    self.label1.text =self.model.projectName ;
+    self.label2.text =[NSString stringWithFormat:@"预约时间: %@",self.model.date];
+    self.label3.text =[NSString stringWithFormat:@"订单编号: %@",self.order];
 
-    //self.mainImg.image = [UIImage imageNamed:]
     
-    self.mainView.layer.masksToBounds = YES;
-    self.mainView.layer.cornerRadius = 10;
-    
-    self.textView.layer.masksToBounds = YES;
-    self.textView.layer.cornerRadius = 10;
-    self.textView.layer.borderColor = [UIColor colorWithHexString:kMainTitleColor].CGColor;
+    self.textView.layer.borderColor = kMainGrayBackColor.CGColor;
     self.textView.layer.borderWidth = 0.5;
     BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
     tool.toolDelegate=self;
@@ -212,7 +217,7 @@
 -(void)startSubmitComment{
     UNIMyAppointInfoRequest* req = [[UNIMyAppointInfoRequest alloc]init];
     [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetServiceAppraise]
-                  params:@{@"goodsId":@"",@"level":@(grades),@"content":self.textView.text}];
+                  params:@{@"goodsId":@(self.model.projectId),@"level":@(grades),@"content":self.textView.text}];
     req.rqAppraise =^(int code,NSString*tips,NSError* err){
         if (err) {
             [YIToast showText:err.localizedDescription];

@@ -21,7 +21,8 @@
 }
 
 -(void)setupUI:(CGSize)size andNum:(int)num andType:(int)ty{
-    MyRewardView * view = [[MyRewardView alloc]initWithFrame:CGRectMake(16, 8, size.width - 32, size.height -16) andNum:num andType:ty];
+    float tabY =KMainScreenWidth*10/320;
+    MyRewardView * view = [[MyRewardView alloc]initWithFrame:CGRectMake(16, tabY, size.width - 32, size.height-tabY) andNum:num andType:ty];
     [self addSubview:view];
     self.RewordAndIntimeView = view;
 

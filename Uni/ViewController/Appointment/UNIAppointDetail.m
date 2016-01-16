@@ -12,7 +12,10 @@
 #import "UNIAppointDetail2Cell.h"
 #import "UNIMyAppointInfoRequest.h"
 #import "UNIEvaluateController.h"
-@interface UNIAppointDetail ()<UITableViewDataSource,UITableViewDelegate>{
+
+#import "UNIMapAnnotation.h"
+#import <MapKit/MapKit.h>
+@interface UNIAppointDetail ()<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>{
     float topCellH;
     float midCellH;
     float bottomCellH;
@@ -22,7 +25,13 @@
 @end
 
 @implementation UNIAppointDetail
-
+-(void)viewDidDisappear:(BOOL)animated{
+    CGRect vRe = self.view.frame;
+    vRe.origin.y = 64;
+    self.view.frame = vRe;
+    
+    self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"预约详情";
@@ -57,68 +66,76 @@
     UNIMyAppointInfoModel* model = self.modelArr.lastObject;
     self.orderState = model.status;
 
-    topCellH =KMainScreenWidth * 65 /320;
-    midCellH =KMainScreenWidth * 90 /320;
-    bottomCellH = KMainScreenWidth * 220 /320;
+    topCellH =KMainScreenWidth * 100 /320;
+    midCellH =KMainScreenWidth * 65 /320;
+    bottomCellH = KMainScreenWidth * 60 /320;
     
     if (self.orderState != 3) //取消
-        topCellH -=KMainScreenWidth * 18 /320;
-    
-    if (self.orderState >1)
-        bottomCellH =KMainScreenWidth*18/320 +10;
+        midCellH -=KMainScreenWidth * 18 /320;
     
 }
 -(void)setupMyTableView{
     
-    float tableH = topCellH+ midCellH*self.modelArr.count + bottomCellH;
-    float jg = KMainScreenHeight - 64 - 16;
-    if (self.orderState == 2)
-        jg -= KMainScreenWidth*50/320;
-    
-    if (tableH>jg )
-        tableH = jg;
-    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(16, 64+8, KMainScreenWidth-32, tableH) style:UITableViewStylePlain];
+    float tableY =64+15;
+    float tableH = KMainScreenHeight - tableY;
+    self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableY, KMainScreenWidth, tableH) style:UITableViewStylePlain];
     self.myTableView.delegate= self;
     self.myTableView.dataSource =self;
-    self.myTableView.layer.masksToBounds = YES;
-    self.myTableView.layer.cornerRadius = 5;
-   // self.myTableView.scrollEnabled=NO;
-    if (KMainScreenHeight<568) {
-        self.myTableView.scrollEnabled=YES;
-    }
     [self.view addSubview:self.myTableView];
     [self setupTabelViewFootView];
 }
 
 -(void)setupTabelViewFootView{
-    self.myTableView.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,KMainScreenWidth-32, 1)];
+    UIView* view =[[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight/2)];
     
-    if (self.orderState != 2)
-        return;
-    
-    
-    float btnWH =KMainScreenWidth*70/320;
+//    if (self.orderState == 2){
+    float btnWH =KMainScreenWidth*80/320;
     float btnX = (KMainScreenWidth - btnWH)/2;
-    float btnY = CGRectGetMaxY(self.myTableView.frame)+5;
+    float btnY = 30;
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
     button.layer.masksToBounds = YES;
     button.layer.cornerRadius = btnWH/2;
     button.titleLabel.numberOfLines = 0;
     button.titleLabel.lineBreakMode = 0;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    button.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*17/320];
     [button setTitle:@"服务\n评价" forState:UIControlStateNormal];
-    [button setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
-    [self.view addSubview:button];
+    [button setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+    [view addSubview:button];
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
 //         UNIMyAppointInfoModel* info =self.modelArr.lastObject;
 //         NSArray* arr= @[self.order,info.projectName,info.createTime];
          UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
          UNIEvaluateController* eva = [story instantiateViewControllerWithIdentifier:@"UNIEvaluateController"];
-       //  eva.data = arr;
+         eva.model =self.modelArr[0];
+         eva.order = self.order;
          [self.navigationController pushViewController:eva animated:YES];
-    }];
+     }];
+//    }
+//     if (self.orderState < 2){
+//        
+//        float mapX = KMainScreenWidth*16/320;
+//        float mapWH = self.myTableView.frame.size.width - mapX*2;
+//        MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];
+//        mapView.mapType = MKMapTypeStandard;//标准模式
+//        mapView.showsUserLocation = YES;//显示自己
+//        mapView.zoomEnabled = YES;//支持缩放
+//        [view addSubview:mapView];
+//        UNIShopManage* manager = [UNIShopManage getShopData];
+//        CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
+//        mapView.centerCoordinate = td;
+//        
+//        UNIMapAnnotation * end =[[UNIMapAnnotation alloc]initWithTitle:manager.shopName andCoordinate:td];
+//                [mapView addAnnotation:end];
+//        
+//        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
+//        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];//适配map view的尺寸
+//        [mapView setRegion:adjustedRegion animated:YES];
+//    
+//
+//    }
+    self.myTableView.tableFooterView = view;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -128,13 +145,13 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     float cellH = 0;
-    if (indexPath.row == 0){
-        cellH =topCellH;
+    if (indexPath.row == _modelArr.count){
+        cellH =midCellH;
     }
     else if (indexPath.row == _modelArr.count+1)//最后一个Cell
          cellH =bottomCellH;
     else
-         cellH = midCellH;
+         cellH = topCellH;
     
 
     return cellH;
@@ -142,12 +159,12 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UNIMyAppointInfoModel* model=nil;
-    if (indexPath.row == 0) {
+    if (indexPath.row == self.modelArr.count) {
          model = self.modelArr.lastObject;
         static NSString* name1 = @"UNIAppointDetall1Cell";
         UNIAppointDetall1Cell* cell = [tableView dequeueReusableCellWithIdentifier:name1];
         if (!cell){
-            cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetall1Cell" owner:self options:nil].lastObject;
+            cell =[[UNIAppointDetall1Cell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,midCellH) reuseIdentifier:name1];
             cell.selectionStyle =UITableViewCellSelectionStyleNone;}
         
         [cell setupCellContentWith:@[@(self.orderState),self.order,model.createTime,model.lastModifiedDate]];
@@ -159,18 +176,16 @@
         static NSString* name3 = @"UNIAppointDetail2Cell";
         UNIAppointDetail2Cell* cell = [tableView dequeueReusableCellWithIdentifier:name3];
         if (!cell) {
-            cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetail2Cell" owner:self options:nil].lastObject;
+            cell =[[UNIAppointDetail2Cell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,bottomCellH) reuseIdentifier:name3];
             cell.selectionStyle =UITableViewCellSelectionStyleNone;
         }
-        
-        [cell setupCellContentWith:model.status];
         
         return cell;
     }else{
         static NSString* name2 = @"UNIAppointDetailCell";
         UNIAppointDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:name2];
         if (!cell){
-            cell=[[NSBundle mainBundle]loadNibNamed:@"UNIAppointDetailCell" owner:self options:nil].lastObject;
+            cell=[[UNIAppointDetailCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,topCellH) reuseIdentifier:name2];
             cell.selectionStyle =UITableViewCellSelectionStyleNone;
         }
         model =self.modelArr.lastObject;

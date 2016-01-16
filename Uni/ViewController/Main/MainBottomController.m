@@ -31,17 +31,22 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self setupSelf];
     [self setupNavigation];
     [self setupParams];
     [self setupMJReflash];
     [self setupNotification];
 }
+-(void)setupSelf{
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
+    view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
+    self.tableView.tableHeaderView =view;
+}
 
 
 -(void)setupNavigation{
     self.title = @"我的项目";
-    self.tableView.backgroundColor = [UIColor whiteColor];
-     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
 #pragma mark 设置参数
 -(void)setupParams{
@@ -97,25 +102,25 @@
     return _myData.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth*70/320;
+    return KMainScreenWidth*90/320;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"CellName";
     MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell)
        // cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
-        cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*70/320) reuseIdentifier:name];
+        cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
     
     [cell setupCellContent:_myData[indexPath.row] andType:2];
     
-    cell.handleBtn.tag = indexPath.row+10;
-    [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-    subscribeNext:^(UIButton* x) {
-        UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
-        appoint.model =  self.myData[x.tag-10];
-        [self.navigationController pushViewController:appoint animated:YES];
-    }];
+//    cell.handleBtn.tag = indexPath.row+10;
+//    [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+//    subscribeNext:^(UIButton* x) {
+//        UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+//        appoint.model =  self.myData[x.tag-10];
+//        [self.navigationController pushViewController:appoint animated:YES];
+//    }];
     return cell;
 }
 

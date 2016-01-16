@@ -13,8 +13,8 @@
 @interface UNIRewardListController ()<UIScrollViewDelegate,UNIRewardListViewDelegate>{
     UIView* topView;
     float scrollerX;
+    UIImageView* arrowImg;
 }
-@property(nonatomic,strong)CALayer* lineLayer;
 @property(nonatomic,strong)UIScrollView* myScroller;
 @property(nonatomic,strong)UNIRewardListView* unGetView; //未领
 @property(nonatomic,strong)UNIRewardListView* gotView; //已领
@@ -36,37 +36,31 @@
 }
 
 -(void)setupTopView{
-    float topH = KMainScreenWidth * 40/320;
+    float topH = KMainScreenWidth * 45/320;
     UIView* top = [[UIView alloc]initWithFrame:CGRectMake(0, 64, KMainScreenWidth, topH)];
     top.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:top];
     topView = top;
     
-    NSArray* titil = @[@"全部",@"未领取",@"已领取"];
-    float btnX = 10;
-    float btnW = (KMainScreenWidth-btnX*2)/3;
+    NSArray* titil = @[@"未领取",@"全部",@"已领取"];
+
+    float btnW = KMainScreenWidth/3;
     for (int i = 0; i <titil.count; i++) {
         NSString* str = titil[i];
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(btnX+i*btnW, 0, btnW, topH);
+        btn.frame = CGRectMake(i*btnW, 0, btnW, topH);
         btn.tag = i+1;
         [btn setTitle:str forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor colorWithHexString:kMainTitleColor] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
-        [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateSelected];
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[self createImageWithColor:[UIColor blackColor]] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateSelected];
+        [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
+        
         if (i == 0)
             btn.selected = YES;
-        if (i<titil.count-1) {
-            float layX =btnX+i*btnW+btnW;
-            float layH = topH*0.7;
-            float layY = (topH - layH)/2;
-            CALayer* lay = [CALayer layer];
-            lay.backgroundColor = kMainGrayBackColor.CGColor;
-            lay.frame = CGRectMake(layX, layY, 1, layH);
-            [top.layer addSublayer:lay];
-        }
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
             [top addSubview:btn];
+        
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
@@ -75,15 +69,23 @@
         }];
     }
     
-    float layY = topH-2;
-    CALayer* lay = [CALayer layer];
-    lay.backgroundColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
-    lay.frame = CGRectMake(btnX, layY, btnW, 1);
-    [top.layer addSublayer:lay];
-    self.lineLayer = lay;
+    float arrowW =KMainScreenWidth*5/320;
+    float arrowH = KMainScreenWidth*4/320;
+    float arrowX = (btnW-arrowW)/2;
+    float arrowY = top.frame.size.height - arrowH;
+    UIImageView* arrow = [[UIImageView alloc]initWithFrame:CGRectMake(arrowX, arrowY, arrowW, arrowH)];
+    arrow.image = [UIImage imageNamed:@"appoint_img_arrows"];
+    [top addSubview:arrow];
+    arrowImg = arrow;
+
 }
 #pragma mark 按钮改变字体颜色
 -(void)btnChangeTextColor:(UIButton*)btn{
+
+    CGPoint pot = CGPointMake(btn.center.x, self->arrowImg.center.y);
+    [UIView animateWithDuration:0.2 animations:^{
+        self->arrowImg.center = pot;
+    }];
     
     btn.selected=YES;
     for (int i = 1; i<4; i++) {
@@ -92,6 +94,8 @@
             bt.selected = NO;
         }
     }
+   
+    
 }
 
 #pragma mark 按钮加载视图
@@ -110,9 +114,9 @@
 }
 
 -(void)setupTableView{
-    float tabX = 10;
-    float tabY = CGRectGetMaxY(topView.frame)+tabX;
-    float tabH = KMainScreenHeight - tabX - tabY;
+    float tabX = 0;
+    float tabY = CGRectGetMaxY(topView.frame)+10;
+    float tabH = KMainScreenHeight - tabY;
     UIScrollView* scl = [[UIScrollView alloc]initWithFrame:CGRectMake(0, tabY, KMainScreenWidth, tabH)];
     scl.contentSize = CGSizeMake(KMainScreenWidth*3, tabH);
     scl.delegate = self;
@@ -121,8 +125,8 @@
     self.myScroller = scl;
     
     
-    float scW = KMainScreenWidth - 2*tabX;
-    self.curentView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(tabX, 0, scW, tabH) andState:-1];
+    float scW = KMainScreenWidth;
+    self.curentView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(tabX, 0, scW, tabH) andState:0];
     self.curentView.delegate = self;
     [scl addSubview:self.curentView];
     
@@ -130,10 +134,10 @@
 -(void)setupUnGetView{
      if (self.unGetView)
          return;
-    float unX = KMainScreenWidth+10;
+    float unX = KMainScreenWidth;
     float unW =  self.curentView.frame.size.width;
     float unH = self.curentView.frame.size.height;
-    self.unGetView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(unX, 0, unW, unH) andState:0];
+    self.unGetView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(unX, 0, unW, unH) andState:-1];
     self.unGetView.delegate = self;
     [self.myScroller addSubview:self.unGetView];
 
@@ -141,7 +145,7 @@
 -(void)setupGotView{
     if (self.gotView)
         return;
-    float unX = 2*KMainScreenWidth+10;
+    float unX = 2*KMainScreenWidth;
     float unW =  self.curentView.frame.size.width;
     float unH = self.curentView.frame.size.height;
     self.gotView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(unX, 0, unW, unH) andState:1];
@@ -163,42 +167,50 @@
     float xx = scrollView.contentOffset.x;
     if (xx<0 ||xx>2*KMainScreenWidth)
         return;
-    float zx = xx-scrollerX;
-    scrollerX = xx;
-    CGRect layRe = self.lineLayer.frame;
-    float yd = zx *layRe.size.width/KMainScreenWidth;
-        self.lineLayer.frame = CGRectMake(layRe.origin.x + yd,
-                                          layRe.origin.y,
-                                          layRe.size.width,
-                                          layRe.size.height);
+
+    if (xx==0) {
+        int tag = 1;
+        UIButton* btn = (UIButton*)[topView viewWithTag:tag];
+        [self btnChangeTextColor:btn];
+    }
     
-    int tag = 1;
     if(xx == KMainScreenWidth){
         [self setupUnGetView];
-        tag = 2;
+        int tag = 2;
+        UIButton* btn = (UIButton*)[topView viewWithTag:tag];
+        [self btnChangeTextColor:btn];
+
     }
     
     if(xx == 2*KMainScreenWidth){
         [self setupGotView];
-        tag = 3;
+       int tag = 3;
+        UIButton* btn = (UIButton*)[topView viewWithTag:tag];
+        [self btnChangeTextColor:btn];
     }
-    UIButton* btn = (UIButton*)[topView viewWithTag:tag];
-    [self btnChangeTextColor:btn];
-}
+    }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+/**
+ *颜色值转换成图片
+ */
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (UIImage*) createImageWithColor: (UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
 }
-*/
+
 
 @end

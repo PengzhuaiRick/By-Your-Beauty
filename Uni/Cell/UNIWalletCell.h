@@ -2,17 +2,19 @@
 //  UNIWalletCell.h
 //  Uni
 //
-//  Created by apple on 15/12/9.
-//  Copyright © 2015年 apple. All rights reserved.
+//  Created by apple on 16/1/16.
+//  Copyright © 2016年 apple. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 @interface UNIWalletCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *label2;
-@property (weak, nonatomic) IBOutlet UIImageView *mainImag;
-@property (weak, nonatomic) IBOutlet UIButton *stateBtn;
-
--(void)setupCellContentWith:(id)model;
+@property (strong, nonatomic) UIImageView* mainImg;
+@property (strong, nonatomic) UIImageView* overDusImg;//过期
+@property (strong, nonatomic)  UILabel *lab1;
+@property (strong, nonatomic)  UILabel *lab2;
+@property (strong, nonatomic)  UILabel *lab3;
+@property (strong, nonatomic)  UILabel *lab4;
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
+-(void)setupCellContent:(id)model;
 @end

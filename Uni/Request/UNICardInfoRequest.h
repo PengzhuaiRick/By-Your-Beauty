@@ -25,7 +25,7 @@ typedef void(^CardInfoBlock)(NSArray* arr,NSString* tips,NSError* err);
  *  @param num           已约次数
  *  @param tips          反馈信息
  */
-typedef void(^RQRewardBlock)(int nextRewardNum,int num,NSString*tips,NSError* er);
+typedef void(^RQRewardBlock)(int nextRewardNum,int num,NSString *projectName,NSString*tips,NSError* er);
 
 
 @interface UNICardInfoRequest : BaseRequest

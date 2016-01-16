@@ -23,15 +23,16 @@
         //获取已预约信息
         if([param2 isEqualToString:API_URL_Appoint]){
             if (code == 0) {
+                int count =[[self safeObject:dic ForKey:@"count"]intValue];
                 NSArray* result = [self safeObject:dic ForKey:@"result"];
                 NSMutableArray* array = [NSMutableArray arrayWithCapacity:result.count];
                 for (NSDictionary* dia in result) {
                     UNIMyAppintModel * model = [[UNIMyAppintModel alloc]initWithDic:dia];
                     [array addObject:model];
                 }
-                _reappointmentBlock(array,tips,nil);
+                _reappointmentBlock(count,array,tips,nil);
             }else
-                _reappointmentBlock(nil,tips,nil);
+                _reappointmentBlock(-1,nil,tips,nil);
         }
         //获取我的未预约项目
         if ([param2 isEqualToString:API_URL_MyProjectInfo]) {
@@ -66,9 +67,10 @@
            if (code == 0) {
                int nextRewardNum = [[self safeObject:dic ForKey:@"nextRewardNum"] intValue];
                int num = [[self safeObject:dic ForKey:@"num"] intValue];
-               _rerewardBlock(nextRewardNum,num,tips,nil);
+               NSString* projectName = [self safeObject:dic ForKey:@"projectName"];
+               _rerewardBlock(nextRewardNum,num,projectName,tips,nil);
            }else
-               _rerewardBlock(-1,-1,tips,nil);
+               _rerewardBlock(-1,-1,nil,tips,nil);
         }
     }
 }
@@ -81,7 +83,7 @@
     if ([param1 isEqualToString:API_PARAM_UNI]) {
         //获取已预约信息
         if ([param2 isEqualToString:API_URL_Appoint])
-            _reappointmentBlock(nil,nil,err);
+            _reappointmentBlock(-1,nil,nil,err);
         
         //商店信息
         if ([param2 isEqualToString:API_URL_ShopInfo] )
@@ -90,7 +92,7 @@
         
         //获取奖励信息
         if ([param2 isEqualToString:API_URL_MRInfo]) 
-             _rerewardBlock(-1,-1,nil,err);
+             _rerewardBlock(-1,-1,nil,nil,err);
         
         //获取我的未预约项目
         if ([param1 isEqualToString:API_URL_MyProjectInfo])

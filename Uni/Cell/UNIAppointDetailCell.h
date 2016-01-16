@@ -9,12 +9,14 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIAppointDetailCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *mainImg;
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *label2;
-@property (weak, nonatomic) IBOutlet UILabel *label3;
-@property (weak, nonatomic) IBOutlet UIButton *stateBtn;
+@property (strong, nonatomic)  UIImageView *mainImage;
+@property (strong, nonatomic)  UIImageView *intimeImg;
+@property (strong, nonatomic)  UILabel *mainLab;
+@property (strong, nonatomic)  UILabel *subLab;
+@property (strong, nonatomic)  UILabel *stateLab;
+@property (strong, nonatomic)  UILabel *timeLab;
 
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
 -(void)setupCellContentWith:(id)model;
 
 @end

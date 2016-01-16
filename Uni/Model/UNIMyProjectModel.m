@@ -26,5 +26,6 @@
     self.num = [[self safeObject:dic ForKey:@"num"]intValue];
     self.projectId = [[self safeObject:dic ForKey:@"projectId"]intValue];
     self.costTime = [[self safeObject:dic ForKey:@"costTime"]intValue];
+    self.select=NO;
 }
 @end

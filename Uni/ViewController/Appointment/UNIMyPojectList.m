@@ -7,17 +7,20 @@
 //
 
 #import "UNIMyPojectList.h"
-#import "UNIMyAppointCell.h"
 #import "MainViewRequest.h"
 #import <MJRefresh/MJRefresh.h>
-#define CELLH KMainScreenWidth*60/320
-#define MAXTABLEH KMainScreenHeight-64-30-24  //tableview最大高度
+#import "UNIAddProjcetCell.h"
+#define CELLH KMainScreenWidth*70/320
+#define MAXTABLEH KMainScreenHeight-64-60  //tableview最大高度
 @interface UNIMyPojectList ()<UITableViewDataSource,UITableViewDelegate>{
     UIButton* needKnowBtn;//需知按钮
     CGRect tableRect;//
     CGRect btnRect;
     int pageNum;
     int pageSize;
+    
+    int seletNum;
+    UILabel* numLab;
 }
 @end
 
@@ -28,18 +31,32 @@
     [super viewDidLoad];
     [self setupData];
     [self setupTableView];
-    [self startRequestInfo];
+   // [self startRequestInfo];
+    [self.myTableview.header beginRefreshing];
 }
 -(void)setupData{
     self.title = @"我的项目";
+    seletNum = 0;
     pageNum = 0;
     pageSize = 20;
     _myData = [NSMutableArray array];
-     self.view.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
+     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    
+    float btnWH = KMainScreenWidth*20/320;
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, btnWH, btnWH)];
+    lab.text=@"0";
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
+    lab.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
+    lab.layer.masksToBounds=YES;
+    lab.layer.cornerRadius = btnWH/2;
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor whiteColor];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:lab];
+    numLab = lab;
 }
 -(void)setupTableView{
    
-        tableRect =CGRectMake(8, 64+8, KMainScreenWidth-16,MAXTABLEH);
+    tableRect =CGRectMake(0, 64, KMainScreenWidth,MAXTABLEH);
     _myTableview = [[UITableView alloc]initWithFrame:tableRect
                                                style:UITableViewStylePlain];
     _myTableview.layer.masksToBounds = YES;
@@ -47,9 +64,7 @@
     _myTableview.delegate =self;
     _myTableview.dataSource = self;
     
-    if (IOS_VERSION<9.0)
-        _myTableview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
-    if (IOS_VERSION>9.0)
+    if (IOS_VERSION>8.0)
         _myTableview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     [self.view addSubview:_myTableview];
     
@@ -65,25 +80,31 @@
         }];
 
     
-    _myTableview.tableFooterView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTableview.frame.size.width, 30)];
+    _myTableview.tableFooterView = [UIView new];
     
-    NSString* btnT = @"项目根据美容院预约安排,如果您的项目不能连续预约,请选择其他时间进行预约";
+    NSString* btnT = @"选 择";
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn setBackgroundColor:[UIColor clearColor]];
-    btnRect =  CGRectMake(8, KMainScreenHeight-38, _myTableview.frame.size.width, 30);
+    
+    btnRect =  CGRectMake(0,KMainScreenHeight - 60,KMainScreenWidth, 60);
     btn.frame =btnRect;
-    [btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
+    [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     [btn setTitle:btnT forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*9/320];
-    btn.titleLabel.numberOfLines = 0;
-    btn.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-    btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = 5;
-    btn.layer.borderWidth = 0.5;
-    btn.layer.borderColor = [UIColor blackColor].CGColor;
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*20/320];
     [self.view addSubview:btn];
     needKnowBtn = btn;
+    
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        NSMutableArray* arr = [NSMutableArray array];
+        for (UNIMyProjectModel* model in self.myData) {
+            if (model.select) {
+                [arr addObject:model];
+            }
+        }
+        [self.delegate UNIMyPojectListDelegateMethod:arr];
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return CELLH;
@@ -95,35 +116,31 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"cell";
-    UNIMyAppointCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    UNIAddProjcetCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell =[[NSBundle mainBundle]loadNibNamed:@"UNIMyAppointCell" owner:self options:nil].lastObject;
-        cell.mainLab.textColor = [UIColor colorWithHexString:@"ee4b7c"];
-        cell.mainLab.font = [UIFont boldSystemFontOfSize:13];
-        
-        cell.subLab.textColor = [UIColor colorWithHexString:@"c2c1c0"];
-        cell.subLab.font = [UIFont boldSystemFontOfSize:13];
-
+        cell =[[UNIAddProjcetCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, CELLH) reuseIdentifier:name];
     }
     UNIMyProjectModel* model = _myData[indexPath.row];
-    cell.mainImg.image = [UIImage imageNamed:@"main_img_cell1"];
-    //  cell.imageView.contentMode=UIViewContentModeScaleAspectFit;
-    
-    cell.mainLab.text =model.projectName;
-    
-    
-    cell.subLab.text = [NSString stringWithFormat:@"服务时长%d分钟",model.costTime];
-    
-    cell.functionBtn.tag = indexPath.row+10;
-    [[cell.functionBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-    subscribeNext:^(UIButton* x) {
-        id model = self.myData[x.tag-10];
-        [self.delegate UNIMyPojectListDelegateMethod:model];
-        [self.navigationController popViewControllerAnimated:YES];
-    }];
-    
+    [cell setupCellWithData:model];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    UNIMyProjectModel* model = _myData[indexPath.row];
+    UNIAddProjcetCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if (model.select){
+        model.select = NO;
+        seletNum -- ;
+    }
+    else{
+        model.select = YES;
+        seletNum++;
+    }
+    numLab.text = [NSString stringWithFormat:@"%d",seletNum];
+    cell.handleBtn.selected = model.select;
+    
 }
 
 #pragma mark 开始请求我未预约项目
@@ -156,9 +173,8 @@
                             }
                         }
                         [self.myData addObjectsFromArray:data1];
-                        
+                        [self.myTableview reloadData];
                        //[self.myData addObjectsFromArray:myProjectArr];
-                        [self modificationUI];
                     }
                     else
                         [YIToast showText:tips];
@@ -171,20 +187,6 @@
     });
 }
 
--(void)modificationUI{
-    float h = _myData.count*CELLH;
-    float th = 0;
-    if(h>MAXTABLEH)
-        th = MAXTABLEH;
-    else
-        th = h;
-    tableRect.size.height = th;
-    self.myTableview.frame =tableRect;
-    [self.myTableview reloadData];
-    
-    needKnowBtn.frame =
-    CGRectMake(btnRect.origin.x, CGRectGetMaxY(_myTableview.frame)+8, btnRect.size.width, btnRect.size.height);
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

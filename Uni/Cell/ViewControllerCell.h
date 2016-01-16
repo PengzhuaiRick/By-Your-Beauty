@@ -13,6 +13,7 @@
 }
 @property (strong, nonatomic)  UIImageView *mainImg;
 @property (strong, nonatomic)  UILabel *mainLab;
+@property (strong, nonatomic)  UILabel *numLab;
 
 -(id)initWithCellH:(float)cellH reuseIdentifier:(NSString *)reuseIdentifier;
 @end

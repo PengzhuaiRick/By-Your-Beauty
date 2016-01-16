@@ -18,5 +18,7 @@
 @property(nonatomic,assign)int num;// 剩余数量
 @property(nonatomic,assign)int costTime;//服务时长
 @property(nonatomic,assign)int projectId;//项目id
+
+@property(nonatomic,assign)BOOL select;
 -(id)initWithDic:(NSDictionary*)dic;
 @end

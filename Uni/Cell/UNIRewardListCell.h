@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIRewardListCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *mainImg;
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *label2;
-@property (weak, nonatomic) IBOutlet UILabel *label3;
-@property (weak, nonatomic) IBOutlet UIButton *stateBtn;
+@property (strong, nonatomic)  UIImageView *mainImg;
+@property (strong, nonatomic)  UILabel *label1;
+@property (strong, nonatomic)  UILabel *label2;
+@property (strong, nonatomic)  UILabel *label3;
+@property (strong, nonatomic)  UILabel *stateBtn;
 
 -(void)setupCellContentWith:(id)model;
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
 @end

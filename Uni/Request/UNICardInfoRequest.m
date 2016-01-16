@@ -36,9 +36,10 @@
             if (code == 0) {
                 int nextRewardNum = [[self safeObject:dic ForKey:@"nextRewardNum"]intValue];
                 int num = [[self safeObject:dic ForKey:@"num"]intValue];
-                _rqrewardBlock(nextRewardNum,num,tips,nil);
+                NSString* projectName =[self safeObject:dic ForKey:@"projectName"];
+                _rqrewardBlock(nextRewardNum,num,projectName,tips,nil);
             }else
-                _rqrewardBlock(-1,-1,tips,nil);
+                _rqrewardBlock(-1,-1,nil,tips,nil);
         }
     }
     
@@ -55,7 +56,7 @@
              _cardInfoBlock(nil,nil,err);
        // 准时奖励
          if ([param2 isEqualToString:API_URL_ITRewardInfo])
-             _rqrewardBlock(-1,-1,nil,err);
+             _rqrewardBlock(-1,-1,nil,nil,err);
     }
 }
 @end

@@ -1,15 +1,15 @@
 //
 //  UNIWalletController.m
 //  Uni
-//  我的钱包
+//  我的卡包
 //  Created by apple on 15/12/8.
 //  Copyright © 2015年 apple. All rights reserved.
 //
 
 #import "UNIWalletController.h"
-
-@interface UNIWalletController ()
-
+#import "UNIWalletCell.h"
+@interface UNIWalletController ()<UITableViewDataSource,UITableViewDelegate>
+@property(strong,nonatomic)UITableView* myTable;
 @end
 
 @implementation UNIWalletController
@@ -36,25 +36,56 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
+    [self setupTableView];
 }
 -(void)setupNavigation{
-    self.title = @"我的钱包";
+    self.title = @"我的卡包";
     [self preferredStatusBarStyle];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kMainThemeColor];
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    UIBarButtonItem* bar = [[UIBarButtonItem alloc]initWithTitle:@"钱包明细" style:UIBarButtonItemStylePlain target:self action:@selector(navigationControllerRightBarAction:)];
-    self.navigationItem.rightBarButtonItem = bar;
     
-    UIBarButtonItem* left = [[UIBarButtonItem alloc]init];
-    left.image = [UIImage imageNamed:@"main_btn_function"];
-    left.style = UIBarButtonItemStyleDone;
-    left.tintColor = [UIColor whiteColor];
-    left.target = self;
-    left.action=@selector(navigationControllerLeftBarAction:);
-    self.navigationItem.leftBarButtonItem = left;
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
+-(void)setupTableView{
+    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+10, KMainScreenWidth,KMainScreenHeight - 64 - 10) style:UITableViewStylePlain];
+    tabview.delegate = self;
+    tabview.dataSource = self;
+    tabview.showsVerticalScrollIndicator=NO;
+    [self.view addSubview:tabview];
+    tabview.tableFooterView = [UIView new];
+    if (IOS_VERSION>8.0) {
+        tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    }
+    self.myTable =tabview;
+    
+//    self.myTable.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+//        self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myScroller.frame.size.height*2);
+//        [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
+//        self.myTable.footer = nil;
+//        [self setupWebView];
+//        
+//    }];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return KMainScreenWidth* 120/320;
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 4;
+}
+
+-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+         static NSString* name = @"cell";
+    UNIWalletCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    if (!cell) {
+        cell = [[UNIWalletCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth* 120/320) reuseIdentifier:name];
+        cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    }
+    return cell;
+}
+
+
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     if (self.containController.closing) {

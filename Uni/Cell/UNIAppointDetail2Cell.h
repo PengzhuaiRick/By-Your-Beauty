@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "UNIMapAnnotation.h"
+#import "UNIShopManage.h"
 @interface UNIAppointDetail2Cell : UITableViewCell<MKMapViewDelegate>
-@property (weak, nonatomic) IBOutlet UIImageView *mainImg;
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet MKMapView *mapView;
-
+@property (strong, nonatomic)  UIImageView *mainImg;
+@property (strong, nonatomic)  UILabel *label1;
+//@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
 -(void)setupCellContentWith:(int)state;
 @end

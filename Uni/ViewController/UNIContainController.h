@@ -19,4 +19,6 @@
 -(void)setupMainController;
 -(void)setupMyController;
 -(void)setupWalletController;
+-(void)setupCardController;
+-(void)setupGiftController;
 @end

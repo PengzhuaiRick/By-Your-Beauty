@@ -15,15 +15,33 @@
 @interface UNICardInfoController ()<UITableViewDataSource,UITableViewDelegate>{
     int pageNum;
     UIView* topView;
-    UIView* midView;
     UITableView* myTableView;
+    UILabel* topLab1;
+    UILabel* topLab2;
     
 }
 @property(nonatomic, strong)NSMutableArray* myData;
 @end
 
 @implementation UNICardInfoController
-
+-(void)viewWillAppear:(BOOL)animated{
+    NSArray* array =self.containController.view.gestureRecognizers;
+    for (UIGestureRecognizer* ges in array) {
+        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
+            ges.enabled=YES;
+        }
+    }
+    [super viewWillAppear:animated];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    NSArray* array =self.containController.view.gestureRecognizers;
+    for (UIGestureRecognizer* ges in array) {
+        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
+            ges.enabled=NO;
+        }
+    }
+    [super viewWillDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
@@ -37,11 +55,23 @@
     self.title = @"使用会员卡详情";
     self.view .backgroundColor= [UIColor colorWithHexString: kMainBackGroundColor];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"card_bar_user"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemAction:)];
+      self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"card_bar_user"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemAction:)];
+//    
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
-
+#pragma mark 功能按钮事件
+-(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
+    if (self.containController.closing) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
+    }
+    else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
+    }
+    
+    
+}
 -(void)rightBarButtonItemAction:(UIBarButtonItem*)item{
     NSString* msg = [NSString stringWithFormat:@"用户账号: %@",[AccountManager localLoginName]];
 #ifdef IS_IOS9_OR_LATER
@@ -61,13 +91,22 @@
     UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_ITRewardInfo]
                       params:nil];
-    request.rqrewardBlock=^(int total,int num,NSString* tips,NSError* err){
+    request.rqrewardBlock=^(int total,int num,NSString* projectName,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (err) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (total>0) {
+                self->topLab1.text = [NSString stringWithFormat:@"满%d次奖励价值",total];
+                [self->topLab1 sizeToFit];
+                self->topLab2.text = projectName;
+                float x = CGRectGetMaxX(self->topLab1.frame);
+                CGRect top2 = self->topLab2.frame;
+                top2.origin.x = x;
+                top2.size.width = self->topView.frame.size.width - x;
+                top2.size.height =self->topLab1.frame.size.height;
+                self->topLab2.frame = top2;
                 [self setupmidView:total and:num];
             }
 //            else
@@ -111,110 +150,124 @@
     float topX = 16;
     float topY = 64+16;
     float topW = KMainScreenWidth - topX*2;
-    float topH = KMainScreenWidth* 80/320;
+    float topH = KMainScreenWidth* 100/320;
     UIView* top = [[UIView alloc]initWithFrame:CGRectMake(topX, topY, topW, topH)];
+    top.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:top];
     topView = top;
     
-    UIImage* img = [UIImage imageNamed:@"mian_img_cellH"];
-    float imgH = KMainScreenWidth* 16/320;
-    UIImageView* imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, topW, imgH)];
-    imgView.image =img;
-    [top addSubview:imgView];
-    
-    float labX = KMainScreenWidth*5/320;
-    float labY = 0;
+    float labX = KMainScreenWidth*8/320;
+    float labY = 5;
     float labW = topW- labX*2;
-    UILabel* lab =[[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, imgH)];
-    lab.text = @"准时奖励";
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth* 12/320];
+    float labH = KMainScreenWidth*20/320;
+    UILabel* lab =[[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
+    lab.text = @"准时到店";
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth* 14/320];
     [top addSubview:lab];
     
-    UIImage* img2 = [UIImage imageNamed:@"main_img_cellF"];
-    float img2H = KMainScreenWidth*5/320;
-    float img2Y = topH - img2H;
-    UIImageView* imgView2 = [[UIImageView alloc]initWithFrame:CGRectMake(0, img2Y, topW, img2H)];
-    imgView2.image = img2;
-    [top addSubview:imgView2];
+    float layX = labX;
+    float layY = CGRectGetMaxY(lab.frame);
+    float layW = labW;
+    CALayer* lay =[CALayer layer];
+    lay.frame = CGRectMake(layX, layY, layW, 0.5);
+    lay.backgroundColor = kMainGrayBackColor.CGColor;
+    [top.layer addSublayer:lay];
     
-    float midH = topH - imgH - img2H;
-    UIView * midview = [[UIView alloc]initWithFrame:CGRectMake(0, imgH, topW, midH)];
-    midview.backgroundColor = [UIColor whiteColor];
-    [top addSubview:midview];
-    midView = midview;
+    float lab1X = KMainScreenWidth*8/320;
+    float lab1Y = CGRectGetMaxY(lab.frame)+1;
+    float lab1W = KMainScreenWidth*100/320;
+    float lab1H = KMainScreenWidth*20/320;
+    UILabel* lab1 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth* 14/320];
+    [top addSubview:lab1];
+    topLab1 = lab1;
     
-    float btnX =labX*4;
-    float btnW = topW - btnX*2;
-    float btnH =KMainScreenWidth* 15/320;
-    float btnY =topH - btnH;
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
-    [btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
-    [btn setTitle:@"准时到店满10次" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor colorWithHexString:kMainTitleColor] forState:UIControlStateNormal];
-    btn.titleLabel.font =[UIFont boldSystemFontOfSize:KMainScreenWidth* 11/320];
-    btn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [top addSubview:btn];
+    float lab2X = CGRectGetMaxX(lab1.frame);
+    float lab2W =topW- CGRectGetMaxX(lab1.frame);
+    UILabel* lab2 =[[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab1Y, lab2W, lab1H)];
+    lab2.text = @"准时到店";
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth* 14/320];
+    lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
+    [top addSubview:lab2];
+    topLab2 = lab2;
 
 }
 -(void)setupmidView:(int)total and:(int)num{
-    CALayer* layer = [CALayer layer];
-    layer.backgroundColor = kMainGrayBackColor.CGColor;
-    float layH =KMainScreenWidth*4/320;
-    float layY =(midView.frame.size.height - layH)/2;
-    float layW =midView.frame.size.width-30;
-    layer.frame = CGRectMake(15,layY, layW, layH);
-    [midView.layer addSublayer:layer];
-    if (num>0) {
-        CALayer* layer1 = [CALayer layer];
-        layer1.backgroundColor = [UIColor colorWithHexString:kMainGreenBackColor].CGColor;
-        float lay1W =layW*num/total;
-        layer1.frame = CGRectMake(15,layY,lay1W, layH);
-        [midView.layer addSublayer:layer1];
+    int xx = total - num >= 5?num-1:total-5;
+    if (num<1) {
+        xx = 1;
+        num = 0;
+        total = 5;
+    }
+    
+    float jc = (topView.frame.size.width-20)/5;
+    float btnWH = jc/2;
+    float btnY = topView.frame.size.height - 10 - btnWH;
+    
+    UIImage* img4 =[UIImage imageNamed:@"card_img_unopen"];
+    
+    float img4H = jc;
+    float img4W = img4.size.width*img4H / img4.size.height;
+    float img4X = 15+(jc*4);
+    float img4Y =topView.frame.size.height - img4H-7;
+    UIImageView* awardImge = [[UIImageView alloc]initWithFrame:CGRectMake(img4X,img4Y,img4W,img4H)];
+    if (total ==num)
+        awardImge.image = [UIImage imageNamed:@"card_img_open"];
+    else
+        awardImge.image =img4;
+    [topView addSubview:awardImge];
+
+    
+    for (int i = 0; i<5; i++) {
+       
+        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+       
+         NSString* tit = [NSString stringWithFormat:@"%i",i+xx];
+        [btn setTitle:tit forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
+        if ((i+xx) < num) {
+            [btn setBackgroundImage:[UIImage imageNamed:@"card_btn_get"] forState:UIControlStateNormal];
+        }else
+            [btn setBackgroundImage:[UIImage imageNamed:@"card_btn_unget"] forState:UIControlStateNormal];
+        
+         if (i<4) {
+             btn.frame = CGRectMake(15+(jc*i), btnY, btnWH,btnWH);
+             [topView addSubview:btn];
+         }else{
+             btn.frame = CGRectMake(15+(jc*i), btnY, img4W,btnWH);
+             [btn setBackgroundImage:nil forState:UIControlStateNormal];
+             [topView addSubview:btn];
+         }
+       
+        
+        if (i<4) {
+            float imgX = CGRectGetMaxX(btn.frame);
+            float imgH = KMainScreenWidth*5/320;
+            float imgW = btnWH;
+            float imgY =btnY+(btnWH-imgH)/2;
+            UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgW, imgH)];
+            [topView addSubview:img];
+            
+            NSString* imgName = nil;
+            if (xx+i+1<num)
+                imgName = @"card_img_line2";
+            else
+                imgName = @"card_img_line1";
+            
+            if (i==3) {
+                if (total-num>2)
+                    imgName = @"card_img_line3";
+                if (total-num==2)
+                    imgName = @"card_img_line4";
+                if (total-num==1)
+                    imgName = @"card_img_line2";
+            }
+            
+            img.image = [UIImage imageNamed:imgName];
+        }
         
     }
-    int y = 1;
-    int p = total;
-    if (total>10){
-        y = total/10;
-        p = 10;
-    }
-    float jc = (midView.frame.size.width-30)/p;
-    float btnWH = KMainScreenWidth*12/320;
-    float centerY = midView.frame.size.height/2;
-    for (int i = 0; i<p; i++) {
-        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(0, 0, btnWH,btnWH);
-        btn.center = CGPointMake(15+jc*(i+1),centerY);
-        btn.layer.masksToBounds = YES;
-        btn.layer.cornerRadius = btnWH/2;
-        NSString* tit = [NSString stringWithFormat:@"%i",(i+1)*y];
-        [btn setTitle:tit forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*8/320];
-        [midView addSubview:btn];
-        if ((i+1)*y < num) {
-            [btn setBackgroundColor:[UIColor colorWithHexString:kMainGreenBackColor]];
-        }else
-            [btn setBackgroundColor:kMainGrayBackColor];
-    }
-
     
-    UIImage* img4 =[UIImage imageNamed:@"card_img_ITNreward"];
-    float img4W = KMainScreenWidth*20/320;
-    float img4H = img4.size.height * img4W / img4.size.width;
-    float img4X = midView.frame.size.width - img4W - 5;
-    float img4Y =(midView.frame.size.height - img4H)/2;
-    UIImageView* awardImge = [[UIImageView alloc]initWithFrame:CGRectMake(0,0,img4W,img4H)];
-        if (total ==num)
-            awardImge.image = [UIImage imageNamed:@"card_img_ITreward"];
-        else
-            awardImge.image =img4;
-    
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(img4X,img4Y,img4W,img4H)];
-    view.backgroundColor = [UIColor whiteColor];
-    [view addSubview:awardImge];
-    [midView addSubview:view];
-
 }
 
 -(void)setupTableView{
@@ -250,13 +303,13 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth* 65/320;
+    return KMainScreenWidth* 75/320;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"cell";
     UNICardInfoCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell =[[NSBundle mainBundle]loadNibNamed:@"UNICardInfoCell" owner:self options:nil].lastObject;
+        cell =[[UNICardInfoCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth* 75/320) reuseIdentifier:name];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     

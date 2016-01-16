@@ -10,6 +10,8 @@
 #import "MainViewController.h"
 #import "UNIMyRewardController.h"
 #import "UNIWalletController.h"
+#import "UNICardInfoController.h"
+#import "UNIGiftController.h"
 @interface UNIContainController ()
 {
     CGPoint startPoint;
@@ -20,6 +22,8 @@
     UINavigationController* walletNav;
     UNIMyRewardController* rewardCtr;
     UNIWalletController* wallet;
+    UINavigationController* card;
+    UINavigationController* gift;
 }
 
 
@@ -160,7 +164,33 @@
     }
     [self.view addSubview:walletNav.view];
     [self addChildViewController:walletNav];
-  
+}
+
+//会员卡详情
+-(void)setupCardController{
+    [self removeController];
+    if (!card) {
+        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UNICardInfoController* view = [st instantiateViewControllerWithIdentifier:@"UNICardInfoController"];
+        view.containController = self;
+        card =[[UINavigationController alloc]initWithRootViewController:view];
+    }
+    [self.view addSubview:card.view];
+    [self addChildViewController:card];
+}
+
+//我的礼包
+-(void)setupGiftController{
+    [self removeController];
+    if (!gift) {
+
+        UNIGiftController* view = [[UNIGiftController alloc]init];
+        view.containController = self;
+        gift =[[UINavigationController alloc]initWithRootViewController:view];
+    }
+    [self.view addSubview:gift.view];
+    [self addChildViewController:gift];
+
 }
 
 -(void)removeController{

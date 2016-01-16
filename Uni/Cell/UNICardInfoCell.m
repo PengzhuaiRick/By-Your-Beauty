@@ -9,76 +9,96 @@
 #import "UNICardInfoCell.h"
 #import "UNIMyAppointInfoModel.h"
 @implementation UNICardInfoCell
-
-- (void)awakeFromNib {
-    float cellH = KMainScreenWidth*65/320;
-    float cellW = KMainScreenWidth-32;
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier{
+    self = [super initWithStyle:0 reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setupUI:cellSize];
+    }
+    return self;
+}
+-(void)setupUI:(CGSize)size{
     
-    UIImage* img = [UIImage imageNamed:@"main_img_cell2"];
-    self.mainImg.image = img;
-    float imgH = KMainScreenWidth*50/320;
-    float imgW = imgH*img.size.width/img.size.height;
-    float imgX = 8;
-    float imgY = (cellH - imgH)/2;
-    self.mainImg.frame = CGRectMake(imgX, imgY, imgW, imgH);
+    float imgXY = KMainScreenWidth* 8 /320;
+    float imgWH =size.height - imgXY*2;
+    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgXY, imgXY, imgWH, imgWH)];
+    [self addSubview:img];
+    self.mainImage = img;
     
-    float btnWH = imgH;
-    float btnX = cellW - btnWH - 8;
-    float btnY = imgY;
-    self.stateBtn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
-    self.stateBtn.layer.masksToBounds = YES;
-    self.stateBtn.layer.cornerRadius = KMainScreenWidth*25/320;
-    [self.stateBtn setBackgroundColor: kMainGrayBackColor];
-    self.stateBtn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-    [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    float itW = KMainScreenWidth* 40/320;
+    float itH = KMainScreenWidth* 45/320;
+    float itX = size.width - imgXY - itW;
+    float itY = (size.height - itH)/2;
+    UIImageView* itImg = [[UIImageView alloc]initWithFrame:CGRectMake(itX, itY, itW, itH)];
+    itImg.image = [UIImage imageNamed:@"appoint_img_intime"];
+    [self addSubview:itImg];
+    self.img2 = itImg;
     
-    float img2H = KMainScreenWidth*25/320;
-    float img2Y = cellH -img2H;
-    self.img2.frame = CGRectMake(btnX, img2Y, btnWH, img2H);
+    float lab1Y = 5;
+    float labX = CGRectGetMaxX(img.frame)+10;
+    float labW = size.width - labX-2*imgXY - itW;
+    float labH = size.height/2 - 5;
     
-    float labX = imgX+imgW;
-    float labW = cellW - labX - btnWH - 10;
-    float labH = KMainScreenWidth* 18/320;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
+    lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab1.numberOfLines = 0;
+    lab1.lineBreakMode = 0;
+    [self addSubview:lab1];
+    self.mainLab = lab1;
     
-    float lab1Y =(cellH -2*labH)/2;
-    self.label1.frame = CGRectMake(labX, lab1Y, labW, labH);
-    self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    float lab1H = KMainScreenWidth*17/320;
+    float lab2Y = size.height*0.6;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab2.textColor = kMainGrayBackColor;
+    [self addSubview:lab2];
+    self.subLab = lab2;
     
-    float lab2Y = lab1Y+labH;
-    self.label2.frame = CGRectMake(labX, lab2Y, labW, labH);
-    self.label2.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label2.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-    
+    float lab3W = KMainScreenWidth* 60/320;
+    float lab3X = size.width - imgXY - lab3W;
+    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab2Y, lab3W, lab1H)];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    [self addSubview:lab3];
+    self.stateLab = lab3;
     
 }
+
+
 -(void)setupCellContentWith:(id)model{
     UNIMyAppointInfoModel* info = model;
-    self.label1.text = info.projectName;
+    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"KZ_img_userImg"]];
+    self.mainLab.text = info.projectName;
     NSString* text2 = [info.date substringWithRange:NSMakeRange(5, 11)];
-    self.label2.text = text2;
+    self.subLab.text = text2;
     NSString* titel = nil;
     switch (info.status) {
-        case 0:
-            titel = @"待确认";
-            break;
-        case 1:
-            titel = @"待服务";
-            break;
-        case 2:
+//        case 0:
+//            titel = @"待确认";
+//            break;
+//        case 1:
+//            titel = @"待服务";
+//            break;
+        case 2:{
             titel = @"已完成";
+            self.stateLab.textColor = [UIColor colorWithHexString:kMainThemeColor];
+        }
             break;
-        case 3:
+        case 3:{
+            self.stateLab.textColor = kMainGrayBackColor;
             titel = @"已取消";
+        }
             break;
     }
-    [self.stateBtn setTitle:titel forState:UIControlStateNormal];
+    self.stateLab.text = titel;
+
     
     if (info.ifIntime == 0) {
         self.img2.hidden=YES;
+        self.stateLab.hidden =NO;
     }else{
         self.img2.hidden=NO;
-        self.img2.image = [UIImage imageNamed:@"card_img_CellReward"];
+        self.stateLab.hidden =YES;
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

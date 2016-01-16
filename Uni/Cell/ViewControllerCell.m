@@ -23,13 +23,26 @@
     float cellH = cellHight;
     
     float imgWH = cellH/3;
-    float imgX = 16;
+    float imgX = KMainScreenWidth*30/320;
     float imgY = (cellH - imgWH)/2;
     
     UIImageView* imgview = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
     [self addSubview:imgview];
     imgview.contentMode = UIViewContentModeScaleAspectFit;
     self.mainImg = imgview;
+    
+    float lab3WH = imgWH/2;
+    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, lab3WH, lab3WH)];
+    lab3.center = CGPointMake(imgWH, 0);
+    lab3.textColor = [UIColor whiteColor];
+    lab3.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
+    lab3.text = @"3";
+    lab3.textAlignment = NSTextAlignmentCenter;
+    lab3.layer.masksToBounds = YES;
+    lab3.layer.cornerRadius = lab3WH/2;
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*lab3WH/2/320];
+    [imgview addSubview:lab3];
+    self.numLab = lab3;
     
     float labX = CGRectGetMaxX(imgview.frame)+10;
     float labH = KMainScreenWidth*20/320;

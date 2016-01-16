@@ -97,7 +97,7 @@
     _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(0, CGRectGetMaxY(tab.frame), tab.frame.size.width/2, 30);
+    btn1.frame = CGRectMake(tab.frame.size.width/2, CGRectGetMaxY(tab.frame),KMainScreenWidth*80/320, 30);
     [btn1 setTitle:@" 退出" forState:UIControlStateNormal];
     [btn1 setImage:[UIImage imageNamed:@"function_btn_quit"] forState:UIControlStateNormal];
     btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
@@ -129,6 +129,7 @@
         cell.mainImg.image = [UIImage imageNamed:imgArray[indexPath.row]];
         cell.mainLab.text = titleArray[indexPath.row];
         cell.mainLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    cell.numLab.hidden=YES;
 
     return cell;
 }
@@ -155,6 +156,7 @@
             break;
         case 1:
             [_tv closeTheBox];
+            [_tv setupCardController];
             break;
         case 2://我的奖励
              [_tv closeTheBox];
@@ -162,7 +164,7 @@
             break;
         case 3:
             [_tv closeTheBox];
-            
+            [_tv setupGiftController];
             break;
         case 4:
             [_tv closeTheBox];

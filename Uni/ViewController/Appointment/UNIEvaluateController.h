@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "UNIMyAppointInfoModel.h"
 @interface UNIEvaluateController : UIViewController
 @property (strong, nonatomic)  UIView *mainView;
 @property (strong, nonatomic)  UILabel *label1;
@@ -22,5 +22,6 @@
 @property (strong, nonatomic)  UIButton *xing5;
 @property (strong, nonatomic)  UIButton *submitBnt;
 
-@property(nonatomic,strong)NSArray* data;
+@property(nonatomic,strong)UNIMyAppointInfoModel* model;
+@property (copy, nonatomic) NSString* order;
 @end

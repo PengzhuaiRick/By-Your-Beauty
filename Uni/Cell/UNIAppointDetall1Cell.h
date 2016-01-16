@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIAppointDetall1Cell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *label2;
-@property (weak, nonatomic) IBOutlet UILabel *label3;
+@property (strong, nonatomic) UILabel *label1;
+@property (strong, nonatomic) UILabel *label2;
+@property (strong, nonatomic) UILabel *label3;
 
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
 -(void)setupCellContentWith:(NSArray*)model;
 @end

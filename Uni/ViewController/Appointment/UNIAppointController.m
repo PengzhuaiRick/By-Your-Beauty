@@ -9,14 +9,16 @@
 #import "UNIAppointController.h"
 #import "UNIAppointTop.h"
 #import "UNIAppontMid.h"
-#import "UNIAppointBotton.h"
+//#import "UNIAppointBotton.h"
 #import "UNIMyPojectList.h"
+
 //#import "UNIMyProjectModel.h"
-@interface UNIAppointController ()<UNIMyPojectListDelegate>
+@interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate>
 {
     UNIAppointTop* appointTop;
     UNIAppontMid* appontMid;
-    UNIAppointBotton* appointBotton;
+    //UNIAppointBotton* appointBotton;
+    UIButton* sureBtn; //马上预约按钮
 }
 @end
 
@@ -43,13 +45,7 @@
 
 #pragma mark 加载顶部Scroller
 -(void)setupTopScroller{
-    UNIAppointTop* top = [[NSBundle mainBundle]loadNibNamed:@"UNIAppointTop" owner:self options:nil].lastObject;
-    CGRect scrollerR = _myScroller.frame;
-    top.frame = CGRectMake(8, 8, scrollerR.size.width-16,KMainScreenWidth*170/320);
-    top.layer.masksToBounds=YES;
-    top.layer.cornerRadius = 5;
-    top.model = self.model;
-    [top setupUI:top.frame];
+    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(0,0, KMainScreenWidth,KMainScreenWidth*250/320) andModel:self.model];
     [self.myScroller addSubview:top];
     appointTop = top;
 }
@@ -57,7 +53,8 @@
 #pragma mark 加载中部Scroller
 -(void)setupMidScroller{
    // CGRect scrollerR = _myScroller.frame;
-    UNIAppontMid* mid = [[UNIAppontMid alloc]initWithFrame:CGRectMake(8, CGRectGetMaxY(appointTop.frame)+8, KMainScreenWidth-16, KMainScreenWidth*185/320) andModel:_model];
+    UNIAppontMid* mid = [[UNIAppontMid alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(appointTop.frame)+10, KMainScreenWidth-20, KMainScreenWidth*130/320) andModel:_model];
+    mid.delegate = self;
     [self.myScroller addSubview:mid];
     appontMid = mid;
     
@@ -75,23 +72,30 @@
 }
 #pragma mark 加载底部Scroller
 -(void)setupBottomContent{
-//    UIButton* addBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    float wh = KMainScreenWidth* 60/320;
-//    addBtn.frame = CGRectMake((KMainScreenWidth-wh)/2, CGRectGetMaxY(appontMid.frame), wh, wh);
+    float btnWH = KMainScreenWidth*70/320;
+    float btnY = _myScroller.contentSize.height -btnWH - 10;
+    float btnX = (KMainScreenWidth - btnWH)/2;
     
-     CGRect scrollerR = _myScroller.frame;
-    UNIAppointBotton* botton = [[NSBundle mainBundle]loadNibNamed:@"UNIAppointBotton" owner:self options:nil].lastObject;
-    botton.frame = CGRectMake(8, CGRectGetMaxY(appontMid.frame)+13, scrollerR.size.width-16,  KMainScreenWidth*120/320);
-    [botton setupUI: CGRectMake(0, 0, KMainScreenWidth-16,  KMainScreenWidth*120/320)];
-    [self.myScroller addSubview:botton];
-    appointBotton = botton;
+    UIButton* btn = [UIButton buttonWithType: UIButtonTypeCustom];
+    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
+    [btn setTitle:@"马上\n预约" forState:UIControlStateNormal];
+    [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+    btn.titleLabel.lineBreakMode = 0;
+    btn.titleLabel.numberOfLines = 0;
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*16/320];
+    btn.layer.masksToBounds=YES;
+    btn.layer.cornerRadius = btnWH/2;
+    [_myScroller addSubview:btn];
+    sureBtn = btn;
     
     //检测是否有 预约时间点 存在，选择了预约时间点 才能进行 确定预约 否则预约按钮不可点击
     [RACObserve(appointTop, selectTime)
     subscribeNext:^(NSString* x) {
-        botton.sureBtn.enabled =x.length>0;
+        self->sureBtn.enabled =x.length>0;
     }];
-        [[botton.sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    
+    
+        [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
 //         [LLARingSpinnerView RingSpinnerViewStart];
 //         UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
@@ -142,49 +146,6 @@
          
         
              }];
-    
-    //加号
-    [[botton.jiaBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(UIButton* x) {
-         if (self->appointTop.member<self->appointTop.maxNum) {
-             self->appointTop.member++;
-             //botton.nunField.text = [NSString stringWithFormat:@"%d",self->appointTop.member];
-         }else
-             [YIToast showText:@"已达到预约时间点的最大人数"];
-        
-     }];
-    
-    //减号
-    [[botton.jianBnt rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(UIButton* x) {
-         if (self->appointTop.member >1)
-             self->appointTop.member--;
-        // botton.nunField.text = [NSString stringWithFormat:@"%d",botton.member];
-     }];
-    
-    // 人数 每次修改都会调用
-    [RACObserve(appointTop, member)subscribeNext:^(id x) {
-        botton.nunField.text = [NSString stringWithFormat:@"%d",self->appointTop.member];
-    }];
-    
-    //检测键盘输入人数 是否数字并判断是否超过最大值
-    [botton.nunField.rac_textSignal subscribeNext:^(NSString* value) {
-        if (value.length>0) {
-            char r = [value characterAtIndex:value.length-1];
-            if (r<48||r>57){
-                NSString *str=[NSString stringWithCString:&r  encoding:NSUTF8StringEncoding];
-                value = [value stringByReplacingOccurrencesOfString:str withString:@""];
-            }
-        }
-        int num = value.intValue;
-        if (num>self->appointTop.maxNum) {
-            num =self->appointTop.maxNum;
-            [YIToast showText:@"已到达可预约最大人数"];
-        }else if(num<1)
-            num = 1;
-        self->appointTop.member = num;
-       // botton.nunField.text = [NSString stringWithFormat:@"%d",num];
-    }];
 }
 
 #pragma mark 添加本地通知任务
@@ -265,15 +226,51 @@
 }
 
 #pragma mark UNIMyPojectListDelegate 代理实现方法
--(void)UNIMyPojectListDelegateMethod:(id)model{
-    UNIMyProjectModel* info = model;
-    for (UNIMyProjectModel* mo in appontMid.myData) {
-        if (mo.projectId == info.projectId)
-            return;
-    }
-    [appontMid.myData addObject:info];
-    [appontMid.myTableView reloadData];
+-(void)UNIMyPojectListDelegateMethod:(NSArray *)arr{
+    //UNIMyProjectModel* info = model;
+    [appontMid addProject:arr];
+    [self modifitacteAppontMid];
 }
+
+-(void)UNIAppontMidDelegateMethod{
+    [self modifitacteAppontMid];
+}
+
+-(void)modifitacteAppontMid{
+    // 添加项目和减少项目的时候 修改 appontMid 的高度 和 sureBtn 的位置
+    NSArray* x = appontMid.myData;
+        float yy =x.count*self->appontMid.cellH + 35+CGRectGetMinY(self->appontMid.frame)+CGRectGetMaxY(self->appontMid.lab1.frame);
+        float viewH =x.count*self->appontMid.cellH + 35+CGRectGetMaxY(self->appontMid.lab1.frame);
+        if (yy<=self->sureBtn.frame.origin.y) {
+            [UIView animateWithDuration:0.2 animations:^{
+                CGRect btnRe = self->sureBtn.frame;
+                btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
+                self-> sureBtn.frame = btnRe;
+            }];
+        }else{
+            viewH = self->_myScroller.contentSize.height - CGRectGetMinY(self->appontMid.frame) - 10;
+            CGRect btnRe = self->sureBtn.frame;
+            btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
+            self-> sureBtn.frame = btnRe;
+        }
+        
+        
+        CGRect midRec =self-> appontMid.frame;
+        midRec.size.height = viewH ;
+        self-> appontMid.frame = midRec;
+        
+        CGRect tabRe = self->appontMid.myTableView.frame;
+        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - 35;
+        self->appontMid.myTableView.frame =tabRe;
+        
+        CGRect addRec = self->appontMid.addProBtn.frame;
+        addRec.origin.y =CGRectGetMaxY(tabRe);
+        self->appontMid.addProBtn.frame =addRec;
+        
+
+
+}
+
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];

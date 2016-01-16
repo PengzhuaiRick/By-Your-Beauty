@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "UNIContainController.h"
 @interface UNICardInfoController : UIViewController
-
+@property(nonatomic ,strong)UNIContainController* containController;
 @end

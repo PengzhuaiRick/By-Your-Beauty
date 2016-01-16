@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @interface UNICardInfoCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UIImageView *mainImg;
-@property (weak, nonatomic) IBOutlet UILabel *label1;
-@property (weak, nonatomic) IBOutlet UILabel *label2;
-@property (weak, nonatomic) IBOutlet UIButton *stateBtn;
-@property (weak, nonatomic) IBOutlet UIImageView *img2;//奖励标志
+@property (strong, nonatomic)  UIImageView *mainImage;
+@property (strong, nonatomic)  UILabel *mainLab;
+@property (strong, nonatomic)  UILabel *subLab;
+@property (strong, nonatomic)  UILabel *stateLab;
+@property (strong, nonatomic)  UIImageView *img2;//奖励标志
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
+
 
 -(void)setupCellContentWith:(id)model;
 @end

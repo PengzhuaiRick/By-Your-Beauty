@@ -8,7 +8,7 @@
 
 @protocol UNIMyPojectListDelegate <NSObject>
 
--(void)UNIMyPojectListDelegateMethod:(id)model;
+-(void)UNIMyPojectListDelegateMethod:(NSArray*)arr;
 @end
 
 #import <UIKit/UIKit.h>

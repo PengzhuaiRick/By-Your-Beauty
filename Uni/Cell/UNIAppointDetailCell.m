@@ -9,54 +9,79 @@
 #import "UNIAppointDetailCell.h"
 #import "UNIMyAppointInfoModel.h"
 @implementation UNIAppointDetailCell
-
-- (void)awakeFromNib {
-    float cellH = KMainScreenWidth*90/320;
-    float cellW = KMainScreenWidth-32;
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier{
+    self = [super initWithStyle:0 reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setupUI:cellSize];
+    }
+    return self;
+}
+-(void)setupUI:(CGSize)size{
     
-    UIImage* img = [UIImage imageNamed:@"main_img_cell2"];
-    self.mainImg.image = img;
-    float imgH = cellH/2;
-    float imgW = imgH*img.size.width/img.size.height;
-    float imgX = 5;
-    float imgY = (cellH - imgH)/2;
-    self.mainImg.frame = CGRectMake(imgX, imgY, imgW, imgH);
+    float imgX = KMainScreenWidth* 10 /320;
+    float imgY = KMainScreenWidth* 16 /320;
+    float imgWH =size.height - imgY*2;
     
-    float btnWH = imgH;
-    float btnX = cellW - btnWH - 8;
-    float btnY = imgY;
-    self.stateBtn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
-    self.stateBtn.layer.masksToBounds = YES;
-    self.stateBtn.layer.cornerRadius = KMainScreenWidth*22/320;
-    [self.stateBtn setBackgroundColor:kMainGrayBackColor];
-    self.stateBtn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
-    [self.stateBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
+    img.contentMode = UIViewContentModeScaleAspectFit;
+    [self addSubview:img];
+    self.mainImage = img;
     
-    float labX = imgX+imgW;
-    float labW = cellW - labX - btnWH - 10;
-    float labH = KMainScreenWidth* 18/320;
+    float itW = KMainScreenWidth* 40/320;
+    float itH = KMainScreenWidth* 45/320;
+    float itX = size.width - imgX - itW;
+    float itY = (size.height - itH)/2;
+    UIImageView* itImg = [[UIImageView alloc]initWithFrame:CGRectMake(itX, itY, itW, itH)];
+    itImg.image = [UIImage imageNamed:@"appoint_img_intime"];
+    itImg.hidden=YES;
+    [self addSubview:itImg];
+    self.intimeImg = itImg;
     
-    float lab1Y =(cellH -3*labH)/2;
-    self.label1.frame = CGRectMake(labX, lab1Y, labW, labH);
-    self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
-
-    float lab2Y = lab1Y+labH;
-    self.label2.frame = CGRectMake(labX, lab2Y, labW, labH);
-    self.label2.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label2.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
+    float labX = CGRectGetMaxX(img.frame)+10;
+    float labW = size.width - labX-2*imgX -itW;
+    float labH = size.height/2 ;
+    float lab1Y = 0;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
+    lab1.textColor = [UIColor blackColor];
+    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab1.lineBreakMode = 0 ;
+    lab1.numberOfLines = 0;
+    [self addSubview:lab1];
+    self.mainLab = lab1;
     
-    float lab3Y = lab2Y+labH;
-    self.label3.frame = CGRectMake(labX, lab3Y, labW, labH);
-    self.label3.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    self.label3.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
+    float lab1H = KMainScreenWidth*17/320;
+    float lab2Y = size.height/2;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
+    [self addSubview:lab2];
+    self.subLab = lab2;
+    
+    float lab3Y = CGRectGetMaxY(lab2.frame);
+    float lab3W = KMainScreenWidth*50/320;
+    float lab3X = size.width - imgX- lab3W;
+    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3W, lab1H)];
+     lab3.textColor = [UIColor colorWithHexString:kMainThemeColor];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    [self addSubview:lab3];
+    self.stateLab = lab3;
+    
+    float lab4W = KMainScreenWidth*150/320;
+    UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, lab4W, lab1H)];
+    lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    [self addSubview:lab4];
+    self.timeLab = lab4;
+    
 }
 
 -(void)setupCellContentWith:(id)model{
     UNIMyAppointInfoModel* info = model;
-    self.label1.text = info.projectName;
-    self.label2.text = [NSString stringWithFormat:@"预约时间 : %@",[info.createTime substringToIndex:16]];
-    self.label3.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
+     NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"function_img_scell4"]];
+    self.mainLab.text = info.projectName;
+    self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.createTime substringToIndex:16]];
+    self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
     NSString* titel = nil;
     switch (info.status) {
         case 0:
@@ -72,7 +97,7 @@
             titel = @"已取消";
             break;
     }
-    [self.stateBtn setTitle:titel forState:UIControlStateNormal];
+    self.stateLab.text = titel;
     
 }
 

@@ -7,23 +7,33 @@
 //
 
 #import "UNIAppointTop.h"
-#import "UNIAppontMid.h"
+//#import "UNIAppontMid.h"
 
 @implementation UNIAppointTop
-
+-(id)initWithFrame:(CGRect)frame andModel:(UNIMyProjectModel*)model{
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.model = model;
+        [self setupTopScrollerContent];
+        [self initSecondView];
+        [self setupMidScroller];
+        [self setupUI:frame];
+    }
+    return self;
+}
 
 -(void)setupUI:(CGRect)frace{
     self.member =1;
     topScrollerNum = 0;
     _maxNum = 1;
     midBtns = [NSMutableArray array];
-//    NSString* day =[[NSDate date] description];
-//    NSLog(@" dat\y  %@",day);
-//    self.selectDay = [day substringWithRange:NSMakeRange(0, 9)];
-   // [self startRequest];
-    [self setupTopScrollerContent];
-    [self setuptopLeftBtn];
-    [self setuptopRightBtn];
+    
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [self startRequest];
+    });
+    
+  
+
 }
 
 -(void)startRequest{
@@ -86,8 +96,17 @@
 
 #pragma mark 加载scroller里面的内容
 -(void)setupTopScrollerContent{
+    float topH =KMainScreenWidth*45/320;
+    UIScrollView* view = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, topH)];
+    view.showsHorizontalScrollIndicator=NO;
+    view.delegate = self;
+    [self addSubview:view];
+    _topScroller = view;
+    
+    
     _topBtns = [NSMutableArray arrayWithCapacity:8];
-    float btnW = (KMainScreenWidth - 70)/3;
+    
+    float btnW =KMainScreenWidth/5;
     float btnH = _topScroller.frame.size.height;
     _topScroller.contentSize = CGSizeMake(btnW*8,btnH);
     _topScroller.delegate = self;
@@ -106,50 +125,56 @@
         int day = (int) [dateComponent day];
         int weekday = (int) [dateComponent weekday];
         NSString* wenke = weekday==1?@"星期天":weekday==2?@"星期一":weekday==3?@"星期二":weekday==4?@"星期三":weekday==5?@"星期四":weekday==6?@"星期五":weekday==7?@"星期六":@"";
-        NSString* str = [NSString stringWithFormat:@"%d-%d %@",month,day,wenke];
+        NSString* str = [NSString stringWithFormat:@"%@\n%d-%d",wenke,month,day];
       //  NSLog(@"month,day,weekday,year  %d, %d, %d, %d",month,day,weekday,year);
         
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.tag = i;
         btn.frame = CGRectMake(btnW*i, 0, btnW, btnH);
         [btn setTitle:str forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor colorWithHexString:@"595757"] forState:UIControlStateNormal];
-        [btn setTitleColor:[UIColor colorWithHexString:@"e23469"] forState:UIControlStateSelected];
-        [btn setTitleColor:[UIColor colorWithHexString:@"e23469"] forState:UIControlStateHighlighted];
+        btn.titleLabel.lineBreakMode =0;
+        btn.titleLabel.numberOfLines = 0;
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[self createImageWithColor:[UIColor blackColor]] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateSelected];
+        [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
         if (i==1){
             btn.selected = YES;
             self.selectYear =year;
             self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
-        }
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
+            }
+        btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
         [_topScroller addSubview:btn];
         [_topBtns addObject:btn];
         
         if (i==0) {
             [btn setTitleColor:[UIColor colorWithHexString:@"c2c1c0"] forState:UIControlStateNormal];
-            [btn setTitleColor:nil forState:UIControlStateSelected];
-            [btn setTitleColor:nil forState:UIControlStateHighlighted];
             continue;
         }
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x){
              self.numDay = (int)x.tag;
-             [self.topScroller setContentOffset:CGPointMake(x.frame.origin.x-x.frame.size.width, 0) animated:YES];
+             
+             x.selected=YES;
+             for (UIButton* b in self.topBtns) {
+                 if (b!=x)
+                     b.selected=NO;
+             }
              
              CGPoint point = CGPointMake(0, 0);
              [self.midScroller setContentOffset:point animated:YES];
              
              self.member=1;//重置人数
              NSString* str = [x titleForState:UIControlStateNormal];
-             NSString* monthAndDay =[str componentsSeparatedByString:@" "][0];
+             NSString* monthAndDay =[str componentsSeparatedByString:@"\n"][1];
              self.selectDay=[NSString stringWithFormat:@"%d-%@",self.selectYear,monthAndDay];
-             for (UIButton* b in self.topBtns) {
-                 if (b==x)
-                     b.selected=YES;
-                 else
-                     b.selected=NO;
-             }
+            
+             CGPoint pot = CGPointMake(x.center.x, self->arrowImg.center.y);
+             [UIView animateWithDuration:0.2 animations:^{
+                 self->arrowImg.center = pot;
+             }];
+             
              [LLARingSpinnerView RingSpinnerViewStart];
              self.userInteractionEnabled = NO;
              dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -159,81 +184,192 @@
              
         }];
     }
-    [LLARingSpinnerView RingSpinnerViewStart];
-    self.userInteractionEnabled = NO;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [self startRequest];
-    });
-}
 
-#pragma mark topLeftBtn
--(void)setuptopLeftBtn{
-    [self.topLeftBtn setImage:[UIImage imageNamed:@"appoint_btn_leftTop"] forState:UIControlStateNormal];
-    [self.topLeftBtn setImage:[UIImage imageNamed:@"appoint_btn_leftTop1"] forState:UIControlStateSelected];
-    [self.topLeftBtn setImage:[UIImage imageNamed:@"appoint_btn_leftTop1"] forState:UIControlStateHighlighted];
-    self.topLeftBtn.selected=NO;
-   // UIScrollView* scroller = self.topScroller;
-    [[self.topLeftBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(UIButton* x) {
-         float xx = self.topScroller.contentOffset.x;
-         float wy = xx-self.topScroller.frame.size.width;
-         if(wy<0)
-             wy = 0;
-         
-         CGPoint position = CGPointMake(wy,0);
-         [self.topScroller setContentOffset:position animated:YES];
+    
+    
+    float arrowW =KMainScreenWidth*5/320;
+    float arrowH = KMainScreenWidth*4/320;
+    float arrowX = btnW+(btnW-arrowW)/2;
+    float arrowY = _topScroller.frame.size.height - arrowH;
+    UIImageView* arrow = [[UIImageView alloc]initWithFrame:CGRectMake(arrowX, arrowY, arrowW, arrowH)];
+    arrow.image = [UIImage imageNamed:@"appoint_img_arrows"];
+    [_topScroller addSubview:arrow];
+    arrowImg = arrow;
 
-    }];
-}
+    }
 
--(void)setuptopRightBtn{
-    [self.topRightBtn setImage:[UIImage imageNamed:@"appoint_btn_rightTop1"] forState:UIControlStateNormal];
-    [self.topRightBtn setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateSelected];
-    [self.topRightBtn setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateHighlighted];
-    self.topRightBtn.selected=YES;
 
-    [[self.topRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(UIButton* x) {
-         float xx = self.topScroller.contentOffset.x;
-         float wy = xx+self.topScroller.frame.size.width;
-         
-         if(wy>self.topScroller.contentSize.width-self.topScroller.frame.size.width)
-             wy = self.topScroller.contentSize.width-self.topScroller.frame.size.width;
-         CGPoint position = CGPointMake(wy, 0);
-         [self.topScroller setContentOffset:position animated:YES];
+-(void)initSecondView{
+    float viewX = 10;
+    float viewY = CGRectGetMaxY(_topScroller.frame)+10;
+    float viewH = self.frame.size.height - viewY;
+    float viewW = self.frame.size.width - 2*viewX;
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];
+    view.backgroundColor = [UIColor whiteColor];
+    [self addSubview:view];
+    
+    float labX = 8;
+    float labY = 5;
+    float labH = KMainScreenWidth* 20/320;
+    float labW =  KMainScreenWidth* 100/320;
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
+    lab.text = @"开始时间";
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    [view addSubview:lab];
 
+    float topY = CGRectGetMaxY(lab.frame)+labY;
+    float topH =view.frame.size.height - topY- KMainScreenWidth*40/320;
+    float topX = 10;
+    float topW =view.frame.size.width -2*topX;
+    UIScrollView* secondV = [[UIScrollView alloc]initWithFrame:CGRectMake(topX, topY,topW, topH)];
+    secondV.delegate = self;
+    [view addSubview:secondV];
+    _midScroller = secondV;
+    
+    CALayer* lay = [CALayer layer];
+    lay.frame = CGRectMake(topX, CGRectGetMaxY(secondV.frame), topW, 0.5);
+    lay.backgroundColor = kMainGrayBackColor.CGColor;
+    [view.layer addSublayer:lay];
+
+    float btnW = KMainScreenWidth*120/320;
+    float btnH = KMainScreenWidth*30/320;
+    float btnY = CGRectGetMaxY(secondV.frame)+5;
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(labX, btnY, btnW, btnH);
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitle:@"如需取消请提前致电商家" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*9/320];
+    [btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
+    [view addSubview:btn];
+    
+    float lab1X = view.frame.size.width/2+20;
+    float lab1Y = btnY;
+    float lab1H = KMainScreenWidth* 25/320;
+    float lab1W =  KMainScreenWidth* 40/320;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
+    lab1.text = @"人数:";
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    [view addSubview:lab1];
+    
+    
+    float btn1WH = KMainScreenWidth*25/320;
+    float btn1Y = btnY;
+    float btn1X = CGRectGetMaxX(lab1.frame);
+    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn1.frame = CGRectMake(btn1X, btn1Y, btn1WH, btn1WH);
+    [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
+    [view addSubview:btn1];
+    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         if (self.member >1)
+             self.member--;
      }];
-}
+    
+    float teX = CGRectGetMaxX(btn1.frame);
+    float teW = KMainScreenWidth* 25/320;
+    UITextField* text = [[UITextField alloc]initWithFrame:CGRectMake(teX, btn1Y, teW, btn1WH)];
+    text.keyboardType = UIKeyboardTypeNumberPad;
+    text.textAlignment = NSTextAlignmentCenter;
+    text.text=@"1";
+    [view addSubview:text];
+    _nunField = text;
+    
+    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+    tool.toolDelegate=self;
+    [tool dismissTwoBtn];
+    self.nunField.inputAccessoryView = tool;
+    
+    [RACObserve(self, member)subscribeNext:^(id x) {
+        self.nunField.text = [NSString stringWithFormat:@"%d",self.member];
+    }];
+    
+    [self.nunField.rac_textSignal subscribeNext:^(NSString* value) {
+        if (value.length>0) {
+            char r = [value characterAtIndex:value.length-1];
+            if (r<48||r>57){
+                NSString *str=[NSString stringWithCString:&r  encoding:NSUTF8StringEncoding];
+                value = [value stringByReplacingOccurrencesOfString:str withString:@""];
+            }
+        }
+        int num = value.intValue;
+        if (num>self.maxNum) {
+            num =self.maxNum;
+            [YIToast showText:@"已到达可预约最大人数"];
+        }else if(num<1)
+            num = 1;
+        self.member = num;
+        // botton.nunField.text = [NSString stringWithFormat:@"%d",num];
+    }];
 
+    
+    
+    
+    float btn2X = CGRectGetMaxX(text.frame);
+    UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn2.frame = CGRectMake(btn2X, btn1Y, btn1WH, btn1WH);
+    [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
+    [view addSubview:btn2];
+    [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         if (self.member<self.maxNum) {
+             self.member++;
+         }else
+             [YIToast showText:@"已达到预约时间点的最大人数"];
+     }];
+
+//    float btn3WH = KMainScreenWidth*20/320;
+//    float btn3Y = (view.frame.size.height- btn3WH)/2;
+//    UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn3.frame = CGRectMake(0, btn3Y, btn3WH, btn3WH);
+//    [btn3 setImage:[UIImage imageNamed:@"appoint_btn_leftTop"] forState:UIControlStateNormal];
+//    [view addSubview:btn3];
+//    _midLeftBtn = btn3;
+//    [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
+//    subscribeNext:^(id x) {
+//        
+//    }];
+//
+//    float btn4X = view.frame.size.width - btn3WH;
+//    UIButton* btn4 = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn4.frame = CGRectMake(btn4X, btn3Y, btn3WH, btn3WH);
+//    [btn4 setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateNormal];
+//    [view addSubview:btn4];
+//    _midRightBtn = btn4;
+//    [[btn4 rac_signalForControlEvents:UIControlEventTouchUpInside]
+//     subscribeNext:^(id x) {
+//         
+//     }];
+    
+}
 
 -(void)setupMidScroller{
     int cout= (int)freeTimes.count;
+    //int cout = 15;
     int f = 1;//能翻的页数
-    if (cout>6){
-        f = cout/6;
-        if (cout%6 > 0)
+    if (cout>3){
+        f = cout/3;
+        if (cout%3 > 0)
             f++;
     }
-        _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width*f ,
-                                              _midScroller.frame.size.height);
+    
+    float btnW = (_midScroller.frame.size.width - 20)/3; //按钮的宽和高
+    float btnH = _midScroller.frame.size.height*0.4;
+        _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width ,
+                                              btnH*f);
     _midScroller.pagingEnabled=YES;
         [[self.midRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(id x) {
-             int b =(int)self.midScroller.contentOffset.x/self.midScroller.frame.size.width;
-             ++b;
-             if (b<f) {
-                 CGPoint point = CGPointMake(self.midScroller.frame.size.width*b, 0);
+                 CGPoint point = CGPointMake(0, 0);
                  [self.midScroller setContentOffset:point animated:YES];
-             }
+
         }];
         
         [[self.midLeftBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(id x) {
-             int b =(int)self.midScroller.contentOffset.x/self.midScroller.frame.size.width;
-             if (b>0) {
-                 CGPoint point = CGPointMake(self.midScroller.frame.size.width*--b, 0);
+                 CGPoint point = CGPointMake(0, 0);
                  [self.midScroller setContentOffset:point animated:YES];
-             }
+            
          }];
 
     
@@ -244,44 +380,38 @@
         [view removeFromSuperview];
     }
     
-    juw = 0;//判断时候满三个
-    juh = 0;//判断当前是第一行还是第二行
     
-    float ww =self.midScroller.frame.size.width/3; //间隔+按钮的宽+间隔 =完整的间距
-    float btnW = KMainScreenWidth*50/320; //按钮的宽和高
-    float jj = (ww-btnW)/2; //按钮的间距
     for (int i = 0; i<cout; i++) {
         NSDictionary* dic = freeTimes[i];
-        float zuo  = ww*juw+jj+(i/6*self.midScroller.frame.size.width); //按钮的X坐标
-        if (i%3==0)
-            zuo = jj+(i/6*self.midScroller.frame.size.width);
-        float xia =0;//按钮的Y坐标
-        if (juh==1) {
-            xia = btnW+jj;
-        }
+        float btnX =10+ i%3 * btnW;
+        float btnY =i/3*btnH;
         UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
-        but.frame=CGRectMake(zuo, xia, btnW, btnW);
+        but.frame=CGRectMake(btnX, btnY, btnW, btnH);
         if(i == 0){
             but.selected=YES;
             self.selectTime =[dic valueForKey:@"time"];
         }
         [but setTitle:[dic valueForKey:@"time"] forState:UIControlStateNormal];
         but.tag = 10+i;
-        but.layer.masksToBounds=YES;
-        but.layer.cornerRadius = KMainScreenWidth*25/320;
-        [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:@"c2c1c0"]] forState:UIControlStateNormal];
-        [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:@"25C4AA"]] forState:UIControlStateHighlighted];
-        [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:@"25C4AA"]] forState:UIControlStateSelected];
+        [but setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [but setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
+        [but setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateSelected];
         [_midScroller addSubview:but];
         [self->midBtns addObject:but];
-        if (juw>1) {
-            juw = 0;
-            if (juh==1) {
-                juh=0;
-            }else
-                juh=1;
-        }else
-            juw++;
+        if (i%3 == 0) {
+            CALayer* lay = [CALayer layer ];
+            lay.frame = CGRectMake(10, 0, self.midScroller.frame.size.width - 20, 0.5);
+            lay.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1].CGColor;
+            [but.layer addSublayer:lay];
+        }
+        if (i%3<2) {
+            CALayer* lay1 = [CALayer layer ];
+            float layH = btnH*0.6;
+            float layY = (btnH - layH)/2;
+            lay1.frame = CGRectMake(btnW, layY, 0.5, layH);
+            lay1.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1].CGColor;
+            [but.layer addSublayer:lay1];
+        }
         
         [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
@@ -300,19 +430,6 @@
 
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView == self.topScroller) {
-        float xx = scrollView.contentOffset.x;
-        if (xx<50) {
-            self.topLeftBtn.selected=NO;
-            self.topRightBtn.selected = YES;
-        }else if (xx >=scrollView.contentSize.width/2){
-            self.topLeftBtn.selected=YES;
-            self.topRightBtn.selected = NO;
-        }else{
-            self.topLeftBtn.selected=YES;
-            self.topRightBtn.selected = YES;
-        }
-    }
     if(scrollView == self.midScroller) {
          float xx = scrollView.contentOffset.x;
         if (xx<50) {
@@ -329,24 +446,26 @@
     }
 }
 
-#pragma mark 用颜色转成图片
--(UIImage*)createImageWithColor:(UIColor*) color
+-(void)keyboardTool:(BTKeyboardTool *)tool buttonClick:(KeyBoardToolButtonType)type{
+    if (type ==kKeyboardToolButtonTypeDone ) {
+        [self endEditing:YES];
+    }
+}
+/**
+ *颜色值转换成图片
+ */
+
+- (UIImage*) createImageWithColor: (UIColor*) color
 {
     CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColorWithColor(context, [color CGColor]);
     CGContextFillRect(context, rect);
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return theImage;
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
+
 
 @end

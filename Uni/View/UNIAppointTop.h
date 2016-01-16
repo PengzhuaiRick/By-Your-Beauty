@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "UNIMyProjectModel.h"
 #import "UNIMypointRequest.h"
-@interface UNIAppointTop : UIView<UIScrollViewDelegate>{
+#import "BTKeyboardTool.h"
+@interface UNIAppointTop : UIView<UIScrollViewDelegate,KeyboardToolDelegate>{
     int topScrollerNum;
     NSArray* freeTimes;
-    int juw;//记录行数
-    int juh;//记录列数
     NSMutableArray* midBtns;//中间预约时间按钮组
+    UIImageView* arrowImg;
 }
 @property (assign, nonatomic) int member;//人数
 @property (strong ,nonatomic) UNIMyProjectModel* model;
@@ -23,16 +23,14 @@
 @property (copy, nonatomic) NSString* selectTime; //选择的时间段
 @property (assign ,nonatomic)int maxNum; //最大人数
 @property (assign ,nonatomic)int numDay; //用来计算本地通知的触发时间
+@property (strong, nonatomic) UITextField *nunField;
 
 @property (strong, nonatomic)NSMutableArray* topBtns;
-@property (weak, nonatomic) IBOutlet UIButton *topLeftBtn;
-@property (weak, nonatomic) IBOutlet UIButton *topRightBtn;
-@property (weak, nonatomic) IBOutlet UIScrollView *topScroller;
-@property (weak, nonatomic) IBOutlet UIButton *midLeftBtn;
-@property (weak, nonatomic) IBOutlet UIButton *midRightBtn;
-@property (weak, nonatomic) IBOutlet UIScrollView *midScroller;
+@property (strong, nonatomic)  UIScrollView *topScroller;
+@property (strong, nonatomic)  UIButton *midLeftBtn;
+@property (strong, nonatomic)  UIButton *midRightBtn;
+@property (strong, nonatomic)  UIScrollView *midScroller;
 
 
-
--(void)setupUI:(CGRect)frace;
+-(id)initWithFrame:(CGRect)frame andModel:(UNIMyProjectModel*)model;
 @end

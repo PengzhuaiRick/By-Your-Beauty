@@ -21,6 +21,8 @@
 #define API_URL @"http://uni.dodwow.com/uni_api"
 //#define API_URL @"http://192.168.0.199:8081"
 
+#define API_IMG_URL @"http://uni.dodwow.com/images"
+
 // C部分 第一个参数 类型1
 #define API_PARAM_UNI @"UNI"
 

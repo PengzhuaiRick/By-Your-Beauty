@@ -7,52 +7,62 @@
 //
 
 #import "UNIAppointDetail2Cell.h"
-#import "UNIShopManage.h"
+
 @implementation UNIAppointDetail2Cell
 
-- (void)awakeFromNib {
-    
-    float cellH = KMainScreenWidth*220/320;
-    float cellW = KMainScreenWidth-32;
-    
-    UIImage* img = [UIImage imageNamed:@"function_img_cell2"];
-    self.mainImg.image = img;
-    float imgH = KMainScreenWidth*18/320;
-    float imgW = imgH*img.size.width/img.size.height;
-    float imgX = 20;
-    float imgY = 5;
-    self.mainImg.frame = CGRectMake(imgX, imgY, imgW, imgH);
-    
-    float labX = imgX+imgW+5;
-    float labW = cellW - labX - 8;
-    float labH = KMainScreenWidth* 18/320;
-
-    self.label1.frame = CGRectMake(labX, imgY, labW, labH);
-    self.label1.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.label1.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
-    
-    float mapY = imgY+imgH+8;
-    float mapW = cellW - imgX*2;
-    float mapH = cellH - imgY - imgH - 16;
-    self.mapView.frame = CGRectMake(imgX, mapY, mapW, mapH);
-
+-(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier{
+    self = [super initWithStyle:0 reuseIdentifier:reuseIdentifier];
+    if (self) {
+        [self setupUI:cellSize];
+    }
+    return self;
 }
--(void)setupCellContentWith:(int)state{
+-(void)setupUI:(CGSize)size{
+    
+    float imgX = KMainScreenWidth* 16 /320;
+    float imgWH =size.height/2;
+    float imgY = (size.height-imgWH)/2;
+    
+    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
+    img.contentMode = UIViewContentModeScaleAspectFit;
+    img.image =[UIImage imageNamed:@"function_img_scell6"];
+    [self addSubview:img];
+    self.mainImg = img;
+    
+    
+    float labX = CGRectGetMaxX(img.frame)+10;
+    float labW = size.width - labX*2;
+    float labH = size.height;
+    float labY = 0;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
+    lab1.textColor = [UIColor blackColor];
+    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    lab1.lineBreakMode = 0 ;
+    lab1.numberOfLines = 0;
+    [self addSubview:lab1];
+    self.label1 = lab1;
+    
     UNIShopManage* manager = [UNIShopManage getShopData];
     self.label1.text =manager.address;
-    if (state>1) {
-        self.mapView.hidden = YES;
-    }else{
-    CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
-    self.mapView.centerCoordinate = td;
-        
-    UNIMapAnnotation * end =[[UNIMapAnnotation alloc]initWithTitle:manager.shopName andCoordinate:td];
-        [self.mapView addAnnotation:end];
-        
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
-    MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];//适配map view的尺寸
-    [_mapView setRegion:adjustedRegion animated:YES];
-    }
+    
+    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    
+}
+
+-(void)setupCellContentWith:(int)state{
+    //    if (state>1) {
+//        self.mapView.hidden = YES;
+//    }else{
+//    CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
+//    self.mapView.centerCoordinate = td;
+    
+//    UNIMapAnnotation * end =[[UNIMapAnnotation alloc]initWithTitle:manager.shopName andCoordinate:td];
+//        [self.mapView addAnnotation:end];
+//        
+//    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
+//    MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];//适配map view的尺寸
+//    [_mapView setRegion:adjustedRegion animated:YES];
+//    }
     
     
 }

@@ -27,9 +27,11 @@
             NSString* lastLoginTime = [self safeObject:dic ForKey:@"lastLoginTime"];
             NSString* phone = [self safeObject:dic ForKey:@"phone"];
             NSString* randcode = [self safeObject:dic ForKey:@"randcode"];
-            _rqvertifivaBlock(phone,lastLoginTime,randcode,tips,nil);
+            NSString* name = [self safeObject:dic ForKey:@"name"];
+            int sex =[[self safeObject:dic ForKey:@"sex"] intValue];
+            _rqvertifivaBlock(sex,name,phone,lastLoginTime,randcode,tips,nil);
         }else
-            _rqvertifivaBlock(nil,nil,nil,tips,nil);
+            _rqvertifivaBlock(-1,nil,nil,nil,nil,tips,nil);
     }
     //请求登录
     if ([param1 isEqualToString:API_PARAM_UNI]&&
@@ -49,7 +51,7 @@
     //登录验证码
     if ([param1 isEqualToString:API_PARAM_SSMS]&&
         [param2 isEqualToString:API_URL_Login]) {
-        _rqvertifivaBlock(nil,nil,nil,nil,err);
+        _rqvertifivaBlock(-1,nil,nil,nil,nil,nil,err);
     }
     //请求登录
     if ([param1 isEqualToString:API_PARAM_UNI]&&

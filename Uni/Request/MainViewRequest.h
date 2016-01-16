@@ -44,16 +44,16 @@ typedef void(^RQShopInfoBlock)( UNIShopManage* manager,NSString*tips,NSError* er
  *  @param num           已约次数
  *  @param tips          反馈信息
  */
-typedef void(^RQRewardBlock)(int nextRewardNum,int num,NSString*tips,NSError* er);
+typedef void(^RQRewardBlock)(int nextRewardNum,int num,NSString*projectName ,NSString*tips,NSError* er);
 
 /**
  *  请求我已预约项目
- *
+ *  @param count 服务器里一个用多少条已预约的信息
  *  @param array UNIMyAppintModel 的对象数组
  *  @param tips  反馈信息
  *  @param er    错误信息
  */
-typedef void(^RQAppointmentBlock)(NSArray* array,NSString* tips,NSError* er);
+typedef void(^RQAppointmentBlock)( int count,NSArray* array,NSString* tips,NSError* er);
 
 /**
  *  请求我的项目

@@ -23,6 +23,9 @@
       UIButton *loginBtn;
     UIImageView *headImge;
     
+    UIImageView* imgView1 ; //女性别按钮上的圆圈图片
+    UIImageView* imgView2 ; //男性别按钮上的圆圈图片
+    
     RACSignal *phoneSignal;
     RACSignal *codeFieldSignal;
     RACSignal *nikeSignal;
@@ -126,6 +129,7 @@
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
     field.placeholder = @"请输入您的手机号码";
+    [field setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     field.textColor = [UIColor whiteColor];
     [cell addSubview:field];
@@ -164,6 +168,7 @@
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
     field.placeholder = @"请输入验证码";
+    [field setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     field.textColor = [UIColor whiteColor];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [cell addSubview:field];
@@ -188,6 +193,7 @@
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
     field.placeholder = @"请输入您的姓名";
+    [field setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
     field.textColor = [UIColor whiteColor];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [cell addSubview:field];
@@ -206,27 +212,62 @@
 }
 -(void)setupFourthCell:(UITableViewCell*)cell{
         float btnX = KMainScreenWidth*40/320;
-        float btnW = self.tableView.frame.size.width/2 - btnX;
+        float btnW = KMainScreenWidth*60/375;
         float btnH = KMainScreenWidth*30/320;
         float btnY = (cellH - btnH)/2 ;
-        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
-        [btn setTitle:@"女士" forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-        [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        btn.tag = 2;
-        [cell addSubview:btn];
-        femaleBtn = btn;
     
-        float btn1X =self.tableView.frame.size.width/2 ;
+        UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
+    
+        UIImage* image3 =[UIImage imageNamed:@"login_btn_sex1"];
+    
+        float imgWH = KMainScreenWidth*20/320;
+        float imgY = (view.frame.size.height - imgWH)/2;
+        UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(0, imgY, imgWH, imgWH)];
+        img.image = image3;
+        [view addSubview:img];
+    imgView1 = img;
+    
+    
+        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame = CGRectMake(imgWH+5, 0, btnW, btnH);
+        [btn setTitle:@" 女士" forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+        [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        btn.tag = 2;
+        [view addSubview:btn];
+      femaleBtn = btn;
+        float viewW = CGRectGetMaxX(btn.frame);
+        float viewX = btnX+((self.tableView.frame.size.width-2*btnX)/2 - viewW)/2;
+        view.frame = CGRectMake(btnX+((self.tableView.frame.size.width-2*btnX)/2 - viewW)/2, btnY, viewW, btnH);
+        [cell addSubview:view];
+    
+    
+    
+    
+    UIImage* image4 =[UIImage imageNamed:@"login_btn_sex2"];
+     UIView* view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
+        float img1WH = KMainScreenWidth*20/320;
+        float img1Y = (view.frame.size.height - imgWH)/2;
+        UIImageView* img1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, img1Y, img1WH, img1WH)];
+        img1.image = image4;
+        [view1 addSubview:img1];
+    imgView2 = img1;
+    
+        float btn1X = img1WH+5;
         UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn1.frame = CGRectMake(btn1X, btnY, btnW, btnH);
-        [btn1 setTitle:@"男士" forState:UIControlStateNormal];
-        btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-        [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        btn1.frame = CGRectMake(btn1X, 0, btnW, btnH);
+        [btn1 setTitle:@" 男士" forState:UIControlStateNormal];
+        btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+        [btn1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btn1.tag = 1;
-        [cell addSubview:btn1];
+        [view1 addSubview:btn1];
         maleBtn = btn1;
+    float view1W = CGRectGetMaxX(btn1.frame);
+    float view1X = self.tableView.frame.size.width/2 +viewX - btnX;
+    view1.frame = CGRectMake(view1X, btnY, view1W, btnH);
+    [cell addSubview:view1];
+
+    
     
         [self setupSexBtn];
     [self setupLoginBtn];
@@ -234,8 +275,12 @@
 }
 
 -(void)setupUI{
-    UIImageView* bg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_menu"]];
-    bg.frame = CGRectMake(0, 0, self.view.frame.size.width , self.view.frame.size.height);
+    UIImage* img =[UIImage imageNamed:@"main_img_menu"];
+    float img1W = KMainScreenWidth;
+    float img1H = img.size.height * img1W / img.size.width;
+    UIImageView* bg = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img1W, img1H)];
+    bg.image = img;
+    bg.center = self.view.center;
     [self.view addSubview:bg];
     
     UIView* bgview = [[UIView alloc]initWithFrame:bg.frame];
@@ -256,8 +301,6 @@
             cellH = 70;
             break;
     }
-  
-    
     UIView* header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, KMainScreenWidth*200/320)];
     
     UIImage* topimage =[UIImage imageNamed:@"login_img_header"];
@@ -359,37 +402,91 @@
                                     API_URL_Login]
                            params:@{@"phone":field.text}];
         
-        request.rqvertifivaBlock = ^(NSString* ph,
+        request.rqvertifivaBlock = ^(int sex,
+                                     NSString* name,
+                                     NSString* ph,
                                      NSString* llt,
                                      NSString* rc,
                                      NSString*tip,
                                      NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [LLARingSpinnerView RingSpinnerViewStop];
+                self->codeField.text = @"";
+                if (er) {
+#ifdef IS_IOS9_OR_LATER
+                    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"请求失败,请检查网络" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+                    [alertController addAction:cancelAction];
+                    [self presentViewController:alertController animated:YES completion:nil];
+#else
+                    [UIAlertView showWithTitle:@"请求失败,请检查网络" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        if (buttonIndex>0)
+                            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+                    }];
+#endif
+                    return ;
+                }
+                
+                if(!rc){
+#ifdef IS_IOS9_OR_LATER
+                    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"获取验证码失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+                    [alertController addAction:cancelAction];
+                    [self presentViewController:alertController animated:YES completion:nil];
+#else
+                    [UIAlertView showWithTitle:@"获取验证码失败" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        if (buttonIndex>0)
+                            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+                    }];
+#endif
+                    return ;
+                }
+                
+                self->nikeName.text = name;
+                if (sex == 1){
+                    self->maleBtn.selected = YES;
+                    self->femaleBtn.selected = NO;
+                    self->imgView1.image = [UIImage imageNamed:@"login_btn_sex2"];
+                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex1"];
+                }
+                if (sex == 2){
+                    self->maleBtn.selected = NO;
+                    self->femaleBtn.selected = YES;
+                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex2"];
+                    self->imgView1.image = [UIImage imageNamed:@"login_btn_sex1"];
+                }
+                
                 if (llt) {
                     if (self.thirldCell.alpha==1) {
                         CGRect p1 = self.firstCell.frame;
                         CGRect p2 = self.secondCell.frame;
+                        CGRect p3 = self.thirldCell.frame;
                         p1.origin.y+=20;
                         p2.origin.y+=20;
+                        p3.origin.y+=20;
                         [UIView animateWithDuration:0.5 animations:^{
                             
-                            self.thirldCell.alpha = 0;
+                            self.fourthCell.alpha = 0;
                             self.firstCell.frame = p1;
                             self.secondCell.frame =p2;
+                            self.thirldCell.frame = p3;
                         }];
-                        
                     }
                 }else{
                     if (self.thirldCell.alpha == 0) {
                         CGRect p1 = self.firstCell.frame;
                         CGRect p2 = self.secondCell.frame;
+                        CGRect p3 = self.thirldCell.frame;
                         p1.origin.y-=20;
                         p2.origin.y-=20;
+                        p3.origin.y-=20;
                         [UIView animateWithDuration:0.5 animations:^{
-                            self.thirldCell.alpha = 1;
+                            self.fourthCell.alpha = 1;
                             self.firstCell.frame = p1;
                             self.secondCell.frame =p2;
+                            self.thirldCell.frame =p3;
                         }];
                         
                     }
@@ -403,8 +500,8 @@
                                                    userInfo:nil
                                                     repeats:YES];
                     
-                }else
-                    [YIToast showText:@"获取验证码失败"];
+                }
+                   
             });
             
         };
@@ -452,15 +549,23 @@
      subscribeNext:^(UIButton* x) {
          [self.view endEditing:YES];
          id sx = @(self.sex); //默认性别
-         if (self.thirldCell.alpha==0)
-             sx=@"";
-         
-         else{
-             if (self->nikeName.text.length==0) {
-                 [YIToast showWithText:@"请输入昵称!"];
+         if (self->nikeName.text.length==0) {
+#ifdef IS_IOS9_OR_LATER
+             UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"请输入昵称!" message:nil preferredStyle:UIAlertControllerStyleAlert];
+             
+             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+             [alertController addAction:cancelAction];
+             [self presentViewController:alertController animated:YES completion:nil];
+#else
+             [UIAlertView showWithTitle:@"请输入昵称!" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                 if (buttonIndex>0)
+                     [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+             }];
+#endif
+
                  return ;
              }
-         }
+         
          x.enabled = NO;
          [LLARingSpinnerView RingSpinnerViewStart];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
@@ -480,7 +585,19 @@
              [LLARingSpinnerView RingSpinnerViewStop];
             if (er==nil) {
                 if (!token){
-                    [YIToast showText:@"登陆失败"];
+#ifdef IS_IOS9_OR_LATER
+                    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"登陆失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    
+                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+                        [alertController addAction:cancelAction];
+                    [self presentViewController:alertController animated:YES completion:nil];
+#else
+                    [UIAlertView showWithTitle:@"登陆失败" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        if (buttonIndex>0)
+                            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+                    }];
+#endif
+
                     return ;
                 }
                 //保存信息
@@ -501,17 +618,28 @@
 }
 #pragma mark 设置男女性别按钮
 -(void)setupSexBtn{
-    UIImage* image1 =[UIImage imageNamed:@"login_btn_sex1"];
-    UIImage* image2 =[UIImage imageNamed:@"login_btn_sex2"];
+    UIImage* image1 =[UIImage imageNamed:@"login_btn_female"];
+    UIImage* image2 =[UIImage imageNamed:@"login_btn_sfemale"];
+    UIImage* image3 =[UIImage imageNamed:@"login_btn_male"];
+    UIImage* image4 =[UIImage imageNamed:@"login_btn_smale"];
     
-    [maleBtn setImage:image2 forState:UIControlStateNormal];
-    [femaleBtn setImage:image2 forState:UIControlStateNormal];
+    [maleBtn setImage:image3 forState:UIControlStateNormal];
+    [femaleBtn setImage:image1 forState:UIControlStateNormal];
     
-    [maleBtn setImage:image1 forState:UIControlStateSelected];
-    [femaleBtn setImage:image1 forState:UIControlStateSelected];
+    [maleBtn setImage:image4 forState:UIControlStateSelected];
+    [femaleBtn setImage:image2 forState:UIControlStateSelected];
     
-    [maleBtn setImage:image1 forState:UIControlStateHighlighted];
-    [femaleBtn setImage:image1 forState:UIControlStateHighlighted];
+    [maleBtn setImage:image4 forState:UIControlStateHighlighted];
+    [femaleBtn setImage:image2 forState:UIControlStateHighlighted];
+    
+    [maleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [femaleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+     [maleBtn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
+     [femaleBtn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
+    
+    [maleBtn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateSelected];
+    [femaleBtn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateSelected];
     
     femaleBtn.selected = YES;
     
@@ -520,6 +648,8 @@
          self->femaleBtn.selected = NO;
          x.selected = YES;
          self.sex = (int)x.tag;
+        self->imgView1.image = [UIImage imageNamed:@"login_btn_sex2"];
+         self->imgView2.image = [UIImage imageNamed:@"login_btn_sex1"];
     }];
     
     [[femaleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -527,6 +657,8 @@
          self->maleBtn.selected = NO;
          x.selected=YES;
          self.sex = (int)x.tag;
+         self->imgView1.image = [UIImage imageNamed:@"login_btn_sex1"];
+         self->imgView2.image = [UIImage imageNamed:@"login_btn_sex2"];
      }];
 
 }

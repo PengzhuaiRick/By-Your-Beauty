@@ -24,7 +24,13 @@
 @interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate>{
     UITableView* myTable;
     float cellHight;
+    int appointTotal;
     CGRect topRe;
+    UILabel* progessLab; //9/10
+    UILabel* goodsLab; //约满奖励商品名称
+    UILabel* numLab; //再预约次数
+    UNIMainProView* progessView;//进度条
+
 }
 @property(nonatomic,strong) NSArray* midData;
 @property(nonatomic,strong) NSArray* bottomData;
@@ -69,7 +75,7 @@
 }
 #pragma mark
 -(void)setupNavigation{
-    self.title = @"美丽由你";
+   
     [self preferredStatusBarStyle];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
@@ -152,6 +158,15 @@
     proView.progessColor = [UIColor colorWithHexString:kMainThemeColor];
     [proView setupProgreaa:9 and:10];
     [imageView addSubview:proView];
+    progessView = proView;
+    
+    UIImage* fu =[UIImage imageNamed:@"main_img_shuang"];
+    float img2H = proW/2;
+    float img2W = img2H *fu.size.width / fu.size.height;
+    UIImageView * shuangfu = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img2W, img2H)];
+    shuangfu.image = fu;
+    shuangfu.center = proView.center;
+    [imageView addSubview:shuangfu];
     
     float lab1W = proW;
     float lab1H = 25;
@@ -162,6 +177,7 @@
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     lab1.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab1];
+    progessLab = lab1;
     
     
     float lab2W = imgH/2-8;
@@ -171,7 +187,7 @@
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y, lab2W, lab2H)];
     lab2.text = @"再预约次数";
     lab2.textColor = [UIColor whiteColor];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
     lab2.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab2];
     
@@ -183,13 +199,14 @@
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*35/320];
     lab3.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab3];
+    numLab = lab3;
     
     float lab4H = 25;
     float lab4Y =CGRectGetMaxY(lab3.frame);
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab4Y, lab2W, lab4H)];
     lab4.text = @"可获得一支";
     lab4.textColor = [UIColor whiteColor];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab4.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
     lab4.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab4];
     
@@ -198,9 +215,10 @@
     UILabel* lab5 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab5Y, lab2W, lab5H)];
     lab5.text = @"300ml ALBION 爽肤精萃液";
     lab5.textColor = [UIColor whiteColor];
-    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab5.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
     lab5.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab5];
+    goodsLab = lab5;
     
     float layX = 10;
     float layY = imgH/4*3;
@@ -279,17 +297,35 @@
     MainViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
     if (!cell) {
         cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
-        cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle =UITableViewCellSelectionStyleNone;
+        if (indexPath.row == 1) {
+            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+            subscribeNext:^(id x) {
+                id model = self.bottomData[0];
+                [self mainMidViewDelegataButton:model];
+            }];
+           
+        }
     }
     if (indexPath.row == 0) {
-            [cell setupCellWithData:_midData type:1];
+            [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
 
     }
     if (indexPath.row == 1) {
-         [cell setupCellWithData:_bottomData type:2];
+         [cell setupCellWithData:_bottomData type:2 andTotal:-1];
     }
     return cell;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    if (indexPath.row == 0) {
+        self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+        [self.navigationController pushViewController:self.midController animated:YES];
+    }else if (indexPath.row  == 1){
+        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+        [self.navigationController pushViewController:self.buttomController animated:YES];
+    }
+
 }
 
 #pragma mark  mainMidView代理方法 点击 mainMidView 的Cell
@@ -327,7 +363,8 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (manager) {
-                        [self reflashShopInfo:manager];//刷新商家信息
+                        NSRange ra =[manager.shopName rangeOfString:@"【"];
+                         self.title = [manager.shopName substringToIndex:ra.location];
                     }
 //                    else
 //                        [YIToast showText:tips];
@@ -339,9 +376,7 @@
         };
     });
 }
-#pragma mark 刷新商家信息  
--(void)reflashShopInfo:(UNIShopManage*) manager{
-}
+
 #pragma mark 请求约满信息
 -(void)startRequestReward{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
@@ -349,9 +384,13 @@
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MRInfo]
                            params:nil];
-        request1.rerewardBlock=^(int nextRewardNum,int num,NSString*tips,NSError* er){
+        request1.rerewardBlock=^(int nextRewardNum,int num,NSString* projectName,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
+                    self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
+                    [self->progessView setupProgreaa:num and:nextRewardNum];
+                    self->goodsLab.text = projectName;
+                    self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
             });
@@ -365,11 +404,12 @@
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
                           params:@{@"page":@(0),@"size":@(2)}];
-        request.reappointmentBlock =^(NSArray* myAppointArr,NSString* tips,NSError* err){
+        request.reappointmentBlock =^(int count,NSArray* myAppointArr,NSString* tips,NSError* err){
             [self startRequestProjectInfo];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self->myTable.header endRefreshing];
                 if (!err) {
+                    self->appointTotal = count;
                     self.midData = nil;
                     if (myAppointArr.count>0){
                         self.midData = myAppointArr;

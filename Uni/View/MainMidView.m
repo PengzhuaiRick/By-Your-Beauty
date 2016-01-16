@@ -131,11 +131,11 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (type==2) {
-            cell.handleBtn.tag = indexPath.row+10;
-            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-             subscribeNext:^(UIButton* x) {
-                 [self.delegate mainMidViewDelegataButton:self.dataArray[x.tag-10]];
-             }];
+//            cell.handleBtn.tag = indexPath.row+10;
+//            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+//             subscribeNext:^(UIButton* x) {
+//                 [self.delegate mainMidViewDelegataButton:self.dataArray[x.tag-10]];
+//             }];
         }
 
     }

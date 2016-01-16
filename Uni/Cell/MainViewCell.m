@@ -28,12 +28,11 @@
     self.mainImage = img;
     
     float lab3WH = imgWH/2;
-
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, lab3WH, lab3WH)];
     lab3.center = CGPointMake(imgWH, 0);
     lab3.textColor = [UIColor whiteColor];
     lab3.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab3.text = @"3";
+    lab3.text = @"";
     lab3.textAlignment = NSTextAlignmentCenter;
     lab3.layer.masksToBounds = YES;
     lab3.layer.cornerRadius = lab3WH/2;
@@ -60,7 +59,7 @@
     self.handleBtn =  btn;
     
     float labX = CGRectGetMaxX(img.frame)+20;
-    float labW = size.width - CGRectGetMaxX(img.frame)*2;
+    float labW = size.width -labX*2;
     float labH = KMainScreenWidth* 20/320;
     float lab1Y = size.height/2 - labH;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
@@ -73,31 +72,55 @@
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     lab2.textColor =kMainGrayBackColor;
+    lab2.lineBreakMode = 0;
+    lab2.numberOfLines = 0;
     [self addSubview:lab2];
     self.subLab = lab2;
     
 
    }
--(void)setupCellWithData:(NSArray*)data type:(int)type{
+-(void)setupCellWithData:(NSArray*)data type:(int)type andTotal:(int)total{
    
     if (type == 1) {
+        self.handleBtn.hidden = YES;
          UNIMyAppintModel* info = data[0];
-         self.handleBtn.hidden = YES;
-        self.mainImage.image = [UIImage imageNamed:@"main_img_cell1"];
-        self.mainLab.text = info.projectName;
-        NSString* str = [info.time substringWithRange:NSMakeRange(0, info.time.length - 3)];
-        NSString* str1 = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
-        self.subLab .text = [NSString stringWithFormat:@"我已预约:%@",str1];
-        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        if (info) {
+            self.numLab.hidden=NO;
+            self.numLab.text = [NSString stringWithFormat:@"%d",total];
+            self.mainImage.image = [UIImage imageNamed:@"main_img_cell1"];
+            
+            self.mainLab.text = info.projectName;
+            NSString* str = [info.time substringWithRange:NSMakeRange(0, info.time.length - 3)];
+            NSString* str1 = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
+            self.subLab .text = [NSString stringWithFormat:@"我已预约:%@",str1];
+            self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }else{
+            self.numLab.hidden=YES;
+            self.mainImage.image = [UIImage imageNamed:@"main_img_nodata1"];
+            self.mainLab.text = @"已约完!";
+            self.subLab .text = @"忙里忙外,也要记得体贴自己!马上预约,来这路休息片刻";
+            self.accessoryType = UITableViewCellAccessoryNone;
+        }
     }
     if (type == 2) {
-         UNIMyProjectModel* info = data[0];
-        self.handleBtn.hidden = NO;
-        self.mainImage.image = [UIImage imageNamed:@"main_img_cell2"];
-        self.mainLab.text = info.projectName;
-        self.subLab .text = [NSString stringWithFormat:@"剩余%d次",info.num];
+         self.numLab.hidden = YES;
         self.accessoryType = UITableViewCellAccessoryNone;
+         UNIMyProjectModel* info = data[0];
+        if (info) {
+            self.handleBtn.hidden = NO;
+            self.mainImage.image = [UIImage imageNamed:@"main_img_cell2"];
+            self.mainLab.text = info.projectName;
+            self.subLab .text = [NSString stringWithFormat:@"剩余%d次",info.num];
+            
+        }else{
+            self.handleBtn.hidden = YES;
+            self.mainImage.image = [UIImage imageNamed:@"main_img_nodata2"];
+            self.mainLab.text = @"马上购买去!";
+            self.subLab .text = @"空空如也没关系,一大波超值套餐正来袭";
+            
+        }
     }
+    [self.subLab sizeToFit];
    
 }
 - (void)awakeFromNib {

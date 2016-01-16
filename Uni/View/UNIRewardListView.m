@@ -18,7 +18,7 @@
     if (self) {
         self.status = st;
          [self startRequest];
-
+        //[self setupTableView];
     }
     return self;
 }
@@ -60,8 +60,6 @@
                                                        style:UITableViewStylePlain];
     tabview.delegate = self;
     tabview.dataSource = self;
-    tabview.layer.masksToBounds=YES;
-    tabview.layer.cornerRadius = 10;
     tabview.showsVerticalScrollIndicator=NO;
     [self addSubview:tabview];
     self.myTable =tabview;
@@ -82,14 +80,14 @@
     return self.allArray.count;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 70;
+    return KMainScreenWidth*90/320;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString* name = @"cell";
     UNIRewardListCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell){
-        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIRewardListCell" owner:self options:nil].lastObject;
+        cell = [[UNIRewardListCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
@@ -99,7 +97,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.delegate UNIRewardListViewDelegate:self.allArray[indexPath.row]];
+    //[self.delegate UNIRewardListViewDelegate:self.allArray[indexPath.row]];
 }
 
 /*

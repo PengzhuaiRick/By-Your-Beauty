@@ -38,8 +38,6 @@
             ges.enabled=YES;
         }
     }
-//    self.view.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
-//    NSLog(@"NSStringFromCGRect(self.view.frame)  %@",NSStringFromCGRect(self.view.frame));
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -103,8 +101,8 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     float max = (KMainScreenHeight-64)/2;
-    float cellH = KMainScreenWidth* 60 /320;
-    float rest = KMainScreenWidth* 16/320+ KMainScreenWidth* 10/320 + 16;
+    float cellH = KMainScreenWidth* 80 /320;
+    float rest = KMainScreenWidth* 30/320;
     
     cellHight = 0;
     if (indexPath.row == 0) {
@@ -134,8 +132,7 @@
         if (appointArr.count>0){
             if (!cell){
                 cell = [[UNIRewordAndIntimeCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:name andNum:apponitNum andType:1];
-                UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
-                 [cell.RewordAndIntimeView addGestureRecognizer:tap];
+
             }
             
             [cell setupCell:appointArr];
@@ -143,8 +140,7 @@
         else if (inTimeArr.count>0){
             if (!cell){
                 cell = [[UNIRewordAndIntimeCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:name andNum:inTimeNum andType:2];
-                UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
-                [cell.RewordAndIntimeView addGestureRecognizer:tap];
+
             }
             [cell setupCell:inTimeArr];
         }
@@ -154,8 +150,7 @@
         if (inTimeArr.count>0){
             if (!cell){
                 cell = [[UNIRewordAndIntimeCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:name andNum:inTimeNum andType:2];
-                UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
-                [cell.RewordAndIntimeView addGestureRecognizer:tap];
+
             }
             
                 [cell setupCell:inTimeArr];
@@ -218,17 +213,15 @@
 -(void)setupNavigation{
     self.title = @"我的奖励";
     [self preferredStatusBarStyle];
-    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHexString:kMainThemeColor];
-    self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    UIBarButtonItem* bar = [[UIBarButtonItem alloc]init];
-    bar.image = [UIImage imageNamed:@"main_btn_function"];
-    bar.style = UIBarButtonItemStyleDone;
-    bar.tintColor = [UIColor whiteColor];
-    bar.target = self;
-    bar.action=@selector(navigationControllerLeftBarAction:);
-    self.navigationItem.leftBarButtonItem = bar;
+    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
+   
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_function"] style:0 target:self action:@selector(gotoRewardListController)];
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+    
+     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -239,78 +232,7 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
 }
-//-(void)setupMyAppointView{
-//    
-//    if (appointArr.count<1)
-//        return;
-//    
-//    
-//    if (appointView){
-//        [appointView startReflashTableView:appointArr];
-//        return;
-//    }
-//    
-//    float viewX = 15;
-//    float viewY = 64+15;
-//    float viewW =KMainScreenWidth-viewX*2;
-//    float viewH = (KMainScreenHeight- 64- viewX*3)/2;
-//   
-//     MyRewardView * view = [[MyRewardView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH) andNum:0 andType:1];
-//    [self.view addSubview:view];
-//    appointView = view;
-//    appointView.midTableview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//        self->page1 = 0;
-//        [self->appointArr removeAllObjects];
-//        [self startRequestMyAppoint];
-//    }];
-//    
-//    appointView.midTableview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-//        self->page1++;
-//         [self startRequestMyAppoint];
-//    }];
-//    
-//     [appointView startReflashTableView:appointArr];
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
-//    [view addGestureRecognizer:tap];
-//}
-//
-//-(void)setupIntimeView{
-//    if (inTimeArr.count<1) {
-//        return;
-//    }
-//    
-//    if (inTimeView){
-//        [inTimeView startReflashTableView:inTimeArr];
-//        return;
-//    }
-//    float viewX = 15;
-//    float viewH = (KMainScreenHeight- 64- viewX*3)/2;
-//    float viewY = 65+viewH+viewX*2;
-//    if (appointArr.count<1)
-//        viewY = 64+15;
-//    
-//    float viewW =KMainScreenWidth-viewX*2;
-//    
-//    
-//    MyRewardView * view = [[MyRewardView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH) andNum:0 andType:2];
-//    [self.view addSubview:view];
-//    inTimeView = view;
-//    
-//    inTimeView.midTableview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//        self->page2 = 0;
-//        [self startRequestIntime];
-//    }];
-//    
-//    inTimeView.midTableview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-//        self->page2++;
-//        [self startRequestIntime];
-//    }];
-//    [inTimeView startReflashTableView:inTimeArr];
-//
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gotoRewardListController)];
-//    [view addGestureRecognizer:tap];
-//
-//}
+
 
 -(void)gotoRewardListController{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
