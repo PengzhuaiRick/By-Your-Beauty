@@ -41,6 +41,8 @@
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
     view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     self.tableView.tableHeaderView =view;
+    
+    self.tableView.tableFooterView = [UIView new];
 }
 
 
@@ -86,7 +88,7 @@
                     CGRectMake(10, 5,  self.tableView.frame.size.width-10, KMainScreenWidth*0.05)];
     lab.text=string;
     lab.textColor = [UIColor colorWithHexString:@"575757"];
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*0.043];
     [view addSubview:lab];
     self.tableView.tableHeaderView = view;
 }

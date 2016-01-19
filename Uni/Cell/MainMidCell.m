@@ -34,7 +34,7 @@
     float lab1Y = imgY;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
     [self addSubview:lab1];
     self.mainLab = lab1;
     

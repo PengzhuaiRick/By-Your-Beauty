@@ -8,23 +8,26 @@
 
 #import "UNIGoodsDeatilController.h"
 #import "UNIGoodsCell1.h"
-#import "UNIGoodsCell2.h"
-#import "UNIGoodsCell3.h"
-#import "UNIGoodsCell4.h"
-#import "UNIGoodsComment.h"
+//#import "UNIGoodsComment.h"
 #import "UNIPurchaseController.h"
 #import <MJRefresh/MJRefresh.h>
 #import "UNIGoodsDetailRequest.h"
 #import "UNIImageAndTextController.h"
-@interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate>{
+#import "BTKeyboardTool.h"
+#import "UNIPurChaseView.h"
+@interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate>{
     UIView* midView;
-   // float tableH;
+    UIView* bottomView;
+    UILabel* priceLab;
+    UITextField* numField;
+    
     float cell1H;
-    float cell2H;
-    float cell3H;
-    float cell4H;
     UNIGoodsModel* model;
+    
+    UNIPurChaseView* purView;
+    UIView* bgView;
 }
+@property(nonatomic,assign)int num; //购买数量
 @property(nonatomic,strong)UIScrollView* myScroller;
 @property(nonatomic,strong)UITableView* myTable;
 @property(nonatomic,strong)NSMutableArray* allArray;
@@ -32,13 +35,26 @@
 @end
 
 @implementation UNIGoodsDeatilController
+-(void)viewWillDisappear:(BOOL)animated{
+    
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIKeyboardWillShowNotification
+                                                 object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIKeyboardWillHideNotification
+                                                 object:nil];
+    [super viewWillDisappear:animated];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    
-    [self startRequestReward];
-   
+//    [self startRequestReward];
+    [self setupData];
+    [self setupBottomView];
+    [self setupMyScroller];
+    [self setupTableView];
+    [self regirstKeyBoardNotification];
 }
 #pragma mark 开始请求 我的奖励
 -(void)startRequestReward{
@@ -66,28 +82,137 @@
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
 }
 -(void)setupData{
-    float size1 =[self suanziti:model.projectName andFont:17 andWidth:200].height;
-    float size2 =[self suanziti:model.effect andFont:12 andWidth:200].height;
-    cell1H =255 + size1 -20;
-    cell2H =110 + size2 -35;
-    cell3H =44;
-    cell4H =KMainScreenWidth* 125/320;
-    //tableH = KMainScreenWidth* 100/320 + cell1H +cell2H +cell3H+ cell4H + 30;
+    _num = 1;
     self.allArray = [NSMutableArray array];
 }
 
--(void)startRequest{
+-(void)setupBottomView{
+    float boH = KMainScreenWidth* 80/320;
+    float boY = KMainScreenHeight - boH;
+    UIView* bottom = [[UIView alloc]initWithFrame:CGRectMake(0, boY, KMainScreenWidth, boH)];
+    bottom.backgroundColor = [UIColor whiteColor];
+    [self.view addSubview:bottom];
+    bottomView = bottom;
     
+    float labX = KMainScreenWidth*30/414;
+    float labH = KMainScreenWidth*40/414;
+    float labY = (boH/2 - labH)/2;
+    float labW = KMainScreenWidth*200/414;
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*36/414];
+    lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
+    lab.text = @"￥888";
+    [bottom addSubview:lab];
+    priceLab = lab;
+    
+    float lab2H = KMainScreenWidth*25/414;
+    float lab2Y =boH/2;
+    float lab2W = KMainScreenWidth*100/414;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, lab2W, lab2H)];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
+    lab2.text = @"购买数量:";
+    [bottom addSubview:lab2];
+
+    float btn1WH = lab2H;
+    float btn1X = CGRectGetMaxX(lab2.frame);
+    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn1.frame = CGRectMake(btn1X, lab2Y, btn1WH, btn1WH);
+    [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
+    [bottom addSubview:btn1];
+    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         if (self.num>1) {
+             --self.num;
+         }
+    }];
+    
+    float teX = CGRectGetMaxX(btn1.frame);
+    float teW = KMainScreenWidth* 40/320;
+    UITextField* text = [[UITextField alloc]initWithFrame:CGRectMake(teX, lab2Y, teW, btn1WH)];
+    text.keyboardType = UIKeyboardTypeNumberPad;
+    text.textAlignment = NSTextAlignmentCenter;
+    text.text=@"1";
+    [bottom addSubview:text];
+    numField = text;
+    [text.rac_textSignal subscribeNext:^(NSString* x) {
+        int k =[x intValue];
+        if (k>0)
+            self.num =k ;
+        
+    }];
+    
+    [RACObserve(self,num)subscribeNext:^(id x) {
+        self->numField.text = [NSString stringWithFormat:@"%d",self.num];
+    }];
+    
+    
+    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+    tool.toolDelegate=self;
+    [tool dismissTwoBtn];
+    text.inputAccessoryView = tool;
+    
+    
+    float btn2X = CGRectGetMaxX(text.frame);
+    UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn2.frame = CGRectMake(btn2X, lab2Y, btn1WH, btn1WH);
+    [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
+    [bottom addSubview:btn2];
+    [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         ++self.num;
+    }];
+
+    float btn3Y = 10;
+    float btn3WH = boH - 2*btn3Y;
+    float btn3X =KMainScreenWidth - labX - btn3WH;
+    UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn3.frame = CGRectMake(btn3X, btn3Y, btn3WH, btn3WH);
+    btn3.layer.masksToBounds = YES;
+    btn3.layer.cornerRadius = btn3WH/2;
+    [btn3 setTitle:@"马上\n购买" forState:UIControlStateNormal];
+    btn3.titleLabel.lineBreakMode = 0;
+    btn3.titleLabel.numberOfLines = 0;
+    [btn3 setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+    btn3.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    [bottom addSubview:btn3];
+    [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         [self showThePayStyle];
+     }];
+}
+-(void)showThePayStyle{
+    UIView* bg = [[UIView alloc]initWithFrame:self.view.frame];
+    bg.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    [self.view addSubview:bg];
+    bgView = bg;
+    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
+    [bg addGestureRecognizer:tap];
+    
+    
+    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth-50,KMainScreenWidth-80) andPrice:0.1];
+    pur.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
+    pur.layer.masksToBounds = YES;
+    pur.layer.cornerRadius = 3;
+    [self.view addSubview:pur];
+    purView = pur;
+}
+
+-(void)tapAction:(UIGestureRecognizer*)gesture{
+    [bgView removeFromSuperview];
+    [purView removeFromSuperview];
+    bgView = nil;
+    purView = nil;
 }
 -(void)setupMyScroller{
-    float scX = 10;
-    float scY = 64+8;
-    float scW = KMainScreenWidth - scX*2;
-    float scH = KMainScreenHeight - 64 - scX*2;
-//    if (IOS_VERSION<9.0){
-//        scY = 8;
-//        scH = KMainScreenHeight - scX*2;
-//    }
+    float scX =0 ;
+    float scY = 64;
+    float scW = KMainScreenWidth ;
+    float scH = KMainScreenHeight - 64 -bottomView.frame.size.height;
+    if (KMainScreenHeight<568)
+        cell1H = 568 -bottomView.frame.size.height;
+    else
+        cell1H = scH;
+    
     self.myScroller = [[UIScrollView alloc]initWithFrame:CGRectMake(scX, scY, scW, scH)];
     self.myScroller.delegate = self;
     self.myScroller.contentSize = CGSizeMake(scW, scH);
@@ -96,6 +221,7 @@
     [self.view addSubview:self.myScroller];
 }
 -(void)setupTableView{
+    
     float tabW = self.myScroller.frame.size.width;
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, tabW,_myScroller.frame.size.height) style:UITableViewStylePlain];
     tabview.delegate = self;
@@ -104,8 +230,6 @@
     tabview.showsVerticalScrollIndicator=NO;
     [self.myScroller addSubview:tabview];
     self.myTable =tabview;
-    [self setupHeaderview];
-    
     self.myTable.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myScroller.frame.size.height*2);
         [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
@@ -113,101 +237,6 @@
         [self setupWebView];
 
     }];
-}
-
-#pragma mark 设置头部View
--(void)setupHeaderview{
-    
-    float topW = KMainScreenWidth - 10*2;
-    float topH = KMainScreenWidth* 120/320;
-    UIView* top = [[UIView alloc]initWithFrame:CGRectMake(0, 0, topW, topH)];
-    self.myTable.tableHeaderView = top;
-    
-    UIImage* img = [UIImage imageNamed:@"mian_img_cellH"];
-    float imgH = KMainScreenWidth* 16/320;
-    UIImageView* imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, topW, imgH)];
-    imgView.image =img;
-    [top addSubview:imgView];
-    
-    float labX = KMainScreenWidth*5/320;
-    float labY = 0;
-    float labW = topW- labX*2;
-    UILabel* lab =[[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, imgH)];
-    lab.text = @"团购满";
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth* 12/320];
-    [top addSubview:lab];
-    
-    UIImage* img2 = [UIImage imageNamed:@"main_img_cellF"];
-    float img2H = KMainScreenWidth*8/320;
-    float img2Y = topH - img2H-10;
-    UIImageView* imgView2 = [[UIImageView alloc]initWithFrame:CGRectMake(0, img2Y, topW, img2H)];
-    imgView2.image = img2;
-    [top addSubview:imgView2];
-    
-    UIView* button = [[UIView alloc]initWithFrame:CGRectMake(0, img2Y+img2H, topW, 10)];
-    [top addSubview:button];
-    
-    float midH = topH - imgH - img2H - 10;
-    UIView * midview = [[UIView alloc]initWithFrame:CGRectMake(0, imgH, topW, midH)];
-    midview.backgroundColor = [UIColor whiteColor];
-    [top addSubview:midview];
-    midView = midview;
-    
-    [self setupMidview];
-}
-
--(void)setupMidview{
-    CALayer* line = [CALayer layer];
-     float lineX =10;
-    float lineW = midView.frame.size.width - 2*lineX;
-    float lineH = KMainScreenWidth*3/320;
-    float lineY = (midView.frame.size.height - lineH)/2;
-    line.frame = CGRectMake(lineX, lineY, lineW, lineH);
-    line.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor].CGColor;
-    line.masksToBounds=YES;
-    line.cornerRadius = 3;
-    [midView.layer addSublayer:line];
-    
-    NSArray* colors = @[@"KZ_img_red",@"KZ_img_orange",@"KZ_img_green",@"KZ_img_red",@"KZ_img_orange"];
-    NSArray* imgNames = @[@"KZ_img_good",@"KZ_img_bofang",@"KZ_img_aixin",@"KZ_img_xing",@"KZ_img_zuanshi"];
-    NSArray* stringS = @[@"5人返￥5",@"10人返￥15",@"20人返￥25",@"25人返￥30",@"30人返￥35"];
-    float jg = midView.frame.size.width/6;
-    for (int i =0; i<colors.count; i++) {
-        UIImage* img = [UIImage imageNamed:colors[i]];
-        float imgWH =KMainScreenWidth*12/320;
-        UIImageView* imgView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imgWH, imgWH)];
-        //imgView.contentMode=UIViewContentModeScaleAspectFit;
-        imgView.center = CGPointMake( (i+1)*jg,midView.frame.size.height/2);
-        imgView.image = img;
-        [midView addSubview:imgView];
-        
-        UIImage* img1 = [UIImage imageNamed:imgNames[i]];
-        float img2WH =KMainScreenWidth*22/320;
-        UIImageView* imgView1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img2WH, img2WH+4)];
-        //imgView1.contentMode=UIViewContentModeScaleAspectFit;
-        imgView1.image = img1;
-        
-        float centerX = 0;
-        float labCenterY = 0;
-        if ((i+1)%2==0){
-            centerX = CGRectGetMaxY(imgView.frame)+imgView.frame.size.height/2+8;
-            labCenterY = imgView.frame.origin.y - imgView.frame.size.height/2-8;
-        }else{
-            centerX = imgView.frame.origin.y - imgView.frame.size.height/2-8;
-            labCenterY =  CGRectGetMaxY(imgView.frame)+imgView.frame.size.height/2+8;
-        }
-        imgView1.center = CGPointMake((i+1)*jg, centerX);
-       
-        [midView addSubview:imgView1];
-        
-        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 50, 15)];
-        lab.text = stringS[i];
-        lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*9/320];
-        [lab sizeToFit];
-        lab.center = CGPointMake((i+1)*jg, labCenterY);
-        [midView addSubview:lab];
-    }
-   
 }
 
 #pragma mark 加载webView
@@ -222,90 +251,27 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     float cell = 0;
-    switch (indexPath.row) {
-        case 0:
-            cell = cell1H;
-            break;
-        case 1:
-            cell = cell2H;
-            break;
-        case 2:
-            cell = cell3H;
-            break;
-        case 3:
-            cell = cell4H;
-            break;
-    }
+    cell = cell1H;
     return cell;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 1;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    switch (indexPath.row) {
-        case 0:{
-            UNIGoodsCell1* cell =[[NSBundle mainBundle]loadNibNamed:@"UNIGoodsCell1" owner:self options:nil].lastObject;
-            [cell setupCellContentWith:model];
-            return cell;
-        }
-            break;
-        case 1:{
-            UNIGoodsCell2* cell =[[NSBundle mainBundle]loadNibNamed:@"UNIGoodsCell2" owner:self options:nil].lastObject;
-            [cell setupCellContentWith:model];
-            return cell;
-        }
-            break;
-        case 2:{
-            UNIGoodsCell3* cell =[[NSBundle mainBundle]loadNibNamed:@"UNIGoodsCell3" owner:self options:nil].lastObject;
-            return cell;
-        }
-            break;
-        case 3:{
-            UNIGoodsCell4* cell =[[NSBundle mainBundle]loadNibNamed:@"UNIGoodsCell4" owner:self options:nil].lastObject;
-            [cell setupCellContentWith:model];
-            [[cell.submitBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-            subscribeNext:^(UIButton* x) {
-                UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-                UNIPurchaseController* comment = [st instantiateViewControllerWithIdentifier:@"UNIPurchaseController"];
-                [self.navigationController pushViewController:comment animated:YES];
-            }];
-            
-            [[cell.stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-             subscribeNext:^(UIButton* x) {
-                 UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-                 UNIGoodsComment* comment = [st instantiateViewControllerWithIdentifier:@"UNIGoodsComment"];
-                 [self.navigationController pushViewController:comment animated:YES];
-            }];
-            return cell;
-        }
-            break;
-    }
 
-    return nil;
+    UNIGoodsCell1* cell =[[UNIGoodsCell1 alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cell1H) reuseIdentifier:@"cell"];
+    [cell setupCellContentWith:model];
+            return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    switch (indexPath.row) {
-        case 0:
-            
-            break;
-        case 1:
-            
-            break;
-        case 2:{
+   
             UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
             UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
             imgAndText.projectId = model.projectId;
             [self.navigationController pushViewController:imgAndText animated:YES];
-        }
-            break;
-        case 3:{
-            
-        }
-            break;
-    }
-}
+     }
 
 -(CGSize)suanziti:(NSString*)text andFont:(float)font andWidth:(float)width{
     CGRect rect = [text boundingRectWithSize:CGSizeMake(width, 8000)//限制最大的宽度和高度
@@ -315,6 +281,45 @@
     
     return rect.size;
 }
+#pragma mark 注册键盘是事件
+-(void)regirstKeyBoardNotification{
+    //增加监听，当键盘出现或改变时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillShow:)
+                                                 name:UIKeyboardWillShowNotification
+                                               object:nil];
+    
+    //增加监听，当键退出时收出消息
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(keyboardWillHide:)
+                                                 name:UIKeyboardWillHideNotification
+                                               object:nil];
+}
+#pragma mark 键盘出现
+-(void)keyboardWillShow:(NSNotification*)notifi{
+    NSDictionary *info = [notifi userInfo];
+    NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
+    CGSize keyboardSize = [value CGRectValue].size;
+    
+    CGRect boRe = bottomView.frame;
+    boRe.origin.y -=keyboardSize.height;
+    bottomView.frame = boRe;
+}
+#pragma mark 键盘隐藏
+-(void)keyboardWillHide:(NSNotification*)notifi{
+    CGRect boRe = bottomView.frame;
+    boRe.origin.y =KMainScreenHeight - boRe.size.height;
+    bottomView.frame = boRe;
+    
+    int k = [numField.text intValue];
+    if (k==0 || [numField.text isEqualToString:@""]) {
+        self.num = 1;
+    }
+}
+-(void)keyboardTool:(BTKeyboardTool*)tool buttonClick:(KeyBoardToolButtonType)type{
+    [self.view endEditing:YES];
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

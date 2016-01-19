@@ -36,7 +36,7 @@
     float labY = 0;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     lab1.lineBreakMode = 0 ;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];

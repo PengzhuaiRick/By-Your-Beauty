@@ -187,7 +187,8 @@
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y, lab2W, lab2H)];
     lab2.text = @"再预约次数";
     lab2.textColor = [UIColor whiteColor];
-    lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    //lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    lab2.font = kMainFont(KMainScreenWidth*12/320);
     lab2.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab2];
     
@@ -206,7 +207,7 @@
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab4Y, lab2W, lab4H)];
     lab4.text = @"可获得一支";
     lab4.textColor = [UIColor whiteColor];
-    lab4.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     lab4.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab4];
     
@@ -215,7 +216,7 @@
     UILabel* lab5 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab5Y, lab2W, lab5H)];
     lab5.text = @"300ml ALBION 爽肤精萃液";
     lab5.textColor = [UIColor whiteColor];
-    lab5.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
+    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     lab5.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab5];
     goodsLab = lab5;
@@ -252,6 +253,10 @@
     btn.layer.borderColor = [UIColor whiteColor].CGColor;
     btn.layer.borderWidth = 1;
     [imageView addSubview:btn];
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        [self navigationControllerRightBarAction:nil];
+    }];
     
     
     float lab6H = 20;

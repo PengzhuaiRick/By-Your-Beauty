@@ -7,7 +7,7 @@
 //
 
 #import "UNIPurchaseController.h"
-#import "UNIPurchaseCell.h"
+//#import "UNIPurchaseCell.h"
 #import "UNIPurChaseView.h"
 #import "BTKeyboardTool.h"
 @interface UNIPurchaseController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate>
@@ -61,27 +61,27 @@
     self.myTable.tableFooterView = footer;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return [UNIPurchaseCell CellHight];
-}
-
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 1;
-}
-
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString* name = @"cell";
-    UNIPurchaseCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-    if (!cell) {
-        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIPurchaseCell" owner:self options:nil].lastObject;
-        BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
-        tool.toolDelegate = self;
-        cell.countField.inputAccessoryView = tool;
-        [tool dismissTwoBtn];
-    }
-    [cell setupCellContentWith:nil];
-    return cell;
-}
+//-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//   // return [UNIPurchaseCell CellHight];
+//}
+//
+//-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    return 1;
+//}
+//
+//-(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    static NSString* name = @"cell";
+//    UNIPurchaseCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+//    if (!cell) {
+//        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIPurchaseCell" owner:self options:nil].lastObject;
+//        BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+//        tool.toolDelegate = self;
+//        cell.countField.inputAccessoryView = tool;
+//        [tool dismissTwoBtn];
+//    }
+//    [cell setupCellContentWith:nil];
+//    return cell;
+//}
 
 -(void)keyboardTool:(BTKeyboardTool *)tool buttonClick:(KeyBoardToolButtonType)type{
     if (type == kKeyboardToolButtonTypeDone) {

@@ -77,7 +77,7 @@
 }
 -(void)setupMyTableView{
     
-    float tableY =64+15;
+    float tableY =0;
     float tableH = KMainScreenHeight - tableY;
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableY, KMainScreenWidth, tableH) style:UITableViewStylePlain];
     self.myTableView.delegate= self;
@@ -85,9 +85,7 @@
     self.myTableView.layer.masksToBounds = YES;
     self.myTableView.layer.cornerRadius = 5;
     // self.myTableView.scrollEnabled=NO;
-    if (KMainScreenHeight<568) {
-        self.myTableView.scrollEnabled=YES;
-    }
+    
     [self.view addSubview:self.myTableView];
     [self setupTabelViewFootView];
 }

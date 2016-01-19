@@ -30,7 +30,7 @@
                     CGRectMake(10, 0, self.frame.size.width-20 , KMainScreenWidth*20/320)];
     lab.text=string;
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
     [self addSubview:lab];
 
     

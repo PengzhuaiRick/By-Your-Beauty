@@ -12,6 +12,7 @@
 @interface UNIGiftController ()<UIWebViewDelegate>{
     UIView* shareView;
     UIView* bgView;
+    UIActivityIndicatorView *testActivityIndicator;
 }
 
 @end
@@ -45,28 +46,26 @@
     web.delegate = self;
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-   // NSDictionary* dic = @{@"userId":[NSString stringWithFormat:@"%@",[AccountManager userId]]};
-    NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json=";
-//    NSString* urlString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)str1, nil, nil, kCFStringEncodingUTF8));;
-  //  NSString* urlString = [str1 stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    NSURL* url = [NSURL URLWithString:str1];//创建URL
-  //  NSURLRequest* request = [NSURLRequest requestWithURL:url];
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:url];//默认为get请求
-    request.HTTPMethod=@"POST";//设置请求方法
-    
-   //设置请求体
-    NSString *param=[NSString stringWithFormat:@"userId=%d",[[AccountManager userId] intValue]];
-   //把拼接后的字符串转换为data，设置请求体
-    request.HTTPBody=[param dataUsingEncoding:NSUTF8StringEncoding];
+    NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
+    NSString* str2 = [[AccountManager userId]stringValue];
+    NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"AA" withString:str2];
+    NSString* urlString = [self URLEncodedString:str3];
+    NSURL* url = [NSURL URLWithString:urlString];//创建URL
+    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+
     [web loadRequest:request];//加载
 }
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
-//    
-//}
+
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-    
+    testActivityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    testActivityIndicator.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
+    [self.view addSubview:testActivityIndicator];
+   // testActivityIndicator.color = [UIColor redColor]; // 改变圈圈的颜色为红色； iOS5引入
+    [testActivityIndicator startAnimating]; // 开始旋转
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [testActivityIndicator stopAnimating];
+    [testActivityIndicator removeFromSuperview];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);
@@ -130,11 +129,11 @@
             [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
             
             WXWebpageObject* web = [WXWebpageObject object];
-//            NSString* str1 =@"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http\%3a\%2\f%2\funi.dodwow.com\%2\funi_api\%2fapi.php\%3\fc\%3dWX\%26a\%3\dgotoLibaoShare\&response_type=code\&scope=snsapi_userinfo&state={";
-//           
-//            web.webpageUrl = [NSString stringWithFormat:@"%d}#wechat_redirec",[[AccountManager userId] intValue]];
-//            //web.webpageUrl=@"http://www.baidu.com";
-//            message.mediaObject = web;
+            NSString* str1 =@"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWX%26a%3dgotoLibaoShare&response_type=code&scope=snsapi_userinfo&state={###}#wechat_redirec";
+            NSString* str2 = [[AccountManager userId]stringValue];
+            NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
+            web.webpageUrl = [self URLEncodedString:str3];
+            message.mediaObject = web;
             
             SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
             rep.bText = NO;
@@ -181,24 +180,15 @@
     }];
 }
 
--(NSString *)URLDecodedString:(NSString *)str
-{
-    NSString *decodedString=(__bridge_transfer NSString *)CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL, (__bridge CFStringRef)str, CFSTR(""), CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding));
-    
-    return decodedString;
-}
 
-- (NSString *)decodeFromPercentEscapeString: (NSString *) input
+- (NSString *)URLEncodedString:(NSString*)STR
 {
-    NSMutableString *outputStr = [NSMutableString stringWithString:input];
-    [outputStr replaceOccurrencesOfString:@"+"
-                               withString:@" "
-                                  options:NSLiteralSearch
-                                    range:NSMakeRange(0,
-                                                      [outputStr length])];
-    
-    return
-    [outputStr stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                            (CFStringRef)STR,
+                                            (CFStringRef)@"!$&'()*+,-./:;=?@_~%#[]",
+                                            NULL,
+                                            kCFStringEncodingUTF8));
+    return encodedString;
 }
 
 - (void)didReceiveMemoryWarning {

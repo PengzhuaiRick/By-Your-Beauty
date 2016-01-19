@@ -52,7 +52,7 @@
     float lab1Y = imgH - lab1H-10;
     float lab1W = imgW - lab1X*2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y,lab1W, lab1H)];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     lab1.textColor = [UIColor whiteColor];
     [img addSubview:lab1];
     self.label1 = lab1;
@@ -74,7 +74,7 @@
     float lab3Y = CGRectGetMaxY(lab2.frame);
     float lab3W = viewW - 2*lab2X;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y,lab3W, lab3H)];
-    lab3.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     lab3.textColor = kMainGrayBackColor;
     [view addSubview:lab3];
     self.label3 = lab3;
@@ -84,7 +84,7 @@
     float lab4Y = CGRectGetMaxY(lab3.frame)+10;
     float lab4W = viewW /2;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab4X, lab4Y, lab4W, lab4H)];
-    lab4.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
      lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab4.text = @"服务满意度";
     [view addSubview:lab4];
@@ -131,6 +131,7 @@
     float textH = KMainScreenWidth *100 /320;
     UITextView* textView = [[UITextView alloc]initWithFrame:CGRectMake(textX, textY, textW, textH)];
     textView.text = @"  写下你对本次服务宝贵意见,长度在50-1001字以内.";
+    textView.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [view addSubview:textView];
     self.textView = textView;
 
@@ -140,7 +141,7 @@
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame =CGRectMake(btX, btY, btWH, btWH);
     [btn setTitle:@"提交" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = btWH/2;
     [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];

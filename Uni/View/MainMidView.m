@@ -55,14 +55,14 @@
     float lab1Y = noData.frame.size.height/2 - lab1H;
     UILabel* lab1 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
     lab1.textColor = kMainGrayBackColor;
-    lab1.font = [UIFont boldSystemFontOfSize:20];
+    lab1.font = [UIFont systemFontOfSize:20];
     [noData addSubview:lab1];
     self.noDataLab1 = lab1;
     
     float lab2H = 45;
     float lab2Y = CGRectGetMaxY(lab1.frame);
     UILabel* lab2 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab2Y, lab1W, lab2H)];
-    lab2.font = [UIFont boldSystemFontOfSize:13];
+    lab2.font = [UIFont systemFontOfSize:13];
     lab2.textColor = kMainGrayBackColor;
     lab2.lineBreakMode = NSLineBreakByWordWrapping;
     lab2.numberOfLines = 0;
@@ -90,7 +90,7 @@
                     CGRectMake(10, 2,  self.frame.size.width-10, KMainScreenWidth*0.05)];
     lab.text=string;
     lab.textColor = [UIColor colorWithHexString:@"575757"];
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*0.043];
     [view addSubview:lab];
     [self addSubview:view];
     self.titleLab = lab;

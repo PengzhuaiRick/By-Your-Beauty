@@ -150,7 +150,7 @@
     float topX = 16;
     float topY = 64+16;
     float topW = KMainScreenWidth - topX*2;
-    float topH = KMainScreenWidth* 100/320;
+    float topH = KMainScreenWidth* 110/320;
     UIView* top = [[UIView alloc]initWithFrame:CGRectMake(topX, topY, topW, topH)];
     top.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:top];
@@ -174,7 +174,7 @@
     [top.layer addSublayer:lay];
     
     float lab1X = KMainScreenWidth*8/320;
-    float lab1Y = CGRectGetMaxY(lab.frame)+1;
+    float lab1Y = CGRectGetMaxY(lab.frame)+5;
     float lab1W = KMainScreenWidth*100/320;
     float lab1H = KMainScreenWidth*20/320;
     UILabel* lab1 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
@@ -224,7 +224,7 @@
        
          NSString* tit = [NSString stringWithFormat:@"%i",i+xx];
         [btn setTitle:tit forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*11/320];
+        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
         if ((i+xx) < num) {
             [btn setBackgroundImage:[UIImage imageNamed:@"card_btn_get"] forState:UIControlStateNormal];
         }else
@@ -284,6 +284,7 @@
     myTableView.layer.masksToBounds = YES;
     myTableView.layer.cornerRadius = 5;
     [self.view addSubview:myTableView];
+    myTableView.tableFooterView = [UIView new];
     
     myTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->pageNum =0;

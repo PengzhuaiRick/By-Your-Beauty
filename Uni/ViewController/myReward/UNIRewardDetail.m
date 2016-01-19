@@ -68,7 +68,7 @@
     [submitBtn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
     submitBtn.titleLabel.numberOfLines = 0;
     submitBtn.titleLabel.lineBreakMode = 0;
-    submitBtn.titleLabel.font = [UIFont boldSystemFontOfSize:14];
+    submitBtn.titleLabel.font = [UIFont systemFontOfSize:14];
     [submitBtn setTitle:@"服务\n评价" forState:UIControlStateNormal];
     [self.view addSubview:submitBtn];
     

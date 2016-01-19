@@ -36,7 +36,7 @@
 }
 
 -(void)setupMyScroller{
-    self.myScroller.backgroundColor = [UIColor colorWithHexString:@"e4e5e9"];
+    self.myScroller.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     if (KMainScreenHeight<568)
         self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, 568);
     else
@@ -97,55 +97,75 @@
     
         [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-//         [LLARingSpinnerView RingSpinnerViewStart];
-//         UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
-//         NSMutableArray* arr = [NSMutableArray array];
-//          NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
-//         int num = self->appointBotton.nunField.text.intValue;
-//         for (UNIMyProjectModel* model in self->appontMid.myData) {
-//            
-//             NSDictionary* dic1 = @{@"projectId":@(model.projectId),
-//                                    @"date":date,
-//                                    @"costTime":@(model.costTime),
-//                                    @"num":@(num)
-//                                    };
-//              [arr addObject:dic1];
-//         }
-//         [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
-//                       params:@{@"data":arr}];
-//         dispatch_async(dispatch_get_main_queue(), ^{
-//             [LLARingSpinnerView RingSpinnerViewStop];
-//             req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
-//                 if (err) {
-//                     [YIToast showText:NETWORKINGPEOBLEM];
-//                     return ;
-//                 }
-//                 if (order) {
-//                     //[YIToast showText:@"预约成功"];
 #ifdef IS_IOS9_OR_LATER
-                     UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"预约成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                         [self locationNotificationTask:nil];
-                         // [self locationNotificationTask:order];
-                     }];
-                     [alertController addAction:cancelAction];
-                     [self presentViewController:alertController animated:YES completion:nil];
-#else
-                     [UIAlertView showWithTitle:@"用户信息" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                         [self locationNotificationTask:nil];
-                         // [self locationNotificationTask:order];
-                     }];
-#endif
-//                    // [NSThread sleepForTimeInterval:1];
-//                    // [self locationNotificationTask:order];
-//                 }else
-//                     [YIToast showText:@"预约失败"];
-//             };
-//
-//         });
+         UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"是否确定预约?" message:nil preferredStyle:UIAlertControllerStyleAlert];
+         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+         [alertController addAction:cancelAction];
          
+         UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"预约" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+             [self startAppoint];
+         }];
+         [alertController addAction:sureAction];
+         [self presentViewController:alertController animated:YES completion:nil];
+#else
+         [UIAlertView showWithTitle:@"是否确定预约?" message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"预约"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+             if (buttonIndex == 1) {
+                 [self startAppoint];
+             }
+         }];
+#endif
         
              }];
+}
+
+-(void)startAppoint{
+             [LLARingSpinnerView RingSpinnerViewStart];
+             UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
+             NSMutableArray* arr = [NSMutableArray array];
+              NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
+             int num = appointTop.nunField.text.intValue;
+             for (UNIMyProjectModel* model in self->appontMid.myData) {
+    
+                 NSDictionary* dic1 = @{@"projectId":@(model.projectId),
+                                        @"date":date,
+                                        @"costTime":@(model.costTime),
+                                        @"num":@(num)
+                                        };
+                  [arr addObject:dic1];
+             }
+             [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
+                           params:@{@"data":arr}];
+             dispatch_async(dispatch_get_main_queue(), ^{
+                 [LLARingSpinnerView RingSpinnerViewStop];
+                 req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
+                     if (err) {
+                         [YIToast showText:NETWORKINGPEOBLEM];
+                         return ;
+                     }
+                     if (order) {
+                         //[YIToast showText:@"预约成功"];
+#ifdef IS_IOS9_OR_LATER
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"预约成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        //[self locationNotificationTask:nil];
+         [self locationNotificationTask:order];
+    }];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+#else
+    [UIAlertView showWithTitle:@"用户信息" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        //[self locationNotificationTask:nil];
+         [self locationNotificationTask:order];
+    }];
+#endif
+                        // [NSThread sleepForTimeInterval:1];
+                        // [self locationNotificationTask:order];
+                     }else
+                         [YIToast showText:@"预约失败"];
+                 };
+    
+             });
+
 }
 
 #pragma mark 添加本地通知任务
@@ -174,9 +194,9 @@
     [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     NSDate* strDate = [dateFormatter dateFromString:sele];
     //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
-    localNotification.fireDate =strDate;
+    //localNotification.fireDate =strDate;
     
-    //localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     //设置通知的内容
@@ -186,8 +206,8 @@
     //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-   // NSDictionary *infoDic = @{@"OrderId":order};
-     NSDictionary *infoDic = @{@"OrderId":@""};
+    NSDictionary *infoDic = @{@"OrderId":order};
+     //NSDictionary *infoDic = @{@"OrderId":@""};
     localNotification.userInfo = infoDic;
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
@@ -260,11 +280,11 @@
         self-> appontMid.frame = midRec;
         
         CGRect tabRe = self->appontMid.myTableView.frame;
-        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - 35;
+        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - 40;
         self->appontMid.myTableView.frame =tabRe;
         
         CGRect addRec = self->appontMid.addProBtn.frame;
-        addRec.origin.y =CGRectGetMaxY(tabRe);
+        addRec.origin.y =midRec.size.height - 40;
         self->appontMid.addProBtn.frame =addRec;
         
 

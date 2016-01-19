@@ -83,18 +83,19 @@
     [bar setTintColor:[UIColor blackColor]];
     
     //设置导航栏标题字体颜色
-    NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
-    [barAttrs setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
-    [barAttrs setObject:[UIFont boldSystemFontOfSize:KMainScreenWidth*17/320] forKey:NSFontAttributeName];
-    [bar setTitleTextAttributes:barAttrs];
+    
+//    NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
+//    [barAttrs setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
+//    [barAttrs setObject:[UIFont systemFontOfSize:16*1.2] forKey:NSFontAttributeName];
+//    [bar setTitleTextAttributes:barAttrs];
     
     //
-    UIBarButtonItem *item = [UIBarButtonItem appearance];
-    NSMutableDictionary *itemAttrs = [NSMutableDictionary dictionaryWithDictionary:barAttrs];
-    [itemAttrs setObject:[UIFont boldSystemFontOfSize:KMainScreenWidth*15/320] forKey:NSFontAttributeName];
-    [item setTitleTextAttributes:itemAttrs forState:UIControlStateNormal];
-    [item setTitleTextAttributes:itemAttrs forState:UIControlStateHighlighted];
-    [item setTitleTextAttributes:itemAttrs forState:UIControlStateDisabled];
+//    UIBarButtonItem *item = [UIBarButtonItem appearance];
+//    NSMutableDictionary *itemAttrs = [NSMutableDictionary dictionaryWithDictionary:barAttrs];
+//    [itemAttrs setObject:[UIFont systemFontOfSize:KMainScreenWidth*14/320] forKey:NSFontAttributeName];
+//    [item setTitleTextAttributes:itemAttrs forState:UIControlStateNormal];
+//    [item setTitleTextAttributes:itemAttrs forState:UIControlStateHighlighted];
+//    [item setTitleTextAttributes:itemAttrs forState:UIControlStateDisabled];
 }
 -(void)judgeFirstTime{
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];

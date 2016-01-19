@@ -36,7 +36,7 @@
     lab.text=@"￥";
     lab.textColor = [UIColor whiteColor];
     lab.textAlignment=NSTextAlignmentCenter;
-    lab .font =[UIFont boldSystemFontOfSize:KMainScreenWidth*20/320];
+    lab .font =[UIFont systemFontOfSize:KMainScreenWidth*20/320];
     [img addSubview:lab];
     
     float lab1W = labS1W;
@@ -46,7 +46,7 @@
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
     lab1.text=@"100";
     lab1.textColor = [UIColor whiteColor];
-    lab1 .font =[UIFont boldSystemFontOfSize:lab1H];
+    lab1 .font =[UIFont systemFontOfSize:lab1H];
     lab1.textAlignment=NSTextAlignmentCenter;
     [img addSubview:lab1];
     self.lab1 = lab1;
@@ -59,7 +59,7 @@
     lab2.text=@"满1000元减100元";
     lab2.textColor = [UIColor whiteColor];
     lab2.textAlignment=NSTextAlignmentCenter;
-    lab2 .font =[UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [img addSubview:lab2];
     self.lab1 = lab2;
     

@@ -256,7 +256,7 @@
         float btn1X = img1WH+5;
         UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
         btn1.frame = CGRectMake(btn1X, 0, btnW, btnH);
-        [btn1 setTitle:@" 男士" forState:UIControlStateNormal];
+        [btn1 setTitle:@" 先生" forState:UIControlStateNormal];
         btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
         [btn1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btn1.tag = 1;

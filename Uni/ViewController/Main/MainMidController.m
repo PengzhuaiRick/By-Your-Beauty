@@ -38,12 +38,7 @@
     [self setupNavigation];
     [self setupParams];
     [self setupMJReflash];
-   // [self setupTableviewHeader:@"我已预约"];
-    //[self setupTableviewFootView];
-    //[self startRequestInfo];
     
-   
-  //[self startRequestInfoPage];
     [self.tableView.header beginRefreshing];
 }
 
@@ -56,6 +51,8 @@
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
     view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     self.tableView.tableHeaderView =view;
+    
+    self.tableView.tableFooterView = [UIView new];
 }
 #pragma mark 设置参数
 -(void)setupParams{
@@ -97,7 +94,7 @@
                     CGRectMake(10, 5,  self.tableView.frame.size.width-10, KMainScreenWidth*0.05)];
     lab.text=string;
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*0.043];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*0.043];
     [view addSubview:lab];
     self.tableView.tableHeaderView = view;
 }

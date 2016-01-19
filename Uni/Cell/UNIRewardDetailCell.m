@@ -33,7 +33,7 @@
     float labY = size.height/2 - labH;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*15/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
     if (tp == 1)
         lab1.text= @"成功约满";
     if (tp == 2)

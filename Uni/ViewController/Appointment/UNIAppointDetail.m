@@ -88,7 +88,7 @@
 -(void)setupTabelViewFootView{
     UIView* view =[[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight/2)];
     
-//    if (self.orderState == 2){
+   if (self.orderState == 2){
     float btnWH =KMainScreenWidth*80/320;
     float btnX = (KMainScreenWidth - btnWH)/2;
     float btnY = 30;
@@ -98,7 +98,7 @@
     button.layer.cornerRadius = btnWH/2;
     button.titleLabel.numberOfLines = 0;
     button.titleLabel.lineBreakMode = 0;
-    button.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*17/320];
+    button.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*17/320];
     [button setTitle:@"服务\n评价" forState:UIControlStateNormal];
     [button setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     [view addSubview:button];
@@ -112,29 +112,29 @@
          eva.order = self.order;
          [self.navigationController pushViewController:eva animated:YES];
      }];
-//    }
-//     if (self.orderState < 2){
-//        
-//        float mapX = KMainScreenWidth*16/320;
-//        float mapWH = self.myTableView.frame.size.width - mapX*2;
-//        MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];
-//        mapView.mapType = MKMapTypeStandard;//标准模式
-//        mapView.showsUserLocation = YES;//显示自己
-//        mapView.zoomEnabled = YES;//支持缩放
-//        [view addSubview:mapView];
-//        UNIShopManage* manager = [UNIShopManage getShopData];
-//        CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
-//        mapView.centerCoordinate = td;
-//        
-//        UNIMapAnnotation * end =[[UNIMapAnnotation alloc]initWithTitle:manager.shopName andCoordinate:td];
-//                [mapView addAnnotation:end];
-//        
-//        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
-//        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];//适配map view的尺寸
-//        [mapView setRegion:adjustedRegion animated:YES];
-//    
-//
-//    }
+    }
+     if (self.orderState < 2){
+        
+        float mapX = KMainScreenWidth*16/320;
+        float mapWH = self.myTableView.frame.size.width - mapX*2;
+        MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];
+        mapView.mapType = MKMapTypeStandard;//标准模式
+        mapView.showsUserLocation = YES;//显示自己
+        mapView.zoomEnabled = YES;//支持缩放
+        [view addSubview:mapView];
+        UNIShopManage* manager = [UNIShopManage getShopData];
+        CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
+        mapView.centerCoordinate = td;
+        
+        UNIMapAnnotation * end =[[UNIMapAnnotation alloc]initWithTitle:manager.shopName andCoordinate:td];
+                [mapView addAnnotation:end];
+        
+        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
+        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];//适配map view的尺寸
+        [mapView setRegion:adjustedRegion animated:YES];
+    
+
+    }
     self.myTableView.tableFooterView = view;
 }
 

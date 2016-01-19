@@ -123,13 +123,18 @@
     static NSString* name = @"cell";
     ViewControllerCell*cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell = [[ViewControllerCell alloc]initWithCellH:KMainScreenHeight/titleArray.count reuseIdentifier:name];
+        cell = [[ViewControllerCell alloc]initWithCellH:tableView.frame.size.height/titleArray.count reuseIdentifier:name];
         cell.backgroundColor = [UIColor clearColor];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (indexPath.row == 3) {
+            cell.numLab.hidden=NO;
+        }else
+        cell.numLab.hidden=YES;
     }
         cell.mainImg.image = [UIImage imageNamed:imgArray[indexPath.row]];
         cell.mainLab.text = titleArray[indexPath.row];
         cell.mainLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    cell.numLab.hidden=YES;
+   
 
     return cell;
 }
@@ -144,9 +149,11 @@
         if (i == indexPath.row) {
             cell.mainLab.textColor = [UIColor colorWithHexString:kMainThemeColor];
             cell.mainImg.image = [UIImage imageNamed:imgSArray[i]];
+            cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.1];
         }else{
             cell.mainLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
             cell.mainImg.image = [UIImage imageNamed:imgArray[i]];
+            cell.backgroundColor = [UIColor clearColor];
         }
     }
     switch (indexPath.row) {

@@ -17,8 +17,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.status = st;
-         [self startRequest];
-        //[self setupTableView];
+        // [self startRequest];
+        [self setupTableView];
     }
     return self;
 }
@@ -64,20 +64,21 @@
     [self addSubview:tabview];
     self.myTable =tabview;
     
-    tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        self.page = 0;
-        [self.allArray removeAllObjects];
-        [self startRequest];
-    }];
-    
-    tabview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        self.page++;
-        [self startRequest];
-    }];
+//    tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+//        self.page = 0;
+//        [self.allArray removeAllObjects];
+//        [self startRequest];
+//    }];
+//    
+//    tabview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+//        self.page++;
+//        [self startRequest];
+//    }];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.allArray.count;
+   // return self.allArray.count;
+    return 10;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return KMainScreenWidth*90/320;

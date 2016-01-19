@@ -143,7 +143,7 @@
             self.selectYear =year;
             self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
             }
-        btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*13/320];
+        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
         [_topScroller addSubview:btn];
         [_topBtns addObject:btn];
         

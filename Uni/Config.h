@@ -44,6 +44,11 @@
  */
 #define kMainGrayBackColor [UIColor colorWithRed:180/255.f green:180/255.f blue:180/255.f alpha:1]
 
+/**
+ *  字体
+ */
+#define kMainFont(si)  [UIFont fontWithName:@"Arial-BoldItalicMT" size:si];
+
 
 /**
  *  本地通知数量

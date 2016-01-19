@@ -40,7 +40,7 @@
     lab3.textAlignment = NSTextAlignmentCenter;
     lab3.layer.masksToBounds = YES;
     lab3.layer.cornerRadius = lab3WH/2;
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*lab3WH/2/320];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*9/320];
     [imgview addSubview:lab3];
     self.numLab = lab3;
     
@@ -50,8 +50,6 @@
     float labY = (cellH - labH)/2;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth*17/320];
-    lab.lineBreakMode = 0;
-    lab.numberOfLines = 0 ;
     [self addSubview:lab];
     self.mainLab = lab;
 

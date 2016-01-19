@@ -64,13 +64,13 @@
     float lab1Y = size.height/2 - labH;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [self addSubview:lab1];
     self.mainLab = lab1;
     
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     lab2.textColor =kMainGrayBackColor;
     lab2.lineBreakMode = 0;
     lab2.numberOfLines = 0;

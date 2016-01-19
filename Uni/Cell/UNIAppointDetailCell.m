@@ -43,7 +43,7 @@
     float lab1Y = 0;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*14/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     lab1.lineBreakMode = 0 ;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];
@@ -83,21 +83,35 @@
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.createTime substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
     NSString* titel = nil;
+    UIColor* stateColor = nil;
     switch (info.status) {
         case 0:
             titel = @"待确认";
+            stateColor = [UIColor colorWithHexString:kMainThemeColor];
             break;
         case 1:
             titel = @"待服务";
+            stateColor = [UIColor blackColor];
             break;
         case 2:
             titel = @"已完成";
+            stateColor = [UIColor colorWithHexString:kMainThemeColor];
             break;
         case 3:
             titel = @"已取消";
+            stateColor = [UIColor colorWithHexString:kMainBackGroundColor];
             break;
     }
     self.stateLab.text = titel;
+    self.stateLab.textColor = stateColor;
+    
+    if (info.ifIntime == 1) {
+        self.intimeImg.hidden=NO;
+        self.stateLab.hidden=YES;
+    }else if (info.ifIntime == 0){
+        self.intimeImg.hidden=YES;
+        self.stateLab.hidden=NO;
+    }
     
 }
 
