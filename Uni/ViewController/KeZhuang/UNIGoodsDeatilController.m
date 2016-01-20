@@ -11,11 +11,10 @@
 //#import "UNIGoodsComment.h"
 #import "UNIPurchaseController.h"
 #import <MJRefresh/MJRefresh.h>
-#import "UNIGoodsDetailRequest.h"
 #import "UNIImageAndTextController.h"
 #import "BTKeyboardTool.h"
 #import "UNIPurChaseView.h"
-@interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate>{
+@interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIView* midView;
     UIView* bottomView;
     UILabel* priceLab;
@@ -43,33 +42,35 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheZFB" object:nil];
     [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-//    [self startRequestReward];
+   // [self startRequestReward];
     [self setupData];
     [self setupBottomView];
     [self setupMyScroller];
     [self setupTableView];
     [self regirstKeyBoardNotification];
 }
-#pragma mark 开始请求 我的奖励
+#pragma mark 开始请求
 -(void)startRequestReward{
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo] params:nil];
     requet.kzgoodsInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
-                [YIToast showText:@"请求发生错误"];
+                [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if(array){
                 self->model = array.lastObject;
+                [self setupBottomView];
                 [self setupMyScroller];
-                 [self setupData];
+                // [self setupData];
                 [self setupTableView];
             }else
                 [YIToast showText:tips];
@@ -101,7 +102,8 @@
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth*36/414];
     lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab.text = @"￥888";
+   // lab.text = [NSString stringWithFormat:@"%f",model.shopPrice];
+    lab.text = @"￥899";
     [bottom addSubview:lab];
     priceLab = lab;
     
@@ -177,31 +179,53 @@
     [bottom addSubview:btn3];
     [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
+
          [self showThePayStyle];
      }];
 }
 -(void)showThePayStyle{
     UIView* bg = [[UIView alloc]initWithFrame:self.view.frame];
     bg.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    bg.alpha = 0;
     [self.view addSubview:bg];
     bgView = bg;
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     [bg addGestureRecognizer:tap];
     
     
-    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth-50,KMainScreenWidth-80) andPrice:0.1];
+    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth-50,KMainScreenWidth-80) andNum:[numField.text intValue] andModel:nil];
+    pur.delegate = self;
+    pur.alpha = 0;
     pur.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
     pur.layer.masksToBounds = YES;
     pur.layer.cornerRadius = 3;
     [self.view addSubview:pur];
     purView = pur;
+    
+    [UIView animateWithDuration:0.3 animations:^{
+        bg.alpha = 1;
+        pur.alpha = 1;
+    }];
 }
 
+#pragma mark 隐藏 purView 和 bgView
 -(void)tapAction:(UIGestureRecognizer*)gesture{
-    [bgView removeFromSuperview];
-    [purView removeFromSuperview];
-    bgView = nil;
-    purView = nil;
+    
+    purView.delegate=nil;
+    [UIView animateWithDuration:0.3 animations:^{
+        self->bgView.alpha = 0;
+        self->purView.alpha = 0;
+    } completion:^(BOOL finished) {
+        [self->bgView removeFromSuperview];
+        [self->purView removeFromSuperview];
+        self->bgView = nil;
+        self->purView = nil;
+    }];
+   
+}
+#pragma mark 点击支付方式 隐藏 purView 和 bgView
+-(void)UNIPurChaseViewDelegateMethod{
+    [self tapAction:nil];
 }
 -(void)setupMyScroller{
     float scX =0 ;
@@ -262,7 +286,7 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     UNIGoodsCell1* cell =[[UNIGoodsCell1 alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cell1H) reuseIdentifier:@"cell"];
-    [cell setupCellContentWith:model];
+   // [cell setupCellContentWith:model];
             return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -294,6 +318,28 @@
                                              selector:@selector(keyboardWillHide:)
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
+    
+    //处理ZFB支付结果
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dealWithResultOfTheZFB:) name:@"dealWithResultOfTheZFB" object:nil];
+}
+-(void)dealWithResultOfTheZFB:(NSNotification*)noiti{
+    int num = [[noiti.userInfo objectForKey:@"result"] intValue];
+    NSString* string = @"支付失败!";
+    if (num == 9000)
+        string = @"支付成功!";
+    
+#ifdef IS_IOS9_OR_LATER
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+#else
+    [UIAlertView showWithTitle:string message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    }];
+#endif
+
+    
 }
 #pragma mark 键盘出现
 -(void)keyboardWillShow:(NSNotification*)notifi{

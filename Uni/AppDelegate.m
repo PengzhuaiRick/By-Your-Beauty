@@ -489,6 +489,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
             //【由于在跳转支付宝客户端支付的过程中，商户app在后台很可能被系统kill了，所以pay接口的callback就会失效，请商户对standbyCallback返回的回调结果进行处理,就是在这个方法里面处理跟callback一样的逻辑】
             NSLog(@"result = %@",resultDic);
+            [self resultOfZFBpay:resultDic];
         }];
     }
     if ([url.host isEqualToString:@"platformapi"]){//支付宝钱包快登授权返回authCode
@@ -496,9 +497,16 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
         [[AlipaySDK defaultService] processAuthResult:url standbyCallback:^(NSDictionary *resultDic) {
             //【由于在跳转支付宝客户端支付的过程中，商户app在后台很可能被系统kill了，所以pay接口的callback就会失效，请商户对standbyCallback返回的回调结果进行处理,就是在这个方法里面处理跟callback一样的逻辑】
             NSLog(@"result = %@",resultDic);
+             [self resultOfZFBpay:resultDic];
         }];
     }
     return YES;
+}
+
+#pragma mark 支付宝回调结果
+-(void)resultOfZFBpay:(NSDictionary*)dic{
+    int resultStatus =[[dic valueForKey:@"resultStatus"] intValue];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"dealWithResultOfTheZFB" object:nil userInfo:@{@"result":@(resultStatus)}];
 }
 
 /**

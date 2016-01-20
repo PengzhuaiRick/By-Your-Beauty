@@ -47,6 +47,15 @@
             }else
                 _kzrewardBlock(nil,tips,nil);
         }
+        //客妆 获取订单号
+        if ([param2 isEqualToString:API_URL_GetOutTradeNo]) {//API_URL_GetOutTradeNo
+            if(code == 0 ){
+                NSString* outTradeNo = [self safeObject:dic ForKey:@"getOutTradeNo"];
+              
+                _kzgoodsGetOrderBlock(outTradeNo,tips,nil);
+            }else
+                _kzrewardBlock(nil,tips,nil);
+        }
     }
 }
 

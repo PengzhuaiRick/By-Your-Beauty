@@ -68,6 +68,9 @@
 //获取客妆接口
 #define API_URL_GetSellInfo @"getSellInfo"
 
+//获取客妆 订单号
+#define API_URL_GetOutTradeNo @"getOutTradeNo"
+
 //服务评价接口
 #define API_URL_SetServiceAppraise @"setServiceAppraise"
 

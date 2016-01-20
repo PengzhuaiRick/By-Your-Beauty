@@ -13,10 +13,11 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
 @implementation UNIPurChaseView
--(id)initWithFrame:(CGRect)frame andPrice:(CGFloat)price{
+-(id)initWithFrame:(CGRect)frame andNum:(int)Num andModel:(UNIGoodsModel*)model{
     self = [super initWithFrame:frame];
     if (self) {
-        gPrice = price;
+        num = Num;
+        _model = model;
         self.payStyle = 1;
         [self setupTableView];
     }
@@ -52,19 +53,32 @@
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
         static NSString* name = @"cell";
+    UIImageView* imgView=nil;
+    UILabel*lab = nil;
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
         if (!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:name];
             cell.accessoryType =UITableViewCellAccessoryDisclosureIndicator;
+            
+            float imgWH = tableView.frame.size.height/2-40;
+            imgView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 20, imgWH,imgWH)];
+            [cell addSubview:imgView];
+            
+            float labX = CGRectGetMaxX(imgView.frame)+10;
+            float labW = tableView.frame.size.width - labX;
+            lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, 20, labW, imgWH)];
+            lab.font = [UIFont systemFontOfSize:KMainScreenWidth*18/320];
+            [cell addSubview:lab];
+            
         }
         switch (indexPath.row ) {
             case 0:
-                cell.textLabel.text = @"微信支付";
-                cell.imageView.image = [UIImage imageNamed:@"KZ_img_weixin"];
+                lab.text = @"微信支付";
+               imgView.image = [UIImage imageNamed:@"KZ_img_weixin"];
                 break;
             case 1:
-                cell.textLabel.text = @"支付宝";
-                cell.imageView.image = [UIImage imageNamed:@"KZ_img_zhifubao"];
+                lab.text = @"支付宝";
+                imgView.image = [UIImage imageNamed:@"KZ_img_zhifubao"];
                 
                 break;
         
@@ -78,14 +92,35 @@
     switch (indexPath.row) {
         case 0:
             self.payStyle = 1;
-            [self jumpToBizPay];
             break;
         case 1:
 
              self.payStyle = 2;
-            [self payWithZFB];
             break;
     }
+    [self requestTheOrderNo];
+    [self.delegate UNIPurChaseViewDelegateMethod];
+}
+#pragma mark 请求订单号
+-(void)requestTheOrderNo{
+    [LLARingSpinnerView RingSpinnerViewStart];
+    NSDictionary* dic=@{@"goodsId":@"1",@"goodsType":@"2",@"payType":@(self.payStyle),@"shopPrice":@"899"};
+    UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
+    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetOutTradeNo] params:dic];
+    requet.kzgoodsGetOrderBlock=^(NSString* orderNo,NSString*tips,NSError* err){
+        [LLARingSpinnerView RingSpinnerViewStop];
+        if (err) {
+            [YIToast showText:NETWORKINGPEOBLEM];
+            return ;
+        }
+        if (orderNo.length>0) {
+            self->orderNO = orderNo;
+            if ( self.payStyle ==1)
+                [self jumpToBizPay];
+            if ( self.payStyle ==2)
+                [self payWithZFB];
+        }
+    };
 }
 
 -(void)payWithZFB{
@@ -129,11 +164,16 @@
     Order *order = [[Order alloc] init];
     order.partner = partner;
     order.seller = seller;
-    order.tradeNO = @"4412831990091123"; //订单ID（由商家自行制定）
-    order.productName = @""; //商品标题
-    order.productDescription =@""; //商品描述
-    order.amount = [NSString stringWithFormat:@"%d",234]; //商品价格
-    order.notifyURL =  @"http://www.baidu.com"; //回调URL
+   // order.tradeNO = @"4412831990091123"; //订单ID（由商家自行制定）
+    order.tradeNO = orderNO; //订单ID（由商家自行制定）
+//    order.productName =_model.projectName; //商品标题
+//    order.productDescription =_model.desc; //商品描述
+//    order.amount =[NSString stringWithFormat:@"%.2f",num*_model.shopPrice]; //商品价格
+    order.productName =@"aaabbbb"; //商品标题
+    order.productDescription =@"aaabbbbaaabbbb"; //商品描述
+    order.amount =@"0.01"; //商品价格
+
+    order.notifyURL =  @"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php"; //回调URL
     
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
@@ -160,11 +200,16 @@
         
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
             NSLog(@"reslut = %@",resultDic);
+            [self resultOfZFBpay:resultDic];
+            
         }];
-        
     }
-
 }
+-(void)resultOfZFBpay:(NSDictionary*)dic{
+    int resultStatus =[[dic valueForKey:@"resultStatus"] intValue];
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"dealWithResultOfTheZFB" object:nil userInfo:@{@"result":@(resultStatus)}];
+}
+
 - (NSString *)jumpToBizPay {
     
     //============================================================

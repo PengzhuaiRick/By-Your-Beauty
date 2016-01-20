@@ -55,10 +55,10 @@
 }
 
 -(void)setupTabViewFooter{
-    UIView* footer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, _myTable.frame.size.height)];
-    UNIPurChaseView* view = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 10, footer.frame.size.width, footer.frame.size.height) andPrice:12];
-    [footer addSubview:view];
-    self.myTable.tableFooterView = footer;
+//    UIView* footer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, _myTable.frame.size.height)];
+//    UNIPurChaseView* view = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 10, footer.frame.size.width, footer.frame.size.height) andPrice:12];
+//    [footer addSubview:view];
+//    self.myTable.tableFooterView = footer;
 }
 
 //-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

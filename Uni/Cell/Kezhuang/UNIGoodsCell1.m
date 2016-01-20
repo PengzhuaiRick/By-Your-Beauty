@@ -91,7 +91,9 @@
 
 
 -(void)setupCellContentWith:(id)model{
-    
+    UNIGoodsModel* info = model;
+    self.label1.text =info.projectName;
+    self.label2.text = info.desc;
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

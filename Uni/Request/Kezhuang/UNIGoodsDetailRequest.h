@@ -27,6 +27,15 @@ typedef void(^KZRewardBlock)(NSArray* array,NSString* tips,NSError* er);
 typedef void(^KZGoodsInfoBlock)(NSArray* array,NSString* tips,NSError* er);
 
 
+/**
+ *  客妆 获取订单号
+ *
+ *  @param outTradeNo 订单号
+ *  @param tips  反馈信息
+ *  @param er    错误信息
+ */
+typedef void(^KZGoodsGetOrderBlock)(NSString* outTradeNo ,NSString* tips,NSError* er);
+
 @interface UNIGoodsDetailRequest : BaseRequest
 
 // 客妆 我的奖励
@@ -34,4 +43,7 @@ typedef void(^KZGoodsInfoBlock)(NSArray* array,NSString* tips,NSError* er);
 
 // 客妆 商品信息
 @property(nonatomic,copy)KZGoodsInfoBlock kzgoodsInfoBlock;
+
+// 客妆 获取订单号
+@property(nonatomic,copy)KZGoodsGetOrderBlock kzgoodsGetOrderBlock;
 @end
