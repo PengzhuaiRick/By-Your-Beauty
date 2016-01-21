@@ -36,6 +36,31 @@ typedef void(^KZGoodsInfoBlock)(NSArray* array,NSString* tips,NSError* er);
  */
 typedef void(^KZGoodsGetOrderBlock)(NSString* outTradeNo ,NSString* tips,NSError* er);
 
+/**
+ *  获取支付宝 支付Key
+ *
+ *  @param partner         支付宝PID
+ *  @param key
+ *  @param seller          支付宝收款账号
+ *  @param ras_private_key 商户私钥
+ *  @param tips            反馈信息
+ *  @param er              错误信息
+ */
+typedef void(^KZAlipayBlock)(NSString* partner ,NSString* key,NSString* seller,NSString* ras_private_key,NSString* tips,NSError* er);
+
+
+/**
+ *  获取微信支付 支付Key
+ *
+ *  @param appid     微信的APPID
+ *  @param mchid     商户号ID
+ *  @param appsecret 微信appsecret
+ *  @param tips      反馈信息
+ *  @param er        错误信息
+ */
+typedef void(^KZWXpayBlock)(NSString* appid ,NSString* mchid,NSString* appsecret,NSString* tips,NSError* er);
+
+
 @interface UNIGoodsDetailRequest : BaseRequest
 
 // 客妆 我的奖励
@@ -46,4 +71,10 @@ typedef void(^KZGoodsGetOrderBlock)(NSString* outTradeNo ,NSString* tips,NSError
 
 // 客妆 获取订单号
 @property(nonatomic,copy)KZGoodsGetOrderBlock kzgoodsGetOrderBlock;
+
+// 获取支付宝 支付Key
+@property(nonatomic,copy)KZAlipayBlock kzalipayBlock;
+
+//获取微信支付  支付Key
+@property(nonatomic,copy)KZWXpayBlock kzwxpayBlock;
 @end

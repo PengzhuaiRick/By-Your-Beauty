@@ -91,7 +91,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.row) {
         case 0:
-            self.payStyle = 1;
+            self.payStyle = 3;
             break;
         case 1:
 
@@ -115,48 +115,36 @@
         }
         if (orderNo.length>0) {
             self->orderNO = orderNo;
-            if ( self.payStyle ==1)
-                [self jumpToBizPay];
+            if ( self.payStyle ==3)
+                [self requestWXPayKey];
             if ( self.payStyle ==2)
-                [self payWithZFB];
+                [self requestAliPayKey];
         }
     };
 }
 
--(void)payWithZFB{
-    /*
-     *点击获取prodcut实例并初始化订单信息
-     */
+#pragma mark 获取支付宝 支付KEY
+-(void)requestAliPayKey{
+    
+    [LLARingSpinnerView RingSpinnerViewStart];
+    UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
+    [requet postWithSerCode:@[API_PARAM_PAY,API_URL_GetAlipayConfig] params:nil];
+    requet.kzalipayBlock =^(NSString* partner ,NSString* key,NSString* seller,NSString* ras_private_key,NSString* tips,NSError* er){
+         [LLARingSpinnerView RingSpinnerViewStop];
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+        if(partner.length>0)
+            [self payWithZFB:partner and:seller andand:ras_private_key];
+    };
+}
 
-    /*
-     *商户的唯一的parnter和seller。
-     *签约后，支付宝会为每个商户分配一个唯一的 parnter 和 seller。
-     */
-    
-    /*============================================================================*/
-    /*=======================需要填写商户app申请的===================================*/
-    /*============================================================================*/
-    NSString *partner = ZFBPID;
-    NSString *seller = ZFBACCOUNT;
-    NSString *privateKey =ZFBRSAPrivateKey;
-    /*============================================================================*/
-    /*============================================================================*/
-    /*============================================================================*/
-    
-    //partner和seller获取失败,提示
-//    if ([partner length] == 0 ||
-//        [seller length] == 0 ||
-//        [privateKey length] == 0)
-//    {
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-//                                                        message:@"缺少partner或者seller或者私钥。"
-//                                                       delegate:self
-//                                              cancelButtonTitle:@"确定"
-//                                              otherButtonTitles:nil];
-//        [alert show];
-//        return;
-//    }
-    
+-(void)payWithZFB:(NSString*)partner1 and:(NSString*)seller1 andand:(NSString*)ras_private_key{
+
+    NSString *partner = partner1;
+    NSString *seller = seller1;
+    NSString *privateKey =ras_private_key;
     /*
      *生成订单信息及签名
      */
@@ -169,8 +157,8 @@
 //    order.productName =_model.projectName; //商品标题
 //    order.productDescription =_model.desc; //商品描述
 //    order.amount =[NSString stringWithFormat:@"%.2f",num*_model.shopPrice]; //商品价格
-    order.productName =@"aaabbbb"; //商品标题
-    order.productDescription =@"aaabbbbaaabbbb"; //商品描述
+    order.productName =@"ALBION清新莹润滋养护理"; //商品标题
+    order.productDescription =@"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤."; //商品描述
     order.amount =@"0.01"; //商品价格
 
     order.notifyURL =  @"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php"; //回调URL
@@ -210,60 +198,93 @@
     [[NSNotificationCenter defaultCenter]postNotificationName:@"dealWithResultOfTheZFB" object:nil userInfo:@{@"result":@(resultStatus)}];
 }
 
-- (NSString *)jumpToBizPay {
-    
-    //============================================================
-    // V3&V4支付流程实现
-    // 注意:参数配置请查看服务器端Demo
-    // 更新时间：2015年11月20日
-    //============================================================
-    NSString *urlString   = @"http://wxpay.weixin.qq.com/pub_v2/app/app_pay.php?plat=ios";
-    //解析服务端返回json数据
-    NSError *error;
-    //加载一个NSURL对象
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-    //将请求的url数据放到NSData对象中
-    NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-    if ( response != nil) {
-        NSMutableDictionary *dict = NULL;
-        //IOS5自带解析类NSJSONSerialization从response中解析出数据放到字典中
-        dict = [NSJSONSerialization JSONObjectWithData:response options:NSJSONReadingMutableLeaves error:&error];
-        
-        NSLog(@"url:%@",urlString);
-        if(dict != nil){
-            NSMutableString *retcode = [dict objectForKey:@"retcode"];
-            if (retcode.intValue == 0){
-                NSMutableString *stamp  = [dict objectForKey:@"timestamp"];
-                
-                //调起微信支付
-                PayReq* req             = [[PayReq alloc] init];
-                req.partnerId           = [dict objectForKey:@"partnerid"];
-                req.prepayId            = [dict objectForKey:@"prepayid"];
-                req.nonceStr            = [dict objectForKey:@"noncestr"];
-                req.timeStamp           = stamp.intValue;
-                req.package             = [dict objectForKey:@"package"];
-                req.sign                = [dict objectForKey:@"sign"];
-                [WXApi sendReq:req];
-                //日志输出
-                NSLog(@"appid=%@\npartid=%@\nprepayid=%@\nnoncestr=%@\ntimestamp=%ld\npackage=%@\nsign=%@",[dict objectForKey:@"appid"],req.partnerId,req.prepayId,req.nonceStr,(long)req.timeStamp,req.package,req.sign );
-                return @"";
-            }else{
-                return [dict objectForKey:@"retmsg"];
-            }
-        }else{
-            return @"服务器返回错误，未获取到json对象";
+
+#pragma mark 获取微信支付 支付KEY
+-(void)requestWXPayKey{
+    [LLARingSpinnerView RingSpinnerViewStart];
+    UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
+    [requet postWithSerCode:@[API_PARAM_PAY,API_URL_GetWXConfig] params:nil];
+    requet.kzwxpayBlock =^(NSString* appid ,NSString* mchid,NSString* appsecret,NSString* tips,NSError* er){
+        [LLARingSpinnerView RingSpinnerViewStop];
+        if (er) {
+            [YIToast showText:NETWORKINGPEOBLEM];
+            return ;
         }
-    }else{
-        return @"服务器返回错误";
-    }
+        if(appid.length>0)
+            [self jumpToBizPay:mchid];
+    };
+
+}
+- (void)jumpToBizPay:(NSString*)mchid{
+    
+    [LLARingSpinnerView RingSpinnerViewStart];
+    NSString *urlString   = @"http://uni.dodwow.com/uni_pay/uni_wx_pay/api/unifiedorder.php";
+    NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":@"ALBION清新莹润滋养护理",@"total_fee":@"1",@"mchid":mchid};
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
+    NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:dic] forKey:@"json"];
+    NSLog(@"%@",ddic);
+    [manager POST:urlString parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"JSON: %@", responseObject);
+        NSDictionary* dict = responseObject;
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [LLARingSpinnerView RingSpinnerViewStop];
+            //调起微信支付
+            PayReq* req = [[PayReq alloc] init];
+            req.openID = 
+            req.prepayId= [dict objectForKey:@"prepayid"];;
+            req.partnerId= mchid;
+            req.nonceStr= [dict objectForKey:@"noncestr"];
+            req.timeStamp=[[dict objectForKey:@"timestamp"] intValue];
+            req.package = [dict objectForKey:@"package"];
+            req.sign = [dict objectForKey:@"sign"];
+            [WXApi sendReq:req];
+        });
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+         [LLARingSpinnerView RingSpinnerViewStop];
+        [YIToast showText:NETWORKINGPEOBLEM];
+    }];
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (NSString*)dictionaryToJson:(NSDictionary *)dic
+{
+    NSError *parseError = nil;
+    
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dic options:0 error:&parseError];
+    
+    return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    //return jsonData;
 }
-*/
+//创建package签名
+//-(NSString*) createMd5Sign:(NSMutableDictionary*)dict
+//{
+//    NSMutableString *contentString  =[NSMutableString string];
+//    NSArray *keys = [dict allKeys];
+//    //按字母顺序排序
+//    NSArray *sortedArray = [keys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+//        return [obj1 compare:obj2 options:NSNumericSearch];
+//    }];
+//    //拼接字符串
+//    for (NSString *categoryId in sortedArray) {
+//        if (   ![[dict objectForKey:categoryId] isEqualToString:@""]
+//            && ![categoryId isEqualToString:@"sign"]
+//            && ![categoryId isEqualToString:@"key"]
+//            )
+//        {
+//            [contentString appendFormat:@"%@=%@&", categoryId, [dict objectForKey:categoryId]];
+//        }
+//        
+//    }
+//    //添加key字段
+//    [contentString appendFormat:@"key=%@", self.spKey];
+//    //得到MD5 sign签名
+//    NSString *md5Sign =[WXUtil md5:contentString];
+//    
+//    //输出Debug Info
+//    [self.debugInfo appendFormat:@"MD5签名字符串：\n%@\n\n",contentString];
+//    
+//    return md5Sign;
+//}
 
 @end

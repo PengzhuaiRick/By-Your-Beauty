@@ -50,7 +50,6 @@
     
     //[self rqWelcomeImage];
     [self judgeFirstTime];
-    //[self locateStart:launchOptions];
     //[self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
     [self replaceWelcomeImage:@""];
@@ -64,7 +63,7 @@
 }
 #pragma mark 设置微信支付
 -(void)setupWeChat{
-   [WXApi registerApp:WECHATAPPID withDescription:@"Uni To WeChat"];
+   [WXApi registerApp:WECHATAPPID withDescription:@"UniToWeChat"];
 }
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
@@ -142,12 +141,6 @@
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
     UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"LoginController"];
     self.window.rootViewController = vc;
-}
-
--(void)locateStart:(NSDictionary *)launchOptions{
-    
-   // if ([launchOptions objectForKey:UIApplicationLaunchOptionsLocationKey])
-        [[YILocationManager sharedInstance] startUpdateUserLoaction];
 }
 
 #pragma mark 请求当前版本信息
@@ -323,7 +316,7 @@
     
        [[YILocationManager sharedInstance] startUpdateUserLoaction];
        // [self checkLocationNotification];
-        NSLog(@"time remain:%f", application.backgroundTimeRemaining);
+       // NSLog(@"time remain:%f", application.backgroundTimeRemaining);
 
 }
 

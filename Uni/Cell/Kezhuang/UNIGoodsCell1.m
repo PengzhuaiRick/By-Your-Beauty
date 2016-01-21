@@ -51,7 +51,7 @@
     float lab2Y =CGRectGetMaxY(lab1.frame);
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
-    lab2.text = @"ALBION清新莹润滋养护理ALBION清新莹润滋养护理ALBION清新莹润滋养护理ALBION清新莹润滋养护理ALBION清新莹润滋养护理";
+    lab2.text = @"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤.";
     lab2.lineBreakMode = 0;
     lab2.numberOfLines = 0;
     lab2.textColor = kMainGrayBackColor;

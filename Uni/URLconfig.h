@@ -29,6 +29,9 @@
 // C部分 第一个参数 类型2
 #define API_PARAM_SSMS @"SendSMS"
 
+// C部分 第一个参数 类型3
+#define API_PARAM_PAY @"PayConfig"
+
 //登录接口：
 #define API_URL_Login @"login"
 
@@ -98,4 +101,9 @@
 //客户到店
 #define API_URL_ArriveShop @"setArriveShop"
 
+//支付宝 私钥之类的KEY
+#define API_URL_GetAlipayConfig @"getAlipayConfig"
+
+//微信支付 私钥之类的KEY
+#define API_URL_GetWXConfig @"getWXConfig"
 #endif /* URLconfig_h */

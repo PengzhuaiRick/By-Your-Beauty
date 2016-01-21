@@ -57,6 +57,33 @@
                 _kzrewardBlock(nil,tips,nil);
         }
     }
+    
+    if ([param1 isEqualToString:API_PARAM_PAY]) {
+        //获取 支付宝 私钥
+        if ([param2 isEqualToString:API_URL_GetAlipayConfig]) {
+            if(code == 0 ){
+                NSString* partner = [self safeObject:dic ForKey:@"partner"];
+                NSString* key = [self safeObject:dic ForKey:@"key"];
+                NSString* seller = [self safeObject:dic ForKey:@"seller"];
+                NSString* ras_private_key = [self safeObject:dic ForKey:@"ras_private_key"];
+                _kzalipayBlock(partner,key,seller,ras_private_key,tips,nil);
+               
+            }else
+                _kzalipayBlock(nil,nil,nil,nil,tips,nil);
+        }
+        
+        //获取 微信支付 私钥
+        if ([param2 isEqualToString:API_URL_GetWXConfig]) {
+            if(code == 0 ){
+                NSString* appid = [self safeObject:dic ForKey:@"appid"];
+                NSString* mchid = [self safeObject:dic ForKey:@"mchid"];
+                NSString* appsecret = [self safeObject:dic ForKey:@"appsecret"];
+                _kzwxpayBlock(appid,mchid,appsecret,tips,nil);
+                
+            }else
+                _kzwxpayBlock(nil,nil,nil,tips,nil);
+        }
+    }
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
@@ -73,6 +100,16 @@
         }
     }
     
+    if ([param1 isEqualToString:API_PARAM_PAY]) {
+        //获取 支付宝 私钥
+        if ([param2 isEqualToString:API_URL_GetAlipayConfig])
+            _kzalipayBlock(nil,nil,nil,nil,nil,err);
+        
+        //获取 微信支付 私钥
+        if ([param2 isEqualToString:API_URL_GetWXConfig])
+            _kzwxpayBlock(nil,nil,nil,nil,err);
+        
+    }
     
 }
 
