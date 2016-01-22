@@ -159,7 +159,7 @@
 //    order.amount =[NSString stringWithFormat:@"%.2f",num*_model.shopPrice]; //商品价格
     order.productName =@"ALBION清新莹润滋养护理"; //商品标题
     order.productDescription =@"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤."; //商品描述
-    order.amount =@"0.01"; //商品价格
+    order.amount =@"899"; //商品价格
 
     order.notifyURL =  @"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php"; //回调URL
     
@@ -219,7 +219,7 @@
     
     [LLARingSpinnerView RingSpinnerViewStart];
     NSString *urlString   = @"http://uni.dodwow.com/uni_pay/uni_wx_pay/api/unifiedorder.php";
-    NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":@"ALBION清新莹润滋养护理",@"total_fee":@"1",@"mchid":mchid};
+    NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":@"ALBION清新莹润滋养护理",@"total_fee":@"89900",@"mchid":mchid};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:dic] forKey:@"json"];
@@ -256,35 +256,6 @@
     return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     //return jsonData;
 }
-//创建package签名
-//-(NSString*) createMd5Sign:(NSMutableDictionary*)dict
-//{
-//    NSMutableString *contentString  =[NSMutableString string];
-//    NSArray *keys = [dict allKeys];
-//    //按字母顺序排序
-//    NSArray *sortedArray = [keys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-//        return [obj1 compare:obj2 options:NSNumericSearch];
-//    }];
-//    //拼接字符串
-//    for (NSString *categoryId in sortedArray) {
-//        if (   ![[dict objectForKey:categoryId] isEqualToString:@""]
-//            && ![categoryId isEqualToString:@"sign"]
-//            && ![categoryId isEqualToString:@"key"]
-//            )
-//        {
-//            [contentString appendFormat:@"%@=%@&", categoryId, [dict objectForKey:categoryId]];
-//        }
-//        
-//    }
-//    //添加key字段
-//    [contentString appendFormat:@"key=%@", self.spKey];
-//    //得到MD5 sign签名
-//    NSString *md5Sign =[WXUtil md5:contentString];
-//    
-//    //输出Debug Info
-//    [self.debugInfo appendFormat:@"MD5签名字符串：\n%@\n\n",contentString];
-//    
-//    return md5Sign;
-//}
+
 
 @end

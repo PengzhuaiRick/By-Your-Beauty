@@ -446,16 +446,16 @@
                 
                 self->nikeName.text = name;
                 if (sex == 1){
-                    self->maleBtn.selected = YES;
-                    self->femaleBtn.selected = NO;
-                    self->imgView1.image = [UIImage imageNamed:@"login_btn_sex2"];
-                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex1"];
-                }
-                if (sex == 2){
                     self->maleBtn.selected = NO;
                     self->femaleBtn.selected = YES;
-                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex2"];
                     self->imgView1.image = [UIImage imageNamed:@"login_btn_sex1"];
+                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex2"];
+                }
+                if (sex == 2){
+                    self->maleBtn.selected = YES;
+                    self->femaleBtn.selected = NO;
+                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex1"];
+                    self->imgView1.image = [UIImage imageNamed:@"login_btn_sex2"];
                 }
                 
                 if (llt) {

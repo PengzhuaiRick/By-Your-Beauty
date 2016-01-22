@@ -52,6 +52,7 @@
                    @"会员详情",
                    @"我的奖励",
                    @"活动礼包",
+                   @"订单列表",
                    @"我的卡包",
                    @"导航到家",
                    @"致电商家"
@@ -63,6 +64,7 @@
                 @"function_img_cell3",
                 @"function_img_cell4",
                 @"function_img_cell5",
+                @"function_img_cell8",
                 @"function_img_cell6",
                 @"function_img_cell7"
                 ];
@@ -71,6 +73,7 @@
                 @"function_img_scell3",
                 @"function_img_scell4",
                 @"function_img_scell5",
+                @"function_img_cell8",
                 @"function_img_scell6",
                 @"function_img_scell7"
                 ];
@@ -175,12 +178,16 @@
             break;
         case 4:
             [_tv closeTheBox];
+            [_tv setupOrderListController];
+            break;
+        case 5:
+            [_tv closeTheBox];
             [_tv setupWalletController];
             break;
-        case 5://导航到店
+        case 6:
             [self callOtherMapApp];
             break;
-        case 6:
+        case 7:
             [self callPhoneToShop];
             break;
 

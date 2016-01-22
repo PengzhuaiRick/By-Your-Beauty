@@ -54,7 +54,7 @@
               
                 _kzgoodsGetOrderBlock(outTradeNo,tips,nil);
             }else
-                _kzrewardBlock(nil,tips,nil);
+                _kzgoodsGetOrderBlock(nil,tips,nil);
         }
     }
     

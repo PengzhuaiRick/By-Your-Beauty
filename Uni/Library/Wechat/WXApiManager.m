@@ -39,7 +39,7 @@
                 break;
                 
             default:
-                strMsg = [NSString stringWithFormat:@"支付结果：失败！retcode = %d, retstr = %@", resp.errCode,resp.errStr];
+                strMsg = @"交易已取消";
                 NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
                  [YIToast showText:strMsg];
                 break;

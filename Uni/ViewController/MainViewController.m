@@ -368,8 +368,8 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (manager) {
-                        NSRange ra =[manager.shopName rangeOfString:@"【"];
-                         self.title = [manager.shopName substringToIndex:ra.location];
+                       
+                        self.title =manager.shopName;
                     }
 //                    else
 //                        [YIToast showText:tips];

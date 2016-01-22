@@ -21,4 +21,6 @@
 -(void)setupWalletController;
 -(void)setupCardController;
 -(void)setupGiftController;
+//订单列表
+-(void)setupOrderListController;
 @end

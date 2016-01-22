@@ -101,6 +101,9 @@
 //客户到店
 #define API_URL_ArriveShop @"setArriveShop"
 
+//获取订单列表
+#define API_URL_MyOrderList @"myOrderList"
+
 //支付宝 私钥之类的KEY
 #define API_URL_GetAlipayConfig @"getAlipayConfig"
 

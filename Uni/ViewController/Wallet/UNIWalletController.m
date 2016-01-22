@@ -36,7 +36,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    [self setupTableView];
+   // [self setupTableView];
+    [self noDataView];
+}
+-(void)noDataView{
+    UILabel*lab = [[UILabel alloc]initWithFrame:CGRectMake(16, 0, KMainScreenWidth - 32, KMainScreenHeight)];
+    lab.text = @"很抱歉您暂时没有可用现金券。马上开始预约服务，大把现金券等你拿！";
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.lineBreakMode = 0;
+    lab.numberOfLines = 0;
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*20/320];
+    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    [self.view addSubview:lab];
 }
 -(void)setupNavigation{
     self.title = @"我的卡包";
@@ -47,6 +58,7 @@
     
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
 }
+
 -(void)setupTableView{
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+10, KMainScreenWidth,KMainScreenHeight - 64 - 10) style:UITableViewStylePlain];
     tabview.delegate = self;

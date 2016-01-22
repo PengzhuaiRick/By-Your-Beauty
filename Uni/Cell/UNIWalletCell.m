@@ -61,7 +61,7 @@
     lab2.textAlignment=NSTextAlignmentCenter;
     lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [img addSubview:lab2];
-    self.lab1 = lab2;
+    self.lab2 = lab2;
     
     float lab3X = labS1W;
     float lab3W = labS2W;

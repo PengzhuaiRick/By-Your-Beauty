@@ -23,7 +23,7 @@
 //#import "WXApi.h"//微信
 #import "WXApiManager.h"
 
-#import "BaiduMobStat.h"//百度统计
+//#import "BaiduMobStat.h"//百度统计
 
 @interface AppDelegate (){
     UIImageView* imag;
@@ -505,11 +505,11 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 /**
  *  初始化百度统计SDK
  */
-- (void)startBaiduMobStat {
-    BaiduMobStat* statTracker = [BaiduMobStat defaultStat];
-    statTracker.shortAppVersion  = CURRENTVERSION;
-    statTracker.enableDebugOn = YES;
-    
-    [statTracker startWithAppId:BAIDUSTATAPPKEY];
-}
+//- (void)startBaiduMobStat {
+//    BaiduMobStat* statTracker = [BaiduMobStat defaultStat];
+//    statTracker.shortAppVersion  = CURRENTVERSION;
+//    statTracker.enableDebugOn = YES;
+//    
+//    [statTracker startWithAppId:BAIDUSTATAPPKEY];
+//}
 @end

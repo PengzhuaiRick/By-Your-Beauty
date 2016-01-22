@@ -12,6 +12,7 @@
 #import "UNIWalletController.h"
 #import "UNICardInfoController.h"
 #import "UNIGiftController.h"
+#import "UNIOrderListController.h"
 @interface UNIContainController ()
 {
     CGPoint startPoint;
@@ -24,6 +25,7 @@
     UNIWalletController* wallet;
     UINavigationController* card;
     UINavigationController* gift;
+    UINavigationController* orderList;
 }
 
 
@@ -191,6 +193,20 @@
     [self.view addSubview:gift.view];
     [self addChildViewController:gift];
 
+}
+
+//订单列表
+-(void)setupOrderListController{
+    [self removeController];
+    if (!orderList) {
+        
+        UNIOrderListController* view = [[UNIOrderListController alloc]init];
+        view.containController = self;
+        orderList =[[UINavigationController alloc]initWithRootViewController:view];
+    }
+    [self.view addSubview:orderList.view];
+    [self addChildViewController:orderList];
+    
 }
 
 -(void)removeController{
