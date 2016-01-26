@@ -82,6 +82,7 @@
     UNIMyRewardModel* info = model;
     self.mainLab.text = [NSString stringWithFormat:@"%d次",info.rewardNum];
     self.subLab.text = info.goods;
+    self.stateLab.text =[NSString stringWithFormat:@"价值￥%d",info.price] ;
     
     CGSize titleSize = [info.goods boundingRectWithSize:CGSizeMake(self.subLab.frame.size.width, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth*13/320]} context:nil].size;
     
@@ -91,12 +92,16 @@
     self.subLab.frame = subRe;
     
     
-    CGSize title1Size = [self.stateLab.text boundingRectWithSize:CGSizeMake(self.stateLab.frame.size.width,20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth*13/320]} context:nil].size;
+//    CGSize title1Size = [self.stateLab.text boundingRectWithSize:CGSizeMake(self.stateLab.frame.size.width,20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth*13/320]} context:nil].size;
     
     CGRect stateRe = self.stateLab.frame;
     stateRe.origin.x = CGRectGetMaxX(self.subLab.frame);
-    stateRe.size.height = title1Size.height;
+//    stateRe.size.width = title1Size.width;
+//    stateRe.size.height = title1Size.height;
     self.stateLab.frame = stateRe;
+    [self.stateLab sizeToFit];
+    
+    self.progessView.total = info.rewardNum;
 }
 
 

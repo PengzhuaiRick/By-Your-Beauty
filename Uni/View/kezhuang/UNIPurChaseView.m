@@ -150,48 +150,61 @@
      */
     //将商品信息赋予AlixPayOrder的成员变量
     Order *order = [[Order alloc] init];
-    order.partner = partner;
-    order.seller = seller;
+    NSDictionary* dic = @{@"partner":partner,
+                          @"seller_id":seller,
+                          @"out_trade_no":orderNO,
+                          @"subject":@"ALBION清新莹润滋养护理",
+                          @"total_fee":@"0.01",
+                          @"notify_url":@"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php",
+                          @"service":@"mobile.securitypay.pay",
+                          @"payment_type":@"1",
+                          @"_input_charset":@"utf-8",
+                          @"it_b_pay":@"30m",
+                          @"show_url":@"m.alipay.com",
+                          @"private_key":privateKey};
+    [order loadData:dic];
+  //  order.partner = partner;
+   // order.seller = seller;
    // order.tradeNO = @"4412831990091123"; //订单ID（由商家自行制定）
-    order.tradeNO = orderNO; //订单ID（由商家自行制定）
+//    order.tradeNO = orderNO; //订单ID（由商家自行制定）
 //    order.productName =_model.projectName; //商品标题
 //    order.productDescription =_model.desc; //商品描述
 //    order.amount =[NSString stringWithFormat:@"%.2f",num*_model.shopPrice]; //商品价格
-    order.productName =@"ALBION清新莹润滋养护理"; //商品标题
-    order.productDescription =@"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤."; //商品描述
-    order.amount =@"899"; //商品价格
+//    order.productName =@"ALBION清新莹润滋养护理"; //商品标题
+    //order.productDescription =@"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤."; //商品描述
+//    order.amount =@"899"; //商品价格
 
-    order.notifyURL =  @"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php"; //回调URL
+//    order.notifyURL =  @"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php"; //回调URL
     
-    order.service = @"mobile.securitypay.pay";
-    order.paymentType = @"1";
-    order.inputCharset = @"utf-8";
-    order.itBPay = @"30m";
-    order.showUrl = @"m.alipay.com";
+//    order.service = @"mobile.securitypay.pay";
+//    order.paymentType = @"1";
+//    order.inputCharset = @"utf-8";
+ //   order.itBPay = @"30m";
+ //   order.showUrl = @"m.alipay.com";
     
     //应用注册scheme,在AlixPayDemo-Info.plist定义URL types
     NSString *appScheme = @"UniZFBPay";
     
     //将商品信息拼接成字符串
-    NSString *orderSpec = [order description];
-    NSLog(@"orderSpec = %@",orderSpec);
+//    NSString *orderSpec = [order description];
+//    NSLog(@"orderSpec = %@",orderSpec);
     
     //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
-    id<DataSigner> signer = CreateRSADataSigner(privateKey);
-    NSString *signedString = [signer signString:orderSpec];
+//    id<DataSigner> signer = CreateRSADataSigner(privateKey);
+//    NSString *signedString = [signer signString:orderSpec];
     
     //将签名成功字符串格式化为订单字符串,请严格按照该格式
-    NSString *orderString = nil;
-    if (signedString != nil) {
-        orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
-                       orderSpec, signedString, @"RSA"];
+    NSString *orderString = order.orderString;
+//    if (signedString != nil) {
+//        orderString = [NSString stringWithFormat:@"%@&sign=\"%@\"&sign_type=\"%@\"",
+//                       orderSpec, signedString, @"RSA"];
         
         [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
             NSLog(@"reslut = %@",resultDic);
             [self resultOfZFBpay:resultDic];
             
         }];
-    }
+//    }
 }
 -(void)resultOfZFBpay:(NSDictionary*)dic{
     int resultStatus =[[dic valueForKey:@"resultStatus"] intValue];

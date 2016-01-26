@@ -19,5 +19,6 @@
 -(void)analyDic:(NSDictionary*)dic{
     self.goods = [self safeObject:dic ForKey:@"goods"];
     self.rewardNum = [[self safeObject:dic ForKey:@"rewardNum"]intValue];
+    self.price = [[self safeObject:dic ForKey:@"price"] intValue];
 }
 @end

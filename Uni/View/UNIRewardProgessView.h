@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIRewardProgessView : UIView
-
+@property(nonatomic,assign)int num;
+@property(nonatomic,assign)int total;
 @end

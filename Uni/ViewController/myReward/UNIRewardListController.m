@@ -8,7 +8,6 @@
 
 #import "UNIRewardListController.h"
 #import "UNIRewardListCell.h"
-#import "UNIRewardDetail.h"
 #import "UNIRewardListView.h"
 @interface UNIRewardListController ()<UIScrollViewDelegate,UNIRewardListViewDelegate>{
     UIView* topView;
@@ -156,10 +155,7 @@
 
 #pragma mark UNIRewardListView 代理方法
 -(void)UNIRewardListViewDelegate:(id)model{
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-    UNIRewardDetail* rd = [st instantiateViewControllerWithIdentifier:@"UNIRewardDetail"];
-    rd.model = model;
-    [self.navigationController pushViewController:rd animated:YES];
+   
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

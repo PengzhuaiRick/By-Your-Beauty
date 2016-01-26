@@ -11,6 +11,7 @@
 @interface UNIMyRewardModel : UNIBaseModel
 @property(nonatomic,copy)NSString* goods;  //奖励商品
 @property(nonatomic,assign)int rewardNum; //奖励次数
+@property(nonatomic,assign)int price;  //价格
 
 -(id)initWithDic:(NSDictionary*)dic;
 @end

@@ -193,7 +193,7 @@
     [bg addGestureRecognizer:tap];
     
     
-    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth-50,KMainScreenWidth-80) andNum:[numField.text intValue] andModel:nil];
+    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.8,KMainScreenWidth*0.6) andNum:[numField.text intValue] andModel:nil];
     pur.delegate = self;
     pur.alpha = 0;
     pur.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);

@@ -14,6 +14,7 @@
 +(void)saveShopData:(UNIShopManage*)shop{
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     [user setValue:shop.shopName forKey:@"shopName"];
+    [user setValue:shop.shortName forKey:@"shortName"];
      [user setValue:shop.logoUrl forKey:@"logoUrl"];
      [user setValue:shop.address forKey:@"address"];
      [user setValue:shop.telphone forKey:@"telphone"];
@@ -26,6 +27,7 @@
     UNIShopManage* man = [[UNIShopManage alloc]init];
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     man.shopName= [user valueForKey:@"shopName"];
+     man.shortName= [user valueForKey:@"shortName"];
     man.logoUrl= [user valueForKey:@"logoUrl"];
     man.address= [user valueForKey:@"address"];
     man.telphone= [user valueForKey:@"telphone"];
@@ -47,6 +49,7 @@
 +(void)cleanShopinfo{
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     [user removeObjectForKey:@"shopName"];
+    [user removeObjectForKey:@"shortName"];
     [user removeObjectForKey:@"logoUrl"];
     [user removeObjectForKey:@"address"];
     [user removeObjectForKey:@"telphone"];

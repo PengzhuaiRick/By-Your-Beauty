@@ -211,8 +211,8 @@
     
 }
 -(void)setupFourthCell:(UITableViewCell*)cell{
-        float btnX = KMainScreenWidth*40/320;
-        float btnW = KMainScreenWidth*60/375;
+        //float btnX = KMainScreenWidth*40/320;
+        float btnW = KMainScreenWidth*80/375;
         float btnH = KMainScreenWidth*30/320;
         float btnY = (cellH - btnH)/2 ;
     
@@ -225,20 +225,21 @@
         UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(0, imgY, imgWH, imgWH)];
         img.image = image3;
         [view addSubview:img];
-    imgView1 = img;
+        imgView1 = img;
     
     
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(imgWH+5, 0, btnW, btnH);
         [btn setTitle:@" 女士" forState:UIControlStateNormal];
-        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btn.tag = 2;
         [view addSubview:btn];
-      femaleBtn = btn;
-        float viewW = CGRectGetMaxX(btn.frame);
-        float viewX = btnX+((self.tableView.frame.size.width-2*btnX)/2 - viewW)/2;
-        view.frame = CGRectMake(btnX+((self.tableView.frame.size.width-2*btnX)/2 - viewW)/2, btnY, viewW, btnH);
+        femaleBtn = btn;
+    
+        float viewW = imgWH+5+btnH;
+        float viewX = (self.tableView.frame.size.width/2-viewW)/2;
+        view.frame = CGRectMake(viewX, btnY, viewW, btnH);
         [cell addSubview:view];
     
     
@@ -257,13 +258,13 @@
         UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
         btn1.frame = CGRectMake(btn1X, 0, btnW, btnH);
         [btn1 setTitle:@" 先生" forState:UIControlStateNormal];
-        btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+        btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
         [btn1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btn1.tag = 1;
         [view1 addSubview:btn1];
         maleBtn = btn1;
-    float view1W = CGRectGetMaxX(btn1.frame);
-    float view1X = self.tableView.frame.size.width/2 +viewX - btnX;
+    float view1W = viewW;
+    float view1X = self.tableView.frame.size.width/2 + KMainScreenWidth*20/320;
     view1.frame = CGRectMake(view1X, btnY, view1W, btnH);
     [cell addSubview:view1];
 
@@ -282,10 +283,6 @@
     bg.image = img;
     bg.center = self.view.center;
     [self.view addSubview:bg];
-    
-    UIView* bgview = [[UIView alloc]initWithFrame:bg.frame];
-    bgview.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
-    [bg addSubview:bgview];
 
     self.tableView.backgroundView = bg;
     

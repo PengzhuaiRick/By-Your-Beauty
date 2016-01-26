@@ -9,7 +9,7 @@
 
 @interface UNIShopManage : NSObject
 @property(nonatomic,copy)NSString* shopName;  //店铺名称
-
+@property(nonatomic,copy)NSString* shortName;  //店铺名称
 @property(nonatomic,copy)NSString* logoUrl;  //店铺logo地址
 @property(nonatomic,copy)NSString* address;  //店铺地址
 @property(nonatomic,copy)NSString* telphone;  //店铺电话

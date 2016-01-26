@@ -9,6 +9,7 @@
 #import "UNIGiftController.h"
 #import "AccountManager.h"
 #import "WXApiManager.h"
+#import "UNIShopManage.h"
 @interface UNIGiftController ()<UIWebViewDelegate>{
     UIView* shareView;
     UIView* bgView;
@@ -115,7 +116,7 @@
     float btnY = 10;
     float btnX =(view.frame.size.width/2 - btnWH)/2;
     NSArray* arr=@[@"朋友圈",@"微信"];
-    NSArray* imgArr = @[@"gift_btn_pyq",@"gift_btn_wx"];
+    NSArray* imgArr = @[@"gift_btn_pyq",@"KZ_img_weixin"];
     for (int i=0 ; i<arr.count; i++) {
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame = CGRectMake(btnX+(i*view.frame.size.width/2), btnY, btnWH, btnWH);
@@ -125,7 +126,13 @@
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
         subscribeNext:^(UIButton* x) {
             WXMediaMessage* message = [WXMediaMessage message];
-            message.title = @"亲爱的，我已经参加动静界某店“百万豪礼快点点”活动，让我心动的都在这儿，是时候验证我们友情了！快帮我抢！";
+            UNIShopManage* shop =[UNIShopManage getShopData];
+            NSString * shopName = nil;
+            if (shop.shortName.length>0)
+                shopName =shop.shortName;
+            else
+                shopName =shop.shopName;
+            message.title =[NSString stringWithFormat:@"亲爱的，我已经参加动静界%@“百万豪礼快点点”活动，让我心动的都在这儿，是时候验证我们友情了！快帮我抢！",shopName];
             [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
             
             WXWebpageObject* web = [WXWebpageObject object];

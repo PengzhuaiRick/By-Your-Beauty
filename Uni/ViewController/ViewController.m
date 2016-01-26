@@ -86,10 +86,6 @@
     bg.frame = CGRectMake(0, 0, self.view.frame.size.width - _tv.edag, self.view.frame.size.height);
     [self.view addSubview:bg];
     
-    UIView* bgview = [[UIView alloc]initWithFrame:bg.frame];
-    bgview.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
-    [bg addSubview:bgview];
-    
     UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 40, self.view.frame.size.width - _tv.edag, self.view.frame.size.height - 80) style:UITableViewStylePlain];
     tab.delegate = self;
     tab.dataSource = self;

@@ -368,8 +368,10 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (manager) {
-                       
-                        self.title =manager.shopName;
+                        if (manager.shortName.length>0)
+                            self.title =manager.shortName;
+                        else
+                            self.title =manager.shopName;
                     }
 //                    else
 //                        [YIToast showText:tips];

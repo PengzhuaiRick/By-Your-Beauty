@@ -83,10 +83,10 @@
     
     //设置导航栏标题字体颜色
     
-//    NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
-//    [barAttrs setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
-//    [barAttrs setObject:[UIFont systemFontOfSize:16*1.2] forKey:NSFontAttributeName];
-//    [bar setTitleTextAttributes:barAttrs];
+    NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
+    [barAttrs setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
+    [barAttrs setObject:[UIFont systemFontOfSize:KMainScreenWidth*15/320] forKey:NSFontAttributeName];
+    [bar setTitleTextAttributes:barAttrs];
     
     //
 //    UIBarButtonItem *item = [UIBarButtonItem appearance];

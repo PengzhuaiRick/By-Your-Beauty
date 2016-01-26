@@ -193,74 +193,87 @@
 
 }
 -(void)setupmidView:(int)total and:(int)num{
-    int xx = total - num >= 5?num-1:total-5;
-    if (num<1) {
-        xx = 1;
-        num = 0;
-        total = 5;
-    }
-    
-    float jc = (topView.frame.size.width-20)/5;
-    float btnWH = jc/2;
-    float btnY = topView.frame.size.height - 10 - btnWH;
     
     UIImage* img4 =[UIImage imageNamed:@"card_img_unopen"];
     
-    float img4H = jc;
+    float img4Y =CGRectGetMaxY(topLab2.frame)+5;
+    float img4H = topView.frame.size.height - img4Y - 5;
     float img4W = img4.size.width*img4H / img4.size.height;
-    float img4X = 15+(jc*4);
-    float img4Y =topView.frame.size.height - img4H-7;
-    UIImageView* awardImge = [[UIImageView alloc]initWithFrame:CGRectMake(img4X,img4Y,img4W,img4H)];
-    if (total ==num)
-        awardImge.image = [UIImage imageNamed:@"card_img_open"];
-    else
-        awardImge.image =img4;
-    [topView addSubview:awardImge];
-
+    float img4X = topView.frame.size.width - 10 - img4W;
     
-    for (int i = 0; i<5; i++) {
+    UIImageView* awardImge = [[UIImageView alloc]init];
+    awardImge.frame =CGRectMake(img4X,img4Y,img4W,img4H);
+    if (total ==num){
+        awardImge.frame =CGRectMake(img4X,img4Y-15,img4W,img4H+20);
+        awardImge.image = [UIImage imageNamed:@"card_img_open"];
+    }
+    else{
+        awardImge.image =img4;
+        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, img4H*0.45, img4W, img4H/2)];
+        lab.text = [NSString stringWithFormat:@"%d",total];
+        lab.textColor = [UIColor whiteColor];
+        lab.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
+        lab.textAlignment = NSTextAlignmentCenter;
+        [awardImge addSubview:lab];
+    }
+    [topView addSubview:awardImge];
+    
+    
+    int xx = 1;
+    if (total>5) {
+        xx = total -4;
+        if (num>0) {
+            xx = total-num>4?num:total - 4;
+        }
+    }
+    int time =total> 5 ? 5:total;
+    
+    float jc = (topView.frame.size.width-20 - img4W)/(time-1);
+   
+    float btnWH = img4H*0.6;
+    float btnY =  topView.frame.size.height - 5 - btnWH;
+    float lw = jc -btnWH;
+    for (int i = 0; i<time-1; i++) {
        
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
        
          NSString* tit = [NSString stringWithFormat:@"%i",i+xx];
         [btn setTitle:tit forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
-        if ((i+xx) < num) {
+        if ((i+xx) <= num) {
             [btn setBackgroundImage:[UIImage imageNamed:@"card_btn_get"] forState:UIControlStateNormal];
         }else
             [btn setBackgroundImage:[UIImage imageNamed:@"card_btn_unget"] forState:UIControlStateNormal];
-        
-         if (i<4) {
-             btn.frame = CGRectMake(15+(jc*i), btnY, btnWH,btnWH);
-             [topView addSubview:btn];
-         }else{
-             btn.frame = CGRectMake(15+(jc*i), btnY, img4W,btnWH);
-             [btn setBackgroundImage:nil forState:UIControlStateNormal];
-             [topView addSubview:btn];
-         }
+        btn.frame = CGRectMake(10+(jc*i), btnY, btnWH,btnWH);
+        [topView addSubview:btn];
+
        
         
-        if (i<4) {
+        if (i<time-1) {
             float imgX = CGRectGetMaxX(btn.frame);
             float imgH = KMainScreenWidth*5/320;
-            float imgW = btnWH;
+            float imgW = lw;
             float imgY =btnY+(btnWH-imgH)/2;
             UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgW, imgH)];
             [topView addSubview:img];
             
             NSString* imgName = nil;
-            if (xx+i+1<num)
+            if (xx+i+1<=num)
                 imgName = @"card_img_line2";
             else
                 imgName = @"card_img_line1";
             
-            if (i==3) {
-                if (total-num>2)
-                    imgName = @"card_img_line3";
-                if (total-num==2)
-                    imgName = @"card_img_line4";
-                if (total-num==1)
+            if (i == time - 2) {
+                if(total == num)
                     imgName = @"card_img_line2";
+                else{
+                    if(total-xx-i ==1)
+                     imgName = @"card_img_line1";
+               
+                    if (total-xx-i>1)
+                    imgName = @"card_img_line3";
+                }
+                
             }
             
             img.image = [UIImage imageNamed:imgName];
