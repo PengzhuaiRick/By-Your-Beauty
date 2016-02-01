@@ -42,7 +42,7 @@
     [mangaer setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         NSLog(@"AFNetworkReachabilityStatus  %ld",(long)status);
         if (status<0) {
-            [YIToast showText:@"网络异常，请检查网络"];
+            [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
     }];
@@ -97,20 +97,20 @@
 //    [item setTitleTextAttributes:itemAttrs forState:UIControlStateDisabled];
 }
 -(void)judgeFirstTime{
-    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-    NSString* first = [user valueForKey:FIRSTINSTALL];
-    if (first.length>0){
+//    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+//    NSString* first = [user valueForKey:FIRSTINSTALL];
+//    if (first.length>0){
         AccountManager* manager = [[AccountManager alloc]init];
         if (manager.userId.intValue>0)
        [self setupViewController];
         else
             [self setupLoginController];
-    }
-    else{
-        [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];
-        [user synchronize];
-        [self setupGuideController];
-    }
+//    }
+//    else{
+//        [user setValue:CURRENTVERSION forKey:FIRSTINSTALL];
+//        [user synchronize];
+//        [self setupGuideController];
+//    }
     
     
 }
@@ -124,8 +124,9 @@
 #pragma mark 开始主界面
 -(void)setupViewController{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
     UNIContainController* tc = [st instantiateViewControllerWithIdentifier:@"UNIContainController"];
+    tc.edag = KMainScreenWidth*60/320;
+    ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
     vc.tv = tc;
     self.window.rootViewController = vc ;
     self.window.backgroundColor = [UIColor whiteColor];

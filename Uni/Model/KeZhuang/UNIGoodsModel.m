@@ -21,6 +21,7 @@
     self.projectId = [[self safeObject:dic ForKey:@"projectId"] intValue];
     self.likesNum = [[self safeObject:dic ForKey:@"likesNum"] intValue];
     self.sellNum = [[self safeObject:dic ForKey:@"sellNum"] intValue];
+    self.type = [[self safeObject:dic ForKey:@"type"] intValue];
     self.price = [[self safeObject:dic ForKey:@"price"]floatValue];
     self.shopPrice = [[self safeObject:dic ForKey:@"shopPrice"]floatValue];
     self.desc = [self safeObject:dic ForKey:@"desc"];

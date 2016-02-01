@@ -35,6 +35,12 @@
 //登录接口：
 #define API_URL_Login @"login"
 
+//获取首页背景图片 和 奖励商品图片
+#define API_URL_GetImgByshopIdCode @"getImgByshopIdCode"
+
+//获取首页背景图片 和 奖励商品图片
+#define API_URL_GetSellInfo @"getSellInfo"
+
 //获取店铺信息接口
 #define API_URL_ShopInfo @"shopInfo"
 

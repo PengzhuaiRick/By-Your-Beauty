@@ -23,14 +23,14 @@
     float imgWH =size.width;
     UIScrollView* img = [[UIScrollView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
     img.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    img.contentSize = CGSizeMake(3*imgWH, imgWH);
+    //img.contentSize = CGSizeMake(3*imgWH, imgWH);
     img.pagingEnabled=YES;
     img.delegate = self;
     [self addSubview:img];
     self.mainImage = img;
-    for (int i = 0; i<3; i++) {
-        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgWH, 20, imgWH, imgWH - 20)];
-        view.image= [UIImage imageNamed:@"KZ_img_ditu"];
+    for (int i = 0; i<1; i++) {
+        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgWH, 0, imgWH, imgWH)];
+        view.image= [UIImage imageNamed:@"KZ_img_bg"];
         [img addSubview:view];
     }
     
@@ -69,7 +69,7 @@
     lab3.layer.cornerRadius = lab3H/2;
     lab3.textAlignment = NSTextAlignmentCenter;
     lab3.backgroundColor = [UIColor colorWithHue:0 saturation:0 brightness:0 alpha:0.5];
-    lab3.text = @"1/3";
+//    lab3.text = @"1/1";
     [self addSubview:lab3];
     self.label3 = lab3;
     

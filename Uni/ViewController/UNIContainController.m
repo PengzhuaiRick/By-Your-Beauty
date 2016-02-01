@@ -13,6 +13,7 @@
 #import "UNICardInfoController.h"
 #import "UNIGiftController.h"
 #import "UNIOrderListController.h"
+#import "UNISetttingController.h"
 @interface UNIContainController ()
 {
     CGPoint startPoint;
@@ -26,6 +27,7 @@
     UINavigationController* card;
     UINavigationController* gift;
     UINavigationController* orderList;
+    UINavigationController* set;
 }
 
 
@@ -40,8 +42,6 @@
     [self setupMainController];
    }
 -(void)setupSelf{
-    self.edag = 60;
-    
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
     [self.view addGestureRecognizer:pan];
     self.panGes = pan;
@@ -206,6 +206,19 @@
     }
     [self.view addSubview:orderList.view];
     [self addChildViewController:orderList];
+    
+}
+//设置页面
+-(void)setupSettingController{
+    [self removeController];
+    if (!set) {
+        
+        UNISetttingController* view = [[UNISetttingController alloc]init];
+        view.containController = self;
+        set =[[UINavigationController alloc]initWithRootViewController:view];
+    }
+    [self.view addSubview:set.view];
+    [self addChildViewController:set];
     
 }
 

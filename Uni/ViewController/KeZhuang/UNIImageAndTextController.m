@@ -18,11 +18,17 @@
     [super viewDidLoad];
     self.title = @"图文详情";
     NSString* urlString = [NSString stringWithFormat:@"%@/shopadmin/Public/Home/Detail/goods?id=%d",API_URL,self.projectId];
-    NSLog(@"urlString %@",urlString);
+   // NSLog(@"urlString %@",urlString);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [_myWebView loadRequest:request];
    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

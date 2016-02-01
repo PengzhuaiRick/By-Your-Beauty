@@ -14,6 +14,7 @@
 #import "AccountManager.h"
 #import "AppDelegate.h"
 #import "ViewControllerCell.h"
+
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
 //    CGPoint startPoint;
@@ -96,7 +97,7 @@
     _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(tab.frame.size.width/2, CGRectGetMaxY(tab.frame),KMainScreenWidth*80/320, 30);
+    btn1.frame = CGRectMake(tab.frame.size.width/2, CGRectGetMaxY(tab.frame),tab.frame.size.width/2, 30);
     [btn1 setTitle:@" 退出" forState:UIControlStateNormal];
     [btn1 setImage:[UIImage imageNamed:@"function_btn_quit"] forState:UIControlStateNormal];
     btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
@@ -104,6 +105,18 @@
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         [self loginOut];
     }];
+    
+    UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn2.frame = CGRectMake(0, CGRectGetMaxY(tab.frame),tab.frame.size.width/2, 30);
+    [btn2 setTitle:@" 设置" forState:UIControlStateNormal];
+    [btn2 setImage:[UIImage imageNamed:@"function_btn_set"] forState:UIControlStateNormal];
+    btn2.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    [self.view addSubview:btn2];
+    [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
+        [self.tv closeTheBox];
+        [self.tv setupSettingController];
+    }];
+
     
 }
 - (void)didReceiveMemoryWarning {

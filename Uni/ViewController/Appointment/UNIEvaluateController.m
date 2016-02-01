@@ -26,6 +26,10 @@
 }
 -(void)setupNavigation{
    self.title=@"服务评价";
+     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+}
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)setupBaseUI{
     float viewX = 0;
@@ -221,13 +225,12 @@
                   params:@{@"goodsId":@(self.model.projectId),@"level":@(grades),@"content":self.textView.text}];
     req.rqAppraise =^(int code,NSString*tips,NSError* err){
         if (err) {
-            [YIToast showText:err.localizedDescription];
+            [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
         if (code==0) {
-            
-        }else
-            [YIToast showText:tips];
+            [self.navigationController popViewControllerAnimated:YES];
+        }
 
     };
 }

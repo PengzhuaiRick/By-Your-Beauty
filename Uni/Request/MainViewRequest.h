@@ -10,6 +10,7 @@
 #import "UNIShopManage.h"
 #import "UNIMyAppintModel.h"
 #import "UNIMyProjectModel.h"
+#import "UNIGoodsModel.h"
 /**
  *  请求版本号成功Block
  *
@@ -64,7 +65,23 @@ typedef void(^RQAppointmentBlock)( int count,NSArray* array,NSString* tips,NSErr
  */
 typedef void(^RQMyProjectBlock)(NSArray* array,NSString* tips,NSError* er);
 
+/**
+ *  请求首页背景图片 和 商品图片
+ *
+ *  @param array 两张图片的路径数组
+ *  @param tips  反馈信息
+ *  @param er    错误信息
+ */
+typedef void(^RQMainBgBlock)(NSArray* array,NSString* tips,NSError* er);
 
+/**
+ *  请求首页销售商品信息
+ *
+ *  @param array "UNIGoodsModel"数组
+ *  @param tips  反馈信息
+ *  @param er    错误信息
+ */
+typedef void(^RQSellInfoBlock)(NSArray* array,NSString* tips,NSError* er);
 
 @interface MainViewRequest : BaseRequest
 
@@ -85,4 +102,10 @@ typedef void(^RQMyProjectBlock)(NSArray* array,NSString* tips,NSError* er);
 
 //请求我的项目
 @property(nonatomic,copy)RQMyProjectBlock remyProjectBlock;
+
+// 请求首页背景图片 和 商品图片
+@property(nonatomic,copy)RQMainBgBlock reMainBgBlock;
+
+// 请求首页销售商品信息
+@property(nonatomic,copy)RQSellInfoBlock resellInfoBlock;
 @end

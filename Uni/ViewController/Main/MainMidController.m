@@ -44,7 +44,13 @@
 
 -(void)setupNavigation{
     self.title = @"我已预约";
-     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+    // self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+}
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)setupSelf{
@@ -185,10 +191,8 @@
                         [self.myData addObjectsFromArray:myAppointArr];
                         [self.tableView reloadData];
                     }
-                    else
-                        [YIToast showText:tips];
                 }else
-                    [YIToast showText:tips];
+                    [YIToast showText:NETWORKINGPEOBLEM];
             });
         };
     });

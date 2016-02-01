@@ -104,7 +104,7 @@
 #pragma mark 请求订单号
 -(void)requestTheOrderNo{
     [LLARingSpinnerView RingSpinnerViewStart];
-    NSDictionary* dic=@{@"goodsId":@"1",@"goodsType":@"2",@"payType":@(self.payStyle),@"shopPrice":@"899"};
+    NSDictionary* dic=@{@"goodsId":@"1",@"goodsType":@"2",@"payType":@(self.payStyle),@"shopPrice":[NSString stringWithFormat:@"%.f",_model.shopPrice]};
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetOutTradeNo] params:dic];
     requet.kzgoodsGetOrderBlock=^(NSString* orderNo,NSString*tips,NSError* err){
@@ -153,8 +153,8 @@
     NSDictionary* dic = @{@"partner":partner,
                           @"seller_id":seller,
                           @"out_trade_no":orderNO,
-                          @"subject":@"ALBION清新莹润滋养护理",
-                          @"total_fee":@"0.01",
+                          @"subject":_model.projectName,
+                          @"total_fee":[NSString stringWithFormat:@"%.f",_model.shopPrice],
                           @"notify_url":@"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php",
                           @"service":@"mobile.securitypay.pay",
                           @"payment_type":@"1",
@@ -231,8 +231,9 @@
 - (void)jumpToBizPay:(NSString*)mchid{
     
     [LLARingSpinnerView RingSpinnerViewStart];
+    NSString* price = [NSString stringWithFormat:@"%.f",_model.shopPrice*100];
     NSString *urlString   = @"http://uni.dodwow.com/uni_pay/uni_wx_pay/api/unifiedorder.php";
-    NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":@"ALBION清新莹润滋养护理",@"total_fee":@"89900",@"mchid":mchid};
+    NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":_model.projectName,@"total_fee":price,@"mchid":mchid};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:dic] forKey:@"json"];

@@ -25,6 +25,8 @@
 @property(nonatomic,assign)int likesNum;//点赞数量
 @property(nonatomic,assign)float price; //市场价格
 @property(nonatomic,assign)float shopPrice; //本店价格
+@property(nonatomic,assign)int type; //类型
+
 
 
 -(id)initWithDic:(NSDictionary*)dic;

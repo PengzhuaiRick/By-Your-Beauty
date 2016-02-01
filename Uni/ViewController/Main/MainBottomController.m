@@ -48,8 +48,14 @@
 
 -(void)setupNavigation{
     self.title = @"我的项目";
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+    self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 #pragma mark 设置参数
 -(void)setupParams{
     _myData = [NSMutableArray array];
@@ -185,10 +191,8 @@
                         [self.myData addObjectsFromArray:myProjectArr];
                         [self reflashTabel:(int)self.myData.count];
                     }
-                    else
-                        [YIToast showText:tips];
                 }else
-                    [YIToast showText:tips];
+                    [YIToast showText:NETWORKINGPEOBLEM];
             });
         };
         

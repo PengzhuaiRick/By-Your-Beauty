@@ -33,7 +33,14 @@
     [self setupTableView];
    // [self startRequestInfo];
     [self.myTableview.header beginRefreshing];
+    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)setupData{
     self.title = @"我的项目";
     seletNum = 0;
@@ -176,10 +183,8 @@
                         [self.myTableview reloadData];
                        //[self.myData addObjectsFromArray:myProjectArr];
                     }
-                    else
-                        [YIToast showText:tips];
                 }else
-                    [YIToast showText:tips];
+                    [YIToast showText:NETWORKINGPEOBLEM];
             });
         };
         

@@ -36,11 +36,18 @@
     [super viewDidLoad];
     self.title=@"预约详情";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
     
     [self startRequest];
 //    [self setupData];
 //    [self setupMyTableView];
+   
 }
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)startRequest{
      [LLARingSpinnerView RingSpinnerViewStart];
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
@@ -50,15 +57,14 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [LLARingSpinnerView RingSpinnerViewStop];
             if (er) {
-                [YIToast showText:er.localizedDescription];
+                [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (models && models.count>0) {
                 self.modelArr = models;
                 [self setupData];
                 [self setupMyTableView];
-            }else
-                [YIToast showText:tips];
+            }
         });
     };
 }

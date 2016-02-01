@@ -32,7 +32,14 @@
     self.title = @"我的奖励";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     scrollerX = 0;
+    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 
 -(void)setupTopView{
     float topH = KMainScreenWidth * 45/320;

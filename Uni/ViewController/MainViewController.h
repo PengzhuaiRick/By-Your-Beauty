@@ -10,7 +10,6 @@
 #import "MainMidView.h"
 #import "UNIContainController.h"
 @interface MainViewController : UIViewController
-
 @property(nonatomic ,strong)MainMidView* midView;
 @property(nonatomic ,strong)MainMidView* buttomView;
 @property(nonatomic ,strong)UNIContainController* containController;

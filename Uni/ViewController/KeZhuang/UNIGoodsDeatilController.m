@@ -9,9 +9,9 @@
 #import "UNIGoodsDeatilController.h"
 #import "UNIGoodsCell1.h"
 //#import "UNIGoodsComment.h"
-#import "UNIPurchaseController.h"
+//#import "UNIPurchaseController.h"
 #import <MJRefresh/MJRefresh.h>
-#import "UNIImageAndTextController.h"
+//#import "UNIImageAndTextController.h"
 #import "BTKeyboardTool.h"
 #import "UNIPurChaseView.h"
 @interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
@@ -49,17 +49,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-   // [self startRequestReward];
+    [self startRequestReward];
     [self setupData];
-    [self setupBottomView];
-    [self setupMyScroller];
-    [self setupTableView];
-    [self regirstKeyBoardNotification];
+//    [self setupBottomView];
+//    [self setupMyScroller];
+//    [self setupTableView];
+//    [self regirstKeyBoardNotification];
 }
 #pragma mark 开始请求
 -(void)startRequestReward{
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo] params:nil];
+    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo] params:@{@"projcetId":_projectId,@"type":_type}];
     requet.kzgoodsInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
@@ -70,10 +70,9 @@
                 self->model = array.lastObject;
                 [self setupBottomView];
                 [self setupMyScroller];
-                // [self setupData];
                 [self setupTableView];
-            }else
-                [YIToast showText:tips];
+                [self regirstKeyBoardNotification];
+            }
         });
     };
 }
@@ -81,7 +80,13 @@
 -(void)setupNavigation{
     self.title = @"客妆";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)setupData{
     _num = 1;
     self.allArray = [NSMutableArray array];
@@ -102,8 +107,8 @@
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth*36/414];
     lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
-   // lab.text = [NSString stringWithFormat:@"%f",model.shopPrice];
-    lab.text = @"￥899";
+    lab.text = [NSString stringWithFormat:@"￥ %.f",model.shopPrice];
+    
     [bottom addSubview:lab];
     priceLab = lab;
     
@@ -125,6 +130,7 @@
      subscribeNext:^(id x) {
          if (self.num>1) {
              --self.num;
+             self->priceLab.text = [NSString stringWithFormat:@"￥ %.f",self->model.shopPrice*self.num];
          }
     }];
     
@@ -140,7 +146,7 @@
         int k =[x intValue];
         if (k>0)
             self.num =k ;
-        
+        self->priceLab.text = [NSString stringWithFormat:@"￥ %.f",self->model.shopPrice*self.num];
     }];
     
     [RACObserve(self,num)subscribeNext:^(id x) {
@@ -162,6 +168,7 @@
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          ++self.num;
+          self->priceLab.text = [NSString stringWithFormat:@"￥ %.f",self->model.shopPrice*self.num];
     }];
 
     float btn3Y = 10;
@@ -193,7 +200,7 @@
     [bg addGestureRecognizer:tap];
     
     
-    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.8,KMainScreenWidth*0.6) andNum:[numField.text intValue] andModel:nil];
+    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.8,KMainScreenWidth*0.6) andNum:[numField.text intValue] andModel:model];
     pur.delegate = self;
     pur.alpha = 0;
     pur.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
@@ -243,6 +250,8 @@
     self.myScroller.backgroundColor = [UIColor clearColor];
     self.myScroller.pagingEnabled =YES;
     [self.view addSubview:self.myScroller];
+    
+    [self.view bringSubviewToFront:bottomView];
 }
 -(void)setupTableView{
     
@@ -286,15 +295,15 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
 
     UNIGoodsCell1* cell =[[UNIGoodsCell1 alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cell1H) reuseIdentifier:@"cell"];
-   // [cell setupCellContentWith:model];
+    [cell setupCellContentWith:model];
             return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
    
-            UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-            UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
-            imgAndText.projectId = model.projectId;
-            [self.navigationController pushViewController:imgAndText animated:YES];
+//            UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+//            UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
+//            imgAndText.projectId = model.projectId;
+//            [self.navigationController pushViewController:imgAndText animated:YES];
      }
 
 -(CGSize)suanziti:(NSString*)text andFont:(float)font andWidth:(float)width{

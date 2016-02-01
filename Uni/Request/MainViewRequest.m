@@ -73,6 +73,28 @@
            }else
                _rerewardBlock(-1,-1,nil,tips,nil);
         }
+        if ([param2 isEqualToString:API_URL_GetImgByshopIdCode] ) {
+            if (code == 0) {
+                 NSArray* result = [self safeObject:dic ForKey:@"result"];
+                _reMainBgBlock(result,tips,nil);
+            }else
+                 _reMainBgBlock(nil,tips,nil);
+        }
+        
+        if ([param2 isEqualToString:API_URL_GetSellInfo] ) {
+            if (code == 0) {
+                NSArray* result = [self safeObject:dic ForKey:@"result"];
+                NSMutableArray* arr = [NSMutableArray arrayWithCapacity:result.count];
+                for (NSDictionary* dic in result) {
+                    UNIGoodsModel* model = [[UNIGoodsModel alloc]initWithDic:dic];
+                    [arr addObject:model];
+                }
+                _resellInfoBlock(arr,tips,nil);
+            }else
+                _resellInfoBlock(nil,tips,nil);
+        }
+
+
     }
 }
 
@@ -96,8 +118,14 @@
              _rerewardBlock(-1,-1,nil,nil,err);
         
         //获取我的未预约项目
-        if ([param1 isEqualToString:API_URL_MyProjectInfo])
+        if ([param2 isEqualToString:API_URL_MyProjectInfo])
             _remyProjectBlock(nil,nil,err);
+        
+        if ([param2 isEqualToString:API_URL_GetImgByshopIdCode] )
+            _reMainBgBlock(nil,nil,err);
+        
+        if ([param2 isEqualToString:API_URL_GetSellInfo] )
+            _resellInfoBlock(nil,nil,err);
     }
 
 

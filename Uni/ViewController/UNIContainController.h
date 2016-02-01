@@ -23,4 +23,6 @@
 -(void)setupGiftController;
 //订单列表
 -(void)setupOrderListController;
+//设置页面
+-(void)setupSettingController;
 @end

@@ -45,8 +45,7 @@
                 [self setupTableView];
                 
                 
-            }else
-                [YIToast showText:tips];
+            }
         });
         
     };

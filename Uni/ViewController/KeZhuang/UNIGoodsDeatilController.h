@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIGoodsDeatilController : UIViewController
-
+@property(nonatomic,copy)NSString* projectId;
+@property(nonatomic,copy)NSString* type;
 @end

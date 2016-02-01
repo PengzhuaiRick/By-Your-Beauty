@@ -224,7 +224,8 @@
         xx = total -4;
         if (num>0) {
             xx = total-num>4?num:total - 4;
-        }
+        }else
+            xx = 1;
     }
     int time =total> 5 ? 5:total;
     

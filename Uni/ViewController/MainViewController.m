@@ -20,8 +20,9 @@
 #import "MainViewCell.h"
 
 #import "UNIMainProView.h"
+#import "UNIGoodsWeb.h"
 
-@interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate>{
+@interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
     float cellHight;
     int appointTotal;
@@ -30,6 +31,12 @@
     UILabel* goodsLab; //约满奖励商品名称
     UILabel* numLab; //再预约次数
     UNIMainProView* progessView;//进度条
+    UIImageView* goodsImg; //奖励产品图片
+    UIImageView* headerImg;
+    
+    NSArray* sellGoods;
+    UILabel* sell1;
+    UILabel* sell2;
 
 }
 @property(nonatomic,strong) NSArray* midData;
@@ -64,13 +71,11 @@
     [super viewDidLoad];
     [self setupNavigation];
     [self setupScroller];
-    //[self addChildController];
-     //[self addChildController1];
     [self startRequestShopInfo];//请求商家信息
     [self startRequestReward];//请求约满信息
     [self startRequestAppointInfo];//请求我已预约
-   // [self startRequestProjectInfo];//请求我的项目
-    
+   [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+    [self getSellInfo]; //获取首页销售商品
     [self setupNotification];//注册通知
 }
 #pragma mark
@@ -101,6 +106,8 @@
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
     UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    good.projectId=@"1";
+    good.type = @"1";
     [self.navigationController pushViewController:good animated:YES];
     
 }
@@ -128,7 +135,7 @@
     topImg.image = [UIImage imageNamed:@"main_img_top"];
     topImg.userInteractionEnabled = YES;
     tabview.tableHeaderView = topImg;
-    
+    headerImg = topImg;
     [self setupTabViewHeader:topImg];
 
     
@@ -164,9 +171,22 @@
     float img2H = proW/2;
     float img2W = img2H *fu.size.width / fu.size.height;
     UIImageView * shuangfu = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img2W, img2H)];
+    shuangfu.userInteractionEnabled=YES;
     shuangfu.image = fu;
     shuangfu.center = proView.center;
     [imageView addSubview:shuangfu];
+    goodsImg = shuangfu;
+    
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
+    [[tap rac_gestureSignal] subscribeNext:^(id x) {
+        UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+        UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+        good.projectId=@"1";
+        good.type = @"1";
+        [self.navigationController pushViewController:good animated:YES];
+    }];
+    [shuangfu addGestureRecognizer:tap];
+   
     
     float lab1W = proW;
     float lab1H = 25;
@@ -268,6 +288,7 @@
     lab6.textColor = [UIColor whiteColor];
     lab6.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [imageView addSubview:lab6];
+    sell1 = lab6;
     
     float lab7Y =CGRectGetMaxY(lab6.frame);
     float lab7W = KMainScreenWidth*80/320;
@@ -286,9 +307,31 @@
     lab8.textColor = [UIColor whiteColor];
     lab8.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
     [imageView addSubview:lab8];
+    sell2 = lab8;
     
     lab7.center = CGPointMake(lab7.center.x, lab8.center.y);
+    
+    UIButton* alpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    alpBtn.frame = CGRectMake(0, btnY, btnX, btnWH);
+    [alpBtn setBackgroundColor: [UIColor clearColor]];
+    [imageView addSubview:alpBtn];
+    [[alpBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        UNIGoodsWeb* web = [[UNIGoodsWeb alloc]init];
+        web.delegate = self;
+        [self.navigationController pushViewController:web animated:YES];
+    }];
 }
+
+#pragma mark
+-(void)UNIGoodsWebDelegateMethodAndprojectId:(NSString *)ProjectId Andtype:(NSString *)Type{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    good.projectId = ProjectId;
+    good.type = Type;
+    [self.navigationController pushViewController:good animated:YES];
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     int cellNum = 2;
     return cellNum;
@@ -373,8 +416,6 @@
                         else
                             self.title =manager.shopName;
                     }
-//                    else
-//                        [YIToast showText:tips];
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
                 
@@ -451,6 +492,52 @@
                     [YIToast showText:NETWORKINGPEOBLEM];
             });
         };
+}
+
+#pragma mark 获取背景图片 和 奖励商品图片
+-(void)getBgImageAndGoodsImage{
+    MainViewRequest* request1 = [[MainViewRequest alloc]init];
+    int shopId =[[AccountManager shopId]intValue];
+    NSString* code = [NSString stringWithFormat:@"%d_prize_shop,%d_index_bg",shopId,shopId];
+    [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_GetImgByshopIdCode]
+                       params:@{@"code":code}];
+    request1.reMainBgBlock =^(NSArray* result,NSString* tips,NSError* err){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!err) {
+                for (NSDictionary* dic in result) {
+                    NSString* code = [dic valueForKey:@"code"];
+                    NSString* url = [dic valueForKey:@"url"];
+                    NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
+                    if ([code hasSuffix:@"_bg"]) {
+                        [self->headerImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
+                    }
+                    if ([code hasSuffix:@"_shop"]) {
+                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
+                    }
+                }
+            }
+            else
+                [YIToast showText:NETWORKINGPEOBLEM];
+        });
+    };
+}
+#pragma mark 获取首页销售商品信息
+-(void)getSellInfo{
+    MainViewRequest* request1 = [[MainViewRequest alloc]init];
+    [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo]
+                       params:nil];
+    request1.resellInfoBlock =^(NSArray* arr,NSString* tips,NSError* err){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (!err) {
+                self->sellGoods = arr;
+                UNIGoodsModel* info = arr[0];
+                self->sell1.text = info.projectName;
+                self->sell2.text = [NSString stringWithFormat:@"￥ %.f",info.shopPrice];
+            }
+            else
+                [YIToast showText:NETWORKINGPEOBLEM];
+        });
+    };
 }
 
 #pragma mark 注册通知

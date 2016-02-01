@@ -32,7 +32,7 @@
             [self.myTable.header endRefreshing];
             [self.myTable.footer endRefreshing];
             if (er) {
-                [YIToast showText:er.localizedDescription];
+                [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (array && array.count>0) {
@@ -43,8 +43,7 @@
                 [self setupTableView];
                 
                
-            }else
-                [YIToast showText:tips];
+            }
         });
         
     };

@@ -32,6 +32,12 @@
     [self setupMidScroller];
     [self setupBottomContent];
     [self regirstKeyBoardNotification];
+    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+}
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)setupMyScroller{
@@ -152,8 +158,7 @@
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
 #else
-    [UIAlertView showWithTitle:@"用户信息" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        //[self locationNotificationTask:nil];
+    [UIAlertView showWithTitle:@"预约成功" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
          [self locationNotificationTask:order];
     }];
 #endif

@@ -52,15 +52,14 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [LLARingSpinnerView RingSpinnerViewStop];
             if (er) {
-                [YIToast showText:er.localizedDescription];
+                [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (models && models.count>0) {
                 self.modelArr = models;
                 [self setupData];
                 [self setupMyTableView];
-            }else
-                [YIToast showText:tips];
+            }
         });
     };
 }
