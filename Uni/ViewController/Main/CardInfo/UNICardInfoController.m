@@ -109,8 +109,6 @@
                 self->topLab2.frame = top2;
                 [self setupmidView:total and:num];
             }
-//            else
-//                [YIToast showText:tips];
         });
     };
 }
@@ -274,12 +272,9 @@
                     if (total-xx-i>1)
                     imgName = @"card_img_line3";
                 }
-                
             }
-            
             img.image = [UIImage imageNamed:imgName];
         }
-        
     }
     
 }

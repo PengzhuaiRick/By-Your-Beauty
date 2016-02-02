@@ -435,10 +435,12 @@
         request1.rerewardBlock=^(int nextRewardNum,int num,NSString* projectName,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
-                    self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
-                    [self->progessView setupProgreaa:num and:nextRewardNum];
-                    self->goodsLab.text = projectName;
-                    self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
+                    if (nextRewardNum>0) {
+                        self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
+                        [self->progessView setupProgreaa:num and:nextRewardNum];
+                        self->goodsLab.text = projectName;
+                        self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
+                    }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
             });
