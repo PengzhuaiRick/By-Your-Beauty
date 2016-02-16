@@ -18,7 +18,8 @@
 @property(nonatomic,copy)NSString* crowd;//适合人群
 @property(nonatomic,copy)NSString* desc;//商品详情belong
 @property(nonatomic,copy)NSString* belong;//所属品牌
-
+@property(nonatomic,copy)NSString* url;//
+@property(nonatomic,copy)NSString* imgUrl;//商品图片路径
 
 @property(nonatomic,assign)int projectId;//项目id
 @property(nonatomic,assign)int sellNum;//销售数量

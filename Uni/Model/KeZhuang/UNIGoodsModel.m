@@ -32,6 +32,8 @@
     self.texture = [self safeObject:dic ForKey:@"texture"];
     self.crowd = [self safeObject:dic ForKey:@"crowd"];
     self.belong = [self safeObject:dic ForKey:@"belong"];
+    self.url = [self safeObject:dic ForKey:@"url"];
+    self.imgUrl = [self safeObject:dic ForKey:@"imgUrl"];
 }
 
 @end

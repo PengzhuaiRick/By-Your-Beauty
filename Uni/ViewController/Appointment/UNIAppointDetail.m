@@ -210,6 +210,12 @@
     
     return nil;
 }
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 2)
+        [self callOtherMapApp];
+    
+}
 - (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
     if ([view.annotation isKindOfClass:[UNIMapAnnotation class]]) {
         if (_calloutAnnotation.coordinate.latitude == view.annotation.coordinate.latitude&&

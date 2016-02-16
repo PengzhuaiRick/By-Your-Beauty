@@ -36,8 +36,8 @@
         if(IS_IOS8_OR_LATER)
              //[_locationManager requestWhenInUseAuthorization];
           [_locationManager requestAlwaysAuthorization];
-        if (IS_IOS9_OR_LATER)
-            _locationManager.allowsBackgroundLocationUpdates=YES;
+//        if (IS_IOS9_OR_LATER)
+//            _locationManager.allowsBackgroundLocationUpdates=YES;
 
     }
     return self;
@@ -70,7 +70,7 @@
             _locationManager.distanceFilter = kCLDistanceFilterNone; // 任何运动均接受，任何运动将会触发定位更新
             _locationManager.desiredAccuracy = kCLLocationAccuracyBest;// // 设置距离过滤器，超过次距离就更新一次位置
             if(IS_IOS8_OR_LATER)
-                 //[_locationManager requestWhenInUseAuthorization];
+//                 [_locationManager requestWhenInUseAuthorization];
                 [_locationManager requestAlwaysAuthorization];
             if (IS_IOS9_OR_LATER)
                 _locationManager.allowsBackgroundLocationUpdates=YES;

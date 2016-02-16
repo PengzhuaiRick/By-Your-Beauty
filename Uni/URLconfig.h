@@ -77,6 +77,9 @@
 //获取客妆接口
 #define API_URL_GetSellInfo @"getSellInfo"
 
+//获取客妆接口2
+#define API_URL_GetSellInfo2 @"getSellGoodsInfo"
+
 //获取客妆 订单号
 #define API_URL_GetOutTradeNo @"getOutTradeNo"
 
@@ -115,4 +118,7 @@
 
 //微信支付 私钥之类的KEY
 #define API_URL_GetWXConfig @"getWXConfig"
+
+//获取法律声明文本接口
+#define API_URL_GetTextInfo @"getTextInfo"
 #endif /* URLconfig_h */

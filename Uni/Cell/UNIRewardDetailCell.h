@@ -16,5 +16,5 @@
 @property (strong, nonatomic)UNIRewardProgessView* progessView;
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier andTpye:(int)tp;
 
--(void)setupCellContent:(id)model andType:(int)type;
+-(void)setupCellContent:(id)model andType:(int)type andTotal:(int)total;
 @end

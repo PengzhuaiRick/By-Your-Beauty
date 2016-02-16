@@ -57,7 +57,7 @@
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3W, labH)];
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     lab3.textColor = [UIColor blackColor];
-    lab3.text = @"价值￥580";
+//    lab3.text = @"价值￥580";
     [self addSubview:lab3];
     self.stateLab = lab3;
     
@@ -78,9 +78,10 @@
 }
 
 
--(void)setupCellContent:(id)model andType:(int)type{
+-(void)setupCellContent:(id)model andType:(int)type andTotal:(int)total{
     UNIMyRewardModel* info = model;
     self.mainLab.text = [NSString stringWithFormat:@"%d次",info.rewardNum];
+    [self.mainLab sizeToFit];
     self.subLab.text = info.goods;
     self.stateLab.text =[NSString stringWithFormat:@"价值￥%d",info.price] ;
     
@@ -101,6 +102,7 @@
     self.stateLab.frame = stateRe;
     [self.stateLab sizeToFit];
     
+    self.progessView.num = total;
     self.progessView.total = info.rewardNum;
 }
 

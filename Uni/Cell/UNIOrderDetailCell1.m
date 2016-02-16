@@ -21,7 +21,8 @@
     float imgXY =10;
     float imgWH = size.height - 2*imgXY;
     UIImageView* img= [[UIImageView alloc]initWithFrame:CGRectMake(imgXY, imgXY, imgWH, imgWH)];
-    img.image = [UIImage imageNamed:@"card_img_bg2"];
+    //img.image = [UIImage imageNamed:@"card_img_bg2"];
+    img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImg = img;
 
@@ -59,7 +60,8 @@
 }
 -(void)setupCellContent:(id)model{
     UNIOrderListModel*info = model;
-    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:info.logoUrl] placeholderImage:nil];
+    NSString* url = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
+    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
     self.lab1.text =info.projectName;
     self.lab2.text = [NSString stringWithFormat:@"￥%@",info.price];
     self.lab3.text = [NSString stringWithFormat:@"数量 x%d",info.num];

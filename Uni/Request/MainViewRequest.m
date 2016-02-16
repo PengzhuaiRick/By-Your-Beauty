@@ -93,6 +93,14 @@
             }else
                 _resellInfoBlock(nil,tips,nil);
         }
+        if ([param2 isEqualToString:API_URL_GetSellInfo2] ) {
+            if (code == 0) {
+                    UNIGoodsModel* model = [[UNIGoodsModel alloc]initWithDic:dic];
+                NSArray* arr = @[model];
+                _resellInfoBlock(arr,tips,nil);
+            }else
+                _resellInfoBlock(nil,tips,nil);
+        }
 
 
     }
@@ -126,6 +134,11 @@
         
         if ([param2 isEqualToString:API_URL_GetSellInfo] )
             _resellInfoBlock(nil,nil,err);
+        
+        if ([param2 isEqualToString:API_URL_GetSellInfo2] ) {
+            _resellInfoBlock(nil,nil,err);
+        }
+
     }
 
 

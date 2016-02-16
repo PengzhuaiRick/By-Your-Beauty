@@ -33,6 +33,15 @@
              }else
                  _kzgoodsInfoBlock(nil,tips,nil);
         }
+        //客妆 商品信息接口2
+        if ([param2 isEqualToString:API_URL_GetSellInfo2]) {
+            if(code == 0 ){
+                UNIGoodsModel * model = [[UNIGoodsModel alloc]initWithDic:dic];
+                NSArray* array = @[model];
+                _kzgoodsInfoBlock(array,tips,nil);
+            }else
+                _kzgoodsInfoBlock(nil,tips,nil);
+        }
         
         //客妆奖励接口
         if ([param2 isEqualToString:API_URL_SellReward]) {
@@ -94,8 +103,13 @@
         //客妆奖励接口
         if ([param2 isEqualToString:API_URL_SellReward])
             _kzrewardBlock(nil,nil,err);
-         //客妆 商品信息接口
+        
+        //客妆 商品信息接口
         if ([param2 isEqualToString:API_URL_GetSellInfo]) {
+            _kzgoodsInfoBlock(nil,nil,err);
+        }
+         //客妆 商品信息接口2
+        if ([param2 isEqualToString:API_URL_GetSellInfo2]) {
              _kzgoodsInfoBlock(nil,nil,err);
         }
     }

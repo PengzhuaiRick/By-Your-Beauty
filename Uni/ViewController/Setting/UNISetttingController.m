@@ -8,6 +8,7 @@
 
 #import "UNISetttingController.h"
 #import "UNIAboutUsController.h"
+#import "UNILawViewController.h"
 @interface UNISetttingController ()<UITableViewDelegate,UITableViewDataSource>
 
 @end
@@ -85,13 +86,13 @@
     lab.textAlignment = NSTextAlignmentCenter;
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth*10/320];
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab.text = [NSString stringWithFormat:@"由你 %@",CURRENTVERSION];
+    lab.text = @"美丽由你";
     [view addSubview:lab];
     tab.tableHeaderView = view;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 2;
+    return 3;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 45;
@@ -106,6 +107,9 @@
         case 1:
             cell.textLabel.text = @"关于我们";
             break;
+        case 2:
+            cell.textLabel.text = @"法律声明";
+            break;
     }
     cell.textLabel.textColor= [UIColor colorWithHexString:kMainTitleColor];
     cell.textLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
@@ -116,6 +120,10 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (indexPath.row == 1) {
         UNIAboutUsController* ab = [[UNIAboutUsController alloc]init];
+        [self.navigationController pushViewController:ab animated:YES];
+    }
+    if (indexPath.row == 2) {
+        UNILawViewController* ab = [[UNILawViewController alloc]init];
         [self.navigationController pushViewController:ab animated:YES];
     }if (indexPath.row == 0) {
 #ifdef IS_IOS9_OR_LATER

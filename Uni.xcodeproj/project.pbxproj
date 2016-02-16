@@ -25,6 +25,11 @@
 		18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18250E721C18492C0072F795 /* UNIPurChaseView.m */; };
 		1827CEB71C157CAD00A40B45 /* UNIRewardListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB61C157CAD00A40B45 /* UNIRewardListController.m */; };
 		1827CEBB1C15893E00A40B45 /* UNIRewardListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */; };
+		182E8A511C71C6E600870968 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A4E1C71C6E600870968 /* AlipaySDK.framework */; };
+		182E8A521C71C6E600870968 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A4F1C71C6E600870968 /* libcrypto.a */; };
+		182E8A531C71C6E600870968 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A501C71C6E600870968 /* libssl.a */; };
+		182E8A561C71CA3500870968 /* UNILawViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 182E8A551C71CA3500870968 /* UNILawViewController.m */; };
+		182E8A591C71CBA500870968 /* UNILawRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 182E8A581C71CBA500870968 /* UNILawRequest.m */; };
 		182EDD7E1C23B13E00949337 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EDD7D1C23B13E00949337 /* QuartzCore.framework */; };
 		182EDD801C23B14E00949337 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EDD7F1C23B14E00949337 /* CoreText.framework */; };
 		182EDD821C23B1A600949337 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182EDD811C23B1A600949337 /* CoreMotion.framework */; };
@@ -101,9 +106,6 @@
 		18C8D40C1C574A5100E6DDB3 /* openssl_wrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D3FD1C574A5100E6DDB3 /* openssl_wrapper.m */; };
 		18C8D40D1C574A5100E6DDB3 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D3FF1C574A5100E6DDB3 /* RSADataSigner.m */; };
 		18C8D40E1C574A5100E6DDB3 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D4011C574A5100E6DDB3 /* RSADataVerifier.m */; };
-		18C8D40F1C574A7800E6DDB3 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C8D39F1C574A5100E6DDB3 /* AlipaySDK.framework */; };
-		18C8D4121C574E9D00E6DDB3 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C8D4101C574E9D00E6DDB3 /* libcrypto.a */; };
-		18C8D4131C574E9D00E6DDB3 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C8D4111C574E9D00E6DDB3 /* libssl.a */; };
 		18C92C0B1C19625C002778C3 /* UNIGoodsDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */; };
 		18CA17921C489B8600636ABF /* UNIRewardDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */; };
 		18CA17951C48A21F00636ABF /* UNIRewardProgessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17941C48A21F00636ABF /* UNIRewardProgessView.m */; };
@@ -206,6 +208,13 @@
 		1827CEB61C157CAD00A40B45 /* UNIRewardListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardListController.m; sourceTree = "<group>"; };
 		1827CEB81C15893E00A40B45 /* UNIRewardListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardListCell.h; sourceTree = "<group>"; };
 		1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardListCell.m; sourceTree = "<group>"; };
+		182E8A4E1C71C6E600870968 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
+		182E8A4F1C71C6E600870968 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		182E8A501C71C6E600870968 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		182E8A541C71CA3500870968 /* UNILawViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILawViewController.h; sourceTree = "<group>"; };
+		182E8A551C71CA3500870968 /* UNILawViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILawViewController.m; sourceTree = "<group>"; };
+		182E8A571C71CBA500870968 /* UNILawRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILawRequest.h; sourceTree = "<group>"; };
+		182E8A581C71CBA500870968 /* UNILawRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILawRequest.m; sourceTree = "<group>"; };
 		182EDD7D1C23B13E00949337 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		182EDD7F1C23B14E00949337 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		182EDD811C23B1A600949337 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
@@ -325,7 +334,6 @@
 		18C745B71BF07EE4000062AF /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		18C745B91BF09F3E000062AF /* URLconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLconfig.h; sourceTree = "<group>"; };
 		18C8D39E1C574A5100E6DDB3 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
-		18C8D39F1C574A5100E6DDB3 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		18C8D3A31C574A5100E6DDB3 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		18C8D3A41C574A5100E6DDB3 /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
 		18C8D3A51C574A5100E6DDB3 /* asn1_mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1_mac.h; sourceTree = "<group>"; };
@@ -420,8 +428,6 @@
 		18C8D3FF1C574A5100E6DDB3 /* RSADataSigner.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataSigner.m; sourceTree = "<group>"; };
 		18C8D4001C574A5100E6DDB3 /* RSADataVerifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSADataVerifier.h; sourceTree = "<group>"; };
 		18C8D4011C574A5100E6DDB3 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
-		18C8D4101C574E9D00E6DDB3 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		18C8D4111C574E9D00E6DDB3 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
 		18C92C091C19625C002778C3 /* UNIGoodsDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsDetailRequest.h; sourceTree = "<group>"; };
 		18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGoodsDetailRequest.m; sourceTree = "<group>"; };
 		18CA17901C489B8600636ABF /* UNIRewardDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardDetailCell.h; sourceTree = "<group>"; };
@@ -519,14 +525,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				18C8D40F1C574A7800E6DDB3 /* AlipaySDK.framework in Frameworks */,
 				18D77DCE1C3B9BF800DFC738 /* libstdc++.tbd in Frameworks */,
 				18D77DCC1C3B9BE300DFC738 /* libz.1.2.5.tbd in Frameworks */,
 				18C745B61BF07D92000062AF /* libz.tbd in Frameworks */,
 				182EDD841C23B1F200949337 /* libc++.tbd in Frameworks */,
 				182EDD821C23B1A600949337 /* CoreMotion.framework in Frameworks */,
-				18C8D4121C574E9D00E6DDB3 /* libcrypto.a in Frameworks */,
 				182EDD801C23B14E00949337 /* CoreText.framework in Frameworks */,
+				182E8A521C71C6E600870968 /* libcrypto.a in Frameworks */,
 				182EDD7E1C23B13E00949337 /* QuartzCore.framework in Frameworks */,
 				18BA7D741BEA066500DD7826 /* MapKit.framework in Frameworks */,
 				18C745B41BF07CA3000062AF /* Security.framework in Frameworks */,
@@ -534,8 +539,9 @@
 				18C745B01BF07C91000062AF /* Foundation.framework in Frameworks */,
 				18C745AE1BF07C73000062AF /* CoreGraphics.framework in Frameworks */,
 				18C745AC1BF07C66000062AF /* SystemConfiguration.framework in Frameworks */,
-				18C8D4131C574E9D00E6DDB3 /* libssl.a in Frameworks */,
 				18A231DA1C2807A600E57795 /* libWeChatSDK.a in Frameworks */,
+				182E8A531C71C6E600870968 /* libssl.a in Frameworks */,
+				182E8A511C71C6E600870968 /* AlipaySDK.framework in Frameworks */,
 				18C745AA1BF07C5B000062AF /* CoreTelephony.framework in Frameworks */,
 				18C745A81BF07C4A000062AF /* CoreFoundation.framework in Frameworks */,
 				18C745A61BF07C3A000062AF /* CFNetwork.framework in Frameworks */,
@@ -771,6 +777,8 @@
 				184E15431C5F2DB500D65E39 /* UNISetttingController.m */,
 				184E15451C5F4C4700D65E39 /* UNIAboutUsController.h */,
 				184E15461C5F4C4700D65E39 /* UNIAboutUsController.m */,
+				182E8A541C71CA3500870968 /* UNILawViewController.h */,
+				182E8A551C71CA3500870968 /* UNILawViewController.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -936,10 +944,10 @@
 		18C8D39D1C574A5100E6DDB3 /* AliPay */ = {
 			isa = PBXGroup;
 			children = (
-				18C8D4101C574E9D00E6DDB3 /* libcrypto.a */,
-				18C8D4111C574E9D00E6DDB3 /* libssl.a */,
+				182E8A4E1C71C6E600870968 /* AlipaySDK.framework */,
+				182E8A4F1C71C6E600870968 /* libcrypto.a */,
+				182E8A501C71C6E600870968 /* libssl.a */,
 				18C8D39E1C574A5100E6DDB3 /* AlipaySDK.bundle */,
-				18C8D39F1C574A5100E6DDB3 /* AlipaySDK.framework */,
 				18C8D3A21C574A5100E6DDB3 /* openssl */,
 				18C8D3EE1C574A5100E6DDB3 /* Order.h */,
 				18C8D3EF1C574A5100E6DDB3 /* Order.m */,
@@ -1198,6 +1206,8 @@
 				18E661D71C11896C000042B7 /* UNIMyRewardRequest.m */,
 				1844820C1C5222810047D2EF /* UNIOrderRequest.h */,
 				1844820D1C5222810047D2EF /* UNIOrderRequest.m */,
+				182E8A571C71CBA500870968 /* UNILawRequest.h */,
+				182E8A581C71CBA500870968 /* UNILawRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1514,6 +1524,7 @@
 				18BA7D6B1BE9A19100DD7826 /* EAIntroPage.m in Sources */,
 				18D124641BF5BC440034990F /* UNIShopManage.m in Sources */,
 				18BA7D701BE9B8FD00DD7826 /* MainViewController.m in Sources */,
+				182E8A561C71CA3500870968 /* UNILawViewController.m in Sources */,
 				18C92C0B1C19625C002778C3 /* UNIGoodsDetailRequest.m in Sources */,
 				18C8D40E1C574A5100E6DDB3 /* RSADataVerifier.m in Sources */,
 				184482051C5210760047D2EF /* UNIOrderDetailCell2.m in Sources */,
@@ -1527,6 +1538,7 @@
 				18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */,
 				18CC75C01C2B8B6400625205 /* ViewControllerCell.m in Sources */,
 				18C3ECF21C0EC9C900B0A192 /* UNIAppointDetail.m in Sources */,
+				182E8A591C71CBA500870968 /* UNILawRequest.m in Sources */,
 				1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */,
 				180CD3891BDF180A00C912FE /* main.m in Sources */,
 				18C3FBF61C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m in Sources */,
@@ -1700,10 +1712,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = CC983AFC1975CF64E0417469 /* Pods.debug.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
@@ -1768,15 +1777,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 213A9FBAEEC5FF5FD3BE2190 /* Pods.release.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (

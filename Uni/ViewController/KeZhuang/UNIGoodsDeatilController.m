@@ -58,8 +58,9 @@
 }
 #pragma mark 开始请求
 -(void)startRequestReward{
+    _type = @"2";
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo] params:@{@"projcetId":_projectId,@"type":_type}];
+    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo2] params:@{@"projcetId":_projectId,@"type":_type,@"isHeadShow":@(1)}];
     requet.kzgoodsInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
@@ -275,7 +276,7 @@
 #pragma mark 加载webView
 -(void)setupWebView{
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_myTable.frame), _myTable.frame.size.width, _myScroller.frame.size.height)];
-    NSString* urlString = [NSString stringWithFormat:@"%@/shopadmin/Public/Home/Detail/goods?id=%d",API_URL,model.projectId];
+    NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,model.url];
     NSLog(@"urlString %@",urlString);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [web loadRequest:request];

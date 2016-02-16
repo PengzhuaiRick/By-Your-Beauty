@@ -206,7 +206,7 @@
 #pragma mark 调用其他地图APP
 -(void)callOtherMapApp{
     NSMutableArray* mapsArray = [NSMutableArray arrayWithObjects:@"苹果地图", nil];
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://map/"]])
+    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]])
         [mapsArray addObject:@"百度地图"];
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]])
         [mapsArray addObject:@"高德地图"];

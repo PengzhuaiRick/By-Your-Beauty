@@ -28,11 +28,11 @@
     img.delegate = self;
     [self addSubview:img];
     self.mainImage = img;
-    for (int i = 0; i<1; i++) {
-        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgWH, 0, imgWH, imgWH)];
-        view.image= [UIImage imageNamed:@"KZ_img_bg"];
-        [img addSubview:view];
-    }
+//    for (int i = 0; i<1; i++) {
+//        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgWH, 0, imgWH, imgWH)];
+//        view.image= [UIImage imageNamed:@"KZ_img_bg"];
+//        [img addSubview:view];
+//    }
     
     
     float labX = KMainScreenWidth*30/414;
@@ -41,7 +41,7 @@
     float lab1Y = CGRectGetMaxY(img.frame);
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.text = @"ALBION清新莹润滋养护理";
+//    lab1.text = @"ALBION清新莹润滋养护理";
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
     lab1.lineBreakMode = 0;
     lab1.numberOfLines = 0;
@@ -51,7 +51,7 @@
     float lab2Y =CGRectGetMaxY(lab1.frame);
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
-    lab2.text = @"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤.";
+//    lab2.text = @"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤.";
     lab2.lineBreakMode = 0;
     lab2.numberOfLines = 0;
     lab2.textColor = kMainGrayBackColor;
@@ -94,21 +94,72 @@
     UNIGoodsModel* info = model;
     self.label1.text =info.projectName;
     self.label2.text = info.effect;
-}
+    NSArray* imgArr = [info.imgUrl componentsSeparatedByString:@","];
+    float imgWH = _mainImage.frame.size.width;
+    
+    int k = 1;
+    if (imgArr.count>0)
+        k = (int)imgArr.count;
+    _mainImage.contentSize = CGSizeMake(k*imgWH, imgWH);
+    
+    self.label3.text = [NSString stringWithFormat:@"1/%d",k];
+    
+    if (imgArr.count>0) {
+                for (int i = 0;i<k;i++) {
+            NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgArr[i]];
+            UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgWH, 0, imgWH, imgWH)];
+                   // view.image= [UIImage imageNamed:@"KZ_img_bg"];
+                    view.contentMode = UIViewContentModeScaleAspectFit;
+                    [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
+//            [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+//                if (image.size.width>KMainScreenWidth) {
+//                    float imgH = image.size.height * self.mainImage.frame.size.width /image.size.width;
+//                   view.image=[self imageWithImage:image
+//                                      scaledToSize:CGSizeMake(self.mainImage.frame.size.width, imgH)];
+//                }
+//            }];
+           [_mainImage addSubview:view];
+        }
+    }else{
+        NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.imgUrl];
+        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imgWH, imgWH)];
+         view.contentMode = UIViewContentModeScaleAspectFit;
+        [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
+        [_mainImage addSubview:view];
+    }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    float xx = scrollView.contentOffset.x;
-    if (xx == 0)
-        self.label3.text = @"1/3";
-    if (xx == scrollView.frame.size.width)
-        self.label3.text = @"2/3";
-    if (xx == scrollView.frame.size.width*2)
-        self.label3.text = @"3/3";
+   
     
 }
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+    float xx = scrollView.contentOffset.x;
+    int k = scrollView.contentSize.width / scrollView.frame.size.width;
+    int l = xx/scrollView.frame.size.width;
+    self.label3.text = [NSString stringWithFormat:@"%d/%d",++l,k];
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
+}
+//对图片尺寸进行压缩--
+-(UIImage*)imageWithImage:(UIImage*)image scaledToSize:(CGSize)newSize
+{
+    // Create a graphics image context
+    UIGraphicsBeginImageContext(newSize);
+    
+    // Tell the old image to draw in this new context, with the desired
+    // new size
+    [image drawInRect:CGRectMake(0,0,newSize.width,newSize.height)];
+    
+    // Get the new image from the context
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    // End the context
+    UIGraphicsEndImageContext();
+    
+    // Return the new image.
+    return newImage;
 }
 
 @end

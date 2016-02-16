@@ -55,7 +55,7 @@
     [self addSubview:lab2];
     self.subLab = lab2;
     
-    float lab3W = KMainScreenWidth* 60/320;
+    float lab3W = KMainScreenWidth* 40/320;
     float lab3X = size.width - imgXY - lab3W;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab2Y, lab3W, lab1H)];
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];

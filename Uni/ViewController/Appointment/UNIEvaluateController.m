@@ -262,8 +262,8 @@
                                      self.mainView.frame.size.height);
 }
 -(void)keyboardWillHide:(NSNotification*)notification{
-    self.mainView.frame = CGRectMake(self.mainView.frame.origin.x,
-                                     self.mainView.frame.origin.y+100,
+    self.mainView.frame = CGRectMake(0,
+                                     64+15,
                                      self.mainView.frame.size.width,
                                      self.mainView.frame.size.height);
 }

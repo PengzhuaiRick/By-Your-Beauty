@@ -28,6 +28,9 @@
     int appointTotal;
     CGRect topRe;
     UILabel* progessLab; //9/10
+    UILabel* goods1;
+    UILabel* goods2;
+   // UILabel* goods3;
     UILabel* goodsLab; //约满奖励商品名称
     UILabel* numLab; //再预约次数
     UNIMainProView* progessView;//进度条
@@ -37,6 +40,10 @@
     NSArray* sellGoods;
     UILabel* sell1;
     UILabel* sell2;
+    UILabel* sell3;
+    UILabel* sell4;
+    UIButton* sellBtn;
+    UIButton* alphBtn;
 
 }
 @property(nonatomic,strong) NSArray* midData;
@@ -163,7 +170,7 @@
     proView.backgroundColor =[UIColor clearColor];
     proView.shapeColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.1];
     proView.progessColor = [UIColor colorWithHexString:kMainThemeColor];
-    [proView setupProgreaa:9 and:10];
+    [proView setupProgreaa:0 and:0];
     [imageView addSubview:proView];
     progessView = proView;
     
@@ -182,7 +189,7 @@
         UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
         UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
         good.projectId=@"1";
-        good.type = @"1";
+        good.type = @"2";
         [self.navigationController pushViewController:good animated:YES];
     }];
     [shuangfu addGestureRecognizer:tap];
@@ -192,7 +199,7 @@
     float lab1H = 25;
     float lab1Y = CGRectGetMaxY(proView.frame)-lab1H/2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(proX, lab1Y, lab1W, lab1H)];
-    lab1.text = @"9/10";
+//    lab1.text = @"9/10";
     lab1.textColor = [UIColor whiteColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     lab1.textAlignment = NSTextAlignmentCenter;
@@ -205,17 +212,18 @@
     float lab2Y =KMainScreenWidth*50/320;
     float lab2X = imgW/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y, lab2W, lab2H)];
-    lab2.text = @"再预约次数";
+//    lab2.text = @"再预约次数";
     lab2.textColor = [UIColor whiteColor];
     //lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
     lab2.font = kMainFont(KMainScreenWidth*12/320);
     lab2.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab2];
+    goods1 = lab2;
     
     float lab3H =45;
     float lab3Y =CGRectGetMaxY(lab2.frame);
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab3Y, lab2W, lab3H)];
-    lab3.text = @"1";
+//    lab3.text = @"1";
     lab3.textColor = [UIColor whiteColor];
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*35/320];
     lab3.textAlignment = NSTextAlignmentCenter;
@@ -225,16 +233,17 @@
     float lab4H = 25;
     float lab4Y =CGRectGetMaxY(lab3.frame);
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab4Y, lab2W, lab4H)];
-    lab4.text = @"可获得一支";
+//    lab4.text = @"可获得一支";
     lab4.textColor = [UIColor whiteColor];
     lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     lab4.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab4];
+    goods2 = lab4;
     
     float lab5H = 25;
     float lab5Y =CGRectGetMaxY(lab4.frame);
     UILabel* lab5 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab5Y, lab2W, lab5H)];
-    lab5.text = @"300ml ALBION 爽肤精萃液";
+//    lab5.text = @"300ml ALBION 爽肤精萃液";
     lab5.textColor = [UIColor whiteColor];
     lab5.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     lab5.textAlignment = NSTextAlignmentCenter;
@@ -273,6 +282,7 @@
     btn.layer.borderColor = [UIColor whiteColor].CGColor;
     btn.layer.borderWidth = 1;
     [imageView addSubview:btn];
+    sellBtn = btn;
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(id x) {
         [self navigationControllerRightBarAction:nil];
@@ -284,7 +294,7 @@
     float lab6X =CGRectGetMaxX(img.frame)+8;
     float lab6W = imgW - lab6X - btnWH - proX*3;
     UILabel* lab6 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H)];
-    lab6.text = @"ALBION清新莹润滋养护理（五次）";
+//    lab6.text = @"ALBION清新莹润滋养护理（五次）";
     lab6.textColor = [UIColor whiteColor];
     lab6.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [imageView addSubview:lab6];
@@ -298,18 +308,27 @@
     lab7.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [lab7 sizeToFit];
     [imageView addSubview:lab7];
+    sell3 = lab7;
     
     float lab8Y =CGRectGetMaxY(lab6.frame);
     float lab8W = KMainScreenWidth*100/320;
     float lab8X = CGRectGetMaxX(lab7.frame);
     UILabel* lab8 = [[UILabel alloc]initWithFrame:CGRectMake(lab8X, lab8Y, lab8W, lab6H)];
-    lab8.text = @"￥899";
+//    lab8.text = @"￥899";
     lab8.textColor = [UIColor whiteColor];
     lab8.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
     [imageView addSubview:lab8];
     sell2 = lab8;
     
     lab7.center = CGPointMake(lab7.center.x, lab8.center.y);
+    
+    UILabel* lab9 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H*2)];
+    lab9.text =@"更多优惠持续更新,敬请关注!";
+    lab9.hidden=YES;
+    lab9.textColor = [UIColor whiteColor];
+    lab9.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    [imageView addSubview:lab9];
+    sell4 = lab9;
     
     UIButton* alpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     alpBtn.frame = CGRectMake(0, btnY, btnX, btnWH);
@@ -321,6 +340,7 @@
         web.delegate = self;
         [self.navigationController pushViewController:web animated:YES];
     }];
+    alphBtn = alpBtn;
 }
 
 #pragma mark
@@ -367,9 +387,14 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if (indexPath.row == 0) {
+        if (_midData.count<1)
+            return;
+        
         self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
         [self.navigationController pushViewController:self.midController animated:YES];
     }else if (indexPath.row  == 1){
+        if (_bottomData.count<1)
+            return;
         self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
         [self.navigationController pushViewController:self.buttomController animated:YES];
     }
@@ -438,8 +463,19 @@
                     if (nextRewardNum>0) {
                         self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
                         [self->progessView setupProgreaa:num and:nextRewardNum];
-                        self->goodsLab.text = projectName;
-                        self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
+                        if (nextRewardNum>num) {
+                            self->goodsLab.text = projectName;
+                            self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
+                            self->goods1.hidden=NO;
+                            self->goods1.text = @"再预约次数";
+                            self->goods2.text = @"可获得一支";
+                        }if (nextRewardNum == num) {
+                            self->goodsLab.text = projectName;
+                            self->numLab.text = @"恭喜您";
+                            self->goods1.hidden=YES;
+                            self->goods2.text = @"获得一支";
+                        }
+                        
                     }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
@@ -526,15 +562,28 @@
 #pragma mark 获取首页销售商品信息
 -(void)getSellInfo{
     MainViewRequest* request1 = [[MainViewRequest alloc]init];
-    [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo]
-                       params:nil];
+    [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo2]
+                       params:@{@"projcetId":@"",@"type":@"2",@"isHeadShow":@(1)}];
     request1.resellInfoBlock =^(NSArray* arr,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (!err) {
-                self->sellGoods = arr;
-                UNIGoodsModel* info = arr[0];
-                self->sell1.text = info.projectName;
-                self->sell2.text = [NSString stringWithFormat:@"￥ %.f",info.shopPrice];
+                if (arr.count>0) {
+                    self->sellGoods = arr;
+                    UNIGoodsModel* info = arr[0];
+                    self->sell1.text = info.projectName;
+                    self->sell2.text = [NSString stringWithFormat:@"￥ %.f",info.shopPrice];
+                    self->sell3.hidden=NO;
+                    self->sell4.hidden=YES;
+                    self->sellBtn.hidden=NO;
+                    self->alphBtn.enabled=YES;
+                }else{
+                    self->sell1.text = @"";
+                    self->sell2.text = @"";
+                    self->sell3.hidden=YES;
+                    self->sell4.hidden=NO;
+                    self->sellBtn.hidden=YES;
+                    self->alphBtn.enabled=NO;
+                }
             }
             else
                 [YIToast showText:NETWORKINGPEOBLEM];

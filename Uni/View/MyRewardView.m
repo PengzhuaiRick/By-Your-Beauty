@@ -60,7 +60,7 @@
         cell = [[UNIRewardDetailCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,KMainScreenWidth*80/320) reuseIdentifier:cellName andTpye:type];;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    [cell setupCellContent:self.dataArray[indexPath.row] andType:type];
+    [cell setupCellContent:self.dataArray[indexPath.row] andType:type andTotal:total];
 
     return cell;
 }

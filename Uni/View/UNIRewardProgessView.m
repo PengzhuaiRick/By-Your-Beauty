@@ -50,16 +50,23 @@
     NSString* str1 =[NSString stringWithFormat:@"%d",_num];
     CGSize titleSize = [str1 boundingRectWithSize:CGSizeMake(rect.size.width, rect.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil].size;
     float x =lx - titleSize.width ;
+    if (_num>9 && _num<99)
+        x -=4;
+    if (_num>99)
+        x -=8;
+    
     float y =(rect.size.height - titleSize.height)/2;
     [str1 drawInRect:CGRectMake(x, y, titleSize.width, titleSize.height) withAttributes:@{NSFontAttributeName:font ,NSForegroundColorAttributeName:[UIColor colorWithHexString:kMainThemeColor]}];
-    
-    
     
     
     UIFont* fontt =[UIFont systemFontOfSize: titleSize1.height/2];
     NSString* str2 =[NSString stringWithFormat:@"%d",_total];
     CGSize titleSize2 = [str2 boundingRectWithSize:CGSizeMake(rect.size.width, rect.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:fontt} context:nil].size;
     float tx =lx + titleSize1.width+2;
+    if (_total>9 && _total<99)
+        tx-= 4;
+    if (_total>99)
+        tx-= 8;
     float ty =(rect.size.height - titleSize2.height)/2+4;
     [str2 drawInRect:CGRectMake(tx, ty, titleSize2.width, titleSize2.height) withAttributes:@{NSFontAttributeName:fontt ,NSForegroundColorAttributeName:[UIColor blackColor]}];
 }
