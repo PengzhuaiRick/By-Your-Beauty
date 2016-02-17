@@ -36,7 +36,7 @@
     lab3.center = CGPointMake(imgWH, 0);
     lab3.textColor = [UIColor whiteColor];
     lab3.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab3.text = @"3";
+ //   lab3.text = @"3";
     lab3.textAlignment = NSTextAlignmentCenter;
     lab3.layer.masksToBounds = YES;
     lab3.layer.cornerRadius = lab3WH/2;

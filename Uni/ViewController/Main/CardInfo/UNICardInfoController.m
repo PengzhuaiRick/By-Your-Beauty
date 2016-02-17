@@ -126,11 +126,10 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
+            if (arr.count<20)
+                [self->myTableView.footer endRefreshingWithNoMoreData];
+           
             if (arr && arr.count>0) {
-                if (arr.count<20)
-                    self->myTableView.footer.hidden=YES;
-                else
-                    self->myTableView.footer.hidden=NO;
                 if (self->pageNum == 0) {
                     [self.myData removeAllObjects];
                 }

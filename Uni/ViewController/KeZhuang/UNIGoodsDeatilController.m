@@ -58,7 +58,7 @@
 }
 #pragma mark 开始请求
 -(void)startRequestReward{
-    _type = @"2";
+  //  _type = @"2";
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo2] params:@{@"projcetId":_projectId,@"type":_type,@"isHeadShow":@(1)}];
     requet.kzgoodsInfoBlock =^(NSArray* array,NSString* tips,NSError* er){

@@ -17,7 +17,7 @@
         self.status = st;
         self.allArray = [NSMutableArray array];
          [self startRequest];
-        //[self setupTableView];
+        [self setupTableView];
     }
     return self;
 }
@@ -34,9 +34,9 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
+            if (array.count<20)
+                [self.myTable.footer endRefreshingWithNoMoreData] ;
             if (array && array.count>0) {
-                if (array.count<20)
-                    self.myTable.footer.hidden = YES ;
                 if (self.page == 0)
                     [self.allArray removeAllObjects];
                 

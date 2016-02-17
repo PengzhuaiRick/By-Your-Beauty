@@ -156,7 +156,7 @@
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
                            params:@{@"page":@(self->pageNum),@"size":@(20)}];
-        request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
+        request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 
                 [self.myTableview.header endRefreshing];

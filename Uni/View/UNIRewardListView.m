@@ -17,42 +17,45 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.status = st;
+         //[self setupTableView];
          [self startRequest];
-       // [self setupTableView];
+       
     }
     return self;
 }
 -(void)startRequest{
+    [LLARingSpinnerView RingSpinnerViewStart];
     self.allArray = [NSMutableArray array];
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYRewardList]
                       params:@{@"status":@(self.status),@"page":@(self.page),@"size":@(20)}];
     request.rewardListBlock=^(NSArray* array ,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
+            [LLARingSpinnerView RingSpinnerViewStop];
             [self.myTable.header endRefreshing];
             [self.myTable.footer endRefreshing];
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (array && array.count>0) {
-                if (array.count<20)
-                    self.myTable.footer.hidden = YES ;
-                
+//            if (array.count<20)
+//                [self.myTable.footer endRefreshingWithNoMoreData] ;
+            if (array && array.count>0)
                 [self.allArray addObjectsFromArray:array];
-                [self setupTableView];
-                
-               
-            }
+            
+            [self setupTableView:array];
         });
         
     };
 }
 
 
--(void)setupTableView{
+-(void)setupTableView:(NSArray*)ARR{
     if (self.myTable){
         [self.myTable reloadData];
+        if (ARR.count<20) {
+            [self.myTable.footer endRefreshingWithNoMoreData];
+        }
         return;}
     
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
@@ -61,6 +64,7 @@
     tabview.dataSource = self;
     tabview.showsVerticalScrollIndicator=NO;
     [self addSubview:tabview];
+    tabview.tableFooterView = [UIView new];
     self.myTable =tabview;
     
     tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -73,6 +77,10 @@
         self.page++;
         [self startRequest];
     }];
+    
+    if (ARR.count<20) {
+        [tabview.footer endRefreshingWithNoMoreData];
+    }
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

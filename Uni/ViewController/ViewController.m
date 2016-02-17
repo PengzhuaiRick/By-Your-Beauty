@@ -40,6 +40,8 @@
 -(void)setupNotification{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callPhoneToShop) name:@"callPhoneToShop" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callOtherMapApp) name:@"callOtherMapApp" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(flashTheCellNum:) name:@"flashTheCellNum" object:nil];
+    
 }
 
 -(void)setupSelf{
@@ -304,9 +306,24 @@
     [delegate judgeFirstTime];
 }
 
+#pragma mark 刷新功能列表上红色小圆圈的数字
+-(void)flashTheCellNum:(NSNotification*)notificate{
+    NSDictionary* dic = notificate.userInfo;
+    int count = [[dic objectForKey:@"count"] intValue];
+    
+    NSIndexPath* index = [NSIndexPath indexPathForRow:3 inSection:0];
+    ViewControllerCell* cell = [_myTableView cellForRowAtIndexPath:index];
+    if (count>0){
+        cell.numLab.hidden=NO;
+        cell.numLab.text = [NSString stringWithFormat:@"%d",count];
+    }else
+        cell.numLab.hidden=YES;
+}
+
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callOtherMapApp" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callPhoneToShop" object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"flashTheCellNum" object:nil];
 }
 
 @end

@@ -37,22 +37,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
    
-    AFNetworkReachabilityManager * mangaer = [AFNetworkReachabilityManager sharedManager];
-    [mangaer startMonitoring];
-    [mangaer setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-        NSLog(@"AFNetworkReachabilityStatus  %ld",(long)status);
-        if (status<0) {
-            [YIToast showText:NETWORKINGPEOBLEM];
-            return ;
-        }
-    }];
-   // [self rqCurrentVersion];
-    
+//    AFNetworkReachabilityManager * mangaer = [AFNetworkReachabilityManager sharedManager];
+//    [mangaer startMonitoring];
+//    [mangaer setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+//        NSLog(@"AFNetworkReachabilityStatus  %ld",(long)status);
+//        if (status<0) {
+//            [YIToast showText:NETWORKINGPEOBLEM];
+//            return ;
+//        }
+//    }];
+   [self rqCurrentVersion];
     //[self rqWelcomeImage];
     [self judgeFirstTime];
-    //[self setupJPush:launchOptions];
+    [self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
-    [self replaceWelcomeImage:@""];
+   // [self replaceWelcomeImage:@""];
     [self setupNavigationStyle];
     //[NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     [self setupWeChat];
@@ -157,7 +156,8 @@
                            int type,
                            NSError* er){
         if (er==nil) {
-            NSString *curVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];      //获取项目版本号
+           // url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1077238256";
+            NSString *curVersion = CURRENTVERSION;      //获取项目版本号
             float curVersinNum = curVersion.floatValue;
             float versionNum = version.floatValue;
             
@@ -209,12 +209,10 @@
                            NSError* er){
         if (er==nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
-              //  [self replaceWelcomeImage:url];
+                [self replaceWelcomeImage:url];
             });
             
-        }else{
-            
-        }
+        }else[YIToast showText:NETWORKINGPEOBLEM];
     };
 
 }
@@ -315,12 +313,18 @@
        // [self backgroundHandler];
     }];
     
-       [[YILocationManager sharedInstance] startUpdateUserLoaction];
-       // [self checkLocationNotification];
+       //[[YILocationManager sharedInstance] startUpdateUserLoaction];
+        [self checkLocationNotification];
        // NSLog(@"time remain:%f", application.backgroundTimeRemaining);
-
+}
+#pragma mark 结束后台服务
+-(void)closeTheBackGroundTask{
+    UIApplication *application = [UIApplication sharedApplication];
+    [application endBackgroundTask: self->background_task];
+    self->background_task = UIBackgroundTaskInvalid;
 }
 
+#pragma mark 检查所有本地预约提醒通知
 -(void)checkLocationNotification{
     
     NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
@@ -336,7 +340,7 @@
             [[UIApplication sharedApplication] cancelLocalNotification:noti];
             
             //到预约服务点前十五分钟 开始定位并且检查用户是否到店
-        }else if (fen>=-15  &&  fen<30 ){
+        }else if (fen>=-15 && fen<30 ){
             UNIShopManage* manage = [UNIShopManage getShopData];
             double shopX = manage.x.doubleValue;
             double shopY = manage.y.doubleValue;
@@ -344,7 +348,7 @@
             YILocationManager* manager = [YILocationManager sharedInstance];
             
             manager.getUserLocBlock = ^(double x, double y){
-                
+                [[YILocationManager sharedInstance] stopUpdatingLocation];
                 CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:x longitude:y];
                 double distance  = [curLocation distanceFromLocation:otherLocation];
                 if (distance<300) {
@@ -359,11 +363,8 @@
                                     [[YILocationManager sharedInstance] stopUpdatingLocation];
                                     [[UIApplication sharedApplication] cancelLocalNotification:noti];
                                     
-                                    //结束后台服务
-                                    UIApplication *application = [UIApplication sharedApplication];
-                                    [application endBackgroundTask: self->background_task];
-                                    self->background_task = UIBackgroundTaskInvalid;
-
+//                                    //结束后台服务
+//                                    [self closeTheBackGroundTask];
                                 }
                             });
                         };
@@ -374,25 +375,20 @@
                         [model postWithSerCode:@[API_PARAM_UNI,API_URL_ArriveShop]
                                         params:@{@"order":order,@"arriverTime":arriverTime}];
                     });
-                    
                 }
-                else [[YILocationManager sharedInstance] stopUpdatingLocation];
+                
             };
-            
             //开始定位
             [manager startUpdateUserLoaction];
-            
         }
     }
-}
-
--(void)checkUserToShip{
-    
+    //结束后台服务
+    [self closeTheBackGroundTask];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    [application endBackgroundTask: background_task];
-    background_task = UIBackgroundTaskInvalid;
+    //结束后台服务
+    [self closeTheBackGroundTask];
 
     [self checkLocationNotification];
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
@@ -460,6 +456,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     
 }
 
+#pragma mark 本地通知被点击事件
 -(void)showLocationNotificationDetail:(UILocalNotification *)notification{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
     UNILocateNotifiDetail* vc = [st instantiateViewControllerWithIdentifier:@"UNILocateNotifiDetail"];

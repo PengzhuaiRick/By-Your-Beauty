@@ -45,7 +45,7 @@ typedef void(^RQShopInfoBlock)( UNIShopManage* manager,NSString*tips,NSError* er
  *  @param num           已约次数
  *  @param tips          反馈信息
  */
-typedef void(^RQRewardBlock)(int nextRewardNum,int num,NSString*projectName ,NSString*tips,NSError* er);
+typedef void(^RQRewardBlock)(int nextRewardNum,int num,int type,int goodsId,NSString*projectName ,NSString*tips,NSError* er);
 
 /**
  *  请求我已预约项目
@@ -60,10 +60,11 @@ typedef void(^RQAppointmentBlock)( int count,NSArray* array,NSString* tips,NSErr
  *  请求我的项目
  *
  *  @param array UNIMyProjectModel 的对象数组
+ *  @param count 活动礼包上的数字
  *  @param tips  反馈信息
  *  @param er    错误信息
  */
-typedef void(^RQMyProjectBlock)(NSArray* array,NSString* tips,NSError* er);
+typedef void(^RQMyProjectBlock)(NSArray* array,int count,NSString* tips,NSError* er);
 
 /**
  *  请求首页背景图片 和 商品图片

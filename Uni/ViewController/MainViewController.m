@@ -26,6 +26,9 @@
     UITableView* myTable;
     float cellHight;
     int appointTotal;
+    int type1;
+    int goodId1;
+    
     CGRect topRe;
     UILabel* progessLab; //9/10
     UILabel* goods1;
@@ -109,15 +112,6 @@
          [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
 }
-#pragma mark 跳转客妆界面
--(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
-    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-   UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
-    good.projectId=@"1";
-    good.type = @"1";
-    [self.navigationController pushViewController:good animated:YES];
-    
-}
 
 #pragma mark 设置Scroller
 -(void)setupScroller{
@@ -186,11 +180,11 @@
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
     [[tap rac_gestureSignal] subscribeNext:^(id x) {
-        UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-        UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
-        good.projectId=@"1";
-        good.type = @"2";
-        [self.navigationController pushViewController:good animated:YES];
+        if (self->goodId1<1)
+            return ;
+        NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
+        NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
+        [self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
     }];
     [shuangfu addGestureRecognizer:tap];
    
@@ -285,7 +279,11 @@
     sellBtn = btn;
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(id x) {
-        [self navigationControllerRightBarAction:nil];
+        if (self->sellGoods.count<1)
+            return ;
+        UNIGoodsModel* info = self->sellGoods.lastObject;
+        NSString* str = [NSString stringWithFormat:@"%d",info.projectId];
+        [self UNIGoodsWebDelegateMethodAndprojectId:str Andtype:@"2"];
     }];
     
     
@@ -457,10 +455,12 @@
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MRInfo]
                            params:nil];
-        request1.rerewardBlock=^(int nextRewardNum,int num,NSString* projectName,NSString*tips,NSError* er){
+        request1.rerewardBlock=^(int nextRewardNum,int num,int type,int goodid,NSString* projectName,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (nextRewardNum>0) {
+                        self->type1 = type;
+                        self->goodId1 = goodid;
                         self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
                         [self->progessView setupProgreaa:num and:nextRewardNum];
                         if (nextRewardNum>num) {
@@ -514,17 +514,16 @@
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
                            params:@{@"page":@(0),@"size":@(2)}];
-        request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
+        request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"flashTheCellNum" object:nil userInfo:@{@"count":@(count)}];
                     self.bottomData = nil;
                     if (myProjectArr.count>0){
                         self.bottomData=myProjectArr;
                         [self->myTable reloadData];
                        // [self.buttomView startReloadData:myProjectArr andType:2];
                     }
-//                    else
-//                        [YIToast showText:tips];
                 }
                 else
                     [YIToast showText:NETWORKINGPEOBLEM];

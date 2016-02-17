@@ -75,16 +75,12 @@
         self->pageSize =20;
         [self startRequestInfoPage];
     }];
-    if (self.myData.count>=20) {
+ 
         self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             ++self->pageNum;
             self->pageSize =20;
             [self startRequestInfoPage];
         }];
-    }else
-        self.tableView.footer.hidden = YES;
-    
-    
     
 }
 
@@ -181,12 +177,13 @@
                 [self.tableView.header endRefreshing];
                 [self.tableView.footer endRefreshing];
                 if (!err) {
+                    
+                    if (myAppointArr.count<20)
+                       [ self.tableView.footer endRefreshingWithNoMoreData];
+                    
                     if (myAppointArr.count>0){
                         if (self->pageNum == 0)//下拉刷新
                             [self.myData removeAllObjects];
-                        
-                        if (myAppointArr.count<20)
-                            self.tableView.footer.hidden=YES;
                         
                         [self.myData addObjectsFromArray:myAppointArr];
                         [self.tableView reloadData];

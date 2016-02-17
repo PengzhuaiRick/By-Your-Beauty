@@ -71,14 +71,12 @@
         self->pageSize =(int)self.myData.count;
         [self startRequestInfo];
     }];
-     if (_myData.count==20) {
     self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         ++self->pageNum;
         self->pageSize =(int)self.myData.count+20;
         [self startRequestInfo];
     }];
-         self.tableView.footer.hidden = YES;
-     }
+    
     [self.tableView.header beginRefreshing];
 }
 
@@ -178,12 +176,17 @@
                                     @"token":@"abcdxxa",
                                     @"shopId":@(1),
                                     @"page":@(0),@"size":@(20)}];
-        request1.remyProjectBlock =^(NSArray* myProjectArr,NSString* tips,NSError* err){
+        request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.tableView.footer.hidden = YES;
                 [self.tableView.header endRefreshing];
                 [self.tableView.footer endRefreshing];
                 if (err==nil) {
+                    
+                    if (myProjectArr.count<20)
+                        [self.tableView.footer endRefreshingWithNoMoreData];
+                
+                    
                     if (myProjectArr.count>0){
                         if (self->pageNum == 0)//下拉刷新
                             [self.myData removeAllObjects];

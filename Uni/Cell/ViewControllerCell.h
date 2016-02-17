@@ -16,4 +16,5 @@
 @property (strong, nonatomic)  UILabel *numLab;
 
 -(id)initWithCellH:(float)cellH reuseIdentifier:(NSString *)reuseIdentifier;
+
 @end

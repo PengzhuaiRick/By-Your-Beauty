@@ -12,6 +12,7 @@
 @interface UNIRewardListController ()<UIScrollViewDelegate,UNIRewardListViewDelegate>{
     UIView* topView;
     float scrollerX;
+    float startArrowX;
     UIImageView* arrowImg;
 }
 @property(nonatomic,strong)UIScrollView* myScroller;
@@ -79,6 +80,7 @@
     float arrowH = KMainScreenWidth*4/320;
     float arrowX = (btnW-arrowW)/2;
     float arrowY = top.frame.size.height - arrowH;
+    startArrowX = arrowX;
     UIImageView* arrow = [[UIImageView alloc]initWithFrame:CGRectMake(arrowX, arrowY, arrowW, arrowH)];
     arrow.image = [UIImage imageNamed:@"appoint_img_arrows"];
     [top addSubview:arrow];
@@ -87,12 +89,6 @@
 }
 #pragma mark 按钮改变字体颜色
 -(void)btnChangeTextColor:(UIButton*)btn{
-
-    CGPoint pot = CGPointMake(btn.center.x, self->arrowImg.center.y);
-    [UIView animateWithDuration:0.2 animations:^{
-        self->arrowImg.center = pot;
-    }];
-    
     btn.selected=YES;
     for (int i = 1; i<4; i++) {
         UIButton* bt = (UIButton*)[topView viewWithTag:i];
@@ -168,8 +164,12 @@
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
     float xx = scrollView.contentOffset.x;
-    if (xx<0 ||xx>2*KMainScreenWidth)
-        return;
+    if (xx>-1 && xx<2*KMainScreenWidth) {
+        float offsetX = xx* (scrollView.frame.size.width/3) /KMainScreenWidth;
+        CGRect arrowR =self->arrowImg.frame;
+        arrowR.origin.x = offsetX+self->startArrowX;
+        self->arrowImg.frame = arrowR;
+    }
 
     if (xx==0) {
         int tag = 1;

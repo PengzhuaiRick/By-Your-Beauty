@@ -36,6 +36,8 @@
         }
         //获取我的未预约项目
         if ([param2 isEqualToString:API_URL_MyProjectInfo]) {
+            
+            int count = [[self safeObject:dic ForKey:@"count"] intValue];
             if (code==0) {
                 NSArray* result = [self safeObject:dic ForKey:@"result"];
                 NSMutableArray* array = [NSMutableArray arrayWithCapacity:result.count];
@@ -43,9 +45,9 @@
                     UNIMyProjectModel * model = [[UNIMyProjectModel alloc]initWithDic:dia];
                     [array addObject:model];
                 }
-                _remyProjectBlock(array,tips,nil);
+                _remyProjectBlock(array,count,tips,nil);
             }else
-            _remyProjectBlock(nil,tips,nil);
+            _remyProjectBlock(nil,-1,tips,nil);
         }
         //获取商铺信息
         if ([param2 isEqualToString:API_URL_ShopInfo] ) {
@@ -68,10 +70,12 @@
            if (code == 0) {
                int nextRewardNum = [[self safeObject:dic ForKey:@"nextRewardNum"] intValue];
                int num = [[self safeObject:dic ForKey:@"num"] intValue];
+               int type = [[self safeObject:dic ForKey:@"type"] intValue];
+               int goodsId = [[self safeObject:dic ForKey:@"goodsId"] intValue];
                NSString* projectName = [self safeObject:dic ForKey:@"projectName"];
-               _rerewardBlock(nextRewardNum,num,projectName,tips,nil);
+               _rerewardBlock(nextRewardNum,num,type,goodsId,projectName,tips,nil);
            }else
-               _rerewardBlock(-1,-1,nil,tips,nil);
+               _rerewardBlock(-1,-1,-1,-1,nil,tips,nil);
         }
         if ([param2 isEqualToString:API_URL_GetImgByshopIdCode] ) {
             if (code == 0) {
@@ -123,11 +127,11 @@
         
         //获取奖励信息
         if ([param2 isEqualToString:API_URL_MRInfo]) 
-             _rerewardBlock(-1,-1,nil,nil,err);
+             _rerewardBlock(-1,-1,-1,-1,nil,nil,err);
         
         //获取我的未预约项目
         if ([param2 isEqualToString:API_URL_MyProjectInfo])
-            _remyProjectBlock(nil,nil,err);
+            _remyProjectBlock(nil,-1,nil,err);
         
         if ([param2 isEqualToString:API_URL_GetImgByshopIdCode] )
             _reMainBgBlock(nil,nil,err);
