@@ -60,7 +60,12 @@
 }
 -(void)setupCellContent:(id)model{
     UNIOrderListModel*info = model;
-    NSString* url = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
+    NSString* imgUrl = info.logoUrl;
+    NSArray* arr = [info.logoUrl componentsSeparatedByString:@","];
+    if (arr.count>0)
+        imgUrl = arr[0];
+    
+    NSString* url = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
     [self.mainImg sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:nil];
     self.lab1.text =info.projectName;
     self.lab2.text = [NSString stringWithFormat:@"￥%@",info.price];

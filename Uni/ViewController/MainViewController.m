@@ -471,7 +471,7 @@
                             self->goods2.text = @"可获得一支";
                         }if (nextRewardNum == num) {
                             self->goodsLab.text = projectName;
-                            self->numLab.text = @"恭喜您";
+                            self->numLab.text = @"恭喜您!";
                             self->goods1.hidden=YES;
                             self->goods2.text = @"获得一支";
                         }

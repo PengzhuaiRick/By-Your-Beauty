@@ -86,7 +86,12 @@
 
 -(void)setupCellContentWith:(id)model{
     UNIOrderListModel* info = model;
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
+    NSString* imgUrl = info.logoUrl;
+    NSArray* arr = [info.logoUrl componentsSeparatedByString:@","];
+    if (arr.count>0)
+        imgUrl = arr[0];
+    
+    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
     [self.mainImg sd_setImageWithURL:[NSURL URLWithString:str]
                     placeholderImage:[UIImage imageNamed:@"main_img_shuang"]];
 

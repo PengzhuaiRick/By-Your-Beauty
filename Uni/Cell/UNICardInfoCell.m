@@ -67,7 +67,11 @@
 
 -(void)setupCellContentWith:(id)model{
     UNIMyAppointInfoModel* info = model;
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
+    NSString* imgUrl = info.logoUrl;
+    NSArray* arr = [info.logoUrl componentsSeparatedByString:@","];
+    if (arr.count>0)
+        imgUrl = arr[0];
+    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
     [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"KZ_img_userImg"]];
     self.mainLab.text = info.projectName;
     NSString* text2 = [info.date substringWithRange:NSMakeRange(5, 11)];

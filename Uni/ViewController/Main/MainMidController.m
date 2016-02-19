@@ -56,6 +56,7 @@
 -(void)setupSelf{
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
     view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
+    self.view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     self.tableView.tableHeaderView =view;
     
     self.tableView.tableFooterView = [UIView new];

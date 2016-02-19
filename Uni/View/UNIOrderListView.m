@@ -17,7 +17,7 @@
         self.status = st;
         self.allArray = [NSMutableArray array];
          [self startRequest];
-        [self setupTableView];
+        //[self setupTableView];
     }
     return self;
 }
@@ -36,16 +36,11 @@
             }
             if (array.count<20)
                 [self.myTable.footer endRefreshingWithNoMoreData] ;
-            if (array && array.count>0) {
-                if (self.page == 0)
-                    [self.allArray removeAllObjects];
-                
-                
+            if (self.page == 0)
+                [self.allArray removeAllObjects];
+            
                 [self.allArray addObjectsFromArray:array];
                 [self setupTableView];
-                
-                
-            }
         });
         
     };
@@ -55,6 +50,16 @@
 
 -(void)setupTableView{
     if (self.myTable){
+        if (self.page == 0) {
+            UILabel* lab =(UILabel*)self.myTable.tableFooterView;
+            if (self.allArray.count<1){
+               lab.text= @"已经全部加载完毕";
+                lab.frame = CGRectMake(0, 0, self.frame.size.width, 40);
+            }else{
+                lab.text= nil;
+                lab.frame = CGRectNull;
+            }
+        }
         [self.myTable reloadData];
         return;}
     
@@ -65,7 +70,19 @@
     tabview.showsVerticalScrollIndicator=NO;
     [self addSubview:tabview];
     self.myTable =tabview;
-    tabview.tableFooterView = [UIView new];
+    UILabel* footLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 15)];
+    footLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    footLab.font = [UIFont boldSystemFontOfSize:14];
+    footLab.textAlignment = NSTextAlignmentCenter;
+    tabview.tableFooterView = footLab;
+     if (self.allArray.count<1) {
+          footLab.text = @"已经全部加载完毕";
+         footLab.frame = CGRectMake(0, 0, self.frame.size.width, 40);
+     }else{
+         footLab.text = nil;
+         footLab.frame = CGRectNull;
+     }
+
         tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             self.page = 0;
             [self startRequest];

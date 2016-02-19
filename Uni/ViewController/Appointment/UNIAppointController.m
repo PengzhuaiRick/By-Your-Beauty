@@ -10,6 +10,7 @@
 #import "UNIAppointTop.h"
 #import "UNIAppontMid.h"
 #import "UNIMyPojectList.h"
+#import "AccountManager.h"
 
 //#import "UNIMyProjectModel.h"
 @interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate>
@@ -198,9 +199,9 @@
     [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     NSDate* strDate = [dateFormatter dateFromString:sele];
     //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
-    //localNotification.fireDate =strDate;
+    localNotification.fireDate =strDate;
     
-    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    //localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     //设置通知的内容
@@ -210,7 +211,9 @@
     //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-    NSDictionary *infoDic = @{@"OrderId":order};
+    
+    
+    NSDictionary *infoDic = @{@"OrderId":order,@"useId":[AccountManager userId]};
      //NSDictionary *infoDic = @{@"OrderId":@""};
     localNotification.userInfo = infoDic;
     //在规定的日期触发通知

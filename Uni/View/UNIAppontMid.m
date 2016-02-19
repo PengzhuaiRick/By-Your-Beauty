@@ -85,7 +85,12 @@
 
     }
     UNIMyProjectModel* model = _myData[indexPath.row];
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,model.logoUrl];
+    NSString* imgUrl = model.logoUrl;
+    NSArray* arr = [model.logoUrl componentsSeparatedByString:@","];
+    if (arr.count>0)
+        imgUrl = arr[0];
+    
+    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
     [cell.mainImg sd_setImageWithURL:[NSURL URLWithString:str]
                     placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
     

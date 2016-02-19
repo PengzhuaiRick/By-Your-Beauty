@@ -111,13 +111,6 @@
                    // view.image= [UIImage imageNamed:@"KZ_img_bg"];
                     view.contentMode = UIViewContentModeScaleAspectFit;
                     [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
-//            [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
-//                if (image.size.width>KMainScreenWidth) {
-//                    float imgH = image.size.height * self.mainImage.frame.size.width /image.size.width;
-//                   view.image=[self imageWithImage:image
-//                                      scaledToSize:CGSizeMake(self.mainImage.frame.size.width, imgH)];
-//                }
-//            }];
            [_mainImage addSubview:view];
         }
     }else{

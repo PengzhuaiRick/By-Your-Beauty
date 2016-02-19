@@ -47,7 +47,7 @@
                 }
                 _remyProjectBlock(array,count,tips,nil);
             }else
-            _remyProjectBlock(nil,-1,tips,nil);
+            _remyProjectBlock(nil,count,tips,nil);
         }
         //获取商铺信息
         if ([param2 isEqualToString:API_URL_ShopInfo] ) {

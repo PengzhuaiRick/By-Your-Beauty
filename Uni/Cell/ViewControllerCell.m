@@ -31,7 +31,7 @@
     imgview.contentMode = UIViewContentModeScaleAspectFit;
     self.mainImg = imgview;
     
-    float lab3WH = imgWH/2;
+    float lab3WH = imgWH*0.7;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, lab3WH, lab3WH)];
     lab3.center = CGPointMake(imgWH, 0);
     lab3.textColor = [UIColor whiteColor];
