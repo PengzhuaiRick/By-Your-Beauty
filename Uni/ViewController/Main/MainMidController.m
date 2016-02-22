@@ -188,6 +188,11 @@
                         
                         [self.myData addObjectsFromArray:myAppointArr];
                         [self.tableView reloadData];
+                    }else{
+                        if (self->pageNum == 0){//下拉刷新
+                            [self.myData removeAllObjects];
+                            [self.tableView reloadData];
+                        }
                     }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];

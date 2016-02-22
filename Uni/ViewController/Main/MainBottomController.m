@@ -175,14 +175,13 @@
                            params:@{@"userId":@(1),
                                     @"token":@"abcdxxa",
                                     @"shopId":@(1),
-                                    @"page":@(0),@"size":@(20)}];
+                                    @"page":@(self->pageNum),@"size":@(20)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.tableView.footer.hidden = YES;
                 [self.tableView.header endRefreshing];
                 [self.tableView.footer endRefreshing];
                 if (err==nil) {
-                    
                     if (myProjectArr.count<20)
                         [self.tableView.footer endRefreshingWithNoMoreData];
                 
@@ -193,6 +192,11 @@
                         
                         [self.myData addObjectsFromArray:myProjectArr];
                         [self reflashTabel:(int)self.myData.count];
+                    }else{
+                        if (self->pageNum == 0) {
+                           [self.myData removeAllObjects];
+                            [self reflashTabel:(int)self.myData.count];
+                        }
                     }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];

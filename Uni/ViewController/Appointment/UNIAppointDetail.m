@@ -19,6 +19,7 @@
 #import "CallOutAnnotationVifew.h"
 #import "YILocationManager.h"
 #import "UIActionSheet+Blocks.h"
+
 @interface UNIAppointDetail ()<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>{
     float topCellH;
     float midCellH;
@@ -131,7 +132,7 @@
         float mapWH = self.myTableView.frame.size.width - mapX*2;
         MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];
         mapView.mapType = MKMapTypeStandard;//标准模式
-         mapView.delegate = self;
+        mapView.delegate = self;
         mapView.showsUserLocation = YES;//显示自己
         mapView.zoomEnabled = YES;//支持缩放
         [view addSubview:mapView];
@@ -240,7 +241,7 @@
         if (!annotationView) {
             annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
                                                            reuseIdentifier:@"CustomAnnotation"];
-            annotationView.canShowCallout = NO;
+//            annotationView.canShowCallout = NO;
             annotationView.image = [UIImage imageNamed:@"function_img_scell6"];
         }
         return annotationView;

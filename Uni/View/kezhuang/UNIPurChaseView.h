@@ -20,7 +20,7 @@
 }
 
 @property(nonatomic,strong)UITableView* myTableview;
-@property(nonatomic,assign)int payStyle; // 1:微信 2:支付宝
+@property(nonatomic,assign)int payStyle; // 3:微信 2:支付宝
 @property(nonatomic,assign) id<UNIPurChaseViewDelegate> delegate;
 @property(nonatomic,strong)UNIGoodsModel* model;
 -(id)initWithFrame:(CGRect)frame andNum:(int)num andModel:(UNIGoodsModel*)model;

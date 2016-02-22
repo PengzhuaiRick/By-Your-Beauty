@@ -160,11 +160,10 @@
     [self presentViewController:alertController animated:YES completion:nil];
 #else
     [UIAlertView showWithTitle:@"您的预约信息已提交,请等待店家确认.\n预约结果以短信回复为准" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-         [self locationNotificationTask:order];
+        
+            [self locationNotificationTask:order];
     }];
 #endif
-                        // [NSThread sleepForTimeInterval:1];
-                        // [self locationNotificationTask:order];
                      }else
                          [YIToast showText:@"预约失败"];
                  };
@@ -198,7 +197,7 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     NSDate* strDate = [dateFormatter dateFromString:sele];
-    //设置本地通知的触发时间（如果要立即触发，无需设置），这里设置为20妙后
+    //设置本地通知的触发时间（如果要立即触发，无需设置）
     localNotification.fireDate =strDate;
     
     //localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
@@ -214,10 +213,16 @@
     
     
     NSDictionary *infoDic = @{@"OrderId":order,@"useId":[AccountManager userId]};
-     //NSDictionary *infoDic = @{@"OrderId":@""};
     localNotification.userInfo = infoDic;
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    
+    NSDictionary* dib = @{@"time":strDate,@"OrderId":order,@"useId":[AccountManager userId]};
+    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+    NSMutableArray* arr =[NSMutableArray arrayWithArray:[user objectForKey:@"appointArr"]];
+    [arr addObject:dib];
+    [user setObject:arr forKey:@"appointArr"];
+    [user synchronize];
     
     //预约成功刷新界面
     [[NSNotificationCenter defaultCenter] postNotificationName:APPOINTANDREFLASH object:nil];

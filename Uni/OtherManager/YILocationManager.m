@@ -62,7 +62,6 @@
 #pragma mark 开始定位
 -(void)startUpdateUserLoaction{
     if ([CLLocationManager locationServicesEnabled]) {
-       // Ifstop=0;
         if(!_locationManager){
             _locationManager =[[CLLocationManager alloc]init];
             _locationManager.delegate=self;
@@ -125,11 +124,13 @@
 
 #pragma mark 停止定位
 -(void)stopUpdatingLocation{
+   
     [_locationManager stopUpdatingLocation];
 }
 
 #pragma mark  定位CLLocationManager  CLLocationManagerDelegate方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    
 //    [manager stopUpdatingLocation];
     CLLocation* loca=locations.lastObject;
    
@@ -151,10 +152,7 @@
 //            self->userLocInfo.altitude =[NSString stringWithFormat:@"%f",loca.altitude] ;
             NSLog(@"latitude  %f,%f",loca.coordinate.latitude,loca.coordinate.longitude);
           //  NSString* stri = [NSString stringWithFormat:@"latitude  %f,%f",loca.coordinate.latitude,loca.coordinate.longitude];
-            UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-            if (localNotification == nil) {
-                return;
-            }
+            
             //[YIToast showText:stri];
             if (self.getUserLocBlock)
                 self.getUserLocBlock(loca.coordinate.latitude,loca.coordinate.longitude);

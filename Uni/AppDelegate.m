@@ -156,7 +156,7 @@
                            int type,
                            NSError* er){
         if (er==nil) {
-           // url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1077238256";
+//            url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1077238256";
             NSString *curVersion = CURRENTVERSION;      //获取项目版本号
             float curVersinNum = curVersion.floatValue;
             float versionNum = version.floatValue;
@@ -189,11 +189,7 @@
                         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
                 }];
 #endif
-
             });
-            
-        }else{
-            
         }
     };
 }
@@ -311,154 +307,135 @@
        // [self backgroundHandler];
     }];
     
-       //[[YILocationManager sharedInstance] startUpdateUserLoaction];
+      //[[YILocationManager sharedInstance] startUpdateUserLoaction];
         [self checkLocationNotification];
-       // NSLog(@"time remain:%f", application.backgroundTimeRemaining);
+      //  NSLog(@"time remain:%f", application.backgroundTimeRemaining);
 }
 #pragma mark 结束后台服务
 -(void)closeTheBackGroundTask{
+     [[YILocationManager sharedInstance] stopUpdatingLocation];
     UIApplication *application = [UIApplication sharedApplication];
     [application endBackgroundTask: self->background_task];
     self->background_task = UIBackgroundTaskInvalid;
 }
 
 #pragma mark 检查所有本地预约提醒通知
-//-(void)checkLocationNotification{
-//    
-//    NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
-//    for (UILocalNotification* noti in notificaitons) {
-//        //NSLog(@"checkLocationNotification %@",noti.fireDate);
-//        NSDictionary* userInfo = noti.userInfo;
-//        if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO) {
-//            //删除本地通知
-//            [[UIApplication sharedApplication] cancelLocalNotification:noti];
-//            continue;
-//        }
-//        
-//        NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:noti.fireDate];
-//        
-//        NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:mubiao];
-//        float fen = timeBetween /60;
-//        //判断通知时间是否已经过去  
-//        if (fen > 30) {
-//            [[UIApplication sharedApplication] cancelLocalNotification:noti];
-//            
-//            //到预约服务点前十五分钟 开始定位并且检查用户是否到店
-//        }else if (fen>=-15 && fen<30 ){
-//            UNIShopManage* manage = [UNIShopManage getShopData];
-//            double shopX = manage.x.doubleValue;
-//            double shopY = manage.y.doubleValue;
-//             CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:shopX longitude:shopY];
-//            YILocationManager* manager = [YILocationManager sharedInstance];
-//            
-//            manager.getUserLocBlock = ^(double x, double y){
-//                [[YILocationManager sharedInstance] stopUpdatingLocation];
-//                CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:x longitude:y];
-//                double distance  = [curLocation distanceFromLocation:otherLocation];
-//                if (distance<300) {
-//                    
-//                    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-//                        
-//                        UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
-//                        model.setArriveShopBlock=^(int code, NSString* tips,NSError* er){
-//                            NSLog(@"用户到店 %@",tips);
-//                            dispatch_async(dispatch_get_main_queue(), ^{
-//                                if (code == 0) {
-//                                    [[YILocationManager sharedInstance] stopUpdatingLocation];
-//                                    [[UIApplication sharedApplication] cancelLocalNotification:noti];
-//                                    
-////                                    //结束后台服务
-////                                    [self closeTheBackGroundTask];
-//                                }
-//                            });
-//                        };
-//                        NSDateFormatter *formatter2 =[[NSDateFormatter alloc] init];
-//                        [formatter2 setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//                        NSString *arriverTime = [formatter2 stringFromDate:[NSDate date]];
-//                        NSString* order = [noti.userInfo objectForKey:@"OrderId"];
-//                        [model postWithSerCode:@[API_PARAM_UNI,API_URL_ArriveShop]
-//                                        params:@{@"order":order,@"arriverTime":arriverTime}];
-//                    });
-//                }
-//                
-//            };
-//            //开始定位
-//            [manager startUpdateUserLoaction];
-//        }
-//    }
-//    //结束后台服务
-//    [self closeTheBackGroundTask];
-//}
+-(void)checkLocationNotification{
+     NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
+    for (int i = 0;i<notificaitons.count;i++) {
+        UILocalNotification* noti = notificaitons[i];
+        NSLog(@"checkLocationNotification %d",i);
+        NSDictionary* userInfo = noti.userInfo;
+        if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO) {
+            //删除本地通知
+            [[UIApplication sharedApplication] cancelLocalNotification:noti];
+            continue;
+        }
+    }
+    
+    //是否存在快到预约时间的通知
+    BOOL have = NO;
+    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
+    NSArray* appointArr =[userD objectForKey:@"appointArr"];
+    NSMutableArray* arr = [NSMutableArray arrayWithArray:appointArr] ;
+    
+    for (int i = 0;i<arr.count;i++) {
+        NSDictionary* userInfo =arr[i];
+        if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO)
+            [arr removeObject:userInfo];
+        }
+    
+    for (int i = 0;i<arr.count;i++) {
+        NSDictionary* userInfo =arr[i];
+        
+        NSDate* time =userInfo[@"time"];
+        NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:time];
+        
+        NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:mubiao];
+        float fen = timeBetween /60;
+        //判断通知时间是否已经过去  
+        if (fen > 30) {
+            [arr removeObject:userInfo];
+            
+            //到预约服务点前十五分钟 开始定位并且检查用户是否到店
+        }else if (fen>=-15 && fen<30 ){
+            have = YES;
+            [self checkLocationNotification1];
+            break;
+        }
+    }
+    [userD setObject:arr forKey:@"appointArr"];
+    [userD synchronize];
+   
+    if (have == NO)
+        //结束后台服务
+        [self closeTheBackGroundTask];
+}
 
 #pragma mark 检查所有本地预约提醒通知
--(void)checkLocationNotification{
+-(void)checkLocationNotification1{
     UNIShopManage* manage = [UNIShopManage getShopData];
     double shopX = manage.x.doubleValue;
     double shopY = manage.y.doubleValue;
     CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:shopX longitude:shopY];
+    __block double x1 = 0;
+
     YILocationManager* manager = [YILocationManager sharedInstance];
-    
     manager.getUserLocBlock = ^(double x, double y){
-        [[YILocationManager sharedInstance] stopUpdatingLocation];
+        if (x1 > 0)
+            return ;
+        x1 = x;
+        
         CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:x longitude:y];
         double distance  = [curLocation distanceFromLocation:otherLocation];
         if (distance<500) {
             dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
-                for (UILocalNotification* noti in notificaitons) {
-                    //NSLog(@"checkLocationNotification %@",noti.fireDate);
-                    NSDictionary* userInfo = noti.userInfo;
-                    if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO) {
-                        //删除本地通知
-                        [[UIApplication sharedApplication] cancelLocalNotification:noti];
-                        continue;
-                    }
-                    
-                    NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:noti.fireDate];
+                
+                NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
+                NSMutableArray* arr = [NSMutableArray arrayWithArray:[userD objectForKey:@"appointArr"]] ;
+                for (int i = 0;i<arr.count;i++) {
+                    NSDictionary* noti = arr[i];
+                    NSDate* time =noti[@"time"];
+                    NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:time];
                     
                     NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:mubiao];
                     float fen = timeBetween /60;
-                    
-                    if (fen > 30)
-                        [[UIApplication sharedApplication] cancelLocalNotification:noti];
-                    else if (fen>=-15 && fen<30 ){
+                    if (fen>=-15 && fen<30) {
                         
                         UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
                         model.setArriveShopBlock=^(int code, NSString* tips,NSError* er){
-                            NSLog(@"用户到店 %@",tips);
+                           // NSLog(@"用户到店 %@",tips);
+                            if (code == 0 ){
+                                [arr removeObject:noti];
+                                [userD setObject:arr forKey:@"appointArr"];
+                                [userD synchronize];
+                            }
+                            
                             dispatch_async(dispatch_get_main_queue(), ^{
-                                if (code == 0) {
-                                    [[UIApplication sharedApplication] cancelLocalNotification:noti];
-                                }
+                                if (i == arr.count-1)
+                                    //结束后台服务
+                                    [self closeTheBackGroundTask];
                             });
                         };
                         NSDateFormatter *formatter2 =[[NSDateFormatter alloc] init];
                         [formatter2 setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                         NSString *arriverTime = [formatter2 stringFromDate:[NSDate date]];
-                        NSString* order = [noti.userInfo objectForKey:@"OrderId"];
+                        NSString* order = [noti objectForKey:@"OrderId"];
                         [model postWithSerCode:@[API_PARAM_UNI,API_URL_ArriveShop]
                                         params:@{@"order":order,@"arriverTime":arriverTime}];
+
                     }
                 }
             });
-            //遍历完所有本地通知后 结束后台服务
+        }else
+            //如果当前用户还不距离店铺500米以内 结束后台服务
             [self closeTheBackGroundTask];
-
-        }else{
-            //还在500米以外 结束后台服务
-            [self closeTheBackGroundTask];
-        }
-        
     };
     //开始定位
     [manager startUpdateUserLoaction];
-
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    //结束后台服务
-    [self closeTheBackGroundTask];
-
     [self checkLocationNotification];
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 }

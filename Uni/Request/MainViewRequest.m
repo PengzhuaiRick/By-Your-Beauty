@@ -58,8 +58,10 @@
                 manager.address = [self safeObject:dic ForKey:@"address"];
                 manager.telphone = [self safeObject:dic ForKey:@"telphone"];
                 manager.shortName =[self safeObject:dic ForKey:@"shortName"];
-                manager.x = [self safeObject:dic ForKey:@"latitude"];
-                manager.y = [self safeObject:dic ForKey:@"longitude"];
+//                manager.x = [self safeObject:dic ForKey:@"latitude"];
+//                manager.y = [self safeObject:dic ForKey:@"longitude"];
+                manager.x = @(23.142455816671522);
+                manager.y = @(113.31206617996649);
                 [UNIShopManage saveShopData:manager];
                 _reshopInfoBlock(manager,tips,nil);
             }else

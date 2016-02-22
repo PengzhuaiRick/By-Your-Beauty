@@ -116,8 +116,10 @@
             self.handleBtn.hidden = YES;
             self.mainImage.image = [UIImage imageNamed:@"main_img_nodata2"];
             self.mainLab.text = @"马上购买去!";
+            CGRect subR =self.subLab.frame;
+            subR.size.width = self.mainLab.frame.size.width;
+            self.subLab.frame = subR;
             self.subLab .text = @"空空如也没关系,一大波超值套餐正来袭";
-            
         }
     }
     [self.subLab sizeToFit];

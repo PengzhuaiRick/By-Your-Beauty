@@ -87,7 +87,42 @@
    [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
     [self getSellInfo]; //获取首页销售商品
     [self setupNotification];//注册通知
+    
+   // [self addLocateNotication];
 }
+-(void)addLocateNotication{
+    NSMutableArray* arr = [NSMutableArray array];
+    for (int i =0 ; i<2; i++) {
+        
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        
+        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60*i];
+        //设置本地通知的时区
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        //设置通知的内容
+        localNotification.alertBody =  @"您预约的服务时间还有一小时";
+        //设置通知动作按钮的标题
+        localNotification.alertAction = @"查看";
+        //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
+        
+        NSDictionary *infoDic = @{@"OrderId":@"1223",@"useId":[AccountManager userId]};
+        localNotification.userInfo = infoDic;
+        //在规定的日期触发通知
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+        NSDictionary* dic = @{@"time":localNotification.fireDate,
+                              @"OrderId":@"1223",
+                              @"useId":[AccountManager userId]};
+        [arr addObject:dic];
+    }
+    
+    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
+    [userD setValue:arr forKey:@"appointArr"];
+    [userD synchronize];
+}
+
 #pragma mark
 -(void)setupNavigation{
    
@@ -133,7 +168,7 @@
     float imgH = tabH*0.6;
     topRe =CGRectMake(0,0,tabW,imgH);
     UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
-    topImg.image = [UIImage imageNamed:@"main_img_top"];
+    //topImg.image = [UIImage imageNamed:@"main_img_top"];
     topImg.userInteractionEnabled = YES;
     tabview.tableHeaderView = topImg;
     headerImg = topImg;
@@ -146,8 +181,10 @@
         cellHight =(KMainScreenHeight-64-imgH)/2;
     
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
-         [self startRequestReward];//请求约满信息
+        [self startRequestReward];//请求约满信息
         [self startRequestAppointInfo];//请求我已预约
+        [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+        [self getSellInfo]; //获取首页销售商品
         //[self startRequestProjectInfo];//请求我的项目
     }];
 }
@@ -173,7 +210,7 @@
     float img2W = img2H *fu.size.width / fu.size.height;
     UIImageView * shuangfu = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img2W, img2H)];
     shuangfu.userInteractionEnabled=YES;
-    shuangfu.image = fu;
+   // shuangfu.image = fu;
     shuangfu.center = proView.center;
     [imageView addSubview:shuangfu];
     goodsImg = shuangfu;
