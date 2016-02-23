@@ -18,7 +18,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-   // [self setupNavigation];
+    [self setupNavigation];
     
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
     web.delegate = self;
@@ -28,6 +28,9 @@
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
     [web loadRequest:request];//加载
+}
+-(void)setupNavigation{
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
@@ -59,6 +62,9 @@
     return YES;
 }
 
+-(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

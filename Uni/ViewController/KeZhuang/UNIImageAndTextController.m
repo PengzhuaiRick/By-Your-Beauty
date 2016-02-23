@@ -17,7 +17,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"图文详情";
-    NSString* urlString = [NSString stringWithFormat:@"%@/shopadmin/Public/Home/Detail/goods?id=%d",API_URL,self.projectId];
+    NSString* urlString =[NSString stringWithFormat:@"%@/%@",API_IMG_URL,_projectId];;
    // NSLog(@"urlString %@",urlString);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [_myWebView loadRequest:request];

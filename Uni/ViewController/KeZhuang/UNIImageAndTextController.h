@@ -11,5 +11,5 @@
 @interface UNIImageAndTextController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIWebView *myWebView;
-@property(assign,nonatomic)int projectId;
+@property(copy,nonatomic)NSString* projectId;
 @end

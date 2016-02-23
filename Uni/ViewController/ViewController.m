@@ -100,9 +100,10 @@
     
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn1.frame = CGRectMake(tab.frame.size.width/2, CGRectGetMaxY(tab.frame),tab.frame.size.width/2, 30);
-    [btn1 setTitle:@" 退出" forState:UIControlStateNormal];
+    [btn1 setTitle:@"   退出" forState:UIControlStateNormal];
     [btn1 setImage:[UIImage imageNamed:@"function_btn_quit"] forState:UIControlStateNormal];
-    btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
+    [btn1 setTitleColor:[UIColor colorWithHexString:kMainTitleColor] forState:UIControlStateNormal];
     [self.view addSubview:btn1];
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         [self loginOut];
@@ -110,9 +111,10 @@
     
     UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn2.frame = CGRectMake(0, CGRectGetMaxY(tab.frame),tab.frame.size.width/2, 30);
-    [btn2 setTitle:@" 设置" forState:UIControlStateNormal];
+    [btn2 setTitle:@"   设置" forState:UIControlStateNormal];
     [btn2 setImage:[UIImage imageNamed:@"function_btn_set"] forState:UIControlStateNormal];
-    btn2.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    btn2.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
+    [btn2 setTitleColor:[UIColor colorWithHexString:kMainTitleColor] forState:UIControlStateNormal];
     [self.view addSubview:btn2];
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         [self.tv closeTheBox];
@@ -127,7 +129,7 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return tableView.frame.size.height/titleArray.count;
+    return KMainScreenWidth*70/414;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return titleArray.count;

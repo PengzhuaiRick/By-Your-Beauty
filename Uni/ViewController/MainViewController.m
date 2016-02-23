@@ -125,8 +125,6 @@
 
 #pragma mark
 -(void)setupNavigation{
-   
-    [self preferredStatusBarStyle];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     UIBarButtonItem* bar = [[UIBarButtonItem alloc]init];
@@ -195,7 +193,7 @@
     float imgH = imageView.frame.size.height;
     
     float proX =KMainScreenWidth*12/320;
-    float proW = imgW/2;
+    float proW = imgW/2 - proX;
     float proY =KMainScreenWidth*20/320;
     UNIMainProView* proView = [[UNIMainProView alloc]initWithFrame:CGRectMake(proX, proY, proW, proW)];
     proView.backgroundColor =[UIColor clearColor];
@@ -206,12 +204,12 @@
     progessView = proView;
     
     UIImage* fu =[UIImage imageNamed:@"main_img_shuang"];
-    float img2H = proW/2;
+    float img2H = proW*0.7;
     float img2W = img2H *fu.size.width / fu.size.height;
     UIImageView * shuangfu = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img2W, img2H)];
     shuangfu.userInteractionEnabled=YES;
    // shuangfu.image = fu;
-    shuangfu.center = proView.center;
+    shuangfu.center =CGPointMake(proView.center.x, proView.center.y+10) ;
     [imageView addSubview:shuangfu];
     goodsImg = shuangfu;
     
@@ -228,11 +226,11 @@
     
     float lab1W = proW;
     float lab1H = 25;
-    float lab1Y = CGRectGetMaxY(proView.frame)-lab1H/2;
+    float lab1Y = CGRectGetMaxY(proView.frame)-lab1H/2 -5;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(proX, lab1Y, lab1W, lab1H)];
 //    lab1.text = @"9/10";
     lab1.textColor = [UIColor whiteColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab1.font = [UIFont systemFontOfSize:20];
     lab1.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab1];
     progessLab = lab1;
@@ -240,13 +238,12 @@
     
     float lab2W = imgH/2-8;
     float lab2H = 25;
-    float lab2Y =KMainScreenWidth*50/320;
+    float lab2Y =KMainScreenWidth*60/320;
     float lab2X = imgW/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y, lab2W, lab2H)];
 //    lab2.text = @"再预约次数";
     lab2.textColor = [UIColor whiteColor];
-    //lab2.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*12/320];
-    lab2.font = kMainFont(KMainScreenWidth*12/320);
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
     lab2.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab2];
     goods1 = lab2;
@@ -256,7 +253,7 @@
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab3Y, lab2W, lab3H)];
 //    lab3.text = @"1";
     lab3.textColor = [UIColor whiteColor];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*35/320];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*45/414];
     lab3.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab3];
     numLab = lab3;
@@ -266,7 +263,7 @@
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab4Y, lab2W, lab4H)];
 //    lab4.text = @"可获得一支";
     lab4.textColor = [UIColor whiteColor];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
     lab4.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab4];
     goods2 = lab4;
@@ -276,8 +273,10 @@
     UILabel* lab5 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab5Y, lab2W, lab5H)];
 //    lab5.text = @"300ml ALBION 爽肤精萃液";
     lab5.textColor = [UIColor whiteColor];
-    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
     lab5.textAlignment = NSTextAlignmentCenter;
+    lab5.numberOfLines = 0;
+    lab5.lineBreakMode = 0;
     [imageView addSubview:lab5];
     goodsLab = lab5;
     
@@ -291,15 +290,15 @@
 
     
     UIImage* iage = [UIImage imageNamed:@"main_img_kezhuang"];
-    float imgVX = KMainScreenWidth*20/320;
-    float imgVH = imgH/4/2;
+    float imgVX = KMainScreenWidth*20/414;
+    float imgVH = imgH/6/2;
     float imgVW = iage.size.width * imgVH / iage.size.height;
     float imgVY = imgH/4*3+ ((imgH/4 - imgVH)/2);
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgVX, imgVY, imgVW, imgVH)];
     img.image = iage;
     [imageView addSubview:img];
     
-    float btnWH =  KMainScreenWidth*60/374;
+    float btnWH =  KMainScreenWidth*70/414;
     float btnY =imgH/4*3+(imgH/4 - btnWH)/2;
     float btnX = imgW - btnWH - imgVX;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -307,11 +306,13 @@
     btn.titleLabel.numberOfLines = 0;
     btn.titleLabel.lineBreakMode = 0;
     [btn setTitle:@"马上\n购买" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*16/320];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*18/414];
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = btnWH/2;
     btn.layer.borderColor = [UIColor whiteColor].CGColor;
     btn.layer.borderWidth = 1;
+    [btn setBackgroundImage:nil forState:UIControlStateNormal];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5]] forState:UIControlStateHighlighted];
     [imageView addSubview:btn];
     sellBtn = btn;
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -325,33 +326,33 @@
     
     
     float lab6H = 20;
-    float lab6Y =imgH/4*3+(imgH/4/2-lab6H);
-    float lab6X =CGRectGetMaxX(img.frame)+8;
-    float lab6W = imgW - lab6X - btnWH - proX*3;
+    float lab6Y = btnY+10;
+    float lab6X = CGRectGetMaxX(img.frame)+20;
+    float lab6W = imgW - lab6X - btnWH - proX*2;
     UILabel* lab6 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H)];
 //    lab6.text = @"ALBION清新莹润滋养护理（五次）";
     lab6.textColor = [UIColor whiteColor];
-    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
     [imageView addSubview:lab6];
     sell1 = lab6;
     
-    float lab7Y =CGRectGetMaxY(lab6.frame);
+    float lab7Y =CGRectGetMaxY(lab6.frame)+10;
     float lab7W = KMainScreenWidth*80/320;
     UILabel* lab7 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab7Y, lab7W, lab6H)];
     lab7.text = @"活动价";
     lab7.textColor = [UIColor whiteColor];
-    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth*12/414];
     [lab7 sizeToFit];
     [imageView addSubview:lab7];
     sell3 = lab7;
     
-    float lab8Y =CGRectGetMaxY(lab6.frame);
+    float lab8Y =CGRectGetMaxY(lab6.frame)+5;
     float lab8W = KMainScreenWidth*100/320;
     float lab8X = CGRectGetMaxX(lab7.frame);
     UILabel* lab8 = [[UILabel alloc]initWithFrame:CGRectMake(lab8X, lab8Y, lab8W, lab6H)];
 //    lab8.text = @"￥899";
     lab8.textColor = [UIColor whiteColor];
-    lab8.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab8.font = [UIFont systemFontOfSize:KMainScreenWidth*17/414];
     [imageView addSubview:lab8];
     sell2 = lab8;
     
@@ -361,7 +362,7 @@
     lab9.text =@"更多优惠持续更新,敬请关注!";
     lab9.hidden=YES;
     lab9.textColor = [UIColor whiteColor];
-    lab9.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    //lab9.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [imageView addSubview:lab9];
     sell4 = lab9;
     
@@ -607,7 +608,7 @@
                     self->sellGoods = arr;
                     UNIGoodsModel* info = arr[0];
                     self->sell1.text = info.projectName;
-                    self->sell2.text = [NSString stringWithFormat:@"￥ %.f",info.shopPrice];
+                    self->sell2.text = [NSString stringWithFormat:@"￥%.f",info.shopPrice];
                     self->sell3.hidden=NO;
                     self->sell4.hidden=YES;
                     self->sellBtn.hidden=NO;
@@ -641,11 +642,6 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:APPOINTANDREFLASH object:nil];
 }
 
-#pragma mark 设置状态栏字体颜色
--(UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
-}
-
 #pragma mark <UINavigationControllerDelegate>
 - (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
                                    animationControllerForOperation:(UINavigationControllerOperation)operation
@@ -659,7 +655,18 @@
     return nil;
                                                             
 }
-
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
 
 - (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];

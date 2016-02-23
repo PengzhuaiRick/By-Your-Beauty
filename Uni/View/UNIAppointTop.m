@@ -143,7 +143,7 @@
             self.selectYear =year;
             self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
             }
-        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+        btn.titleLabel.font = [UIFont systemFontOfSize:14];
         [_topScroller addSubview:btn];
         [_topBtns addObject:btn];
         
@@ -208,16 +208,16 @@
     view.backgroundColor = [UIColor whiteColor];
     [self addSubview:view];
     
-    float labX = 8;
-    float labY = 5;
-    float labH = KMainScreenWidth* 20/320;
+    float labX = 16;
+    float labY = 10;
+    float labH = KMainScreenWidth* 25/414;
     float labW =  KMainScreenWidth* 100/320;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"开始时间";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
     [view addSubview:lab];
 
-    float topY = CGRectGetMaxY(lab.frame)+labY;
+    float topY = CGRectGetMaxY(lab.frame)+5;
     float topH =view.frame.size.height - topY- KMainScreenWidth*40/320;
     float topX = 10;
     float topW =view.frame.size.width -2*topX;
@@ -226,34 +226,34 @@
     [view addSubview:secondV];
     _midScroller = secondV;
     
-    CALayer* lay = [CALayer layer];
-    lay.frame = CGRectMake(topX, CGRectGetMaxY(secondV.frame), topW, 0.5);
-    lay.backgroundColor = kMainGrayBackColor.CGColor;
-    [view.layer addSublayer:lay];
+//    CALayer* lay = [CALayer layer];
+//    lay.frame = CGRectMake(topX, CGRectGetMaxY(secondV.frame), topW, 0.5);
+//    lay.backgroundColor = kMainGrayBackColor.CGColor;
+//    [view.layer addSublayer:lay];
 
-    float btnW = KMainScreenWidth*120/320;
-    float btnH = KMainScreenWidth*30/320;
-    float btnY = CGRectGetMaxY(secondV.frame)+5;
+    float btnW = KMainScreenWidth*180/414;
+    float btnH = KMainScreenWidth*30/414;
+    float btnY = CGRectGetMaxY(secondV.frame)+10;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(labX, btnY, btnW, btnH);
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setTitle:@"如需取消请提前致电商家" forState:UIControlStateNormal];
+    [btn setTitle:@" 如需取消请提前致电商家" forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*9/320];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:9];
     [btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
     [view addSubview:btn];
     
     float lab1X = view.frame.size.width/2+20;
     float lab1Y = btnY;
-    float lab1H = KMainScreenWidth* 25/320;
+    float lab1H = btnH;
     float lab1W =  KMainScreenWidth* 40/320;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
     lab1.text = @"人数:";
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
     [view addSubview:lab1];
     
     
-    float btn1WH = KMainScreenWidth*25/320;
+    float btn1WH = btnH;
     float btn1Y = btnY;
     float btn1X = CGRectGetMaxX(lab1.frame);
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -455,7 +455,7 @@
  *颜色值转换成图片
  */
 
-- (UIImage*) createImageWithColor: (UIColor*) color
+- (UIImage*)createImageWithColor:(UIColor*) color
 {
     CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
     UIGraphicsBeginImageContext(rect.size);

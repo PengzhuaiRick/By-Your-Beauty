@@ -274,12 +274,12 @@
 }
 //后台
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    
     //获取当前所有的本地通知
-    NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
-    if (!notificaitons || notificaitons.count <= 0) 
+    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
+    NSArray* appointArr =[userD objectForKey:@"appointArr"];
+    if (appointArr.count<1) {
         return;
-
+    }
     if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
     { //Check if our iOS version supports multitasking I.E iOS 4
         

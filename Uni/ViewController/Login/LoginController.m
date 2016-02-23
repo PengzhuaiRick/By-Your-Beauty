@@ -129,8 +129,9 @@
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
     field.placeholder = @"请输入您的手机号码";
-    [field setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [field setValue:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    field.keyboardType = UIKeyboardTypeNumberPad;
     field.textColor = [UIColor whiteColor];
     [cell addSubview:field];
     phoneField = field;
@@ -168,8 +169,9 @@
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
     field.placeholder = @"请输入验证码";
-    [field setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [field setValue:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     field.textColor = [UIColor whiteColor];
+    field.keyboardType = UIKeyboardTypeNumberPad;
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [cell addSubview:field];
     codeField = field;
@@ -193,7 +195,7 @@
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
     field.placeholder = @"请输入您的姓名";
-    [field setValue:[UIColor whiteColor] forKeyPath:@"_placeholderLabel.textColor"];
+    [field setValue:[UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     field.textColor = [UIColor whiteColor];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [cell addSubview:field];
@@ -212,15 +214,14 @@
 }
 -(void)setupFourthCell:(UITableViewCell*)cell{
         //float btnX = KMainScreenWidth*40/320;
-        float btnW = KMainScreenWidth*80/375;
+        float btnW = KMainScreenWidth*100/320;
         float btnH = KMainScreenWidth*30/320;
         float btnY = (cellH - btnH)/2 ;
     
         UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
     
         UIImage* image3 =[UIImage imageNamed:@"login_btn_sex1"];
-    
-        float imgWH = KMainScreenWidth*20/320;
+    float imgWH = KMainScreenWidth>320?20:16;
         float imgY = (view.frame.size.height - imgWH)/2;
         UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(0, imgY, imgWH, imgWH)];
         img.image = image3;
@@ -229,8 +230,8 @@
     
     
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(imgWH+5, 0, btnW, btnH);
-        [btn setTitle:@" 女士" forState:UIControlStateNormal];
+        btn.frame = CGRectMake(0, 0, btnW, btnH);
+        [btn setTitle:@"  女士" forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btn.tag = 2;
@@ -247,17 +248,16 @@
     
     UIImage* image4 =[UIImage imageNamed:@"login_btn_sex2"];
      UIView* view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
-        float img1WH = KMainScreenWidth*20/320;
+        float img1WH = KMainScreenWidth>320?20:16;
         float img1Y = (view.frame.size.height - imgWH)/2;
         UIImageView* img1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, img1Y, img1WH, img1WH)];
         img1.image = image4;
         [view1 addSubview:img1];
     imgView2 = img1;
     
-        float btn1X = img1WH+5;
         UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn1.frame = CGRectMake(btn1X, 0, btnW, btnH);
-        [btn1 setTitle:@" 先生" forState:UIControlStateNormal];
+        btn1.frame = CGRectMake(0, 0, btnW, btnH);
+        [btn1 setTitle:@"  先生" forState:UIControlStateNormal];
         btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
         [btn1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         btn1.tag = 1;
@@ -301,7 +301,7 @@
     UIView* header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, KMainScreenWidth*200/320)];
     
     UIImage* topimage =[UIImage imageNamed:@"login_img_header"];
-    float imaH = header.frame.size.height*0.7;
+    float imaH = header.frame.size.height*0.5;
     float imaW = topimage.size.width * imaH / topimage.size.height;
     headImge = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imaW ,imaH)];
     headImge.image =topimage;

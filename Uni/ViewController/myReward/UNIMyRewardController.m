@@ -212,7 +212,6 @@
 
 -(void)setupNavigation{
     self.title = @"我的奖励";
-    [self preferredStatusBarStyle];
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
    
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];

@@ -41,8 +41,6 @@
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
     view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     self.tableView.tableHeaderView =view;
-    
-    self.tableView.tableFooterView = [UIView new];
 }
 
 
@@ -50,6 +48,9 @@
     self.title = @"我的项目";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+    
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.tableFooterView = [UIView new];
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
@@ -183,7 +184,7 @@
                 [self.tableView.footer endRefreshing];
                 if (err==nil) {
                     if (myProjectArr.count<20)
-                        [self.tableView.footer endRefreshingWithNoMoreData];
+                        [self.tableView.footer setHidden:YES];
                 
                     
                     if (myProjectArr.count>0){

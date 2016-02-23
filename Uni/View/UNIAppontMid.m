@@ -23,13 +23,13 @@
 
 -(void)setupUI:(CGRect)frame{
    
-    float labX = 8;
-    float labY = 5;
+    float labX = 16;
+    float labY = 10;
     float labH = KMainScreenWidth* 20/320;
     float labW =  KMainScreenWidth* 100/320;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"预约项目";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
     [self addSubview:lab];
     self.lab1 = lab;
     
@@ -40,14 +40,18 @@
     _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, 35);
-    [btn setTitle:@"添加项目" forState:UIControlStateNormal];
+    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, 40);
+    [btn setTitle:@" 添加项目" forState:UIControlStateNormal];
     [btn setBackgroundColor:[UIColor whiteColor]];
     [btn setImage:[UIImage imageNamed:@"appoint_img_add"] forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
     [self addSubview:btn];
     _addProBtn = btn;
     
+    CGRect selfR = self.frame;
+    selfR.size.height = CGRectGetMaxY(btn.frame)+5;
+    self.frame = selfR;
 //    CALayer* lay = [CALayer layer];
 //    lay.frame = CGRectMake(10, CGRectGetMinY(btn.frame), _myTableView.frame.size.width - 20, 0.5);
 //    lay.backgroundColor = kMainGrayBackColor.CGColor;

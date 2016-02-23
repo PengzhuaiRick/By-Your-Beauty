@@ -43,7 +43,7 @@
 }
 
 -(void)setupNavigation{
-    self.title = @"我已预约";
+    self.title = @"我的预约";
     // self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
@@ -58,7 +58,7 @@
     view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     self.view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     self.tableView.tableHeaderView =view;
-    
+    self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = [UIView new];
 }
 #pragma mark 设置参数
@@ -180,7 +180,7 @@
                 if (!err) {
                     
                     if (myAppointArr.count<20)
-                       [ self.tableView.footer endRefreshingWithNoMoreData];
+                        [self.tableView.footer setHidden:YES];
                     
                     if (myAppointArr.count>0){
                         if (self->pageNum == 0)//下拉刷新

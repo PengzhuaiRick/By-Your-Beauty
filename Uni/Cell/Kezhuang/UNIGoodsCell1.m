@@ -21,7 +21,7 @@
     float imgX = 0;
     float imgY =0;
     float imgWH =size.width;
-    UIScrollView* img = [[UIScrollView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
+    UIScrollView* img = [[UIScrollView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH-50)];
     img.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     //img.contentSize = CGSizeMake(3*imgWH, imgWH);
     img.pagingEnabled=YES;
@@ -38,11 +38,11 @@
     float labX = KMainScreenWidth*30/414;
     float labW = size.width - 2*labX;
     float labH =(size.height - imgWH)/3;
-    float lab1Y = CGRectGetMaxY(img.frame);
+    float lab1Y = CGRectGetMaxY(img.frame)+10;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
 //    lab1.text = @"ALBION清新莹润滋养护理";
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     lab1.lineBreakMode = 0;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];
@@ -50,7 +50,7 @@
     
     float lab2Y =CGRectGetMaxY(lab1.frame);
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
 //    lab2.text = @"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤.";
     lab2.lineBreakMode = 0;
     lab2.numberOfLines = 0;
@@ -58,7 +58,7 @@
     [self addSubview:lab2];
     self.label2= lab2;
     
-    float lab3Y = imgWH - KMainScreenWidth*30/320;
+    float lab3Y = imgWH- 50 - KMainScreenWidth*30/320;
     float lab3H =KMainScreenWidth*15/320;
     float lab3W = KMainScreenWidth*35/320;
     float lab3X = size.width - labX - lab3W;
@@ -74,7 +74,7 @@
     self.label3 = lab3;
     
     float btnH = labH*0.7;
-    float btnY = CGRectGetMaxY(lab2.frame) + (labH - btnH)/2;
+    float btnY = size.height-btnH - 30;
     float btnW = KMainScreenWidth* 100/320;
     UIButton* btn =[UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(labX, btnY, btnW, btnH);
@@ -95,19 +95,20 @@
     self.label1.text =info.projectName;
     self.label2.text = info.effect;
     NSArray* imgArr = [info.imgUrl componentsSeparatedByString:@","];
-    float imgWH = _mainImage.frame.size.width;
+    float imgH = _mainImage.frame.size.height;
+    float imgW = _mainImage.frame.size.width;
     
     int k = 1;
     if (imgArr.count>0)
         k = (int)imgArr.count;
-    _mainImage.contentSize = CGSizeMake(k*imgWH, imgWH);
+    _mainImage.contentSize = CGSizeMake(k*imgW, imgH);
     
     self.label3.text = [NSString stringWithFormat:@"1/%d",k];
     
     if (imgArr.count>0) {
                 for (int i = 0;i<k;i++) {
             NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgArr[i]];
-            UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgWH, 0, imgWH, imgWH)];
+            UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgW, 0, imgW, imgH)];
                    // view.image= [UIImage imageNamed:@"KZ_img_bg"];
                     view.contentMode = UIViewContentModeScaleAspectFit;
                     [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
@@ -115,7 +116,7 @@
         }
     }else{
         NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.imgUrl];
-        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imgWH, imgWH)];
+        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imgW, imgH)];
          view.contentMode = UIViewContentModeScaleAspectFit;
         [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
         [_mainImage addSubview:view];

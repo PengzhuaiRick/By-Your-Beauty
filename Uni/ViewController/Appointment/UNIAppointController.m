@@ -176,19 +176,6 @@
 -(void)locationNotificationTask:(NSString*)order{
 
    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-    
-//    NSArray* array = [self->appointTop.selectTime componentsSeparatedByString:@":"];
-//    int seleZhong = [array[0] intValue];
-//    NSString* sele = [NSString stringWithFormat:@"%@ %d:%@:00",self->appointTop.selectDay,--seleZhong,array[1]];
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    NSDate* strDate = [dateFormatter dateFromString:sele];
-//    
-//    NSTimeZone *zone = [NSTimeZone timeZoneWithAbbreviation:@"GMT"];
-//    NSInteger interval = [zone secondsFromGMTForDate: strDate];
-//    NSDate *localeDate = [strDate  dateByAddingTimeInterval: interval];
-//    localNotification.fireDate = localeDate;
-//    NSLog(@"strDate.description %@",localeDate);
 
     NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
     int seleZhong = [array[0] intValue];
@@ -219,7 +206,13 @@
     
     NSDictionary* dib = @{@"time":strDate,@"OrderId":order,@"useId":[AccountManager userId]};
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-    NSMutableArray* arr =[NSMutableArray arrayWithArray:[user objectForKey:@"appointArr"]];
+    NSArray* appointArr = [user objectForKey:@"appointArr"];
+    NSMutableArray* arr;
+    if (appointArr.count>0)
+        arr =[NSMutableArray arrayWithArray:appointArr];
+    else
+        arr =[NSMutableArray array];
+    
     [arr addObject:dib];
     [user setObject:arr forKey:@"appointArr"];
     [user synchronize];
@@ -272,7 +265,7 @@
     // 添加项目和减少项目的时候 修改 appontMid 的高度 和 sureBtn 的位置
     NSArray* x = appontMid.myData;
         float yy =x.count*self->appontMid.cellH + 35+CGRectGetMinY(self->appontMid.frame)+CGRectGetMaxY(self->appontMid.lab1.frame);
-        float viewH =x.count*self->appontMid.cellH + 35+CGRectGetMaxY(self->appontMid.lab1.frame);
+        float viewH =x.count*self->appontMid.cellH + 35+CGRectGetMaxY(self->appontMid.lab1.frame)+10;
         if (yy<=self->sureBtn.frame.origin.y) {
             [UIView animateWithDuration:0.2 animations:^{
                 CGRect btnRe = self->sureBtn.frame;

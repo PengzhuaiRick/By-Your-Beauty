@@ -41,7 +41,6 @@
 }
 -(void)setupNavigation{
     self.title = @"设置";
-    [self preferredStatusBarStyle];
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];

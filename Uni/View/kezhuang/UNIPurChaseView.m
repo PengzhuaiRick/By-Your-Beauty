@@ -26,14 +26,26 @@
 
 -(void)setupTableView{
     
-    float labH = KMainScreenWidth*45/320;
-    
+    float labH = KMainScreenWidth>320?45:40;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, labH)];
-    lab.text=@"   马上购买";
+    lab.text=@"    选择支付方式";
     lab.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
     lab.font = [UIFont systemFontOfSize:labH/2];
     lab.textColor = [UIColor whiteColor];
     [self addSubview:lab];
+    
+    float btnWH =labH - 16;
+    float btnX = self.frame.size.width - btnWH - 10;
+    float btnY = 8;
+    UIButton* btn =[UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
+    [btn setBackgroundImage:[UIImage imageNamed:@"KZ_btn_close"] forState:UIControlStateNormal];
+    [self addSubview:btn];
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        [self.delegate UNIPurChaseViewDelegateMethod];
+    }];
+    _closeBtn = btn;
     
     float tabY =CGRectGetMaxY(lab.frame);
     float tabH = self.frame.size.height - tabY;
@@ -60,24 +72,25 @@
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:name];
             cell.accessoryType =UITableViewCellAccessoryDisclosureIndicator;
             
-            float imgWH = tableView.frame.size.height/2-40;
-            imgView = [[UIImageView alloc]initWithFrame:CGRectMake(20, 20, imgWH,imgWH)];
+            float imgWH = 40;
+            float ceeH = tableView.frame.size.height/2;
+            imgView = [[UIImageView alloc]initWithFrame:CGRectMake(20, (ceeH - imgWH)/2, imgWH,imgWH)];
             [cell addSubview:imgView];
             
             float labX = CGRectGetMaxX(imgView.frame)+10;
             float labW = tableView.frame.size.width - labX;
-            lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, 20, labW, imgWH)];
-            lab.font = [UIFont systemFontOfSize:KMainScreenWidth*18/320];
+            lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, (ceeH - imgWH)/2, labW, imgWH)];
+            lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
             [cell addSubview:lab];
             
         }
         switch (indexPath.row ) {
             case 0:
-                lab.text = @"微信支付";
+                lab.text = @" 微信支付";
                imgView.image = [UIImage imageNamed:@"KZ_img_weixin"];
                 break;
             case 1:
-                lab.text = @"支付宝";
+                lab.text = @" 支付宝";
                 imgView.image = [UIImage imageNamed:@"KZ_img_zhifubao"];
                 
                 break;
@@ -154,7 +167,7 @@
                           @"seller_id":seller,
                           @"out_trade_no":orderNO,
                           @"subject":_model.projectName,
-                          @"total_fee":[NSString stringWithFormat:@"%.f",_model.shopPrice],
+                          @"total_fee":[NSString stringWithFormat:@"%.2f",num*_model.shopPrice],
                           @"notify_url":@"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php",
                           @"service":@"mobile.securitypay.pay",
                           @"payment_type":@"1",
@@ -231,7 +244,7 @@
 - (void)jumpToBizPay:(NSString*)mchid{
     
     [LLARingSpinnerView RingSpinnerViewStart];
-    NSString* price = [NSString stringWithFormat:@"%.f",_model.shopPrice*100];
+    NSString* price = [NSString stringWithFormat:@"%.f",num*_model.shopPrice*100];
     NSString *urlString   = @"http://uni.dodwow.com/uni_pay/uni_wx_pay/api/unifiedorder.php";
     NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":_model.projectName,@"total_fee":price,@"mchid":mchid};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];

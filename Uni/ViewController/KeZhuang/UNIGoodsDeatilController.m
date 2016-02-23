@@ -11,7 +11,7 @@
 //#import "UNIGoodsComment.h"
 //#import "UNIPurchaseController.h"
 #import <MJRefresh/MJRefresh.h>
-//#import "UNIImageAndTextController.h"
+#import "UNIImageAndTextController.h"
 #import "BTKeyboardTool.h"
 #import "UNIPurChaseView.h"
 @interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
@@ -103,26 +103,26 @@
     
     float labX = KMainScreenWidth*30/414;
     float labH = KMainScreenWidth*40/414;
-    float labY = (boH/2 - labH)/2;
+    float labY = 10;
     float labW = KMainScreenWidth*200/414;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*36/414];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?25:20];
     lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab.text = [NSString stringWithFormat:@"￥ %.f",model.shopPrice];
+    lab.text = [NSString stringWithFormat:@"￥%.f",model.shopPrice];
     
     [bottom addSubview:lab];
     priceLab = lab;
     
-    float lab2H = KMainScreenWidth*25/414;
-    float lab2Y =boH/2;
-    float lab2W = KMainScreenWidth*100/414;
+    float lab2H = KMainScreenWidth>320?30:25;
+    float lab2Y =boH - lab2H - 20;
+    float lab2W = KMainScreenWidth>320?75:55;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, lab2W, lab2H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
     lab2.text = @"购买数量:";
     [bottom addSubview:lab2];
 
     float btn1WH = lab2H;
-    float btn1X = CGRectGetMaxX(lab2.frame);
+    float btn1X = CGRectGetMaxX(lab2.frame)+5;
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn1.frame = CGRectMake(btn1X, lab2Y, btn1WH, btn1WH);
     [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
@@ -131,7 +131,7 @@
      subscribeNext:^(id x) {
          if (self.num>1) {
              --self.num;
-             self->priceLab.text = [NSString stringWithFormat:@"￥ %.f",self->model.shopPrice*self.num];
+             self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
          }
     }];
     
@@ -147,7 +147,7 @@
         int k =[x intValue];
         if (k>0)
             self.num =k ;
-        self->priceLab.text = [NSString stringWithFormat:@"￥ %.f",self->model.shopPrice*self.num];
+        self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
     }];
     
     [RACObserve(self,num)subscribeNext:^(id x) {
@@ -169,7 +169,7 @@
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          ++self.num;
-          self->priceLab.text = [NSString stringWithFormat:@"￥ %.f",self->model.shopPrice*self.num];
+          self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
     }];
 
     float btn3Y = 10;
@@ -185,6 +185,12 @@
     [btn3 setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     btn3.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
     [bottom addSubview:btn3];
+    [btn3 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
+    [btn3 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
+    [btn3 setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+    [btn3 setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
+    btn3.layer.borderColor =[UIColor colorWithHexString:kMainThemeColor].CGColor;
+    btn3.layer.borderWidth =0.5;
     [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
 
@@ -201,7 +207,7 @@
     [bg addGestureRecognizer:tap];
     
     
-    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.8,KMainScreenWidth*0.6) andNum:[numField.text intValue] andModel:model];
+    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.7,KMainScreenWidth*0.6) andNum:[numField.text intValue] andModel:model];
     pur.delegate = self;
     pur.alpha = 0;
     pur.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
@@ -297,6 +303,13 @@
 
     UNIGoodsCell1* cell =[[UNIGoodsCell1 alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cell1H) reuseIdentifier:@"cell"];
     [cell setupCellContentWith:model];
+    [[cell.prideBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+        UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
+        imgAndText.projectId = self->model.url;
+        [self.navigationController pushViewController:imgAndText animated:YES];
+    }];
             return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -374,6 +387,18 @@
 }
 -(void)keyboardTool:(BTKeyboardTool*)tool buttonClick:(KeyBoardToolButtonType)type{
     [self.view endEditing:YES];
+}
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
 }
 
 - (void)didReceiveMemoryWarning {

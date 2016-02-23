@@ -127,7 +127,7 @@
                 return ;
             }
             if (arr.count<20)
-                [self->myTableView.footer endRefreshingWithNoMoreData];
+                [self->myTableView.footer setHidden:YES];
            
             if (arr && arr.count>0) {
                 if (self->pageNum == 0) {
@@ -153,29 +153,29 @@
     [self.view addSubview:top];
     topView = top;
     
-    float labX = KMainScreenWidth*8/320;
-    float labY = 5;
+    float labX = 10;
+    float labY = 10;
     float labW = topW- labX*2;
-    float labH = KMainScreenWidth*20/320;
+    float labH = KMainScreenWidth>320?25:20;
     UILabel* lab =[[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"准时到店";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth* 14/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
     [top addSubview:lab];
     
     float layX = labX;
-    float layY = CGRectGetMaxY(lab.frame);
+    float layY = CGRectGetMaxY(lab.frame)+5;
     float layW = labW;
     CALayer* lay =[CALayer layer];
     lay.frame = CGRectMake(layX, layY, layW, 0.5);
     lay.backgroundColor = kMainGrayBackColor.CGColor;
     [top.layer addSublayer:lay];
     
-    float lab1X = KMainScreenWidth*8/320;
-    float lab1Y = CGRectGetMaxY(lab.frame)+5;
+    float lab1X = labX;
+    float lab1Y = CGRectGetMaxY(lab.frame)+10;
     float lab1W = KMainScreenWidth*100/320;
     float lab1H = KMainScreenWidth*20/320;
     UILabel* lab1 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth* 14/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
     [top addSubview:lab1];
     topLab1 = lab1;
     
@@ -183,7 +183,7 @@
     float lab2W =topW- CGRectGetMaxX(lab1.frame);
     UILabel* lab2 =[[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab1Y, lab2W, lab1H)];
     lab2.text = @"准时到店";
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth* 14/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
     lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [top addSubview:lab2];
     topLab2 = lab2;
@@ -289,8 +289,6 @@
     myTableView = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
     myTableView.delegate=self;
     myTableView.dataSource = self;
-    myTableView.layer.masksToBounds = YES;
-    myTableView.layer.cornerRadius = 5;
     [self.view addSubview:myTableView];
     myTableView.tableFooterView = [UIView new];
     
@@ -298,13 +296,11 @@
         self->pageNum =0;
         [self startRequestCardInfo];
     }];
-    //if (self.myData.count>=20) {
         myTableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             ++self->pageNum;
             [self startRequestCardInfo];
         }];
-   // }else
-       // myTableView.footer.hidden = YES;
+  
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

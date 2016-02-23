@@ -23,5 +23,6 @@
 @property(nonatomic,assign)int payStyle; // 3:微信 2:支付宝
 @property(nonatomic,assign) id<UNIPurChaseViewDelegate> delegate;
 @property(nonatomic,strong)UNIGoodsModel* model;
+@property(nonatomic,strong)UIButton* closeBtn;
 -(id)initWithFrame:(CGRect)frame andNum:(int)num andModel:(UNIGoodsModel*)model;
 @end

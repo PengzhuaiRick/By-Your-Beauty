@@ -19,8 +19,8 @@
 }
 -(void)setupUI:(CGSize)size{
      self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    float imgX = KMainScreenWidth* 16 /320;
-    float imgY = KMainScreenWidth* 15 /320;
+    float imgX = KMainScreenWidth>320?16:20;
+    float imgY = 15;
     float imgWH =size.height - imgY*2;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
     img.contentMode = UIViewContentModeScaleAspectFit;
@@ -30,25 +30,25 @@
     
     float labX = CGRectGetMaxX(img.frame)+10;
     float labW = size.width - labX-2*imgX;
-    float labH = size.height/2 - imgY;
-    float lab1Y = imgY;
+    float labH = KMainScreenWidth* 15 /320;
+    float lab1Y = imgY+5;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
     [self addSubview:lab1];
     self.mainLab = lab1;
     
-    float lab1H = KMainScreenWidth*17/320;
-    float lab2Y = size.height/2;
+    float lab1H = KMainScreenWidth*20/414;
+    float lab2Y = size.height/2-5;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
     lab2.textColor = kMainGrayBackColor;
     [self addSubview:lab2];
     self.subLab = lab2;
     
     float lab3Y = CGRectGetMaxY(lab2.frame);
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, labW, lab1H)];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
     [self addSubview:lab3];
     self.stateLab = lab3;
     

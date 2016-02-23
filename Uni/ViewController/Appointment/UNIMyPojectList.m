@@ -97,7 +97,7 @@
     btn.frame =btnRect;
     [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     [btn setTitle:btnT forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth*20/320];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth>320?20:17];
     [self.view addSubview:btn];
     needKnowBtn = btn;
     
@@ -166,9 +166,7 @@
                         [self.myData removeAllObjects];
                     
                     if (myProjectArr.count<20)
-                        self.myTableview.footer.hidden = YES;
-                    else
-                        self.myTableview.footer.hidden = NO;
+                        [self.myTableview.footer setHidden:YES];
                     
                     if (myProjectArr.count>0){
                         NSMutableArray* data = [NSMutableArray arrayWithArray:myProjectArr];
