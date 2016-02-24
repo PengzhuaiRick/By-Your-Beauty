@@ -27,8 +27,9 @@
     topScrollerNum = 0;
     _maxNum = 1;
     midBtns = [NSMutableArray array];
-    
+    [LLARingSpinnerView RingSpinnerViewStart1];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [NSThread sleepForTimeInterval:1];
         [self startRequest];
     });
     
@@ -37,7 +38,6 @@
 }
 
 -(void)startRequest{
-    
     NSString* string = self.selectDay;
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetFreeTime]
@@ -78,7 +78,7 @@
         }
        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LLARingSpinnerView RingSpinnerViewStop];
+            [LLARingSpinnerView RingSpinnerViewStop1];
             self.userInteractionEnabled = YES;
             if (err) {
                 [YIToast showText:NETWORKINGPEOBLEM];
@@ -139,6 +139,7 @@
         [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateSelected];
         [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
         if (i==1){
+            self->selectBtnNum = 1;
             btn.selected = YES;
             self.selectYear =year;
             self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
@@ -151,37 +152,11 @@
             [btn setTitleColor:[UIColor colorWithHexString:@"c2c1c0"] forState:UIControlStateNormal];
             continue;
         }
-        
+       
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x){
-             self.numDay = (int)x.tag;
-             
-             x.selected=YES;
-             for (UIButton* b in self.topBtns) {
-                 if (b!=x)
-                     b.selected=NO;
-             }
-             
-             CGPoint point = CGPointMake(0, 0);
-             [self.midScroller setContentOffset:point animated:YES];
-             
-             self.member=1;//重置人数
-             NSString* str = [x titleForState:UIControlStateNormal];
-             NSString* monthAndDay =[str componentsSeparatedByString:@"\n"][1];
-             self.selectDay=[NSString stringWithFormat:@"%d-%@",self.selectYear,monthAndDay];
             
-             CGPoint pot = CGPointMake(x.center.x, self->arrowImg.center.y);
-             [UIView animateWithDuration:0.2 animations:^{
-                 self->arrowImg.center = pot;
-             }];
-             
-             [LLARingSpinnerView RingSpinnerViewStart];
-             self.userInteractionEnabled = NO;
-             dispatch_async(dispatch_get_global_queue(0, 0), ^{
-                 [NSThread sleepForTimeInterval:1.0];
-                 [self startRequest];
-             });
-             
+             [self dateBtnAction:x];
         }];
     }
 
@@ -196,8 +171,37 @@
     [_topScroller addSubview:arrow];
     arrowImg = arrow;
 
+}
+-(void)dateBtnAction:(UIButton*)x{
+    self.numDay = (int)x.tag;
+    selectBtnNum =(int)x.tag;
+    x.selected=YES;
+    for (UIButton* b in self.topBtns) {
+        if (b!=x)
+            b.selected=NO;
     }
+    
+    CGPoint point = CGPointMake(0, 0);
+    [self.midScroller setContentOffset:point animated:YES];
+    
+    self.member=1;//重置人数
+    NSString* str = [x titleForState:UIControlStateNormal];
+    NSString* monthAndDay =[str componentsSeparatedByString:@"\n"][1];
+    self.selectDay=[NSString stringWithFormat:@"%d-%@",self.selectYear,monthAndDay];
+    
+    CGPoint pot = CGPointMake(x.center.x, self->arrowImg.center.y);
+    [UIView animateWithDuration:0.2 animations:^{
+        self->arrowImg.center = pot;
+    }];
+    
+    self.userInteractionEnabled = NO;
+    [LLARingSpinnerView RingSpinnerViewStart1];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        [NSThread sleepForTimeInterval:1.0];
+        [self startRequest];
+    });
 
+}
 
 -(void)initSecondView{
     float viewX = 10;
@@ -259,6 +263,8 @@
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn1.frame = CGRectMake(btn1X, btn1Y, btn1WH, btn1WH);
     [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
+    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
     [view addSubview:btn1];
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
@@ -310,6 +316,8 @@
     btn2.frame = CGRectMake(btn2X, btn1Y, btn1WH, btn1WH);
     [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
     [view addSubview:btn2];
+    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          if (self.member<self.maxNum) {
@@ -318,28 +326,51 @@
              [YIToast showText:@"已达到预约时间点的最大人数"];
      }];
 
-//    float btn3WH = KMainScreenWidth*20/320;
-//    float btn3Y = (view.frame.size.height- btn3WH)/2;
-//    UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btn3.frame = CGRectMake(0, btn3Y, btn3WH, btn3WH);
-//    [btn3 setImage:[UIImage imageNamed:@"appoint_btn_leftTop"] forState:UIControlStateNormal];
-//    [view addSubview:btn3];
-//    _midLeftBtn = btn3;
-//    [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
-//    subscribeNext:^(id x) {
-//        
-//    }];
-//
-//    float btn4X = view.frame.size.width - btn3WH;
-//    UIButton* btn4 = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btn4.frame = CGRectMake(btn4X, btn3Y, btn3WH, btn3WH);
-//    [btn4 setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateNormal];
-//    [view addSubview:btn4];
-//    _midRightBtn = btn4;
-//    [[btn4 rac_signalForControlEvents:UIControlEventTouchUpInside]
-//     subscribeNext:^(id x) {
-//         
-//     }];
+    float btn3WH = KMainScreenWidth*20/320;
+    float btn3Y = (view.frame.size.height- btn3WH)/2;
+    UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn3.frame = CGRectMake(0, btn3Y, btn3WH, btn3WH);
+    [btn3 setImage:[UIImage imageNamed:@"appoint_btn_leftTop"] forState:UIControlStateNormal];
+    [view addSubview:btn3];
+    _midLeftBtn = btn3;
+    [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        if (self->selectBtnNum>1) {
+            --self->selectBtnNum;
+            for (UIButton* b in self.topBtns) {
+                if (b.tag == self->selectBtnNum) {
+                    [self dateBtnAction:b];
+                    break ;
+                }
+            }
+            if (self->selectBtnNum<5) {
+                [self.topScroller setContentOffset:CGPointMake(0, 0) animated:YES];
+            }
+        }
+    }];
+
+    float btn4X = view.frame.size.width - btn3WH;
+    UIButton* btn4 = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn4.frame = CGRectMake(btn4X, btn3Y, btn3WH, btn3WH);
+    [btn4 setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateNormal];
+    [view addSubview:btn4];
+    _midRightBtn = btn4;
+    [[btn4 rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         if (self->selectBtnNum<7) {
+             ++self->selectBtnNum;
+             for (UIButton* b in self.topBtns) {
+                 if (b.tag == self->selectBtnNum) {
+                     [self dateBtnAction:b];
+                     break;
+                 }
+             }
+             
+             if (self->selectBtnNum>4) {
+                 [self.topScroller setContentOffset:CGPointMake(KMainScreenWidth/5*3, 0) animated:YES];
+             }
+         }
+     }];
     
 }
 

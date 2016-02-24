@@ -30,13 +30,13 @@
     //    [self.mainImg sd_setImageWithURL:nil
     //                    placeholderImage:[UIImage imageNamed:@"evaluete_img_reward"]];
     
-    float lab3Y =imgY;
+    float lab3Y =KMainScreenWidth* 15 /320;
     float lab3WH = size.height -2*lab3Y;
     float lab3X = size.width - lab3Y - lab3WH;
     
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3WH, lab3WH)];
     lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
     lab3.textColor = [UIColor whiteColor];
     lab3.textAlignment = NSTextAlignmentCenter;
     lab3.lineBreakMode = 0;
@@ -55,7 +55,7 @@
     float lab1Y = 0;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
     // lab1.text = @"ALBION 爽肤精体液";
     [self addSubview:lab1];
     self.label1 = lab1;
@@ -63,7 +63,7 @@
     float lab1H = KMainScreenWidth*17/320;
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
     lab2.textColor = kMainGrayBackColor;
     //lab2.text = @"规格: 330ml       x1";
     [self addSubview:lab2];
@@ -72,7 +72,7 @@
     
     float lab4Y = CGRectGetMaxY(lab2.frame);
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab4Y, labW, lab1H)];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
     lab4.textColor = [UIColor colorWithHexString:kMainThemeColor];
     // lab4.text = @"9-21 15:20";
     [self addSubview:lab4];

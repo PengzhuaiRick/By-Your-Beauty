@@ -20,6 +20,8 @@
 #import "YILocationManager.h"
 #import "UIActionSheet+Blocks.h"
 
+#import "UNIMapAddressView.h"
+
 @interface UNIAppointDetail ()<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>{
     float topCellH;
     float midCellH;
@@ -56,13 +58,13 @@
 }
 
 -(void)startRequest{
-     [LLARingSpinnerView RingSpinnerViewStart];
+     [LLARingSpinnerView RingSpinnerViewStart1];
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
     [rquest postWithSerCode:@[API_PARAM_UNI,API_URL_GetAppointInfo]
                      params:@{@"order":self.order}];
     rquest.reqMyAppointInfo = ^(NSArray* models,NSString* tips ,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LLARingSpinnerView RingSpinnerViewStop];
+            [LLARingSpinnerView RingSpinnerViewStop1];
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
@@ -102,6 +104,11 @@
     UIView* view =[[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight/2)];
     
    if (self.orderState == 2){
+       CALayer* lay = [CALayer layer];
+       lay.frame = CGRectMake(20, 0, view.frame.size.width, 0.5);
+       lay.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"].CGColor;
+       [view.layer addSublayer:lay];
+       
     float btnWH =KMainScreenWidth*80/320;
     float btnX = (KMainScreenWidth - btnWH)/2;
     float btnY = 30;
@@ -111,7 +118,7 @@
     button.layer.cornerRadius = btnWH/2;
     button.titleLabel.numberOfLines = 0;
     button.titleLabel.lineBreakMode = 0;
-    button.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*17/320];
+    button.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
     [button setTitle:@"服务\n评价" forState:UIControlStateNormal];
     [button setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     [view addSubview:button];
@@ -140,7 +147,7 @@
         CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
         mapView.centerCoordinate = td;
         
-        UNIMapAnnotation * end =[[UNIMapAnnotation alloc]initWithTitle:manager.shopName andCoordinate:td];
+        CalloutMapAnnotation * end =[[CalloutMapAnnotation alloc]initWithLatitude:manager.x.doubleValue andLongitude:manager.y.doubleValue];
                 [mapView addAnnotation:end];
         
         MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
@@ -236,53 +243,64 @@
     }
 }
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
-    if ([annotation isKindOfClass:[UNIMapAnnotation class]]) {
-        MKAnnotationView *annotationView =[mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomAnnotation"];
-        if (!annotationView) {
-            annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation
-                                                           reuseIdentifier:@"CustomAnnotation"];
-//            annotationView.canShowCallout = NO;
-            annotationView.image = [UIImage imageNamed:@"function_img_scell6"];
-        }
-        return annotationView;
-    }
     if ([annotation isKindOfClass:[CalloutMapAnnotation class]]) {
-        
-        CallOutAnnotationVifew *annotationView = (CallOutAnnotationVifew *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CalloutView"];
+        CallOutAnnotationVifew *annotationView =(CallOutAnnotationVifew*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomAnnotation"];
         if (!annotationView) {
+            annotationView = [[CallOutAnnotationVifew alloc] initWithAnnotation:annotation
+                                                           reuseIdentifier:@"CustomAnnotation"];
+           // annotationView.image = [UIImage imageNamed:@"appoint_img_pin"];
             
-            float cellH =KMainScreenWidth*25/320;
-            UIView* cell = [[UIView alloc]init];
-            
-            
-            UILabel* lab = [[UILabel alloc]init];
-            lab.text = [[UNIShopManage getShopData] address];
-            lab.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-            [lab sizeToFit];
-            float labY = (cellH - lab.frame.size.height)/2;
-            lab.frame = CGRectMake(10, labY, lab.frame.size.width, lab.frame.size.height);
-            [cell addSubview:lab];
-            
-            UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
-            but.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-            [but setTitle:@"地图" forState:UIControlStateNormal];
-            [but setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
-            float btnX = CGRectGetMaxX(lab.frame)+10;
-            but.frame = CGRectMake(btnX, 0, KMainScreenWidth*40/320, cellH);
-            [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
-            subscribeNext:^(id x) {
-                [self callOtherMapApp];
-            }];
-            [cell addSubview:but];
-            
-            cell.frame = CGRectMake(0, 0, CGRectGetMaxX(but.frame)+5, cellH);
-            
-            annotationView = [[CallOutAnnotationVifew alloc] initWithAnnotation:annotation reuseIdentifier:@"CalloutView" andSize:cell.frame.size] ;
-            [annotationView.contentView addSubview:cell];
-            
+//            annotationView.userInteractionEnabled=YES;
+//            annotationView.image = [UIImage imageNamed:@"function_img_scell6"];
+//            UNIMapAddressView* address = [[UNIMapAddressView alloc]init];
+//            address.center = CGPointMake(annotationView.center.x, annotationView.center.y-20);
+//            [annotationView addSubview:address];
+//            
+//            UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
+//            [address addGestureRecognizer:tap];
+//            [[tap rac_gestureSignal]subscribeNext:^(id x) {
+//                NSLog(@"asdsfdgf");
+//            }];
         }
         return annotationView;
     }
+//    if ([annotation isKindOfClass:[CalloutMapAnnotation class]]) {
+//        
+//        CallOutAnnotationVifew *annotationView = (CallOutAnnotationVifew *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CalloutView"];
+//        if (!annotationView) {
+//            
+//            float cellH =KMainScreenWidth*25/320;
+//            UIView* cell = [[UIView alloc]init];
+//            
+//            
+//            UILabel* lab = [[UILabel alloc]init];
+//            lab.text = [[UNIShopManage getShopData] address];
+//            lab.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+//            [lab sizeToFit];
+//            float labY = (cellH - lab.frame.size.height)/2;
+//            lab.frame = CGRectMake(10, labY, lab.frame.size.width, lab.frame.size.height);
+//            [cell addSubview:lab];
+//            
+//            UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
+//            but.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+//            [but setTitle:@"导航" forState:UIControlStateNormal];
+//            [but setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+//            float btnX = CGRectGetMaxX(lab.frame)+10;
+//            but.frame = CGRectMake(btnX, 0, KMainScreenWidth*40/320, cellH);
+//            [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
+//            subscribeNext:^(id x) {
+//                [self callOtherMapApp];
+//            }];
+//            [cell addSubview:but];
+//            
+//            cell.frame = CGRectMake(0, 0, CGRectGetMaxX(but.frame)+5, cellH);
+//            
+////            annotationView = [[CallOutAnnotationVifew alloc] initWithAnnotation:annotation reuseIdentifier:@"CalloutView" andSize:cell.frame.size] ;
+////            [annotationView.contentView addSubview:cell];
+//            
+//        }
+//        return annotationView;
+ //   }
     return nil;
 }
 

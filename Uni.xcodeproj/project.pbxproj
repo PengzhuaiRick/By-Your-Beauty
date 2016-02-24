@@ -69,7 +69,6 @@
 		18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A0C1BF48984000AE604 /* UNIWelController.m */; };
 		18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A101BF49BDF000AE604 /* YIToast.m */; };
 		18C315681BFDCDF600B8438E /* UIActionSheet+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */; };
-		18C3ECF21C0EC9C900B0A192 /* UNIAppointDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECF11C0EC9C900B0A192 /* UNIAppointDetail.m */; };
 		18C3ECF61C0ED53300B0A192 /* UNIAppointDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECF41C0ED53300B0A192 /* UNIAppointDetailCell.m */; };
 		18C3ECFB1C0EEA2100B0A192 /* UNIAppointDetall1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECF91C0EEA2100B0A192 /* UNIAppointDetall1Cell.m */; };
 		18C3ED001C0EF01200B0A192 /* UNIAppointDetail2Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECFE1C0EF01200B0A192 /* UNIAppointDetail2Cell.m */; };
@@ -116,6 +115,8 @@
 		18CCA01A1C030B3400B90092 /* UNIContainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA0191C030B3400B90092 /* UNIContainController.m */; };
 		18CCA01E1C030FF600B90092 /* UNIMyRewardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA01D1C030FF600B90092 /* UNIMyRewardController.m */; };
 		18CCA0201C0310F600B90092 /* Function.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18CCA01F1C0310F600B90092 /* Function.storyboard */; };
+		18CD114C1C7D4A7800D48808 /* UNIMapAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */; };
+		18CD114D1C7DD79500D48808 /* UNIAppointDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECF11C0EC9C900B0A192 /* UNIAppointDetail.m */; };
 		18CE1FE01C214017000DE133 /* UNIImageAndTextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE1FDF1C214017000DE133 /* UNIImageAndTextController.m */; };
 		18D124641BF5BC440034990F /* UNIShopManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D124631BF5BC440034990F /* UNIShopManage.m */; };
 		18D434A41C229AD0006A8A3F /* UNILocateNotifiDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D434A31C229AD0006A8A3F /* UNILocateNotifiDetail.m */; };
@@ -446,6 +447,8 @@
 		18CCA01C1C030FF600B90092 /* UNIMyRewardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMyRewardController.h; sourceTree = "<group>"; };
 		18CCA01D1C030FF600B90092 /* UNIMyRewardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyRewardController.m; sourceTree = "<group>"; };
 		18CCA01F1C0310F600B90092 /* Function.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Function.storyboard; sourceTree = "<group>"; };
+		18CD114A1C7D4A7800D48808 /* UNIMapAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMapAddressView.h; sourceTree = "<group>"; };
+		18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMapAddressView.m; sourceTree = "<group>"; };
 		18CE1FDE1C214017000DE133 /* UNIImageAndTextController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIImageAndTextController.h; sourceTree = "<group>"; };
 		18CE1FDF1C214017000DE133 /* UNIImageAndTextController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIImageAndTextController.m; sourceTree = "<group>"; };
 		18D124621BF5BC440034990F /* UNIShopManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopManage.h; sourceTree = "<group>"; };
@@ -719,6 +722,8 @@
 				18EA4A7F1C60A3D00033E801 /* CallOutAnnotationVifew.m */,
 				18EA4A801C60A3D00033E801 /* CalloutMapAnnotation.h */,
 				18EA4A811C60A3D00033E801 /* CalloutMapAnnotation.m */,
+				18CD114A1C7D4A7800D48808 /* UNIMapAddressView.h */,
+				18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1469,6 +1474,7 @@
 				18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */,
 				18EA4A821C60A3D00033E801 /* CallOutAnnotationVifew.m in Sources */,
 				184E15471C5F4C4700D65E39 /* UNIAboutUsController.m in Sources */,
+				18CD114D1C7DD79500D48808 /* UNIAppointDetail.m in Sources */,
 				184482081C5212A90047D2EF /* UNIOrderDetailCell3.m in Sources */,
 				18E661D21C116736000042B7 /* UNIEvaluateController.m in Sources */,
 				18C3FBF91C1011B70031AFAC /* UNIMyAppointInfoModel.m in Sources */,
@@ -1537,7 +1543,6 @@
 				18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */,
 				18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */,
 				18CC75C01C2B8B6400625205 /* ViewControllerCell.m in Sources */,
-				18C3ECF21C0EC9C900B0A192 /* UNIAppointDetail.m in Sources */,
 				182E8A591C71CBA500870968 /* UNILawRequest.m in Sources */,
 				1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */,
 				180CD3891BDF180A00C912FE /* main.m in Sources */,
@@ -1557,6 +1562,7 @@
 				18BA7D781BEA169300DD7826 /* MainMidController.m in Sources */,
 				18C3ED001C0EF01200B0A192 /* UNIAppointDetail2Cell.m in Sources */,
 				188F123A1C16E85100EBE345 /* UNIWalletController.m in Sources */,
+				18CD114C1C7D4A7800D48808 /* UNIMapAddressView.m in Sources */,
 				184E15441C5F2DB500D65E39 /* UNISetttingController.m in Sources */,
 				18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */,
 				18C3ED041C0EF93400B0A192 /* UNIMapAnnotation.m in Sources */,

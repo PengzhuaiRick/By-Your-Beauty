@@ -44,13 +44,13 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)startRequest{
-    [LLARingSpinnerView RingSpinnerViewStart];
+    [LLARingSpinnerView RingSpinnerViewStart1];
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
     [rquest postWithSerCode:@[API_PARAM_UNI,API_URL_GetAppointInfo]
                      params:@{@"order":_order}];
     rquest.reqMyAppointInfo = ^(NSArray* models,NSString* tips ,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LLARingSpinnerView RingSpinnerViewStop];
+            [LLARingSpinnerView RingSpinnerViewStop1];
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;

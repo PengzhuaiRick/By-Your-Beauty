@@ -20,23 +20,23 @@
 -(void)setupUI:(CGSize)size{
     
     float imgX = KMainScreenWidth* 16 /320;
-    float imgWH =size.height/2;
+    float imgWH =KMainScreenWidth>320?25:20;
     float imgY = (size.height-imgWH)/2;
     
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
     img.contentMode = UIViewContentModeScaleAspectFit;
-    img.image =[UIImage imageNamed:@"function_img_scell6"];
+    img.image =[UIImage imageNamed:@"appoint_img_pin"];
     [self addSubview:img];
     self.mainImg = img;
     
     
     float labX = CGRectGetMaxX(img.frame)+10;
-    float labW = size.width - labX*2;
+    float labW = size.width - labX;
     float labH = size.height;
     float labY = 0;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:12];
     lab1.lineBreakMode = 0 ;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];

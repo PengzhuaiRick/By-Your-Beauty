@@ -140,13 +140,15 @@
     if (model.select){
         model.select = NO;
         seletNum -- ;
+        cell.handleImag.image= [UIImage imageNamed:@"addpro_btn_selelct1"];
     }
     else{
         model.select = YES;
         seletNum++;
+        cell.handleImag.image= [UIImage imageNamed:@"addpro_btn_selelct2"];
     }
     numLab.text = [NSString stringWithFormat:@"%d",seletNum];
-    cell.handleBtn.selected = model.select;
+    //cell.handleBtn.selected = model.select;
     
 }
 

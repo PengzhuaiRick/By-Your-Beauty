@@ -8,8 +8,8 @@
 
 #import "CallOutAnnotationVifew.h"
 #import <QuartzCore/QuartzCore.h>
-
-
+#import "UNIMapAddressView.h"
+#import "UNIShopManage.h"
 #define  Arror_height 0
 
 @interface CallOutAnnotationVifew ()
@@ -19,26 +19,64 @@
 @end
 
 @implementation CallOutAnnotationVifew
-@synthesize contentView;
 
 - (void)dealloc
 {
-    self.contentView = nil;
+    
 }
 
-- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier andSize:(CGSize)size
-{
+- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier];
     if (self) {
+        self.superview.backgroundColor = [UIColor clearColor];
         self.backgroundColor = [UIColor clearColor];
         self.canShowCallout = NO;
-        self.centerOffset = CGPointMake(0, -30);
-        self.frame = CGRectMake(0, 0, size.width, size.height);
+        //self.image =[UIImage imageNamed:@"appoint_img_pin"];
+        //self.centerOffset = CGPointMake(0, -30);
         
-        UIView *_contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height - Arror_height)];
-        _contentView.backgroundColor   = [UIColor clearColor];
+        UNIMapAddressView *_contentView = [[UNIMapAddressView alloc] init];
+        _contentView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
         [self addSubview:_contentView];
-        self.contentView = _contentView;
+        
+        UILabel* lab = [[UILabel alloc]init];
+        lab.text = [[UNIShopManage getShopData] address];
+        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
+        lab.textColor = [UIColor whiteColor];
+        [lab sizeToFit];
+        float labY =8;
+        lab.frame = CGRectMake(10, labY, lab.frame.size.width, lab.frame.size.height);
+        [_contentView addSubview:lab];
+        
+        UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
+        but.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+        [but setTitle:@"导航" forState:UIControlStateNormal];
+        [but setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+        float btnX = CGRectGetMaxX(lab.frame)+5;
+        but.frame = CGRectMake(btnX, 0, KMainScreenWidth*40/320, CGRectGetMaxY(lab.frame)+8);
+        [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
+         subscribeNext:^(id x) {
+             NSLog(@"导航");
+             //[self callOtherMapApp];
+         }];
+        [_contentView addSubview:but];
+        
+        float contentW = CGRectGetMaxX(but.frame)+10;
+        _contentView.frame = CGRectMake(0, 0, contentW, CGRectGetMaxY(lab.frame)+8);
+        
+        UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_img_pin"]];
+        float imgWH = 25;
+        float imgX =  (contentW - imgWH)/2;
+        float imgY = CGRectGetMaxY(_contentView.frame)+8;
+        img.frame = CGRectMake(imgX, imgY, imgWH, imgWH);
+        img.contentMode = UIViewContentModeScaleAspectFit;
+        img.backgroundColor = [UIColor clearColor];
+        [self addSubview:img];
+        
+        CGRect selfR =self.frame;
+        selfR.size = CGSizeMake(contentW, CGRectGetMaxY(img.frame));
+        self.frame =selfR;
+        
+         //self.centerOffset = CGPointMake(-contentW/2, -30);
         
     }
     return self;

@@ -94,7 +94,7 @@
 }
 
 -(void)setupBottomView{
-    float boH = KMainScreenWidth* 80/320;
+    float boH = KMainScreenWidth>320?100:90;
     float boY = KMainScreenHeight - boH;
     UIView* bottom = [[UIView alloc]initWithFrame:CGRectMake(0, boY, KMainScreenWidth, boH)];
     bottom.backgroundColor = [UIColor whiteColor];
@@ -115,7 +115,7 @@
     
     float lab2H = KMainScreenWidth>320?30:25;
     float lab2Y =boH - lab2H - 20;
-    float lab2W = KMainScreenWidth>320?75:55;
+    float lab2W = KMainScreenWidth>320?75:65;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, lab2W, lab2H)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
     lab2.text = @"购买数量:";

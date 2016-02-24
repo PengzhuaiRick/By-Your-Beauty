@@ -89,7 +89,7 @@
     bg.frame = CGRectMake(0, 0, self.view.frame.size.width - _tv.edag, self.view.frame.size.height);
     [self.view addSubview:bg];
     
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 40, self.view.frame.size.width - _tv.edag, self.view.frame.size.height - 80) style:UITableViewStylePlain];
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width - _tv.edag, self.view.frame.size.height - 80) style:UITableViewStylePlain];
     tab.delegate = self;
     tab.dataSource = self;
     tab.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -103,7 +103,7 @@
     [btn1 setTitle:@"   退出" forState:UIControlStateNormal];
     [btn1 setImage:[UIImage imageNamed:@"function_btn_quit"] forState:UIControlStateNormal];
     btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
-    [btn1 setTitleColor:[UIColor colorWithHexString:kMainTitleColor] forState:UIControlStateNormal];
+    [btn1 setTitleColor: [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] forState:UIControlStateNormal];
     [self.view addSubview:btn1];
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         [self loginOut];
@@ -114,7 +114,7 @@
     [btn2 setTitle:@"   设置" forState:UIControlStateNormal];
     [btn2 setImage:[UIImage imageNamed:@"function_btn_set"] forState:UIControlStateNormal];
     btn2.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
-    [btn2 setTitleColor:[UIColor colorWithHexString:kMainTitleColor] forState:UIControlStateNormal];
+    [btn2 setTitleColor:[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] forState:UIControlStateNormal];
     [self.view addSubview:btn2];
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         [self.tv closeTheBox];
@@ -149,7 +149,7 @@
     }
         cell.mainImg.image = [UIImage imageNamed:imgArray[indexPath.row]];
         cell.mainLab.text = titleArray[indexPath.row];
-        cell.mainLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+        cell.mainLab.textColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
    
 
     return cell;
@@ -167,7 +167,7 @@
             cell.mainImg.image = [UIImage imageNamed:imgSArray[i]];
             cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.1];
         }else{
-            cell.mainLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+            cell.mainLab.textColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
             cell.mainImg.image = [UIImage imageNamed:imgArray[i]];
             cell.backgroundColor = [UIColor clearColor];
         }

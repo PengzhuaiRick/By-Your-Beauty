@@ -17,21 +17,21 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.status = st;
-        // [self setupTableView];
+        //[self setupTableView];
+        self.allArray = [NSMutableArray array];
          [self startRequest];
        
     }
     return self;
 }
 -(void)startRequest{
-    [LLARingSpinnerView RingSpinnerViewStart];
-    self.allArray = [NSMutableArray array];
+    [LLARingSpinnerView RingSpinnerViewStart1];
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYRewardList]
                       params:@{@"status":@(self.status),@"page":@(self.page),@"size":@(20)}];
     request.rewardListBlock=^(NSArray* array ,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LLARingSpinnerView RingSpinnerViewStop];
+            [LLARingSpinnerView RingSpinnerViewStop1];
             [self.myTable.header endRefreshing];
             [self.myTable.footer endRefreshing];
             if (er) {
@@ -39,9 +39,9 @@
                 return ;
             }
             if (self.page == 0)
-                [self.allArray removeLastObject];
+                [self.allArray removeAllObjects];
             
-            if (array && array.count>0)
+            if (array.count>0)
                 [self.allArray addObjectsFromArray:array];
             
             [self setupTableView:array];
@@ -51,28 +51,17 @@
 }
 
 
--(void)setupTableView:(NSArray*)ARR{
+-(void)setupTableView:(NSArray*)arr{
     if (self.myTable){
-        if (self.page == 0) {
-            UILabel* lab =(UILabel*)self.myTable.tableFooterView;
-            if (self.allArray.count<1){
-                lab.text= @"已经全部加载完毕";
-                lab.frame = CGRectMake(0, 0, self.frame.size.width, 40);
-            }else{
-                lab.text= nil;
-                lab.frame = CGRectNull;
-            }
-
-        }
-        
         [self.myTable reloadData];
-        if (ARR.count<20) {
-            [self.myTable.footer endRefreshingWithNoMoreData];
+        if (arr.count<20){
+            if (self.page > 0)
+            [ self.myTable.footer setHidden:YES];
+            else
+                [ self.myTable.footer setHidden:NO];
         }
         return;
     }
-    
-    
     
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
                                                        style:UITableViewStylePlain];
@@ -80,23 +69,11 @@
     tabview.dataSource = self;
     tabview.showsVerticalScrollIndicator=NO;
     [self addSubview:tabview];
-    UILabel* footLab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, 15)];
-    footLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    footLab.font = [UIFont boldSystemFontOfSize:14];
-    footLab.textAlignment = NSTextAlignmentCenter;
-    tabview.tableFooterView = footLab;
-    if (self.allArray.count<1) {
-        footLab.text = @"已经全部加载完毕";
-        footLab.frame = CGRectMake(0, 0, self.frame.size.width, 40);
-    }else{
-        footLab.text = nil;
-        footLab.frame = CGRectNull;
-    }
+    tabview.tableFooterView = [UIView new];
     self.myTable =tabview;
     
     tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self.page = 0;
-        [self.allArray removeAllObjects];
         [self startRequest];
     }];
     
@@ -104,6 +81,7 @@
         self.page++;
         [self startRequest];
     }];
+   //self.myTable.footer.automaticallyHidden = YES;
    
 }
 

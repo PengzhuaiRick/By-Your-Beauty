@@ -29,16 +29,22 @@
     float btnWH =KMainScreenWidth*20/320;
     float btnY = (size.height - btnWH)/2;
     float btnX = size.width - 20 - btnWH;
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
-    btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = btnWH/2;
-    btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
-    [btn setBackgroundImage:[UIImage imageNamed:@"addpro_btn_selelct1"] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[UIImage imageNamed:@"addpro_btn_selelct2"] forState:UIControlStateHighlighted];
-    [btn setBackgroundImage:[UIImage imageNamed:@"addpro_btn_selelct2"] forState:UIControlStateSelected];
-    [self addSubview:btn];
-    self.handleBtn =  btn;
+//    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
+//    btn.layer.masksToBounds = YES;
+//    btn.layer.cornerRadius = btnWH/2;
+//    btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
+//    [btn setBackgroundImage:[UIImage imageNamed:@"addpro_btn_selelct1"] forState:UIControlStateNormal];
+//    [btn setBackgroundImage:[UIImage imageNamed:@"addpro_btn_selelct2"] forState:UIControlStateHighlighted];
+//    [btn setBackgroundImage:[UIImage imageNamed:@"addpro_btn_selelct2"] forState:UIControlStateSelected];
+//    [self addSubview:btn];
+//    self.handleBtn =  btn;
+    
+    UIImageView* hImag = [[UIImageView alloc]initWithFrame:CGRectMake(btnX, btnY, btnWH, btnWH)];
+    hImag.userInteractionEnabled = YES;
+    hImag.image =[UIImage imageNamed:@"addpro_btn_selelct1"];
+    [self addSubview:hImag];
+    _handleImag = hImag;
     
     float labX = CGRectGetMaxX(img.frame)+20;
     float labW = size.width -CGRectGetMaxX(img.frame) - imgX - btnWH;

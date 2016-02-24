@@ -101,8 +101,8 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     float max = (KMainScreenHeight-64)/2;
-    float cellH = KMainScreenWidth* 80 /320;
-    float rest = KMainScreenWidth* 30/320;
+    float cellH = KMainScreenWidth>320?90:80;
+    float rest = KMainScreenWidth* 50/320;
     
     cellHight = 0;
     if (indexPath.row == 0) {

@@ -45,7 +45,7 @@
     lab.textAlignment = NSTextAlignmentCenter;
     lab.lineBreakMode = 0;
     lab.numberOfLines = 0;
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*20/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self.view addSubview:lab];
 }

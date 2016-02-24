@@ -78,19 +78,25 @@
 }
 #pragma mark 加载底部Scroller
 -(void)setupBottomContent{
-    float btnWH = KMainScreenWidth*70/320;
+    float btnWH = KMainScreenWidth>320?80:70;
     float btnY = _myScroller.contentSize.height -btnWH - 10;
     float btnX = (KMainScreenWidth - btnWH)/2;
     
     UIButton* btn = [UIButton buttonWithType: UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
     [btn setTitle:@"马上\n预约" forState:UIControlStateNormal];
-    [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+    //[btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     btn.titleLabel.lineBreakMode = 0;
     btn.titleLabel.numberOfLines = 0;
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*16/320];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:16];
     btn.layer.masksToBounds=YES;
     btn.layer.cornerRadius = btnWH/2;
+    btn.layer.borderWidth = 0.5;
+    btn.layer.borderColor =[UIColor colorWithHexString:kMainThemeColor].CGColor;
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
     [_myScroller addSubview:btn];
     sureBtn = btn;
     
@@ -125,7 +131,7 @@
 }
 
 -(void)startAppoint{
-             [LLARingSpinnerView RingSpinnerViewStart];
+             [LLARingSpinnerView RingSpinnerViewStart1];
              UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
              NSMutableArray* arr = [NSMutableArray array];
               NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
@@ -142,7 +148,7 @@
              [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
                            params:@{@"data":arr}];
              dispatch_async(dispatch_get_main_queue(), ^{
-                 [LLARingSpinnerView RingSpinnerViewStop];
+                 [LLARingSpinnerView RingSpinnerViewStop1];
                  req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
                      if (err) {
                          [YIToast showText:NETWORKINGPEOBLEM];
@@ -285,17 +291,26 @@
         self-> appontMid.frame = midRec;
         
         CGRect tabRe = self->appontMid.myTableView.frame;
-        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - 40;
+        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - 50;
         self->appontMid.myTableView.frame =tabRe;
         
         CGRect addRec = self->appontMid.addProBtn.frame;
-        addRec.origin.y =midRec.size.height - 40;
+        addRec.origin.y =midRec.size.height - 45;
         self->appontMid.addProBtn.frame =addRec;
-        
-
-
+    
 }
-
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];

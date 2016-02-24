@@ -27,14 +27,18 @@
         string = @"准时奖励";
     
     UILabel* lab = [[UILabel alloc]initWithFrame:
-                    CGRectMake(10, 0, self.frame.size.width-20 , KMainScreenWidth*20/320)];
+                    CGRectMake(15, 10, self.frame.size.width-20 , 20)];
     lab.text=string;
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     [self addSubview:lab];
 
+    CALayer* lay = [CALayer layer];
+    lay.frame = CGRectMake(20, CGRectGetMaxY(lab.frame)+9, lab.frame.size.width,1);
+    lay.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"].CGColor;
+    [self.layer addSublayer:lay];
     
-    float tabY =CGRectGetMaxY(lab.frame);
+    float tabY =CGRectGetMaxY(lab.frame)+10;
     float tabH = self.frame.size.height -tabY;
     UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, tabY, self.frame.size.width,tabH)
                                                    style:UITableViewStylePlain];
@@ -48,7 +52,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     // return KMainScreenWidth*55/320;
-    return KMainScreenWidth*80/320;
+    return KMainScreenWidth>320?90:80;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _dataArray.count ;
@@ -57,7 +61,7 @@
     static NSString* cellName=@"Cell";
     UNIRewardDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (!cell) {
-        cell = [[UNIRewardDetailCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,KMainScreenWidth*80/320) reuseIdentifier:cellName andTpye:type];;
+        cell = [[UNIRewardDetailCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,KMainScreenWidth>320?90:80) reuseIdentifier:cellName andTpye:type];;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [cell setupCellContent:self.dataArray[indexPath.row] andType:type andTotal:total];

@@ -230,7 +230,7 @@
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(proX, lab1Y, lab1W, lab1H)];
 //    lab1.text = @"9/10";
     lab1.textColor = [UIColor whiteColor];
-    lab1.font = [UIFont systemFontOfSize:20];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?20:15];
     lab1.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab1];
     progessLab = lab1;
@@ -238,12 +238,12 @@
     
     float lab2W = imgH/2-8;
     float lab2H = 25;
-    float lab2Y =KMainScreenWidth*60/320;
+    float lab2Y =KMainScreenWidth>320?77:45;
     float lab2X = imgW/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y, lab2W, lab2H)];
 //    lab2.text = @"再预约次数";
     lab2.textColor = [UIColor whiteColor];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     lab2.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab2];
     goods1 = lab2;
@@ -253,7 +253,7 @@
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab3Y, lab2W, lab3H)];
 //    lab3.text = @"1";
     lab3.textColor = [UIColor whiteColor];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*45/414];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?45:35];
     lab3.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab3];
     numLab = lab3;
@@ -263,7 +263,7 @@
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab4Y, lab2W, lab4H)];
 //    lab4.text = @"可获得一支";
     lab4.textColor = [UIColor whiteColor];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     lab4.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab4];
     goods2 = lab4;
@@ -273,7 +273,7 @@
     UILabel* lab5 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab5Y, lab2W, lab5H)];
 //    lab5.text = @"300ml ALBION 爽肤精萃液";
     lab5.textColor = [UIColor whiteColor];
-    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
+    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     lab5.textAlignment = NSTextAlignmentCenter;
     lab5.numberOfLines = 0;
     lab5.lineBreakMode = 0;
@@ -473,9 +473,9 @@
                 if (!er) {
                     if (manager) {
                         if (manager.shortName.length>0)
-                            self.title =manager.shortName;
+                            self.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shortName];
                         else
-                            self.title =manager.shopName;
+                            self.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shopName];
                     }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
@@ -504,12 +504,14 @@
                         if (nextRewardNum>num) {
                             self->goodsLab.text = projectName;
                             self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
+                            self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?45:35];
                             self->goods1.hidden=NO;
                             self->goods1.text = @"再预约次数";
                             self->goods2.text = @"可获得一支";
                         }if (nextRewardNum == num) {
                             self->goodsLab.text = projectName;
                             self->numLab.text = @"恭喜您!";
+                            self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
                             self->goods1.hidden=YES;
                             self->goods2.text = @"获得一支";
                         }

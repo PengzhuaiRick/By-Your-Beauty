@@ -11,6 +11,7 @@
 #import "UNIMypointRequest.h"
 #import "BTKeyboardTool.h"
 @interface UNIAppointTop : UIView<UIScrollViewDelegate,KeyboardToolDelegate>{
+    int selectBtnNum;
     int topScrollerNum;
     NSArray* freeTimes;
     NSMutableArray* midBtns;//中间预约时间按钮组

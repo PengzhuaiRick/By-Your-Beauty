@@ -88,6 +88,8 @@
     [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateNormal];
     btn.layer.borderWidth=1;
     btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
     [footer addSubview:btn];
     loginBtn = btn;
     
@@ -159,6 +161,9 @@
     btn.layer.borderWidth =1;
     btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
+    
     [btn setBackgroundColor:[UIColor clearColor]];
     [cell addSubview:btn];
     codeBtn = btn;
@@ -214,14 +219,14 @@
 }
 -(void)setupFourthCell:(UITableViewCell*)cell{
         //float btnX = KMainScreenWidth*40/320;
-        float btnW = KMainScreenWidth*100/320;
-        float btnH = KMainScreenWidth*30/320;
+        float btnW = KMainScreenWidth*85/320;
+        float btnH = KMainScreenWidth*20/320;
         float btnY = (cellH - btnH)/2 ;
     
         UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
     
         UIImage* image3 =[UIImage imageNamed:@"login_btn_sex1"];
-    float imgWH = KMainScreenWidth>320?20:16;
+    float imgWH = KMainScreenWidth>320?17:14;
         float imgY = (view.frame.size.height - imgWH)/2;
         UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(0, imgY, imgWH, imgWH)];
         img.image = image3;
@@ -248,7 +253,7 @@
     
     UIImage* image4 =[UIImage imageNamed:@"login_btn_sex2"];
      UIView* view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
-        float img1WH = KMainScreenWidth>320?20:16;
+        float img1WH = KMainScreenWidth>320?17:14;
         float img1Y = (view.frame.size.height - imgWH)/2;
         UIImageView* img1 = [[UIImageView alloc]initWithFrame:CGRectMake(0, img1Y, img1WH, img1WH)];
         img1.image = image4;
@@ -392,7 +397,7 @@
     
     [[codeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
-        [LLARingSpinnerView RingSpinnerViewStart];
+        [LLARingSpinnerView RingSpinnerViewStart1];
          [self.view endEditing:YES];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
          [request postWithoutUserIdSerCode:@[API_PARAM_SSMS,
@@ -407,7 +412,7 @@
                                      NSString*tip,
                                      NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
-                [LLARingSpinnerView RingSpinnerViewStop];
+                [LLARingSpinnerView RingSpinnerViewStop1];
                 self->codeField.text = @"";
                 if (er) {
 #ifdef IS_IOS9_OR_LATER
@@ -564,7 +569,7 @@
              }
          
          x.enabled = NO;
-         [LLARingSpinnerView RingSpinnerViewStart];
+         [LLARingSpinnerView RingSpinnerViewStart1];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
         [request postWithoutUserIdSerCode:@[API_PARAM_UNI,
                                    API_URL_Login]
@@ -579,7 +584,7 @@
                                  NSString* tips,
                                  NSError* er){
             x.enabled = YES;
-             [LLARingSpinnerView RingSpinnerViewStop];
+             [LLARingSpinnerView RingSpinnerViewStop1];
             if (er==nil) {
                 if (!token){
 #ifdef IS_IOS9_OR_LATER
@@ -783,16 +788,18 @@
     
 }
 
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    CGFloat y = scrollView.contentOffset.y; //如果有导航控制器，这里应该加上导航控制器的高度64
-//    if (y< -imgH) {
-//        CGRect frame = headImge.frame;
-//        frame.origin.y = y;
-//        frame.size.height = -y-bShu;
-//        headImge.frame = frame;
-//    }
-//    
-//}
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
 
 
 

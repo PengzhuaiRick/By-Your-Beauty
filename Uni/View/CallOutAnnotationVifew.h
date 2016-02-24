@@ -9,7 +9,5 @@
 
 @interface CallOutAnnotationVifew : MKAnnotationView 
 
-@property (nonatomic,retain)UIView *contentView;
-
-- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier andSize:(CGSize)size;
+//- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier andSize:(CGSize)size;
 @end

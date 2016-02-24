@@ -13,6 +13,7 @@
 @property (strong, nonatomic)  UILabel *mainLab;
 @property (strong, nonatomic)  UILabel *subLab;
 @property (strong, nonatomic)  UIButton *handleBtn;
+@property (strong, nonatomic)  UIImageView *handleImag;
 
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
 

@@ -48,7 +48,7 @@
     [self addSubview:lab1];
     self.label1 = lab1;
     
-    float lab2Y =CGRectGetMaxY(lab1.frame);
+    float lab2Y =CGRectGetMaxY(lab1.frame)+8;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
 //    lab2.text = @"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤.";
@@ -74,7 +74,8 @@
     self.label3 = lab3;
     
     float btnH = labH*0.7;
-    float btnY = size.height-btnH - 30;
+    float k = KMainScreenWidth>320?30:20;
+    float btnY = size.height-btnH -k ;
     float btnW = KMainScreenWidth* 100/320;
     UIButton* btn =[UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(labX, btnY, btnW, btnH);
@@ -93,7 +94,9 @@
 -(void)setupCellContentWith:(id)model{
     UNIGoodsModel* info = model;
     self.label1.text =info.projectName;
+    [self.label1 sizeToFit];
     self.label2.text = info.effect;
+     [self.label2 sizeToFit];
     NSArray* imgArr = [info.imgUrl componentsSeparatedByString:@","];
     float imgH = _mainImage.frame.size.height;
     float imgW = _mainImage.frame.size.width;

@@ -43,7 +43,7 @@
     float lab1Y = 0;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     lab1.lineBreakMode = 0 ;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];
@@ -52,7 +52,7 @@
     float lab1H = KMainScreenWidth*17/320;
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [self addSubview:lab2];
     self.subLab = lab2;
@@ -62,14 +62,14 @@
     float lab3X = size.width - imgX- lab3W;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3W, lab1H)];
      lab3.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     [self addSubview:lab3];
     self.stateLab = lab3;
     
     float lab4W = KMainScreenWidth*150/320;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, lab4W, lab1H)];
     lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     [self addSubview:lab4];
     self.timeLab = lab4;
     
@@ -87,11 +87,11 @@
     switch (info.status) {
         case 0:
             titel = @"待确认";
-            stateColor = [UIColor colorWithHexString:kMainThemeColor];
+            stateColor = [UIColor blackColor];
             break;
         case 1:
             titel = @"待服务";
-            stateColor = [UIColor blackColor];
+            stateColor = [UIColor colorWithHexString:kMainThemeColor];
             break;
         case 2:
             titel = @"已完成";

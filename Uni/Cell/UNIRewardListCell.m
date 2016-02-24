@@ -29,13 +29,13 @@
 //    [self.mainImg sd_setImageWithURL:nil
 //                    placeholderImage:[UIImage imageNamed:@"evaluete_img_reward"]];
     
-    float lab3Y =imgY;
+    float lab3Y =KMainScreenWidth* 15 /320;
     float lab3WH = size.height -2*lab3Y;
     float lab3X = size.width - lab3Y - lab3WH;
 
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3WH, lab3WH)];
     lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
     lab3.textColor = [UIColor whiteColor];
     lab3.textAlignment = NSTextAlignmentCenter;
     lab3.lineBreakMode = 0;
@@ -48,13 +48,13 @@
 //    [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
 
     
-    float labX = CGRectGetMaxX(img.frame)+10;
+    float labX = CGRectGetMaxX(img.frame)+5;
     float labW = size.width -2*imgX -lab3WH - imgWH;
     float labH = size.height/2;
     float lab1Y = 0;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
    // lab1.text = @"ALBION 爽肤精体液";
     [self addSubview:lab1];
     self.label1 = lab1;
@@ -62,7 +62,7 @@
     float lab1H = KMainScreenWidth*17/320;
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
     lab2.textColor = kMainGrayBackColor;
     //lab2.text = @"规格: 330ml       x1";
     [self addSubview:lab2];
@@ -71,7 +71,7 @@
 
     float lab4Y = CGRectGetMaxY(lab2.frame);
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab4Y, labW, lab1H)];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
     lab4.textColor = [UIColor colorWithHexString:kMainThemeColor];
    // lab4.text = @"9-21 15:20";
     [self addSubview:lab4];
@@ -92,21 +92,21 @@
     NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
     [self.mainImg sd_setImageWithURL:[NSURL URLWithString:str]
                     placeholderImage:[UIImage imageNamed:@"main_img_shuang"]];
-//    self.label1.text =info.projectName;
-//    self.label2.text =[NSString stringWithFormat:@"规格: %@     x%d",info.specifications,info.num];
-//    self.label3.text = [info.time substringWithRange:NSMakeRange(5, 11)];
+    self.label1.text =info.projectName;
+    self.label2.text =[NSString stringWithFormat:@"规格: %@     x%d",info.specifications,info.num];
+    self.label3.text = [info.time substringWithRange:NSMakeRange(5, 11)];
     
-    self.label1.text=@"ALBION 爽肤精萃液";
-    self.label2.text=@"规格: 330ml     x1";
-    self.label3.text=@"9-21 15:20";
+//    self.label1.text=@"ALBION 爽肤精萃液";
+//    self.label2.text=@"规格: 330ml     x1";
+//    self.label3.text=@"9-21 15:20";
     
-//    if (info.status==0) {
+    if (info.status==0) {
          self.stateBtn.text= @"到店\n领取";
         [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
-//    }else{
-//        self.stateBtn.text= @"已领取";
-//        [self.stateBtn setBackgroundColor:kMainGrayBackColor];
-//    }
+    }else{
+        self.stateBtn.text= @"已领取";
+        [self.stateBtn setBackgroundColor:kMainGrayBackColor];
+    }
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

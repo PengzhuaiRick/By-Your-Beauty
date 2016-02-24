@@ -9,8 +9,9 @@
 #import "UNIEvaluateController.h"
 #import "UNIMyAppointInfoRequest.h"
 #import "BTKeyboardTool.h"
-@interface UNIEvaluateController ()<KeyboardToolDelegate>{
+@interface UNIEvaluateController ()<KeyboardToolDelegate,UITextViewDelegate>{
     int grades;//评级分数
+    BOOL first; //是否第一次输入
 }
 
 @end
@@ -67,7 +68,7 @@
     float lab2Y = CGRectGetMaxY(img.frame)+10;
     float lab2W = viewW - 2*lab2X;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y,lab2W, lab2H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [view addSubview:lab2];
     self.label2 = lab2;
@@ -75,33 +76,33 @@
     
     float lab3X = 16 ;
     float lab3H = KMainScreenWidth * 20/320;
-    float lab3Y = CGRectGetMaxY(lab2.frame);
+    float lab3Y = CGRectGetMaxY(lab2.frame)+8;
     float lab3W = viewW - 2*lab2X;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y,lab3W, lab3H)];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     lab3.textColor = kMainGrayBackColor;
     [view addSubview:lab3];
     self.label3 = lab3;
     
     float lab4X = 16 ;
     float lab4H = KMainScreenWidth * 20/320;
-    float lab4Y = CGRectGetMaxY(lab3.frame)+10;
+    float lab4Y = CGRectGetMaxY(lab3.frame)+12;
     float lab4W = viewW /2;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab4X, lab4Y, lab4W, lab4H)];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
      lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab4.text = @"服务满意度";
     [view addSubview:lab4];
     
     
-    float btnX = viewW/2+5;
+    float btnX = viewW/2;
     float btnY =lab4Y;
     float btnHW = KMainScreenWidth*25/320;
 
     UIImage* img1 =[UIImage imageNamed:@"evaluate_btn_xing1"];
     for (int i = 0; i<5; i++) {
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame =CGRectMake(btnX+i*btnHW, btnY, btnHW, btnHW);
+        btn.frame =CGRectMake(btnX+i*(btnHW+5), btnY, btnHW, btnHW);
         [btn setBackgroundImage:img1 forState:UIControlStateNormal];
         btn.tag = i+1;
         [view addSubview:btn];
@@ -130,12 +131,14 @@
     }
     
     float textX = 16;
-    float textY = btnY + btnHW +10;
+    float textY = btnY + btnHW +16;
     float textW = viewW - 2*textX;
-    float textH = KMainScreenWidth *100 /320;
+    float textH = KMainScreenWidth *120 /320;
     UITextView* textView = [[UITextView alloc]initWithFrame:CGRectMake(textX, textY, textW, textH)];
-    textView.text = @"  写下你对本次服务宝贵意见,长度在50-1001字以内.";
-    textView.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    textView.text = @"  写下你对本次服务宝贵意见,长度在50-100字以内.";
+    textView.textColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
+    textView.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    textView.delegate = self;
     [view addSubview:textView];
     self.textView = textView;
 
@@ -156,6 +159,7 @@
 }
 -(void)setupUI{
     grades = 0;
+    first = YES;
     self.label1.text =self.model.projectName ;
     self.label2.text =[NSString stringWithFormat:@"预约时间: %@",self.model.date];
     self.label3.text =[NSString stringWithFormat:@"订单编号: %@",self.order];
@@ -276,6 +280,14 @@
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
     [super viewDidDisappear:animated];
+}
+
+-(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
+    if (first) {
+        first = NO;
+        textView.text =@"  ";
+    }
+    return YES;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

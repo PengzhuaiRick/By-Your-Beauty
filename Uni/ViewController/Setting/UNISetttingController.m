@@ -73,7 +73,7 @@
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*200/320)];
     
     UIImage* img = [UIImage imageNamed:@"login_img_header"];
-    float imgW = KMainScreenWidth/5;
+    float imgW = KMainScreenWidth/6;
     float imgH = img.size.height * imgW / img.size.width;
     float imgX =( view.frame.size.width - imgW )/ 2;
     UIImageView* imgview = [[UIImageView alloc]init];
@@ -83,9 +83,9 @@
     
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(imgview.frame), KMainScreenWidth, KMainScreenWidth*15/320)];
     lab.textAlignment = NSTextAlignmentCenter;
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*10/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?13:10];
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab.text = @"美丽由你";
+    lab.text = @"由你";
     [view addSubview:lab];
     tab.tableHeaderView = view;
 }

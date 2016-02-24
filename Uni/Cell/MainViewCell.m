@@ -27,7 +27,7 @@
     [self addSubview:img];
     self.mainImage = img;
     
-    float lab3WH = imgWH*0.7;
+    float lab3WH = imgWH*0.6;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, lab3WH, lab3WH)];
     lab3.center = CGPointMake(imgWH-3, 3);
     lab3.textColor = [UIColor whiteColor];
@@ -54,8 +54,9 @@
     btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
     btn.layer.borderWidth = 1;
     [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
     [btn setBackgroundImage:nil forState:UIControlStateNormal];
-    UIColor* col = [UIColor colorWithHexString:kMainThemeColor alpha:0.5];
+    UIColor* col = [UIColor colorWithHexString:kMainThemeColor];
     [btn setBackgroundImage:[self createImageWithColor:col] forState:UIControlStateHighlighted];
     btn.hidden = YES;
     [self addSubview:btn];
