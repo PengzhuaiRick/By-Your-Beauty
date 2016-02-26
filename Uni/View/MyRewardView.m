@@ -29,7 +29,7 @@
     UILabel* lab = [[UILabel alloc]initWithFrame:
                     CGRectMake(15, 10, self.frame.size.width-20 , 20)];
     lab.text=string;
-    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    lab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     [self addSubview:lab];
 
@@ -75,14 +75,47 @@
 }
 
 -(void)startReflashTableView:(NSArray*)arr{
+    if (arr.count<1) {
+        self.midTableview.hidden=YES;
+        UIView* view = [[UIView alloc]initWithFrame:self.midTableview.frame];
+        [self addSubview:view];
+        nodataView = view;
+        
+        UIImageView* imgVIew = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
+        float imgWH = KMainScreenWidth>320? 60:50,
+        imgX = (view.frame.size.width - imgWH)/2,
+        imgY = 15;
+        imgVIew.frame = CGRectMake(imgX, imgY, imgWH, imgWH);
+        [view addSubview:imgVIew];
+        
+        UILabel* lab = [[UILabel alloc]init];
+        lab.text=@"马上预约，即可领取丰厚豪礼！\n多约多送，抓紧机会！";
+        lab.font =[UIFont systemFontOfSize:(KMainScreenWidth>320?14:12)];
+        lab.lineBreakMode = 0;
+        lab.numberOfLines = 0;
+        lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+        [lab sizeToFit];
+        float labW = lab.frame.size.width,
+        labH = lab.frame.size.height,
+        labX = (view.frame.size.width - labW)/2;
+        
+        lab.frame= CGRectMake(labX, CGRectGetMaxY(imgVIew.frame)+15, labW, labH);
+        [view addSubview:lab];
+        return;
+    }
     NSArray* array =[arr sortedArrayUsingComparator:^NSComparisonResult(UNIMyRewardModel* obj1, UNIMyRewardModel* obj2) {
         if (obj1.rewardNum > obj2.rewardNum)
             return NSOrderedDescending;
         else
             return NSOrderedAscending;
     }];
+    
+    if (nodataView)
+        [nodataView removeFromSuperview];
+    
     [self.dataArray removeAllObjects];
     [self.dataArray addObjectsFromArray:array];
+    self.midTableview.hidden=NO;
     [self.midTableview reloadData];
 }
 

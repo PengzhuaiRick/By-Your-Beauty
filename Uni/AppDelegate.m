@@ -46,17 +46,15 @@
 //            return ;
 //        }
 //    }];
-   [self rqCurrentVersion];
     //[self rqWelcomeImage];
+    [self rqCurrentVersion];
     [self judgeFirstTime];
     [self setupJPush:launchOptions];
     [self.window makeKeyAndVisible];
-   // [self replaceWelcomeImage:@""];
     [self setupNavigationStyle];
-    //[NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     [self setupWeChat];
     
-    //[self startBaiduMobStat];//百度统计
+   // [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     return YES;
 
 }
@@ -67,10 +65,6 @@
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
     return  [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
 }
-
-//- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-//    return [WXApi handleOpenURL:url delegate:[WXApiManager sharedManager]];
-//}
 
 #pragma mark 设置导航栏样式
 -(void)setupNavigationStyle{
@@ -110,8 +104,6 @@
 //        [user synchronize];
 //        [self setupGuideController];
 //    }
-    
-    
 }
 #pragma mark 开始引导页
 -(void)setupGuideController{
@@ -206,6 +198,7 @@
         if (er==nil) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self replaceWelcomeImage:url];
+                
             });
             
         }else[YIToast showText:NETWORKINGPEOBLEM];
@@ -218,10 +211,10 @@
 //    UIStoryboard* st = [UIStoryboard storyboardWithName:@"LaunchScreen" bundle:nil];
 //    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"LaunchScreen"];
    imag = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight)];
-    UIImage* image = [UIImage imageNamed:@"Main_Img_Welcome"];
-    imag.image = image;
-    [self.window addSubview:imag];
-    [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(VWIB:) userInfo:nil repeats:NO];
+    //UIImage* image = [UIImage imageNamed:@"Main_Img_Welcome"];
+    [imag sd_setImageWithURL:[NSURL URLWithString:url]];
+    [[UIApplication sharedApplication].keyWindow addSubview:imag];
+   [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(VWIB:) userInfo:nil repeats:NO];
 //    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
 //    [img setImageWithURLRequest:req placeholderImage:[UIImage imageNamed:@"Main_Img_Welcome"] success:^(NSURLRequest * _Nonnull request, NSHTTPURLResponse * _Nullable response, UIImage * _Nonnull image) {
 //        
@@ -234,10 +227,13 @@
 -(void)VWIB:(UIImageView*)IMG{
     [UIView animateWithDuration:1 delay:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self->imag.alpha = 0;
+       
     } completion:^(BOOL finished) {
+        
         [self->imag removeFromSuperview];
+        
     }];
-    
+   
 }
 
 #pragma mark 配置JP推送

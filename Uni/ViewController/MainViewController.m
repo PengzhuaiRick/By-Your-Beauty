@@ -24,6 +24,7 @@
 
 @interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
+    UITableView* footTableView;
     float cellHight;
     int appointTotal;
     int type1;
@@ -90,39 +91,6 @@
     
    // [self addLocateNotication];
 }
--(void)addLocateNotication{
-    NSMutableArray* arr = [NSMutableArray array];
-    for (int i =0 ; i<2; i++) {
-        
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        
-        localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:60*i];
-        //设置本地通知的时区
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        //设置通知的内容
-        localNotification.alertBody =  @"您预约的服务时间还有一小时";
-        //设置通知动作按钮的标题
-        localNotification.alertAction = @"查看";
-        //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-        localNotification.soundName = UILocalNotificationDefaultSoundName;
-        //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-        
-        NSDictionary *infoDic = @{@"OrderId":@"1223",@"useId":[AccountManager userId]};
-        localNotification.userInfo = infoDic;
-        //在规定的日期触发通知
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-        
-        NSDictionary* dic = @{@"time":localNotification.fireDate,
-                              @"OrderId":@"1223",
-                              @"useId":[AccountManager userId]};
-        [arr addObject:dic];
-    }
-    
-    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
-    [userD setValue:arr forKey:@"appointArr"];
-    [userD synchronize];
-}
-
 #pragma mark
 -(void)setupNavigation{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
@@ -171,7 +139,7 @@
     tabview.tableHeaderView = topImg;
     headerImg = topImg;
     [self setupTabViewHeader:topImg];
-
+    
     
     if (KMainScreenHeight<568)
         cellHight =(568-64-imgH)/2;
@@ -194,7 +162,7 @@
     
     float proX =KMainScreenWidth*12/320;
     float proW = imgW/2 - proX;
-    float proY =KMainScreenWidth*20/320;
+    float proY =KMainScreenWidth*30/320;
     UNIMainProView* proView = [[UNIMainProView alloc]initWithFrame:CGRectMake(proX, proY, proW, proW)];
     proView.backgroundColor =[UIColor clearColor];
     proView.shapeColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:0.1];
@@ -219,7 +187,8 @@
             return ;
         NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
         NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
-        [self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
+        //[self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
+        [self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
     }];
     [shuangfu addGestureRecognizer:tap];
    
@@ -311,7 +280,8 @@
     btn.layer.cornerRadius = btnWH/2;
     btn.layer.borderColor = [UIColor whiteColor].CGColor;
     btn.layer.borderWidth = 1;
-    [btn setBackgroundImage:nil forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
     [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5]] forState:UIControlStateHighlighted];
     [imageView addSubview:btn];
     sellBtn = btn;
@@ -321,7 +291,7 @@
             return ;
         UNIGoodsModel* info = self->sellGoods.lastObject;
         NSString* str = [NSString stringWithFormat:@"%d",info.projectId];
-        [self UNIGoodsWebDelegateMethodAndprojectId:str Andtype:@"2"];
+        [self UNIGoodsWebDelegateMethodAndprojectId:str Andtype:@"2" AndIsHeaderShow:1];
     }];
     
     
@@ -332,27 +302,27 @@
     UILabel* lab6 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H)];
 //    lab6.text = @"ALBION清新莹润滋养护理（五次）";
     lab6.textColor = [UIColor whiteColor];
-    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
+    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
     [imageView addSubview:lab6];
     sell1 = lab6;
     
-    float lab7Y =CGRectGetMaxY(lab6.frame)+10;
+    float lab7Y =CGRectGetMaxY(lab6.frame)+11;
     float lab7W = KMainScreenWidth*80/320;
     UILabel* lab7 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab7Y, lab7W, lab6H)];
     lab7.text = @"活动价";
     lab7.textColor = [UIColor whiteColor];
-    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth*12/414];
+    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth>320?12:10];
     [lab7 sizeToFit];
     [imageView addSubview:lab7];
     sell3 = lab7;
     
-    float lab8Y =CGRectGetMaxY(lab6.frame)+5;
+    float lab8Y =CGRectGetMaxY(lab6.frame)+4;
     float lab8W = KMainScreenWidth*100/320;
     float lab8X = CGRectGetMaxX(lab7.frame);
     UILabel* lab8 = [[UILabel alloc]initWithFrame:CGRectMake(lab8X, lab8Y, lab8W, lab6H)];
 //    lab8.text = @"￥899";
     lab8.textColor = [UIColor whiteColor];
-    lab8.font = [UIFont systemFontOfSize:KMainScreenWidth*17/414];
+    lab8.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?20:17)];
     [imageView addSubview:lab8];
     sell2 = lab8;
     
@@ -379,17 +349,46 @@
     alphBtn = alpBtn;
 }
 
+#pragma mark 设置footerTable
+-(void)setupTableViewFooter{
+    int num =(int)_bottomData.count;
+    if (num<1)
+        num=1;
+    if (footTableView) {
+        CGRect footR =footTableView.frame;
+        footR.size.height = num*cellHight;
+        footTableView.frame = footR;
+        [footTableView reloadData];
+        return;
+    }
+    
+    float tabW = KMainScreenWidth ;
+    float tabH =num*cellHight;
+    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, tabW, tabH) style:UITableViewStylePlain];
+    tabview.delegate = self;
+    tabview.dataSource = self;
+    tabview.backgroundColor = [UIColor clearColor];
+    tabview.showsVerticalScrollIndicator=NO;
+    myTable.tableFooterView = tabview;
+    footTableView = tabview;
+}
+
 #pragma mark
--(void)UNIGoodsWebDelegateMethodAndprojectId:(NSString *)ProjectId Andtype:(NSString *)Type{
+-(void)UNIGoodsWebDelegateMethodAndprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
     UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
     UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
     good.projectId = ProjectId;
     good.type = Type;
+    good.isHeadShow = isH;
     [self.navigationController pushViewController:good animated:YES];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int cellNum = 2;
+    int cellNum = 1;
+    if (tableView == footTableView) {
+        if (_bottomData.count>0)
+            cellNum =(int)_bottomData.count;
+    }
     return cellNum;
 }
 
@@ -399,42 +398,38 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MainViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
-    if (!cell) {
-        cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
-        cell.selectionStyle =UITableViewCellSelectionStyleNone;
-        if (indexPath.row == 1) {
-            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-            subscribeNext:^(id x) {
-                id model = self.bottomData[0];
-                [self mainMidViewDelegataButton:model];
-            }];
-           
-        }
-    }
-    if (indexPath.row == 0) {
+   
+    if (tableView == myTable) {
+        if (!cell)
+            cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
             [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
 
+    }else if (tableView == footTableView){
+        if (!cell){
+            cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
+            cell.handleBtn.tag = indexPath.row+1;
+            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+             subscribeNext:^(UIButton* x) {
+                 id model = self.bottomData[x.tag-1];
+                 [self mainMidViewDelegataButton:model];
+             }];
+        }
+            [cell setupCellWithData:_bottomData[indexPath.row] type:2 andTotal:-1];
     }
-    if (indexPath.row == 1) {
-         [cell setupCellWithData:_bottomData type:2 andTotal:-1];
-    }
-    return cell;
+       return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
-    UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    if (indexPath.row == 0) {
-        if (_midData.count<1)
-            return;
-        
-        self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-        [self.navigationController pushViewController:self.midController animated:YES];
-    }else if (indexPath.row  == 1){
-        if (_bottomData.count<1)
-            return;
-        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-        [self.navigationController pushViewController:self.buttomController animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (tableView == myTable) {
+        UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        if (indexPath.row == 0) {
+            if (_midData.count<1)
+                return;
+            
+            self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+            [self.navigationController pushViewController:self.midController animated:YES];
+        }
     }
-
 }
 
 #pragma mark  mainMidView代理方法 点击 mainMidView 的Cell
@@ -529,7 +524,7 @@
 -(void)startRequestAppointInfo{
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
-                          params:@{@"page":@(0),@"size":@(2)}];
+                          params:@{@"page":@(0),@"size":@(1)}];
         request.reappointmentBlock =^(int count,NSArray* myAppointArr,NSString* tips,NSError* err){
             [self startRequestProjectInfo];
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -553,17 +548,15 @@
 -(void)startRequestProjectInfo{
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
-                           params:@{@"page":@(0),@"size":@(2)}];
+                           params:@{@"page":@(0),@"size":@(50)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
                     [[NSNotificationCenter defaultCenter]postNotificationName:@"flashTheCellNum" object:nil userInfo:@{@"count":@(count)}];
                     self.bottomData = nil;
-                    if (myProjectArr.count>0){
+                    
                         self.bottomData=myProjectArr;
-                        [self->myTable reloadData];
-                       // [self.buttomView startReloadData:myProjectArr andType:2];
-                    }
+                        [self setupTableViewFooter];
                 }
                 else
                     [YIToast showText:NETWORKINGPEOBLEM];

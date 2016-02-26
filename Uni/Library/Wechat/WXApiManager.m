@@ -27,6 +27,14 @@
 
 #pragma mark - WXApiDelegate
 - (void)onResp:(BaseResp *)resp {
+    NSLog(@"%@",resp);
+if ([resp isKindOfClass:[SendAuthResp class]]) {
+        if (_delegate
+            && [_delegate respondsToSelector:@selector(managerDidRecvAuthResponse:)]) {
+            SendAuthResp *authResp = (SendAuthResp *)resp;
+            [_delegate managerDidRecvAuthResponse:authResp];
+        }
+    }
  if([resp isKindOfClass:[PayResp class]]){
         //支付返回结果，实际支付结果需要去微信服务器端查询
         NSString *strMsg,*strTitle = [NSString stringWithFormat:@"支付结果"];

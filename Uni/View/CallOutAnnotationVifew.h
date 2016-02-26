@@ -8,6 +8,6 @@
 #import <MapKit/MapKit.h>
 
 @interface CallOutAnnotationVifew : MKAnnotationView 
-
+@property(nonatomic,strong) UIButton* navBtn;
 //- (id)initWithAnnotation:(id<MKAnnotation>)annotation reuseIdentifier:(NSString *)reuseIdentifier andSize:(CGSize)size;
 @end

@@ -25,6 +25,7 @@
     
     UNIPurChaseView* purView;
     UIView* bgView;
+    BOOL ifFirst; //是否第一次消失
 }
 @property(nonatomic,assign)int num; //购买数量
 @property(nonatomic,strong)UIScrollView* myScroller;
@@ -35,7 +36,7 @@
 
 @implementation UNIGoodsDeatilController
 -(void)viewWillDisappear:(BOOL)animated{
-    
+   
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:UIKeyboardWillShowNotification
                                                  object:nil];
@@ -44,6 +45,15 @@
                                                  object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheZFB" object:nil];
     [super viewWillDisappear:animated];
+}
+-(void)viewDidDisappear:(BOOL)animated{
+
+    if (!ifFirst) {
+        ifFirst = YES;
+        self.myScroller.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    }
+    
+     [super viewDidDisappear:animated];
 }
 
 - (void)viewDidLoad {
@@ -60,7 +70,7 @@
 -(void)startRequestReward{
   //  _type = @"2";
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo2] params:@{@"projcetId":_projectId,@"type":_type,@"isHeadShow":@(1)}];
+    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo2] params:@{@"projectId":_projectId,@"type":_type,@"isHeadShow":@(_isHeadShow)}];
     requet.kzgoodsInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
@@ -85,11 +95,17 @@
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.myScroller.contentOffset.y == 0) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self.myScroller setContentOffset:CGPointMake(0, 0) animated:YES];
+    }
+    
 }
 
 -(void)setupData{
     _num = 1;
+    ifFirst = NO;
     self.allArray = [NSMutableArray array];
 }
 
@@ -126,6 +142,8 @@
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn1.frame = CGRectMake(btn1X, lab2Y, btn1WH, btn1WH);
     [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
+    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
     [bottom addSubview:btn1];
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
@@ -165,6 +183,8 @@
     UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn2.frame = CGRectMake(btn2X, lab2Y, btn1WH, btn1WH);
     [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
+    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
     [bottom addSubview:btn2];
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
@@ -172,8 +192,8 @@
           self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
     }];
 
-    float btn3Y = 10;
-    float btn3WH = boH - 2*btn3Y;
+    float btn3WH = KMainScreenWidth*70/414;
+    float btn3Y = (boH - btn3WH)/2;
     float btn3X =KMainScreenWidth - labX - btn3WH;
     UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn3.frame = CGRectMake(btn3X, btn3Y, btn3WH, btn3WH);

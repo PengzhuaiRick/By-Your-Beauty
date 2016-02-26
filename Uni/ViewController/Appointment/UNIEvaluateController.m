@@ -23,7 +23,7 @@
     [self setupNavigation];
     [self setupBaseUI];
     [self setupUI];
-       [self regirstKeyBoardNotification];
+    [self regirstKeyBoardNotification];
 }
 -(void)setupNavigation{
    self.title=@"服务评价";
@@ -142,17 +142,22 @@
     [view addSubview:textView];
     self.textView = textView;
 
-    float btWH = KMainScreenWidth* 70/320;
+    float btWH =KMainScreenWidth*70/414;
     float btX = (KMainScreenWidth - btWH)/2;
     float btY = CGRectGetMaxY(textView.frame)+30;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame =CGRectMake(btX, btY, btWH, btWH);
     [btn setTitle:@"提交" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = btWH/2;
-    [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
-    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_sure"] forState:UIControlStateNormal];
+    btn.layer.borderColor =[UIColor colorWithHexString:kMainThemeColor].CGColor;
+    btn.layer.borderWidth = 0.5;
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
+    
     [view addSubview:btn];
     self.submitBnt = btn;
 
@@ -224,18 +229,24 @@
 
 #pragma mark 开始提交评论
 -(void)startSubmitComment{
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyAppointInfoRequest* req = [[UNIMyAppointInfoRequest alloc]init];
     [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetServiceAppraise]
-                  params:@{@"goodsId":@(self.model.projectId),@"level":@(grades),@"content":self.textView.text}];
+                  params:@{@"goodsId":@(self.model.projectId),@"level":@(grades),@"content":self.textView.text,@"order":self.order,@"projectName":self.model.projectName}];
     req.rqAppraise =^(int code,NSString*tips,NSError* err){
-        if (err) {
-            [YIToast showText:NETWORKINGPEOBLEM];
-            return ;
-        }
-        if (code==0) {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LLARingSpinnerView RingSpinnerViewStop1];
+            if (err) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (code==0) {
+                [YIToast showText:@"评论成功"];
+                [self.navigationController popViewControllerAnimated:YES];
+            }
 
+        });
+        
     };
 }
 
@@ -261,7 +272,7 @@
 }
 -(void)keyboardWillShow:(NSNotification*)notification{
     self.mainView.frame = CGRectMake(self.mainView.frame.origin.x,
-                                     self.mainView.frame.origin.y-100,
+                                     -100,
                                      self.mainView.frame.size.width,
                                      self.mainView.frame.size.height);
 }
@@ -285,10 +296,25 @@
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     if (first) {
         first = NO;
-        textView.text =@"  ";
+        textView.text =@"";
+        textView.textColor = [UIColor blackColor];
     }
     return YES;
 }
+
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

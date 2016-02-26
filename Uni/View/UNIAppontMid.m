@@ -29,7 +29,7 @@
     float labW =  KMainScreenWidth* 100/320;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"预约项目";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     [self addSubview:lab];
     self.lab1 = lab;
     

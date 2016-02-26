@@ -36,8 +36,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-   // [self setupTableView];
-    [self noDataView];
+    [self setupTableView];
+   // [self noDataView];
 }
 -(void)noDataView{
     UILabel*lab = [[UILabel alloc]initWithFrame:CGRectMake(16, 0, KMainScreenWidth - 32, KMainScreenHeight)];
@@ -92,6 +92,9 @@
     if (!cell) {
         cell = [[UNIWalletCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth* 120/320) reuseIdentifier:name];
         cell.selectionStyle=UITableViewCellSelectionStyleNone;
+    }
+    if (indexPath.row == 3) {
+        [cell setupCellContent:nil];
     }
     return cell;
 }

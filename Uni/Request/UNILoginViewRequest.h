@@ -11,6 +11,7 @@
 /**
  *  请求验证码Block
  *  @param sex  性别
+    @param status  3为游客
     @param name 用户别名
  *  @param ph  手机号码
  *  @param llt 最近登录时间
@@ -18,7 +19,7 @@
  *  @param tip 反馈信息
  *  @param er  错误信息
  */
-typedef void(^RqVertifivaBlock)( int sex,NSString* name,NSString* ph,NSString* llt,NSString* rc,NSString*tip,NSError* er);
+typedef void(^RqVertifivaBlock)( int status,int sex,NSString* name,NSString* ph,NSString* llt,NSString* rc,NSString*tip,NSError* er);
 
 
 /**
@@ -32,6 +33,16 @@ typedef void(^RqVertifivaBlock)( int sex,NSString* name,NSString* ph,NSString* l
  */
 typedef void(^RqLoginBlock)(int userId,int shopId,NSString* token,NSString* tips,NSError* er);
 
+/**
+ *  请求游客基础信息
+ *
+ *  @param shopId    店铺ID
+ *  @param projectId 项目ID
+ *  @param tips      反馈信息
+ *  @param er        错误信息
+ */
+typedef void(^RqTouristBlock)(int shopId,int projectId,NSString* tips,NSError* er);
+
 @interface UNILoginViewRequest : BaseRequest
 
 
@@ -40,6 +51,9 @@ typedef void(^RqLoginBlock)(int userId,int shopId,NSString* token,NSString* tips
 
 //请求登录Block
 @property(nonatomic,copy)RqLoginBlock rqloginBlock;
+
+//请求游客基础信息
+@property(nonatomic,copy)RqTouristBlock rqTouristBlock;
 
 
 @end

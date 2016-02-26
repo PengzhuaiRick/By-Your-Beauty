@@ -33,7 +33,7 @@
         }
         
         //服务评论
-        if ([param2 isEqualToString:API_URL_GoodsAppraise]) {
+        if ([param2 isEqualToString:API_URL_SetServiceAppraise]) {
             if (code == 0)
                 _rqAppraise( code,tips,nil);
             else

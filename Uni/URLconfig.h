@@ -121,4 +121,10 @@
 
 //获取法律声明文本接口
 #define API_URL_GetTextInfo @"getTextInfo"
+
+//获取游客基础信息接口
+#define API_URL_GetCustomInfo @"getCustomInfo"
+
+//获取店铺列表接口
+#define API_URL_GetShopListInfo @"getShopListInfo"
 #endif /* URLconfig_h */

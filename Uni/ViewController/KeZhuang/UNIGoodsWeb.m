@@ -24,7 +24,7 @@
     web.delegate = self;
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    NSURL* url = [NSURL URLWithString:@"http://uni.dodwow.com/uni_api/test.html"];//创建URL
+    NSURL* url = [NSURL URLWithString:@"http://uni.dodwow.com/uni_api/product/productlist.html"];//创建URL
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
     [web loadRequest:request];//加载
@@ -51,12 +51,13 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString* url = request.URL.absoluteString ;
+    
     if ([url rangeOfString:@"act=app"].location != NSNotFound) {
         NSArray* array = [url componentsSeparatedByString:@"&"];
         NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
         NSString* type = [array[2] componentsSeparatedByString:@"="][1];
         [self.navigationController popViewControllerAnimated:YES];
-        [self.delegate UNIGoodsWebDelegateMethodAndprojectId:projectId Andtype:type];
+        [self.delegate UNIGoodsWebDelegateMethodAndprojectId:projectId Andtype:type AndIsHeaderShow:0];
         
     }
     return YES;

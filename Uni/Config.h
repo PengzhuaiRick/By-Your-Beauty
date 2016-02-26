@@ -32,7 +32,11 @@
 /**
  *  字体灰色颜色
  */
-#define kMainTitleColor @"575757"
+#define kMainTitleColor @"c7c7c7"
+/**
+ *  字体黑色颜色
+ */
+#define kMainBlackTitleColor @"1b1b1b"
 
 /**
  *  按钮背景绿色颜色

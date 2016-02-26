@@ -15,6 +15,6 @@
 @property (strong, nonatomic)  UILabel *numLab;
 @property (strong, nonatomic)  UIButton *handleBtn;
 
--(void)setupCellWithData:(NSArray*)data type:(int)type andTotal:(int)total;
+-(void)setupCellWithData:(id)data type:(int)type andTotal:(int)total;
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
 @end

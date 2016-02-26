@@ -19,21 +19,21 @@
 }
 -(void)setupUI:(CGSize)size andTpye:(int)tp{
     
-    float proY = 8;
-    float proWH =size.height - 2*proY;
+    float proWH =KMainScreenWidth*70/414;
+    float proY = (size.height - proWH)/2;
     float proX =size.width - proY -proWH;
     UNIRewardProgessView* view = [[UNIRewardProgessView alloc]initWithFrame:CGRectMake(proX, proY, proWH, proWH)];
     view.backgroundColor = [UIColor clearColor];
     [self addSubview:view];
     self.progessView = view;
     
-    float labX = KMainScreenWidth*10/320;
+    float labX = KMainScreenWidth*16/320;
     float labW = KMainScreenWidth*100/320;
     float labH = KMainScreenWidth>320?20:18;
     float labY = size.height/2 - labH - 10;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
-    lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
+    lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14 weight:0];
     if (tp == 1)
         lab1.text= @"成功约满";
     if (tp == 2)
@@ -45,7 +45,7 @@
     float lab2X = CGRectGetMaxX(lab1.frame);
     float lab2W = KMainScreenWidth*40/320;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, labY, lab2W, labH)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
     lab2.textColor =[UIColor colorWithHexString:kMainThemeColor];
     [self addSubview:lab2];
     self.mainLab = lab2;
@@ -55,16 +55,16 @@
     float lab3W = KMainScreenWidth* 70/320;
     float lab3X = size.width - proWH - labX - lab3W;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3W, labH)];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
-    lab3.textColor = [UIColor blackColor];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13 weight:0];
+    lab3.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
 //    lab3.text = @"价值￥580";
     [self addSubview:lab3];
     self.stateLab = lab3;
     
     float lab4W = size.width - 2*labX - proWH - lab3W;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, lab4W, labH)];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
-    lab4.textColor = kMainGrayBackColor;
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];;
     lab4.lineBreakMode = 0;
     lab4.numberOfLines = 0;
     [self addSubview:lab4];
@@ -85,7 +85,7 @@
     self.subLab.text = info.goods;
     self.stateLab.text =[NSString stringWithFormat:@"价值￥%d",info.price] ;
     
-    CGSize titleSize = [info.goods boundingRectWithSize:CGSizeMake(self.subLab.frame.size.width, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth>320?16:14]} context:nil].size;
+    CGSize titleSize = [info.goods boundingRectWithSize:CGSizeMake(self.subLab.frame.size.width, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth>320?15:13]} context:nil].size;
     
     CGRect subRe = self.subLab.frame;
     subRe.size.width = titleSize.width;

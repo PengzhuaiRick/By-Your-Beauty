@@ -99,18 +99,20 @@
     self.lab4 = lab5;
     
   
-//    float img1WH = imgH - 30;
-//    float centerX = imgW*0.6;
-//    float centerY = imgH/2;
-//    UIImageView* img1= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img1WH, img1WH)];
-//    img1.image = [UIImage imageNamed:@"card_img_overdus"];
-//    img1.center = CGPointMake(centerX, centerY);
-//    [img addSubview:img1];
-//    self.overDusImg = img1;
+    float img1WH = imgH - 30;
+    float centerX = imgW*0.6;
+    float centerY = imgH/2;
+    UIImageView* img1= [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, img1WH, img1WH)];
+    img1.image = [UIImage imageNamed:@"card_img_overdus"];
+    img1.center = CGPointMake(centerX, centerY);
+    img1.hidden= YES;
+    [img addSubview:img1];
+    self.overDusImg = img1;
 
 }
 -(void)setupCellContent:(id)model;{
-    
+    self.overDusImg .hidden=NO;
+    self.mainImg.image = [UIImage imageNamed:@"card_img_bg1"];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

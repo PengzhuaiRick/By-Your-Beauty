@@ -29,9 +29,10 @@
             NSString* randcode = [self safeObject:dic ForKey:@"randcode"];
             NSString* name = [self safeObject:dic ForKey:@"name"];
             int sex =[[self safeObject:dic ForKey:@"sex"] intValue];
-            _rqvertifivaBlock(sex,name,phone,lastLoginTime,randcode,tips,nil);
+            int status =[[self safeObject:dic ForKey:@"status"] intValue];
+            _rqvertifivaBlock(status,sex,name,phone,lastLoginTime,randcode,tips,nil);
         }else
-            _rqvertifivaBlock(-1,nil,nil,nil,nil,tips,nil);
+            _rqvertifivaBlock(-1,-1,nil,nil,nil,nil,tips,nil);
     }
     //请求登录
     if ([param1 isEqualToString:API_PARAM_UNI]&&
@@ -42,6 +43,17 @@
         NSString* tips = [self safeObject:dic ForKey:@"tips"];
         _rqloginBlock(userId,shopId,token,tips,nil);
     }
+    //请求游客基础信息
+    if ([param1 isEqualToString:API_PARAM_UNI]&&
+        [param2 isEqualToString:API_URL_GetCustomInfo]) {
+        if (code == 0) {
+            int projectId = [[self safeObject:dic ForKey:@"projectId"] intValue];
+            int shopId = [[self safeObject:dic ForKey:@"shopId"] intValue];
+            _rqTouristBlock(shopId,projectId,tips,nil);
+        }else
+            _rqTouristBlock(-1,-1,tips,nil);
+    }
+
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
@@ -51,12 +63,17 @@
     //登录验证码
     if ([param1 isEqualToString:API_PARAM_SSMS]&&
         [param2 isEqualToString:API_URL_Login]) {
-        _rqvertifivaBlock(-1,nil,nil,nil,nil,nil,err);
+        _rqvertifivaBlock(-1,-1,nil,nil,nil,nil,nil,err);
     }
     //请求登录
     if ([param1 isEqualToString:API_PARAM_UNI]&&
         [param2 isEqualToString:API_URL_Login]) {
         _rqloginBlock(-1,-1,nil,nil,err);
+    }
+    //请求游客基础信息
+    if ([param1 isEqualToString:API_PARAM_UNI]&&
+        [param2 isEqualToString:API_URL_GetCustomInfo]) {
+            _rqTouristBlock(-1,-1,nil,err);
     }
 
 }

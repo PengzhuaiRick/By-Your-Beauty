@@ -48,6 +48,7 @@
 		184482161C5247B60047D2EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184482151C5247B60047D2EF /* Images.xcassets */; };
 		184E15441C5F2DB500D65E39 /* UNISetttingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E15431C5F2DB500D65E39 /* UNISetttingController.m */; };
 		184E15471C5F4C4700D65E39 /* UNIAboutUsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E15461C5F4C4700D65E39 /* UNIAboutUsController.m */; };
+		187E509F1C803D9500B88786 /* UNIShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E509E1C803D9500B88786 /* UNIShopModel.m */; };
 		1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882FA611BE739C300CC8D51 /* BaseViewModel.m */; };
 		18864B881C1AB24E00592DA1 /* UNIGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18864B871C1AB24E00592DA1 /* UNIGoodsModel.m */; };
 		188F123A1C16E85100EBE345 /* UNIWalletController.m in Sources */ = {isa = PBXBuildFile; fileRef = 188F12391C16E85100EBE345 /* UNIWalletController.m */; };
@@ -115,6 +116,7 @@
 		18CCA01A1C030B3400B90092 /* UNIContainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA0191C030B3400B90092 /* UNIContainController.m */; };
 		18CCA01E1C030FF600B90092 /* UNIMyRewardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA01D1C030FF600B90092 /* UNIMyRewardController.m */; };
 		18CCA0201C0310F600B90092 /* Function.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18CCA01F1C0310F600B90092 /* Function.storyboard */; };
+		18CCECDF1C7EB2A500888DA7 /* UNITouristController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCECDE1C7EB2A500888DA7 /* UNITouristController.m */; };
 		18CD114C1C7D4A7800D48808 /* UNIMapAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */; };
 		18CD114D1C7DD79500D48808 /* UNIAppointDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECF11C0EC9C900B0A192 /* UNIAppointDetail.m */; };
 		18CE1FE01C214017000DE133 /* UNIImageAndTextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE1FDF1C214017000DE133 /* UNIImageAndTextController.m */; };
@@ -248,6 +250,8 @@
 		184E15431C5F2DB500D65E39 /* UNISetttingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNISetttingController.m; sourceTree = "<group>"; };
 		184E15451C5F4C4700D65E39 /* UNIAboutUsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAboutUsController.h; sourceTree = "<group>"; };
 		184E15461C5F4C4700D65E39 /* UNIAboutUsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAboutUsController.m; sourceTree = "<group>"; };
+		187E509D1C803D9500B88786 /* UNIShopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopModel.h; sourceTree = "<group>"; };
+		187E509E1C803D9500B88786 /* UNIShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopModel.m; sourceTree = "<group>"; };
 		1882FA601BE739C300CC8D51 /* BaseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewModel.h; sourceTree = "<group>"; };
 		1882FA611BE739C300CC8D51 /* BaseViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewModel.m; sourceTree = "<group>"; };
 		18864B861C1AB24E00592DA1 /* UNIGoodsModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsModel.h; sourceTree = "<group>"; };
@@ -447,6 +451,8 @@
 		18CCA01C1C030FF600B90092 /* UNIMyRewardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMyRewardController.h; sourceTree = "<group>"; };
 		18CCA01D1C030FF600B90092 /* UNIMyRewardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyRewardController.m; sourceTree = "<group>"; };
 		18CCA01F1C0310F600B90092 /* Function.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Function.storyboard; sourceTree = "<group>"; };
+		18CCECDD1C7EB2A500888DA7 /* UNITouristController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNITouristController.h; sourceTree = "<group>"; };
+		18CCECDE1C7EB2A500888DA7 /* UNITouristController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNITouristController.m; sourceTree = "<group>"; };
 		18CD114A1C7D4A7800D48808 /* UNIMapAddressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMapAddressView.h; sourceTree = "<group>"; };
 		18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMapAddressView.m; sourceTree = "<group>"; };
 		18CE1FDE1C214017000DE133 /* UNIImageAndTextController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIImageAndTextController.h; sourceTree = "<group>"; };
@@ -692,6 +698,8 @@
 				18FD49771C16748900C07BF5 /* UNIRewardListModel.m */,
 				1844820F1C5227EB0047D2EF /* UNIOrderListModel.h */,
 				184482101C5227EB0047D2EF /* UNIOrderListModel.m */,
+				187E509D1C803D9500B88786 /* UNIShopModel.h */,
+				187E509E1C803D9500B88786 /* UNIShopModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1222,6 +1230,8 @@
 			children = (
 				18F0966D1BF1DE4900B60A3D /* LoginController.h */,
 				18F0966E1BF1DE4900B60A3D /* LoginController.m */,
+				18CCECDD1C7EB2A500888DA7 /* UNITouristController.h */,
+				18CCECDE1C7EB2A500888DA7 /* UNITouristController.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1457,6 +1467,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187E509F1C803D9500B88786 /* UNIShopModel.m in Sources */,
 				18E661D81C11896C000042B7 /* UNIMyRewardRequest.m in Sources */,
 				1840FD771BE0712100DC78BC /* ViewController.m in Sources */,
 				18F0966F1BF1DE4900B60A3D /* LoginController.m in Sources */,
@@ -1487,6 +1498,7 @@
 				18CA17951C48A21F00636ABF /* UNIRewardProgessView.m in Sources */,
 				1844820E1C5222810047D2EF /* UNIOrderRequest.m in Sources */,
 				18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */,
+				18CCECDF1C7EB2A500888DA7 /* UNITouristController.m in Sources */,
 				18E302871C17D31000990A14 /* UNIGoodsDeatilController.m in Sources */,
 				18C745991BF03400000062AF /* MainMidView.m in Sources */,
 				18E627861BF9ED3800C4C13C /* UNIBaseModel.m in Sources */,

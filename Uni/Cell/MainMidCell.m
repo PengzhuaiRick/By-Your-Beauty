@@ -71,7 +71,7 @@
             imgUrl = arr[0];
         NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
         [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str]
-                          placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
+                          placeholderImage:nil];
         self.mainLab.text = model.projectName;
         
         NSString* time = [model.time substringToIndex:model.time.length-3];

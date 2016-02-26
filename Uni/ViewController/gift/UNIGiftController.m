@@ -110,14 +110,25 @@
     [self.view addSubview:view];
     shareView = view;
     
+    UILabel* label= [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 40,15)];
+    label.text = @"分享到";
+    label.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?12:10)];
+    label.textColor = kMainGrayBackColor;
+    [view addSubview:label];
+    
     float btnWH = KMainScreenWidth*45/320;
-    float btnY = 10;
-    float btnX =(view.frame.size.width/2 - btnWH)/2;
-    NSArray* arr=@[@"朋友圈",@"微信"];
-    NSArray* imgArr = @[@"gift_btn_pyq",@"KZ_img_weixin"];
+    float btnY = 30;
+    //float btnX =(view.frame.size.width/2 - btnWH)/2;
+    NSArray* arr=@[@"微信好友",@"微信朋友圈"];
+    NSArray* imgArr = @[@"KZ_img_weixin",@"gift_btn_pyq"];
     for (int i=0 ; i<arr.count; i++) {
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(btnX+(i*view.frame.size.width/2), btnY, btnWH, btnWH);
+        float btnxx = 0;
+        if (i == 0 )
+            btnxx  = view.frame.size.width/2 - btnWH - 10;
+        else
+            btnxx  = view.frame.size.width/2 +10;
+        btn.frame = CGRectMake(btnxx, btnY, btnWH, btnWH);
         [btn setBackgroundImage:[UIImage imageNamed:imgArr[i]] forState:UIControlStateNormal];
         btn.tag = i+1;
         [view addSubview:btn];
@@ -142,23 +153,24 @@
             
             SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
             rep.bText = NO;
-            if (btn.tag == 2)
-                rep.scene = WXSceneSession;
             if (btn.tag == 1)
+                rep.scene = WXSceneSession;
+            if (btn.tag == 2)
                 rep.scene = WXSceneTimeline;
             rep.message = message;
             [WXApi sendReq:rep];
             [self hidenShareView];
         }];
         
-        float labX =btnX+(i*view.frame.size.width/2);
+        float labX =btnxx-5;
         float labY = CGRectGetMaxY(btn.frame);
-        float labW = btnWH;
+        float labW = btnWH+10;
         float labH = KMainScreenWidth*20/320;
         UILabel * lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
         lab.text = arr[i];
-        lab.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?12:10];
         lab.textAlignment = NSTextAlignmentCenter;
+
         [view addSubview:lab];
 
     }

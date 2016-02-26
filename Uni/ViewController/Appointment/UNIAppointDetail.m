@@ -58,7 +58,7 @@
 }
 
 -(void)startRequest{
-     [LLARingSpinnerView RingSpinnerViewStart1];
+     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
     [rquest postWithSerCode:@[API_PARAM_UNI,API_URL_GetAppointInfo]
                      params:@{@"order":self.order}];
@@ -109,7 +109,7 @@
        lay.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"].CGColor;
        [view.layer addSublayer:lay];
        
-    float btnWH =KMainScreenWidth*80/320;
+    float btnWH =KMainScreenWidth*70/414;
     float btnX = (KMainScreenWidth - btnWH)/2;
     float btnY = 30;
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -118,9 +118,14 @@
     button.layer.cornerRadius = btnWH/2;
     button.titleLabel.numberOfLines = 0;
     button.titleLabel.lineBreakMode = 0;
-    button.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
+       button.layer.borderWidth = 0.5;
+       button.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
+    button.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     [button setTitle:@"服务\n评价" forState:UIControlStateNormal];
-    [button setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+       [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+       [button setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
+    [button setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
+    [button setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
     [view addSubview:button];
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
@@ -248,59 +253,14 @@
         if (!annotationView) {
             annotationView = [[CallOutAnnotationVifew alloc] initWithAnnotation:annotation
                                                            reuseIdentifier:@"CustomAnnotation"];
-           // annotationView.image = [UIImage imageNamed:@"appoint_img_pin"];
-            
-//            annotationView.userInteractionEnabled=YES;
-//            annotationView.image = [UIImage imageNamed:@"function_img_scell6"];
-//            UNIMapAddressView* address = [[UNIMapAddressView alloc]init];
-//            address.center = CGPointMake(annotationView.center.x, annotationView.center.y-20);
-//            [annotationView addSubview:address];
-//            
-//            UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
-//            [address addGestureRecognizer:tap];
-//            [[tap rac_gestureSignal]subscribeNext:^(id x) {
-//                NSLog(@"asdsfdgf");
-//            }];
+            [[annotationView.navBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+             subscribeNext:^(id x) {
+                 NSLog(@"导航");
+                  [self callOtherMapApp];
+             }];
         }
         return annotationView;
     }
-//    if ([annotation isKindOfClass:[CalloutMapAnnotation class]]) {
-//        
-//        CallOutAnnotationVifew *annotationView = (CallOutAnnotationVifew *)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CalloutView"];
-//        if (!annotationView) {
-//            
-//            float cellH =KMainScreenWidth*25/320;
-//            UIView* cell = [[UIView alloc]init];
-//            
-//            
-//            UILabel* lab = [[UILabel alloc]init];
-//            lab.text = [[UNIShopManage getShopData] address];
-//            lab.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-//            [lab sizeToFit];
-//            float labY = (cellH - lab.frame.size.height)/2;
-//            lab.frame = CGRectMake(10, labY, lab.frame.size.width, lab.frame.size.height);
-//            [cell addSubview:lab];
-//            
-//            UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
-//            but.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-//            [but setTitle:@"导航" forState:UIControlStateNormal];
-//            [but setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
-//            float btnX = CGRectGetMaxX(lab.frame)+10;
-//            but.frame = CGRectMake(btnX, 0, KMainScreenWidth*40/320, cellH);
-//            [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
-//            subscribeNext:^(id x) {
-//                [self callOtherMapApp];
-//            }];
-//            [cell addSubview:but];
-//            
-//            cell.frame = CGRectMake(0, 0, CGRectGetMaxX(but.frame)+5, cellH);
-//            
-////            annotationView = [[CallOutAnnotationVifew alloc] initWithAnnotation:annotation reuseIdentifier:@"CalloutView" andSize:cell.frame.size] ;
-////            [annotationView.contentView addSubview:cell];
-//            
-//        }
-//        return annotationView;
- //   }
     return nil;
 }
 
@@ -366,7 +326,18 @@
     }
 }
 
-
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -8,7 +8,7 @@
 
 #import "UNIImageAndTextController.h"
 
-@interface UNIImageAndTextController ()
+@interface UNIImageAndTextController ()<UIScrollViewDelegate>
 
 @end
 
@@ -18,8 +18,8 @@
     [super viewDidLoad];
     self.title = @"图文详情";
     NSString* urlString =[NSString stringWithFormat:@"%@/%@",API_IMG_URL,_projectId];;
-   // NSLog(@"urlString %@",urlString);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    _myWebView.scrollView.delegate = self;
     [_myWebView loadRequest:request];
    
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
@@ -27,6 +27,12 @@
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     [self.navigationController popViewControllerAnimated:YES];
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    NSLog(@"%f",scrollView.contentOffset.y);
+    if (scrollView.contentOffset.y>60) {
+        
+    }
 }
 
 

@@ -27,7 +27,7 @@
     topScrollerNum = 0;
     _maxNum = 1;
     midBtns = [NSMutableArray array];
-    [LLARingSpinnerView RingSpinnerViewStart1];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [NSThread sleepForTimeInterval:1];
         [self startRequest];
@@ -144,7 +144,7 @@
             self.selectYear =year;
             self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
             }
-        btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        btn.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?14:11)];
         [_topScroller addSubview:btn];
         [_topBtns addObject:btn];
         
@@ -195,7 +195,7 @@
     }];
     
     self.userInteractionEnabled = NO;
-    [LLARingSpinnerView RingSpinnerViewStart1];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [NSThread sleepForTimeInterval:1.0];
         [self startRequest];
@@ -204,10 +204,10 @@
 }
 
 -(void)initSecondView{
-    float viewX = 10;
+    float viewX = 0;
     float viewY = CGRectGetMaxY(_topScroller.frame)+10;
     float viewH = self.frame.size.height - viewY;
-    float viewW = self.frame.size.width - 2*viewX;
+    float viewW = self.frame.size.width;
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];
     view.backgroundColor = [UIColor whiteColor];
     [self addSubview:view];
@@ -218,13 +218,13 @@
     float labW =  KMainScreenWidth* 100/320;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"开始时间";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     [view addSubview:lab];
 
     float topY = CGRectGetMaxY(lab.frame)+5;
-    float topH =view.frame.size.height - topY- KMainScreenWidth*40/320;
-    float topX = 10;
-    float topW =view.frame.size.width -2*topX;
+    float topH =view.frame.size.height - topY;
+    float topX = 0;
+    float topW =view.frame.size.width;
     UIScrollView* secondV = [[UIScrollView alloc]initWithFrame:CGRectMake(topX, topY,topW, topH)];
     secondV.delegate = self;
     [view addSubview:secondV];
@@ -235,101 +235,105 @@
 //    lay.backgroundColor = kMainGrayBackColor.CGColor;
 //    [view.layer addSublayer:lay];
 
-    float btnW = KMainScreenWidth*180/414;
-    float btnH = KMainScreenWidth*30/414;
-    float btnY = CGRectGetMaxY(secondV.frame)+10;
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(labX, btnY, btnW, btnH);
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setTitle:@" 如需取消请提前致电商家" forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:9];
-    [btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
-    [view addSubview:btn];
+//    float btnW = KMainScreenWidth>320?150:120;
+//    float btnH = KMainScreenWidth*30/414;
+//    float btnY = CGRectGetMaxY(secondV.frame)+10;
+//    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn.frame = CGRectMake(labX, btnY, btnW, btnH);
+//    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [btn setTitle:@" 如需取消请提前致电商家" forState:UIControlStateNormal];
+//    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?12:10];
+//    //[btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
+//    [view addSubview:btn];
+//    
+//    UIImageView* needView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_btn_xunwen"]];
+//    needView.frame = CGRectMake(0, (btnH - 10)/2, (KMainScreenWidth>320?10:7), (KMainScreenWidth>320?10:7));
+//    [btn addSubview:needView];
     
-    float lab1X = view.frame.size.width/2+20;
-    float lab1Y = btnY;
-    float lab1H = btnH;
-    float lab1W =  KMainScreenWidth* 40/320;
-    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
-    lab1.text = @"人数:";
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
-    [view addSubview:lab1];
-    
-    
-    float btn1WH = btnH;
-    float btn1Y = btnY;
-    float btn1X = CGRectGetMaxX(lab1.frame);
-    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(btn1X, btn1Y, btn1WH, btn1WH);
-    [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
-    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
-    [view addSubview:btn1];
-    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(id x) {
-         if (self.member >1)
-             self.member--;
-     }];
-    
-    float teX = CGRectGetMaxX(btn1.frame);
-    float teW = KMainScreenWidth* 25/320;
-    UITextField* text = [[UITextField alloc]initWithFrame:CGRectMake(teX, btn1Y, teW, btn1WH)];
-    text.keyboardType = UIKeyboardTypeNumberPad;
-    text.textAlignment = NSTextAlignmentCenter;
-    text.text=@"1";
-    [view addSubview:text];
-    _nunField = text;
-    
-    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
-    tool.toolDelegate=self;
-    [tool dismissTwoBtn];
-    self.nunField.inputAccessoryView = tool;
-    
-    [RACObserve(self, member)subscribeNext:^(id x) {
-        self.nunField.text = [NSString stringWithFormat:@"%d",self.member];
-    }];
-    
-    [self.nunField.rac_textSignal subscribeNext:^(NSString* value) {
-        if (value.length>0) {
-            char r = [value characterAtIndex:value.length-1];
-            if (r<48||r>57){
-                NSString *str=[NSString stringWithCString:&r  encoding:NSUTF8StringEncoding];
-                value = [value stringByReplacingOccurrencesOfString:str withString:@""];
-            }
-        }
-        int num = value.intValue;
-        if (num>self.maxNum) {
-            num =self.maxNum;
-            [YIToast showText:@"已到达可预约最大人数"];
-        }else if(num<1)
-            num = 1;
-        self.member = num;
-        // botton.nunField.text = [NSString stringWithFormat:@"%d",num];
-    }];
+//    float lab1X = view.frame.size.width/2+20;
+//    float lab1Y = btnY;
+//    float lab1H = btnH;
+//    float lab1W =  KMainScreenWidth* 40/320;
+//    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
+//    lab1.text = @"人数:";
+//    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
+//    [view addSubview:lab1];
+//    
+//    
+//    float btn1WH = btnH;
+//    float btn1Y = btnY;
+//    float btn1X = CGRectGetMaxX(lab1.frame);
+//    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn1.frame = CGRectMake(btn1X, btn1Y, btn1WH, btn1WH);
+//    [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
+//    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+//    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
+//    [view addSubview:btn1];
+//    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
+//     subscribeNext:^(id x) {
+//         if (self.member >1)
+//             self.member--;
+//     }];
+//    
+//    float teX = CGRectGetMaxX(btn1.frame);
+//    float teW = KMainScreenWidth* 25/320;
+//    UITextField* text = [[UITextField alloc]initWithFrame:CGRectMake(teX, btn1Y, teW, btn1WH)];
+//    text.keyboardType = UIKeyboardTypeNumberPad;
+//    text.textAlignment = NSTextAlignmentCenter;
+//    text.text=@"1";
+//    [view addSubview:text];
+//    _nunField = text;
+//    
+//    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+//    tool.toolDelegate=self;
+//    [tool dismissTwoBtn];
+//    self.nunField.inputAccessoryView = tool;
+//    
+//    [RACObserve(self, member)subscribeNext:^(id x) {
+//        self.nunField.text = [NSString stringWithFormat:@"%d",self.member];
+//    }];
+//    
+//    [self.nunField.rac_textSignal subscribeNext:^(NSString* value) {
+//        if (value.length>0) {
+//            char r = [value characterAtIndex:value.length-1];
+//            if (r<48||r>57){
+//                NSString *str=[NSString stringWithCString:&r  encoding:NSUTF8StringEncoding];
+//                value = [value stringByReplacingOccurrencesOfString:str withString:@""];
+//            }
+//        }
+//        int num = value.intValue;
+//        if (num>self.maxNum) {
+//            num =self.maxNum;
+//            [YIToast showText:@"已到达可预约最大人数"];
+//        }else if(num<1)
+//            num = 1;
+//        self.member = num;
+//        // botton.nunField.text = [NSString stringWithFormat:@"%d",num];
+//    }];
 
     
     
     
-    float btn2X = CGRectGetMaxX(text.frame);
-    UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn2.frame = CGRectMake(btn2X, btn1Y, btn1WH, btn1WH);
-    [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
-    [view addSubview:btn2];
-    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
-    [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(id x) {
-         if (self.member<self.maxNum) {
-             self.member++;
-         }else
-             [YIToast showText:@"已达到预约时间点的最大人数"];
-     }];
+//    float btn2X = CGRectGetMaxX(text.frame);
+//    UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn2.frame = CGRectMake(btn2X, btn1Y, btn1WH, btn1WH);
+//    [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
+//    [view addSubview:btn2];
+//    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+//    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
+//    [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
+//     subscribeNext:^(id x) {
+//         if (self.member<self.maxNum) {
+//             self.member++;
+//         }else
+//             [YIToast showText:@"已达到预约时间点的最大人数"];
+//     }];
 
     float btn3WH = KMainScreenWidth*20/320;
     float btn3Y = (view.frame.size.height- btn3WH)/2;
     UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn3.frame = CGRectMake(0, btn3Y, btn3WH, btn3WH);
+    btn3.frame = CGRectMake(5, btn3Y, btn3WH, btn3WH);
     [btn3 setImage:[UIImage imageNamed:@"appoint_btn_leftTop"] forState:UIControlStateNormal];
     [view addSubview:btn3];
     _midLeftBtn = btn3;
@@ -349,7 +353,7 @@
         }
     }];
 
-    float btn4X = view.frame.size.width - btn3WH;
+    float btn4X = view.frame.size.width - btn3WH-5;
     UIButton* btn4 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn4.frame = CGRectMake(btn4X, btn3Y, btn3WH, btn3WH);
     [btn4 setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateNormal];
@@ -385,7 +389,7 @@
     }
     
     float btnW = (_midScroller.frame.size.width - 20)/3; //按钮的宽和高
-    float btnH = _midScroller.frame.size.height*0.4;
+    float btnH = KMainScreenWidth>320?60:50;
         _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width ,
                                               btnH*f);
     _midScroller.pagingEnabled=YES;
@@ -417,31 +421,35 @@
         float btnX =10+ i%3 * btnW;
         float btnY =i/3*btnH;
         UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
-        but.frame=CGRectMake(btnX, btnY, btnW, btnH);
+        but.frame=CGRectMake(btnX+1, btnY+1, btnW-2, btnH-2);
         if(i == 0){
             but.selected=YES;
             self.selectTime =[dic valueForKey:@"time"];
         }
         [but setTitle:[dic valueForKey:@"time"] forState:UIControlStateNormal];
         but.tag = 10+i;
-        [but setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [but setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
-        [but setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateSelected];
+        [but setTitleColor:[UIColor colorWithHexString:kMainBlackTitleColor] forState:UIControlStateNormal];
+        [but setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
+        [but setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
+        [but setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+        [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
+        [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateSelected];
+        but.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?16:14)];
         [_midScroller addSubview:but];
         [self->midBtns addObject:but];
         if (i%3 == 0) {
             CALayer* lay = [CALayer layer ];
-            lay.frame = CGRectMake(10, 0, self.midScroller.frame.size.width - 20, 0.5);
+            lay.frame = CGRectMake(10, btnY, self.midScroller.frame.size.width - 20, 0.5);
             lay.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1].CGColor;
-            [but.layer addSublayer:lay];
+            [_midScroller.layer addSublayer:lay];
         }
         if (i%3<2) {
             CALayer* lay1 = [CALayer layer ];
             float layH = btnH*0.6;
             float layY = (btnH - layH)/2;
-            lay1.frame = CGRectMake(btnW, layY, 0.5, layH);
+            lay1.frame = CGRectMake(btnX+btnW, btnY+layY, 0.5, layH);
             lay1.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1].CGColor;
-            [but.layer addSublayer:lay1];
+            [_midScroller.layer addSublayer:lay1];
         }
         
         [[but rac_signalForControlEvents:UIControlEventTouchUpInside]

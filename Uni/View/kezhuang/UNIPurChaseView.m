@@ -116,7 +116,7 @@
 }
 #pragma mark 请求订单号
 -(void)requestTheOrderNo{
-    [LLARingSpinnerView RingSpinnerViewStart1];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     NSDictionary* dic=@{@"goodsId":@"1",@"goodsType":@"2",@"payType":@(self.payStyle),@"shopPrice":[NSString stringWithFormat:@"%.f",_model.shopPrice]};
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetOutTradeNo] params:dic];
@@ -139,7 +139,7 @@
 #pragma mark 获取支付宝 支付KEY
 -(void)requestAliPayKey{
     
-    [LLARingSpinnerView RingSpinnerViewStart1];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_PARAM_PAY,API_URL_GetAlipayConfig] params:nil];
     requet.kzalipayBlock =^(NSString* partner ,NSString* key,NSString* seller,NSString* ras_private_key,NSString* tips,NSError* er){
@@ -227,7 +227,7 @@
 
 #pragma mark 获取微信支付 支付KEY
 -(void)requestWXPayKey{
-    [LLARingSpinnerView RingSpinnerViewStart1];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_PARAM_PAY,API_URL_GetWXConfig] params:nil];
     requet.kzwxpayBlock =^(NSString* appid ,NSString* mchid,NSString* appsecret,NSString* tips,NSError* er){
@@ -243,7 +243,7 @@
 }
 - (void)jumpToBizPay:(NSString*)mchid{
     
-    [LLARingSpinnerView RingSpinnerViewStart1];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     NSString* price = [NSString stringWithFormat:@"%.f",num*_model.shopPrice*100];
     NSString *urlString   = @"http://uni.dodwow.com/uni_pay/uni_wx_pay/api/unifiedorder.php";
     NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":_model.projectName,@"total_fee":price,@"mchid":mchid};

@@ -51,7 +51,7 @@
 
 #pragma mark 加载顶部Scroller
 -(void)setupTopScroller{
-    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(0,0, KMainScreenWidth,KMainScreenWidth*250/320) andModel:self.model];
+    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,0, KMainScreenWidth-20,KMainScreenWidth*250/320) andModel:self.model];
     [self.myScroller addSubview:top];
     appointTop = top;
 }
@@ -131,7 +131,7 @@
 }
 
 -(void)startAppoint{
-             [LLARingSpinnerView RingSpinnerViewStart1];
+             [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
              UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
              NSMutableArray* arr = [NSMutableArray array];
               NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];

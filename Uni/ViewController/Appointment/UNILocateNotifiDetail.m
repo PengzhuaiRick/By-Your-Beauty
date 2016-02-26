@@ -44,7 +44,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 -(void)startRequest{
-    [LLARingSpinnerView RingSpinnerViewStart1];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
     [rquest postWithSerCode:@[API_PARAM_UNI,API_URL_GetAppointInfo]
                      params:@{@"order":_order}];

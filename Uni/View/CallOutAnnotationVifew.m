@@ -36,6 +36,8 @@
         
         UNIMapAddressView *_contentView = [[UNIMapAddressView alloc] init];
         _contentView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+        _contentView.layer.masksToBounds=YES;
+        _contentView.layer.cornerRadius = 3;
         [self addSubview:_contentView];
         
         UILabel* lab = [[UILabel alloc]init];
@@ -43,27 +45,33 @@
         lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
         lab.textColor = [UIColor whiteColor];
         [lab sizeToFit];
-        float labY =8;
+        float labY =10;
         lab.frame = CGRectMake(10, labY, lab.frame.size.width, lab.frame.size.height);
         [_contentView addSubview:lab];
         
         UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
-        but.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-        [but setTitle:@"导航" forState:UIControlStateNormal];
-        [but setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+        [but setBackgroundImage:[UIImage imageNamed:@"appoint_btn_nav"] forState:UIControlStateNormal];
+        //but.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
+        //[but setTitle:@"导航" forState:UIControlStateNormal];
+        //[but setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
         float btnX = CGRectGetMaxX(lab.frame)+5;
-        but.frame = CGRectMake(btnX, 0, KMainScreenWidth*40/320, CGRectGetMaxY(lab.frame)+8);
-        [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
-         subscribeNext:^(id x) {
-             NSLog(@"导航");
-             //[self callOtherMapApp];
-         }];
+        but.frame = CGRectMake(btnX, 8,(KMainScreenWidth>320?50:40), (KMainScreenWidth>320?20:17));
+//        [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
+//         subscribeNext:^(id x) {
+//             NSLog(@"导航");
+//            // [self callOtherMapApp];
+//         }];
         [_contentView addSubview:but];
+        _navBtn = but;
         
         float contentW = CGRectGetMaxX(but.frame)+10;
-        _contentView.frame = CGRectMake(0, 0, contentW, CGRectGetMaxY(lab.frame)+8);
+        _contentView.frame = CGRectMake(0, 0, contentW, CGRectGetMaxY(lab.frame)+10);
         
-        UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_img_pin"]];
+        UIImageView* jian = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_img_jian"]];
+        jian.frame = CGRectMake(contentW/4, CGRectGetMaxY(_contentView.frame), contentW/2, 10);
+        [self addSubview:jian];
+        
+        UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_img_dian"]];
         float imgWH = 25;
         float imgX =  (contentW - imgWH)/2;
         float imgY = CGRectGetMaxY(_contentView.frame)+8;
@@ -73,7 +81,7 @@
         [self addSubview:img];
         
         CGRect selfR =self.frame;
-        selfR.size = CGSizeMake(contentW, CGRectGetMaxY(img.frame));
+        selfR.size = CGSizeMake(contentW, CGRectGetMaxY(_contentView.frame));
         self.frame =selfR;
         
          //self.centerOffset = CGPointMake(-contentW/2, -30);
@@ -121,11 +129,11 @@
 
 - (void)drawRect:(CGRect)rect
 {
-	[self drawInContext:UIGraphicsGetCurrentContext()];
-    
-    self.layer.shadowColor = [[UIColor blackColor] CGColor];
-    self.layer.shadowOpacity = 1.0;
-  //  self.layer.shadowOffset = CGSizeMake(-5.0f, 5.0f);
-    self.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+//	[self drawInContext:UIGraphicsGetCurrentContext()];
+//    
+//    self.layer.shadowColor = [[UIColor blackColor] CGColor];
+//    self.layer.shadowOpacity = 1.0;
+//  //  self.layer.shadowOffset = CGSizeMake(-5.0f, 5.0f);
+//    self.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
 }
 @end

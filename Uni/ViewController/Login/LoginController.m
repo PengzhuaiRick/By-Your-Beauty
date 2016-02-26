@@ -11,7 +11,7 @@
 #import "AccountManager.h"
 #import "UNILoginViewRequest.h"
 #import "BTKeyboardTool.h"
-
+#import "UNITouristController.h"
 @interface LoginController ()<KeyboardToolDelegate>{
     
       UITextField *codeField;    //验证码
@@ -30,11 +30,13 @@
     RACSignal *codeFieldSignal;
     RACSignal *nikeSignal;
     
-    //NSTimer* time;
+    NSTimer* time;
     int countDown;
     int imgH;
     int bShu;
     int cellH;
+    
+    int ifStatus; //是否为游客
 }
 @property (strong, nonatomic)  UITableViewCell *secondCell;
 @property (strong, nonatomic)  UITableViewCell *firstCell;
@@ -70,7 +72,7 @@
  //   [self setupNikeName];
   //  [self setupLoginBtn];
    // [self setupSexBtn];
-    [self regirstKeyBoardNotification];
+   [self regirstKeyBoardNotification];
 }
 -(void)setupFooterView{
     UIView* footer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 100)];
@@ -226,7 +228,7 @@
         UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
     
         UIImage* image3 =[UIImage imageNamed:@"login_btn_sex1"];
-    float imgWH = KMainScreenWidth>320?17:14;
+        float imgWH = KMainScreenWidth>320?17:14;
         float imgY = (view.frame.size.height - imgWH)/2;
         UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(0, imgY, imgWH, imgWH)];
         img.image = image3;
@@ -235,7 +237,7 @@
     
     
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = CGRectMake(0, 0, btnW, btnH);
+        btn.frame = CGRectMake((KMainScreenWidth>320?0:5), 0, btnW, btnH);
         [btn setTitle:@"  女士" forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -261,7 +263,7 @@
     imgView2 = img1;
     
         UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn1.frame = CGRectMake(0, 0, btnW, btnH);
+        btn1.frame = CGRectMake((KMainScreenWidth>320?0:5), 0, btnW, btnH);
         [btn1 setTitle:@"  先生" forState:UIControlStateNormal];
         btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
         [btn1 setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -397,14 +399,15 @@
     
     [[codeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
-        [LLARingSpinnerView RingSpinnerViewStart1];
+        [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
          [self.view endEditing:YES];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
          [request postWithoutUserIdSerCode:@[API_PARAM_SSMS,
                                     API_URL_Login]
                            params:@{@"phone":field.text}];
         
-        request.rqvertifivaBlock = ^(int sex,
+        request.rqvertifivaBlock = ^(int status,
+                                     int sex,
                                      NSString* name,
                                      NSString* ph,
                                      NSString* llt,
@@ -446,6 +449,7 @@
                     return ;
                 }
                 
+                self->ifStatus = status;
                 self->nikeName.text = name;
                 if (sex == 1){
                     self->maleBtn.selected = NO;
@@ -496,7 +500,7 @@
                 if (rc != nil){
                     btn.enabled = NO;
                     self->countDown = 60;
-                    [NSTimer scheduledTimerWithTimeInterval:1
+                   self->time=[NSTimer scheduledTimerWithTimeInterval:1
                                                      target:self
                                                    selector:@selector(sixtySecondCountDown:)
                                                    userInfo:nil
@@ -518,13 +522,13 @@
         NSString* str = [NSString stringWithFormat:@"%ds",countDown];
         [codeBtn setTitle:str forState:UIControlStateNormal];
     }else
-        [self timerStop:time1];
+        [self timerStop:time];
 }
 
 #pragma mark 定时器强制停止
 -(void)timerStop:(NSTimer*)time1{
-    [time1 invalidate];
-    time1 = nil;
+    [time invalidate];
+    time = nil;
     [codeBtn setTitle:@"获取验证码" forState:UIControlStateNormal];
     codeBtn.enabled=YES;
 }
@@ -569,7 +573,7 @@
              }
          
          x.enabled = NO;
-         [LLARingSpinnerView RingSpinnerViewStart1];
+         [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
         [request postWithoutUserIdSerCode:@[API_PARAM_UNI,
                                    API_URL_Login]
@@ -608,9 +612,14 @@
                 [AccountManager setShopId:@(shopId)];
                 [AccountManager setLocalLoginName:field1.text];
                 //跳转
-                self.view.window.backgroundColor = [UIColor whiteColor];
-                AppDelegate* app = [UIApplication sharedApplication].delegate;
-                [app setupViewController];
+                if (self->ifStatus == 3) {
+                    [self userIsTourist];
+               
+                }else{
+                    self.view.window.backgroundColor = [UIColor whiteColor];
+                    AppDelegate* app = [UIApplication sharedApplication].delegate;
+                    [app setupViewController];
+                }
             }else
                 [YIToast showText:NETWORKINGPEOBLEM];
            // [YIToast showWithText:tips];
@@ -774,6 +783,19 @@
     AppDelegate* app = [UIApplication sharedApplication].delegate;
     [app setupViewController];
     
+}
+
+#pragma mark 用户为游客时跳转界面
+-(void)userIsTourist{
+    
+    UNITouristController* tourist = [[UNITouristController alloc]init];
+    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tourist];
+    [self presentViewController:nav animated:YES completion:^{
+        [self timerStop:self->time];
+        self->phoneField.text=@"";
+        self->codeField.text=@"";
+        self->nikeName.text=@"";
+    }];
 }
 
 - (BOOL)isMobileNumber:(NSString *)mobileNum

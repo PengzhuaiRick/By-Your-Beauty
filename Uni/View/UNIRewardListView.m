@@ -25,7 +25,7 @@
     return self;
 }
 -(void)startRequest{
-    [LLARingSpinnerView RingSpinnerViewStart1];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYRewardList]
                       params:@{@"status":@(self.status),@"page":@(self.page),@"size":@(20)}];

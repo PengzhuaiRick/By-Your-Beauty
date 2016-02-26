@@ -45,19 +45,19 @@
 }
 
 -(void)setupSelf{
-    self.view.backgroundColor = [UIColor colorWithRed:0.2f green:0.2f blue:0.2f alpha:0.9f];
+    self.view.backgroundColor = [UIColor colorWithHexString:@"1b1b1b"];
     [self.view addSubview:_tv.view];
     self.view.multipleTouchEnabled=YES;
 }
 
 -(void)setupParams{
     titleArray = @[@"首页",
-                   @"会员详情",
+                   @"我的详情",
                    @"我的奖励",
-                   @"活动礼包",
-                   @"订单列表",
-                   @"我的卡包",
-                   @"导航到家",
+                   @"我的礼包",
+                   @"我的订单",
+                   @"我的优惠",
+                   @"导航到店",
                    @"致电商家"
 //                   ,
 //                   @"Copyright @2014-2021\n广州由你电子商务有限公司"
@@ -85,11 +85,11 @@
 
 
 -(void)setupTableView{
-    UIImageView* bg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_menu"]];
-    bg.frame = CGRectMake(0, 0, self.view.frame.size.width - _tv.edag, self.view.frame.size.height);
-    [self.view addSubview:bg];
+//    UIImageView* bg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_menu"]];
+//    bg.frame = CGRectMake(0, 0, self.view.frame.size.width - _tv.edag, self.view.frame.size.height);
+//    [self.view addSubview:bg];
     
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width - _tv.edag, self.view.frame.size.height - 80) style:UITableViewStylePlain];
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width - _tv.edag, self.view.frame.size.height - 60) style:UITableViewStylePlain];
     tab.delegate = self;
     tab.dataSource = self;
     tab.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -139,7 +139,7 @@
     static NSString* name = @"cell";
     ViewControllerCell*cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell = [[ViewControllerCell alloc]initWithCellH:tableView.frame.size.height/titleArray.count reuseIdentifier:name];
+        cell = [[ViewControllerCell alloc]initWithCellH:KMainScreenWidth*70/414 reuseIdentifier:name];
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (indexPath.row == 3) {

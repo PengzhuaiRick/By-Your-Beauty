@@ -7,7 +7,7 @@
 //
 @protocol UNIGoodsWebDelegate <NSObject>
 
--(void)UNIGoodsWebDelegateMethodAndprojectId:(NSString*)ProjectId Andtype:(NSString*)Type;
+-(void)UNIGoodsWebDelegateMethodAndprojectId:(NSString*)ProjectId Andtype:(NSString*)Type AndIsHeaderShow:(int)isH;
 @end
 #import <UIKit/UIKit.h>
 @interface UNIGoodsWeb : UIViewController

@@ -83,7 +83,7 @@
     
 
    }
--(void)setupCellWithData:(NSArray*)data type:(int)type andTotal:(int)total{
+-(void)setupCellWithData:(id)data type:(int)type andTotal:(int)total{
    
     if (type == 1) {
         self.handleBtn.hidden = YES;
@@ -109,7 +109,7 @@
     if (type == 2) {
          self.numLab.hidden = YES;
         self.accessoryType = UITableViewCellAccessoryNone;
-         UNIMyProjectModel* info = data[0];
+         UNIMyProjectModel* info =(UNIMyProjectModel*) data;
         if (info) {
             self.handleBtn.hidden = NO;
             self.mainImage.image = [UIImage imageNamed:@"main_img_cell2"];
