@@ -16,13 +16,13 @@
     NSArray* freeTimes;
     NSMutableArray* midBtns;//中间预约时间按钮组
     UIImageView* arrowImg;
+    float midBtnH;
 }
-@property (assign, nonatomic) int member;//人数
-@property (strong ,nonatomic) UNIMyProjectModel* model;
+//@property (assign, nonatomic) int member;//人数
 @property (assign ,nonatomic) int selectYear;   //年份
 @property (copy, nonatomic) NSString* selectDay; //选择的日期
 @property (copy, nonatomic) NSString* selectTime; //选择的时间段
-@property (assign ,nonatomic)int maxNum; //最大人数
+//@property (assign ,nonatomic)int maxNum; //最大人数
 @property (assign ,nonatomic)int numDay; //用来计算本地通知的触发时间
 @property (strong, nonatomic) UITextField *nunField;
 
@@ -31,7 +31,10 @@
 @property (strong, nonatomic)  UIButton *midLeftBtn;
 @property (strong, nonatomic)  UIButton *midRightBtn;
 @property (strong, nonatomic)  UIScrollView *midScroller;
+@property (assign ,nonatomic) int projectId;
+@property (assign ,nonatomic) int costTime;
 
+-(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos;
 
--(id)initWithFrame:(CGRect)frame andModel:(UNIMyProjectModel*)model;
+-(void)beforeRequest;
 @end

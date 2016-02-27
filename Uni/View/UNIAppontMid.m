@@ -12,7 +12,6 @@
 -(id)initWithFrame:(CGRect)frame andModel:(id)model{
     self=[super initWithFrame:frame];
     if (self) {
-        _cellH =KMainScreenWidth*70/320;
         self.backgroundColor = [UIColor whiteColor];
          _myData = [NSMutableArray array];
         [_myData addObject:model];
@@ -33,14 +32,16 @@
     [self addSubview:lab];
     self.lab1 = lab;
     
-    _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(lab.frame), self.frame.size.width-20,_cellH*_myData.count) style:UITableViewStylePlain];
+    _cellH =KMainScreenWidth>320?70:60;
+    float tabH = _myData.count* _cellH;
+    _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(lab.frame), self.frame.size.width-20,tabH) style:UITableViewStylePlain];
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
     [self addSubview:_myTableView];
     _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, 40);
+    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, 30);
     [btn setTitle:@" 添加项目" forState:UIControlStateNormal];
     [btn setBackgroundColor:[UIColor whiteColor]];
     [btn setImage:[UIImage imageNamed:@"appoint_img_add"] forState:UIControlStateNormal];
@@ -52,6 +53,7 @@
     CGRect selfR = self.frame;
     selfR.size.height = CGRectGetMaxY(btn.frame)+5;
     self.frame = selfR;
+    
 //    CALayer* lay = [CALayer layer];
 //    lay.frame = CGRectMake(10, CGRectGetMinY(btn.frame), _myTableView.frame.size.width - 20, 0.5);
 //    lay.backgroundColor = kMainGrayBackColor.CGColor;
@@ -82,10 +84,10 @@
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         cell.mainLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-        cell.mainLab.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+        cell.mainLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
         
         cell.subLab.textColor = kMainGrayBackColor;
-        cell.subLab.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+        cell.subLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
 
     }
     UNIMyProjectModel* model = _myData[indexPath.row];

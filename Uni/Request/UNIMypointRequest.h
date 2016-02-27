@@ -26,6 +26,15 @@ typedef void(^RQGetFreeTime)(NSArray* times,NSString*tips,NSError* er);
  */
 typedef void(^RQSetAppoint)(NSString* order,NSString*tips,NSError* er);
 
+/**
+ *  获取店铺列表信息
+ *
+ *  @param arr 店铺信息数组
+ *  @param tips  反馈信息
+ *  @param er   错误信息
+ */
+typedef void(^RQShopList)(NSArray* arr,NSString*tips,NSError* er);
+
 @interface UNIMypointRequest : BaseRequest
 
 //获取项目可预约时间
@@ -33,5 +42,8 @@ typedef void(^RQSetAppoint)(NSString* order,NSString*tips,NSError* er);
 
 //确定预约项目
 @property (copy ,nonatomic) RQSetAppoint resetAppoint;
+
+//获取店铺列表信息
+@property (copy ,nonatomic) RQShopList rqshopList;
 
 @end

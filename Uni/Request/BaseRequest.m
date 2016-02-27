@@ -20,11 +20,11 @@
     [dic setValue:@([[AccountManager shopId]intValue]) forKey:@"shopId"];
     
     NSString* URL = [self spliceURL:code];
-    NSLog(@" 吃吃吃吃   URL %@",URL);
+    //NSLog(@" 吃吃吃吃   URL %@",URL);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:dic] forKey:@"json"];
-    NSLog(@"%@",ddic);
+    NSLog(@"%@  %@",code[1],ddic);
     [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"JSON:%@ %@", code[1],responseObject);
        // NSLog(@"%@",[self safeObject:responseObject ForKey:@"tips"]);

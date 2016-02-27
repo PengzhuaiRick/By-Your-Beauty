@@ -11,7 +11,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import "UNIAddProjcetCell.h"
 #define CELLH KMainScreenWidth*70/320
-#define MAXTABLEH KMainScreenHeight-64-60  //tableview最大高度
+#define MAXTABLEH KMainScreenHeight-74-60  //tableview最大高度
 @interface UNIMyPojectList ()<UITableViewDataSource,UITableViewDelegate>{
     UIButton* needKnowBtn;//需知按钮
     CGRect tableRect;//
@@ -63,11 +63,10 @@
 }
 -(void)setupTableView{
    
-    tableRect =CGRectMake(0, 64, KMainScreenWidth,MAXTABLEH);
+    tableRect =CGRectMake(0, 64+10, KMainScreenWidth,MAXTABLEH);
     _myTableview = [[UITableView alloc]initWithFrame:tableRect
                                                style:UITableViewStylePlain];
-    _myTableview.layer.masksToBounds = YES;
-    _myTableview.layer.cornerRadius = 5;
+
     _myTableview.delegate =self;
     _myTableview.dataSource = self;
     

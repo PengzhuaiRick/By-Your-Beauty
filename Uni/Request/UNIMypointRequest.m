@@ -7,7 +7,7 @@
 //
 
 #import "UNIMypointRequest.h"
-
+#import "UNIShopModel.h"
 @implementation UNIMypointRequest
 
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
@@ -35,6 +35,21 @@
             }else
                 _resetAppoint(nil,tips,nil);
         }
+        
+        //获取店铺列表信息接口
+        if ([param2 isEqualToString:API_URL_GetShopListInfo]) {
+            if (code == 0) {
+                NSMutableArray* arr = [NSMutableArray array];
+                NSArray* array = [self safeObject:dic ForKey:@"result"];
+                for (NSDictionary* dic in array) {
+                    UNIShopModel* model = [[UNIShopModel alloc]initWithDic:dic];
+                    [arr addObject:model];
+                }
+                _rqshopList(arr,tips,nil);
+            }else
+                 _rqshopList(nil,tips,nil);
+        }
+
 
     }
 }
@@ -53,6 +68,11 @@
         if ([param2 isEqualToString:API_URL_SetAppoint]) {
             _resetAppoint(nil,nil,err);
         }
+        //获取店铺列表信息接口
+        if ([param2 isEqualToString:API_URL_GetShopListInfo]) {
+                _rqshopList(nil,nil,err);
+        }
+
     }
 }
 @end

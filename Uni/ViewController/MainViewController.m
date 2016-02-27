@@ -532,11 +532,10 @@
                 if (!err) {
                     self->appointTotal = count;
                     self.midData = nil;
-                    if (myAppointArr.count>0){
-                        self.midData = myAppointArr;
-                        [self->myTable reloadData];
+                    self.midData = myAppointArr;
+                    [self->myTable reloadData];
                        // [self.midView startReloadData:myAppointArr andType:1];
-                    }
+                   
 //                    else
 //                        [YIToast showText:tips];
                 }else

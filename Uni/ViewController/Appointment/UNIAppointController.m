@@ -11,10 +11,12 @@
 #import "UNIAppontMid.h"
 #import "UNIMyPojectList.h"
 #import "AccountManager.h"
-
+#import "UNIShopView.h"
+#import "UNIShopListController.h"
 //#import "UNIMyProjectModel.h"
-@interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate>
+@interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate,UNIShopListControllerDelegate>
 {
+    UNIShopView* shopView;
     UNIAppointTop* appointTop;
     UNIAppontMid* appontMid;
     //UNIAppointBotton* appointBotton;
@@ -29,7 +31,8 @@
     
     self.title =self.model.projectName;
     [self setupMyScroller];
-    [self setupTopScroller];
+    [self setupShopView];
+    [self setupTopScrollerWithProjectId:self.model.projectId andCostime:self.model.costTime];
     [self setupMidScroller];
     [self setupBottomContent];
     [self regirstKeyBoardNotification];
@@ -49,17 +52,43 @@
         self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
 }
 
+#pragma mark 加载顶部店铺名字View
+-(void)setupShopView{
+    UNIShopView* shop =[[UNIShopView alloc]initWithFrame:CGRectMake(10,10, KMainScreenWidth - 20, (KMainScreenWidth>320?70:60))];
+    shop.backgroundColor = [UIColor whiteColor];
+    [self.myScroller addSubview:shop];
+    shopView = shop;
+    
+    [[shop.listBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        UNIShopListController* shop = [[UNIShopListController alloc]init];
+        shop.delegate = self;
+        [self.navigationController pushViewController:shop animated:YES];
+    }];
+}
+#pragma mark 店铺列表页面代理方法
+-(void)UNIShopListControllerDelegateMethod:(id)model{
+    UNIShopModel* info = model;
+    shopView.nameLab.text = info.shortName;
+    shopView.addressLab.text = info.address;
+    
+    [appointTop removeFromSuperview];
+    appointTop = nil;
+    [self setupTopScrollerWithProjectId:info.shopId andCostime:self.model.costTime];
+}
 #pragma mark 加载顶部Scroller
--(void)setupTopScroller{
-    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,0, KMainScreenWidth-20,KMainScreenWidth*250/320) andModel:self.model];
+-(void)setupTopScrollerWithProjectId:(int)project andCostime:(int)cost{
+    float topY = CGRectGetMaxY(shopView.frame)+10;
+    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andProjectId:project andCostime:cost];
     [self.myScroller addSubview:top];
     appointTop = top;
 }
 
 #pragma mark 加载中部Scroller
 -(void)setupMidScroller{
-   // CGRect scrollerR = _myScroller.frame;
-    UNIAppontMid* mid = [[UNIAppontMid alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(appointTop.frame)+10, KMainScreenWidth-20, KMainScreenWidth*130/320) andModel:_model];
+    float midY = CGRectGetMaxY(appointTop.frame)+10;
+    float midH = self.myScroller.contentSize.height - midY - 10;
+    UNIAppontMid* mid = [[UNIAppontMid alloc]initWithFrame:CGRectMake(10, midY, KMainScreenWidth-20,midH) andModel:_model];
     mid.delegate = self;
     [self.myScroller addSubview:mid];
     appontMid = mid;
@@ -78,8 +107,8 @@
 }
 #pragma mark 加载底部Scroller
 -(void)setupBottomContent{
-    float btnWH = KMainScreenWidth>320?80:70;
-    float btnY = _myScroller.contentSize.height -btnWH - 10;
+    float btnWH = KMainScreenWidth*70/414;
+    float btnY = self.myScroller.contentSize.height - btnWH-10 ;
     float btnX = (KMainScreenWidth - btnWH)/2;
     
     UIButton* btn = [UIButton buttonWithType: UIButtonTypeCustom];
@@ -88,7 +117,7 @@
     //[btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     btn.titleLabel.lineBreakMode = 0;
     btn.titleLabel.numberOfLines = 0;
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:16];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     btn.layer.masksToBounds=YES;
     btn.layer.cornerRadius = btnWH/2;
     btn.layer.borderWidth = 0.5;
@@ -135,13 +164,12 @@
              UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
              NSMutableArray* arr = [NSMutableArray array];
               NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
-             int num = appointTop.nunField.text.intValue;
              for (UNIMyProjectModel* model in self->appontMid.myData) {
     
                  NSDictionary* dic1 = @{@"projectId":@(model.projectId),
                                         @"date":date,
                                         @"costTime":@(model.costTime),
-                                        @"num":@(num)
+                                        @"num":@(1)
                                         };
                   [arr addObject:dic1];
              }
@@ -285,17 +313,16 @@
             self-> sureBtn.frame = btnRe;
         }
         
-        
         CGRect midRec =self-> appontMid.frame;
         midRec.size.height = viewH ;
         self-> appontMid.frame = midRec;
         
         CGRect tabRe = self->appontMid.myTableView.frame;
-        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - 50;
+        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - 40;
         self->appontMid.myTableView.frame =tabRe;
         
         CGRect addRec = self->appontMid.addProBtn.frame;
-        addRec.origin.y =midRec.size.height - 45;
+        addRec.origin.y =midRec.size.height - 35;
         self->appontMid.addProBtn.frame =addRec;
     
 }
