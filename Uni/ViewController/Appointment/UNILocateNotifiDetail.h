@@ -11,5 +11,5 @@
 @interface UNILocateNotifiDetail : UIViewController
 @property (strong, nonatomic) UITableView *myTableView;
 @property (copy, nonatomic) NSString* order;
-
+@property (assign , nonatomic)int shopId;
 @end

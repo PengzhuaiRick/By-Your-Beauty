@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    
+    self.title = @"由你商城";
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
     web.delegate = self;
     [self.view addSubview:web];
@@ -56,7 +56,7 @@
         NSArray* array = [url componentsSeparatedByString:@"&"];
         NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
         NSString* type = [array[2] componentsSeparatedByString:@"="][1];
-        [self.navigationController popViewControllerAnimated:YES];
+        //[self.navigationController popViewControllerAnimated:YES];
         [self.delegate UNIGoodsWebDelegateMethodAndprojectId:projectId Andtype:type AndIsHeaderShow:0];
         
     }

@@ -28,6 +28,6 @@
     self.projectId = [[self safeObject:dic ForKey:@"projectId"]intValue];
     self.costTime = [[self safeObject:dic ForKey:@"costTime"]intValue];
     self.ifIntime = [[self safeObject:dic ForKey:@"ifIntime"]intValue];
-    
+    self.shopId = [[self safeObject:dic ForKey:@"shopId"]intValue];
 }
 @end

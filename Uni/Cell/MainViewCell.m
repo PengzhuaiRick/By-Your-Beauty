@@ -19,6 +19,8 @@
     return self;
 }
 -(void)setupUI:(CGSize)size{
+    cellH = size.height;
+    
     float imgX = KMainScreenWidth*20/414;
     float imgWH =size.height/3.5;
     float imgY = (size.height - imgWH)/2;
@@ -53,11 +55,11 @@
     btn.layer.cornerRadius = btnWH/2;
     btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
     btn.layer.borderWidth = 1;
-    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [btn setBackgroundImage:nil forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor ] forState:UIControlStateHighlighted];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
     UIColor* col = [UIColor colorWithHexString:kMainThemeColor];
-    [btn setBackgroundImage:[self createImageWithColor:col] forState:UIControlStateHighlighted];
+    [btn setBackgroundImage:[self createImageWithColor:col] forState:UIControlStateNormal ];
     btn.hidden = YES;
     [self addSubview:btn];
     self.handleBtn =  btn;
@@ -112,7 +114,15 @@
          UNIMyProjectModel* info =(UNIMyProjectModel*) data;
         if (info) {
             self.handleBtn.hidden = NO;
-            self.mainImage.image = [UIImage imageNamed:@"main_img_cell2"];
+            
+            CGRect imgR = self.mainImage.frame;
+            imgR.size.height = cellH/2.5;
+            imgR.size.width = cellH/2.5;
+            imgR.origin.y = (cellH - cellH/2.5)/2;
+            imgR.origin.x -=2;
+            self.mainImage.frame = imgR;
+            NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
+            [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str]];
             self.mainLab.text = info.projectName;
             self.subLab .text = [NSString stringWithFormat:@"剩余%d次",info.num];
             

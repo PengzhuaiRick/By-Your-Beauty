@@ -41,12 +41,12 @@
     _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, 30);
+    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, (KMainScreenWidth>320?40:30));
     [btn setTitle:@" 添加项目" forState:UIControlStateNormal];
     [btn setBackgroundColor:[UIColor whiteColor]];
     [btn setImage:[UIImage imageNamed:@"appoint_img_add"] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
+    [btn setTitleColor:[UIColor colorWithHexString:kMainBlackTitleColor] forState:UIControlStateNormal];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:16];
     [self addSubview:btn];
     _addProBtn = btn;
     
@@ -83,7 +83,7 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        cell.mainLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+        cell.mainLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
         cell.mainLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
         
         cell.subLab.textColor = kMainGrayBackColor;

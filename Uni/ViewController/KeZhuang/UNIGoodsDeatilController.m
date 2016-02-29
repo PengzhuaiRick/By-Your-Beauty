@@ -14,6 +14,7 @@
 #import "UNIImageAndTextController.h"
 #import "BTKeyboardTool.h"
 #import "UNIPurChaseView.h"
+#import "UNIOrderListController.h"
 @interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIView* midView;
     UIView* bottomView;
@@ -79,6 +80,7 @@
             }
             if(array){
                 self->model = array.lastObject;
+                self.title = self->model.projectName;
                 [self setupBottomView];
                 [self setupMyScroller];
                 [self setupTableView];
@@ -89,7 +91,7 @@
 }
 
 -(void)setupNavigation{
-    self.title = @"客妆";
+    //self.title = @"客妆";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
@@ -374,11 +376,15 @@
 #ifdef IS_IOS9_OR_LATER
     UIAlertController* alertController = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        UNIOrderListController* view = [[UNIOrderListController alloc]init];
+        [self.navigationController pushViewController:view animated:YES];
     }];
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
 #else
     [UIAlertView showWithTitle:string message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        UNIOrderListController* view = [[UNIOrderListController alloc]init];
+        [self.navigationController pushViewController:view animated:YES];
     }];
 #endif
 

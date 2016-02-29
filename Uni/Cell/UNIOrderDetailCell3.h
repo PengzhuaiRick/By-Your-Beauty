@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIOrderDetailCell3 : UITableViewCell
+#import "UNIBaseCell.h"
+@interface UNIOrderDetailCell3 : UNIBaseCell
 @property (strong, nonatomic)  UILabel *lab1;
 @property (strong, nonatomic)  UILabel *lab2;
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;

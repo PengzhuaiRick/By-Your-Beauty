@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UNIBaseCell.h"
 #import "MyRewardView.h"
-@interface UNIRewordAndIntimeCell : UITableViewCell
+@interface UNIRewordAndIntimeCell : UNIBaseCell
 @property(nonatomic,strong)MyRewardView* RewordAndIntimeView;
 
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier andNum:(int)num andType:(int)ty;

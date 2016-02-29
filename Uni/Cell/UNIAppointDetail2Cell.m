@@ -29,42 +29,39 @@
     [self addSubview:img];
     self.mainImg = img;
     
+     //UNIShopManage* manager = [UNIShopManage getShopData];
     
     float labX = CGRectGetMaxX(img.frame)+10;
     float labW = size.width - labX;
-    float labH = size.height;
-    float labY = 0;
+    float labH = KMainScreenWidth>320?19:14;
+    float labY = size.height/2 - labH - 2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
-    lab1.textColor = [UIColor blackColor];
+   // lab1.text = manager.shortName;
+    lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:12];
     lab1.lineBreakMode = 0 ;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];
     self.label1 = lab1;
     
-    UNIShopManage* manager = [UNIShopManage getShopData];
-    self.label1.text =manager.address;
     
+    float lab2H = KMainScreenWidth>320?18:13;
+    float lab2Y =  size.height/2 +2;
+    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab2H)];
+    //lab2.text =manager.address;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:11];
+    lab2.lineBreakMode = 0 ;
+    lab2.numberOfLines = 0;
+    [self addSubview:lab2];
+    _label2 =  lab2;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
 }
 
--(void)setupCellContentWith:(int)state{
-    //    if (state>1) {
-//        self.mapView.hidden = YES;
-//    }else{
-//    CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
-//    self.mapView.centerCoordinate = td;
-    
-//    UNIMapAnnotation * end =[[UNIMapAnnotation alloc]initWithTitle:manager.shopName andCoordinate:td];
-//        [self.mapView addAnnotation:end];
-//        
-//    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
-//    MKCoordinateRegion adjustedRegion = [_mapView regionThatFits:viewRegion];//适配map view的尺寸
-//    [_mapView setRegion:adjustedRegion animated:YES];
-//    }
-    
-    
+-(void)setupCellContentWithName:(NSString*)name andAdress:(NSString*)adress{
+    self.label1.text = name;
+    self.label2.text = adress;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

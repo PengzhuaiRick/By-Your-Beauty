@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIAppointDetailCell : UITableViewCell
+#import "UNIBaseCell.h"
+@interface UNIAppointDetailCell : UNIBaseCell
 @property (strong, nonatomic)  UIImageView *mainImage;
 @property (strong, nonatomic)  UIImageView *intimeImg;
 @property (strong, nonatomic)  UILabel *mainLab;

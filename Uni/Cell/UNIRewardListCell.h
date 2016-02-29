@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIRewardListCell : UITableViewCell
+#import "UNIBaseCell.h"
+@interface UNIRewardListCell : UNIBaseCell
 @property (strong, nonatomic)  UIImageView *mainImg;
 @property (strong, nonatomic)  UILabel *label1;
 @property (strong, nonatomic)  UILabel *label2;

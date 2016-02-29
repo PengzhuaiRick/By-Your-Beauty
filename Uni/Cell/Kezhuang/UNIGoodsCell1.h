@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIGoodsCell1 : UITableViewCell<UIScrollViewDelegate>
+#import "UNIBaseCell.h"
+@interface UNIGoodsCell1 : UNIBaseCell<UIScrollViewDelegate>
 @property (strong, nonatomic)  UIScrollView *mainImage;
 @property (strong, nonatomic)  UILabel *label1;
 @property (strong, nonatomic)  UILabel *label2;

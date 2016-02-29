@@ -58,12 +58,30 @@
     CGContextAddArc(context, rect.size.width/2, rect.size.height/2,  rect.size.width/2-2, M_PI/2,  M_PI/2+ (2*M_PI * _num / _total) , 0);//画圆
     CGContextDrawPath(context, kCGPathStroke); //绘制路径
     
-    UIFont* fontl =[UIFont systemFontOfSize:KMainScreenWidth>320?34:28 weight:0];
-    CGSize titleSize1 = [@"/" boundingRectWithSize:CGSizeMake(rect.size.width, rect.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:fontl} context:nil].size;
-    float lx = (rect.size.width - titleSize1.width)/2+2;
-    float ly = (rect.size.height - titleSize1.height)/2;
-    [@"/" drawInRect:CGRectMake(lx, ly, titleSize1.width, titleSize1.height) withAttributes:@{NSFontAttributeName:fontl ,NSForegroundColorAttributeName:[UIColor blackColor]}];
+    //指定直线样式
+    CGContextSetLineCap(context, kCGLineCapSquare);
+    //直线宽度
+    CGContextSetLineWidth(context,0.5);
+    //设置颜色
+    CGContextSetRGBStrokeColor(context,0.3, 0.3, 0.3, 1.0);
+    //开始绘制
+    CGContextBeginPath(context);
     
+    float lh = self.frame.size.height/3;
+    float ly =(self.frame.size.height-lh)/2;
+    //画笔移动到点
+    CGContextMoveToPoint(context,self.frame.size.width/2+3,ly);
+    //下一点
+    CGContextAddLineToPoint(context,self.frame.size.width/2-3, lh+ly);
+    //绘制完成
+    CGContextStrokePath(context);
+    
+//    UIFont* fontl =[UIFont systemFontOfSize:KMainScreenWidth>320?34:28 weight:0];
+//    CGSize titleSize1 = [@"/" boundingRectWithSize:CGSizeMake(rect.size.width, rect.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:fontl} context:nil].size;
+//    float lx = (rect.size.width - titleSize1.width)/2+2;
+//    float ly = (rect.size.height - titleSize1.height)/2;
+//    [@"/" drawInRect:CGRectMake(lx, ly, titleSize1.width, titleSize1.height) withAttributes:@{NSFontAttributeName:fontl ,NSForegroundColorAttributeName:[UIColor blackColor]}];
+    float lx = self.frame.size.width/2;
     
     UIFont* font =[UIFont systemFontOfSize:KMainScreenWidth>320?25:20];
     NSString* str1 =[NSString stringWithFormat:@"%d",_num];
@@ -80,15 +98,15 @@
     [str1 drawInRect:CGRectMake(x, y, titleSize.width, titleSize.height) withAttributes:@{NSFontAttributeName:font ,NSForegroundColorAttributeName:[UIColor colorWithHexString:kMainThemeColor]}];
     
     
-    UIFont* fontt =[UIFont systemFontOfSize:KMainScreenWidth>320?20:16];
+    UIFont* fontt =[UIFont systemFontOfSize:KMainScreenWidth>320?20:14];
     NSString* str2 =[NSString stringWithFormat:@"%d",_total];
     CGSize titleSize2 = [str2 boundingRectWithSize:CGSizeMake(rect.size.width, rect.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:fontt} context:nil].size;
-    float tx =lx + titleSize1.width+2;
+    float tx =lx+6;
+    float ty =(rect.size.height - titleSize2.height)/2+4;
     if (_total>9 && _total<99){
-        tx-=4;
-        fontt =[UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
+        tx-=3;
+       // fontt =[UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
     }
-    float ty =(rect.size.height - titleSize2.height)/2+6;
     if (KMainScreenWidth>320) {
        ty =(rect.size.height - titleSize2.height)/2+4;
     }

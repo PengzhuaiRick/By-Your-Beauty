@@ -83,7 +83,15 @@
     self.mainLab.text = [NSString stringWithFormat:@"%d次",info.rewardNum];
     [self.mainLab sizeToFit];
     self.subLab.text = info.goods;
-    self.stateLab.text =[NSString stringWithFormat:@"价值￥%d",info.price] ;
+    self.stateLab.text =[NSString stringWithFormat:@"价值￥%d",info.price];
+    
+    if (info.rewardNum>total) {
+        self.subLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+        self.stateLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    }else{
+        self.subLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
+        self.stateLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
+    }
     
     CGSize titleSize = [info.goods boundingRectWithSize:CGSizeMake(self.subLab.frame.size.width, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth>320?15:13]} context:nil].size;
     

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UNIBaseCell.h"
 #import "UNIShopModel.h"
-@interface UNIShopListCell : UITableViewCell
+@interface UNIShopListCell : UNIBaseCell
 @property (strong, nonatomic)  UIImageView *mainImage;
 @property (strong, nonatomic)  UILabel *mainLab;
 @property (strong, nonatomic)  UILabel *subLab;

@@ -59,19 +59,27 @@
     [self.myScroller addSubview:shop];
     shopView = shop;
     
-    [[shop.listBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-    subscribeNext:^(id x) {
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
+    [tap.rac_gestureSignal subscribeNext:^(id x) {
         UNIShopListController* shop = [[UNIShopListController alloc]init];
         shop.delegate = self;
         [self.navigationController pushViewController:shop animated:YES];
     }];
+    [shop addGestureRecognizer:tap];
+    
+//    [[shop.listBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+//    subscribeNext:^(id x) {
+//        UNIShopListController* shop = [[UNIShopListController alloc]init];
+//        shop.delegate = self;
+//        [self.navigationController pushViewController:shop animated:YES];
+//    }];
 }
 #pragma mark 店铺列表页面代理方法
 -(void)UNIShopListControllerDelegateMethod:(id)model{
     UNIShopModel* info = model;
     shopView.nameLab.text = info.shortName;
     shopView.addressLab.text = info.address;
-    
+    shopView.shopId = info.shopId;
     [appointTop removeFromSuperview];
     appointTop = nil;
     [self setupTopScrollerWithProjectId:info.shopId andCostime:self.model.costTime];
@@ -169,12 +177,11 @@
                  NSDictionary* dic1 = @{@"projectId":@(model.projectId),
                                         @"date":date,
                                         @"costTime":@(model.costTime),
-                                        @"num":@(1)
-                                        };
+                                        @"num":@(1)};
                   [arr addObject:dic1];
              }
              [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
-                           params:@{@"data":arr}];
+                           params:@{@"data":arr,@"shopId":@(shopView.shopId)}];
              dispatch_async(dispatch_get_main_queue(), ^{
                  [LLARingSpinnerView RingSpinnerViewStop1];
                  req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
@@ -238,7 +245,7 @@
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     
-    NSDictionary* dib = @{@"time":strDate,@"OrderId":order,@"useId":[AccountManager userId]};
+    NSDictionary* dib = @{@"time":strDate,@"OrderId":order,@"useId":[AccountManager userId],@"shopId":@(shopView.shopId)};
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     NSArray* appointArr = [user objectForKey:@"appointArr"];
     NSMutableArray* arr;
@@ -318,11 +325,11 @@
         self-> appontMid.frame = midRec;
         
         CGRect tabRe = self->appontMid.myTableView.frame;
-        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - 40;
+        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - (KMainScreenWidth>320?50:40);
         self->appontMid.myTableView.frame =tabRe;
         
         CGRect addRec = self->appontMid.addProBtn.frame;
-        addRec.origin.y =midRec.size.height - 35;
+        addRec.origin.y =midRec.size.height - (KMainScreenWidth>320?45:35);
         self->appontMid.addProBtn.frame =addRec;
     
 }

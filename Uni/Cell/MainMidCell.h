@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UNIBaseCell.h"
 #import "UNIMyAppintModel.h"
 #import "UNIMyProjectModel.h"
 //#import "UNIMyRewardModel.h"
 #define CELLW self.superview.frame.size.width
 #define CELLH KMainScreenWidth*70/375
-@interface MainMidCell : UITableViewCell
+@interface MainMidCell : UNIBaseCell
 @property (strong, nonatomic)  UIImageView *mainImage;
 @property (strong, nonatomic)  UILabel *mainLab;
 @property (strong, nonatomic)  UILabel *subLab;

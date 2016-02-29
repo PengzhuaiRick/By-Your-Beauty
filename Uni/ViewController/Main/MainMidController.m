@@ -138,6 +138,7 @@
     UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
     UNIMyAppintModel* model =_myData[indexPath.row];
     appoint.order =model.myorder;
+    appoint.shopId = model.shopId;
     [self.navigationController pushViewController:appoint animated:YES];
     
 }

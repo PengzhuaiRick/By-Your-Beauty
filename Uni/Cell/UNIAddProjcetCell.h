@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UNIBaseCell.h"
 #import "UNIMyProjectModel.h"
-@interface UNIAddProjcetCell : UITableViewCell
+@interface UNIAddProjcetCell : UNIBaseCell
 @property (strong, nonatomic)  UIImageView *mainImage;
 @property (strong, nonatomic)  UILabel *mainLab;
 @property (strong, nonatomic)  UILabel *subLab;

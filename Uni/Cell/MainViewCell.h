@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface MainViewCell : UITableViewCell
+#import "UNIBaseCell.h"
+@interface MainViewCell : UNIBaseCell{
+    float cellH;
+}
 @property (strong, nonatomic)  UIImageView *mainImage;
 @property (strong, nonatomic)  UILabel *mainLab;
 @property (strong, nonatomic)  UILabel *subLab;

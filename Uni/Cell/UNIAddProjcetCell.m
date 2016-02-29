@@ -22,7 +22,7 @@
     float imgY = 10;
     float imgWH =size.height - 2*imgY;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
-    img.contentMode = UIViewContentModeScaleAspectFit;
+    //img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImage = img;
     

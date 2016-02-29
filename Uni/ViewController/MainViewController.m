@@ -138,14 +138,14 @@
     topImg.userInteractionEnabled = YES;
     tabview.tableHeaderView = topImg;
     headerImg = topImg;
-    [self setupTabViewHeader:topImg];
-    
     
     if (KMainScreenHeight<568)
         cellHight =(568-64-imgH)/2;
     else
         cellHight =(KMainScreenHeight-64-imgH)/2;
     
+    [self setupTabViewHeader:topImg];
+   
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self startRequestReward];//请求约满信息
         [self startRequestAppointInfo];//请求我已预约
@@ -207,7 +207,7 @@
     
     float lab2W = imgH/2-8;
     float lab2H = 25;
-    float lab2Y =KMainScreenWidth>320?77:45;
+    float lab2Y =KMainScreenWidth>320?85:55;
     float lab2X = imgW/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y, lab2W, lab2H)];
 //    lab2.text = @"再预约次数";
@@ -217,7 +217,7 @@
     [imageView addSubview:lab2];
     goods1 = lab2;
     
-    float lab3H =45;
+    float lab3H =KMainScreenWidth>320?50:40;
     float lab3Y =CGRectGetMaxY(lab2.frame);
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab3Y, lab2W, lab3H)];
 //    lab3.text = @"1";
@@ -260,49 +260,49 @@
     
     UIImage* iage = [UIImage imageNamed:@"main_img_kezhuang"];
     float imgVX = KMainScreenWidth*20/414;
-    float imgVH = imgH/6/2;
+    float imgVH = cellHight/3;
     float imgVW = iage.size.width * imgVH / iage.size.height;
     float imgVY = imgH/4*3+ ((imgH/4 - imgVH)/2);
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgVX, imgVY, imgVW, imgVH)];
     img.image = iage;
     [imageView addSubview:img];
     
-    float btnWH =  KMainScreenWidth*70/414;
-    float btnY =imgH/4*3+(imgH/4 - btnWH)/2;
-    float btnX = imgW - btnWH - imgVX;
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
-    btn.titleLabel.numberOfLines = 0;
-    btn.titleLabel.lineBreakMode = 0;
-    [btn setTitle:@"马上\n购买" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*18/414];
-    btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = btnWH/2;
-    btn.layer.borderColor = [UIColor whiteColor].CGColor;
-    btn.layer.borderWidth = 1;
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5]] forState:UIControlStateHighlighted];
-    [imageView addSubview:btn];
-    sellBtn = btn;
-    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
-    subscribeNext:^(id x) {
-        if (self->sellGoods.count<1)
-            return ;
-        UNIGoodsModel* info = self->sellGoods.lastObject;
-        NSString* str = [NSString stringWithFormat:@"%d",info.projectId];
-        [self UNIGoodsWebDelegateMethodAndprojectId:str Andtype:@"2" AndIsHeaderShow:1];
-    }];
+//    float btnWH =  KMainScreenWidth*70/414;
+//    float btnY =imgH/4*3+(imgH/4 - btnWH)/2;
+//    float btnX = imgW - btnWH - imgVX;
+//    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+//    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
+//    btn.titleLabel.numberOfLines = 0;
+//    btn.titleLabel.lineBreakMode = 0;
+//    [btn setTitle:@"马上\n购买" forState:UIControlStateNormal];
+//    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*18/414];
+//    btn.layer.masksToBounds = YES;
+//    btn.layer.cornerRadius = btnWH/2;
+//    btn.layer.borderColor = [UIColor whiteColor].CGColor;
+//    btn.layer.borderWidth = 1;
+//    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
+//    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5]] forState:UIControlStateHighlighted];
+//    [imageView addSubview:btn];
+//    sellBtn = btn;
+//    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+//    subscribeNext:^(id x) {
+//        if (self->sellGoods.count<1)
+//            return ;
+//        UNIGoodsModel* info = self->sellGoods.lastObject;
+//        NSString* str = [NSString stringWithFormat:@"%d",info.projectId];
+//        [self UNIGoodsWebDelegateMethodAndprojectId:str Andtype:@"2" AndIsHeaderShow:1];
+//    }];
     
     
     float lab6H = 20;
-    float lab6Y = btnY+10;
+    float lab6Y = CGRectGetMaxY(lay.frame)+(KMainScreenWidth>320?30:20);
     float lab6X = CGRectGetMaxX(img.frame)+20;
-    float lab6W = imgW - lab6X - btnWH - proX*2;
+    float lab6W = imgW - lab6X - proX*2;
     UILabel* lab6 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H)];
 //    lab6.text = @"ALBION清新莹润滋养护理（五次）";
     lab6.textColor = [UIColor whiteColor];
-    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
     [imageView addSubview:lab6];
     sell1 = lab6;
     
@@ -337,7 +337,7 @@
     sell4 = lab9;
     
     UIButton* alpBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    alpBtn.frame = CGRectMake(0, btnY, btnX, btnWH);
+    alpBtn.frame = CGRectMake(0, imgH/4*3, KMainScreenWidth, imgH/4);
     [alpBtn setBackgroundColor: [UIColor clearColor]];
     [imageView addSubview:alpBtn];
     [[alpBtn rac_signalForControlEvents:UIControlEventTouchUpInside]

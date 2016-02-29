@@ -21,7 +21,7 @@
     float imgXY = 16;
     float imgWH =size.height - imgXY*2;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgXY, imgXY, imgWH, imgWH)];
-    img.contentMode = UIViewContentModeScaleAspectFit;
+    //img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImage = img;
     
@@ -40,7 +40,7 @@
     float labH = size.height/2 - 5;
     
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
-    lab1.textColor = [UIColor blackColor];
+    lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
     lab1.numberOfLines = 0;
     lab1.lineBreakMode = 0;

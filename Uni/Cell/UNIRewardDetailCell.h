@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UNIBaseCell.h"
 #import "UNIMyRewardModel.h"
 #import "UNIRewardProgessView.h"
-@interface UNIRewardDetailCell : UITableViewCell
+@interface UNIRewardDetailCell : UNIBaseCell
 @property (strong, nonatomic)  UILabel *mainLab;
 @property (strong, nonatomic)  UILabel *subLab;
 @property (strong, nonatomic)  UILabel *stateLab;

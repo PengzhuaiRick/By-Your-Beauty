@@ -20,6 +20,7 @@
 @property(nonatomic,assign)int costTime;//服务时长
 @property(nonatomic,assign)int projectId;//项目id
 @property(nonatomic,assign)int ifIntime; //0—否;1—准时
+@property(nonatomic,assign)int shopId; //
 
 -(id)initWithDic:(NSDictionary*)dic;
 @end

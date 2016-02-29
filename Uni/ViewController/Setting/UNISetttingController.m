@@ -70,7 +70,7 @@
     [self setupTabHeaderView:tab];
 }
 -(void)setupTabHeaderView:(UITableView*)tab{
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*200/320)];
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*150/320)];
     
     UIImage* img = [UIImage imageNamed:@"login_img_header"];
     float imgW = KMainScreenWidth/6;
@@ -110,7 +110,7 @@
             cell.textLabel.text = @"法律声明";
             break;
     }
-    cell.textLabel.textColor= [UIColor colorWithHexString:kMainTitleColor];
+    cell.textLabel.textColor= [UIColor colorWithHexString:kMainBlackTitleColor];
     cell.textLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     return cell;

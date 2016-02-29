@@ -25,9 +25,14 @@
 #define kMainThemeColor @"e23469"
 
 /**
+ *  主题粉紫色
+ */
+#define kMainPinkColor @"e738b1"
+
+/**
  *  背景颜色
  */
-#define kMainBackGroundColor @"e4e5e9"
+#define kMainBackGroundColor @"f3f3f3"
 
 /**
  *  字体灰色颜色

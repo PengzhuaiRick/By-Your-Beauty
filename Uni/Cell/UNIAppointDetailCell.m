@@ -23,7 +23,7 @@
     float imgWH =size.height - imgY*2;
     
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
-    img.contentMode = UIViewContentModeScaleAspectFit;
+   // img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImage = img;
     
@@ -32,7 +32,7 @@
     float itX = size.width - imgX - itW;
     float itY = (size.height - itH)/2;
     UIImageView* itImg = [[UIImageView alloc]initWithFrame:CGRectMake(itX, itY, itW, itH)];
-    itImg.image = [UIImage imageNamed:@"appoint_img_intime"];
+    //itImg.image = [UIImage imageNamed:@"appoint_img_intime"];
     itImg.hidden=YES;
     [self addSubview:itImg];
     self.intimeImg = itImg;
@@ -42,7 +42,7 @@
     float labH = size.height/2 ;
     float lab1Y = 0;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
-    lab1.textColor = [UIColor blackColor];
+//lab1.textColor = [UIColor blackColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     lab1.lineBreakMode = 0 ;
     lab1.numberOfLines = 0;
@@ -78,7 +78,7 @@
 -(void)setupCellContentWith:(id)model{
     UNIMyAppointInfoModel* info = model;
      NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
-    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"function_img_scell4"]];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.createTime substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
@@ -87,7 +87,7 @@
     switch (info.status) {
         case 0:
             titel = @"待确认";
-            stateColor = [UIColor blackColor];
+            stateColor = [UIColor colorWithHexString:kMainTitleColor];
             break;
         case 1:
             titel = @"待服务";

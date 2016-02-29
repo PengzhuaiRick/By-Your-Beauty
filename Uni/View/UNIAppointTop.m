@@ -439,7 +439,8 @@
             f++;
     }
     
-    float btnW = (_midScroller.frame.size.width - 20)/3; //按钮的宽和高
+    float KK =(KMainScreenWidth>320?65:50);
+    float btnW = (_midScroller.frame.size.width - KK)/3; //按钮的宽和高
     float btnH = midBtnH;
     _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width ,
                                               btnH*f);
@@ -470,7 +471,7 @@
     
     for (int i = 0; i<cout; i++) {
         NSDictionary* dic = freeTimes[i];
-        float btnX =10+ i%3 * btnW;
+        float btnX =KK/2+ i%3 * btnW;
         float btnY =i/3*btnH;
         UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
         but.frame=CGRectMake(btnX+1, btnY+1, btnW-2, btnH-2);

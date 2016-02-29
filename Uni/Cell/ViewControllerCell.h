@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface ViewControllerCell : UITableViewCell{
+#import "UNIBaseCell.h"
+@interface ViewControllerCell : UNIBaseCell{
     float cellHight;
 }
 @property (strong, nonatomic)  UIImageView *mainImg;

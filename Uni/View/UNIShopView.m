@@ -31,7 +31,7 @@
     float btnX = self.frame.size.width - btnWH - 5;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
-    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_shop"] forState:UIControlStateNormal];
     [self addSubview:btn];
     _listBtn =btn;
     

@@ -40,7 +40,7 @@
     
     UNILoginViewRequest* rq = [[UNILoginViewRequest alloc]init];
     rq.rqTouristBlock=^(int shopId1,int projectId1,NSString* tips,NSError* er){
-        if (!er) {
+        if (er) {
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
@@ -53,13 +53,18 @@
     [rq postWithSerCode:@[API_PARAM_UNI,API_URL_GetCustomInfo] params:nil];
     
      [WXApiManager sharedManager].delegate = self;
-    SendAuthReq* req =[[SendAuthReq alloc ] init  ];
+    
+    SendAuthReq* req =[[SendAuthReq alloc] init];
     req.scope = @"snsapi_userinfo" ;
-    req.state = @"123" ;
+    req.state = @"15017579092" ;
     //第三方向微信终端发送一个SendAuthReq消息结构
+    if ([WXApi isWXAppInstalled]) {
+        [WXApi sendReq:req];
+    }else{
     [WXApi sendAuthReq:req
         viewController:self
               delegate:[WXApiManager sharedManager]];
+    }
 }
 - (void)managerDidRecvAuthResponse:(SendAuthResp *)response {
     NSLog(@"%@",[NSString stringWithFormat:@"code:%@,state:%@,errcode:%d", response.code, response.state, response.errCode]);
@@ -90,7 +95,7 @@
 }
 
 -(void)setupNavigation{
-    self.title = @"";
+    self.title = @"参与活动";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];

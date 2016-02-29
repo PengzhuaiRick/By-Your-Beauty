@@ -42,12 +42,13 @@
     imgview.image = img;
     [view addSubview:imgview];
     
-    float k = KMainScreenWidth>320?100:50;
+    float k = KMainScreenWidth>320?80:40;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(imgview.frame)+k, KMainScreenWidth-30, KMainScreenWidth*15/320)];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320 weight:0];
+    lab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab.numberOfLines = 0;
     lab.lineBreakMode = 0;
-    lab.text = @"         广州由你电子商务有限公司（简称由你）于2015年创立，澳亚集团旗下的一家互联网技术公司。依托于多年运营的经验及渠道资源，由你电子商务公司致力于为美容院提供O2O一体化营销解决方案，为消费者打造跨场景、极致高效与专业的美容消费体验。";
+    lab.text = @"广州由你电子商务有限公司（简称由你）于2015年创立，澳亚集团旗下的一家互联网技术公司。依托于多年运营的经验及渠道资源，由你电子商务公司致力于为美容院提供O2O一体化营销解决方案，为消费者打造跨场景、极致高效与专业的美容消费体验。";
     [lab sizeToFit];
     [view addSubview:lab];
     

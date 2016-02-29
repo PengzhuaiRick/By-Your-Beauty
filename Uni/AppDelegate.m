@@ -54,7 +54,7 @@
     [self setupNavigationStyle];
     [self setupWeChat];
     
-   // [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
+    [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     return YES;
 
 }
@@ -78,7 +78,7 @@
     
     NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
     [barAttrs setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
-    [barAttrs setObject:[UIFont systemFontOfSize:KMainScreenWidth*15/320] forKey:NSFontAttributeName];
+    [barAttrs setObject:[UIFont systemFontOfSize:KMainScreenWidth*14/320] forKey:NSFontAttributeName];
     [bar setTitleTextAttributes:barAttrs];
     
     //
@@ -518,6 +518,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
     UNILocateNotifiDetail* vc = [st instantiateViewControllerWithIdentifier:@"UNILocateNotifiDetail"];
     vc.order = [notification.userInfo objectForKey:@"OrderId"];
+    vc.shopId =[[notification.userInfo objectForKey:@"shopId"] intValue];
     UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:vc];
     [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
     

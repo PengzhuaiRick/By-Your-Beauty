@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UNIBaseCell.h"
 #import "UNIOrderRequest.h"
-@interface UNIOrderListCell : UITableViewCell
+@interface UNIOrderListCell : UNIBaseCell
 @property (strong, nonatomic)  UIImageView *mainImg;
 @property (strong, nonatomic)  UILabel *label1;
 @property (strong, nonatomic)  UILabel *label2;

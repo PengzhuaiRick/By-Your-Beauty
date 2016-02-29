@@ -12,4 +12,5 @@
 @property(nonatomic,strong)UILabel* nameLab;
 @property(nonatomic,strong)UILabel* addressLab;
 @property(nonatomic,strong)UIButton* listBtn;
+@property(nonatomic,assign)int shopId;
 @end

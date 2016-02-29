@@ -27,7 +27,7 @@
     self.createTime = [self safeObject:dic ForKey:@"createTime"];
     self.costTime = [[self safeObject:dic ForKey:@"costTime"]intValue];
     self.status = [[self safeObject:dic ForKey:@"status"]intValue];
-   
+    self.shopId = [[self safeObject:dic ForKey:@"shopId"]intValue];
 }
 
 @end

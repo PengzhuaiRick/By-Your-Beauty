@@ -96,6 +96,7 @@
 		18C745B41BF07CA3000062AF /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C745B31BF07CA3000062AF /* Security.framework */; };
 		18C745B61BF07D92000062AF /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C745B51BF07D92000062AF /* libz.tbd */; };
 		18C745B81BF07EE4000062AF /* PushConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 18C745B71BF07EE4000062AF /* PushConfig.plist */; };
+		18C757A91C82FCB10052CCB4 /* UNIBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C757A81C82FCB10052CCB4 /* UNIBaseCell.m */; };
 		18C8D4021C574A5100E6DDB3 /* AlipaySDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 18C8D39E1C574A5100E6DDB3 /* AlipaySDK.bundle */; };
 		18C8D4061C574A5100E6DDB3 /* Order.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D3EF1C574A5100E6DDB3 /* Order.m */; };
 		18C8D4071C574A5100E6DDB3 /* base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D3F21C574A5100E6DDB3 /* base64.m */; };
@@ -341,6 +342,8 @@
 		18C745B51BF07D92000062AF /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		18C745B71BF07EE4000062AF /* PushConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = PushConfig.plist; sourceTree = "<group>"; };
 		18C745B91BF09F3E000062AF /* URLconfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLconfig.h; sourceTree = "<group>"; };
+		18C757A71C82FCB10052CCB4 /* UNIBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIBaseCell.h; sourceTree = "<group>"; };
+		18C757A81C82FCB10052CCB4 /* UNIBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIBaseCell.m; sourceTree = "<group>"; };
 		18C8D39E1C574A5100E6DDB3 /* AlipaySDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AlipaySDK.bundle; sourceTree = "<group>"; };
 		18C8D3A31C574A5100E6DDB3 /* aes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aes.h; sourceTree = "<group>"; };
 		18C8D3A41C574A5100E6DDB3 /* asn1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = asn1.h; sourceTree = "<group>"; };
@@ -920,6 +923,8 @@
 				18E3028A1C17DCAE00990A14 /* Kezhuang */,
 				18C7459C1BF047F9000062AF /* MainMidCell.h */,
 				18C7459D1BF047F9000062AF /* MainMidCell.m */,
+				18C757A71C82FCB10052CCB4 /* UNIBaseCell.h */,
+				18C757A81C82FCB10052CCB4 /* UNIBaseCell.m */,
 				18CC75BD1C2B8B6400625205 /* ViewControllerCell.h */,
 				18CC75BE1C2B8B6400625205 /* ViewControllerCell.m */,
 				18CC75C21C2C127400625205 /* MainViewCell.h */,
@@ -1533,6 +1538,7 @@
 				18BF0A041BF44428000AE604 /* LLARingSpinnerView.m in Sources */,
 				1814B5701C5B403600CB3BD9 /* UNIGoodsWeb.m in Sources */,
 				18250E6A1C183B670072F795 /* UNIPurchaseController.m in Sources */,
+				18C757A91C82FCB10052CCB4 /* UNIBaseCell.m in Sources */,
 				18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */,
 				18FD497B1C16845B00C07BF5 /* UNIRewardListView.m in Sources */,
 				18E661CC1C112AAF000042B7 /* UNICardInfoRequest.m in Sources */,

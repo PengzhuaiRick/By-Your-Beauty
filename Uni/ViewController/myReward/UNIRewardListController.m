@@ -49,7 +49,7 @@
     [self.view addSubview:top];
     topView = top;
     
-    NSArray* titil = @[@"未领取",@"全部",@"已领取"];
+    NSArray* titil = @[@"全部",@"未领取",@"已领取"];
 
     float btnW = KMainScreenWidth/3;
     for (int i = 0; i <titil.count; i++) {
@@ -128,7 +128,7 @@
     
     
     float scW = KMainScreenWidth;
-    self.curentView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(tabX, 0, scW, tabH) andState:0];
+    self.curentView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(tabX, 0, scW, tabH) andState:-1];
     self.curentView.delegate = self;
     [scl addSubview:self.curentView];
     
@@ -139,7 +139,7 @@
     float unX = KMainScreenWidth;
     float unW =  self.curentView.frame.size.width;
     float unH = self.curentView.frame.size.height;
-    self.unGetView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(unX, 0, unW, unH) andState:-1];
+    self.unGetView = [[UNIRewardListView alloc]initWithFrame:CGRectMake(unX, 0, unW, unH) andState:0];
     self.unGetView.delegate = self;
     [self.myScroller addSubview:self.unGetView];
 

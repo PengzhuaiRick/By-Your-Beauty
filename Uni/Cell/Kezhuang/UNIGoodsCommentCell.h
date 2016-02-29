@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIGoodsCommentCell : UITableViewCell
+#import "UNIBaseCell.h"
+@interface UNIGoodsCommentCell : UNIBaseCell
 @property (weak, nonatomic) IBOutlet UIImageView *mainImg;
 @property (weak, nonatomic) IBOutlet UILabel *label1; //名字
 @property (weak, nonatomic) IBOutlet UILabel *label2; //日期

@@ -22,7 +22,7 @@
     float imgWH = size.height - 2*imgXY;
     UIImageView* img= [[UIImageView alloc]initWithFrame:CGRectMake(imgXY, imgXY, imgWH, imgWH)];
     //img.image = [UIImage imageNamed:@"card_img_bg2"];
-    img.contentMode = UIViewContentModeScaleAspectFit;
+    //img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImg = img;
 
@@ -33,7 +33,7 @@
     float lab1Y = 0;
    
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
-    lab1.textColor = [UIColor blackColor];
+    lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab1 .font =[UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
     lab1.numberOfLines = 0;
     lab1.lineBreakMode = 0;

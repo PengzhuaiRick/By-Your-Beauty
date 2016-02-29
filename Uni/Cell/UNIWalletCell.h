@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIWalletCell : UITableViewCell
+#import "UNIBaseCell.h"
+@interface UNIWalletCell : UNIBaseCell
 @property (strong, nonatomic) UIImageView* mainImg;
 @property (strong, nonatomic) UIImageView* overDusImg;//过期
 @property (strong, nonatomic)  UILabel *lab1;

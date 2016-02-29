@@ -52,7 +52,7 @@
 }
 
 -(void)setupNavigation{
-    self.title = @"使用会员卡详情";
+    self.title = @"我的详情";
     self.view .backgroundColor= [UIColor colorWithHexString: kMainBackGroundColor];
     
       self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
@@ -327,6 +327,7 @@
     UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
     UNIMyAppointInfoModel* model =_myData[indexPath.row];
     appoint.order =model.order;
+    appoint.shopId = model.shopId;
     [self.navigationController pushViewController:appoint animated:YES];
 }
 - (void)didReceiveMemoryWarning {

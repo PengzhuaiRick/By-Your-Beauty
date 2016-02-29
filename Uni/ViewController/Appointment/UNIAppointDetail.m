@@ -19,13 +19,15 @@
 #import "CallOutAnnotationVifew.h"
 #import "YILocationManager.h"
 #import "UIActionSheet+Blocks.h"
-
 #import "UNIMapAddressView.h"
+#import "MainViewRequest.h"
 
 @interface UNIAppointDetail ()<UITableViewDataSource,UITableViewDelegate,MKMapViewDelegate>{
     float topCellH;
     float midCellH;
     float bottomCellH;
+    
+    MKMapView* _mapView;
     
     CalloutMapAnnotation *_calloutAnnotation;
 }
@@ -73,10 +75,44 @@
                 self.modelArr = models;
                 [self setupData];
                 [self setupMyTableView];
+                [self requestShopInfo];
             }
         });
     };
 }
+-(void)requestShopInfo{
+    MainViewRequest* rq = [[MainViewRequest alloc]init];
+    rq.reshopInfoBlock = ^(UNIShopManage* manager,NSString*tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (manager){
+                NSIndexPath *index = [NSIndexPath indexPathForRow:(int)self.modelArr.count+1 inSection:0];
+                UNIAppointDetail2Cell* cell = [self.myTableView cellForRowAtIndexPath:index];
+                cell.label1.text = manager.shortName;
+                cell.label2.text = manager.address;
+                
+                if (self.orderState<2) {
+                    CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
+                    self->_mapView.centerCoordinate = td;
+                    
+                    CalloutMapAnnotation * end =[[CalloutMapAnnotation alloc]initWithLatitude:manager.x.doubleValue andLongitude:manager.y.doubleValue];
+                    [self->_mapView addAnnotation:end];
+                    
+                    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
+                    MKCoordinateRegion adjustedRegion = [self->_mapView regionThatFits:viewRegion];//适配map view的尺寸
+                    [self->_mapView setRegion:adjustedRegion animated:YES];
+                }
+               
+            }
+        });
+    };
+    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ShopInfo] params:@{@"shopId":@(_shopId)}];
+}
+
+
 -(void)setupData{
     UNIMyAppointInfoModel* model = self.modelArr.lastObject;
     self.orderState = model.status;
@@ -102,10 +138,10 @@
 
 -(void)setupTabelViewFootView{
     UIView* view =[[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight/2)];
-    
+     self.myTableView.tableFooterView = view;
    if (self.orderState == 2){
        CALayer* lay = [CALayer layer];
-       lay.frame = CGRectMake(20, 0, view.frame.size.width, 0.5);
+       lay.frame = CGRectMake(16, 0, view.frame.size.width, 1);
        lay.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"].CGColor;
        [view.layer addSublayer:lay];
        
@@ -139,29 +175,16 @@
      }];
     }
      if (self.orderState < 2){
-        
-        float mapX = KMainScreenWidth*16/320;
-        float mapWH = self.myTableView.frame.size.width - mapX*2;
-        MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];
-        mapView.mapType = MKMapTypeStandard;//标准模式
-        mapView.delegate = self;
-        mapView.showsUserLocation = YES;//显示自己
-        mapView.zoomEnabled = YES;//支持缩放
-        [view addSubview:mapView];
-        UNIShopManage* manager = [UNIShopManage getShopData];
-        CLLocationCoordinate2D td =CLLocationCoordinate2DMake(manager.x.doubleValue,manager.y.doubleValue);
-        mapView.centerCoordinate = td;
-        
-        CalloutMapAnnotation * end =[[CalloutMapAnnotation alloc]initWithLatitude:manager.x.doubleValue andLongitude:manager.y.doubleValue];
-                [mapView addAnnotation:end];
-        
-        MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
-        MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];//适配map view的尺寸
-        [mapView setRegion:adjustedRegion animated:YES];
-    
-
+         float mapX = KMainScreenWidth*16/320;
+         float mapWH = self.myTableView.frame.size.width - mapX*2;
+         MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];
+         mapView.mapType = MKMapTypeStandard;//标准模式
+         mapView.delegate = self;
+         mapView.showsUserLocation = YES;//显示自己
+         mapView.zoomEnabled = YES;//支持缩放
+         [view addSubview:mapView];
+         _mapView = mapView;
     }
-    self.myTableView.tableFooterView = view;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -214,7 +237,7 @@
             cell=[[UNIAppointDetailCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,topCellH) reuseIdentifier:name2];
             cell.selectionStyle =UITableViewCellSelectionStyleNone;
         }
-        model =self.modelArr.lastObject;
+        model =self.modelArr[indexPath.row];
         [cell setupCellContentWith:model];
         
         return cell;

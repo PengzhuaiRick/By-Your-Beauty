@@ -16,6 +16,7 @@
 @property(nonatomic,copy)NSString* createTime;//下单时间
 @property(nonatomic,assign)int costTime;//服务时长
 @property(nonatomic,assign)int status; //预约状态  1—待确认；2—待服务
+@property(nonatomic,assign)int shopId;
 
 -(id)initWithDic:(NSDictionary*)dic;
 @end
