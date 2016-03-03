@@ -182,7 +182,7 @@
             self.selectYear =year;
             self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
             }
-        btn.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?14:11)];
+        btn.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?14:11)];
         [_topScroller addSubview:btn];
         [_topBtns addObject:btn];
         
@@ -249,12 +249,12 @@
     [self addSubview:view];
     
     float labX = 16;
-    float labY = 10;
+    float labY = KMainScreenWidth>400?10:5;
     float labH = KMainScreenWidth* 25/414;
     float labW =  KMainScreenWidth* 100/320;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"开始时间";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
     [view addSubview:lab];
 
     float topH =viewH - CGRectGetMaxY(lab.frame)-10;
@@ -382,9 +382,9 @@
 //     }];
 
     float btn3WH = KMainScreenWidth*20/320;
-    float btn3Y = (view.frame.size.height- btn3WH)/2;
+    //float btn3Y = (view.frame.size.height- btn3WH)/2;
     UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn3.frame = CGRectMake(5, btn3Y, btn3WH, btn3WH);
+    btn3.frame = CGRectMake(5, 0, btn3WH, viewH);
     [btn3 setImage:[UIImage imageNamed:@"appoint_btn_leftTop"] forState:UIControlStateNormal];
     [view addSubview:btn3];
     _midLeftBtn = btn3;
@@ -406,7 +406,7 @@
 
     float btn4X = view.frame.size.width - btn3WH-5;
     UIButton* btn4 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn4.frame = CGRectMake(btn4X, btn3Y, btn3WH, btn3WH);
+    btn4.frame = CGRectMake(btn4X, 0, btn3WH, viewH);
     [btn4 setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateNormal];
     [view addSubview:btn4];
     _midRightBtn = btn4;
@@ -439,7 +439,7 @@
             f++;
     }
     
-    float KK =(KMainScreenWidth>320?65:50);
+    float KK =(KMainScreenWidth>400?65:50);
     float btnW = (_midScroller.frame.size.width - KK)/3; //按钮的宽和高
     float btnH = midBtnH;
     _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width ,
@@ -487,7 +487,7 @@
         [but setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
         [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
         [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateSelected];
-        but.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?16:14)];
+        but.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14)];
         [_midScroller addSubview:but];
         [self->midBtns addObject:but];
        

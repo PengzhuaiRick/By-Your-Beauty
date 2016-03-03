@@ -13,7 +13,7 @@
 #import <MJRefresh/MJRefresh.h>
 //#import "UNIAppointController.h"
 #import "UNIAppointDetail.h"
-@interface MainMidController ()<UINavigationControllerDelegate>
+@interface MainMidController ()
 {
     int pageNum;
     int pageSize;
@@ -23,12 +23,10 @@
 @implementation MainMidController
 
 -(void)viewWillAppear:(BOOL)animated{
-   self.navigationController.delegate = self;
     [super viewWillAppear:animated];
 
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    self.navigationController.delegate = nil;
     [super viewWillDisappear:animated];
 
 }
@@ -156,17 +154,17 @@
     [self.tableView reloadData];
 }
 
-#pragma mark <UINavigationControllerDelegate>
-- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                   animationControllerForOperation:(UINavigationControllerOperation)operation
-                                                fromViewController:(UIViewController *)fromVC
-                                                  toViewController:(UIViewController *)toVC{
-    if ([toVC isKindOfClass:[UNIAppointDetail class]])
-        return nil;
-        MainMidMoveBackTransition *inverseTransition = [[MainMidMoveBackTransition alloc]init];
-        return inverseTransition;
-  
-}
+//#pragma mark <UINavigationControllerDelegate>
+//- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+//                                   animationControllerForOperation:(UINavigationControllerOperation)operation
+//                                                fromViewController:(UIViewController *)fromVC
+//                                                  toViewController:(UIViewController *)toVC{
+//    if ([toVC isKindOfClass:[UNIAppointDetail class]])
+//        return nil;
+//        MainMidMoveBackTransition *inverseTransition = [[MainMidMoveBackTransition alloc]init];
+//        return inverseTransition;
+//  
+//}
 
 #pragma mark 开始请求我已预约项目
 -(void)startRequestInfoPage{

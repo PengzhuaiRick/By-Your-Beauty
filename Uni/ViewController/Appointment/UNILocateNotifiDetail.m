@@ -110,6 +110,12 @@
                     return ;
                 }
                 if (manager){
+                    
+                    NSIndexPath *index = [NSIndexPath indexPathForRow:(int)self.modelArr.count+1 inSection:0];
+                    UNIAppointDetail2Cell* cell = [self.myTableView cellForRowAtIndexPath:index];
+                    cell.label1.text = manager.shortName;
+                    cell.label2.text = manager.address;
+                    
                     float mapX = KMainScreenWidth*16/320;
                     float mapWH = self.myTableView.frame.size.width - mapX*2;
                     MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];

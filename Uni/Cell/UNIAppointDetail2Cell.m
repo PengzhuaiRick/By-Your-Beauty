@@ -20,7 +20,7 @@
 -(void)setupUI:(CGSize)size{
     
     float imgX = KMainScreenWidth* 16 /320;
-    float imgWH =KMainScreenWidth>320?25:20;
+    float imgWH =KMainScreenWidth>400?25:20;
     float imgY = (size.height-imgWH)/2;
     
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
@@ -33,24 +33,24 @@
     
     float labX = CGRectGetMaxX(img.frame)+10;
     float labW = size.width - labX;
-    float labH = KMainScreenWidth>320?19:14;
+    float labH = KMainScreenWidth>400?19:14;
     float labY = size.height/2 - labH - 2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
    // lab1.text = manager.shortName;
     lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:12];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:12];
     lab1.lineBreakMode = 0 ;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];
     self.label1 = lab1;
     
     
-    float lab2H = KMainScreenWidth>320?18:13;
+    float lab2H = KMainScreenWidth>400?18:13;
     float lab2Y =  size.height/2 +2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab2H)];
     //lab2.text =manager.address;
     lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:11];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?14:11];
     lab2.lineBreakMode = 0 ;
     lab2.numberOfLines = 0;
     [self addSubview:lab2];

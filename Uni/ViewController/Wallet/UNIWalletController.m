@@ -8,7 +8,10 @@
 
 #import "UNIWalletController.h"
 #import "UNIWalletCell.h"
-@interface UNIWalletController ()<UITableViewDataSource,UITableViewDelegate>
+#import "UNIHttpUrlManager.h"
+#import "AccountManager.h"
+
+@interface UNIWalletController ()<UIWebViewDelegate,UITableViewDataSource,UITableViewDelegate>
 @property(strong,nonatomic)UITableView* myTable;
 @end
 
@@ -36,16 +39,36 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    [self setupTableView];
-   // [self noDataView];
+    //[self setupTableView];
+   //[self noDataView];
+    UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
+    web.delegate = self;
+    [self.view addSubview:web];
+    web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
+    //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
+    NSString* str1 = [UNIHttpUrlManager sharedInstance].MY_YH_URL;
+    NSString* str2 = [[AccountManager userId]stringValue];
+    NSString* str3 =@"&json={%22userId%22:%22AA%22}";
+    NSString* str4 = [NSString stringWithFormat:@"%@%@",str1,str3];
+    NSString* str5 = [str4 stringByReplacingOccurrencesOfString:@"AA" withString:str2];
+    NSString* urlString = [self URLEncodedString:str5];
+   //  NSString* urlString = str5;
+    NSURL* url = [NSURL URLWithString:urlString];//创建URL
+    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+    
+    [web loadRequest:request];//加载
 }
+-(void)webViewDidFinishLoad:(UIWebView *)webView{
+    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
 -(void)noDataView{
     UILabel*lab = [[UILabel alloc]initWithFrame:CGRectMake(16, 0, KMainScreenWidth - 32, KMainScreenHeight)];
     lab.text = @"很抱歉您暂时没有可用现金券。马上开始预约服务，大把现金券等你拿！";
     lab.textAlignment = NSTextAlignmentCenter;
     lab.lineBreakMode = 0;
     lab.numberOfLines = 0;
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self.view addSubview:lab];
 }
@@ -118,6 +141,16 @@
     UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletList"];
     [self.navigationController pushViewController:view animated:YES];
 
+}
+
+- (NSString *)URLEncodedString:(NSString*)STR
+{
+    NSString *encodedString = (NSString *)CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault,
+                                                                                                    (CFStringRef)STR,
+                                                                                                    (CFStringRef)@"!$&'()*+,-./:;=?@_~%#[]",
+                                                                                                    NULL,
+                                                                                                    kCFStringEncodingUTF8));
+    return encodedString;
 }
 
 - (void)didReceiveMemoryWarning {

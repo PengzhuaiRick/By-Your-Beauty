@@ -53,6 +53,17 @@
         }else
             _rqTouristBlock(-1,-1,tips,nil);
     }
+    
+    //设置游客基础信息
+    if ([param1 isEqualToString:API_PARAM_UNI]&&
+        [param2 isEqualToString:API_URL_SetCustomInfo]) {
+        if (code == 0|| code == 7) {
+            NSString* tel = [self safeObject:dic ForKey:@"tel"];
+            _setTouristBlock(code,tel,tips,nil);
+        }else
+            _setTouristBlock(-1,nil,tips,nil);
+    }
+
 
 }
 
@@ -74,6 +85,11 @@
     if ([param1 isEqualToString:API_PARAM_UNI]&&
         [param2 isEqualToString:API_URL_GetCustomInfo]) {
             _rqTouristBlock(-1,-1,nil,err);
+    }
+    //设置游客基础信息
+    if ([param1 isEqualToString:API_PARAM_UNI]&&
+        [param2 isEqualToString:API_URL_SetCustomInfo]) {
+            _setTouristBlock(-1,nil,nil,err);
     }
 
 }

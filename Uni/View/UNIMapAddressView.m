@@ -21,7 +21,7 @@
 -(void)setupUI{
     UILabel* lab = [[UILabel alloc]init];
     lab.text = [[UNIShopManage getShopData] address];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?14:12];
     lab.textColor = [UIColor whiteColor];
     [lab sizeToFit];
     float labY =8;

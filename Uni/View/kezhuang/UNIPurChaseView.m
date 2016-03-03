@@ -12,6 +12,7 @@
 #import "DataSigner.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
+#import "UNIHttpUrlManager.h"
 @implementation UNIPurChaseView
 -(id)initWithFrame:(CGRect)frame andNum:(int)Num andModel:(UNIGoodsModel*)model{
     self = [super initWithFrame:frame];
@@ -26,7 +27,7 @@
 
 -(void)setupTableView{
     
-    float labH = KMainScreenWidth>320?45:40;
+    float labH = KMainScreenWidth>400?45:40;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, labH)];
     lab.text=@"    选择支付方式";
     lab.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
@@ -80,7 +81,7 @@
             float labX = CGRectGetMaxX(imgView.frame)+10;
             float labW = tableView.frame.size.width - labX;
             lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, (ceeH - imgWH)/2, labW, imgWH)];
-            lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
+            lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?18:15];
             [cell addSubview:lab];
             
         }
@@ -117,16 +118,19 @@
 #pragma mark 请求订单号
 -(void)requestTheOrderNo{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
-    NSDictionary* dic=@{@"goodsId":@"1",@"goodsType":@"2",@"payType":@(self.payStyle),@"shopPrice":[NSString stringWithFormat:@"%.f",_model.shopPrice]};
+    NSDictionary* dic=@{@"goodsId":@(_model.projectId),@"goodsType":@(_model.type),@"payType":@(self.payStyle),@"shopPrice":[NSString stringWithFormat:@"%.f",_model.shopPrice*num],@"price":@(_model.shopPrice),
+                        @"num":@(num)};
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetOutTradeNo] params:dic];
-    requet.kzgoodsGetOrderBlock=^(NSString* orderNo,NSString*tips,NSError* err){
+    requet.kzgoodsGetOrderBlock=^(int _num,float _price,NSString* orderNo,NSString*tips,NSError* err){
         [LLARingSpinnerView RingSpinnerViewStop1];
         if (err) {
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
         if (orderNo.length>0) {
+            self->getNum = _num;
+            self->getPrice = _price;
             self->orderNO = orderNo;
             if ( self.payStyle ==3)
                 [self requestWXPayKey];
@@ -167,7 +171,9 @@
                           @"seller_id":seller,
                           @"out_trade_no":orderNO,
                           @"subject":_model.projectName,
-                          @"total_fee":[NSString stringWithFormat:@"%.2f",num*_model.shopPrice],
+                          //@"total_fee":[NSString stringWithFormat:@"%.2f",num*_model.shopPrice],
+                          @"total_fee":[NSString stringWithFormat:@"%.2f",getNum*getPrice],
+                          //@"total_fee":@"0.01",
                           @"notify_url":@"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php",
                           @"service":@"mobile.securitypay.pay",
                           @"payment_type":@"1",
@@ -242,11 +248,20 @@
 
 }
 - (void)jumpToBizPay:(NSString*)mchid{
-    
+    if (![WXApi isWXAppInstalled]) {
+        [UIAlertView showWithTitle:@"提示" message:@"请检查是否安装微信客户端" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            
+        }];
+        return;
+    }
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
-    NSString* price = [NSString stringWithFormat:@"%.f",num*_model.shopPrice*100];
-    NSString *urlString   = @"http://uni.dodwow.com/uni_pay/uni_wx_pay/api/unifiedorder.php";
-    NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":_model.projectName,@"total_fee":price,@"mchid":mchid};
+   // NSString* price = [NSString stringWithFormat:@"%.f",num*_model.shopPrice*100];
+//    NSString *urlString   = @"http://uni.dodwow.com/uni_pay/uni_wx_pay/api/unifiedorder.php";
+    NSString *urlString   = [UNIHttpUrlManager sharedInstance].WX_GET_PREAPYID;
+    NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":_model.projectName,
+                          @"price":@(getPrice),
+                          @"num":@(getNum),
+                          @"mchid":mchid};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:dic] forKey:@"json"];
@@ -258,8 +273,8 @@
              [LLARingSpinnerView RingSpinnerViewStop1];
             //调起微信支付
             PayReq* req = [[PayReq alloc] init];
-            req.openID = 
-            req.prepayId= [dict objectForKey:@"prepayid"];;
+            req.openID = [dict objectForKey:@"appid"];
+            req.prepayId= [dict objectForKey:@"prepayid"];
             req.partnerId= mchid;
             req.nonceStr= [dict objectForKey:@"noncestr"];
             req.timeStamp=[[dict objectForKey:@"timestamp"] intValue];

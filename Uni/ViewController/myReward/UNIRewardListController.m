@@ -65,7 +65,7 @@
         
         if (i == 0)
             btn.selected = YES;
-        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
+        btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
             [top addSubview:btn];
         
         

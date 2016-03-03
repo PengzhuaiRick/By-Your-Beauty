@@ -23,21 +23,21 @@
     float labY = KMainScreenWidth*5/320;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab1.textColor = kMainGrayBackColor;
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab1];
     self.label1 = lab1;
     
     float lab2Y = CGRectGetMaxY(lab1.frame);
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.textColor = kMainGrayBackColor;
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab2];
     self.label2 = lab2;
 
     float lab3Y = CGRectGetMaxY(lab2.frame);
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, labW, labH)];
     lab3.textColor = kMainGrayBackColor;
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab3];
     self.label3 = lab3;
 
@@ -55,7 +55,7 @@
         self.label3.hidden = YES;
     }else{
         NSString* text2 = model[3];
-        NSString* time2 = [text1 substringToIndex:text2.length-3];
+        NSString* time2 = [text2 substringToIndex:text2.length-3];
         NSString* str2 = [time2 stringByReplacingOccurrencesOfString:@"-" withString:@"."];
         self.label3.text =[NSString stringWithFormat:@"取消时间 : %@",str2];
         //self.label3.text =[NSString stringWithFormat:@"取消时间 : %@",[model[3] substringToIndex:16]];

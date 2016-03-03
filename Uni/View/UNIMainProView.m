@@ -76,8 +76,12 @@
 }
 
 -(void)setupProgreaa:(float)num and:(float)Total{
+    if (num>Total) 
+        num = Total;
+    
     _num = num;
     _total = Total;
+    
     [self setNeedsDisplay];
 }
 

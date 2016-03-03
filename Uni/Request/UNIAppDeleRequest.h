@@ -38,6 +38,8 @@ typedef void(^RqWelcomeBlock)(NSString* url,NSString* tips,NSError* er);
  */
 typedef void(^SetArriveShopBlock)(int code,NSString* tips,NSError* er);
 
+
+
 @interface UNIAppDeleRequest : BaseRequest
 
 //请求版本号成功Block
@@ -49,5 +51,6 @@ typedef void(^SetArriveShopBlock)(int code,NSString* tips,NSError* er);
 
 //用户到店Block
 @property(nonatomic,copy)SetArriveShopBlock setArriveShopBlock;
+
 
 @end

@@ -75,9 +75,10 @@
                int type = [[self safeObject:dic ForKey:@"type"] intValue];
                int goodsId = [[self safeObject:dic ForKey:@"goodsId"] intValue];
                NSString* projectName = [self safeObject:dic ForKey:@"projectName"];
-               _rerewardBlock(nextRewardNum,num,type,goodsId,projectName,tips,nil);
+               NSString* url = [self safeObject:dic ForKey:@"url"];
+               _rerewardBlock(nextRewardNum,num,type,goodsId,url,projectName,tips,nil);
            }else
-               _rerewardBlock(-1,-1,-1,-1,nil,tips,nil);
+               _rerewardBlock(-1,-1,-1,-1,nil,nil,tips,nil);
         }
         if ([param2 isEqualToString:API_URL_GetImgByshopIdCode] ) {
             if (code == 0) {
@@ -129,7 +130,7 @@
         
         //获取奖励信息
         if ([param2 isEqualToString:API_URL_MRInfo]) 
-             _rerewardBlock(-1,-1,-1,-1,nil,nil,err);
+             _rerewardBlock(-1,-1,-1,-1,nil,nil,nil,err);
         
         //获取我的未预约项目
         if ([param2 isEqualToString:API_URL_MyProjectInfo])

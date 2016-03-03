@@ -45,7 +45,7 @@ typedef void(^RQShopInfoBlock)( UNIShopManage* manager,NSString*tips,NSError* er
  *  @param num           已约次数
  *  @param tips          反馈信息
  */
-typedef void(^RQRewardBlock)(int nextRewardNum,int num,int type,int goodsId,NSString*projectName ,NSString*tips,NSError* er);
+typedef void(^RQRewardBlock)(int nextRewardNum,int num,int type,int goodsId,NSString*url ,NSString*projectName ,NSString*tips,NSError* er);
 
 /**
  *  请求我已预约项目

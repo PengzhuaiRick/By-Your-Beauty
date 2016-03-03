@@ -16,7 +16,7 @@
     return self;
 }
 -(void)setupUI:(CGSize)size{
-    float imgX = KMainScreenWidth>320?20:16;
+    float imgX = KMainScreenWidth>400?20:16;
     float imgY = 8;
     float imgWH =size.height - imgY*2;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
@@ -27,18 +27,21 @@
     
     float labX = CGRectGetMaxX(img.frame)+15;
     float labW = size.width -labX;
-    float labH = KMainScreenWidth>320?20:17;
+    float labH = KMainScreenWidth>400?20:17;
     float lab1Y =size.height/2 - labH -2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
-    lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
+    lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
+    float lab1font =(KMainScreenWidth>400?17:14);
+    lab1.font = [UIFont systemFontOfSize:lab1font];
     [self addSubview:lab1];
     self.mainLab = lab1;
     
-    float lab1H = KMainScreenWidth>320?18:16;;
+    float lab1H = KMainScreenWidth>400?18:16;;
     float lab2Y = size.height/2+2;
+    float lab2font =(KMainScreenWidth>400?16:13);
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    lab2.font = [UIFont systemFontOfSize:lab2font];
     lab2.textColor = kMainGrayBackColor;
     [self addSubview:lab2];
     self.subLab = lab2;

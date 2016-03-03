@@ -156,7 +156,7 @@
     button.titleLabel.lineBreakMode = 0;
        button.layer.borderWidth = 0.5;
        button.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
-    button.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
+    button.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
     [button setTitle:@"服务\n评价" forState:UIControlStateNormal];
        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
        [button setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
@@ -238,7 +238,10 @@
             cell.selectionStyle =UITableViewCellSelectionStyleNone;
         }
         model =self.modelArr[indexPath.row];
-        [cell setupCellContentWith:model];
+        if (_ifMyDetail) {
+            [cell setupCellContentWith1:model];
+        }else
+            [cell setupCellContentWith:model];
         
         return cell;
     }

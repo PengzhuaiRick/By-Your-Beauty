@@ -25,23 +25,24 @@
     [self addSubview:img];
     self.mainImage = img;
     
-    float itW = KMainScreenWidth>320?40:30;
-    float itH = KMainScreenWidth>320?45:35;
+    float itW = KMainScreenWidth>400?50:45;
+    float itH = KMainScreenWidth>400?55:50;
     float itX = size.width - imgXY - itW;
     float itY = (size.height - itH)/2;
     UIImageView* itImg = [[UIImageView alloc]initWithFrame:CGRectMake(itX, itY, itW, itH)];
     itImg.image = [UIImage imageNamed:@"appoint_img_intime"];
+    itImg.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:itImg];
     self.img2 = itImg;
     
     float lab1Y = 5;
-    float labX = CGRectGetMaxX(img.frame)+5;
+    float labX = CGRectGetMaxX(img.frame)+10;
     float labW = size.width - labX-2*imgXY - itW;
     float labH = size.height/2 - 5;
     
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     lab1.numberOfLines = 0;
     lab1.lineBreakMode = 0;
     [self addSubview:lab1];
@@ -50,15 +51,16 @@
     float lab1H = KMainScreenWidth*17/320;
     float lab2Y = size.height/2+8;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:12];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:12];
     lab2.textColor = kMainGrayBackColor;
     [self addSubview:lab2];
     self.subLab = lab2;
     
-    float lab3W = KMainScreenWidth* 40/320;
-    float lab3X = size.width - imgXY - lab3W;
+    float lab3W = itW;
+    float lab3X = itX;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab2Y, lab3W, lab1H)];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:12];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:12];
+    lab3.textAlignment = NSTextAlignmentCenter;
     [self addSubview:lab3];
     self.stateLab = lab3;
     

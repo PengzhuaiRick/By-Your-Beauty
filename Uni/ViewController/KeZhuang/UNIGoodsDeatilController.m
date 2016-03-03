@@ -15,6 +15,7 @@
 #import "BTKeyboardTool.h"
 #import "UNIPurChaseView.h"
 #import "UNIOrderListController.h"
+
 @interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIView* midView;
     UIView* bottomView;
@@ -45,6 +46,7 @@
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheZFB" object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheWCpay" object:nil];
     [super viewWillDisappear:animated];
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -112,7 +114,7 @@
 }
 
 -(void)setupBottomView{
-    float boH = KMainScreenWidth>320?100:90;
+    float boH = KMainScreenWidth>400?100:90;
     float boY = KMainScreenHeight - boH;
     UIView* bottom = [[UIView alloc]initWithFrame:CGRectMake(0, boY, KMainScreenWidth, boH)];
     bottom.backgroundColor = [UIColor whiteColor];
@@ -121,21 +123,21 @@
     
     float labX = KMainScreenWidth*30/414;
     float labH = KMainScreenWidth*40/414;
-    float labY = 10;
-    float labW = KMainScreenWidth*200/414;
+    float labY = KMainScreenWidth>400?10:5;
+    float labW = KMainScreenWidth*300/414;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?25:20];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?25:20];
     lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
     lab.text = [NSString stringWithFormat:@"￥%.f",model.shopPrice];
     
     [bottom addSubview:lab];
     priceLab = lab;
     
-    float lab2H = KMainScreenWidth>320?30:25;
-    float lab2Y =boH - lab2H - 20;
-    float lab2W = KMainScreenWidth>320?75:65;
+    float lab2H = KMainScreenWidth>400?30:25;
+    float lab2Y =boH - lab2H - (KMainScreenWidth>400?20:12);
+    float lab2W = KMainScreenWidth>400?75:65;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, lab2W, lab2H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:15];
     lab2.text = @"购买数量:";
     [bottom addSubview:lab2];
 
@@ -228,7 +230,7 @@
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     [bg addGestureRecognizer:tap];
     
-    
+    model.type = _type.intValue;
     UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.7,KMainScreenWidth*0.6) andNum:[numField.text intValue] andModel:model];
     pur.delegate = self;
     pur.alpha = 0;
@@ -305,7 +307,7 @@
 -(void)setupWebView{
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_myTable.frame), _myTable.frame.size.width, _myScroller.frame.size.height)];
     NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,model.url];
-    NSLog(@"urlString %@",urlString);
+    //NSLog(@"urlString %@",urlString);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [web loadRequest:request];
     [_myScroller addSubview:web];
@@ -366,6 +368,9 @@
     
     //处理ZFB支付结果
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dealWithResultOfTheZFB:) name:@"dealWithResultOfTheZFB" object:nil];
+    
+    //处理WC支付结果
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dealWithResultOfTheWCpay:) name:@"dealWithResultOfTheWCpay" object:nil];
 }
 -(void)dealWithResultOfTheZFB:(NSNotification*)noiti{
     int num = [[noiti.userInfo objectForKey:@"result"] intValue];
@@ -376,20 +381,56 @@
 #ifdef IS_IOS9_OR_LATER
     UIAlertController* alertController = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        UNIOrderListController* view = [[UNIOrderListController alloc]init];
-        [self.navigationController pushViewController:view animated:YES];
+        if (num == 9000){
+            UNIOrderListController* view = [[UNIOrderListController alloc]init];
+            view.type = 1;
+            [self.navigationController pushViewController:view animated:YES];
+        }
     }];
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
 #else
     [UIAlertView showWithTitle:string message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        UNIOrderListController* view = [[UNIOrderListController alloc]init];
-        [self.navigationController pushViewController:view animated:YES];
+        if (num == 9000){
+            UNIOrderListController* view = [[UNIOrderListController alloc]init];
+            view.type = 1;
+            [self.navigationController pushViewController:view animated:YES];
+        }
+    }];
+#endif
+}
+
+-(void)dealWithResultOfTheWCpay:(NSNotification*)noiti{
+     int num = [[noiti.userInfo objectForKey:@"result"] intValue];
+    NSString* result=nil;
+    if (num == 0)
+        result = @"支付成功";
+    else
+        result = @"交易取消";
+#ifdef IS_IOS9_OR_LATER
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:result message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        if (num == 0){
+            UNIOrderListController* view = [[UNIOrderListController alloc]init];
+            view.type = 1;
+            [self.navigationController pushViewController:view animated:YES];
+        }
+    }];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
+#else
+    [UIAlertView showWithTitle:result message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (num == 0){
+            UNIOrderListController* view = [[UNIOrderListController alloc]init];
+            view.type = 1;
+            [self.navigationController pushViewController:view animated:YES];
+        }
     }];
 #endif
 
     
 }
+
 #pragma mark 键盘出现
 -(void)keyboardWillShow:(NSNotification*)notifi{
     NSDictionary *info = [notifi userInfo];

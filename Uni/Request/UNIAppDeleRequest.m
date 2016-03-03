@@ -62,7 +62,6 @@
         //用户到店
         if ([param2 isEqualToString:API_URL_ArriveShop])
             _setArriveShopBlock(-1,nil,err);
-        
     }
 }
 @end

@@ -11,6 +11,8 @@
 #import "UNIShopManage.h"
 #import "AccountManager.h"
 #import "UNILoginViewRequest.h"
+#import "UNIHttpUrlManager.h"
+#import "AppDelegate.h"
 @interface UNITouristController ()<WXApiManagerDelegate>{
     UIView* shareView;
     UIView* bgView;
@@ -22,16 +24,22 @@
 @end
 
 @implementation UNITouristController
-
+-(void)viewDidDisappear:(BOOL)animated{
+    [super viewDidDisappear:animated];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"wxShareResult" object:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
+    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(wxShareResult:) name:@"wxShareResult" object:nil];
     
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
     //web.delegate = self;
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WXHB&a=test";
+    //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WXHB&a=test";
+    NSString* str1 =[UNIHttpUrlManager sharedInstance].WX_HB_URL;
     NSString* urlString = [self URLEncodedString:str1];
     NSURL* url = [NSURL URLWithString:urlString];//创建URL
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
@@ -67,7 +75,8 @@
     }
 }
 - (void)managerDidRecvAuthResponse:(SendAuthResp *)response {
-    NSLog(@"%@",[NSString stringWithFormat:@"code:%@,state:%@,errcode:%d", response.code, response.state, response.errCode]);
+    wxOpenId=@"";
+    //NSLog(@"%@",[NSString stringWithFormat:@"code:%@,state:%@,errcode:%d", response.code, response.state, response.errCode]);
     NSString* URL =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code",WECHATAPPID,WECHATAPPSecret,response.code];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"text/plain"]];
@@ -89,6 +98,7 @@
 
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
+    self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
    }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);
@@ -131,7 +141,7 @@
     
     UILabel* label= [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 40,15)];
     label.text = @"分享到";
-    label.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?12:10)];
+    label.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?12:10)];
     label.textColor = kMainGrayBackColor;
     [view addSubview:label];
     
@@ -156,11 +166,12 @@
              WXMediaMessage* message = [WXMediaMessage message];
              message.title =@"真心朋友有多少，一分红包不嫌少！";
              message.description =@"【只发给我真心的朋友】不要说你爱我有多深，让我看看你的心！马上戳进来，我在等你！";
-             [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];//测试图片
-             //[message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/hb.jpg"]]]];//正式图片
+             //[message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];//测试图片
+            [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/hb.jpg"]]]];//正式图片
              
              WXWebpageObject* web = [WXWebpageObject object];
-              NSString* str1 = @"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWXHB%26a%3dcustomShareCallback&response_type=code&scope=snsapi_userinfo&state=$shopId***$openId***$projectId#wechat_redirect";
+//              NSString* str1 = @"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWXHB%26a%3dcustomShareCallback&response_type=code&scope=snsapi_userinfo&state=$shopId***$openId***$projectId#wechat_redirect";
+              NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_SHARE_URL;
               NSString* str2 = [str1 stringByReplacingOccurrencesOfString:@"$shopId" withString:[NSString stringWithFormat:@"%d",self->shopId]];
              NSString* str3 = [str2 stringByReplacingOccurrencesOfString:@"$openId" withString:self->wxOpenId];
              NSString* str4 = [str3 stringByReplacingOccurrencesOfString:@"$projectId" withString:[NSString stringWithFormat:@"%d",self->projectId]];
@@ -187,7 +198,7 @@
         float labH = KMainScreenWidth*20/320;
         UILabel * lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
         lab.text = arr[i];
-        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?12:10];
+        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?12:10];
         lab.textAlignment = NSTextAlignmentCenter;
         [view addSubview:lab];
         
@@ -215,6 +226,32 @@
     }];
 }
 
+#pragma mark 微信分享成功后
+-(void)wxShareResult:(NSNotification*)notifi{
+    UNILoginViewRequest* rq = [[UNILoginViewRequest alloc]init];
+    rq.setTouristBlock=^(int code,NSString* tel,NSString* tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (code == 0) {
+                self.view.window.backgroundColor = [UIColor whiteColor];
+                AppDelegate* app = [UIApplication sharedApplication].delegate;
+                [app setupViewController];
+            }else if (code == 7){
+                NSString* message = [NSString stringWithFormat:@"%@已经在微信上注册过，请使用此号码登录",tel];
+                [UIAlertView showWithTitle:@"提示" message:message cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    
+                }];
+            }
+        });
+    };
+    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_SetCustomInfo] params:nil];
+    
+   
+
+}
 
 - (NSString *)URLEncodedString:(NSString*)STR
 {

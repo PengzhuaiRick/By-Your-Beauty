@@ -83,7 +83,7 @@
     
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(imgview.frame), KMainScreenWidth, KMainScreenWidth*15/320)];
     lab.textAlignment = NSTextAlignmentCenter;
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?13:10];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?13:10];
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab.text = @"由你";
     [view addSubview:lab];

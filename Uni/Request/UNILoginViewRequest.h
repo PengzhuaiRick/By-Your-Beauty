@@ -43,6 +43,16 @@ typedef void(^RqLoginBlock)(int userId,int shopId,NSString* token,NSString* tips
  */
 typedef void(^RqTouristBlock)(int shopId,int projectId,NSString* tips,NSError* er);
 
+/**
+ *  设置游客基础信息
+ *
+ *  @param shopId    店铺ID
+ *  @param projectId 项目ID
+ *  @param tips      反馈信息
+ *  @param er        错误信息
+ */
+typedef void(^STouristBlock)(int code,NSString* tel,NSString* tips,NSError* er);
+
 @interface UNILoginViewRequest : BaseRequest
 
 
@@ -54,6 +64,9 @@ typedef void(^RqTouristBlock)(int shopId,int projectId,NSString* tips,NSError* e
 
 //请求游客基础信息
 @property(nonatomic,copy)RqTouristBlock rqTouristBlock;
+
+//设置游客基础信息
+@property(nonatomic,copy)STouristBlock setTouristBlock;
 
 
 @end

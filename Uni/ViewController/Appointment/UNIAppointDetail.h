@@ -12,4 +12,6 @@
 @property (strong, nonatomic) UITableView *myTableView;
 @property (copy, nonatomic) NSString* order;
 @property (assign , nonatomic)int shopId;
+
+@property (assign , nonatomic)BOOL ifMyDetail; // 是否从我的详情界面跳入
 @end

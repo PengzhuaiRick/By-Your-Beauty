@@ -30,7 +30,7 @@
                     CGRectMake(15, 10, self.frame.size.width-20 , 20)];
     lab.text=string;
     lab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
     [self addSubview:lab];
 
     CALayer* lay = [CALayer layer];
@@ -52,7 +52,7 @@
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     // return KMainScreenWidth*55/320;
-    return KMainScreenWidth>320?90:80;
+    return KMainScreenWidth>400?90:80;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return _dataArray.count ;
@@ -61,7 +61,7 @@
     static NSString* cellName=@"Cell";
     UNIRewardDetailCell* cell = [tableView dequeueReusableCellWithIdentifier:cellName];
     if (!cell) {
-        cell = [[UNIRewardDetailCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,KMainScreenWidth>320?90:80) reuseIdentifier:cellName andTpye:type];;
+        cell = [[UNIRewardDetailCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,KMainScreenWidth>400?90:80) reuseIdentifier:cellName andTpye:type];;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [cell setupCellContent:self.dataArray[indexPath.row] andType:type andTotal:total];
@@ -82,7 +82,7 @@
         nodataView = view;
         
         UIImageView* imgVIew = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
-        float imgWH = KMainScreenWidth>320? 60:50,
+        float imgWH = KMainScreenWidth>400? 60:50,
         imgX = (view.frame.size.width - imgWH)/2,
         imgY = 15;
         imgVIew.frame = CGRectMake(imgX, imgY, imgWH, imgWH);
@@ -90,7 +90,7 @@
         
         UILabel* lab = [[UILabel alloc]init];
         lab.text=@"马上预约，即可领取丰厚豪礼！\n多约多送，抓紧机会！";
-        lab.font =[UIFont systemFontOfSize:(KMainScreenWidth>320?14:12)];
+        lab.font =[UIFont systemFontOfSize:(KMainScreenWidth>400?14:12)];
         lab.lineBreakMode = 0;
         lab.numberOfLines = 0;
         lab.textColor = [UIColor colorWithHexString:kMainTitleColor];

@@ -20,17 +20,19 @@
 -(void)setupUI:(CGSize)size{
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
-    float imgX = KMainScreenWidth>320?20:16;
-    float imgY = 15;
-    float imgWH =size.height - imgY*2;
-    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
-    //img.contentMode = UIViewContentModeScaleAspectFit;
-    [self addSubview:img];
-    self.mainImage = img;
+//    float imgX = KMainScreenWidth>320?20:16;
+//    float imgY = 15;
+//    float imgWH =size.height - imgY*2;
+//    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
+//    //img.contentMode = UIViewContentModeScaleAspectFit;
+//    [self addSubview:img];
+//    self.mainImage = img;
     
     
-    float labX = CGRectGetMaxX(img.frame)+10;
-    float labW = size.width - labX-2*imgX;
+//    float labX = CGRectGetMaxX(img.frame)+10;
+//    float labW = size.width - labX-2*imgX;
+    float labX = 16;
+    float labW = size.width - labX-2*labX;
     float labH = KMainScreenWidth* 15/320;
     float lab1Y = size.height/2 - labH-2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];

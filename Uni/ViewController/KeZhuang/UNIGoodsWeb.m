@@ -7,7 +7,7 @@
 //
 
 #import "UNIGoodsWeb.h"
-
+#import "UNIHttpUrlManager.h"
 @interface UNIGoodsWeb ()<UIWebViewDelegate>
 {
      UIActivityIndicatorView *testActivityIndicator;
@@ -19,12 +19,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    self.title = @"由你商城";
+    //self.title = @"由你商城";
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
     web.delegate = self;
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    NSURL* url = [NSURL URLWithString:@"http://uni.dodwow.com/uni_api/product/productlist.html"];//创建URL
+   // NSURL* url = [NSURL URLWithString:@"http://uni.dodwow.com/uni_api/product/productlist.html"];//创建URL
+     NSURL* url = [NSURL URLWithString:[UNIHttpUrlManager sharedInstance].APP_KZ_URL];//创建URL
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
     [web loadRequest:request];//加载
@@ -43,6 +44,8 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     [testActivityIndicator stopAnimating];
     [testActivityIndicator removeFromSuperview];
+    
+    self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);

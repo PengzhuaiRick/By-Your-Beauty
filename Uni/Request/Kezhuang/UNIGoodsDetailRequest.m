@@ -60,10 +60,11 @@
         if ([param2 isEqualToString:API_URL_GetOutTradeNo]) {//API_URL_GetOutTradeNo
             if(code == 0 ){
                 NSString* outTradeNo = [self safeObject:dic ForKey:@"getOutTradeNo"];
-              
-                _kzgoodsGetOrderBlock(outTradeNo,tips,nil);
+              int num = [[self safeObject:dic ForKey:@"num"] intValue];
+                float price = [[self safeObject:dic ForKey:@"price"] floatValue];
+                _kzgoodsGetOrderBlock( num, price,outTradeNo,tips,nil);
             }else
-                _kzgoodsGetOrderBlock(nil,tips,nil);
+                _kzgoodsGetOrderBlock(-1,-1,nil,tips,nil);
         }
     }
     
@@ -123,6 +124,9 @@
         if ([param2 isEqualToString:API_URL_GetWXConfig])
             _kzwxpayBlock(nil,nil,nil,nil,err);
         
+        //获取 支付宝 私钥
+        if ([param2 isEqualToString:API_URL_GetAlipayConfig])
+            _kzgoodsGetOrderBlock(-1,-1,nil,nil,err);
     }
     
 }

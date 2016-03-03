@@ -22,7 +22,7 @@
 #import "UNIMainProView.h"
 #import "UNIGoodsWeb.h"
 
-@interface MainViewController ()<UINavigationControllerDelegate,MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
+@interface MainViewController ()</*UINavigationControllerDelegate,*/MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
     UITableView* footTableView;
     float cellHight;
@@ -59,7 +59,6 @@
 @implementation MainViewController
 
 -(void)viewWillAppear:(BOOL)animated{
-    self.navigationController.delegate = self;
     NSArray* array =self.containController.view.gestureRecognizers;
     for (UIGestureRecognizer* ges in array) {
         if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
@@ -69,7 +68,6 @@
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-   self.navigationController.delegate = nil;
     NSArray* array =self.containController.view.gestureRecognizers;
     for (UIGestureRecognizer* ges in array) {
         if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
@@ -89,8 +87,50 @@
     [self getSellInfo]; //获取首页销售商品
     [self setupNotification];//注册通知
     
-   // [self addLocateNotication];
+    //[self addLocateNotication];
 }
+-(void)addLocateNotication{
+    NSMutableArray* arr = [NSMutableArray array];
+    for (int i =0 ; i<2; i++) {
+        
+        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+        
+        NSTimeZone* zo = [NSTimeZone systemTimeZone];
+        
+        NSDate *date = [NSDate dateWithTimeIntervalSinceNow:24*60*60*i];
+        
+        NSInteger interval = [zo secondsFromGMTForDate: date];
+        
+        NSDate *localeDate = [date  dateByAddingTimeInterval: interval];
+        
+       // localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*i];
+        localNotification.fireDate = localeDate;
+        //设置本地通知的时区
+        localNotification.timeZone = [NSTimeZone defaultTimeZone];
+        //设置通知的内容
+        localNotification.alertBody =  @"您预约的服务时间还有一小时";
+        //设置通知动作按钮的标题
+        localNotification.alertAction = @"查看";
+        //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
+        localNotification.soundName = UILocalNotificationDefaultSoundName;
+        //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
+        
+        NSDictionary *infoDic = @{@"OrderId":@"1223",@"useId":[AccountManager userId]};
+        localNotification.userInfo = infoDic;
+        //在规定的日期触发通知
+        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+        
+        NSDictionary* dic = @{@"time":localNotification.fireDate,
+                              @"OrderId":@"1223",
+                              @"useId":[AccountManager userId]};
+        [arr addObject:dic];
+    }
+    
+    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
+    [userD setValue:arr forKey:@"appointArr"];
+    [userD synchronize];
+}
+
 #pragma mark
 -(void)setupNavigation{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
@@ -181,16 +221,16 @@
     [imageView addSubview:shuangfu];
     goodsImg = shuangfu;
     
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
-    [[tap rac_gestureSignal] subscribeNext:^(id x) {
-        if (self->goodId1<1)
-            return ;
-        NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
-        NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
-        //[self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
-        [self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
-    }];
-    [shuangfu addGestureRecognizer:tap];
+//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
+//    [[tap rac_gestureSignal] subscribeNext:^(id x) {
+//        if (self->goodId1<1)
+//            return ;
+//        NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
+//        NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
+//        //[self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
+//        [self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
+//    }];
+//    [shuangfu addGestureRecognizer:tap];
    
     
     float lab1W = proW;
@@ -199,7 +239,7 @@
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(proX, lab1Y, lab1W, lab1H)];
 //    lab1.text = @"9/10";
     lab1.textColor = [UIColor whiteColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?20:15];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?20:15];
     lab1.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab1];
     progessLab = lab1;
@@ -207,42 +247,42 @@
     
     float lab2W = imgH/2-8;
     float lab2H = 25;
-    float lab2Y =KMainScreenWidth>320?85:55;
+    float lab2Y =KMainScreenWidth>400?85:60;
     float lab2X = imgW/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y, lab2W, lab2H)];
 //    lab2.text = @"再预约次数";
     lab2.textColor = [UIColor whiteColor];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab2.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab2];
     goods1 = lab2;
     
-    float lab3H =KMainScreenWidth>320?50:40;
-    float lab3Y =CGRectGetMaxY(lab2.frame);
+    float lab3H =KMainScreenWidth>400?50:40;
+    float lab3Y =CGRectGetMaxY(lab2.frame)+2;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab3Y, lab2W, lab3H)];
 //    lab3.text = @"1";
     lab3.textColor = [UIColor whiteColor];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?45:35];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?45:35];
     lab3.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab3];
     numLab = lab3;
     
-    float lab4H = 25;
-    float lab4Y =CGRectGetMaxY(lab3.frame);
+    float lab4H = KMainScreenWidth>400?20:17;
+    float lab4Y =CGRectGetMaxY(lab3.frame)+2;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab4Y, lab2W, lab4H)];
 //    lab4.text = @"可获得一支";
     lab4.textColor = [UIColor whiteColor];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab4.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:lab4];
     goods2 = lab4;
     
-    float lab5H = 25;
-    float lab5Y =CGRectGetMaxY(lab4.frame);
+    float lab5H = lab4H;
+    float lab5Y =CGRectGetMaxY(lab4.frame)+2;
     UILabel* lab5 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab5Y, lab2W, lab5H)];
 //    lab5.text = @"300ml ALBION 爽肤精萃液";
     lab5.textColor = [UIColor whiteColor];
-    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab5.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab5.textAlignment = NSTextAlignmentCenter;
     lab5.numberOfLines = 0;
     lab5.lineBreakMode = 0;
@@ -296,7 +336,7 @@
     
     
     float lab6H = 20;
-    float lab6Y = CGRectGetMaxY(lay.frame)+(KMainScreenWidth>320?30:20);
+    float lab6Y = CGRectGetMaxY(lay.frame)+(KMainScreenWidth>400?30:25);
     float lab6X = CGRectGetMaxX(img.frame)+20;
     float lab6W = imgW - lab6X - proX*2;
     UILabel* lab6 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H)];
@@ -311,7 +351,7 @@
     UILabel* lab7 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab7Y, lab7W, lab6H)];
     lab7.text = @"活动价";
     lab7.textColor = [UIColor whiteColor];
-    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth>320?12:10];
+    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth>400?12:10];
     [lab7 sizeToFit];
     [imageView addSubview:lab7];
     sell3 = lab7;
@@ -322,7 +362,7 @@
     UILabel* lab8 = [[UILabel alloc]initWithFrame:CGRectMake(lab8X, lab8Y, lab8W, lab6H)];
 //    lab8.text = @"￥899";
     lab8.textColor = [UIColor whiteColor];
-    lab8.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?20:17)];
+    lab8.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?20:17)];
     [imageView addSubview:lab8];
     sell2 = lab8;
     
@@ -359,6 +399,9 @@
         footR.size.height = num*cellHight;
         footTableView.frame = footR;
         [footTableView reloadData];
+        
+        footTableView.contentSize =CGSizeMake(footTableView.frame.size.width, num*cellHight);
+        myTable.contentSize = CGSizeMake(myTable.frame.size.width, myTable.frame.size.height + --num*cellHight);
         return;
     }
     
@@ -371,6 +414,7 @@
     tabview.showsVerticalScrollIndicator=NO;
     myTable.tableFooterView = tabview;
     footTableView = tabview;
+
 }
 
 #pragma mark
@@ -428,6 +472,12 @@
             
             self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
             [self.navigationController pushViewController:self.midController animated:YES];
+        }
+    }
+    if (tableView == footTableView) {
+        if (_bottomData.count>0){
+            id model = self.bottomData[indexPath.row];
+            [self mainMidViewDelegataButton:model];
         }
     }
 }
@@ -488,7 +538,7 @@
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MRInfo]
                            params:nil];
-        request1.rerewardBlock=^(int nextRewardNum,int num,int type,int goodid,NSString* projectName,NSString*tips,NSError* er){
+        request1.rerewardBlock=^(int nextRewardNum,int num,int type,int goodid,NSString* url,NSString* projectName,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (nextRewardNum>0) {
@@ -496,21 +546,23 @@
                         self->goodId1 = goodid;
                         self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
                         [self->progessView setupProgreaa:num and:nextRewardNum];
+                         NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
+                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
                         if (nextRewardNum>num) {
-                            self->goodsLab.text = projectName;
                             self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
-                            self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?45:35];
+                            self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?45:35];
                             self->goods1.hidden=NO;
                             self->goods1.text = @"再预约次数";
-                            self->goods2.text = @"可获得一支";
-                        }if (nextRewardNum == num) {
-                            self->goodsLab.text = projectName;
+                        }if (nextRewardNum <= num) {
                             self->numLab.text = @"恭喜您!";
-                            self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+                            self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
                             self->goods1.hidden=YES;
-                            self->goods2.text = @"获得一支";
                         }
-                        
+                        NSRange yuan = [projectName rangeOfString:@"元"];
+                        if (yuan.length>0) {
+                            self->goods2.text=[NSString stringWithFormat:@"可获得%@",[projectName substringToIndex:yuan.location+1]];
+                            self->goodsLab.text = [projectName substringFromIndex:yuan.location+1];
+                        }
                     }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
@@ -580,9 +632,9 @@
                     if ([code hasSuffix:@"_bg"]) {
                         [self->headerImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
                     }
-                    if ([code hasSuffix:@"_shop"]) {
-                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
-                    }
+//                    if ([code hasSuffix:@"_shop"]) {
+//                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
+//                    }
                 }
             }
             else
@@ -636,19 +688,19 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:APPOINTANDREFLASH object:nil];
 }
 
-#pragma mark <UINavigationControllerDelegate>
-- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-                                   animationControllerForOperation:(UINavigationControllerOperation)operation
-                                                fromViewController:(UIViewController *)fromVC
-                                                  toViewController:(UIViewController *)toVC{
-    if ([toVC isKindOfClass:[MainMidController class]]||[toVC isKindOfClass:[MainBottomController class]]){
-      
-    MainMoveTransition *transition = [[MainMoveTransition alloc]init];
-        return transition;
-    }
-    return nil;
-                                                            
-}
+//#pragma mark <UINavigationControllerDelegate>
+//- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+//                                   animationControllerForOperation:(UINavigationControllerOperation)operation
+//                                                fromViewController:(UIViewController *)fromVC
+//                                                  toViewController:(UIViewController *)toVC{
+//    if ([toVC isKindOfClass:[MainMidController class]]||[toVC isKindOfClass:[MainBottomController class]]){
+//      
+//    MainMoveTransition *transition = [[MainMoveTransition alloc]init];
+//        return transition;
+//    }
+//    return nil;
+//                                                            
+//}
 #pragma mark 颜色转图片
 -(UIImage*)createImageWithColor:(UIColor*) color
 {

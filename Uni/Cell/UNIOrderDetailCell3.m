@@ -21,12 +21,12 @@
     
     float lab1X = 10;
     float lab1W = size.width - 2*lab1X;
-    float lab1H = KMainScreenWidth>320?19:16;
+    float lab1H = KMainScreenWidth>400?19:16;
     float lab1Y = size.height/2 - lab1H - 2;
     
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
     lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab1 .font =[UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab1 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab1];
     self.lab1 = lab1;
     
@@ -34,7 +34,7 @@
     float lab2Y = size.height/2+2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab2Y, lab1W, lab1H)];
     lab2.textColor =[UIColor colorWithHexString:kMainTitleColor];;
-    lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab2];
     self.lab2 = lab2;
     

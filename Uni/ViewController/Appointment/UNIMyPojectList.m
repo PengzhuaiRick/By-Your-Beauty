@@ -96,7 +96,7 @@
     btn.frame =btnRect;
     [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     [btn setTitle:btnT forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth>320?20:17];
+    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth>400?20:17];
     [self.view addSubview:btn];
     needKnowBtn = btn;
     

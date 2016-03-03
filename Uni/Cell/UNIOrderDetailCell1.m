@@ -34,7 +34,7 @@
    
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
     lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
-    lab1 .font =[UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
+    lab1 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
     lab1.numberOfLines = 0;
     lab1.lineBreakMode = 0;
     [self addSubview:lab1];
@@ -47,14 +47,14 @@
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab1Y, lab2W, lab1H)];
     lab2.textColor =kMainGrayBackColor;
     lab2.textAlignment=NSTextAlignmentRight;
-    lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab2];
     self.lab2 = lab2;
     
     float lab3Y = size.height/2;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab3Y, lab1W, lab1H)];
     lab3.textColor = kMainGrayBackColor;
-    lab3 .font =[UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
+    lab3 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?14:12];
     [self addSubview:lab3];
     self.lab3 = lab3;
 }

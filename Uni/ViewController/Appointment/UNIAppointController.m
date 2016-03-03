@@ -54,7 +54,7 @@
 
 #pragma mark 加载顶部店铺名字View
 -(void)setupShopView{
-    UNIShopView* shop =[[UNIShopView alloc]initWithFrame:CGRectMake(10,10, KMainScreenWidth - 20, (KMainScreenWidth>320?70:60))];
+    UNIShopView* shop =[[UNIShopView alloc]initWithFrame:CGRectMake(10,10, KMainScreenWidth - 20, (KMainScreenWidth>400?70:55))];
     shop.backgroundColor = [UIColor whiteColor];
     [self.myScroller addSubview:shop];
     shopView = shop;
@@ -125,7 +125,7 @@
     //[btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     btn.titleLabel.lineBreakMode = 0;
     btn.titleLabel.numberOfLines = 0;
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
     btn.layer.masksToBounds=YES;
     btn.layer.cornerRadius = btnWH/2;
     btn.layer.borderWidth = 0.5;
@@ -192,7 +192,7 @@
                      if (order) {
                          //[YIToast showText:@"预约成功"];
 #ifdef IS_IOS9_OR_LATER
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"您的预约信息已提交,请等待店家确认.\n预约结果以短信回复为准" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"您的预约信息已提交，请等待店家确认。预约结果以短信回复为准" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         //[self locationNotificationTask:nil];
          [self locationNotificationTask:order];
@@ -305,32 +305,62 @@
 -(void)modifitacteAppontMid{
     // 添加项目和减少项目的时候 修改 appontMid 的高度 和 sureBtn 的位置
     NSArray* x = appontMid.myData;
-        float yy =x.count*self->appontMid.cellH + 35+CGRectGetMinY(self->appontMid.frame)+CGRectGetMaxY(self->appontMid.lab1.frame);
-        float viewH =x.count*self->appontMid.cellH + 35+CGRectGetMaxY(self->appontMid.lab1.frame)+10;
-        if (yy<=self->sureBtn.frame.origin.y) {
-            [UIView animateWithDuration:0.2 animations:^{
-                CGRect btnRe = self->sureBtn.frame;
-                btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
-                self-> sureBtn.frame = btnRe;
-            }];
-        }else{
-            viewH = self->_myScroller.contentSize.height - CGRectGetMinY(self->appontMid.frame) - 10;
+//        float yy =x.count*self->appontMid.cellH + 35+CGRectGetMinY(self->appontMid.frame)+CGRectGetMaxY(self->appontMid.lab1.frame);
+//        float viewH =x.count*self->appontMid.cellH + 35+CGRectGetMaxY(self->appontMid.lab1.frame)+10;
+//        if (yy<=self->sureBtn.frame.origin.y) {
+//            [UIView animateWithDuration:0.2 animations:^{
+//                CGRect btnRe = self->sureBtn.frame;
+//                btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
+//                self-> sureBtn.frame = btnRe;
+//            }];
+//        }else{
+//            viewH = self->_myScroller.contentSize.height - CGRectGetMinY(self->appontMid.frame) - 10;
+//            CGRect btnRe = self->sureBtn.frame;
+//            btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
+//            self-> sureBtn.frame = btnRe;
+//        }
+//        
+//        CGRect midRec =self-> appontMid.frame;
+//        midRec.size.height = viewH ;
+//        self-> appontMid.frame = midRec;
+//        
+//        CGRect tabRe = self->appontMid.myTableView.frame;
+//        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - (KMainScreenWidth>320?50:40);
+//        self->appontMid.myTableView.frame =tabRe;
+//        
+//        CGRect addRec = self->appontMid.addProBtn.frame;
+//        addRec.origin.y =midRec.size.height - (KMainScreenWidth>320?45:35);
+//        self->appontMid.addProBtn.frame =addRec;
+    
+    if (x.count>1) {
+        [UIView animateWithDuration:0.2 animations:^{
             CGRect btnRe = self->sureBtn.frame;
+            //btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
             btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
             self-> sureBtn.frame = btnRe;
-        }
-        
-        CGRect midRec =self-> appontMid.frame;
-        midRec.size.height = viewH ;
-        self-> appontMid.frame = midRec;
-        
-        CGRect tabRe = self->appontMid.myTableView.frame;
-        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - (KMainScreenWidth>320?50:40);
-        self->appontMid.myTableView.frame =tabRe;
-        
-        CGRect addRec = self->appontMid.addProBtn.frame;
-        addRec.origin.y =midRec.size.height - (KMainScreenWidth>320?45:35);
-        self->appontMid.addProBtn.frame =addRec;
+        }];
+    }else{
+        CGRect btnRe = self->sureBtn.frame;
+         btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
+        //btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
+        self-> sureBtn.frame = btnRe;
+    }
+    
+    int count = (int)x.count;
+    if (count>3)
+        count= 3;
+    CGRect tabRe = self->appontMid.myTableView.frame;
+    tabRe.size.height = self->appontMid.cellH*x.count;
+    self->appontMid.myTableView.frame =tabRe;
+    
+    CGRect addRec = self->appontMid.addProBtn.frame;
+    addRec.origin.y =CGRectGetMaxY(tabRe)+5;
+    self->appontMid.addProBtn.frame =addRec;
+    
+    
+    CGRect midRec =self-> appontMid.frame;
+    midRec.size.height = CGRectGetMaxY(addRec)+5; ;
+    self-> appontMid.frame = midRec;
     
 }
 #pragma mark 颜色转图片

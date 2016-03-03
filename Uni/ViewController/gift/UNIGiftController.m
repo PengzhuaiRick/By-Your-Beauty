@@ -10,6 +10,7 @@
 #import "AccountManager.h"
 #import "WXApiManager.h"
 #import "UNIShopManage.h"
+#import "UNIHttpUrlManager.h"
 @interface UNIGiftController ()<UIWebViewDelegate>{
     UIView* shareView;
     UIView* bgView;
@@ -47,10 +48,13 @@
     web.delegate = self;
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
+    //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
+    NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_LIBAO_URL;
     NSString* str2 = [[AccountManager userId]stringValue];
-    NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"AA" withString:str2];
-    NSString* urlString = [self URLEncodedString:str3];
+    NSString* str3 =@"&json={%22userId%22:%22AA%22}";
+    NSString* str4 = [NSString stringWithFormat:@"%@%@",str1,str3];
+    NSString* str5 = [str4 stringByReplacingOccurrencesOfString:@"AA" withString:str2];
+    NSString* urlString = [self URLEncodedString:str5];
     NSURL* url = [NSURL URLWithString:urlString];//创建URL
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
 
@@ -67,13 +71,15 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     [testActivityIndicator stopAnimating];
     [testActivityIndicator removeFromSuperview];
+    
+    self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);
 }
 
 -(void)setupNavigation{
-    self.title = @"我的礼包";
+//self.title = @"我的礼包";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
@@ -112,7 +118,7 @@
     
     UILabel* label= [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 40,15)];
     label.text = @"分享到";
-    label.font = [UIFont systemFontOfSize:(KMainScreenWidth>320?12:10)];
+    label.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?12:10)];
     label.textColor = kMainGrayBackColor;
     [view addSubview:label];
     
@@ -145,7 +151,8 @@
             [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
             
             WXWebpageObject* web = [WXWebpageObject object];
-            NSString* str1 =@"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWX%26a%3dgotoLibaoShare&response_type=code&scope=snsapi_userinfo&state={###}#wechat_redirec";
+            //NSString* str1 =@"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWX%26a%3dgotoLibaoShare&response_type=code&scope=snsapi_userinfo&state={###}#wechat_redirec";
+            NSString* str1 = [UNIHttpUrlManager sharedInstance].MY_LIBAO_SHARE_RUL;
             NSString* str2 = [[AccountManager userId]stringValue];
             NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
             web.webpageUrl = [self URLEncodedString:str3];
@@ -168,7 +175,7 @@
         float labH = KMainScreenWidth*20/320;
         UILabel * lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
         lab.text = arr[i];
-        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?12:10];
+        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?12:10];
         lab.textAlignment = NSTextAlignmentCenter;
 
         [view addSubview:lab];

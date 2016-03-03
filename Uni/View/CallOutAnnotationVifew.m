@@ -42,7 +42,7 @@
         
         UILabel* lab = [[UILabel alloc]init];
         lab.text = [[UNIShopManage getShopData] address];
-        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?14:12];
+        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?14:12];
         lab.textColor = [UIColor whiteColor];
         [lab sizeToFit];
         float labY =10;
@@ -55,7 +55,7 @@
         //[but setTitle:@"导航" forState:UIControlStateNormal];
         //[but setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
         float btnX = CGRectGetMaxX(lab.frame)+5;
-        but.frame = CGRectMake(btnX, 8,(KMainScreenWidth>320?50:40), (KMainScreenWidth>320?20:17));
+        but.frame = CGRectMake(btnX, 8,(KMainScreenWidth>400?50:40), (KMainScreenWidth>400?20:17));
 //        [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
 //         subscribeNext:^(id x) {
 //             NSLog(@"导航");

@@ -18,5 +18,5 @@
 
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
 -(void)setupCellContentWith:(id)model;
-
+-(void)setupCellContentWith1:(id)model;
 @end

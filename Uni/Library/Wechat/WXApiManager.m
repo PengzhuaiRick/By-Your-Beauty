@@ -35,26 +35,35 @@ if ([resp isKindOfClass:[SendAuthResp class]]) {
             [_delegate managerDidRecvAuthResponse:authResp];
         }
     }
+    
+    if ([resp isKindOfClass:[SendMessageToWXResp class]]) {
+        if (resp.errCode == 0) {
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"wxShareResult" object:nil];
+        }
+    }
+    
  if([resp isKindOfClass:[PayResp class]]){
         //支付返回结果，实际支付结果需要去微信服务器端查询
-        NSString *strMsg,*strTitle = [NSString stringWithFormat:@"支付结果"];
-        
-        switch (resp.errCode) {
-            case WXSuccess:
-                strMsg = @"支付结果：成功！";
-              //  NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
-                [YIToast showText:[NSString stringWithFormat:@"支付成功－PaySuccess，retcode = %d", resp.errCode]];
-                break;
-                
-            default:
-                strMsg = @"交易已取消";
-                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
-                 [YIToast showText:strMsg];
-                break;
-        }
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-        [alert show];
-      
+      //  NSString *strMsg,*strTitle = [NSString stringWithFormat:@"支付结果"];
+     NSDictionary* dic= @{@"result":@(resp.errCode)};;
+//        switch (resp.errCode) {
+//            case WXSuccess:{
+//                strMsg = @"支付结果：成功！";
+//              //  NSLog(@"支付成功－PaySuccess，retcode = %d", resp.errCode);
+//               // [YIToast showText:[NSString stringWithFormat:@"支付成功－PaySuccess，retcode = %d", resp.errCode]];
+//                dic = @{@"result":@(resp.errCode)};
+//                break;}
+//                
+//            default:
+//                strMsg = @"交易已取消";
+//                NSLog(@"错误，retcode = %d, retstr = %@", resp.errCode,resp.errStr);
+//                 //[YIToast showText:strMsg];
+//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:strTitle message:strMsg delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+//                [alert show];
+//                break;
+//        }
+     
+     [[NSNotificationCenter defaultCenter]postNotificationName:@"dealWithResultOfTheWCpay" object:nil userInfo:dic];
     }
 
 }

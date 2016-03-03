@@ -42,7 +42,7 @@
     imgview.image = img;
     [view addSubview:imgview];
     
-    float k = KMainScreenWidth>320?80:40;
+    float k = KMainScreenWidth>400?80:40;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(imgview.frame)+k, KMainScreenWidth-30, KMainScreenWidth*15/320)];
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320 weight:0];
     lab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];

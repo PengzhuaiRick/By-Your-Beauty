@@ -13,7 +13,7 @@
 @interface UNIRewardDetailCell : UNIBaseCell
 @property (strong, nonatomic)  UILabel *mainLab;
 @property (strong, nonatomic)  UILabel *subLab;
-@property (strong, nonatomic)  UILabel *stateLab;
+//@property (strong, nonatomic)  UILabel *stateLab;
 @property (strong, nonatomic)UNIRewardProgessView* progessView;
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier andTpye:(int)tp;
 

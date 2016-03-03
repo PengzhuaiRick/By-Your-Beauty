@@ -45,15 +45,16 @@
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];
+    NSLog(@" 吃吃吃吃   URL %@",URL);
     NSLog(@"%@",ddic);
     [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON: %@", responseObject);
+         NSLog(@"JSON:%@ %@", code[1],responseObject);
         // NSLog(@"%@",[self safeObject:responseObject ForKey:@"tips"]);
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
             [self requestSucceed:responseObject andIdenCode:code];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+        NSLog(@"Error:%@ %@",code[1], error);
         if ([self respondsToSelector:@selector(requestFailed:andIdenCode:)]) {
             [self requestFailed:error andIdenCode:code];
         }

@@ -125,6 +125,12 @@
 //获取游客基础信息接口
 #define API_URL_GetCustomInfo @"getCustomInfo"
 
+//设置游客基础信息接口
+#define API_URL_SetCustomInfo @"setCustomInfo"
+
 //获取店铺列表接口
 #define API_URL_GetShopListInfo @"getShopListInfo"
+
+//获取提示语言接口
+#define API_URL_GetAppTips @"getAppTips"
 #endif /* URLconfig_h */

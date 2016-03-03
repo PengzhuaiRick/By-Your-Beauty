@@ -14,6 +14,7 @@
     if (self) {
         self.backgroundColor = [UIColor whiteColor];
          _myData = [NSMutableArray array];
+        if (model)
         [_myData addObject:model];
         [self setupUI:frame];
     }
@@ -23,16 +24,16 @@
 -(void)setupUI:(CGRect)frame{
    
     float labX = 16;
-    float labY = 10;
-    float labH = KMainScreenWidth* 20/320;
+    float labY = KMainScreenWidth>400?10:5;
+    float labH = KMainScreenWidth>400?20:17;
     float labW =  KMainScreenWidth* 100/320;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"预约项目";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
     [self addSubview:lab];
     self.lab1 = lab;
     
-    _cellH =KMainScreenWidth>320?70:60;
+    _cellH =(frame.size.height - CGRectGetMaxY(lab.frame) - (KMainScreenWidth>400?40:25) - 10)/3;
     float tabH = _myData.count* _cellH;
     _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(lab.frame), self.frame.size.width-20,tabH) style:UITableViewStylePlain];
     _myTableView.delegate = self;
@@ -41,12 +42,12 @@
     _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, (KMainScreenWidth>320?40:30));
+    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, (KMainScreenWidth>400?40:25));
     [btn setTitle:@" 添加项目" forState:UIControlStateNormal];
     [btn setBackgroundColor:[UIColor whiteColor]];
     [btn setImage:[UIImage imageNamed:@"appoint_img_add"] forState:UIControlStateNormal];
     [btn setTitleColor:[UIColor colorWithHexString:kMainBlackTitleColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:16];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:13];
     [self addSubview:btn];
     _addProBtn = btn;
     
@@ -83,11 +84,11 @@
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        cell.mainLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
-        cell.mainLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
+       // cell.mainLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
+        //cell.mainLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
         
-        cell.subLab.textColor = kMainGrayBackColor;
-        cell.subLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+        //cell.subLab.textColor = kMainGrayBackColor;
+        //cell.subLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
 
     }
     UNIMyProjectModel* model = _myData[indexPath.row];

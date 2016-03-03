@@ -23,7 +23,7 @@
 //#import "WXApi.h"//微信
 #import "WXApiManager.h"
 
-//#import "BaiduMobStat.h"//百度统计
+#import "UNIHttpUrlManager.h"
 
 @interface AppDelegate (){
     UIImageView* imag;
@@ -46,11 +46,12 @@
 //            return ;
 //        }
 //    }];
-    //[self rqWelcomeImage];
+   // [self rqWelcomeImage];
     [self rqCurrentVersion];
+    [self rqAppTips];
     [self judgeFirstTime];
     [self setupJPush:launchOptions];
-    [self.window makeKeyAndVisible];
+    //[self.window makeKeyAndVisible];
     [self setupNavigationStyle];
     [self setupWeChat];
     
@@ -186,6 +187,22 @@
     };
 }
 
+#pragma mark 获取APP提示语信息
+-(void)rqAppTips{
+    NSString* URL = @"http://uni.dodwow.com/uni_api/getAppTips.php";
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
+    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"rqAppTips  JSON:%@",responseObject);
+        UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+        [manager initHttpUrlManager:responseObject];
+        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"rqAppTips Error:%@", error);
+        
+    }];
+
+}
+
 #pragma mark 请求欢迎页面图片
 -(void)rqWelcomeImage{
     UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
@@ -212,7 +229,7 @@
 //    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"LaunchScreen"];
    imag = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight)];
     //UIImage* image = [UIImage imageNamed:@"Main_Img_Welcome"];
-    [imag sd_setImageWithURL:[NSURL URLWithString:url]];
+    [imag sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[self createImageWithColor:[UIColor blackColor]]];
     [[UIApplication sharedApplication].keyWindow addSubview:imag];
    [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(VWIB:) userInfo:nil repeats:NO];
 //    NSURLRequest* req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
@@ -225,15 +242,14 @@
 }
 
 -(void)VWIB:(UIImageView*)IMG{
+   
     [UIView animateWithDuration:1 delay:1 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         self->imag.alpha = 0;
-       
     } completion:^(BOOL finished) {
-        
         [self->imag removeFromSuperview];
-        
     }];
-   
+    [self judgeFirstTime];
+    [self.window makeKeyAndVisible];
 }
 
 #pragma mark 配置JP推送
@@ -340,14 +356,24 @@
         if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO)
             [arr removeObject:userInfo];
         }
-    
+    if (arr.count>0) {
+        have = YES;
+        [self checkLocationNotification1];
+    }
+  /*
     for (int i = 0;i<arr.count;i++) {
         NSDictionary* userInfo =arr[i];
         
         NSDate* time =userInfo[@"time"];
         NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:time];
-        
-        NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:mubiao];
+        NSDate* now =[NSDate date];
+        NSTimeInterval timeBetween = [now timeIntervalSinceDate:mubiao];
+//        NSTimeInterval timeBetween1 = 0;
+//        if (timeBetween>0) {
+//            timeBetween1 = timeBetween+4*60*60;
+//        }else if (timeBetween<0){
+//            timeBetween1 = timeBetween-4*60*60;
+//        }
         float fen = timeBetween /60;
         //判断通知时间是否已经过去  
         if (fen > 30) {
@@ -359,7 +385,8 @@
             [self checkLocationNotification1];
             break;
         }
-    }
+    }*/
+    
     [userD setObject:arr forKey:@"appointArr"];
     [userD synchronize];
    
@@ -391,13 +418,13 @@
                 NSMutableArray* arr = [NSMutableArray arrayWithArray:[userD objectForKey:@"appointArr"]] ;
                 for (int i = 0;i<arr.count;i++) {
                     NSDictionary* noti = arr[i];
-                    NSDate* time =noti[@"time"];
-                    NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:time];
+//                    NSDate* time =noti[@"time"];
+//                    NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:time];
+//                    
+//                    NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:mubiao];
+//                    float fen = timeBetween /60;
+//                    if (fen>=-15 && fen<30) {
                     
-                    NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:mubiao];
-                    float fen = timeBetween /60;
-                    if (fen>=-15 && fen<30) {
-                        
                         UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
                         model.setArriveShopBlock=^(int code, NSString* tips,NSError* er){
                            // NSLog(@"用户到店 %@",tips);
@@ -420,7 +447,7 @@
                         [model postWithSerCode:@[API_PARAM_UNI,API_URL_ArriveShop]
                                         params:@{@"order":order,@"arriverTime":arriverTime}];
 
-                    }
+                 //   }
                 }
             });
         }else
@@ -537,7 +564,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     if ([url.host isEqualToString:@"safepay"]) {
         [[AlipaySDK defaultService] processOrderWithPaymentResult:url standbyCallback:^(NSDictionary *resultDic) {
             //【由于在跳转支付宝客户端支付的过程中，商户app在后台很可能被系统kill了，所以pay接口的callback就会失效，请商户对standbyCallback返回的回调结果进行处理,就是在这个方法里面处理跟callback一样的逻辑】
-            NSLog(@"result = %@",resultDic);
+            NSLog(@"ZFBresult = %@",resultDic);
             [self resultOfZFBpay:resultDic];
         }];
     }
@@ -545,7 +572,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
         
         [[AlipaySDK defaultService] processAuthResult:url standbyCallback:^(NSDictionary *resultDic) {
             //【由于在跳转支付宝客户端支付的过程中，商户app在后台很可能被系统kill了，所以pay接口的callback就会失效，请商户对standbyCallback返回的回调结果进行处理,就是在这个方法里面处理跟callback一样的逻辑】
-            NSLog(@"result = %@",resultDic);
+            NSLog(@"ZFBresultresult = %@",resultDic);
              [self resultOfZFBpay:resultDic];
         }];
     }
@@ -558,14 +585,17 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"dealWithResultOfTheZFB" object:nil userInfo:@{@"result":@(resultStatus)}];
 }
 
-/**
- *  初始化百度统计SDK
- */
-//- (void)startBaiduMobStat {
-//    BaiduMobStat* statTracker = [BaiduMobStat defaultStat];
-//    statTracker.shortAppVersion  = CURRENTVERSION;
-//    statTracker.enableDebugOn = YES;
-//    
-//    [statTracker startWithAppId:BAIDUSTATAPPKEY];
-//}
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
+
 @end

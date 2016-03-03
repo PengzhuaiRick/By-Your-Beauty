@@ -161,12 +161,12 @@
     btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
     [btn setTitle:@"获取验证码" forState:UIControlStateNormal];
     btn.layer.borderColor = [UIColor whiteColor].CGColor;
-//    btn.layer.borderWidth =1;
+    btn.layer.borderWidth =1;
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = 2;
     btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setBackgroundColor:[UIColor colorWithHexString:kMainPinkColor]];
+    [btn setBackgroundColor:[UIColor clearColor]];
 //    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateHighlighted];
 //    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateSelected];
    // [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainPinkColor]] forState:UIControlStateNormal];
@@ -176,7 +176,7 @@
     
     float tetX =KMainScreenWidth* 40/320;
     float tetW = self.tableView.frame.size.width  - jg*2 - btnW - 10;
-    float tetH =KMainScreenWidth>320?45:30;
+    float tetH =KMainScreenWidth>400?45:30;
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
     field.placeholder = @"请输入验证码";
@@ -225,16 +225,16 @@
 }
 -(void)setupFourthCell:(UITableViewCell*)cell{
         //float btnX = KMainScreenWidth*40/320;
-        float btnW = KMainScreenWidth>320?130:100;
+        float btnW = KMainScreenWidth>400?130:100;
         float btnH = KMainScreenWidth*20/320;
         float btnY = (cellH - btnH)/2 ;
     
         UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
     
         UIImage* image3 =[UIImage imageNamed:@"login_btn_sex1"];
-        float imgWH = KMainScreenWidth>320?17:14;
+        float imgWH = KMainScreenWidth>400?17:14;
         float imgY = (view.frame.size.height - imgWH)/2;
-    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake((KMainScreenWidth>320?10:4), imgY, imgWH, imgWH)];
+    UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake((KMainScreenWidth>400?10:4), imgY, imgWH, imgWH)];
         img.image = image3;
         [view addSubview:img];
         imgView1 = img;
@@ -259,9 +259,9 @@
     
     UIImage* image4 =[UIImage imageNamed:@"login_btn_sex2"];
      UIView* view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
-        float img1WH = KMainScreenWidth>320?17:14;
+        float img1WH = KMainScreenWidth>400?17:14;
         float img1Y = (view.frame.size.height - imgWH)/2;
-        UIImageView* img1 = [[UIImageView alloc]initWithFrame:CGRectMake((KMainScreenWidth>320?10:4), img1Y, img1WH, img1WH)];
+        UIImageView* img1 = [[UIImageView alloc]initWithFrame:CGRectMake((KMainScreenWidth>400?10:4), img1Y, img1WH, img1WH)];
         img1.image = image4;
         [view1 addSubview:img1];
     imgView2 = img1;
@@ -337,15 +337,22 @@
             le = YES;
         else if (value.length>11)
             teft.text = [value substringToIndex:11];
+         
+         if (value.length < 11){
+             self->codeBtn.layer.borderWidth = 1;
+             self->codeBtn.backgroundColor = [UIColor clearColor];
+         }
         
         return le;
     }]subscribeNext:^(NSString* x) {
         if([self isMobileNumber:x]){
-            NSLog(@"yes");
+            self->codeBtn.layer.borderWidth = 0;
+            self->codeBtn.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
             
         }else{
             NSLog(@"no");
             [YIToast showText:@"请输入正确的电话号"];
+            
         }
        
     }];
@@ -414,11 +421,12 @@
     
     [[codeBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-         x.layer.borderWidth = 0;
-         x.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
-         if (self->phoneField.text.length!=11) {
+        if (self->phoneField.text.length!=11) {
              return ;
          }
+         x.layer.borderWidth = 0;
+         x.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
+
         [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
          x.enabled=NO;
          [self.view endEditing:YES];
@@ -473,22 +481,22 @@
                 self->ifStatus = status;
                 self->nikeName.text = name;
                 if (sex == 1){
-                    self->maleBtn.selected = NO;
-                    self->femaleBtn.selected = YES;
-                    self->imgView1.image = [UIImage imageNamed:@"login_btn_sex1"];
-                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex2"];
-                }
-                if (sex == 2){
                     self->maleBtn.selected = YES;
                     self->femaleBtn.selected = NO;
-                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex1"];
                     self->imgView1.image = [UIImage imageNamed:@"login_btn_sex2"];
+                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex1"];
+                }
+                if (sex == 2){
+                    self->maleBtn.selected = NO;
+                    self->femaleBtn.selected = YES;
+                    self->imgView2.image = [UIImage imageNamed:@"login_btn_sex2"];
+                    self->imgView1.image = [UIImage imageNamed:@"login_btn_sex1"];
                 }
                 
 //                if (llt) {
 //                    if (self.fourthCell.alpha==1) {
 //                        CGRect p1 = self.firstCell.frame;
-//                        CGRect p2 = self.secondCell.frame;
+//                                                                          CGRect p2 = self.secondCell.frame;
 //                        CGRect p3 = self.thirldCell.frame;
 //                        p1.origin.y+=20;
 //                        p2.origin.y+=20;
@@ -521,8 +529,7 @@
                 if (rc != nil){
                    // btn.enabled = NO;
                     self->countDown = 60;
-                    self->codeBtn.layer.borderWidth = 1;
-                    [self->codeBtn setBackgroundColor:[UIColor clearColor]];
+                   
                    self->time=[NSTimer scheduledTimerWithTimeInterval:1
                                                      target:self
                                                    selector:@selector(sixtySecondCountDown:)
@@ -542,6 +549,8 @@
 -(void)sixtySecondCountDown:(NSTimer*)time1{
     if (countDown>1) {
         countDown -- ;
+        self->codeBtn.layer.borderWidth = 1;
+        [self->codeBtn setBackgroundColor:[UIColor clearColor]];
         NSString* str = [NSString stringWithFormat:@"%ds",countDown];
         [codeBtn setTitle:str forState:UIControlStateNormal];
     }else
@@ -604,7 +613,7 @@
           x.layer.borderWidth = 0;
          x.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
          [self.view endEditing:YES];
-         id sx = @(self.sex); //默认性别
+         //id sx = @(self.sex); //默认性别
          if (self->nikeName.text.length==0) {
 #ifdef IS_IOS9_OR_LATER
              UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"请输入称谓名!" message:nil preferredStyle:UIAlertControllerStyleAlert];
@@ -630,7 +639,7 @@
                                 params:@{@"code":field1.text,
                                             @"password":field2.text,
                                             @"name":field3.text,
-                                            @"sex":sx}];
+                                            @"sex":@(self.sex)}];
         
         request.rqloginBlock = ^(int userId,
                                  int shopId,
@@ -708,7 +717,7 @@
      subscribeNext:^(UIButton* x) {
          self->femaleBtn.selected = NO;
          x.selected = YES;
-         self.sex = (int)x.tag;
+         self.sex = 1;
         self->imgView1.image = [UIImage imageNamed:@"login_btn_sex2"];
          self->imgView2.image = [UIImage imageNamed:@"login_btn_sex1"];
     }];
@@ -717,7 +726,7 @@
      subscribeNext:^(UIButton* x) {
          self->maleBtn.selected = NO;
          x.selected=YES;
-         self.sex = (int)x.tag;
+         self.sex = 2;
          self->imgView1.image = [UIImage imageNamed:@"login_btn_sex1"];
          self->imgView2.image = [UIImage imageNamed:@"login_btn_sex2"];
      }];

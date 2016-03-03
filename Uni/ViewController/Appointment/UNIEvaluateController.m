@@ -68,7 +68,7 @@
     float lab2Y = CGRectGetMaxY(img.frame)+10;
     float lab2W = viewW - 2*lab2X;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y,lab2W, lab2H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [view addSubview:lab2];
     self.label2 = lab2;
@@ -79,7 +79,7 @@
     float lab3Y = CGRectGetMaxY(lab2.frame)+8;
     float lab3W = viewW - 2*lab2X;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y,lab3W, lab3H)];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     lab3.textColor = kMainGrayBackColor;
     [view addSubview:lab3];
     self.label3 = lab3;
@@ -89,7 +89,7 @@
     float lab4Y = CGRectGetMaxY(lab3.frame)+12;
     float lab4W = viewW /2;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab4X, lab4Y, lab4W, lab4H)];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
      lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab4.text = @"服务满意度";
     [view addSubview:lab4];
@@ -104,6 +104,7 @@
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
         btn.frame =CGRectMake(btnX+i*(btnHW+5), btnY, btnHW, btnHW);
         [btn setBackgroundImage:img1 forState:UIControlStateNormal];
+        btn.selected = YES;
         btn.tag = i+1;
         [view addSubview:btn];
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -137,7 +138,7 @@
     UITextView* textView = [[UITextView alloc]initWithFrame:CGRectMake(textX, textY, textW, textH)];
     textView.text = @"  写下你对本次服务宝贵意见,长度在50-100字以内.";
     textView.textColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
-    textView.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    textView.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     textView.delegate = self;
     [view addSubview:textView];
     self.textView = textView;
@@ -148,7 +149,7 @@
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame =CGRectMake(btX, btY, btWH, btWH);
     [btn setTitle:@"提交" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?18:15];
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = btWH/2;
     btn.layer.borderColor =[UIColor colorWithHexString:kMainThemeColor].CGColor;
@@ -163,7 +164,7 @@
 
 }
 -(void)setupUI{
-    grades = 0;
+    grades = 5;
     first = YES;
     self.label1.text =self.model.projectName ;
     self.label2.text =[NSString stringWithFormat:@"预约时间: %@",self.model.date];

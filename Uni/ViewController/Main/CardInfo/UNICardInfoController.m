@@ -107,7 +107,8 @@
                 top2.size.width = self->topView.frame.size.width - x;
                 top2.size.height =self->topLab1.frame.size.height;
                 self->topLab2.frame = top2;
-                [self setupmidView:total and:num];
+               [self setupmidView:total and:num];
+                // [self setupmidView:4 and:1];
             }
         });
     };
@@ -126,16 +127,23 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
+           NSMutableArray* muArr = [NSMutableArray arrayWithArray:arr];
+             NSMutableArray* muArr1 = [NSMutableArray arrayWithArray:arr];
+            for (UNIMyAppointInfoModel* model  in muArr) {
+                if (model.status<2) {
+                    [muArr1 removeObject:model];
+                }
+            }
             if (arr.count<20)
                 [self->myTableView.footer setHidden:YES];
            
-            if (arr && arr.count>0) {
-                if (self->pageNum == 0) {
-                    [self.myData removeAllObjects];
-                }
-                [self.myData addObjectsFromArray:arr];
+           
+            if (self->pageNum == 0)
+                [self.myData removeAllObjects];
+                
+                [self.myData addObjectsFromArray:muArr1];
                 [self->myTableView reloadData];
-            }
+            
 //            else
 //                [YIToast showText:tips];
         });
@@ -156,10 +164,10 @@
     float labX = 10;
     float labY = 10;
     float labW = topW- labX*2;
-    float labH = KMainScreenWidth>320?25:20;
+    float labH = KMainScreenWidth>400?25:20;
     UILabel* lab =[[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"准时到店";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:15];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:15];
     [top addSubview:lab];
     
     float layX = labX;
@@ -175,21 +183,24 @@
     float lab1W = KMainScreenWidth*100/320;
     float lab1H = KMainScreenWidth*20/320;
     UILabel* lab1 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [top addSubview:lab1];
     topLab1 = lab1;
     
     float lab2X = CGRectGetMaxX(lab1.frame);
     float lab2W =topW- CGRectGetMaxX(lab1.frame);
     UILabel* lab2 =[[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab1Y, lab2W, lab1H)];
-    lab2.text = @"准时到店";
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+   // lab2.text = @"准时到店";
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [top addSubview:lab2];
     topLab2 = lab2;
 
 }
 -(void)setupmidView:(int)total and:(int)num{
+    if (num>total) {
+        num=total;
+    }
     
     UIImage* img4 =[UIImage imageNamed:@"card_img_unopen"];
     
@@ -225,7 +236,14 @@
             xx = 1;
     }
     int time =total> 5 ? 5:total;
-    
+    if (num<1) {
+        xx=0;
+        if (time<3) {
+            time++;
+        }
+    }else if (num == 1&& time == 1){
+        ++time;
+    }
     float jc = (topView.frame.size.width-20 - img4W)/(time-1);
    
     float btnWH = img4H*0.6;
@@ -308,13 +326,13 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth* 75/320;
+    return KMainScreenWidth* 80/320;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"cell";
     UNICardInfoCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell =[[UNICardInfoCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth* 75/320) reuseIdentifier:name];
+        cell =[[UNICardInfoCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth* 80/320) reuseIdentifier:name];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
@@ -328,6 +346,7 @@
     UNIMyAppointInfoModel* model =_myData[indexPath.row];
     appoint.order =model.order;
     appoint.shopId = model.shopId;
+    appoint.ifMyDetail = YES;
     [self.navigationController pushViewController:appoint animated:YES];
 }
 - (void)didReceiveMemoryWarning {

@@ -21,7 +21,7 @@
 -(void)setupUI:(CGSize)size{
     cellH = size.height;
     
-    float imgX = KMainScreenWidth*20/414;
+    float imgX = KMainScreenWidth>400?20:15;
     float imgWH =size.height/3.5;
     float imgY = (size.height - imgWH)/2;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];

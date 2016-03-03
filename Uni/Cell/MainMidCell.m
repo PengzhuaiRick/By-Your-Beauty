@@ -19,7 +19,7 @@
 }
 -(void)setupUI:(CGSize)size{
      self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    float imgX = KMainScreenWidth>320?16:20;
+    float imgX = KMainScreenWidth>400?16:20;
     float imgY = 15;
     float imgWH =size.height - imgY*2;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];

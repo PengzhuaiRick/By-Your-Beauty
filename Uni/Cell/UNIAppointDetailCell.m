@@ -43,7 +43,7 @@
     float lab1Y = 0;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
 //lab1.textColor = [UIColor blackColor];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?17:14];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
     lab1.lineBreakMode = 0 ;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];
@@ -52,7 +52,7 @@
     float lab1H = KMainScreenWidth*17/320;
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [self addSubview:lab2];
     self.subLab = lab2;
@@ -62,14 +62,14 @@
     float lab3X = size.width - imgX- lab3W;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3W, lab1H)];
      lab3.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab3];
     self.stateLab = lab3;
     
     float lab4W = KMainScreenWidth*150/320;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, lab4W, lab1H)];
     lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:13];
+    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab4];
     self.timeLab = lab4;
     
@@ -80,7 +80,7 @@
      NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
     [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
     self.mainLab.text = info.projectName;
-    self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.createTime substringToIndex:16]];
+    self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
     NSString* titel = nil;
     UIColor* stateColor = nil;
@@ -114,7 +114,37 @@
     }
     
 }
-
+-(void)setupCellContentWith1:(id)model{
+    UNIMyAppointInfoModel* info = model;
+    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
+    self.mainLab.text = info.projectName;
+    self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
+    self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
+    NSString* titel = @"";
+    UIColor* stateColor = nil;
+    switch (info.status) {
+        case 2:
+            titel = @"已完成";
+            stateColor = [UIColor colorWithHexString:kMainThemeColor];
+            break;
+        case 3:
+            titel = @"已取消";
+            stateColor = [UIColor colorWithHexString:kMainTitleColor];
+            break;
+    }
+    self.stateLab.text = titel;
+    self.stateLab.textColor = stateColor;
+    
+    if (info.ifIntime == 1) {
+        self.intimeImg.hidden=NO;
+        self.stateLab.hidden=YES;
+    }else if (info.ifIntime == 0){
+        self.intimeImg.hidden=YES;
+        self.stateLab.hidden=NO;
+    }
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
