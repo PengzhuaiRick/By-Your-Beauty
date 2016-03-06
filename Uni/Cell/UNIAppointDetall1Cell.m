@@ -17,31 +17,34 @@
     return self;
 }
 -(void)setupUI:(CGSize)size{
-    float labX = KMainScreenWidth*16/320;
+    float labX = 16;
     float labW = size.width - 2*labX;
     float labH = KMainScreenWidth*18/320;
     float labY = KMainScreenWidth*5/320;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
-    lab1.textColor = kMainGrayBackColor;
+    lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab1];
     self.label1 = lab1;
     
     float lab2Y = CGRectGetMaxY(lab1.frame);
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
-    lab2.textColor = kMainGrayBackColor;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab2];
     self.label2 = lab2;
 
     float lab3Y = CGRectGetMaxY(lab2.frame);
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, labW, labH)];
-    lab3.textColor = kMainGrayBackColor;
+    lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab3];
     self.label3 = lab3;
 
-    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(labX, size.height-1, size.width-2*labX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 
 -(void)setupCellContentWith:(NSArray*)model{

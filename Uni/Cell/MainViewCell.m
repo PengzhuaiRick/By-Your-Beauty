@@ -9,6 +9,7 @@
 #import "MainViewCell.h"
 #import "UNIMyAppintModel.h"
 #import "UNIMyProjectModel.h"
+#import "UNIHttpUrlManager.h"
 @implementation MainViewCell
 
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier{
@@ -22,12 +23,13 @@
     cellH = size.height;
     
     float imgX = KMainScreenWidth>400?20:15;
+   // float imgWH =KMainScreenWidth>400?50:40;
     float imgWH =size.height/3.5;
     float imgY = (size.height - imgWH)/2;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
-    //img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImage = img;
+    // self.mainImage.backgroundColor = [UIColor blackColor];
     
     float lab3WH = imgWH*0.6;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, lab3WH, lab3WH)];
@@ -67,23 +69,26 @@
     float labX = CGRectGetMaxX(img.frame)+20;
     float labW = size.width -labX*2;
     float labH = KMainScreenWidth* 20/320;
-    float lab1Y = size.height/2 - labH - 5;
+    float lab1Y = size.height/2 - labH - 2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
     [self addSubview:lab1];
     self.mainLab = lab1;
     
-    float lab2Y = size.height/2 +5;
+    float lab2Y = size.height/2 +2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*14/414];
-    lab2.textColor =kMainGrayBackColor;
+    lab2.textColor =[UIColor colorWithHexString:kMainTitleColor];
     lab2.lineBreakMode = 0;
     lab2.numberOfLines = 0;
     [self addSubview:lab2];
     self.subLab = lab2;
     
-
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(16, size.height-1, size.width-32, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
    }
 -(void)setupCellWithData:(id)data type:(int)type andTotal:(int)total{
    
@@ -104,7 +109,7 @@
             self.numLab.hidden=YES;
             self.mainImage.image = [UIImage imageNamed:@"main_img_nodata1"];
             self.mainLab.text = @"已约完!";
-            self.subLab .text = @"忙里忙外,也要记得体贴自己!马上预约,来这路休息片刻";
+            self.subLab .text = [UNIHttpUrlManager sharedInstance].APPOINT_DESC;
             self.accessoryType = UITableViewCellAccessoryNone;
         }
     }
@@ -114,13 +119,6 @@
          UNIMyProjectModel* info =(UNIMyProjectModel*) data;
         if (info) {
             self.handleBtn.hidden = NO;
-            
-            CGRect imgR = self.mainImage.frame;
-            imgR.size.height = cellH/2.5;
-            imgR.size.width = cellH/2.5;
-            imgR.origin.y = (cellH - cellH/2.5)/2;
-            imgR.origin.x -=2;
-            self.mainImage.frame = imgR;
             NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
             [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str]];
             self.mainLab.text = info.projectName;
@@ -130,13 +128,21 @@
             self.handleBtn.hidden = YES;
             self.mainImage.image = [UIImage imageNamed:@"main_img_nodata2"];
             self.mainLab.text = @"马上购买去!";
-            CGRect subR =self.subLab.frame;
-            subR.size.width = self.mainLab.frame.size.width;
-            self.subLab.frame = subR;
-            self.subLab .text = @"空空如也没关系,一大波超值套餐正来袭";
+//            CGRect subR =self.subLab.frame;
+//            subR.size.width = self.mainLab.frame.size.width;
+//            self.subLab.frame = subR;
+            self.subLab .text = @"空空如也没关系,\n一大波超值套餐正来袭";
         }
     }
+    
+    
+    [self.mainLab sizeToFit];
     [self.subLab sizeToFit];
+    
+    CGRect mainLR = self.mainLab.frame;
+    mainLR.origin.y = self.mainImage.center.y - mainLR.size.height - 2;
+    self.mainLab.frame = mainLR;
+    
    
 }
 - (void)awakeFromNib {

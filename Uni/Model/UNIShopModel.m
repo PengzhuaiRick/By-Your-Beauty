@@ -22,9 +22,9 @@
     self.logoUrl = [self safeObject:dic ForKey:@"logoUrl"];
     self.address = [self safeObject:dic ForKey:@"address"];
     self.telphone = [self safeObject:dic ForKey:@"telphone"];
-    self.x = [[self safeObject:dic ForKey:@"latitude"]floatValue];
-    self.y = [[self safeObject:dic ForKey:@"longitude"]floatValue];
     self.shopId = [[self safeObject:dic ForKey:@"shopId"]intValue];
+    self.x = [[self safeObject:dic ForKey:@"latitude"]doubleValue];
+    self.y = [[self safeObject:dic ForKey:@"longitude"]doubleValue];
 }
 
 @end

@@ -127,6 +127,8 @@
 		18D5722E1BE883560055DE7F /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722B1BE883560055DE7F /* AccountManager.m */; };
 		18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722D1BE883560055DE7F /* YILocationManager.m */; };
 		18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D572311BE891BC0055DE7F /* YIUserLocationMessage.m */; };
+		18D5F1AB1C881F630033553D /* UNIShopRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F1AA1C881F630033553D /* UNIShopRequest.m */; };
+		18D5F1AE1C8848FA0033553D /* UNITransfromX&Y.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F1AD1C8848FA0033553D /* UNITransfromX&Y.m */; };
 		18D77DCC1C3B9BE300DFC738 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D77DCB1C3B9BE300DFC738 /* libz.1.2.5.tbd */; };
 		18D77DCE1C3B9BF800DFC738 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D77DCD1C3B9BF800DFC738 /* libstdc++.tbd */; };
 		18D85DF81C475CE800A3FE3D /* UNIAddProjcetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D85DF71C475CE800A3FE3D /* UNIAddProjcetCell.m */; };
@@ -151,6 +153,7 @@
 		18E661D51C118067000042B7 /* MyRewardView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E661D41C118067000042B7 /* MyRewardView.m */; };
 		18E661D81C11896C000042B7 /* UNIMyRewardRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E661D71C11896C000042B7 /* UNIMyRewardRequest.m */; };
 		18E661DB1C118AF0000042B7 /* UNIMyRewardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E661DA1C118AF0000042B7 /* UNIMyRewardModel.m */; };
+		18E76CCC1C8C00940036888E /* UNIAddAndDelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E76CCB1C8C00940036888E /* UNIAddAndDelectCell.m */; };
 		18EA4A821C60A3D00033E801 /* CallOutAnnotationVifew.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA4A7F1C60A3D00033E801 /* CallOutAnnotationVifew.m */; };
 		18EA4A831C60A3D00033E801 /* CalloutMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA4A811C60A3D00033E801 /* CalloutMapAnnotation.m */; };
 		18EC2E091C49E74100A81DD9 /* UNIWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EC2E081C49E74100A81DD9 /* UNIWalletCell.m */; };
@@ -476,6 +479,10 @@
 		18D5722D1BE883560055DE7F /* YILocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YILocationManager.m; sourceTree = "<group>"; };
 		18D572301BE891BC0055DE7F /* YIUserLocationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YIUserLocationMessage.h; sourceTree = "<group>"; };
 		18D572311BE891BC0055DE7F /* YIUserLocationMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YIUserLocationMessage.m; sourceTree = "<group>"; };
+		18D5F1A91C881F630033553D /* UNIShopRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopRequest.h; sourceTree = "<group>"; };
+		18D5F1AA1C881F630033553D /* UNIShopRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopRequest.m; sourceTree = "<group>"; };
+		18D5F1AC1C8848FA0033553D /* UNITransfromX&Y.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UNITransfromX&Y.h"; sourceTree = "<group>"; };
+		18D5F1AD1C8848FA0033553D /* UNITransfromX&Y.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UNITransfromX&Y.m"; sourceTree = "<group>"; };
 		18D77DCB1C3B9BE300DFC738 /* libz.1.2.5.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.1.2.5.tbd; path = usr/lib/libz.1.2.5.tbd; sourceTree = SDKROOT; };
 		18D77DCD1C3B9BF800DFC738 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		18D85DF61C475CE800A3FE3D /* UNIAddProjcetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAddProjcetCell.h; sourceTree = "<group>"; };
@@ -521,6 +528,8 @@
 		18E661D71C11896C000042B7 /* UNIMyRewardRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyRewardRequest.m; sourceTree = "<group>"; };
 		18E661D91C118AF0000042B7 /* UNIMyRewardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMyRewardModel.h; sourceTree = "<group>"; };
 		18E661DA1C118AF0000042B7 /* UNIMyRewardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyRewardModel.m; sourceTree = "<group>"; };
+		18E76CCA1C8C00940036888E /* UNIAddAndDelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAddAndDelectCell.h; sourceTree = "<group>"; };
+		18E76CCB1C8C00940036888E /* UNIAddAndDelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAddAndDelectCell.m; sourceTree = "<group>"; };
 		18EA4A7E1C60A3D00033E801 /* CallOutAnnotationVifew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallOutAnnotationVifew.h; sourceTree = "<group>"; };
 		18EA4A7F1C60A3D00033E801 /* CallOutAnnotationVifew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallOutAnnotationVifew.m; sourceTree = "<group>"; };
 		18EA4A801C60A3D00033E801 /* CalloutMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutMapAnnotation.h; sourceTree = "<group>"; };
@@ -962,6 +971,8 @@
 				184482131C522A210047D2EF /* UNIOrderListCell.m */,
 				18E436AF1C8172FF00B125AC /* UNIShopListCell.h */,
 				18E436B01C8172FF00B125AC /* UNIShopListCell.m */,
+				18E76CCA1C8C00940036888E /* UNIAddAndDelectCell.h */,
+				18E76CCB1C8C00940036888E /* UNIAddAndDelectCell.m */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1150,6 +1161,8 @@
 				18D5722D1BE883560055DE7F /* YILocationManager.m */,
 				18CB949E1C85664F00F834DA /* UNIHttpUrlManager.h */,
 				18CB949F1C85664F00F834DA /* UNIHttpUrlManager.m */,
+				18D5F1AC1C8848FA0033553D /* UNITransfromX&Y.h */,
+				18D5F1AD1C8848FA0033553D /* UNITransfromX&Y.m */,
 			);
 			path = OtherManager;
 			sourceTree = "<group>";
@@ -1246,6 +1259,8 @@
 				1844820D1C5222810047D2EF /* UNIOrderRequest.m */,
 				182E8A571C71CBA500870968 /* UNILawRequest.h */,
 				182E8A581C71CBA500870968 /* UNILawRequest.m */,
+				18D5F1A91C881F630033553D /* UNIShopRequest.h */,
+				18D5F1AA1C881F630033553D /* UNIShopRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1496,6 +1511,7 @@
 				18E661D81C11896C000042B7 /* UNIMyRewardRequest.m in Sources */,
 				18E436B11C8172FF00B125AC /* UNIShopListCell.m in Sources */,
 				1840FD771BE0712100DC78BC /* ViewController.m in Sources */,
+				18D5F1AB1C881F630033553D /* UNIShopRequest.m in Sources */,
 				18F0966F1BF1DE4900B60A3D /* LoginController.m in Sources */,
 				18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */,
 				18C73A7B1C069B1300A3A4CA /* UNIMypointRequest.m in Sources */,
@@ -1537,6 +1553,7 @@
 				181347AF1BF33E6D001674D9 /* UNILoginViewModel.m in Sources */,
 				18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */,
 				18D434A41C229AD0006A8A3F /* UNILocateNotifiDetail.m in Sources */,
+				18D5F1AE1C8848FA0033553D /* UNITransfromX&Y.m in Sources */,
 				18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */,
 				181347AC1BF33D50001674D9 /* UNILoginViewRequest.m in Sources */,
 				18C3ECFB1C0EEA2100B0A192 /* UNIAppointDetall1Cell.m in Sources */,
@@ -1587,6 +1604,7 @@
 				182E8A591C71CBA500870968 /* UNILawRequest.m in Sources */,
 				1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */,
 				180CD3891BDF180A00C912FE /* main.m in Sources */,
+				18E76CCC1C8C00940036888E /* UNIAddAndDelectCell.m in Sources */,
 				18C3FBF61C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m in Sources */,
 				18C8D4061C574A5100E6DDB3 /* Order.m in Sources */,
 				18C73A831C06FAAD00A3A4CA /* UNIMyPojectList.m in Sources */,

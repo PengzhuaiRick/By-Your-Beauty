@@ -128,8 +128,10 @@
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?25:20];
     lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    lab.text = [NSString stringWithFormat:@"￥%.f",model.shopPrice];
-    
+//    if (model.shopPrice>1)
+//        lab.text = [NSString stringWithFormat:@"￥%.f",model.shopPrice];
+//    else
+//        lab.text = [NSString stringWithFormat:@"￥%.2f",model.shopPrice];
     [bottom addSubview:lab];
     priceLab = lab;
     
@@ -153,7 +155,6 @@
      subscribeNext:^(id x) {
          if (self.num>1) {
              --self.num;
-             self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
          }
     }];
     
@@ -169,11 +170,14 @@
         int k =[x intValue];
         if (k>0)
             self.num =k ;
-        self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
     }];
     
     [RACObserve(self,num)subscribeNext:^(id x) {
         self->numField.text = [NSString stringWithFormat:@"%d",self.num];
+        if (self->model.shopPrice>1)
+            self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
+        else
+            self->priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice*self.num];
     }];
     
     
@@ -193,7 +197,6 @@
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          ++self.num;
-          self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
     }];
 
     float btn3WH = KMainScreenWidth*70/414;
@@ -288,6 +291,7 @@
     
     float tabW = self.myScroller.frame.size.width;
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, tabW,_myScroller.frame.size.height) style:UITableViewStylePlain];
+    tabview.separatorStyle = 0;
     tabview.delegate = self;
     tabview.dataSource = self;
     tabview.backgroundColor = [UIColor clearColor];

@@ -11,10 +11,10 @@
 #import "WXApiManager.h"
 #import "UNIShopManage.h"
 #import "UNIHttpUrlManager.h"
-@interface UNIGiftController ()<UIWebViewDelegate>{
+@interface UNIGiftController ()<UIWebViewDelegate,UIScrollViewDelegate>{
     UIView* shareView;
     UIView* bgView;
-    UIActivityIndicatorView *testActivityIndicator;
+    UIWebView* webView;
 }
 
 @end
@@ -46,6 +46,8 @@
     
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
     web.delegate = self;
+    web.scrollView.delegate = self;
+    web.scrollView.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
@@ -59,20 +61,15 @@
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
 
     [web loadRequest:request];//加载
+    webView = web;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-    testActivityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    testActivityIndicator.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
-    [self.view addSubview:testActivityIndicator];
-   // testActivityIndicator.color = [UIColor redColor]; // 改变圈圈的颜色为红色； iOS5引入
-    [testActivityIndicator startAnimating]; // 开始旋转
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 }
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [testActivityIndicator stopAnimating];
-    [testActivityIndicator removeFromSuperview];
-    
-    self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
+- (void)webViewDidFinishLoad:(UIWebView *)webView1{
+    self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
+    [LLARingSpinnerView RingSpinnerViewStop1];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);
@@ -85,16 +82,17 @@
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
-    
 }
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    if (self.containController.closing) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
-    }
-    else{
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
+    if ([webView canGoBack]) {
+        [webView goBack];
+    }else{
+        if (self.containController.closing)
+            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
+        else
+            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
 }
 
@@ -119,7 +117,7 @@
     UILabel* label= [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 40,15)];
     label.text = @"分享到";
     label.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?12:10)];
-    label.textColor = kMainGrayBackColor;
+    label.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [view addSubview:label];
     
     float btnWH = KMainScreenWidth*45/320;
@@ -140,6 +138,9 @@
         [view addSubview:btn];
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
         subscribeNext:^(UIButton* x) {
+            
+            UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
+            
             WXMediaMessage* message = [WXMediaMessage message];
             UNIShopManage* shop =[UNIShopManage getShopData];
             NSString * shopName = nil;
@@ -147,12 +148,14 @@
                 shopName =shop.shortName;
             else
                 shopName =shop.shopName;
-            message.title =[NSString stringWithFormat:@"亲爱的，我已经参加动静界%@“百万豪礼快点点”活动，让我心动的都在这儿，是时候验证我们友情了！快帮我抢！",shopName];
+            //message.title =[NSString stringWithFormat:@"亲爱的，我已经参加动静界%@“百万豪礼快点点”活动，让我心动的都在这儿，是时候验证我们友情了！快帮我抢！",shopName];
+            message.title = urlManager.APP_BWHL_SHARE_TITLE;
+            message.description =urlManager.APP_BWHL_SHARE_DESC;
             [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
             
             WXWebpageObject* web = [WXWebpageObject object];
             //NSString* str1 =@"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWX%26a%3dgotoLibaoShare&response_type=code&scope=snsapi_userinfo&state={###}#wechat_redirec";
-            NSString* str1 = [UNIHttpUrlManager sharedInstance].MY_LIBAO_SHARE_RUL;
+            NSString* str1 = urlManager.MY_LIBAO_SHARE_URL;
             NSString* str2 = [[AccountManager userId]stringValue];
             NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
             web.webpageUrl = [self URLEncodedString:str3];
@@ -215,10 +218,18 @@
     return encodedString;
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y<-170) {
+        if (webView.loading)
+            return;
+        [webView reload];
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 /*
 #pragma mark - Navigation

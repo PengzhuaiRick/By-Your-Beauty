@@ -58,6 +58,7 @@
     self.tableView.tableHeaderView =view;
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = [UIView new];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
 #pragma mark 设置参数
 -(void)setupParams{

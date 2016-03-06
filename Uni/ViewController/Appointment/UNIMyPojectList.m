@@ -69,7 +69,7 @@
 
     _myTableview.delegate =self;
     _myTableview.dataSource = self;
-    
+    _myTableview.separatorStyle = 0;
     if (IOS_VERSION>8.0)
         _myTableview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     [self.view addSubview:_myTableview];

@@ -33,8 +33,12 @@
 @property (strong, nonatomic)  UIScrollView *midScroller;
 @property (assign ,nonatomic) int projectId;
 @property (assign ,nonatomic) int costTime;
+@property (assign ,nonatomic) int shopId;
 
--(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos;
+-(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp;
 
 -(void)beforeRequest;
+
+#pragma mark 改变shopid 重新请求数据
+-(void)changeShopId:(int)shopid;
 @end

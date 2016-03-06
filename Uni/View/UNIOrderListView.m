@@ -9,6 +9,7 @@
 #import "UNIOrderListView.h"
 #import "UNIOrderListCell.h"
 #import <MJRefresh/MJRefresh.h>
+#import "UNIHttpUrlManager.h"
 @implementation UNIOrderListView
 
 -(id)initWithFrame:(CGRect)frame andState:(int)st{
@@ -16,6 +17,7 @@
     if (self) {
         self.status = st;
         self.allArray = [NSMutableArray array];
+        
          [self startRequest];
         //[self setupTableView];
     }
@@ -36,19 +38,43 @@
             }
             if (array.count<20)
                 [self.myTable.footer setHidden:YES] ;
+            
             if (self.page == 0)
                 [self.allArray removeAllObjects];
             
                 [self.allArray addObjectsFromArray:array];
                 [self setupTableView];
         });
-        
     };
-
+}
+-(void)setupNodataView{
+    
+    UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, _myTable.frame.size.height)];
+    nodata.hidden=YES;
+    [_myTable addSubview:nodata];
+    noDataView = nodata;
+    
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata1"]];
+    float imgWH = KMainScreenWidth>400?60:50,
+    imgX = (nodata.frame.size.width - imgWH)/2;
+    img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
+    [nodata addSubview:img];
+    
+    UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
+    lab.text=manager.NO_ORDER_TIPS;
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    [nodata addSubview:lab];
 }
 
 
 -(void)setupTableView{
+
+        
+   self->noDataView.hidden=self.allArray.count>1;
+    
     if (self.myTable){
         [self.myTable reloadData];
         return;}
@@ -58,11 +84,11 @@
     tabview.delegate = self;
     tabview.dataSource = self;
     tabview.showsVerticalScrollIndicator=NO;
+    tabview.separatorStyle = 0;
     [self addSubview:tabview];
     self.myTable =tabview;
     tabview.tableFooterView = [UIView new];
-
-
+    [self setupNodataView];
         tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             self.page = 0;
             [self startRequest];
@@ -72,6 +98,7 @@
             self.page++;
             [self startRequest];
         }];
+  
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

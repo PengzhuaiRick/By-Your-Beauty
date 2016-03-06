@@ -320,7 +320,7 @@
 }
 #pragma mark 设置手机号码
 -(void)setupPhoneField{
-    UITextField* teft = phoneField;
+   // UITextField* teft = phoneField;
     [[phoneField.rac_textSignal
      filter:^BOOL(NSString* value) {
 
@@ -329,14 +329,14 @@
              char r = [value characterAtIndex:value.length-1];
              if (r<48||r>57){
                  NSString *str=[NSString stringWithCString:&r  encoding:NSUTF8StringEncoding];
-                 teft.text = [value stringByReplacingOccurrencesOfString:str withString:@""];
+                 self->phoneField.text = [value stringByReplacingOccurrencesOfString:str withString:@""];
              }
          }
          
         if (value.length == 11)
             le = YES;
         else if (value.length>11)
-            teft.text = [value substringToIndex:11];
+            self->phoneField.text = [value substringToIndex:11];
          
          if (value.length < 11){
              self->codeBtn.layer.borderWidth = 1;

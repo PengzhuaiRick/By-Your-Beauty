@@ -21,6 +21,7 @@
 
 #import "UNIMainProView.h"
 #import "UNIGoodsWeb.h"
+#import "UNIHttpUrlManager.h"
 
 @interface MainViewController ()</*UINavigationControllerDelegate,*/MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
@@ -48,6 +49,8 @@
     UILabel* sell4;
     UIButton* sellBtn;
     UIButton* alphBtn;
+    
+    UIButton* backTopBtn;//返回顶部按钮
 
 }
 @property(nonatomic,strong) NSArray* midData;
@@ -65,6 +68,7 @@
             ges.enabled=YES;
         }
     }
+    backTopBtn.enabled = YES;
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -74,6 +78,7 @@
             ges.enabled=NO;
         }
     }
+    backTopBtn.enabled = NO;
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
@@ -86,7 +91,7 @@
    [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
     [self getSellInfo]; //获取首页销售商品
     [self setupNotification];//注册通知
-    
+
     //[self addLocateNotication];
 }
 -(void)addLocateNotication{
@@ -142,6 +147,19 @@
     bar.action=@selector(navigationControllerLeftBarAction:);
     self.navigationItem.leftBarButtonItem = bar;
      self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+    
+    UIButton* stateBtn =[UIButton buttonWithType:UIButtonTypeCustom];
+    stateBtn.frame = CGRectMake(40, -20, KMainScreenWidth-80, 60);
+    stateBtn.backgroundColor = [UIColor clearColor];
+    //[[UIApplication sharedApplication].keyWindow addSubview:stateBtn];
+    [self.navigationController.view addSubview:stateBtn];
+    backTopBtn = stateBtn;
+    [[stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        NSLog(@"顶部");
+        CGPoint p = CGPointMake(0, 0);
+        [self->myTable setContentOffset:p animated:YES];
+    }];
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -165,6 +183,7 @@
     tabview.delegate = self;
     tabview.dataSource = self;
     tabview.backgroundColor = [UIColor clearColor];
+    tabview.separatorStyle = UITableViewCellSeparatorStyleNone;
     tabview.showsVerticalScrollIndicator=NO;
     [self.view addSubview:tabview];
     if (IOS_VERSION>8.0)
@@ -299,9 +318,11 @@
 
     
     UIImage* iage = [UIImage imageNamed:@"main_img_kezhuang"];
-    float imgVX = KMainScreenWidth*20/414;
+    float imgVX = KMainScreenWidth>400?20:15;
     float imgVH = cellHight/3;
     float imgVW = iage.size.width * imgVH / iage.size.height;
+//    float imgVW = KMainScreenWidth>400?50:40;
+//    float imgVH = (iage.size.height* imgVW / iage.size.width);
     float imgVY = imgH/4*3+ ((imgH/4 - imgVH)/2);
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgVX, imgVY, imgVW, imgVH)];
     img.image = iage;
@@ -336,7 +357,8 @@
     
     
     float lab6H = 20;
-    float lab6Y = CGRectGetMaxY(lay.frame)+(KMainScreenWidth>400?30:25);
+   // float lab6Y = CGRectGetMaxY(lay.frame)+(KMainScreenWidth>400?30:25);
+    float lab6Y = img.center.y - lab6H - 2;
     float lab6X = CGRectGetMaxX(img.frame)+20;
     float lab6W = imgW - lab6X - proX*2;
     UILabel* lab6 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H)];
@@ -346,7 +368,8 @@
     [imageView addSubview:lab6];
     sell1 = lab6;
     
-    float lab7Y =CGRectGetMaxY(lab6.frame)+11;
+    //float lab7Y =CGRectGetMaxY(lab6.frame)+11;
+    float lab7Y =img.center.y+5;
     float lab7W = KMainScreenWidth*80/320;
     UILabel* lab7 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab7Y, lab7W, lab6H)];
     lab7.text = @"活动价";
@@ -356,7 +379,8 @@
     [imageView addSubview:lab7];
     sell3 = lab7;
     
-    float lab8Y =CGRectGetMaxY(lab6.frame)+4;
+//    float lab8Y =CGRectGetMaxY(lab6.frame)+4;
+    float lab8Y =img.center.y+2;
     float lab8W = KMainScreenWidth*100/320;
     float lab8X = CGRectGetMaxX(lab7.frame);
     UILabel* lab8 = [[UILabel alloc]initWithFrame:CGRectMake(lab8X, lab8Y, lab8W, lab6H)];
@@ -369,7 +393,7 @@
     lab7.center = CGPointMake(lab7.center.x, lab8.center.y);
     
     UILabel* lab9 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H*2)];
-    lab9.text =@"更多优惠持续更新,敬请关注!";
+    lab9.text =[UNIHttpUrlManager sharedInstance].MORE_YH_TIPS;
     lab9.hidden=YES;
     lab9.textColor = [UIColor whiteColor];
     //lab9.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
@@ -411,6 +435,7 @@
     tabview.delegate = self;
     tabview.dataSource = self;
     tabview.backgroundColor = [UIColor clearColor];
+    tabview.separatorStyle = UITableViewCellSeparatorStyleNone;
     tabview.showsVerticalScrollIndicator=NO;
     myTable.tableFooterView = tabview;
     footTableView = tabview;
@@ -654,7 +679,10 @@
                     self->sellGoods = arr;
                     UNIGoodsModel* info = arr[0];
                     self->sell1.text = info.projectName;
-                    self->sell2.text = [NSString stringWithFormat:@"￥%.f",info.shopPrice];
+                    if (info.shopPrice>1)
+                        self->sell2.text = [NSString stringWithFormat:@"￥%.f",info.shopPrice];
+                    else
+                        self->sell2.text = [NSString stringWithFormat:@"￥%.2f",info.shopPrice];
                     self->sell3.hidden=NO;
                     self->sell4.hidden=YES;
                     self->sellBtn.hidden=NO;

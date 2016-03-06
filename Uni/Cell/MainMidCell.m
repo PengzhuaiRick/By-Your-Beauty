@@ -19,7 +19,7 @@
 }
 -(void)setupUI:(CGSize)size{
      self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    float imgX = KMainScreenWidth>400?16:20;
+    float imgX = 16;
     float imgY = 15;
     float imgWH =size.height - imgY*2;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
@@ -42,7 +42,7 @@
     float lab2Y = size.height/2-5;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
-    lab2.textColor = kMainGrayBackColor;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self addSubview:lab2];
     self.subLab = lab2;
     
@@ -52,6 +52,10 @@
     [self addSubview:lab3];
     self.stateLab = lab3;
     
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 
 
@@ -82,7 +86,7 @@
         switch (model.status) {
             case 0:
                 btnTitle = @"待确认";
-                self.stateLab.textColor =kMainGrayBackColor;
+                self.stateLab.textColor =[UIColor colorWithHexString:kMainTitleColor];
                 break;
             case 1:
                 btnTitle = @"待服务";

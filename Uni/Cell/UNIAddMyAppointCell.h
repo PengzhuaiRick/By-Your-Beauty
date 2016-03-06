@@ -10,9 +10,9 @@
 #import <SWTableViewCell.h>
 
 @interface UNIAddMyAppointCell : SWTableViewCell
-@property (weak, nonatomic)  UIImageView *mainImg;
-@property (weak, nonatomic)  UILabel *mainLab;
-@property (weak, nonatomic)  UILabel *subLab;
+@property (strong, nonatomic)  UIImageView *mainImg;
+@property (strong, nonatomic)  UILabel *mainLab;
+@property (strong, nonatomic)  UILabel *subLab;
 
 
 //-(void)setupCellWithData:(NSArray*)data type:(int)type andTotal:(int)total;

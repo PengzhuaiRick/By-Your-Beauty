@@ -52,16 +52,18 @@
         //获取商铺信息
         if ([param2 isEqualToString:API_URL_ShopInfo] ) {
             if (code == 0) {
-                UNIShopManage* manager =[[UNIShopManage alloc]init];
-                manager.shopName = [self safeObject:dic ForKey:@"shopName"];
-                manager.logoUrl = [self safeObject:dic ForKey:@"logoUrl"];
-                manager.address = [self safeObject:dic ForKey:@"address"];
-                manager.telphone = [self safeObject:dic ForKey:@"telphone"];
-                manager.shortName =[self safeObject:dic ForKey:@"shortName"];
+                UNIShopManage* manager =[[UNIShopManage alloc]initWithDictionary:dic];
+//                manager.shopName = [self safeObject:dic ForKey:@"shopName"];
+//                manager.logoUrl = [self safeObject:dic ForKey:@"logoUrl"];
+//                manager.address = [self safeObject:dic ForKey:@"address"];
+//                manager.telphone = [self safeObject:dic ForKey:@"telphone"];
+//                manager.shortName =[self safeObject:dic ForKey:@"shortName"];
+//                NSArray* arr = [UNIShopManage bd_decrypt:[[self safeObject:dic ForKey:@"latitude"] doubleValue]
+//                                                     and:[[self safeObject:dic ForKey:@"longitude"] doubleValue]];
 //                manager.x = [self safeObject:dic ForKey:@"latitude"];
 //                manager.y = [self safeObject:dic ForKey:@"longitude"];
-                manager.x = @(23.142455816671522);
-                manager.y = @(113.31206617996649);
+//                manager.x = arr[0];
+//                manager.y= arr[1];
                 [UNIShopManage saveShopData:manager];
                 _reshopInfoBlock(manager,tips,nil);
             }else

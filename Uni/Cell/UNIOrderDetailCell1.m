@@ -18,7 +18,7 @@
     return self;
 }
 -(void)setupUI:(CGSize)size{
-    float imgXY =10;
+    float imgXY =16;
     float imgWH = size.height - 2*imgXY;
     UIImageView* img= [[UIImageView alloc]initWithFrame:CGRectMake(imgXY, imgXY, imgWH, imgWH)];
     //img.image = [UIImage imageNamed:@"card_img_bg2"];
@@ -45,7 +45,7 @@
     float lab2W = KMainScreenWidth*60/320;
     float lab2X = size.width - lab2W - imgXY;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab1Y, lab2W, lab1H)];
-    lab2.textColor =kMainGrayBackColor;
+    lab2.textColor =[UIColor colorWithHexString:kMainTitleColor];
     lab2.textAlignment=NSTextAlignmentRight;
     lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab2];
@@ -53,10 +53,15 @@
     
     float lab3Y = size.height/2;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab3Y, lab1W, lab1H)];
-    lab3.textColor = kMainGrayBackColor;
+    lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab3 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?14:12];
     [self addSubview:lab3];
     self.lab3 = lab3;
+    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(imgXY, size.height-1, size.width-2*imgXY, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 -(void)setupCellContent:(id)model{
     UNIOrderListModel*info = model;

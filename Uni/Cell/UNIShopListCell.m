@@ -45,9 +45,14 @@
     float lab2Y = size.height/2-2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
-    lab2.textColor = kMainGrayBackColor;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self addSubview:lab2];
     self.subLab = lab2;
+    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(labX, size.height-1, size.width-2*labX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

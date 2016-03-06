@@ -19,7 +19,7 @@
 }
 -(void)setupUI:(CGSize)size{
     
-    float lab1X = 10;
+    float lab1X = 16;
     float lab1W = size.width - 2*lab1X;
     float lab1H = KMainScreenWidth>400?19:16;
     float lab1Y = size.height/2 - lab1H - 2;
@@ -37,6 +37,11 @@
     lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab2];
     self.lab2 = lab2;
+    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(lab1X, size.height-1, size.width-2*lab1X, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
     
 }
 -(void)setupCellContent:(id)model;{

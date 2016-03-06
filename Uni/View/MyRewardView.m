@@ -45,6 +45,7 @@
     tab.backgroundColor= [UIColor whiteColor];
     tab.delegate = self;
     tab.dataSource = self;
+    tab.separatorStyle = 0;
     [self addSubview:tab];
     _midTableview = tab;
    

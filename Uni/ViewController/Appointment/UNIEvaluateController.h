@@ -24,4 +24,5 @@
 
 @property(nonatomic,strong)UNIMyAppointInfoModel* model;
 @property (copy, nonatomic) NSString* order;
+@property (assign, nonatomic)int shopId;
 @end

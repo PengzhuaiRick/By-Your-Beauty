@@ -19,14 +19,14 @@
 }
 -(void)setupUI:(CGSize)size{
     
-    float lab1X = 10;
+    float lab1X = 16;
     float lab1W = KMainScreenWidth*60/320;
     float lab1H = size.height;
     float lab1Y = 0;
     
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
     lab1.text=@"合计:";
-    lab1.textColor = kMainGrayBackColor;
+    lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab1 .font =[UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [self addSubview:lab1];
     self.lab1 = lab1;
@@ -43,6 +43,10 @@
     [self addSubview:lab2];
     self.lab2 = lab2;
   
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(lab1X, size.height-1, size.width-2*lab1X, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 -(void)setupCellContent:(id)model;{
     UNIOrderListModel*info = model;

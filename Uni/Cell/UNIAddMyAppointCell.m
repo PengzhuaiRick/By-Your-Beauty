@@ -42,9 +42,14 @@
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
     lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab2.font = [UIFont systemFontOfSize:lab2font];
-    lab2.textColor = kMainGrayBackColor;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self addSubview:lab2];
     self.subLab = lab2;
+    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
     
 }
 

@@ -8,7 +8,7 @@
 
 #import "UNIShopView.h"
 
-#import "UNIShopManage.h"
+
 @implementation UNIShopView
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
@@ -48,7 +48,7 @@
     float lab1Y = self.frame.size.height/2 - lab1H-2;
     float lab1W = self.frame.size.width - lab1X - img1WH - 10;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
-    lab1.text = [UNIShopManage getShopData].shortName;
+    lab1.text = [UNIShopManage getShopData].shopName;
     lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab1.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14)];
     [self addSubview:lab1];

@@ -42,9 +42,9 @@
     imgview.image = img;
     [view addSubview:imgview];
     
-    float k = KMainScreenWidth>400?80:40;
+    float k = KMainScreenWidth>400?90:40;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(imgview.frame)+k, KMainScreenWidth-30, KMainScreenWidth*15/320)];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320 weight:0];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?18:14];
     lab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab.numberOfLines = 0;
     lab.lineBreakMode = 0;
@@ -61,7 +61,7 @@
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
     lab1.numberOfLines = 0;
     lab1.lineBreakMode = 0;
-    lab1.text = @"广州由你电子商务有限公司 版权所有\n Copyrighht @2014-2021.\n All Rights Reserved";
+    lab1.text = @"广州由你电子商务有限公司 版权所有\n Copyright @2014-2021.\n All Rights Reserved";
     [view addSubview:lab1];
 
 }

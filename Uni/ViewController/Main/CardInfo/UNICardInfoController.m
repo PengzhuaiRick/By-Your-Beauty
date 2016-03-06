@@ -175,7 +175,7 @@
     float layW = labW;
     CALayer* lay =[CALayer layer];
     lay.frame = CGRectMake(layX, layY, layW, 0.5);
-    lay.backgroundColor = kMainGrayBackColor.CGColor;
+    lay.backgroundColor = [UIColor colorWithHexString:kMainTitleColor].CGColor;
     [top.layer addSublayer:lay];
     
     float lab1X = labX;
@@ -266,9 +266,9 @@
        
         
         if (i<time-1) {
-            float imgX = CGRectGetMaxX(btn.frame);
+            float imgX = CGRectGetMaxX(btn.frame)-1;
             float imgH = KMainScreenWidth*5/320;
-            float imgW = lw;
+            float imgW = lw+2;
             float imgY =btnY+(btnWH-imgH)/2;
             UIImageView *img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgW, imgH)];
             [topView addSubview:img];
@@ -307,6 +307,7 @@
     myTableView = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
     myTableView.delegate=self;
     myTableView.dataSource = self;
+    myTableView.separatorStyle = 0;
     [self.view addSubview:myTableView];
     myTableView.tableFooterView = [UIView new];
     

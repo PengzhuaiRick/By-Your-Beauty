@@ -10,11 +10,12 @@
 //#import "UNIAppontMid.h"
 
 @implementation UNIAppointTop
--(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos{
+-(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp{
     self = [super initWithFrame:frame];
     if (self) {
         _projectId = proectId;
         _costTime = Cos;
+        _shopId = shopIp;
         [self setupTopScrollerContent];
         [self initSecondView];
         [self setupMidScroller];
@@ -24,9 +25,13 @@
 }
 
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer*)gesture{
+    
+    CGRect midScR = _midScroller.frame;
+    CGRect newX =midScR;
     if (gesture.direction == UISwipeGestureRecognizerDirectionRight) {
         if (self->selectBtnNum>1) {
             --self->selectBtnNum;
+            newX.origin.x = midScR.size.width;
             for (UIButton* b in self.topBtns) {
                 if (b.tag == self->selectBtnNum) {
                     [self dateBtnAction:b];
@@ -42,20 +47,24 @@
     if (gesture.direction == UISwipeGestureRecognizerDirectionLeft) {
         if (self->selectBtnNum<7) {
             ++self->selectBtnNum;
+             newX.origin.x = -midScR.size.width;
             for (UIButton* b in self.topBtns) {
                 if (b.tag == self->selectBtnNum) {
                     [self dateBtnAction:b];
                     break;
                 }
             }
-            
             if (self->selectBtnNum>4) {
                 [self.topScroller setContentOffset:CGPointMake(self.frame.size.width/5*3, 0) animated:YES];
             }
         }
-
-      
     }
+    [UIView animateWithDuration:0.5 animations:^{
+        self.midScroller.frame =newX;
+    } completion:^(BOOL finished) {
+        self.midScroller.frame =midScR;
+    }];
+    
 }
 
 -(void)setupUI:(CGRect)frace{
@@ -69,19 +78,20 @@
 -(void)beforeRequest{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        [NSThread sleepForTimeInterval:1];
+      [NSThread sleepForTimeInterval:1];
         [self startRequest];
     });
 }
 
 -(void)startRequest{
+    self.selectTime = @"";
     NSString* string = self.selectDay;
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetFreeTime]
                       params:@{@"projectId":@(_projectId),
                                @"date":string,
-                               @"costTime":@(_costTime)
-                                                                           }];
+                               @"costTime":@(_costTime),
+                               @"shopId":@(_shopId)}];
     request.regetFreeTime=^(NSArray* array,NSString* tips,NSError* err){
         //筛选已经过去了的时间点
         NSDateFormatter* dateF = [[NSDateFormatter alloc]init];
@@ -115,6 +125,7 @@
         }
        
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.midScroller.alpha = 1;
             [LLARingSpinnerView RingSpinnerViewStop1];
             self.userInteractionEnabled = YES;
             if (err) {
@@ -217,9 +228,6 @@
             b.selected=NO;
     }
     
-    CGPoint point = CGPointMake(0, 0);
-    [self.midScroller setContentOffset:point animated:YES];
-    
    // self.member=1;//重置人数
     NSString* str = [x titleForState:UIControlStateNormal];
     NSString* monthAndDay =[str componentsSeparatedByString:@"\n"][1];
@@ -232,6 +240,7 @@
     
     self.userInteractionEnabled = NO;
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+    self.midScroller.alpha = 0.5;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [NSThread sleepForTimeInterval:1.0];
         [self startRequest];
@@ -257,11 +266,13 @@
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
     [view addSubview:lab];
 
+    float btn3WH = KMainScreenWidth*30/320;
+    
     float topH =viewH - CGRectGetMaxY(lab.frame)-10;
     midBtnH =topH/5*2;
     float topY = CGRectGetMaxY(lab.frame)+5;
-    float topX = 0;
-    float topW =view.frame.size.width;
+    float topX = btn3WH;
+    float topW =view.frame.size.width - 2* btn3WH;
     UIScrollView* secondV = [[UIScrollView alloc]initWithFrame:CGRectMake(topX, topY,topW, topH)];
     secondV.delegate = self;
     [view addSubview:secondV];
@@ -280,111 +291,11 @@
     
     [_midScroller addGestureRecognizer:recognizer1];
 
-    
-//    CALayer* lay = [CALayer layer];
-//    lay.frame = CGRectMake(topX, CGRectGetMaxY(secondV.frame), topW, 0.5);
-//    lay.backgroundColor = kMainGrayBackColor.CGColor;
-//    [view.layer addSublayer:lay];
-
-//    float btnW = KMainScreenWidth>320?150:120;
-//    float btnH = KMainScreenWidth*30/414;
-//    float btnY = CGRectGetMaxY(secondV.frame)+10;
-//    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btn.frame = CGRectMake(labX, btnY, btnW, btnH);
-//    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [btn setTitle:@" 如需取消请提前致电商家" forState:UIControlStateNormal];
-//    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-//    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>320?12:10];
-//    //[btn setImage:[UIImage imageNamed:@"appoint_btn_xunwen"] forState:UIControlStateNormal];
-//    [view addSubview:btn];
-//    
-//    UIImageView* needView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_btn_xunwen"]];
-//    needView.frame = CGRectMake(0, (btnH - 10)/2, (KMainScreenWidth>320?10:7), (KMainScreenWidth>320?10:7));
-//    [btn addSubview:needView];
-    
-//    float lab1X = view.frame.size.width/2+20;
-//    float lab1Y = btnY;
-//    float lab1H = btnH;
-//    float lab1W =  KMainScreenWidth* 40/320;
-//    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
-//    lab1.text = @"人数:";
-//    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>320?18:15];
-//    [view addSubview:lab1];
-//    
-//    
-//    float btn1WH = btnH;
-//    float btn1Y = btnY;
-//    float btn1X = CGRectGetMaxX(lab1.frame);
-//    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btn1.frame = CGRectMake(btn1X, btn1Y, btn1WH, btn1WH);
-//    [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
-//    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-//    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
-//    [view addSubview:btn1];
-//    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
-//     subscribeNext:^(id x) {
-//         if (self.member >1)
-//             self.member--;
-//     }];
-//    
-//    float teX = CGRectGetMaxX(btn1.frame);
-//    float teW = KMainScreenWidth* 25/320;
-//    UITextField* text = [[UITextField alloc]initWithFrame:CGRectMake(teX, btn1Y, teW, btn1WH)];
-//    text.keyboardType = UIKeyboardTypeNumberPad;
-//    text.textAlignment = NSTextAlignmentCenter;
-//    text.text=@"1";
-//    [view addSubview:text];
-//    _nunField = text;
-//    
-//    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
-//    tool.toolDelegate=self;
-//    [tool dismissTwoBtn];
-//    self.nunField.inputAccessoryView = tool;
-//    
-//    [RACObserve(self, member)subscribeNext:^(id x) {
-//        self.nunField.text = [NSString stringWithFormat:@"%d",self.member];
-//    }];
-//    
-//    [self.nunField.rac_textSignal subscribeNext:^(NSString* value) {
-//        if (value.length>0) {
-//            char r = [value characterAtIndex:value.length-1];
-//            if (r<48||r>57){
-//                NSString *str=[NSString stringWithCString:&r  encoding:NSUTF8StringEncoding];
-//                value = [value stringByReplacingOccurrencesOfString:str withString:@""];
-//            }
-//        }
-//        int num = value.intValue;
-//        if (num>self.maxNum) {
-//            num =self.maxNum;
-//            [YIToast showText:@"已到达可预约最大人数"];
-//        }else if(num<1)
-//            num = 1;
-//        self.member = num;
-//        // botton.nunField.text = [NSString stringWithFormat:@"%d",num];
-//    }];
 
     
-    
-    
-//    float btn2X = CGRectGetMaxX(text.frame);
-//    UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btn2.frame = CGRectMake(btn2X, btn1Y, btn1WH, btn1WH);
-//    [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
-//    [view addSubview:btn2];
-//    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-//    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor alpha:0.5]] forState:UIControlStateHighlighted];
-//    [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
-//     subscribeNext:^(id x) {
-//         if (self.member<self.maxNum) {
-//             self.member++;
-//         }else
-//             [YIToast showText:@"已达到预约时间点的最大人数"];
-//     }];
-
-    float btn3WH = KMainScreenWidth*20/320;
     //float btn3Y = (view.frame.size.height- btn3WH)/2;
     UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn3.frame = CGRectMake(5, 0, btn3WH, viewH);
+    btn3.frame = CGRectMake(0, 0, btn3WH, viewH);
     [btn3 setImage:[UIImage imageNamed:@"appoint_btn_leftTop"] forState:UIControlStateNormal];
     [view addSubview:btn3];
     _midLeftBtn = btn3;
@@ -404,7 +315,7 @@
         }
     }];
 
-    float btn4X = view.frame.size.width - btn3WH-5;
+    float btn4X = view.frame.size.width - btn3WH;
     UIButton* btn4 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn4.frame = CGRectMake(btn4X, 0, btn3WH, viewH);
     [btn4 setImage:[UIImage imageNamed:@"appoint_btn_rightTop"] forState:UIControlStateNormal];
@@ -439,8 +350,11 @@
             f++;
     }
     
-    float KK =(KMainScreenWidth>400?65:50);
-    float btnW = (_midScroller.frame.size.width - KK)/3; //按钮的宽和高
+    CGPoint point = CGPointMake(0, 0);
+    [self.midScroller setContentOffset:point animated:YES];
+    
+    float KK =0;
+    float btnW = (_midScroller.frame.size.width - KK)/3;
     float btnH = midBtnH;
     _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width ,
                                               btnH*f);
@@ -520,24 +434,6 @@
     }
 }
 
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if(scrollView == self.midScroller) {
-         float xx = scrollView.contentOffset.x;
-        if (xx<50) {
-            self.midLeftBtn.enabled=NO;
-            self.midRightBtn.enabled = YES;
-        }else if (xx >= scrollView.contentSize.width- scrollView.frame.size.width-50){
-            self.midLeftBtn.enabled=YES;
-            self.midRightBtn.enabled = NO;
-        }else{
-            self.midLeftBtn.enabled=YES;
-            self.midRightBtn.enabled = YES;
-        }
-
-    }
-}
-
 -(void)keyboardTool:(BTKeyboardTool *)tool buttonClick:(KeyBoardToolButtonType)type{
     if (type ==kKeyboardToolButtonTypeDone ) {
         [self endEditing:YES];
@@ -559,5 +455,10 @@
     return theImage;
 }
 
+#pragma mark 改变shopid 重新请求数据
+-(void)changeShopId:(int)shopid{
+    _shopId = shopid;
+    [self beforeRequest];
+}
 
 @end

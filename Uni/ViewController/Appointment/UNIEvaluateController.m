@@ -80,7 +80,7 @@
     float lab3W = viewW - 2*lab2X;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y,lab3W, lab3H)];
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
-    lab3.textColor = kMainGrayBackColor;
+    lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [view addSubview:lab3];
     self.label3 = lab3;
     
@@ -171,7 +171,7 @@
     self.label3.text =[NSString stringWithFormat:@"订单编号: %@",self.order];
 
     
-    self.textView.layer.borderColor = kMainGrayBackColor.CGColor;
+    self.textView.layer.borderColor = [UIColor colorWithHexString:kMainTitleColor].CGColor;
     self.textView.layer.borderWidth = 0.5;
     BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
     tool.toolDelegate=self;
@@ -233,7 +233,7 @@
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyAppointInfoRequest* req = [[UNIMyAppointInfoRequest alloc]init];
     [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetServiceAppraise]
-                  params:@{@"goodsId":@(self.model.projectId),@"level":@(grades),@"content":self.textView.text,@"order":self.order,@"projectName":self.model.projectName}];
+                  params:@{@"goodsId":@(self.model.projectId),@"level":@(grades),@"content":self.textView.text,@"order":self.order,@"projectName":self.model.projectName,@"shopId":@(_shopId)}];
     req.rqAppraise =^(int code,NSString*tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
             [LLARingSpinnerView RingSpinnerViewStop1];

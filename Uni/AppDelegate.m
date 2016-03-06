@@ -22,7 +22,7 @@
 #import <AlipaySDK/AlipaySDK.h>//支付宝
 //#import "WXApi.h"//微信
 #import "WXApiManager.h"
-
+#import "UNIShopModel.h"
 #import "UNIHttpUrlManager.h"
 
 @interface AppDelegate (){
@@ -79,7 +79,7 @@
     
     NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
     [barAttrs setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
-    [barAttrs setObject:[UIFont systemFontOfSize:KMainScreenWidth*14/320] forKey:NSFontAttributeName];
+    [barAttrs setObject:[UIFont systemFontOfSize:KMainScreenWidth>400?15:13] forKey:NSFontAttributeName];
     [bar setTitleTextAttributes:barAttrs];
     
     //
@@ -397,12 +397,7 @@
 
 #pragma mark 检查所有本地预约提醒通知
 -(void)checkLocationNotification1{
-    UNIShopManage* manage = [UNIShopManage getShopData];
-    double shopX = manage.x.doubleValue;
-    double shopY = manage.y.doubleValue;
-    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:shopX longitude:shopY];
     __block double x1 = 0;
-
     YILocationManager* manager = [YILocationManager sharedInstance];
     manager.getUserLocBlock = ^(double x, double y){
         if (x1 > 0)
@@ -410,35 +405,25 @@
         x1 = x;
         
         CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:x longitude:y];
-        double distance  = [curLocation distanceFromLocation:otherLocation];
-        if (distance<500) {
-            dispatch_async(dispatch_get_global_queue(0, 0), ^{
+                dispatch_async(dispatch_get_global_queue(0, 0), ^{
                 
                 NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
                 NSMutableArray* arr = [NSMutableArray arrayWithArray:[userD objectForKey:@"appointArr"]] ;
                 for (int i = 0;i<arr.count;i++) {
                     NSDictionary* noti = arr[i];
-//                    NSDate* time =noti[@"time"];
-//                    NSDate* mubiao = [NSDate dateWithTimeInterval:60*60 sinceDate:time];
-//                    
-//                    NSTimeInterval timeBetween = [[NSDate date] timeIntervalSinceDate:mubiao];
-//                    float fen = timeBetween /60;
-//                    if (fen>=-15 && fen<30) {
-                    
+                     double shopX =[[noti objectForKey:@"shopX"] doubleValue];
+                    double shopY =[[noti objectForKey:@"shopY"] doubleValue];
+                    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:shopX longitude:shopY];
+                    double distance  = [curLocation distanceFromLocation:otherLocation];
+                    if (distance<500) {
                         UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
                         model.setArriveShopBlock=^(int code, NSString* tips,NSError* er){
-                           // NSLog(@"用户到店 %@",tips);
+                            // NSLog(@"用户到店 %@",tips);
                             if (code == 0 ){
                                 [arr removeObject:noti];
                                 [userD setObject:arr forKey:@"appointArr"];
                                 [userD synchronize];
                             }
-                            
-                            dispatch_async(dispatch_get_main_queue(), ^{
-                                if (i == arr.count-1)
-                                    //结束后台服务
-                                    [self closeTheBackGroundTask];
-                            });
                         };
                         NSDateFormatter *formatter2 =[[NSDateFormatter alloc] init];
                         [formatter2 setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
@@ -446,13 +431,16 @@
                         NSString* order = [noti objectForKey:@"OrderId"];
                         [model postWithSerCode:@[API_PARAM_UNI,API_URL_ArriveShop]
                                         params:@{@"order":order,@"arriverTime":arriverTime}];
-
-                 //   }
+                    }
+                    if (i == arr.count-1){
+                        [NSThread sleepForTimeInterval:3];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                                //结束后台服务
+                                [self closeTheBackGroundTask];
+                        });
+                    }
                 }
             });
-        }else
-            //如果当前用户还不距离店铺500米以内 结束后台服务
-            [self closeTheBackGroundTask];
     };
     //开始定位
     [manager startUpdateUserLoaction];
@@ -502,7 +490,6 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 }
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
-    
     NSDictionary* userInfo = notification.userInfo;
     if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO) {
         //删除本地通知
@@ -546,6 +533,12 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     UNILocateNotifiDetail* vc = [st instantiateViewControllerWithIdentifier:@"UNILocateNotifiDetail"];
     vc.order = [notification.userInfo objectForKey:@"OrderId"];
     vc.shopId =[[notification.userInfo objectForKey:@"shopId"] intValue];
+    UNIShopModel* model = [[UNIShopModel alloc]init];
+    model.x =[[notification.userInfo objectForKey:@"shopX"] doubleValue];
+    model.y =[[notification.userInfo objectForKey:@"shopY"] doubleValue];
+    model.shopName=[notification.userInfo objectForKey:@"shopName"] ;
+    model.address=[notification.userInfo objectForKey:@"shopAddress"] ;
+    vc.shopModel =model;
     UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:vc];
     [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
     

@@ -128,15 +128,12 @@
 
             }
          [cell setupCell:appointArr];
-
     }
     if (indexPath.row == 1) {
             if (!cell){
                 cell = [[UNIRewordAndIntimeCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:name andNum:inTimeNum andType:2];
-
             }
                 [cell setupCell:inTimeArr];
-        
     }
 
     return cell;

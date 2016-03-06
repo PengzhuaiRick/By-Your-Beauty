@@ -21,16 +21,16 @@
     
     float proWH =KMainScreenWidth*70/414;
     float proY = (size.height - proWH)/2;
-    float proX =size.width - proY -proWH;
+    float proX =size.width - 16 -proWH;
     UNIRewardProgessView* view = [[UNIRewardProgessView alloc]initWithFrame:CGRectMake(proX, proY, proWH, proWH)];
     view.backgroundColor = [UIColor clearColor];
     [self addSubview:view];
     self.progessView = view;
     
-    float labX = KMainScreenWidth*16/320;
+    float labX = 16;
     float labW = KMainScreenWidth*100/320;
     float labH = KMainScreenWidth>400?20:18;
-    float labY = size.height/2 - labH - 5;
+    float labY = size.height/2 - labH - 2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14 weight:0];
@@ -61,7 +61,7 @@
 //    [self addSubview:lab3];
 //    self.stateLab = lab3;
     
-    float lab3Y = size.height/2+5;
+    float lab3Y = size.height/2+2;
     float lab4W = size.width - 2*labX - proWH ;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, lab4W, labH)];
     lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
@@ -70,6 +70,11 @@
     lab4.numberOfLines = 0;
     [self addSubview:lab4];
     self.subLab = lab4;
+    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(labX, size.height-1, size.width-2*labX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 
 
@@ -94,12 +99,12 @@
        // self.stateLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     }
     
-    CGSize titleSize = [info.goods boundingRectWithSize:CGSizeMake(self.subLab.frame.size.width, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth>400?15:13]} context:nil].size;
-    
-    CGRect subRe = self.subLab.frame;
-    subRe.size.width = titleSize.width;
-    subRe.size.height = titleSize.height;
-    self.subLab.frame = subRe;
+//    CGSize titleSize = [info.goods boundingRectWithSize:CGSizeMake(self.subLab.frame.size.width, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth>400?15:13]} context:nil].size;
+//    
+//    CGRect subRe = self.subLab.frame;
+//    subRe.size.width = titleSize.width;
+//    subRe.size.height = titleSize.height;
+//    self.subLab.frame = subRe;
     
     
 //    CGSize title1Size = [self.stateLab.text boundingRectWithSize:CGSizeMake(self.stateLab.frame.size.width,20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth*13/320]} context:nil].size;

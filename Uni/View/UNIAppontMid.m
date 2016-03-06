@@ -8,6 +8,7 @@
 
 #import "UNIAppontMid.h"
 #import "UNIMyProjectModel.h"
+#import "UNIAddAndDelectCell.h"
 @implementation UNIAppontMid
 -(id)initWithFrame:(CGRect)frame andModel:(id)model{
     self=[super initWithFrame:frame];
@@ -73,36 +74,53 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString* name = @"cell";
-    UNIAddMyAppointCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+//    UNIAddMyAppointCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+//    if (!cell) {
+//        cell =[[UNIAddMyAppointCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, _cellH) reuseIdentifier:name];
+//               cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
+    UNIAddAndDelectCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell =[[UNIAddMyAppointCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, _cellH) reuseIdentifier:name];
-        if (indexPath.row>0) {
-            NSMutableArray* arr = [NSMutableArray array];
-            [arr sw_addUtilityButtonWithColor:[UIColor redColor] title:@"删除"];
-            cell.rightUtilityButtons = arr;
-            cell.delegate = self;
-        }
+        cell =[[UNIAddAndDelectCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, _cellH) reuseIdentifier:name];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-       // cell.mainLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
-        //cell.mainLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?16:14];
-        
-        //cell.subLab.textColor = kMainGrayBackColor;
-        //cell.subLab.font = [UIFont systemFontOfSize:KMainScreenWidth>320?15:13];
+        cell.delectBtn.tag = indexPath.row;
+        [[cell.delectBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+        subscribeNext:^(UIButton* x) {
+            NSLog(@"%@",x.superview);
+            
+            NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:(UNIAddAndDelectCell*)x.superview];
+            [self.myData removeObjectAtIndex:cellIndexPath.row];
+            [self.myTableView deleteRowsAtIndexPaths:@[cellIndexPath]
+                                    withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            [self.delegate UNIAppontMidDelegateMethod];
 
+        }];
     }
-    UNIMyProjectModel* model = _myData[indexPath.row];
-    NSString* imgUrl = model.logoUrl;
-    NSArray* arr = [model.logoUrl componentsSeparatedByString:@","];
-    if (arr.count>0)
-        imgUrl = arr[0];
+    if (indexPath.row >0){
+        cell.moveView.userInteractionEnabled = YES;
+        //cell.delectBtn.enabled = YES;
+    }
+    else{
+        cell.moveView.userInteractionEnabled = NO;
+       // cell.delectBtn.enabled = NO;
+    }
     
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-    [cell.mainImg sd_setImageWithURL:[NSURL URLWithString:str]
-                    placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
+    [cell setupCellContent:_myData[indexPath.row]];
     
-    cell.mainLab.text = model.projectName;
-    cell.subLab.text = [NSString stringWithFormat:@"服务时长%d分钟",model.costTime];
+    
+//    if (indexPath.row>0) {
+//        NSMutableArray* arr = [NSMutableArray array];
+//        [arr sw_addUtilityButtonWithColor:[UIColor colorWithHexString:kMainThemeColor] title:@"删除"];
+//        cell.rightUtilityButtons = arr;
+//        cell.delegate = self;
+//    }else{
+//        cell.rightUtilityButtons = nil;
+//        cell.delegate = nil;
+//    }
+
+    
+   
     return cell;
 }
 

@@ -14,6 +14,7 @@
 #import "AccountManager.h"
 #import "AppDelegate.h"
 #import "ViewControllerCell.h"
+#import "UNITransfromX&Y.h"
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -209,64 +210,11 @@
 
 #pragma mark 调用其他地图APP
 -(void)callOtherMapApp{
-    NSMutableArray* mapsArray = [NSMutableArray arrayWithObjects:@"苹果地图", nil];
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"baidumap://"]])
-        [mapsArray addObject:@"百度地图"];
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"iosamap://"]])
-        [mapsArray addObject:@"高德地图"];
-    if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"comgooglemaps://"]])
-        [mapsArray addObject:@"Google地图"];
-    
-    [UIActionSheet showInView:self.view withTitle:@"本机地图" cancelButtonTitle:@"取消" destructiveButtonTitle:nil otherButtonTitles:mapsArray tapBlock:^(UIActionSheet *actionSheet, NSInteger buttonIndex) {
-        NSString* mapName = [actionSheet buttonTitleAtIndex:buttonIndex];
-        [self selectLocateAppMap:mapName];
-    }];
-
-
-}
--(void)selectLocateAppMap:(NSString*)tag{
-    YILocationManager* locaMan = [YILocationManager sharedInstance];
-    float myLat = [locaMan.userLocInfo.latitude floatValue];
-    float myLong = [locaMan.userLocInfo.longitude floatValue];
-    CLLocationCoordinate2D pt = CLLocationCoordinate2DMake(myLat, myLong);
-    CLLocationCoordinate2D startCoor = pt;
-    
     UNIShopManage* shopMan = [UNIShopManage getShopData];
-    float endLat = [shopMan.x floatValue];
-    float endLong = [shopMan.y floatValue];
-    CLLocationCoordinate2D endCoor = CLLocationCoordinate2DMake(endLat, endLong);
-    NSString *toName =shopMan.shopName;
-    
-    
-    if ([tag isEqualToString:@"苹果地图"])//苹果地图
-    {
-        MKMapItem *currentAction = [MKMapItem mapItemForCurrentLocation];
-        MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:endCoor addressDictionary:nil];
-        MKMapItem *toLocation = [[MKMapItem alloc] initWithPlacemark:placemark];
-        toLocation.name =toName;
-        
-        [MKMapItem openMapsWithItems:@[currentAction, toLocation]
-                       launchOptions:@{MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving,
-                                       MKLaunchOptionsShowsTrafficKey: [NSNumber numberWithBool:YES]}];
-        
-    }
-    if ([tag isEqualToString:@"百度地图"]){
-        //百度地图
-        NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=transit",
-                                startCoor.latitude, startCoor.longitude, endCoor.latitude, endCoor.longitude, toName]stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
-    }
-    if ([tag isEqualToString:@"高德地图"]){
-        //高德地图
-        NSString *urlString = [[NSString stringWithFormat:@"iosamap://navi?sourceApplication=%@&backScheme=applicationScheme&poiname=fangheng&poiid=BGVIS&lat=%f&lon=%f&dev=0&style=3",
-                                toName, endCoor.latitude, endCoor.longitude]stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
-    }
-    if ([tag isEqualToString:@"Google地图"]){
-        //Google地图
-        NSString *urlString = [[NSString stringWithFormat:@"comgooglemaps://?saddr=&daddr=%f,%f¢er=%f,%f&directionsmode=transit", endCoor.latitude, endCoor.longitude, startCoor.latitude, startCoor.longitude]stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
-        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
-    }
+    double endLat = [shopMan.x doubleValue];
+    double endLong = [shopMan.y doubleValue];
+    UNITransfromX_Y* xy= [[UNITransfromX_Y alloc]initWithView:self.view withEndCoor:CLLocationCoordinate2DMake(endLat, endLong) withAim:shopMan.shopName];
+    [xy setupUI];
 }
 
 #pragma mark 调用电话功能

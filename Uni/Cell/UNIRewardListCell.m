@@ -18,7 +18,7 @@
 }
 -(void)setupUI:(CGSize)size{
     
-    float imgX = KMainScreenWidth* 10 /320;
+    float imgX = 16;
     float imgY = KMainScreenWidth* 10 /320;
     float imgWH =size.height - imgY*2;
     
@@ -32,7 +32,7 @@
     
     float lab3WH = KMainScreenWidth*70/414;
     float lab3Y =(size.height - lab3WH)/2;
-    float lab3X = size.width - 10 - lab3WH;
+    float lab3X = size.width - imgX - lab3WH;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3WH, lab3WH)];
     lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
@@ -63,7 +63,7 @@
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?14:12];
-    lab2.textColor = kMainGrayBackColor;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     //lab2.text = @"规格: 330ml       x1";
     [self addSubview:lab2];
     self.label2 = lab2;
@@ -78,7 +78,10 @@
     
     self.label3 = lab4;
     
-    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
     
 }
 
@@ -105,7 +108,7 @@
         [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     }else{
         self.stateBtn.text= @"已领取";
-        [self.stateBtn setBackgroundColor:kMainGrayBackColor];
+        [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainTitleColor]];
     }
 }
 

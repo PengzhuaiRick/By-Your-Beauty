@@ -7,7 +7,9 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UNIShopManage : NSObject
+@interface UNIShopManage : NSObject{
+    BOOL first; //如果是第一次表示为首页的获取，是要保存到本地
+}
 @property(nonatomic,copy)NSString* shopName;  //店铺名称
 @property(nonatomic,copy)NSString* shortName;  //店铺名称
 @property(nonatomic,copy)NSString* logoUrl;  //店铺logo地址
@@ -23,7 +25,12 @@
  *
  *  @param shop
  */
+-(id)initWithDictionary:(NSDictionary*)dic;
+
 +(void)saveShopData:(UNIShopManage*)shop;
 +(UNIShopManage*)getShopData;
 +(void)cleanShopinfo;
+
+#pragma mark 百度坐标 转 火星坐标
++(NSArray*)bd_decrypt:(double)bd_lat and:(double)bd_lon;
 @end

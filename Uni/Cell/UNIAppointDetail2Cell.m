@@ -19,7 +19,7 @@
 }
 -(void)setupUI:(CGSize)size{
     
-    float imgX = KMainScreenWidth* 16 /320;
+    float imgX = 16;
     float imgWH =KMainScreenWidth>400?25:20;
     float imgY = (size.height-imgWH)/2;
     
@@ -57,6 +57,10 @@
     _label2 =  lab2;
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 
 -(void)setupCellContentWithName:(NSString*)name andAdress:(NSString*)adress{

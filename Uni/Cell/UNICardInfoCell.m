@@ -35,11 +35,11 @@
     [self addSubview:itImg];
     self.img2 = itImg;
     
-    float lab1Y = 5;
-    float labX = CGRectGetMaxX(img.frame)+10;
-    float labW = size.width - labX-2*imgXY - itW;
-    float labH = size.height/2 - 5;
     
+    float labX = CGRectGetMaxX(img.frame)+10;
+    float labW = size.width - labX-imgXY - itW;
+    float labH = KMainScreenWidth>400?20:17;
+    float lab1Y = size.height/2 - labH - 2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
@@ -48,11 +48,11 @@
     [self addSubview:lab1];
     self.mainLab = lab1;
     
-    float lab1H = KMainScreenWidth*17/320;
-    float lab2Y = size.height/2+8;
+    float lab1H = KMainScreenWidth>400?19:16;
+    float lab2Y = size.height/2+2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:12];
-    lab2.textColor = kMainGrayBackColor;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self addSubview:lab2];
     self.subLab = lab2;
     
@@ -64,6 +64,10 @@
     [self addSubview:lab3];
     self.stateLab = lab3;
     
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(imgXY, size.height-1, size.width-2*imgXY, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 
 
@@ -76,6 +80,11 @@
     NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
     [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"KZ_img_userImg"]];
     self.mainLab.text = info.projectName;
+    [self.mainLab sizeToFit];
+    CGRect mR = self.mainLab.frame;
+    mR.origin.y = self.mainImage.center.y - mR.size.height - 2;
+    self.mainLab.frame = mR;
+    
     NSString* text2 = [info.date substringWithRange:NSMakeRange(5, 11)];
     self.subLab.text = text2;
     NSString* titel = nil;
@@ -92,7 +101,7 @@
         }
             break;
         case 3:{
-            self.stateLab.textColor = kMainGrayBackColor;
+            self.stateLab.textColor = [UIColor colorWithHexString:kMainTitleColor];
             titel = @"已取消";
         }
             break;

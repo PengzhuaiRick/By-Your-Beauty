@@ -21,12 +21,25 @@
 
 -(void)initHttpUrlManager:(NSDictionary*)dic{
     self.APP_KZ_URL = [self safeObject:dic ForKey:@"APP_KZ_URL"];
-    self.MY_LIBAO_SHARE_RUL = [self safeObject:dic ForKey:@"MY_LIBAO_SHARE_RUL"];
+    self.MY_LIBAO_SHARE_URL = [self safeObject:dic ForKey:@"MY_LIBAO_SHARE_URL"];
     self.WX_GET_PREAPYID = [self safeObject:dic ForKey:@"WX_GET_PREAPYID"];
     self.WX_HB_URL = [self safeObject:dic ForKey:@"WX_HB_URL"];
     self.WX_LIBAO_URL = [self safeObject:dic ForKey:@"WX_LIBAO_URL"];
     self.WX_SHARE_URL = [self safeObject:dic ForKey:@"WX_SHARE_URL"];
     self.MY_YH_URL = [self safeObject:dic ForKey:@"MY_YH_URL"];
+    self.APP_BWHL_SHARE_DESC = [self safeObject:dic ForKey:@"APP_BWHL_SHARE_DESC"];
+    self.APP_BWHL_SHARE_TITLE = [self safeObject:dic ForKey:@"APP_BWHL_SHARE_TITLE"];
+    self.APP_HB_SHARE_DESC = [self safeObject:dic ForKey:@"APP_HB_SHARE_DESC"];
+    self.APP_HB_SHARE_TITLE = [self safeObject:dic ForKey:@"APP_HB_SHARE_TITLE"];
+    self.APP_BWHL_SHARE_IMG = [self safeObject:dic ForKey:@"APP_BWHL_SHARE_IMG"];
+    self.APP_HB_SHARE_IMG = [self safeObject:dic ForKey:@"APP_HB_SHARE_IMG"];
+    self.APPOINT_SUCCESS = [self safeObject:dic ForKey:@"APPOINT_SUCCESS"];
+    self.GOTOBUY = [self safeObject:dic ForKey:@"GOTOBUY"];
+    self.IS_APPOINT = [self safeObject:dic ForKey:@"IS_APPOINT"];
+    self.NO_CASE_TIPS = [self safeObject:dic ForKey:@"NO_CASE_TIPS"];
+    self.NO_ORDER_TIPS = [self safeObject:dic ForKey:@"NO_ORDER_TIPS"];
+    self.APPOINT_DESC = [self safeObject:dic ForKey:@"APPOINT_DESC"];
+    self.MORE_YH_TIPS = [self safeObject:dic ForKey:@"MORE_YH_TIPS"];
     
     //NSLog(@"APP_KZ_URL %@  MY_LIBAO_SHARE_RUL %@     WX_GET_PREAPYID %@",self.APP_KZ_URL,self.MY_LIBAO_SHARE_RUL,self.WX_GET_PREAPYID);
 }

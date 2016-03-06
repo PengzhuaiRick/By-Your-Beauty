@@ -49,6 +49,9 @@
 		<string>iosamap</string>
 		<string>wechat</string>
 		<string>weixin</string>
+		<string>qqmap</string>
+		<string>comgooglemaps</string>
+		<string>alipay</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

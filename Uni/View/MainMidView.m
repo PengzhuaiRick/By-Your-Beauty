@@ -54,7 +54,7 @@
     float lab1H = 30;
     float lab1Y = noData.frame.size.height/2 - lab1H;
     UILabel* lab1 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y, lab1W, lab1H)];
-    lab1.textColor = kMainGrayBackColor;
+    lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab1.font = [UIFont systemFontOfSize:20];
     [noData addSubview:lab1];
     self.noDataLab1 = lab1;
@@ -63,7 +63,7 @@
     float lab2Y = CGRectGetMaxY(lab1.frame);
     UILabel* lab2 =[[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab2Y, lab1W, lab2H)];
     lab2.font = [UIFont systemFontOfSize:13];
-    lab2.textColor = kMainGrayBackColor;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab2.lineBreakMode = NSLineBreakByWordWrapping;
     lab2.numberOfLines = 0;
     [noData addSubview:lab2];

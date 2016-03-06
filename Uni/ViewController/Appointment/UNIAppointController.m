@@ -16,6 +16,7 @@
 //#import "UNIMyProjectModel.h"
 @interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate,UNIShopListControllerDelegate>
 {
+    UNIShopModel* shopModel;
     UNIShopView* shopView;
     UNIAppointTop* appointTop;
     UNIAppontMid* appontMid;
@@ -32,7 +33,7 @@
     self.title =self.model.projectName;
     [self setupMyScroller];
     [self setupShopView];
-    [self setupTopScrollerWithProjectId:self.model.projectId andCostime:self.model.costTime];
+    [self setupTopScrollerWithProjectId:_model.projectId andCostime:_model.costTime andShopId:[[AccountManager shopId] intValue]];
     [self setupMidScroller];
     [self setupBottomContent];
     [self regirstKeyBoardNotification];
@@ -58,6 +59,14 @@
     shop.backgroundColor = [UIColor whiteColor];
     [self.myScroller addSubview:shop];
     shopView = shop;
+    UNIShopManage* ma =[UNIShopManage getShopData];
+    shopModel = [[UNIShopModel alloc]init];
+    shopModel.x =[ma.x doubleValue];
+    shopModel.y =[ma.y doubleValue];
+    shopModel.address = ma.address;
+    shopModel.shopName = ma.shopName;
+    shopModel.telphone = ma.telphone;
+    shopModel.shortName = ma.shortName;
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
     [tap.rac_gestureSignal subscribeNext:^(id x) {
@@ -77,17 +86,19 @@
 #pragma mark 店铺列表页面代理方法
 -(void)UNIShopListControllerDelegateMethod:(id)model{
     UNIShopModel* info = model;
+    shopModel = info;
     shopView.nameLab.text = info.shortName;
     shopView.addressLab.text = info.address;
     shopView.shopId = info.shopId;
-    [appointTop removeFromSuperview];
-    appointTop = nil;
-    [self setupTopScrollerWithProjectId:info.shopId andCostime:self.model.costTime];
+//    [appointTop removeFromSuperview];
+//    appointTop = nil;
+//    [self setupTopScrollerWithProjectId:_model.projectId andCostime:_model.costTime andShopId:info.shopId];
+    [appointTop changeShopId:info.shopId];
 }
 #pragma mark 加载顶部Scroller
--(void)setupTopScrollerWithProjectId:(int)project andCostime:(int)cost{
+-(void)setupTopScrollerWithProjectId:(int)project andCostime:(int)cost andShopId:(int)shopId{
     float topY = CGRectGetMaxY(shopView.frame)+10;
-    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andProjectId:project andCostime:cost];
+    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andProjectId:project andCostime:cost andShopId:shopId];
     [self.myScroller addSubview:top];
     appointTop = top;
 }
@@ -111,7 +122,6 @@
          list.delegate = self;
          [self.navigationController pushViewController:list animated:YES];
      }];
-
 }
 #pragma mark 加载底部Scroller
 -(void)setupBottomContent{
@@ -140,12 +150,18 @@
     //检测是否有 预约时间点 存在，选择了预约时间点 才能进行 确定预约 否则预约按钮不可点击
     [RACObserve(appointTop, selectTime)
     subscribeNext:^(NSString* x) {
-        self->sureBtn.enabled =x.length>0;
+        if (x.length>0)
+            self->sureBtn.enabled=YES;
+        else
+            self->sureBtn.enabled =NO;
     }];
     
     
         [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
+//         if (self->appointTop.selectTime.length<1) {
+//             return ;
+//         }
 #ifdef IS_IOS9_OR_LATER
          UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"是否确定预约?" message:nil preferredStyle:UIAlertControllerStyleAlert];
          UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
@@ -163,7 +179,6 @@
              }
          }];
 #endif
-        
              }];
 }
 
@@ -192,7 +207,7 @@
                      if (order) {
                          //[YIToast showText:@"预约成功"];
 #ifdef IS_IOS9_OR_LATER
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"您的预约信息已提交，请等待店家确认。预约结果以短信回复为准" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"您的预约已提交，请等待店家确认。预约结果以短信回复为准" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         //[self locationNotificationTask:nil];
          [self locationNotificationTask:order];
@@ -200,7 +215,7 @@
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
 #else
-    [UIAlertView showWithTitle:@"您的预约信息已提交,请等待店家确认.\n预约结果以短信回复为准" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    [UIAlertView showWithTitle:@"您的预约已提交,请等待店家确认.\n预约结果以短信回复为准" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
         
             [self locationNotificationTask:order];
     }];
@@ -240,12 +255,26 @@
     //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
     
     
-    NSDictionary *infoDic = @{@"OrderId":order,@"useId":[AccountManager userId]};
+    NSDictionary *infoDic = @{@"OrderId":order,
+                              @"shopId":@(shopView.shopId),
+                              @"useId":[AccountManager userId],
+                              @"shopX":@(shopModel.x),
+                              @"shopY":@(shopModel.y),
+                              @"shopAddress":shopModel.address,
+                              @"shopName":shopModel.shopName};
     localNotification.userInfo = infoDic;
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     
-    NSDictionary* dib = @{@"time":strDate,@"OrderId":order,@"useId":[AccountManager userId],@"shopId":@(shopView.shopId)};
+    NSDictionary* dib = @{@"time":strDate,
+                          @"OrderId":order,
+                          @"useId":[AccountManager userId],
+                          @"shopId":@(shopView.shopId),
+                          @"shopX":@(shopModel.x),
+                          @"shopY":@(shopModel.y),
+//                          @"shopAddress":shopModel.address,
+//                          @"shopName":shopModel.shopName
+                          };
     NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
     NSArray* appointArr = [user objectForKey:@"appointArr"];
     NSMutableArray* arr;
@@ -305,32 +334,6 @@
 -(void)modifitacteAppontMid{
     // 添加项目和减少项目的时候 修改 appontMid 的高度 和 sureBtn 的位置
     NSArray* x = appontMid.myData;
-//        float yy =x.count*self->appontMid.cellH + 35+CGRectGetMinY(self->appontMid.frame)+CGRectGetMaxY(self->appontMid.lab1.frame);
-//        float viewH =x.count*self->appontMid.cellH + 35+CGRectGetMaxY(self->appontMid.lab1.frame)+10;
-//        if (yy<=self->sureBtn.frame.origin.y) {
-//            [UIView animateWithDuration:0.2 animations:^{
-//                CGRect btnRe = self->sureBtn.frame;
-//                btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
-//                self-> sureBtn.frame = btnRe;
-//            }];
-//        }else{
-//            viewH = self->_myScroller.contentSize.height - CGRectGetMinY(self->appontMid.frame) - 10;
-//            CGRect btnRe = self->sureBtn.frame;
-//            btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
-//            self-> sureBtn.frame = btnRe;
-//        }
-//        
-//        CGRect midRec =self-> appontMid.frame;
-//        midRec.size.height = viewH ;
-//        self-> appontMid.frame = midRec;
-//        
-//        CGRect tabRe = self->appontMid.myTableView.frame;
-//        tabRe.size.height = viewH - CGRectGetMaxY(self->appontMid.lab1.frame) - (KMainScreenWidth>320?50:40);
-//        self->appontMid.myTableView.frame =tabRe;
-//        
-//        CGRect addRec = self->appontMid.addProBtn.frame;
-//        addRec.origin.y =midRec.size.height - (KMainScreenWidth>320?45:35);
-//        self->appontMid.addProBtn.frame =addRec;
     
     if (x.count>1) {
         [UIView animateWithDuration:0.2 animations:^{
@@ -350,7 +353,7 @@
     if (count>3)
         count= 3;
     CGRect tabRe = self->appontMid.myTableView.frame;
-    tabRe.size.height = self->appontMid.cellH*x.count;
+    tabRe.size.height = self->appontMid.cellH*count;
     self->appontMid.myTableView.frame =tabRe;
     
     CGRect addRec = self->appontMid.addProBtn.frame;

@@ -11,7 +11,9 @@
 #import "UNIHttpUrlManager.h"
 #import "AccountManager.h"
 
-@interface UNIWalletController ()<UIWebViewDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface UNIWalletController ()<UIWebViewDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>{
+    UIWebView* _webView;
+}
 @property(strong,nonatomic)UITableView* myTable;
 @end
 
@@ -43,7 +45,10 @@
    //[self noDataView];
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
     web.delegate = self;
+    web.scrollView.delegate = self;
+    web.scrollView.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     [self.view addSubview:web];
+    _webView = web;
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
     NSString* str1 = [UNIHttpUrlManager sharedInstance].MY_YH_URL;
@@ -58,8 +63,12 @@
     
     [web loadRequest:request];//加载
 }
--(void)webViewDidFinishLoad:(UIWebView *)webView{
-    self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+}
+- (void)webViewDidFinishLoad:(UIWebView *)webView1{
+    self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
+    [LLARingSpinnerView RingSpinnerViewStop1];
 }
 
 -(void)noDataView{
@@ -125,16 +134,23 @@
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    if (self.containController.closing) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
+    if ([_webView canGoBack]) {
+        [_webView goBack];
+    }else{
+        if (self.containController.closing)
+            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
+        else
+            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
-    else{
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
-    }
-
-    
 }
 
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y<-170) {
+        if (_webView.loading)
+            return;
+        [_webView reload];
+    }
+}
 
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];

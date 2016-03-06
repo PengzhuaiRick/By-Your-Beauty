@@ -13,12 +13,13 @@
 #import "UNILoginViewRequest.h"
 #import "UNIHttpUrlManager.h"
 #import "AppDelegate.h"
-@interface UNITouristController ()<WXApiManagerDelegate>{
+@interface UNITouristController ()<WXApiManagerDelegate,UIScrollViewDelegate,UIWebViewDelegate>{
     UIView* shareView;
     UIView* bgView;
     int shopId;
     int projectId;
     NSString* wxOpenId;
+    UIWebView* _webView;
 }
 
 @end
@@ -35,7 +36,9 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(wxShareResult:) name:@"wxShareResult" object:nil];
     
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
-    //web.delegate = self;
+    web.delegate = self;
+    web.scrollView.delegate = self;
+    web.scrollView.backgroundColor=[UIColor colorWithHexString:kMainBackGroundColor];
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WXHB&a=test";
@@ -45,6 +48,8 @@
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
     [web loadRequest:request];//加载
+    
+    _webView = web;
     
     UNILoginViewRequest* rq = [[UNILoginViewRequest alloc]init];
     rq.rqTouristBlock=^(int shopId1,int projectId1,NSString* tips,NSError* er){
@@ -64,7 +69,7 @@
     
     SendAuthReq* req =[[SendAuthReq alloc] init];
     req.scope = @"snsapi_userinfo" ;
-    req.state = @"15017579092" ;
+    req.state = @"123456" ;
     //第三方向微信终端发送一个SendAuthReq消息结构
     if ([WXApi isWXAppInstalled]) {
         [WXApi sendReq:req];
@@ -95,11 +100,12 @@
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 }
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-   }
+- (void)webViewDidFinishLoad:(UIWebView *)webView1{
+    self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
+    [LLARingSpinnerView RingSpinnerViewStop1];
+}
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);
 }
@@ -117,7 +123,6 @@
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     [self dismissViewControllerAnimated:YES completion:^{
-        
     }];
 }
 
@@ -142,7 +147,7 @@
     UILabel* label= [[UILabel alloc]initWithFrame:CGRectMake(15, 10, 40,15)];
     label.text = @"分享到";
     label.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?12:10)];
-    label.textColor = kMainGrayBackColor;
+    label.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [view addSubview:label];
     
     float btnWH = KMainScreenWidth*45/320;
@@ -163,15 +168,18 @@
         [view addSubview:btn];
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
+             
+             UNIHttpUrlManager* urlManager =[UNIHttpUrlManager sharedInstance];
+             
              WXMediaMessage* message = [WXMediaMessage message];
-             message.title =@"真心朋友有多少，一分红包不嫌少！";
-             message.description =@"【只发给我真心的朋友】不要说你爱我有多深，让我看看你的心！马上戳进来，我在等你！";
+             message.title =urlManager.APP_HB_SHARE_TITLE;
+             message.description =urlManager.APP_HB_SHARE_DESC;
              //[message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];//测试图片
             [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/hb.jpg"]]]];//正式图片
              
              WXWebpageObject* web = [WXWebpageObject object];
 //              NSString* str1 = @"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWXHB%26a%3dcustomShareCallback&response_type=code&scope=snsapi_userinfo&state=$shopId***$openId***$projectId#wechat_redirect";
-              NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_SHARE_URL;
+              NSString* str1 = urlManager.WX_SHARE_URL;
               NSString* str2 = [str1 stringByReplacingOccurrencesOfString:@"$shopId" withString:[NSString stringWithFormat:@"%d",self->shopId]];
              NSString* str3 = [str2 stringByReplacingOccurrencesOfString:@"$openId" withString:self->wxOpenId];
              NSString* str4 = [str3 stringByReplacingOccurrencesOfString:@"$projectId" withString:[NSString stringWithFormat:@"%d",self->projectId]];
@@ -224,6 +232,14 @@
         self->shareView.alpha = 0;
         [self->shareView removeFromSuperview];
     }];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y<-170) {
+        if (_webView.loading)
+            return;
+        [_webView reload];
+    }
 }
 
 #pragma mark 微信分享成功后

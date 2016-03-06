@@ -223,10 +223,14 @@
 }
 
 -(void)removeController{
-    for (UIView* vi in self.view.subviews)
+    for (UIView* vi in self.view.subviews){
         [vi removeFromSuperview];
-    for (UIViewController* vc in self.childViewControllers)
+       // vi = nil;
+    }
+    
+    for (UIViewController* vc in self.childViewControllers){
         [vc removeFromParentViewController];
+    }
 }
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:CONTAITVIEWOPEN object:nil];

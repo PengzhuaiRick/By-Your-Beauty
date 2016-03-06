@@ -18,7 +18,7 @@
 }
 -(void)setupUI:(CGSize)size{
     
-    float imgX = KMainScreenWidth* 10 /320;
+    float imgX = 16;
     float imgY = KMainScreenWidth* 16 /320;
     float imgWH =size.height - imgY*2;
     
@@ -72,6 +72,11 @@
     lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab4];
     self.timeLab = lab4;
+    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
     
 }
 

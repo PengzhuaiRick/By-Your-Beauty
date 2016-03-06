@@ -49,9 +49,9 @@
 #define kMainGreenBackColor @"24CDB8"
 
 /**
- *  按钮背景灰色颜色
+ *  分割线颜色
  */
-#define kMainGrayBackColor [UIColor colorWithRed:180/255.f green:180/255.f blue:180/255.f alpha:1]
+#define kMainSeparatorColor @"eeeeee"
 
 /**
  *  字体

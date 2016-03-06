@@ -8,7 +8,9 @@
 
 #import "UNILawViewController.h"
 #import "UNILawRequest.h"
-@interface UNILawViewController ()
+@interface UNILawViewController ()<UIWebViewDelegate,UIScrollViewDelegate>{
+    UIWebView* webView;
+}
 
 @end
 
@@ -42,15 +44,32 @@
 }
 -(void)setupUI:(NSString*)url{
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,64,KMainScreenWidth, KMainScreenHeight-64)];
+    web.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    web.delegate = self;
+    web.scrollView.delegate = self;
     NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,url];
-   // NSLog(@"urlString %@",urlString);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [web loadRequest:request];
     [self.view addSubview:web];
+    webView = web;
 }
 -(void)navigationControllerLeftBarAction{
     [self.navigationController popViewControllerAnimated:YES];
 }
+-(void)webViewDidStartLoad:(UIWebView *)webView{
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+}
+-(void)webViewDidFinishLoad:(UIWebView *)webView{
+    [LLARingSpinnerView RingSpinnerViewStop1];
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView.contentOffset.y<-170) {
+        if (!webView.loading) {
+            [webView reload];
+        }
+    }
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

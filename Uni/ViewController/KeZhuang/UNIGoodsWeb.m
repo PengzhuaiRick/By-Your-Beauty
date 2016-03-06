@@ -8,9 +8,9 @@
 
 #import "UNIGoodsWeb.h"
 #import "UNIHttpUrlManager.h"
-@interface UNIGoodsWeb ()<UIWebViewDelegate>
+@interface UNIGoodsWeb ()<UIWebViewDelegate,UIScrollViewDelegate>
 {
-     UIActivityIndicatorView *testActivityIndicator;
+    UIWebView* webView;
 }
 @end
 
@@ -20,8 +20,21 @@
     [super viewDidLoad];
     [self setupNavigation];
     //self.title = @"由你商城";
-    UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
+    
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, KMainScreenHeight - 40,KMainScreenWidth, 30)];
+    lab.text = @"已显示全部内容";
+    lab.textColor = [UIColor colorWithRed:90/255.f green:90/255.f blue:90/255.f alpha:1];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.font = [UIFont boldSystemFontOfSize:14];
+    [self.view addSubview:lab];
+    
+    UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, KMainScreenWidth, KMainScreenHeight-64)];
     web.delegate = self;
+    web.scrollView.delegate = self;
+    web.backgroundColor = [UIColor clearColor];
+   // web.scrollView.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    web.scrollView.backgroundColor = [UIColor clearColor];
+    
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
    // NSURL* url = [NSURL URLWithString:@"http://uni.dodwow.com/uni_api/product/productlist.html"];//创建URL
@@ -29,23 +42,21 @@
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
     [web loadRequest:request];//加载
-}
+    webView = web;
+   }
 -(void)setupNavigation{
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-    testActivityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    testActivityIndicator.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
-    [self.view addSubview:testActivityIndicator];
-    // testActivityIndicator.color = [UIColor redColor]; // 改变圈圈的颜色为红色； iOS5引入
-    [testActivityIndicator startAnimating]; // 开始旋转
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 }
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [testActivityIndicator stopAnimating];
-    [testActivityIndicator removeFromSuperview];
-    
+- (void)webViewDidFinishLoad:(UIWebView *)webView1{
+    [LLARingSpinnerView RingSpinnerViewStop1];
     self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    
+    
+
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);
@@ -64,6 +75,14 @@
         
     }
     return YES;
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    //NSLog(@"%f",scrollView.contentOffset.y);
+    if (scrollView.contentOffset.y<-170) {
+        if (webView.loading)
+            return;
+        [webView reload];
+    }
 }
 
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{

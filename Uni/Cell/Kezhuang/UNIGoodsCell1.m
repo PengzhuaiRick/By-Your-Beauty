@@ -54,7 +54,7 @@
 //    lab2.text = @"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤.";
     lab2.lineBreakMode = 0;
     lab2.numberOfLines = 0;
-    lab2.textColor = kMainGrayBackColor;
+    lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self addSubview:lab2];
     self.label2= lab2;
     
@@ -88,6 +88,11 @@
     btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
     [self addSubview:btn];
     self.prideBtn = btn;
+    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(labX, size.height-1, size.width-2*labX, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 }
 
 

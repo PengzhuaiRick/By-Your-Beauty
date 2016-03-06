@@ -10,7 +10,7 @@
 #import "UNIRewardListCell.h"
 #import "UNIMyRewardRequest.h"
 #import <MJRefresh/MJRefresh.h>
-
+#import "UNIHttpUrlManager.h"
 @implementation UNIRewardListView
 
 -(id)initWithFrame:(CGRect)frame andState:(int)st{
@@ -44,6 +44,10 @@
             if (array.count>0)
                 [self.allArray addObjectsFromArray:array];
             
+            if (self.page> 0)
+                [self.allArray removeAllObjects];
+
+            
             [self setupTableView:array];
         });
         
@@ -52,6 +56,7 @@
 
 
 -(void)setupTableView:(NSArray*)arr{
+    noDataView.hidden = self.allArray.count>0;
     if (self.myTable){
         [self.myTable reloadData];
         if (arr.count<20){
@@ -68,9 +73,11 @@
     tabview.delegate = self;
     tabview.dataSource = self;
     tabview.showsVerticalScrollIndicator=NO;
+    tabview.separatorStyle = 0;
     [self addSubview:tabview];
     tabview.tableFooterView = [UIView new];
     self.myTable =tabview;
+    [self setupNodataView];
     
     tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self.page = 0;
@@ -84,7 +91,27 @@
    //self.myTable.footer.automaticallyHidden = YES;
    
 }
-
+-(void)setupNodataView{
+    
+    UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, _myTable.frame.size.height)];
+    nodata.hidden=YES;
+    [_myTable addSubview:nodata];
+    noDataView = nodata;
+    
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata1"]];
+    float imgWH = KMainScreenWidth>400?60:50,
+    imgX = (nodata.frame.size.width - imgWH)/2;
+    img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
+    [nodata addSubview:img];
+    
+    UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
+    lab.text=manager.NO_ORDER_TIPS;
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    [nodata addSubview:lab];
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.allArray.count;
     //return 10;

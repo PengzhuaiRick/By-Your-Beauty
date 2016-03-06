@@ -108,6 +108,11 @@
     img1.hidden= YES;
     [img addSubview:img1];
     self.overDusImg = img1;
+    
+    CALayer* LAY = [CALayer layer];
+    LAY.frame = CGRectMake(imgXY, size.height-1, size.width-2*imgXY, 1);
+    LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
+    [self.layer addSublayer:LAY];
 
 }
 -(void)setupCellContent:(id)model;{

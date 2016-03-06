@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "UNIShopManage.h"
 @interface UNIShopView : UIView
 @property(nonatomic,strong)UILabel* nameLab;
 @property(nonatomic,strong)UILabel* addressLab;

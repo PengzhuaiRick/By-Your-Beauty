@@ -12,7 +12,9 @@
 
 @end
 #import <UIKit/UIKit.h>
-@interface UNIRewardListView : UIView<UITableViewDataSource,UITableViewDelegate>
+@interface UNIRewardListView : UIView<UITableViewDataSource,UITableViewDelegate>{
+    UIView* noDataView;
+}
 @property(nonatomic, assign)int status;  //状态；-1—全部；0—未领；1—已领
 @property(nonatomic, assign)int page;  ////当前
 @property(nonatomic,strong)UITableView* myTable;
