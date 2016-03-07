@@ -12,6 +12,7 @@
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:0 reuseIdentifier:reuseIdentifier];
     if (self) {
+        cellS = cellSize;
         [self setupUI:cellSize];
     }
     return self;
@@ -27,13 +28,14 @@
     [self addSubview:img];
     self.mainImage = img;
     
-    float itW = KMainScreenWidth* 40/320;
-    float itH = KMainScreenWidth* 45/320;
+    float itW = KMainScreenWidth>400?50:45;
+    float itH = KMainScreenWidth>400?55:50;
     float itX = size.width - imgX - itW;
     float itY = (size.height - itH)/2;
     UIImageView* itImg = [[UIImageView alloc]initWithFrame:CGRectMake(itX, itY, itW, itH)];
-    //itImg.image = [UIImage imageNamed:@"appoint_img_intime"];
-    itImg.hidden=YES;
+    itImg.image = [UIImage imageNamed:@"appoint_img_intime"];
+    //itImg.hidden=YES;
+    itImg.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:itImg];
     self.intimeImg = itImg;
     
@@ -87,6 +89,7 @@
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
+    
     NSString* titel = nil;
     UIColor* stateColor = nil;
     switch (info.status) {
@@ -113,9 +116,28 @@
     if (info.ifIntime == 1) {
         self.intimeImg.hidden=NO;
         self.stateLab.hidden=YES;
+        
+        CGRect mainR = self.mainLab.frame;
+        mainR.size.width = cellS.width - mainR.origin.x -16 - self.intimeImg.frame.size.width;
+        self.mainLab.frame = mainR;
+        
+        CGRect subR = self.subLab.frame;
+        subR.size.width = cellS.width - subR.origin.x - 16 - self.intimeImg.frame.size.width;
+        self.subLab.frame = subR;
+
+        
     }else if (info.ifIntime == 0){
         self.intimeImg.hidden=YES;
         self.stateLab.hidden=NO;
+        
+        CGRect mainR = self.mainLab.frame;
+        mainR.size.width = cellS.width - mainR.origin.x -16;
+        self.mainLab.frame = mainR;
+        
+        CGRect subR = self.subLab.frame;
+        subR.size.width = cellS.width - subR.origin.x - 16;
+        self.subLab.frame = subR;
+        
     }
     
 }
@@ -126,6 +148,7 @@
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
+    
     NSString* titel = @"";
     UIColor* stateColor = nil;
     switch (info.status) {
@@ -144,9 +167,25 @@
     if (info.ifIntime == 1) {
         self.intimeImg.hidden=NO;
         self.stateLab.hidden=YES;
+        CGRect mainR = self.mainLab.frame;
+        mainR.size.width = cellS.width - mainR.origin.x -16 - self.intimeImg.frame.size.width;
+        self.mainLab.frame = mainR;
+        
+        CGRect subR = self.subLab.frame;
+        subR.size.width = cellS.width - subR.origin.x - 16 - self.intimeImg.frame.size.width;
+        self.subLab.frame = subR;
+        
     }else if (info.ifIntime == 0){
         self.intimeImg.hidden=YES;
         self.stateLab.hidden=NO;
+        
+        CGRect mainR = self.mainLab.frame;
+        mainR.size.width = cellS.width - mainR.origin.x -16;
+        self.mainLab.frame = mainR;
+        
+        CGRect subR = self.subLab.frame;
+        subR.size.width = cellS.width - subR.origin.x - 16;
+        self.subLab.frame = subR;
     }
     
 }

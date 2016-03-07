@@ -190,7 +190,8 @@
         tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     myTable =tabview;
     
-    float imgH = tabH*0.6;
+   // float imgH = tabH*0.6-20;
+    float imgH = KMainScreenWidth;
     topRe =CGRectMake(0,0,tabW,imgH);
     UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
     //topImg.image = [UIImage imageNamed:@"main_img_top"];
@@ -318,8 +319,9 @@
 
     
     UIImage* iage = [UIImage imageNamed:@"main_img_kezhuang"];
-    float imgVX = KMainScreenWidth>400?20:15;
-    float imgVH = cellHight/3;
+    //float imgVX = KMainScreenWidth>400?20:15;
+    float imgVX = 20;
+    float imgVH = cellHight/3.5;
     float imgVW = iage.size.width * imgVH / iage.size.height;
 //    float imgVW = KMainScreenWidth>400?50:40;
 //    float imgVH = (iage.size.height* imgVW / iage.size.width);
@@ -359,12 +361,12 @@
     float lab6H = 20;
    // float lab6Y = CGRectGetMaxY(lay.frame)+(KMainScreenWidth>400?30:25);
     float lab6Y = img.center.y - lab6H - 2;
-    float lab6X = CGRectGetMaxX(img.frame)+20;
+    float lab6X = 16+20+cellHight/3.5;
     float lab6W = imgW - lab6X - proX*2;
     UILabel* lab6 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab6Y, lab6W, lab6H)];
 //    lab6.text = @"ALBION清新莹润滋养护理（五次）";
     lab6.textColor = [UIColor whiteColor];
-    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
+    lab6.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:14];
     [imageView addSubview:lab6];
     sell1 = lab6;
     
@@ -386,7 +388,7 @@
     UILabel* lab8 = [[UILabel alloc]initWithFrame:CGRectMake(lab8X, lab8Y, lab8W, lab6H)];
 //    lab8.text = @"￥899";
     lab8.textColor = [UIColor whiteColor];
-    lab8.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?20:17)];
+    lab8.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?19:17)];
     [imageView addSubview:lab8];
     sell2 = lab8;
     

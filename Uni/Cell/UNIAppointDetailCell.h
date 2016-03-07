@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "UNIBaseCell.h"
-@interface UNIAppointDetailCell : UNIBaseCell
+@interface UNIAppointDetailCell : UNIBaseCell{
+    CGSize cellS;
+}
 @property (strong, nonatomic)  UIImageView *mainImage;
 @property (strong, nonatomic)  UIImageView *intimeImg;
 @property (strong, nonatomic)  UILabel *mainLab;

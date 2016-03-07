@@ -15,6 +15,11 @@
     UIView* shareView;
     UIView* bgView;
     UIWebView* webView;
+    
+    NSString* shareTitle;
+    NSString* shareDesc;
+    NSString* shareImg;
+    NSString* shareUrl;
 }
 
 @end
@@ -83,7 +88,26 @@
     
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
 }
-
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString* url = request.URL.absoluteString ;
+    NSLog(@"request.URL.absoluteString  %@",url);
+    if([url rangeOfString:@"id=2"].location !=NSNotFound){
+        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
+        shareTitle = urlManager.APP_BWHL_SHARE_TITLE;
+        shareDesc =urlManager.APP_BWHL_SHARE_DESC;
+        shareImg =urlManager.APP_BWHL_SHARE_IMG;
+        shareUrl = urlManager.MY_LIBAO_SHARE_URL;
+    }
+    if([url rangeOfString:@"id=11"].location !=NSNotFound){
+        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
+        shareTitle = urlManager.APP_HB_SHARE_TITLE;
+        shareDesc =urlManager.APP_HB_SHARE_DESC;
+        shareImg =urlManager.APP_HB_SHARE_IMG;
+        shareUrl = urlManager.WX_HB_URL;
+    }
+    return YES;
+}
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     if ([webView canGoBack]) {
@@ -139,7 +163,7 @@
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
         subscribeNext:^(UIButton* x) {
             
-            UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
+            //UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
             
             WXMediaMessage* message = [WXMediaMessage message];
             UNIShopManage* shop =[UNIShopManage getShopData];
@@ -149,13 +173,16 @@
             else
                 shopName =shop.shopName;
             //message.title =[NSString stringWithFormat:@"亲爱的，我已经参加动静界%@“百万豪礼快点点”活动，让我心动的都在这儿，是时候验证我们友情了！快帮我抢！",shopName];
-            message.title = urlManager.APP_BWHL_SHARE_TITLE;
-            message.description =urlManager.APP_BWHL_SHARE_DESC;
-            [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
+//            message.title = urlManager.APP_BWHL_SHARE_TITLE;
+//            message.description =urlManager.APP_BWHL_SHARE_DESC;
+            message.title = self->shareTitle;
+            message.description =self->shareDesc;
+            [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self->shareImg]]]];
+            //[message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
             
             WXWebpageObject* web = [WXWebpageObject object];
             //NSString* str1 =@"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWX%26a%3dgotoLibaoShare&response_type=code&scope=snsapi_userinfo&state={###}#wechat_redirec";
-            NSString* str1 = urlManager.MY_LIBAO_SHARE_URL;
+            NSString* str1 =self->shareUrl;
             NSString* str2 = [[AccountManager userId]stringValue];
             NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
             web.webpageUrl = [self URLEncodedString:str3];

@@ -22,7 +22,7 @@
 -(void)setupUI:(CGSize)size{
     cellH = size.height;
     
-    float imgX = KMainScreenWidth>400?20:15;
+    float imgX = 16;
    // float imgWH =KMainScreenWidth>400?50:40;
     float imgWH =size.height/3.5;
     float imgY = (size.height - imgWH)/2;
@@ -71,7 +71,7 @@
     float labH = KMainScreenWidth* 20/320;
     float lab1Y = size.height/2 - labH - 2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
-    lab1.textColor = [UIColor blackColor];
+    lab1.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
     [self addSubview:lab1];
     self.mainLab = lab1;

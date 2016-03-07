@@ -32,7 +32,6 @@
     web.delegate = self;
     web.scrollView.delegate = self;
     web.backgroundColor = [UIColor clearColor];
-   // web.scrollView.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     web.scrollView.backgroundColor = [UIColor clearColor];
     
     [self.view addSubview:web];
@@ -65,7 +64,9 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString* url = request.URL.absoluteString ;
-    
+    if (navigationType == UIWebViewNavigationTypeReload) {
+        return YES;
+    }
     if ([url rangeOfString:@"act=app"].location != NSNotFound) {
         NSArray* array = [url componentsSeparatedByString:@"&"];
         NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];

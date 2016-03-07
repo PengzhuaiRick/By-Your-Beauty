@@ -44,10 +44,6 @@
             if (array.count>0)
                 [self.allArray addObjectsFromArray:array];
             
-            if (self.page> 0)
-                [self.allArray removeAllObjects];
-
-            
             [self setupTableView:array];
         });
         
@@ -84,10 +80,13 @@
         [self startRequest];
     }];
     
-    tabview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        self.page++;
-        [self startRequest];
-    }];
+    if (self.allArray.count>19) {
+        tabview.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            self.page++;
+            [self startRequest];
+        }];
+    }
+    
    //self.myTable.footer.automaticallyHidden = YES;
    
 }

@@ -16,7 +16,7 @@
 #import "UNIPurChaseView.h"
 #import "UNIOrderListController.h"
 
-@interface UNIGoodsDeatilController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
+@interface UNIGoodsDeatilController ()<UIWebViewDelegate,UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIView* midView;
     UIView* bottomView;
     UILabel* priceLab;
@@ -28,6 +28,7 @@
     UNIPurChaseView* purView;
     UIView* bgView;
     BOOL ifFirst; //是否第一次消失
+    UIWebView* myWeb;
 }
 @property(nonatomic,assign)int num; //购买数量
 @property(nonatomic,strong)UIScrollView* myScroller;
@@ -114,19 +115,20 @@
 }
 
 -(void)setupBottomView{
-    float boH = KMainScreenWidth>400?100:90;
+    float boH = KMainScreenWidth>400?90:80;
     float boY = KMainScreenHeight - boH;
     UIView* bottom = [[UIView alloc]initWithFrame:CGRectMake(0, boY, KMainScreenWidth, boH)];
     bottom.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:bottom];
     bottomView = bottom;
     
-    float labX = KMainScreenWidth*30/414;
-    float labH = KMainScreenWidth*40/414;
-    float labY = KMainScreenWidth>400?10:5;
+    //float labX = KMainScreenWidth*30/414;
+    float labX = 20;
+    float labH = KMainScreenWidth>400?28:23;
+    float labY = boH/2 - labH - 5;
     float labW = KMainScreenWidth*300/414;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?25:20];
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?24:20];
     lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
 //    if (model.shopPrice>1)
 //        lab.text = [NSString stringWithFormat:@"￥%.f",model.shopPrice];
@@ -135,11 +137,12 @@
     [bottom addSubview:lab];
     priceLab = lab;
     
-    float lab2H = KMainScreenWidth>400?30:25;
-    float lab2Y =boH - lab2H - (KMainScreenWidth>400?20:12);
+    float lab2H = KMainScreenWidth>400?25:20;
+   // float lab2Y =boH - lab2H - (KMainScreenWidth>400?20:12);
+     float lab2Y =boH/2+5;
     float lab2W = KMainScreenWidth>400?75:65;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, lab2W, lab2H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:15];
+    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:14];
     lab2.text = @"购买数量:";
     [bottom addSubview:lab2];
 
@@ -298,23 +301,46 @@
     tabview.showsVerticalScrollIndicator=NO;
     [self.myScroller addSubview:tabview];
     self.myTable =tabview;
-    self.myTable.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+    
+    MJRefreshAutoNormalFooter* footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myScroller.frame.size.height*2);
         [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
         self.myTable.footer = nil;
         [self setupWebView];
 
     }];
+    [footer setTitle:@"继续拖动，查看图文详情" forState:1];
+    
+    tabview.footer =footer;
 }
-
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (scrollView == _myScroller) {
+        if (scrollView.contentOffset.y<-80) {
+            if (self->myWeb) {
+                if (self->myWeb.loading)
+                    return ;
+                [self->myWeb reload];
+            }
+        }
+    }
+}
 #pragma mark 加载webView
 -(void)setupWebView{
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_myTable.frame), _myTable.frame.size.width, _myScroller.frame.size.height)];
+    web.scrollView.delegate = self;
+    web.delegate= self;
     NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,model.url];
-    //NSLog(@"urlString %@",urlString);
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [web loadRequest:request];
     [_myScroller addSubview:web];
+    myWeb = web;
+}
+-(void)webViewDidStartLoad:(UIWebView *)webView{
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+}
+-(void)webViewDidFinishLoad:(UIWebView *)webView{
+    [LLARingSpinnerView RingSpinnerViewStop1];
+    [_myTable.header endRefreshing];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

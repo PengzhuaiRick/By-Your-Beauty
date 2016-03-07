@@ -35,20 +35,20 @@
 //    }
     
     
-    float labX = KMainScreenWidth*30/414;
+    float labX = 20;
     float labW = size.width - 2*labX;
-    float labH =KMainScreenWidth>400?20:17;
-    float lab1Y = CGRectGetMaxY(img.frame)+(KMainScreenWidth>400?10:5);
+    float labH =KMainScreenWidth>400?18:16;
+    float lab1Y = CGRectGetMaxY(img.frame)+10;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
     lab1.textColor = [UIColor blackColor];
 //    lab1.text = @"ALBION清新莹润滋养护理";
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:15];
+    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab1.lineBreakMode = 0;
     lab1.numberOfLines = 0;
     [self addSubview:lab1];
     self.label1 = lab1;
     
-    float lab2Y =CGRectGetMaxY(lab1.frame)+(KMainScreenWidth>400?10:5);
+    float lab2Y =CGRectGetMaxY(lab1.frame)+10;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
 //    lab2.text = @"采用世界知名化妆品牌ALBION奥碧虹的清新系列,完美护肤四步曲,打造有透明感及有弹性的肌肤.";
@@ -73,24 +73,24 @@
     [self addSubview:lab3];
     self.label3 = lab3;
     
-    float btnH = KMainScreenWidth>400?30:25;
-    float k = KMainScreenWidth>400?20:10;
+    float btnH = KMainScreenWidth>400?27:24;
+    float k = KMainScreenWidth>400?20:15;
     float btnY = size.height-btnH -k ;
-    float btnW = KMainScreenWidth* 100/320;
+    float btnW = KMainScreenWidth>400?90:80;
     UIButton* btn =[UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(labX, btnY, btnW, btnH);
     [btn setTitle:@"图文详情" forState:UIControlStateNormal];
     btn.layer.masksToBounds=YES;
-    btn.layer.cornerRadius = 5;
+    btn.layer.cornerRadius = 3;
     btn.layer.borderWidth = 0.5;
     btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
     [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?14:12];
     [self addSubview:btn];
     self.prideBtn = btn;
     
     CALayer* LAY = [CALayer layer];
-    LAY.frame = CGRectMake(labX, size.height-1, size.width-2*labX, 1);
+    LAY.frame = CGRectMake(16, size.height-1, size.width-32, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
 }
@@ -102,6 +102,10 @@
     [self.label1 sizeToFit];
     self.label2.text = info.effect;
      [self.label2 sizeToFit];
+    CGRect lab2R = self.label2.frame;
+    lab2R.origin.y = CGRectGetMaxY(self.label1.frame)+10;
+    self.label2.frame = lab2R;
+    
     NSArray* imgArr = [info.imgUrl componentsSeparatedByString:@","];
     float imgH = _mainImage.frame.size.height;
     float imgW = _mainImage.frame.size.width;
