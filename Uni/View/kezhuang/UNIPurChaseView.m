@@ -258,7 +258,8 @@
    // NSString* price = [NSString stringWithFormat:@"%.f",num*_model.shopPrice*100];
 //    NSString *urlString   = @"http://uni.dodwow.com/uni_pay/uni_wx_pay/api/unifiedorder.php";
     NSString *urlString   = [UNIHttpUrlManager sharedInstance].WX_GET_PREAPYID;
-    NSDictionary* dic = @{@"out_trade_no":orderNO,@"body":_model.projectName,
+    NSDictionary* dic = @{@"out_trade_no":orderNO,
+                          @"body":_model.projectName,
                           @"price":@(getPrice),
                           @"num":@(getNum),
                           @"mchid":mchid};

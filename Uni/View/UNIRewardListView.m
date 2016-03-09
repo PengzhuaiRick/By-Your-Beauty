@@ -93,7 +93,7 @@
 -(void)setupNodataView{
     
     UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, _myTable.frame.size.height)];
-    nodata.hidden=YES;
+    nodata.hidden=self.allArray.count>0;
     [_myTable addSubview:nodata];
     noDataView = nodata;
     

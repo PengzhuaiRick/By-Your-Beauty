@@ -112,6 +112,10 @@
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     if ([webView canGoBack]) {
         [webView goBack];
+        shareTitle = nil;
+        shareDesc =nil;
+        shareImg =nil;
+        shareUrl = nil;
     }else{
         if (self.containController.closing)
             [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];

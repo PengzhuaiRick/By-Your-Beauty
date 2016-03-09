@@ -17,7 +17,6 @@
     if (self) {
         self.status = st;
         self.allArray = [NSMutableArray array];
-        
          [self startRequest];
         //[self setupTableView];
     }
@@ -36,11 +35,13 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (array.count<20)
-                [self.myTable.footer setHidden:YES] ;
             
             if (self.page == 0)
                 [self.allArray removeAllObjects];
+            
+            
+            if (array.count<20)
+                [self.myTable.footer setHidden:YES] ;
             
                 [self.allArray addObjectsFromArray:array];
                 [self setupTableView];
@@ -50,7 +51,7 @@
 -(void)setupNodataView{
     
     UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _myTable.frame.size.width, _myTable.frame.size.height)];
-    nodata.hidden=YES;
+    nodata.hidden=self.allArray.count>0;
     [_myTable addSubview:nodata];
     noDataView = nodata;
     
@@ -72,7 +73,6 @@
 
 -(void)setupTableView{
 
-        
    self->noDataView.hidden=self.allArray.count>1;
     
     if (self.myTable){

@@ -23,7 +23,7 @@
     cellH = size.height;
     
     float imgX = 16;
-   // float imgWH =KMainScreenWidth>400?50:40;
+    //float imgWH =KMainScreenWidth>400?50:45;
     float imgWH =size.height/3.5;
     float imgY = (size.height - imgWH)/2;
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
@@ -66,6 +66,7 @@
     [self addSubview:btn];
     self.handleBtn =  btn;
     
+    //float labX = size.height/3.5+16+20;
     float labX = CGRectGetMaxX(img.frame)+20;
     float labW = size.width -labX*2;
     float labH = KMainScreenWidth* 20/320;
@@ -105,12 +106,18 @@
             NSString* str1 = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
             self.subLab .text = [NSString stringWithFormat:@"我已预约:%@",str1];
             self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            CGRect subR =self.subLab.frame;
+            subR.size.height = (KMainScreenWidth* 20/320);
+            self.subLab.frame = subR;
         }else{
             self.numLab.hidden=YES;
             self.mainImage.image = [UIImage imageNamed:@"main_img_nodata1"];
             self.mainLab.text = @"已约完!";
             self.subLab .text = [UNIHttpUrlManager sharedInstance].APPOINT_DESC;
             self.accessoryType = UITableViewCellAccessoryNone;
+            CGRect subR =self.subLab.frame;
+            subR.size.height = (KMainScreenWidth* 20/320)*2;
+            self.subLab.frame = subR;
         }
     }
     if (type == 2) {
@@ -123,21 +130,23 @@
             [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str]];
             self.mainLab.text = info.projectName;
             self.subLab .text = [NSString stringWithFormat:@"剩余%d次",info.num];
-            
+            CGRect subR =self.subLab.frame;
+            subR.size.height = (KMainScreenWidth* 20/320);
+            self.subLab.frame = subR;
         }else{
             self.handleBtn.hidden = YES;
             self.mainImage.image = [UIImage imageNamed:@"main_img_nodata2"];
             self.mainLab.text = @"马上购买去!";
-//            CGRect subR =self.subLab.frame;
-//            subR.size.width = self.mainLab.frame.size.width;
-//            self.subLab.frame = subR;
             self.subLab .text = @"空空如也没关系,\n一大波超值套餐正来袭";
+            CGRect subR =self.subLab.frame;
+            subR.size.height = (KMainScreenWidth* 20/320)*2;
+            self.subLab.frame = subR;
         }
     }
     
     
     [self.mainLab sizeToFit];
-    [self.subLab sizeToFit];
+
     
     CGRect mainLR = self.mainLab.frame;
     mainLR.origin.y = self.mainImage.center.y - mainLR.size.height - 2;

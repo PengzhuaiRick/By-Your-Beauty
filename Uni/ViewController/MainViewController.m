@@ -478,13 +478,13 @@
     }else if (tableView == footTableView){
         if (!cell){
             cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
-            cell.handleBtn.tag = indexPath.row+1;
             [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
              subscribeNext:^(UIButton* x) {
                  id model = self.bottomData[x.tag-1];
                  [self mainMidViewDelegataButton:model];
              }];
         }
+            cell.handleBtn.tag = indexPath.row+1;
             [cell setupCellWithData:_bottomData[indexPath.row] type:2 andTotal:-1];
     }
        return cell;

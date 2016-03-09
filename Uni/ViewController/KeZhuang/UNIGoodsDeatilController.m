@@ -359,10 +359,14 @@
     [cell setupCellContentWith:model];
     [[cell.prideBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(id x) {
-        UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-        UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
-        imgAndText.projectId = self->model.url;
-        [self.navigationController pushViewController:imgAndText animated:YES];
+//        UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+//        UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
+//        imgAndText.projectId = self->model.url;
+//        [self.navigationController pushViewController:imgAndText animated:YES];
+        self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myScroller.frame.size.height*2);
+        [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
+        self.myTable.footer = nil;
+        [self setupWebView];
     }];
             return cell;
 }

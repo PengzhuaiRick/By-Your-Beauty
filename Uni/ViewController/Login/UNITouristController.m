@@ -168,7 +168,9 @@
         [view addSubview:btn];
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
-             
+             if (!self->wxOpenId) {
+                 return ;
+             }
              UNIHttpUrlManager* urlManager =[UNIHttpUrlManager sharedInstance];
              
              WXMediaMessage* message = [WXMediaMessage message];
