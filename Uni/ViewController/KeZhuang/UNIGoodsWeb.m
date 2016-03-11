@@ -42,6 +42,8 @@
     
     [web loadRequest:request];//加载
     webView = web;
+    
+    web=nil;lab = nil;url=nil;request=nil;
    }
 -(void)setupNavigation{
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
@@ -74,6 +76,8 @@
         //[self.navigationController popViewControllerAnimated:YES];
         [self.delegate UNIGoodsWebDelegateMethodAndprojectId:projectId Andtype:type AndIsHeaderShow:0];
         
+        array=nil; projectId=nil;type=nil;
+        
     }
     return YES;
 }
@@ -87,13 +91,20 @@
 }
 
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
+   [LLARingSpinnerView RingSpinnerViewStop1];
+    //清除UIWebView的缓存
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
+-(void)dealloc{
+    //清除UIWebView的缓存
+   // [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    webView = nil;
+}
 /*
 #pragma mark - Navigation
 

@@ -18,6 +18,7 @@
     UITableView* myTableView;
     UILabel* topLab1;
     UILabel* topLab2;
+    UIView* noDataView;
     
 }
 @property(nonatomic, strong)NSMutableArray* myData;
@@ -137,12 +138,12 @@
             if (arr.count<20)
                 [self->myTableView.footer setHidden:YES];
            
-           
             if (self->pageNum == 0)
                 [self.myData removeAllObjects];
                 
                 [self.myData addObjectsFromArray:muArr1];
                 [self->myTableView reloadData];
+            self->noDataView.hidden = self.myData.count>0;
             
 //            else
 //                [YIToast showText:tips];
@@ -229,7 +230,7 @@
     
     int xx = 1;
     if (total>5) {
-        xx = total -4;
+       // xx = total -4;
         if (num>0) {
             xx = total-num>4?num:total - 4;
         }else
@@ -309,6 +310,7 @@
     myTableView.dataSource = self;
     myTableView.separatorStyle = 0;
     [self.view addSubview:myTableView];
+    [self setupNodataView];
     myTableView.tableFooterView = [UIView new];
     
     myTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -321,6 +323,30 @@
         }];
   
 }
+-(void)setupNodataView{
+    
+    UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0, 0, myTableView.frame.size.width, myTableView.frame.size.height)];
+    nodata.hidden=self.myData.count>0;
+    [myTableView addSubview:nodata];
+    noDataView = nodata;
+    
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata1"]];
+    float imgWH = KMainScreenWidth>400?60:50,
+    imgX = (nodata.frame.size.width - imgWH)/2;
+    img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
+    [nodata addSubview:img];
+    
+   // UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
+    lab.text=@"抱歉您还没有完成的预约哦！";
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    [nodata addSubview:lab];
+    
+    nodata=nil; img=nil; lab=nil;
+}
+
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.myData.count;

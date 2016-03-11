@@ -26,7 +26,7 @@
     //img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImg = img;
-
+    
     
     float lab1X = CGRectGetMaxX(img.frame)+5;
     float lab1W = size.width - lab1X -imgXY -KMainScreenWidth*40/320;
@@ -52,6 +52,7 @@
     [self addSubview:lab2];
     self.lab2 = lab2;
     
+    
     float lab3Y = size.height/2+5;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab3Y, lab1W, lab1H)];
     lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
@@ -59,10 +60,12 @@
     [self addSubview:lab3];
     self.lab3 = lab3;
     
+    
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(imgXY, size.height-1, size.width-2*imgXY, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil;lab3=nil;lab2=nil;lab1=nil;img=nil;
 }
 -(void)setupCellContent:(id)model{
     UNIOrderListModel*info = model;
@@ -89,6 +92,11 @@
     
     self.lab3.text = [NSString stringWithFormat:@"数量 x%d",info.num];
     [self.lab3 sizeToFit];
+    
+    info = nil;
+    arr = nil;
+    url = nil;
+    
 }
 
 @end

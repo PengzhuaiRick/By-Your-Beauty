@@ -28,12 +28,6 @@
     img.delegate = self;
     [self addSubview:img];
     self.mainImage = img;
-//    for (int i = 0; i<1; i++) {
-//        UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgWH, 0, imgWH, imgWH)];
-//        view.image= [UIImage imageNamed:@"KZ_img_bg"];
-//        [img addSubview:view];
-//    }
-    
     
     float labX = 20;
     float labW = size.width - 2*labX;
@@ -48,6 +42,7 @@
     [self addSubview:lab1];
     self.label1 = lab1;
     
+    
     float lab2Y =CGRectGetMaxY(lab1.frame)+10;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
@@ -57,6 +52,7 @@
     lab2.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self addSubview:lab2];
     self.label2= lab2;
+    
     
     float lab3Y = imgWH - KMainScreenWidth*30/320;
     float lab3H =KMainScreenWidth*15/320;
@@ -72,6 +68,7 @@
 //    lab3.text = @"1/1";
     [self addSubview:lab3];
     self.label3 = lab3;
+    
     
     float btnH = KMainScreenWidth>400?27:24;
     float k = KMainScreenWidth>400?20:15;
@@ -89,10 +86,13 @@
     [self addSubview:btn];
     self.prideBtn = btn;
     
+    
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(16, size.height-1, size.width-32, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil;img=nil;btn=nil;lab3=nil;lab2=nil;lab1=nil;
+
 }
 
 
@@ -118,13 +118,14 @@
     self.label3.text = [NSString stringWithFormat:@"1/%d",k];
     
     if (imgArr.count>0) {
-                for (int i = 0;i<k;i++) {
+        for (int i = 0;i<k;i++) {
             NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgArr[i]];
             UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgW, 0, imgW, imgH)];
                    // view.image= [UIImage imageNamed:@"KZ_img_bg"];
                     //view.contentMode = UIViewContentModeScaleAspectFit;
                     [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
-           [_mainImage addSubview:view];
+                    [_mainImage addSubview:view];
+                    str=nil; view = nil;
         }
     }else{
         NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.imgUrl];
@@ -132,9 +133,10 @@
         // view.contentMode = UIViewContentModeScaleAspectFit;
         [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
         [_mainImage addSubview:view];
+         str=nil; view = nil;
     }
 
-   
+    imgArr = nil;
     
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{

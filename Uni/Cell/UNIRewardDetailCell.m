@@ -27,6 +27,7 @@
     [self addSubview:view];
     self.progessView = view;
     
+    
     float labX = 16;
     float labW = KMainScreenWidth*100/320;
     float labH = KMainScreenWidth>400?20:18;
@@ -41,6 +42,7 @@
     [lab1 sizeToFit];
     [self addSubview:lab1];
    
+   
     
     float lab2X = CGRectGetMaxX(lab1.frame);
     float lab2W = KMainScreenWidth*40/320;
@@ -49,6 +51,7 @@
     lab2.textColor =[UIColor colorWithHexString:kMainThemeColor];
     [self addSubview:lab2];
     self.mainLab = lab2;
+   
     
     
 //    float lab3Y = size.height/2+5;
@@ -71,10 +74,12 @@
     [self addSubview:lab4];
     self.subLab = lab4;
     
+    
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(labX, size.height-1, size.width-2*labX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil;lab4=nil; lab2=nil; lab1=nil;view=nil;
 }
 
 
@@ -120,6 +125,8 @@
 //    self.progessView.total = info.rewardNum;
     
     [self.progessView setNum:total andTotal:info.rewardNum];
+    
+    info = nil;
 }
 
 

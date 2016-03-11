@@ -56,6 +56,8 @@
     tab.dataSource = self;
     [self addSubview:tab];
     _myTableview = tab;
+    
+    lab=nil;btn=nil;tab=nil;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
   
@@ -84,6 +86,8 @@
             lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?18:15];
             [cell addSubview:lab];
             
+            
+            imgView=nil; lab=nil;
         }
         switch (indexPath.row ) {
             case 0:
@@ -122,15 +126,16 @@
                         @"num":@(num)};
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetOutTradeNo] params:dic];
-    requet.kzgoodsGetOrderBlock=^(int _num,float _price,NSString* orderNo,NSString*tips,NSError* err){
+    requet.kzgoodsGetOrderBlock=^(float _price,NSString* orderNo,NSString*tips,NSError* err){
         [LLARingSpinnerView RingSpinnerViewStop1];
         if (err) {
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
         if (orderNo.length>0) {
-            self->getNum = _num;
-            self->getPrice = _price;
+//            self->getNum = _num;
+//            self->getPrice = _price;
+            self->tolPrice =_price;
             self->orderNO = orderNo;
             if ( self.payStyle ==3)
                 [self requestWXPayKey];
@@ -172,7 +177,7 @@
                           @"out_trade_no":orderNO,
                           @"subject":_model.projectName,
                           //@"total_fee":[NSString stringWithFormat:@"%.2f",num*_model.shopPrice],
-                          @"total_fee":[NSString stringWithFormat:@"%.2f",getNum*getPrice],
+                          @"total_fee":[NSString stringWithFormat:@"%.2f",tolPrice],
                           //@"total_fee":@"0.01",
                           @"notify_url":@"http://uni.dodwow.com/uni_pay/uni_alipay_wappay/notify_url.php",
                           @"service":@"mobile.securitypay.pay",
@@ -260,8 +265,8 @@
     NSString *urlString   = [UNIHttpUrlManager sharedInstance].WX_GET_PREAPYID;
     NSDictionary* dic = @{@"out_trade_no":orderNO,
                           @"body":_model.projectName,
-                          @"price":@(getPrice),
-                          @"num":@(getNum),
+                          @"price":@(tolPrice),
+                          @"num":@(1),
                           @"mchid":mchid};
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];

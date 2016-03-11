@@ -45,6 +45,7 @@
     [imgview addSubview:lab3];
     self.numLab = lab3;
     
+    
     float labX = CGRectGetMaxX(imgview.frame)+30;
     float labH = KMainScreenWidth*30/414;
     float labW = self.frame.size.width - labX;
@@ -53,7 +54,9 @@
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
     [self addSubview:lab];
     self.mainLab = lab;
-
+    lab=nil;
+    imgview=nil;
+    lab3=nil;
 }
 
 - (void)awakeFromNib {

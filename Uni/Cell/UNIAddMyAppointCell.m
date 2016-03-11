@@ -25,6 +25,7 @@
     self.mainImg = img;
     
     
+    
     float labX = CGRectGetMaxX(img.frame)+15;
     float labW = size.width -labX;
     float labH = KMainScreenWidth>400?20:17;
@@ -36,6 +37,7 @@
     [self addSubview:lab1];
     self.mainLab = lab1;
     
+    
     float lab1H = KMainScreenWidth>400?18:16;;
     float lab2Y = size.height/2+2;
     float lab2font =(KMainScreenWidth>400?16:13);
@@ -46,11 +48,13 @@
     [self addSubview:lab2];
     self.subLab = lab2;
     
+    
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
     
+    LAY=nil;img=nil; lab1=nil; lab2=nil;
 }
 
 - (void)awakeFromNib {

@@ -88,7 +88,7 @@
     }
     
    //self.myTable.footer.automaticallyHidden = YES;
-   
+    tabview=nil;
 }
 -(void)setupNodataView{
     
@@ -110,6 +110,8 @@
     lab.textAlignment = NSTextAlignmentCenter;
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [nodata addSubview:lab];
+    
+    nodata=nil;img=nil; lab=nil;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.allArray.count;

@@ -38,7 +38,16 @@
     self.view.frame = vRe;
     
     self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    [super viewDidDisappear:animated];
 }
+-(void)dealloc{
+    shopManage = nil;
+    _myTableView = nil;
+    _mapView = nil;
+    _order = nil;
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"预约详情";
@@ -102,6 +111,8 @@
                     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
                     MKCoordinateRegion adjustedRegion = [self->_mapView regionThatFits:viewRegion];//适配map view的尺寸
                     [self->_mapView setRegion:adjustedRegion animated:YES];
+                    
+                    arr=nil; end=nil;
                 }
                
             }
@@ -171,7 +182,10 @@
          eva.order = self.order;
          eva.shopId = self.shopId;
          [self.navigationController pushViewController:eva animated:YES];
+         eva = nil;
+         story=nil;
      }];
+       button = nil;
     }
      if (self.orderState < 2){
          float mapX = 16;
@@ -183,7 +197,9 @@
          mapView.zoomEnabled = YES;//支持缩放
          [view addSubview:mapView];
          _mapView = mapView;
+         mapView=nil;
     }
+    view=nil;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -220,7 +236,7 @@
         return cell;
     }else if (indexPath.row == self.modelArr.count+1)//最后一个Cell
     {
-        model = self.modelArr.lastObject;
+       // model = self.modelArr.lastObject;
         static NSString* name3 = @"UNIAppointDetail2Cell";
         UNIAppointDetail2Cell* cell = [tableView dequeueReusableCellWithIdentifier:name3];
         if (!cell) {
@@ -250,7 +266,7 @@
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 2)
+    if (indexPath.row == _modelArr.count+1)
         [self callOtherMapApp];
     
 }
@@ -294,6 +310,7 @@
     CLLocationCoordinate2D end = CLLocationCoordinate2DMake(shopManage.x, shopManage.y);
     UNITransfromX_Y* xy = [[UNITransfromX_Y alloc]initWithView:self.view withEndCoor:end withAim:shopManage.shopName];
     [xy setupUI];
+    xy=nil;
 }
 
 

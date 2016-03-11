@@ -21,19 +21,19 @@
 }
 
 #pragma mark 裁剪图片
--(UIImage*)getSubImage:(CGRect)rect andImage:(UIImage*)CGImage
-{
-    CGImageRef subImageRef = CGImageCreateWithImageInRect(CGImage.CGImage, rect);
-    CGRect smallBounds = CGRectMake(0, 0, CGImageGetWidth(subImageRef), CGImageGetHeight(subImageRef));
-    
-    UIGraphicsBeginImageContext(smallBounds.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextDrawImage(context, smallBounds, subImageRef);
-    UIImage* smallImage = [UIImage imageWithCGImage:subImageRef];
-    UIGraphicsEndImageContext();
-    
-    return smallImage;
-}
+//-(UIImage*)getSubImage:(CGRect)rect andImage:(UIImage*)CGImage
+//{
+//    CGImageRef subImageRef = CGImageCreateWithImageInRect(CGImage.CGImage, rect);
+//    CGRect smallBounds = CGRectMake(0, 0, CGImageGetWidth(subImageRef), CGImageGetHeight(subImageRef));
+//    
+//    UIGraphicsBeginImageContext(smallBounds.size);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextDrawImage(context, smallBounds, subImageRef);
+//    UIImage* smallImage = [UIImage imageWithCGImage:subImageRef];
+//    UIGraphicsEndImageContext();
+//    
+//    return smallImage;
+//}
 
 #pragma mark 按指定大小缩放图片
 - (UIImage*)imageCompressWithSimple:(UIImage*)image scaledToSize:(CGSize)size{

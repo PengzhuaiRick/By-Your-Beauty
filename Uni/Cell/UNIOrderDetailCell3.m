@@ -37,17 +37,20 @@
     lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab2];
     self.lab2 = lab2;
+   
     
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(lab1X, size.height-1, size.width-2*lab1X, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil;lab1=nil; lab2=nil;
     
 }
 -(void)setupCellContent:(id)model;{
     UNIOrderListModel*info = model;
     self.lab1.text = [NSString stringWithFormat:@"订单编号: %@",info.orderCode];
     self.lab2.text = [NSString stringWithFormat:@"下单时间: %@",info.time];
+    info=nil;
 }
 
 

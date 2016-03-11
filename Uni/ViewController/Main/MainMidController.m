@@ -28,8 +28,12 @@
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-
 }
+-(void)dealloc{
+    [self.myData removeAllObjects];
+    self.myData = nil;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupSelf];
@@ -59,6 +63,7 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.tableFooterView = [UIView new];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    view=nil;
 }
 #pragma mark 设置参数
 -(void)setupParams{
@@ -89,25 +94,22 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)setupTableviewHeader:(NSString*)string{
-    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, KMainScreenWidth*0.06)];
-    view.image =[UIImage imageNamed:@"mian_img_cellH"];
-    UILabel* lab = [[UILabel alloc]initWithFrame:
-                    CGRectMake(10, 5,  self.tableView.frame.size.width-10, KMainScreenWidth*0.05)];
-    lab.text=string;
-    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*0.043];
-    [view addSubview:lab];
-    self.tableView.tableHeaderView = view;
-}
+//-(void)setupTableviewHeader:(NSString*)string{
+//    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, KMainScreenWidth*0.06)];
+//    view.image =[UIImage imageNamed:@"mian_img_cellH"];
+//    UILabel* lab = [[UILabel alloc]initWithFrame:
+//                    CGRectMake(10, 5,  self.tableView.frame.size.width-10, KMainScreenWidth*0.05)];
+//    lab.text=string;
+//    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+//    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*0.043];
+//    [view addSubview:lab];
+//    self.tableView.tableHeaderView = view;
+//}
 
 -(void)setupTableviewFootView{
     UIView* bView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,  self.tableView.frame.size.width, 5)];
-//    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0,  self.tableView.frame.size.width, 5)];
-//    view.image =[UIImage imageNamed:@"main_img_cellF"];
-//    bView.backgroundColor = [UIColor clearColor];
-//    [bView addSubview:view];
     self.tableView.tableFooterView = bView;
+    bView=nil;
 }
 
 #pragma mark - Table view data source
@@ -124,7 +126,6 @@
     static NSString* name = @"CellName";
     MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell)
-       // cell = [[NSBundle mainBundle]loadNibNamed:@"MainMidCell" owner:self options:nil].lastObject;
         cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
     
     [cell setupCellContent:_myData[indexPath.row] andType:1];
@@ -139,6 +140,8 @@
     appoint.order =model.myorder;
     appoint.shopId = model.shopId;
     [self.navigationController pushViewController:appoint animated:YES];
+    appoint=nil;
+    story=nil;
     
 }
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -154,18 +157,6 @@
 -(void)deleteTableViewData:(int)Num{
     [self.tableView reloadData];
 }
-
-//#pragma mark <UINavigationControllerDelegate>
-//- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-//                                   animationControllerForOperation:(UINavigationControllerOperation)operation
-//                                                fromViewController:(UIViewController *)fromVC
-//                                                  toViewController:(UIViewController *)toVC{
-//    if ([toVC isKindOfClass:[UNIAppointDetail class]])
-//        return nil;
-//        MainMidMoveBackTransition *inverseTransition = [[MainMidMoveBackTransition alloc]init];
-//        return inverseTransition;
-//  
-//}
 
 #pragma mark 开始请求我已预约项目
 -(void)startRequestInfoPage{
@@ -201,48 +192,6 @@
     });
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

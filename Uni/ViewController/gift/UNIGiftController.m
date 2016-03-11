@@ -20,6 +20,7 @@
     NSString* shareDesc;
     NSString* shareImg;
     NSString* shareUrl;
+    UIBarButtonItem* rightBar;
 }
 
 @end
@@ -32,6 +33,7 @@
             ges.enabled=YES;
         }
     }
+    array=nil;
     [super viewWillAppear:animated];
     
 }
@@ -42,6 +44,7 @@
             ges.enabled=NO;
         }
     }
+    array = nil;
     [super viewWillDisappear:animated];
 }
 
@@ -67,6 +70,8 @@
 
     [web loadRequest:request];//加载
     webView = web;
+    web=nil;
+    str1 = nil; str2 = nil; str3 = nil; str4 = nil; str5 = nil; urlString = nil; url = nil; request = nil;
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
@@ -86,18 +91,21 @@
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
-    self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
+    rightBar =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString* url = request.URL.absoluteString ;
     NSLog(@"request.URL.absoluteString  %@",url);
+    
+    self.navigationItem.rightBarButtonItem = nil;
     if([url rangeOfString:@"id=2"].location !=NSNotFound){
         UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
         shareTitle = urlManager.APP_BWHL_SHARE_TITLE;
         shareDesc =urlManager.APP_BWHL_SHARE_DESC;
         shareImg =urlManager.APP_BWHL_SHARE_IMG;
         shareUrl = urlManager.MY_LIBAO_SHARE_URL;
+        self.navigationItem.rightBarButtonItem = rightBar;
     }
     if([url rangeOfString:@"id=11"].location !=NSNotFound){
         UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
@@ -105,6 +113,7 @@
         shareDesc =urlManager.APP_HB_SHARE_DESC;
         shareImg =urlManager.APP_HB_SHARE_IMG;
         shareUrl = urlManager.WX_HB_URL;
+        self.navigationItem.rightBarButtonItem = rightBar;
     }
     return YES;
 }
@@ -116,12 +125,14 @@
         shareDesc =nil;
         shareImg =nil;
         shareUrl = nil;
+        [self hidenShareView];
     }else{
         if (self.containController.closing)
             [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
         else
             [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
+    [LLARingSpinnerView RingSpinnerViewStop1];
 }
 
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
@@ -135,6 +146,7 @@
     bgView = bg;
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapGestureRecognizerAction:)];
     [bg addGestureRecognizer:tap];
+    tap=nil;
     
     float viewH = KMainScreenWidth* 100/320;
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, KMainScreenHeight, KMainScreenWidth,viewH)];
@@ -147,6 +159,7 @@
     label.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?12:10)];
     label.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [view addSubview:label];
+    label = nil;
     
     float btnWH = KMainScreenWidth*45/320;
     float btnY = 30;
@@ -170,26 +183,18 @@
             //UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
             
             WXMediaMessage* message = [WXMediaMessage message];
-            UNIShopManage* shop =[UNIShopManage getShopData];
-            NSString * shopName = nil;
-            if (shop.shortName.length>0)
-                shopName =shop.shortName;
-            else
-                shopName =shop.shopName;
-            //message.title =[NSString stringWithFormat:@"亲爱的，我已经参加动静界%@“百万豪礼快点点”活动，让我心动的都在这儿，是时候验证我们友情了！快帮我抢！",shopName];
-//            message.title = urlManager.APP_BWHL_SHARE_TITLE;
-//            message.description =urlManager.APP_BWHL_SHARE_DESC;
             message.title = self->shareTitle;
             message.description =self->shareDesc;
             [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self->shareImg]]]];
             //[message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
             
             WXWebpageObject* web = [WXWebpageObject object];
-            //NSString* str1 =@"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWX%26a%3dgotoLibaoShare&response_type=code&scope=snsapi_userinfo&state={###}#wechat_redirec";
             NSString* str1 =self->shareUrl;
             NSString* str2 = [[AccountManager userId]stringValue];
             NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
             web.webpageUrl = [self URLEncodedString:str3];
+            str1 = nil; str2 = nil; str3 = nil;
+            
             message.mediaObject = web;
             
             SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
@@ -213,7 +218,9 @@
         lab.textAlignment = NSTextAlignmentCenter;
 
         [view addSubview:lab];
-
+        
+        label = nil;
+        btn=nil;
     }
     
     CGRect viRe = view.frame;
@@ -222,6 +229,7 @@
         bg.alpha = 0.5;
         view.frame = viRe;
     }];
+    bg= nil;view = nil;   arr=nil; imgArr=nil;
 }
 
 -(void)tapGestureRecognizerAction:(UIGestureRecognizer*)ge{

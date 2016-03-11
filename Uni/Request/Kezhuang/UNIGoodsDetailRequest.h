@@ -34,7 +34,7 @@ typedef void(^KZGoodsInfoBlock)(NSArray* array,NSString* tips,NSError* er);
  *  @param tips  反馈信息
  *  @param er    错误信息
  */
-typedef void(^KZGoodsGetOrderBlock)(int num, float price,NSString* outTradeNo ,NSString* tips,NSError* er);
+typedef void(^KZGoodsGetOrderBlock)(float totalPrice,NSString* outTradeNo ,NSString* tips,NSError* er);
 
 /**
  *  获取支付宝 支付Key

@@ -38,6 +38,7 @@
     itImg.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:itImg];
     self.intimeImg = itImg;
+   
     
     float labX = CGRectGetMaxX(img.frame)+10;
     float labW = size.width - labX-2*imgX -itW;
@@ -51,6 +52,7 @@
     [self addSubview:lab1];
     self.mainLab = lab1;
     
+    
     float lab1H = KMainScreenWidth*17/320;
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
@@ -58,6 +60,7 @@
     lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [self addSubview:lab2];
     self.subLab = lab2;
+   
     
     float lab3Y = CGRectGetMaxY(lab2.frame);
     float lab3W = KMainScreenWidth*50/320;
@@ -67,6 +70,7 @@
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab3];
     self.stateLab = lab3;
+   
     
     float lab4W = KMainScreenWidth*150/320;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, lab4W, lab1H)];
@@ -74,11 +78,13 @@
     lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
     [self addSubview:lab4];
     self.timeLab = lab4;
+   
     
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil; img = nil; lab4=nil;  lab3=nil;  lab2=nil;lab1=nil; itImg = nil;
     
 }
 
@@ -89,6 +95,7 @@
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
+    str=nil;
     
     NSString* titel = nil;
     UIColor* stateColor = nil;
@@ -148,7 +155,7 @@
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
-    
+    str=nil;
     NSString* titel = @"";
     UIColor* stateColor = nil;
     switch (info.status) {

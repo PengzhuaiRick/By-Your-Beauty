@@ -56,6 +56,8 @@
     LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+   
+    LAY=nil;img=nil; lab1=nil; lab2=nil; lab3=nil;
 }
 
 
@@ -100,6 +102,7 @@
                 break;
         }
         self.stateLab.text = btnTitle;
+        btnTitle=nil; str1= nil;time=nil;str=nil; arr=nil;model=nil; imgUrl = nil;
     }
     if (type == 2) {
         UNIMyProjectModel* model = model1;
@@ -108,7 +111,8 @@
                           placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
         self.mainLab.text = model.projectName;
         self.subLab .text =[NSString stringWithFormat:@"剩余%d次",model.num];
-
+        model=nil;
+        str=nil;
     }
 }
 

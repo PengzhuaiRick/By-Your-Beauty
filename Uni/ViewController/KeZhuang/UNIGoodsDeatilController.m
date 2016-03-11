@@ -38,6 +38,7 @@
 @end
 
 @implementation UNIGoodsDeatilController
+
 -(void)viewWillDisappear:(BOOL)animated{
    
     [[NSNotificationCenter defaultCenter]removeObserver:self
@@ -51,12 +52,10 @@
     [super viewWillDisappear:animated];
 }
 -(void)viewDidDisappear:(BOOL)animated{
-
     if (!ifFirst) {
         ifFirst = YES;
         self.myScroller.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     }
-    
      [super viewDidDisappear:animated];
 }
 
@@ -101,6 +100,9 @@
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     if (self.myScroller.contentOffset.y == 0) {
+        [LLARingSpinnerView RingSpinnerViewStop1];
+        //清除UIWebView的缓存
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         [self.myScroller setContentOffset:CGPointMake(0, 0) animated:YES];
@@ -134,7 +136,7 @@
 //        lab.text = [NSString stringWithFormat:@"￥%.f",model.shopPrice];
 //    else
 //        lab.text = [NSString stringWithFormat:@"￥%.2f",model.shopPrice];
-    [bottom addSubview:lab];
+    [bottomView addSubview:lab];
     priceLab = lab;
     
     float lab2H = KMainScreenWidth>400?25:20;
@@ -144,7 +146,7 @@
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, lab2W, lab2H)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:14];
     lab2.text = @"购买数量:";
-    [bottom addSubview:lab2];
+    [bottomView addSubview:lab2];
 
     float btn1WH = lab2H;
     float btn1X = CGRectGetMaxX(lab2.frame)+5;
@@ -153,7 +155,7 @@
     [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
     [btn1 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     [btn1 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
-    [bottom addSubview:btn1];
+    [bottomView addSubview:btn1];
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          if (self.num>1) {
@@ -167,7 +169,7 @@
     text.keyboardType = UIKeyboardTypeNumberPad;
     text.textAlignment = NSTextAlignmentCenter;
     text.text=@"1";
-    [bottom addSubview:text];
+    [bottomView addSubview:text];
     numField = text;
     [text.rac_textSignal subscribeNext:^(NSString* x) {
         int k =[x intValue];
@@ -188,7 +190,7 @@
     tool.toolDelegate=self;
     [tool dismissTwoBtn];
     text.inputAccessoryView = tool;
-    
+    tool=nil;
     
     float btn2X = CGRectGetMaxX(text.frame);
     UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -196,7 +198,7 @@
     [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
     [btn2 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     [btn2 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
-    [bottom addSubview:btn2];
+    [bottomView addSubview:btn2];
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          ++self.num;
@@ -214,7 +216,7 @@
     btn3.titleLabel.numberOfLines = 0;
     [btn3 setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
     btn3.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
-    [bottom addSubview:btn3];
+    [bottomView addSubview:btn3];
     [btn3 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
     [btn3 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
     [btn3 setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
@@ -223,9 +225,10 @@
     btn3.layer.borderWidth =0.5;
     [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
-
          [self showThePayStyle];
      }];
+    
+    bottom = nil; btn3=nil; btn2=nil;text=nil; lab2=nil; lab=nil;
 }
 -(void)showThePayStyle{
     UIView* bg = [[UIView alloc]initWithFrame:self.view.frame];
@@ -250,6 +253,8 @@
         bg.alpha = 1;
         pur.alpha = 1;
     }];
+    
+    bg = nil; tap=nil; pur=nil;
 }
 
 #pragma mark 隐藏 purView 和 bgView
@@ -312,6 +317,8 @@
     [footer setTitle:@"继续拖动，查看图文详情" forState:1];
     
     tabview.footer =footer;
+    
+    tabview = nil; footer = nil;
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (scrollView == _myScroller) {
@@ -334,6 +341,7 @@
     [web loadRequest:request];
     [_myScroller addSubview:web];
     myWeb = web;
+    web=nil;
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
@@ -419,6 +427,7 @@
             UNIOrderListController* view = [[UNIOrderListController alloc]init];
             view.type = 1;
             [self.navigationController pushViewController:view animated:YES];
+            view=nil;
         }
     }];
     [alertController addAction:cancelAction];
@@ -429,6 +438,7 @@
             UNIOrderListController* view = [[UNIOrderListController alloc]init];
             view.type = 1;
             [self.navigationController pushViewController:view animated:YES];
+             view=nil;
         }
     }];
 #endif
@@ -448,6 +458,7 @@
             UNIOrderListController* view = [[UNIOrderListController alloc]init];
             view.type = 1;
             [self.navigationController pushViewController:view animated:YES];
+            view=nil;
         }
     }];
     [alertController addAction:cancelAction];
@@ -458,6 +469,7 @@
             UNIOrderListController* view = [[UNIOrderListController alloc]init];
             view.type = 1;
             [self.navigationController pushViewController:view animated:YES];
+            view=nil;
         }
     }];
 #endif
@@ -474,6 +486,8 @@
     CGRect boRe = bottomView.frame;
     boRe.origin.y -=keyboardSize.height;
     bottomView.frame = boRe;
+    
+    info=nil; value=nil;
 }
 #pragma mark 键盘隐藏
 -(void)keyboardWillHide:(NSNotification*)notifi{
@@ -507,6 +521,21 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)dealloc{
+    midView=nil;
+    bottomView = nil;
+    priceLab = nil;
+    numField=nil;
+    model=nil;
+    purView=nil;
+    bgView=nil;
+    myWeb=nil;
+    _myScroller=nil;
+    _myTable=nil;
+    _allArray=nil;
+    _projectId=nil;
+    _type = nil;
+}
 /*
 #pragma mark - Navigation
 

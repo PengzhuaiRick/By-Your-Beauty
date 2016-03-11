@@ -670,15 +670,14 @@
                 [AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
                 [AccountManager setLocalLoginName:field1.text];
-                //跳转
-                if (self->ifStatus == 3) {
-                    [self userIsTourist];
-               
-                }else{
+                //跳转  
+//                if (self->ifStatus == 3) {
+//                    [self userIsTourist];
+//                }else{
                     self.view.window.backgroundColor = [UIColor whiteColor];
                     AppDelegate* app = [UIApplication sharedApplication].delegate;
                     [app setupViewController];
-                }
+//                }
             }else
                 [YIToast showText:NETWORKINGPEOBLEM];
            // [YIToast showWithText:tips];

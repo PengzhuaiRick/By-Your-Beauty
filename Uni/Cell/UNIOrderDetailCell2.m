@@ -30,8 +30,7 @@
     lab1 .font =[UIFont systemFontOfSize:KMainScreenWidth*12/320];
     [self addSubview:lab1];
     self.lab1 = lab1;
-    
-    
+   
     
     float lab2W = KMainScreenWidth*60/320;
     float lab2X = size.width - lab2W - lab1X;
@@ -42,15 +41,18 @@
     lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [self addSubview:lab2];
     self.lab2 = lab2;
+    
   
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(lab1X, size.height-1, size.width-2*lab1X, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil;lab2=nil; lab1=nil;
 }
 -(void)setupCellContent:(id)model;{
     UNIOrderListModel*info = model;
     self.lab2.text = [NSString stringWithFormat:@"￥%.2f",[info.price floatValue]*info.num];
+    info=nil;
 }
 
 

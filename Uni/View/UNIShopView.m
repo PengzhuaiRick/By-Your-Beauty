@@ -62,7 +62,7 @@
     [self addSubview:lab2];
     _addressLab = lab2;
     
-
+    img=nil; img1=nil; lab1=nil;lab2=nil;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

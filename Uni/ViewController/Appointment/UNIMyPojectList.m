@@ -137,17 +137,25 @@
     UNIAddProjcetCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (model.select){
+        
+        _restTime +=(model.costTime* 60);
         model.select = NO;
         seletNum -- ;
         cell.handleImag.image= [UIImage imageNamed:@"addpro_btn_selelct1"];
     }
     else{
+        if (self.restTime >= (model.costTime* 60)) {
+            _restTime -=(model.costTime* 60);
+        }else{
+            [UIAlertView showWithTitle:@"提示" message:@"您添加的项目已经超出服务时间" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:nil];
+            return;
+        }
         model.select = YES;
         seletNum++;
         cell.handleImag.image= [UIImage imageNamed:@"addpro_btn_selelct2"];
     }
     numLab.text = [NSString stringWithFormat:@"%d",seletNum];
-    //cell.handleBtn.selected = model.select;
+
     
 }
 

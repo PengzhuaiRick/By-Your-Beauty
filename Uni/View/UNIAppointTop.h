@@ -35,6 +35,9 @@
 @property (assign ,nonatomic) int costTime;
 @property (assign ,nonatomic) int shopId;
 
+@property(strong,nonatomic)NSDate* finalTime;//最后可以选择的时间
+@property(strong,nonatomic)NSDate* startTime;//预约服务的时间
+
 -(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp;
 
 -(void)beforeRequest;

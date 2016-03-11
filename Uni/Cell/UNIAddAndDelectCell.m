@@ -26,6 +26,7 @@
     btn.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
     [self addSubview:btn];
     _delectBtn = btn;
+   
     
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     view.backgroundColor = [UIColor whiteColor];
@@ -33,13 +34,16 @@
     [self addSubview:view];
     _moveView = view;
     
+    
     UISwipeGestureRecognizer* swipe = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeGestureRecognizer:)];
     swipe.direction = UISwipeGestureRecognizerDirectionLeft;
     [view addGestureRecognizer:swipe];
     
+    
     UISwipeGestureRecognizer* swipe1 = [[UISwipeGestureRecognizer alloc]initWithTarget:self action:@selector(swipeGestureRecognizer:)];
      swipe1.direction = UISwipeGestureRecognizerDirectionRight;
     [view addGestureRecognizer:swipe1];
+    
     
     float imgX = KMainScreenWidth>400?20:16;
     float imgY = 8;
@@ -61,6 +65,7 @@
     [view addSubview:lab1];
     self.mainLab = lab1;
     
+    
     float lab1H = KMainScreenWidth>400?18:16;;
     float lab2Y = size.height/2+2;
     float lab2font =(KMainScreenWidth>400?16:13);
@@ -75,6 +80,9 @@
     LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [view.layer addSublayer:LAY];
+    LAY=nil;
+    view=nil;lab2=nil;lab1=nil;img=nil;swipe1=nil;swipe=nil; btn=nil;
+
 }
 
 
@@ -113,6 +121,10 @@
     CGRect moveR = _moveView.frame;
     moveR.origin.x = 0;
     self.moveView.frame = moveR;
+    
+    model=nil;
+    imgUrl=nil;
+    arr=nil;
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

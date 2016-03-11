@@ -15,7 +15,7 @@
 @property(nonatomic,copy) NSString* WX_HB_URL; ////女神开红包分享URL
 @property(nonatomic,copy) NSString* WX_LIBAO_URL; //我的礼包
 @property(nonatomic,copy) NSString* WX_SHARE_URL; //微信分享MY_YH_URL
-@property(nonatomic,copy) NSString* MY_YH_URL;
+@property(nonatomic,copy) NSString* MY_YH_URL;  //我的优惠
 @property(nonatomic,copy) NSString* APP_BWHL_SHARE_DESC;//百万好礼分享desc
 @property(nonatomic,copy) NSString* APP_BWHL_SHARE_TITLE;//百万好礼分享title
 @property(nonatomic,copy) NSString* APP_HB_SHARE_DESC;//红包游戏分享desc

@@ -18,8 +18,12 @@
         if (model)
         [_myData addObject:model];
         [self setupUI:frame];
+        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(delectTheAddProject) name:@"delectTheAddProject" object:nil];
     }
     return self;
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"delectTheAddProject" object:nil];
 }
 
 -(void)setupUI:(CGRect)frame{
@@ -55,6 +59,8 @@
     CGRect selfR = self.frame;
     selfR.size.height = CGRectGetMaxY(btn.frame)+5;
     self.frame = selfR;
+    
+    btn = nil;lab = nil;
     
 //    CALayer* lay = [CALayer layer];
 //    lay.frame = CGRectMake(10, CGRectGetMinY(btn.frame), _myTableView.frame.size.width - 20, 0.5);
@@ -108,30 +114,28 @@
     
     [cell setupCellContent:_myData[indexPath.row]];
     
-    
-//    if (indexPath.row>0) {
-//        NSMutableArray* arr = [NSMutableArray array];
-//        [arr sw_addUtilityButtonWithColor:[UIColor colorWithHexString:kMainThemeColor] title:@"删除"];
-//        cell.rightUtilityButtons = arr;
-//        cell.delegate = self;
-//    }else{
-//        cell.rightUtilityButtons = nil;
-//        cell.delegate = nil;
-//    }
-
-    
-   
     return cell;
 }
 
 
-#pragma mark SWTableViewCell 删除代理事件
-- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index{
-    NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
-    [self.myData removeObjectAtIndex:cellIndexPath.row];
-    [self.myTableView deleteRowsAtIndexPaths:@[cellIndexPath]
-                          withRowAnimation:UITableViewRowAnimationAutomatic];
-    
+//#pragma mark SWTableViewCell 删除代理事件
+//- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index{
+//    NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:cell];
+//    [self.myData removeObjectAtIndex:cellIndexPath.row];
+//    [self.myTableView deleteRowsAtIndexPaths:@[cellIndexPath]
+//                          withRowAnimation:UITableViewRowAnimationAutomatic];
+//    
+//    [self.delegate UNIAppontMidDelegateMethod];
+//}
+
+#pragma mark 移除添加的项目
+-(void)delectTheAddProject{
+    int count =(int)self.myData.count;
+    for (int i=0; i<count; i++) {
+        if (i>0)
+            [self.myData removeLastObject];
+    }
+    [self.myTableView reloadData];
     [self.delegate UNIAppontMidDelegateMethod];
 }
 

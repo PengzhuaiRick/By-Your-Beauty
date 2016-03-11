@@ -49,6 +49,7 @@
     [self addSubview:tab];
     _midTableview = tab;
    
+    tab = nil; lab = nil;lay = nil;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -102,6 +103,8 @@
         
         lab.frame= CGRectMake(labX, CGRectGetMaxY(imgVIew.frame)+15, labW, labH);
         [view addSubview:lab];
+        
+         imgVIew = nil; lab = nil;view = nil;
         return;
     }
     NSArray* array =[arr sortedArrayUsingComparator:^NSComparisonResult(UNIMyRewardModel* obj1, UNIMyRewardModel* obj2) {
@@ -118,6 +121,8 @@
     [self.dataArray addObjectsFromArray:array];
     self.midTableview.hidden=NO;
     [self.midTableview reloadData];
+    
+    array=nil;
 }
 
 /*

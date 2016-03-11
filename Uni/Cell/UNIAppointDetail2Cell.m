@@ -28,6 +28,7 @@
     img.image =[UIImage imageNamed:@"appoint_img_pin"];
     [self addSubview:img];
     self.mainImg = img;
+   
     
      //UNIShopManage* manager = [UNIShopManage getShopData];
     
@@ -55,12 +56,14 @@
     lab2.numberOfLines = 0;
     [self addSubview:lab2];
     _label2 =  lab2;
+    
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil;  img = nil; lab1=nil; lab2=nil;
 }
 
 -(void)setupCellContentWithName:(NSString*)name andAdress:(NSString*)adress{

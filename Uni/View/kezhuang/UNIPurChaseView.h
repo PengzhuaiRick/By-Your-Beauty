@@ -17,8 +17,9 @@
 @interface UNIPurChaseView : UIView<UITableViewDataSource,UITableViewDelegate>{
     int num; //购买数量
     NSString* orderNO; //订单号
-    int getNum; //获取回来的数量
-    float getPrice; //获取回来的单价
+//    int getNum; //获取回来的数量
+//    float getPrice; //获取回来的单价
+    float tolPrice; //获取回来的总价
 }
 
 @property(nonatomic,strong)UITableView* myTableview;

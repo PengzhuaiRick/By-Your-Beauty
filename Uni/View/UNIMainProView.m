@@ -39,7 +39,7 @@
     [self.layer addSublayer:progess];
     _progessLayer = progess;
     
-    
+    shape = nil; progess = nil;
 }
 -(void)drawRect:(CGRect)rect{
     CGFloat radius = self.frame.size.width/2;
@@ -54,6 +54,7 @@
     [progessBezier addArcWithCenter:center radius:radius-8 startAngle:0 endAngle:(_num * (M_PI*5/3) /_total) clockwise:YES];
     _progessLayer.path = progessBezier.CGPath;
     
+     bezier = nil; progessBezier = nil;
 }
 
 -(void)setShapeColor:(UIColor *)shapeColor{

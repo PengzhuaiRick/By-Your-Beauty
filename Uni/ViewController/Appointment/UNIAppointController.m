@@ -70,12 +70,15 @@
     
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
     [tap.rac_gestureSignal subscribeNext:^(id x) {
-        UNIShopListController* shop = [[UNIShopListController alloc]init];
-        shop.delegate = self;
-        [self.navigationController pushViewController:shop animated:YES];
+        UNIShopListController* shopC = [[UNIShopListController alloc]init];
+        shopC.delegate = self;
+        [self.navigationController pushViewController:shopC animated:YES];
+        shopC=nil;
+        
     }];
     [shop addGestureRecognizer:tap];
-    
+    tap=nil;
+    shop=nil;
 //    [[shop.listBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
 //    subscribeNext:^(id x) {
 //        UNIShopListController* shop = [[UNIShopListController alloc]init];
@@ -101,6 +104,7 @@
     UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andProjectId:project andCostime:cost andShopId:shopId];
     [self.myScroller addSubview:top];
     appointTop = top;
+    top = nil;
 }
 
 #pragma mark 加载中部Scroller
@@ -113,15 +117,28 @@
     appontMid = mid;
     
     
-    [[mid.addProBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    [[appontMid.addProBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-         self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@" " style:UIBarButtonItemStylePlain target:self action:nil];
+         NSTimeInterval diffTime = [self->appointTop.finalTime timeIntervalSinceDate:self->appointTop.startTime];
+         if (diffTime<10) {
+             [UIAlertView showWithTitle:@"提示" message:@"您选择的预约时间点不能添加项目了！" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
+             return ;
+         }
+         int allCost =0;
+         for (UNIMyProjectModel* model in self->appontMid.myData)
+             allCost += (model.costTime*60);
+         
+         
          UIStoryboard* stroy = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
          UNIMyPojectList* list = [stroy instantiateViewControllerWithIdentifier:@"UNIMyPojectList"];
-         list.projectIdArr = mid.myData;
+         list.projectIdArr = self->appontMid.myData;
          list.delegate = self;
+         list.restTime = diffTime - allCost + 30*60;
          [self.navigationController pushViewController:list animated:YES];
+         stroy=nil;
+         list=nil;
      }];
+    mid=nil;
 }
 #pragma mark 加载底部Scroller
 -(void)setupBottomContent{
@@ -180,6 +197,7 @@
          }];
 #endif
              }];
+    btn=nil;
 }
 
 -(void)startAppoint{
@@ -187,13 +205,22 @@
              UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
              NSMutableArray* arr = [NSMutableArray array];
               NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
+                NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+                [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+                NSDate *date1 = [dateFormatter dateFromString:date];
+                int cost = 0;
              for (UNIMyProjectModel* model in self->appontMid.myData) {
-    
+                 NSDate* costDate = [date1 dateByAddingTimeInterval:cost];
+                 NSString* str1 = [dateFormatter stringFromDate:costDate];
                  NSDictionary* dic1 = @{@"projectId":@(model.projectId),
-                                        @"date":date,
+                                        @"date":str1,
                                         @"costTime":@(model.costTime),
                                         @"num":@(1)};
                   [arr addObject:dic1];
+                 cost +=model.costTime*60;
+                 str1 =nil;
+                 costDate = nil;
+                 dic1 = nil;
              }
              [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
                            params:@{@"data":arr,@"shopId":@(shopView.shopId)}];
@@ -221,11 +248,12 @@
     }];
 #endif
                      }else
-                         [YIToast showText:@"预约失败"];
+                         [YIToast showText:@"您已经在这个点预约过了，请选择其他时间预约。"];
                  };
     
              });
-
+    
+    arr=nil; date = nil;
 }
 
 #pragma mark 添加本地通知任务

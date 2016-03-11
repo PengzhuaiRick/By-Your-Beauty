@@ -25,6 +25,7 @@
     [self addSubview:img];
     self.mainImage = img;
     
+    
     float itW = KMainScreenWidth>400?50:45;
     float itH = KMainScreenWidth>400?55:50;
     float itX = size.width - imgXY - itW;
@@ -48,6 +49,7 @@
     [self addSubview:lab1];
     self.mainLab = lab1;
     
+    
     float lab1H = KMainScreenWidth>400?19:16;
     float lab2Y = size.height/2+2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, lab1H)];
@@ -56,6 +58,7 @@
     [self addSubview:lab2];
     self.subLab = lab2;
     
+    
     float lab3W = itW;
     float lab3X = itX;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab2Y, lab3W, lab1H)];
@@ -63,11 +66,13 @@
     lab3.textAlignment = NSTextAlignmentCenter;
     [self addSubview:lab3];
     self.stateLab = lab3;
+   
     
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(imgXY, size.height-1, size.width-2*imgXY, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil; img=nil;  lab3=nil; lab2=nil; lab1=nil; itImg=nil;
 }
 
 
@@ -116,6 +121,8 @@
         self.img2.hidden=NO;
         self.stateLab.hidden =YES;
     }
+    imgUrl=nil;
+    arr = nil;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

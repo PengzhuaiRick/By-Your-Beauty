@@ -126,7 +126,9 @@
     [UIView animateWithDuration:1 animations:^{
             self.window.rootViewController.view.alpha = 1;
     }];
-    
+    st=nil;
+    tc=nil;
+    vc=nil;
 }
 
 #pragma mark 开始登陆界面
@@ -134,6 +136,7 @@
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
     UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"LoginController"];
     self.window.rootViewController = vc;
+    vc=nil;
 }
 
 #pragma mark 请求当前版本信息

@@ -177,7 +177,7 @@
         return cell;
     }else if (indexPath.row == self.modelArr.count+1)//最后一个Cell
     {
-        model = self.modelArr.lastObject;
+       // model = self.modelArr.lastObject;
         static NSString* name3 = @"UNIAppointDetail2Cell";
         UNIAppointDetail2Cell* cell = [tableView dequeueReusableCellWithIdentifier:name3];
         if (!cell) {

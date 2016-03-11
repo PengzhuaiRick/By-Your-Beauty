@@ -27,8 +27,7 @@
     //img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImg = img;
-    //    [self.mainImg sd_setImageWithURL:nil
-    //                    placeholderImage:[UIImage imageNamed:@"evaluete_img_reward"]];
+    
     
     float lab3WH =KMainScreenWidth* 70/414;
     float lab3Y =(size.height - lab3WH)/2;
@@ -44,8 +43,7 @@
     lab3.layer.cornerRadius = lab3WH/2;
     [self addSubview:lab3];
     self.stateBtn = lab3;
-    //    self.stateBtn.text= @"到店\n领取";
-    //    [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+    
     
     
     float labX = CGRectGetMaxX(img.frame)+10;
@@ -58,6 +56,7 @@
     // lab1.text = @"ALBION 爽肤精体液";
     [self addSubview:lab1];
     self.label1 = lab1;
+    
     
     float lab1H = KMainScreenWidth*17/320;
     float lab2Y = size.height/2;
@@ -75,14 +74,14 @@
     lab4.textColor = [UIColor colorWithHexString:kMainThemeColor];
     // lab4.text = @"9-21 15:20";
     [self addSubview:lab4];
-    
     self.label3 = lab4;
+    
     
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
-    
+    LAY=nil;img=nil;lab4=nil;lab2=nil;lab1=nil;lab3=nil;
 }
 
 
@@ -109,6 +108,8 @@
             self.stateBtn.text= @"已领取";
             [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainTitleColor]];
         }
+    
+    imgUrl =nil; arr=nil;
 }
 
 

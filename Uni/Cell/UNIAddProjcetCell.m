@@ -26,6 +26,7 @@
     [self addSubview:img];
     self.mainImage = img;
     
+    
     float btnWH =KMainScreenWidth*20/320;
     float btnY = (size.height - btnWH)/2;
     float btnX = size.width - 20 - btnWH;
@@ -46,6 +47,7 @@
     [self addSubview:hImag];
     _handleImag = hImag;
     
+    
     float labX = CGRectGetMaxX(img.frame)+20;
     float labW = size.width -CGRectGetMaxX(img.frame) - imgX - btnWH-10;
     float labH = KMainScreenWidth* 20/320;
@@ -56,6 +58,7 @@
     [self addSubview:lab1];
     self.mainLab = lab1;
     
+    
     float lab2Y = size.height/2;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
@@ -63,10 +66,12 @@
     [self addSubview:lab2];
     self.subLab = lab2;
     
+    
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(imgX, size.height-1, size.width-2*imgX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil;img=nil;lab2=nil;lab1=nil;hImag=nil;
     
 }
 -(void)setupCellWithData:(id)model{
@@ -84,6 +89,10 @@
     }else{
         self.handleBtn.selected = NO;
     }
+    arr=nil;
+    imgUrl=nil;
+    info=nil;
+    str=nil;
 }
 
 

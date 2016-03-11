@@ -26,6 +26,7 @@
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab1];
     self.label1 = lab1;
+   
     
     float lab2Y = CGRectGetMaxY(lab1.frame);
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, labW, labH)];
@@ -33,6 +34,7 @@
     lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab2];
     self.label2 = lab2;
+   
 
     float lab3Y = CGRectGetMaxY(lab2.frame);
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab3Y, labW, labH)];
@@ -40,11 +42,13 @@
     lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     [self addSubview:lab3];
     self.label3 = lab3;
+    
 
     CALayer* LAY = [CALayer layer];
     LAY.frame = CGRectMake(labX, size.height-1, size.width-2*labX, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    LAY=nil; lab3=nil;  lab2=nil; lab1=nil;
 }
 
 -(void)setupCellContentWith:(NSArray*)model{
@@ -62,13 +66,19 @@
         NSString* str2 = [time2 stringByReplacingOccurrencesOfString:@"-" withString:@"."];
         self.label3.text =[NSString stringWithFormat:@"取消时间 : %@",str2];
         //self.label3.text =[NSString stringWithFormat:@"取消时间 : %@",[model[3] substringToIndex:16]];
+        text2=nil; time2=nil; str2 = nil;
     }
     
+    text1=nil;  time=nil; str1=nil;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
 }
-
+-(void)dealloc{
+    self.label1=nil;
+    self.label2 = nil;
+    self.label3=nil;
+}
 @end

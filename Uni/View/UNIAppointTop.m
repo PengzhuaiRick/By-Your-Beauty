@@ -204,9 +204,9 @@
        
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x){
-            
              [self dateBtnAction:x];
         }];
+        btn=nil;
     }
     
     float arrowW =KMainScreenWidth*5/320;
@@ -217,6 +217,8 @@
     arrow.image = [UIImage imageNamed:@"appoint_img_arrows"];
     [_topScroller addSubview:arrow];
     arrowImg = arrow;
+    
+    arrow=nil; view = nil;
 
 }
 -(void)dateBtnAction:(UIButton*)x{
@@ -337,7 +339,7 @@
              }
          }
      }];
-    
+    btn4=nil;  btn3=nil; recognizer1=nil;recognizer=nil;secondV=nil; lab=nil; view=nil;
 }
 
 -(void)setupMidScroller{
@@ -392,6 +394,21 @@
         if(i == 0){
             but.selected=YES;
             self.selectTime =[dic valueForKey:@"time"];
+            
+            self.startTime = nil;
+            NSString* str = [NSString stringWithFormat:@"%@ %@",self.selectDay,self.selectTime];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            self.startTime = [dateFormatter dateFromString:str];
+            dateFormatter = nil; str=nil;
+        }
+        if (i == cout-1) {
+            self.finalTime=nil;
+            NSString* str = [NSString stringWithFormat:@"%@ %@",_selectDay,[dic valueForKey:@"time"]];
+            NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+            [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+            self.finalTime = [dateFormatter dateFromString:str];
+            dateFormatter = nil; str=nil;
         }
         [but setTitle:[dic valueForKey:@"time"] forState:UIControlStateNormal];
         but.tag = 10+i;
@@ -409,6 +426,7 @@
             lay.frame = CGRectMake(0, 0, btnW, 0.5);
             lay.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1].CGColor;
             [but.layer addSublayer:lay];
+            lay=nil;
         
         if (i%3<2) {
             CALayer* lay1 = [CALayer layer ];
@@ -417,20 +435,31 @@
             lay1.frame = CGRectMake(btnW-1, layY, 0.5, layH);
             lay1.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1].CGColor;
             [but.layer addSublayer:lay1];
+            lay1=nil;
         }
         
         [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
-             //self.member=1;//重置人数
              x.selected = YES;
-             //NSDictionary* dic = self->freeTimes[x.tag-10];
-             //self.maxNum = [[dic objectForKey:@"num"] intValue];
              self.selectTime = [x titleForState:UIControlStateNormal];
              for (UIButton* k in self->midBtns) {
                  if (k!=x)
                      k.selected=NO;
              }
+             self.startTime = nil;
+             NSString* str = [NSString stringWithFormat:@"%@ %@",self.selectDay,self.selectTime];
+             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+             [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+             self.startTime = [dateFormatter dateFromString:str];
+             dateFormatter = nil; str=nil;
+             
+             //通知移除添加的项目
+             [[NSNotificationCenter defaultCenter]postNotificationName:@"delectTheAddProject" object:nil];
+             //delectTheAddProject
+             
+
         }];
+        but = nil;
     }
 }
 

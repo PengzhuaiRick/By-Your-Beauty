@@ -62,6 +62,7 @@
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
     [web loadRequest:request];//加载
+    web=nil; str2= nil; str3 = nil; str1= nil; str4= nil; str5= nil;url=nil; request = nil; urlString = nil;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
@@ -80,6 +81,7 @@
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [self.view addSubview:lab];
+    lab = nil;
 }
 -(void)setupNavigation{
     self.title = @"我的优惠";
@@ -101,6 +103,7 @@
         tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     }
     self.myTable =tabview;
+    tabview = nil;
     
 //    self.myTable.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
 //        self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myScroller.frame.size.height*2);
@@ -142,6 +145,7 @@
         else
             [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
+    [LLARingSpinnerView RingSpinnerViewStop1];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

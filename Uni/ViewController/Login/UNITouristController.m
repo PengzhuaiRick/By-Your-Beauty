@@ -123,6 +123,9 @@
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     [self dismissViewControllerAnimated:YES completion:^{
+        self.view.window.backgroundColor = [UIColor whiteColor];
+        AppDelegate* app = [UIApplication sharedApplication].delegate;
+        [app setupViewController];
     }];
 }
 
@@ -177,7 +180,7 @@
              message.title =urlManager.APP_HB_SHARE_TITLE;
              message.description =urlManager.APP_HB_SHARE_DESC;
              //[message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];//测试图片
-            [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/hb.jpg"]]]];//正式图片
+            [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:urlManager.APP_HB_SHARE_IMG]]]];//正式图片
              
              WXWebpageObject* web = [WXWebpageObject object];
 //              NSString* str1 = @"https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxa800a6e6210b0f6e&redirect_uri=http%3a%2f%2funi.dodwow.com%2funi_api%2fapi.php%3fc%3dWXHB%26a%3dcustomShareCallback&response_type=code&scope=snsapi_userinfo&state=$shopId***$openId***$projectId#wechat_redirect";
@@ -185,8 +188,7 @@
               NSString* str2 = [str1 stringByReplacingOccurrencesOfString:@"$shopId" withString:[NSString stringWithFormat:@"%d",self->shopId]];
              NSString* str3 = [str2 stringByReplacingOccurrencesOfString:@"$openId" withString:self->wxOpenId];
              NSString* str4 = [str3 stringByReplacingOccurrencesOfString:@"$projectId" withString:[NSString stringWithFormat:@"%d",self->projectId]];
-             
-            
+
              web.webpageUrl =str4 ; //[self URLEncodedString:str4];
              message.mediaObject = web;
              
@@ -200,6 +202,10 @@
              rep.message = message;
              [WXApi sendReq:rep];
              [self hidenShareView];
+             str1= nil;
+             str2 = nil;
+             str3 = nil;
+             str4=nil;
          }];
         
         float labX =btnxx-5;

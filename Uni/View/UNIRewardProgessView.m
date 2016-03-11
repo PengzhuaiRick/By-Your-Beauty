@@ -48,6 +48,7 @@
         LAB.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14) weight:0];
         LAB.text = @"可领取";
         [self addSubview:LAB];
+        LAB = nil;
     }
 }
 - (void)drawRect:(CGRect)rect {

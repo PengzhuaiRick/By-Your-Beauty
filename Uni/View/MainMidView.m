@@ -31,6 +31,7 @@
     [self addSubview:tab];
     tab.tableFooterView = [UIView new];
     _midTableview = tab;
+    tab = nil;
 
 }
 #pragma mark 设置无数据页面
@@ -68,6 +69,8 @@
     lab2.numberOfLines = 0;
     [noData addSubview:lab2];
     self.noDataLab2 = lab2;
+    
+    noData = nil;imgView = nil;lab1 = nil;lab2 = nil;
 }
 
 -(void)setupNoDataViewSubView:(int)ty{
@@ -95,6 +98,8 @@
     [self addSubview:view];
     self.titleLab = lab;
    // _midTableview.tableHeaderView = view;
+    
+    view = nil;lab = nil;
 }
 
 
@@ -105,6 +110,7 @@
     UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, viewY,  self.frame.size.width,viewH)];
     view.image =[UIImage imageNamed:@"main_img_cellF"];
     [self addSubview:view];
+    view=nil;
     //_midTableview.tableFooterView = view;
     
 //    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _midTableview.frame.size.width, 5)];

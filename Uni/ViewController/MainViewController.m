@@ -8,7 +8,7 @@
 
 #import "MainViewController.h"
 #import "MainMidController.h"
-#import "MainBottomController.h"
+//#import "MainBottomController.h"
 #import "MainMoveTransition.h"
 #import "MainViewRequest.h"
 #import "AccountManager.h"
@@ -25,7 +25,7 @@
 
 @interface MainViewController ()</*UINavigationControllerDelegate,*/MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
-    UITableView* footTableView;
+  //  UITableView* footTableView;
     float cellHight;
     int appointTotal;
     int type1;
@@ -55,8 +55,8 @@
 }
 @property(nonatomic,strong) NSArray* midData;
 @property(nonatomic,strong) NSArray* bottomData;
-@property(nonatomic,strong) MainMidController* midController ;
-@property(nonatomic,strong) MainBottomController* buttomController;
+//@property(nonatomic,strong) MainMidController* midController ;
+//@property(nonatomic,strong) MainBottomController* buttomController;
 @end
 
 @implementation MainViewController
@@ -213,6 +213,9 @@
         [self getSellInfo]; //获取首页销售商品
         //[self startRequestProjectInfo];//请求我的项目
     }];
+    
+    tabview = nil;
+    topImg=nil;
 }
 
 #pragma mark 创建  tableHeaderView
@@ -241,18 +244,22 @@
     [imageView addSubview:shuangfu];
     goodsImg = shuangfu;
     
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
-//    [[tap rac_gestureSignal] subscribeNext:^(id x) {
-//        if (self->goodId1<1)
-//            return ;
-//        NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
-//        NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
-//        //[self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
-//        [self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
-//    }];
-//    [shuangfu addGestureRecognizer:tap];
-   
-    
+    UIButton* proBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    proBtn.frame = progessView.frame;
+    [[proBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         if (self->goodId1<1)
+             return ;
+         NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
+         NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
+         //[self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
+         [self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
+         str1=nil;
+         str2=nil;
+     }];
+    [imageView addSubview:proBtn];
+    proBtn=nil;
+
     float lab1W = proW;
     float lab1H = 25;
     float lab1Y = CGRectGetMaxY(proView.frame)-lab1H/2 -5;
@@ -316,7 +323,7 @@
     lay.frame = CGRectMake(layX, layY, layW, 0.5);
     lay.backgroundColor = [UIColor whiteColor].CGColor;
     [imageView.layer addSublayer:lay];
-
+   
     
     UIImage* iage = [UIImage imageNamed:@"main_img_kezhuang"];
     //float imgVX = KMainScreenWidth>400?20:15;
@@ -411,36 +418,39 @@
         UNIGoodsWeb* web = [[UNIGoodsWeb alloc]init];
         web.delegate = self;
         [self.navigationController pushViewController:web animated:YES];
+        web=nil;
     }];
     alphBtn = alpBtn;
+    
+    alpBtn=nil; lab2=nil;lab3=nil;lab4=nil;lab5=nil;lab6=nil;lab7=nil;lab8=nil;lab9=nil;lay=nil; img=nil;shuangfu = nil;fu=nil;proView=nil;
 }
 
 #pragma mark 设置footerTable
 -(void)setupTableViewFooter{
-    int num =(int)_bottomData.count;
-    if (num<1)
-        num=1;
-    if (footTableView) {
-        CGRect footR =footTableView.frame;
-        footR.size.height = num*cellHight;
-        footTableView.frame = footR;
-        [footTableView reloadData];
-        
-        footTableView.contentSize =CGSizeMake(footTableView.frame.size.width, num*cellHight);
-        myTable.contentSize = CGSizeMake(myTable.frame.size.width, myTable.frame.size.height + --num*cellHight);
-        return;
-    }
-    
-    float tabW = KMainScreenWidth ;
-    float tabH =num*cellHight;
-    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, tabW, tabH) style:UITableViewStylePlain];
-    tabview.delegate = self;
-    tabview.dataSource = self;
-    tabview.backgroundColor = [UIColor clearColor];
-    tabview.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tabview.showsVerticalScrollIndicator=NO;
-    myTable.tableFooterView = tabview;
-    footTableView = tabview;
+//    int num =(int)_bottomData.count;
+//    if (num<1)
+//        num=1;
+//    if (footTableView) {
+//        CGRect footR =footTableView.frame;
+//        footR.size.height = num*cellHight;
+//        footTableView.frame = footR;
+//        [footTableView reloadData];
+//        
+//        footTableView.contentSize =CGSizeMake(footTableView.frame.size.width, num*cellHight);
+//        myTable.contentSize = CGSizeMake(myTable.frame.size.width, myTable.frame.size.height + --num*cellHight);
+//        return;
+//    }
+//    
+//    float tabW = KMainScreenWidth ;
+//    float tabH =num*cellHight;
+//    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, tabW, tabH) style:UITableViewStylePlain];
+//    tabview.delegate = self;
+//    tabview.dataSource = self;
+//    tabview.backgroundColor = [UIColor clearColor];
+//    tabview.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    tabview.showsVerticalScrollIndicator=NO;
+//    myTable.tableFooterView = tabview;
+//    footTableView = tabview;
 
 }
 
@@ -452,14 +462,13 @@
     good.type = Type;
     good.isHeadShow = isH;
     [self.navigationController pushViewController:good animated:YES];
+    kz=nil; good=nil;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int cellNum = 1;
-    if (tableView == footTableView) {
-        if (_bottomData.count>0)
-            cellNum =(int)_bottomData.count;
-    }
+    int cellNum = 2;
+    if (_bottomData.count>0)
+            cellNum =(int)_bottomData.count+1;
     return cellNum;
 }
 
@@ -469,41 +478,54 @@
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MainViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
-   
-    if (tableView == myTable) {
-        if (!cell)
-            cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
-            [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
+    if (!cell){
+          //  cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
+        cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
+                    [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+                     subscribeNext:^(UIButton* x) {
+                         id model = self.bottomData[x.tag-1];
+                         [self mainMidViewDelegataButton:model];
+                     }];
 
-    }else if (tableView == footTableView){
-        if (!cell){
-            cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
-            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-             subscribeNext:^(UIButton* x) {
-                 id model = self.bottomData[x.tag-1];
-                 [self mainMidViewDelegataButton:model];
-             }];
-        }
-            cell.handleBtn.tag = indexPath.row+1;
-            [cell setupCellWithData:_bottomData[indexPath.row] type:2 andTotal:-1];
     }
+    if (indexPath.row < 1) {
+        [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
+    }else{
+            cell.handleBtn.tag =indexPath.row;
+          [cell setupCellWithData:_bottomData[indexPath.row -1] type:2 andTotal:-1];
+    }
+    
+
+
+//    else if (tableView == footTableView){
+//        if (!cell){
+//            cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
+//            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+//             subscribeNext:^(UIButton* x) {
+//                 id model = self.bottomData[x.tag-1];
+//                 [self mainMidViewDelegataButton:model];
+//             }];
+//        }
+//            cell.handleBtn.tag = indexPath.row+1;
+//            [cell setupCellWithData:_bottomData[indexPath.row] type:2 andTotal:-1];
+//    }
        return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (tableView == myTable) {
+    if (indexPath.row<1) {
         UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         if (indexPath.row == 0) {
             if (_midData.count<1)
                 return;
             
-            self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-            [self.navigationController pushViewController:self.midController animated:YES];
+            UINavigationController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+            [self.navigationController pushViewController:midController animated:YES];
+            midController=nil;
         }
-    }
-    if (tableView == footTableView) {
+    }else{
         if (_bottomData.count>0){
-            id model = self.bottomData[indexPath.row];
+            id model = self.bottomData[indexPath.row-1];
             [self mainMidViewDelegataButton:model];
         }
     }
@@ -513,14 +535,15 @@
 -(void)mainMidViewDelegataCell:(int)type{
     UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     if (type == 1) {
-        self.midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+        UINavigationController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
        // self.midController.myData = [NSMutableArray arrayWithArray:self.midData];
-        [self.navigationController pushViewController:self.midController animated:YES];
-    }else if (type == 2){
-        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-        //self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
-        [self.navigationController pushViewController:self.buttomController animated:YES];
+        [self.navigationController pushViewController:midController animated:YES];
     }
+//    else if (type == 2){
+//        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
+//        //self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
+//        [self.navigationController pushViewController:self.buttomController animated:YES];
+//    }
 }
 
 #pragma mark  mainMidView代理方法 点击 mainMidView 的button
@@ -529,6 +552,8 @@
     UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
     appoint.model = model;
     [self.navigationController pushViewController:appoint animated:YES];
+    appoint=nil;
+    story=nil;
 }
 
 #pragma mark 请求店铺信息
@@ -612,7 +637,7 @@
                     self->appointTotal = count;
                     self.midData = nil;
                     self.midData = myAppointArr;
-                    [self->myTable reloadData];
+                  //  [self->myTable reloadData];
                        // [self.midView startReloadData:myAppointArr andType:1];
                    
 //                    else
@@ -634,7 +659,8 @@
                     self.bottomData = nil;
                     
                         self.bottomData=myProjectArr;
-                        [self setupTableViewFooter];
+                    [self->myTable reloadData];
+                       // [self setupTableViewFooter];
                 }
                 else
                     [YIToast showText:NETWORKINGPEOBLEM];
@@ -659,9 +685,7 @@
                     if ([code hasSuffix:@"_bg"]) {
                         [self->headerImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
                     }
-//                    if ([code hasSuffix:@"_shop"]) {
-//                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
-//                    }
+                    code=nil; url = nil; usrl = nil;
                 }
             }
             else

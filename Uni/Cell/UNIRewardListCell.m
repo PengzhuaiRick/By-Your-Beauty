@@ -23,7 +23,7 @@
     float imgWH =size.height - imgY*2;
     
     UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
-    //img.contentMode = UIViewContentModeScaleAspectFit;
+    img.contentMode = UIViewContentModeScaleAspectFit;
     [self addSubview:img];
     self.mainImg = img;
 //    [self.mainImg sd_setImageWithURL:nil
@@ -83,6 +83,7 @@
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
     
+    LAY=nil; lab4=nil; lab2=nil; lab1=nil; lab3=nil; img=nil;
 }
 
 

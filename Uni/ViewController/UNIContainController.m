@@ -18,16 +18,16 @@
 {
     CGPoint startPoint;
     CGPoint currentPoint;
-    UINavigationController* mainNav;
+//    UINavigationController* mainNav;
     //MainViewController* mainCtr;
-    UIViewController* myRewardNav;
-    UINavigationController* walletNav;
-    UNIMyRewardController* rewardCtr;
-    UNIWalletController* wallet;
-    UINavigationController* card;
-    UINavigationController* gift;
-    UINavigationController* orderList;
-    UINavigationController* set;
+//    UIViewController* myRewardNav;
+//    UINavigationController* walletNav;
+//    UNIMyRewardController* rewardCtr;
+//    UNIWalletController* wallet;
+//    UINavigationController* card;
+//    UINavigationController* gift;
+//    UINavigationController* orderList;
+//    UINavigationController* set;
 }
 
 
@@ -129,96 +129,110 @@
 //首页
 -(void)setupMainController{
     [self removeController];
-    if (!mainNav) {
+    //if (!mainNav) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
        MainViewController* mainCtr= [st instantiateViewControllerWithIdentifier:@"MainViewController"];
         mainCtr.containController = self;
-        mainNav = [[UINavigationController alloc]initWithRootViewController:mainCtr];
-    }
+      UINavigationController* mainNav = [[UINavigationController alloc]initWithRootViewController:mainCtr];
+   // }
     [self.view addSubview:mainNav.view];
     [self addChildViewController:mainNav];
+      mainCtr = nil;
+    mainNav = nil;
+   
 }
 
 //我的奖励
 -(void)setupMyController{
     [self removeController];
-    if (!rewardCtr) {
+    //if (!rewardCtr) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
         UNIMyRewardController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
         mainCtr.containController = self;
-        rewardCtr = mainCtr;
-        myRewardNav =[[UINavigationController alloc]initWithRootViewController:mainCtr];
-    }
+       // rewardCtr = mainCtr;
+        UINavigationController*  myRewardNav =[[UINavigationController alloc]initWithRootViewController:mainCtr];
+    //}
    
     [self.view addSubview:myRewardNav.view];
     [self addChildViewController:myRewardNav];
+     mainCtr = nil;
+    myRewardNav=nil;
 }
 
 //我的钱包
 -(void)setupWalletController{
     [self removeController];
-    if (!wallet) {
+    //if (!wallet) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
         UNIWalletController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
          view.containController = self;
-        wallet = view;
-        walletNav =[[UINavigationController alloc]initWithRootViewController:view];
-    }
+        //wallet = view;
+     UINavigationController*  walletNav =[[UINavigationController alloc]initWithRootViewController:view];
+     view = nil;
+    //}
     [self.view addSubview:walletNav.view];
     [self addChildViewController:walletNav];
+    walletNav = nil;
 }
 
 //会员卡详情
 -(void)setupCardController{
     [self removeController];
-    if (!card) {
+    //if (!card) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UNICardInfoController* view = [st instantiateViewControllerWithIdentifier:@"UNICardInfoController"];
         view.containController = self;
-        card =[[UINavigationController alloc]initWithRootViewController:view];
-    }
+       UINavigationController* card =[[UINavigationController alloc]initWithRootViewController:view];
+    view = nil;
+    //}
     [self.view addSubview:card.view];
     [self addChildViewController:card];
+    card = nil;
 }
 
 //我的礼包
 -(void)setupGiftController{
     [self removeController];
-    if (!gift) {
+    //if (!gift) {
 
         UNIGiftController* view = [[UNIGiftController alloc]init];
         view.containController = self;
-        gift =[[UINavigationController alloc]initWithRootViewController:view];
-    }
+      UINavigationController* gift =[[UINavigationController alloc]initWithRootViewController:view];
+   // }
     [self.view addSubview:gift.view];
     [self addChildViewController:gift];
-
+    view = nil;
+    gift=nil;
 }
 
 //订单列表
 -(void)setupOrderListController{
     [self removeController];
-    if (!orderList) {
+   // if (!orderList) {
         
         UNIOrderListController* view = [[UNIOrderListController alloc]init];
         view.containController = self;
-        orderList =[[UINavigationController alloc]initWithRootViewController:view];
-    }
+     UINavigationController*  orderList =[[UINavigationController alloc]initWithRootViewController:view];
+   // }
     [self.view addSubview:orderList.view];
     [self addChildViewController:orderList];
+    view = nil;
+    orderList=nil;
     
 }
 //设置页面
 -(void)setupSettingController{
     [self removeController];
-    if (!set) {
+    //if (!set) {
         
         UNISetttingController* view = [[UNISetttingController alloc]init];
         view.containController = self;
-        set =[[UINavigationController alloc]initWithRootViewController:view];
-    }
+  UINavigationController*  set =[[UINavigationController alloc]initWithRootViewController:view];
+   // }
     [self.view addSubview:set.view];
     [self addChildViewController:set];
+    view = nil;
+    set=nil;
     
 }
 

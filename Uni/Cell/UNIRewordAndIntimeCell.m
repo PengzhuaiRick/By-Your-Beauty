@@ -25,6 +25,7 @@
     MyRewardView * view = [[MyRewardView alloc]initWithFrame:CGRectMake(16, tabY, size.width - 32, size.height-tabY) andNum:num andType:ty];
     [self addSubview:view];
     self.RewordAndIntimeView = view;
+    view=nil;
 
 }
 -(void)setupCell:(NSArray*)arr{

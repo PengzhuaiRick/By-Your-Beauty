@@ -90,6 +90,8 @@
     LAY.frame = CGRectMake(16, size.height-1, size.width-32, 1);
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
+    
+    LAY=nil; lab2=nil; lab3 =nil; btn= nil; lab1 = nil; img= nil;
    }
 -(void)setupCellWithData:(id)data type:(int)type andTotal:(int)total{
    
@@ -109,6 +111,8 @@
             CGRect subR =self.subLab.frame;
             subR.size.height = (KMainScreenWidth* 20/320);
             self.subLab.frame = subR;
+            str=nil;
+            str1=nil;
         }else{
             self.numLab.hidden=YES;
             self.mainImage.image = [UIImage imageNamed:@"main_img_nodata1"];
