@@ -75,7 +75,7 @@
 
 -(void)setupTableView{
 
-   self->noDataView.hidden=self.allArray.count>1;
+   self->noDataView.hidden=self.allArray.count>0;
     
     if (self.myTable){
         [self.myTable reloadData];

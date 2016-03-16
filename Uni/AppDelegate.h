@@ -14,5 +14,6 @@
 
 -(void)setupViewController;
 -(void)judgeFirstTime;
+-(void)setupActivityController:(NSArray*)hasActivity;
 @end
 

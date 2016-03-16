@@ -1,7 +1,7 @@
 //
 //  UNIWalletController.m
 //  Uni
-//  我的卡包
+//  我的优惠
 //  Created by apple on 15/12/8.
 //  Copyright © 2015年 apple. All rights reserved.
 //
@@ -10,11 +10,10 @@
 #import "UNIWalletCell.h"
 #import "UNIHttpUrlManager.h"
 #import "AccountManager.h"
-
-@interface UNIWalletController ()<UIWebViewDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>{
+#import "UNIGoodsDeatilController.h"
+@interface UNIWalletController ()<UIWebViewDelegate,UIScrollViewDelegate>{
     UIWebView* _webView;
 }
-@property(strong,nonatomic)UITableView* myTable;
 @end
 
 @implementation UNIWalletController
@@ -41,8 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    //[self setupTableView];
-   //[self noDataView];
+
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
     web.delegate = self;
     web.scrollView.delegate = self;
@@ -72,67 +70,15 @@
     [LLARingSpinnerView RingSpinnerViewStop1];
 }
 
--(void)noDataView{
-    UILabel*lab = [[UILabel alloc]initWithFrame:CGRectMake(16, 0, KMainScreenWidth - 32, KMainScreenHeight)];
-    lab.text = @"很抱歉您暂时没有可用现金券。马上开始预约服务，大把现金券等你拿！";
-    lab.textAlignment = NSTextAlignmentCenter;
-    lab.lineBreakMode = 0;
-    lab.numberOfLines = 0;
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
-    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    [self.view addSubview:lab];
-    lab = nil;
-}
 -(void)setupNavigation{
     self.title = @"我的优惠";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
-    
-    self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+
 }
 
--(void)setupTableView{
-    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 64+10, KMainScreenWidth,KMainScreenHeight - 64 - 10) style:UITableViewStylePlain];
-    tabview.delegate = self;
-    tabview.dataSource = self;
-    tabview.showsVerticalScrollIndicator=NO;
-    [self.view addSubview:tabview];
-    tabview.tableFooterView = [UIView new];
-    if (IOS_VERSION>8.0) {
-        tabview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
-    }
-    self.myTable =tabview;
-    tabview = nil;
-    
-//    self.myTable.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-//        self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myScroller.frame.size.height*2);
-//        [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
-//        self.myTable.footer = nil;
-//        [self setupWebView];
-//        
-//    }];
-}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth* 120/320;
-}
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
-}
-
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-         static NSString* name = @"cell";
-    UNIWalletCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-    if (!cell) {
-        cell = [[UNIWalletCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth* 120/320) reuseIdentifier:name];
-        cell.selectionStyle=UITableViewCellSelectionStyleNone;
-    }
-    if (indexPath.row == 3) {
-        [cell setupCellContent:nil];
-    }
-    return cell;
-}
 
 
 #pragma mark 功能按钮事件
@@ -155,13 +101,32 @@
         [_webView reload];
     }
 }
-
--(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-    UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletList"];
-    [self.navigationController pushViewController:view animated:YES];
-
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    NSString* url = request.URL.absoluteString ;
+    if ([url rangeOfString:@"act=app"].location != NSNotFound) {
+        NSArray* array = [url componentsSeparatedByString:@"&"];
+        NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
+        NSString* type = [array[2] componentsSeparatedByString:@"="][1];
+        [self gotoUNIGoodsDeatilControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
+        
+        array=nil; projectId=nil;type=nil;
+        return NO;
+    }
+    return YES;
 }
+-(void)gotoUNIGoodsDeatilControllerprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+    good.projectId = ProjectId;
+    good.type = Type;
+    good.isHeadShow = isH;
+    [self.navigationController pushViewController:good animated:YES];
+    kz=nil;
+    good=nil;
+}
+
 
 - (NSString *)URLEncodedString:(NSString*)STR
 {

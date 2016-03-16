@@ -20,7 +20,7 @@
 -(void)setupUI:(CGSize)size{
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 0, size.height, size.height);
+    btn.frame = CGRectMake(size.width - size.height, 0, size.height, size.height);
     [btn setTitle:@"删除" forState:UIControlStateNormal];
     btn.enabled = NO;
     btn.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
@@ -89,7 +89,7 @@
 -(void)swipeGestureRecognizer:(UISwipeGestureRecognizer*)swipe{
     float x = 0;
     if (swipe.direction == UISwipeGestureRecognizerDirectionRight) {
-        x =  _delectBtn.frame.size.height;
+        x = - _delectBtn.frame.size.height;
         self.delectBtn.enabled = YES;
     }
     if (swipe.direction ==UISwipeGestureRecognizerDirectionLeft) {

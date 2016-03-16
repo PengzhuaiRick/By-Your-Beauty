@@ -24,6 +24,7 @@
 #import "WXApiManager.h"
 #import "UNIShopModel.h"
 #import "UNIHttpUrlManager.h"
+#import "UNITouristController.h"
 
 @interface AppDelegate (){
     UIImageView* imag;
@@ -126,11 +127,20 @@
     [UIView animateWithDuration:1 animations:^{
             self.window.rootViewController.view.alpha = 1;
     }];
-    st=nil;
-    tc=nil;
-    vc=nil;
+    st=nil; tc=nil;vc=nil;
 }
 
+#pragma mark 有活动就弹出活动界面
+-(void)setupActivityController:(NSArray*)hasActivity{
+    UNITouristController* tourist = [[UNITouristController alloc]init];
+    tourist.hasActivity = [hasActivity[0] intValue];
+    tourist.activityId = [hasActivity[1] intValue];
+    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tourist];
+    [self.window.rootViewController presentViewController:nav animated:YES completion:^{
+    }];
+    
+    tourist = nil; 
+}
 #pragma mark 开始登陆界面
 -(void)setupLoginController{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
@@ -581,6 +591,15 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     [[NSNotificationCenter defaultCenter]postNotificationName:@"dealWithResultOfTheZFB" object:nil userInfo:@{@"result":@(resultStatus)}];
 }
 
+#pragma mark 设置通知
+-(void)setupNotifications{
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(setupLoginController) name:@"setupLoginController" object:nil];
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"setupLoginController" object:nil];
+}
+
+
 #pragma mark 颜色转图片
 -(UIImage*)createImageWithColor:(UIColor*) color
 {
@@ -593,5 +612,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     UIGraphicsEndImageContext();
     return theImage;
 }
+
+
 
 @end

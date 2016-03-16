@@ -8,6 +8,7 @@
 
 #import "UNIMypointRequest.h"
 #import "UNIShopModel.h"
+
 @implementation UNIMypointRequest
 
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
@@ -49,7 +50,15 @@
             }else
                  _rqshopList(nil,tips,nil);
         }
-
+        //获取服务信息
+        if ([param2 isEqualToString:API_URL_GetProjectModel]) {
+            if (code == 0) {
+                NSDictionary* result = [self safeObject:dic ForKey:@"result"];
+                UNIMyProjectModel* model = [[UNIMyProjectModel alloc]initWithDic:result];
+                _rqservice(model,tips,nil);
+            }else
+                _rqservice(nil,tips,nil);
+        }
 
     }
 }
@@ -71,6 +80,10 @@
         //获取店铺列表信息接口
         if ([param2 isEqualToString:API_URL_GetShopListInfo]) {
                 _rqshopList(nil,nil,err);
+        }
+        //获取店铺列表信息接口
+        if ([param2 isEqualToString:API_URL_GetProjectModel]) {
+           _rqservice(nil,nil,err);
         }
 
     }

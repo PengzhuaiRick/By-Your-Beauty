@@ -19,8 +19,8 @@
         self.shortName =[self safeObject:dic ForKey:@"shortName"];
         self.x =[self safeObject:dic ForKey:@"latitude"];
         self.y = [self safeObject:dic ForKey:@"longitude"];
-
-        
+        self.begin_time =[self safeObject:dic ForKey:@"begin_time"];
+        self.end_time =[self safeObject:dic ForKey:@"end_time"];
     }
     return self;
 }
@@ -34,6 +34,8 @@
      [user setValue:shop.telphone forKey:@"telphone"];
      [user setValue:shop.x forKey:@"latitude"];
      [user setValue:shop.y forKey:@"longitude"];
+    [user setValue:shop.begin_time forKey:@"begin_time"];
+    [user setValue:shop.end_time forKey:@"end_time"];
     [user synchronize];
 }
 
@@ -47,6 +49,8 @@
     man.telphone= [user valueForKey:@"telphone"];
     man.x= [user valueForKey:@"latitude"];
     man.y= [user valueForKey:@"longitude"];
+    man.begin_time=[user valueForKey:@"begin_time"];
+    man.end_time =[user valueForKey:@"end_time"];
     return man;
 }
 #pragma mark 百度坐标 转 火星坐标
@@ -77,6 +81,8 @@
     [user removeObjectForKey:@"telphone"];
     [user removeObjectForKey:@"latitude"];
     [user removeObjectForKey:@"longitude"];
+    [user removeObjectForKey:@"begin_time"];
+    [user removeObjectForKey:@"end_time"];
     [user synchronize];
     
 }

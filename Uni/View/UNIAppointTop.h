@@ -17,6 +17,7 @@
     NSMutableArray* midBtns;//中间预约时间按钮组
     UIImageView* arrowImg;
     float midBtnH;
+    BOOL midNight; //如果当前时间在下班时间到上班时间之间 需要添加两天时间
 }
 //@property (assign, nonatomic) int member;//人数
 @property (assign ,nonatomic) int selectYear;   //年份
@@ -37,7 +38,8 @@
 
 @property(strong,nonatomic)NSDate* finalTime;//最后可以选择的时间
 @property(strong,nonatomic)NSDate* startTime;//预约服务的时间
-
+@property(copy,nonatomic)NSString* lockupTime;//店铺下班时间
+@property(copy,nonatomic)NSString* workupTime;//店铺上班时间
 -(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp;
 
 -(void)beforeRequest;

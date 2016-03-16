@@ -35,7 +35,6 @@
     [self setupParams];
     [self setupTableView];
     [self setupSelf];
-    
     [self setupNotification];
 }
 -(void)setupNotification{
@@ -77,7 +76,7 @@
                 @"function_img_scell3",
                 @"function_img_scell4",
                 @"function_img_scell5",
-                @"function_img_cell8",
+                @"function_img_scell8",
                 @"function_img_scell6",
                 @"function_img_scell7"
                 ];

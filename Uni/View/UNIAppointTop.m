@@ -7,6 +7,7 @@
 //
 
 #import "UNIAppointTop.h"
+#import "UNIShopManage.h"
 //#import "UNIAppontMid.h"
 
 @implementation UNIAppointTop
@@ -16,6 +17,8 @@
         _projectId = proectId;
         _costTime = Cos;
         _shopId = shopIp;
+        [self setupData];
+        [self judgeBeforeDawn];
         [self setupTopScrollerContent];
         [self initSecondView];
         [self setupMidScroller];
@@ -23,7 +26,34 @@
         }
     return self;
 }
+-(void)setupData{
+    UNIShopManage* shop = [UNIShopManage getShopData];
+    _lockupTime= shop.end_time;
+    _workupTime = shop.begin_time;
+}
 
+#pragma mark 判断是否凌晨
+-(void)judgeBeforeDawn{
+    NSDate *date = [NSDate date];
+    NSTimeZone *zone = [NSTimeZone systemTimeZone];
+    NSInteger interval = [zone secondsFromGMTForDate: date];
+    NSDate *localeDate = [date  dateByAddingTimeInterval: interval];
+    
+    int hour =[localeDate.description substringWithRange:NSMakeRange(11, 2)].intValue; //当前时间的中的小时
+    
+    NSArray* beginArr = [_workupTime componentsSeparatedByString:@":"];
+    int workH = [beginArr[0] intValue]; //上班时间中的小时
+    
+    NSArray* endArr = [_lockupTime componentsSeparatedByString:@":"];
+    int endH = [endArr[0] intValue]; //下班时间中的小时
+    
+    midNight = NO;
+    //判断当前时间在店铺上班时间前 都被认为现在是凌晨 //判断当前时间超过或等于下班时间 都认为是凌晨
+    if (hour <= workH || hour >= endH) {
+        midNight=YES;
+   }
+    
+}
 -(void)handleSwipeFrom:(UISwipeGestureRecognizer*)gesture{
     
     CGRect midScR = _midScroller.frame;
@@ -160,10 +190,17 @@
     _topScroller.delegate = self;
     for (int i =0 ; i<8; i++) {
         NSDate *now = nil;
-        if (i>0)
-            now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*(i-1)];
-        else
-            now= [NSDate dateWithTimeIntervalSinceNow:-(24*60*60)];
+        if (i>0){
+            if (midNight){
+                now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*(2+i)];
+            }else
+                now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*i];}
+        else{
+            if (midNight){
+                now= [NSDate dateWithTimeIntervalSinceNow:(24*60*60)*2];
+            }else
+            now= [NSDate date];
+        }
         
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSUInteger unitFlags = kCFCalendarUnitWeekday | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear;

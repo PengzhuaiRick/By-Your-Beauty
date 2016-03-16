@@ -12,6 +12,7 @@
 #define userNameDefaultKey    @"userNameDefaultKey"
 #define userIdKey             @"userIdKey"
 #define userShopID            @"userShopId"
+#define WXUnionid            @"WXUnionid"
 /**
  *  用户token
  */
@@ -129,6 +130,27 @@
     return shopid;
 }
 
++(void)setUnionid:(NSString *)unionid{
+    [[[self class] shared]setUnionid:unionid];
+}
+
++(NSString *)unionid{
+    NSString* unionid = [[[self class]shared]unionid];
+    return unionid;
+}
+
+-(void)setUnionid:(NSString *)unionid{
+    if (!unionid) unionid = nil;
+    [self syncSetObject:unionid forKey:WXUnionid];
+}
+-(NSString *)unionid{
+    NSString *unionid = [self stringWithKey:WXUnionid];
+    if (!unionid)
+        unionid=nil;
+    
+    return unionid;
+}
+
 - (void)clear
 {
 //    self.memberInfo = nil;
@@ -148,6 +170,7 @@
     [userDefaults removeObjectForKey:userNameDefaultValue];
     [userDefaults removeObjectForKey:userIdKey];
     [userDefaults removeObjectForKey:userShopID];
+    [userDefaults removeObjectForKey:WXUnionid];
     [userDefaults synchronize];
 }
 

@@ -11,6 +11,7 @@
 #import "WXApiManager.h"
 #import "UNIShopManage.h"
 #import "UNIHttpUrlManager.h"
+#import "UNIAppointController.h"
 @interface UNIGiftController ()<UIWebViewDelegate,UIScrollViewDelegate>{
     UIView* shareView;
     UIView* bgView;
@@ -104,7 +105,11 @@
         shareTitle = urlManager.APP_BWHL_SHARE_TITLE;
         shareDesc =urlManager.APP_BWHL_SHARE_DESC;
         shareImg =urlManager.APP_BWHL_SHARE_IMG;
-        shareUrl = urlManager.MY_LIBAO_SHARE_URL;
+        
+        NSString* str1 = urlManager.MY_LIBAO_SHARE_URL;
+        NSString* str2 = [[AccountManager userId]stringValue];
+        NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
+        shareUrl= [self URLEncodedString:str3];
         self.navigationItem.rightBarButtonItem = rightBar;
     }
     if([url rangeOfString:@"id=11"].location !=NSNotFound){
@@ -115,8 +120,28 @@
         shareUrl = urlManager.WX_HB_URL;
         self.navigationItem.rightBarButtonItem = rightBar;
     }
+    if ([url rangeOfString:@"act=app"].location != NSNotFound) {
+        NSArray* array = [url componentsSeparatedByString:@"&"];
+        NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
+        NSString* type = [array[2] componentsSeparatedByString:@"="][1];
+        [self gotoUNIGoodsDeatilControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
+        
+        array=nil; projectId=nil;type=nil;
+        return NO;
+    }
+
     return YES;
 }
+-(void)gotoUNIGoodsDeatilControllerprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+    appoint.projectId = ProjectId;
+    [self.navigationController pushViewController:appoint animated:YES];
+    appoint=nil;
+    story=nil;
+}
+
+
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     if ([webView canGoBack]) {
@@ -189,11 +214,8 @@
             //[message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
             
             WXWebpageObject* web = [WXWebpageObject object];
-            NSString* str1 =self->shareUrl;
-            NSString* str2 = [[AccountManager userId]stringValue];
-            NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
-            web.webpageUrl = [self URLEncodedString:str3];
-            str1 = nil; str2 = nil; str3 = nil;
+          
+            web.webpageUrl = self->shareUrl;
             
             message.mediaObject = web;
             

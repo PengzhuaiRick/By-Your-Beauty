@@ -22,6 +22,10 @@
  *  记住的用户 在本地存储用户名 -用于登录显示记住的用户名(其他场景请到memerInfo中获取用户名)
  */
 @property(nonatomic,strong)NSString *localLoginName;
+/**
+ *  微信unionid
+ */
+@property(nonatomic,strong)NSString *unionid;
 
 /**
  *  用户ID
@@ -77,6 +81,15 @@
  */
 +(NSString*)localLoginName;
 +(void)setLocalLoginName:(NSString *)localLoginName;
+
+/**
+ *  获取和设置unionid
+ *
+ *  @param unionid 微信unionid
+ */
++(void)setUnionid:(NSString *)unionid;
++(NSString*)unionid;
+
 
 #pragma mark  动态方法
 

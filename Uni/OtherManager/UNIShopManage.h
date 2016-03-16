@@ -15,6 +15,8 @@
 @property(nonatomic,copy)NSString* logoUrl;  //店铺logo地址
 @property(nonatomic,copy)NSString* address;  //店铺地址
 @property(nonatomic,copy)NSString* telphone;  //店铺电话
+@property(nonatomic,copy)NSString* begin_time;  //店铺上班时间
+@property(nonatomic,copy)NSString* end_time;  //店铺下班时间
 
 @property(nonatomic,strong)NSNumber* x;      //坐标X
 @property(nonatomic,strong)NSNumber* y;      //坐标Y

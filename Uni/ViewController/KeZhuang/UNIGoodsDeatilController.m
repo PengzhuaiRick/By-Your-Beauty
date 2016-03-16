@@ -101,9 +101,7 @@
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     if (self.myScroller.contentOffset.y == 0) {
         [LLARingSpinnerView RingSpinnerViewStop1];
-        //清除UIWebView的缓存
-        [[NSURLCache sharedURLCache] removeAllCachedResponses];
-        [self.navigationController popViewControllerAnimated:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }else{
         [self.myScroller setContentOffset:CGPointMake(0, 0) animated:YES];
     }

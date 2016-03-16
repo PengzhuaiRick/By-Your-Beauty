@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 @class UNIMyProjectModel;
 @interface UNIAppointController : UIViewController
-
 @property (strong ,nonatomic) UNIMyProjectModel* model;
+@property (copy ,nonatomic) NSString* projectId; // 存在的时候表示为从我的礼包跳转进来的
 
 @property (weak, nonatomic) IBOutlet UIScrollView *myScroller;
 

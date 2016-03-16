@@ -573,6 +573,9 @@
                             self.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shortName];
                         else
                             self.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shopName];
+                    }else{
+                        //检测不到店铺信息 需要重新登录
+                        [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
                     }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];

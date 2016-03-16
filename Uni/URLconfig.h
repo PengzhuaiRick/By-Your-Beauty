@@ -20,6 +20,7 @@
 
 #define API_URL @"http://uni.dodwow.com/uni_api"
 //#define API_URL @"http://192.168.0.199:8081"
+//#define API_URL @"http://show.api.meiliyouni.com/uni_api"
 
 #define API_IMG_URL @"http://uni.dodwow.com/images"
 
@@ -133,4 +134,10 @@
 
 //获取提示语言接口
 #define API_URL_GetAppTips @"getAppTips"
+
+//获取活动分享内容
+#define API_URL_ActivityShare @"activityShare"
+
+//获取服务预约内容信息
+#define API_URL_GetProjectModel @"getProjectModel"
 #endif /* URLconfig_h */

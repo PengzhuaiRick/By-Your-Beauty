@@ -7,7 +7,7 @@
 //
 
 #import "BaseRequest.h"
-
+#import "UNIMyProjectModel.h"
 /**
  * 获取项目可预约时间
  *
@@ -35,6 +35,16 @@ typedef void(^RQSetAppoint)(NSString* order,NSString*tips,NSError* er);
  */
 typedef void(^RQShopList)(NSArray* arr,NSString*tips,NSError* er);
 
+/**
+ *  获取服务项目内容信息
+ *
+ *  @param arr 服务对象信息
+ *  @param tips  反馈信息
+ *  @param er   错误信息
+ */
+typedef void(^RQService)(UNIMyProjectModel* model,NSString*tips,NSError* er);
+
+
 @interface UNIMypointRequest : BaseRequest
 
 //获取项目可预约时间
@@ -45,5 +55,8 @@ typedef void(^RQShopList)(NSArray* arr,NSString*tips,NSError* er);
 
 //获取店铺列表信息
 @property (copy ,nonatomic) RQShopList rqshopList;
+
+//获取服务项目内容信息
+@property (copy ,nonatomic) RQService rqservice;
 
 @end

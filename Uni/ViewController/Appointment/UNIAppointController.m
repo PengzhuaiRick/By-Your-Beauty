@@ -30,6 +30,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    if (_projectId) {
+        UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
+        req.rqservice = ^(UNIMyProjectModel* model,NSString*tips,NSError* er){
+            self.model = model;
+            self.title =self.model.projectName;
+            [self setupMyScroller];
+            [self setupShopView];
+            [self setupTopScrollerWithProjectId:self.model.projectId andCostime:self.model.costTime andShopId:[[AccountManager shopId] intValue]];
+            [self setupMidScroller];
+            [self setupBottomContent];
+            [self regirstKeyBoardNotification];
+        };
+        [req postWithSerCode:@[API_PARAM_UNI,API_URL_GetProjectModel] params:@{@"projectId":_projectId}];
+    }else{
     self.title =self.model.projectName;
     [self setupMyScroller];
     [self setupShopView];
@@ -37,7 +51,7 @@
     [self setupMidScroller];
     [self setupBottomContent];
     [self regirstKeyBoardNotification];
-    
+    }
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
 

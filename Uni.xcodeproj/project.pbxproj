@@ -133,6 +133,8 @@
 		18D77DCE1C3B9BF800DFC738 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D77DCD1C3B9BF800DFC738 /* libstdc++.tbd */; };
 		18D85DF81C475CE800A3FE3D /* UNIAddProjcetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D85DF71C475CE800A3FE3D /* UNIAddProjcetCell.m */; };
 		18D9CBE91BEC801F001EF50C /* MainMidMoveBackTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9CBE81BEC801F001EF50C /* MainMidMoveBackTransition.m */; };
+		18DDBC661C97F57D0083D9AB /* UNITouristRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDBC651C97F57D0083D9AB /* UNITouristRequest.m */; };
+		18DDBC691C98008E0083D9AB /* UNITouristModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDBC681C98008E0083D9AB /* UNITouristModel.m */; };
 		18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDD5751BEB5971005F7765 /* MainViewModel.m */; };
 		18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDD5791BEB6074005F7765 /* MainMoveTransition.m */; };
 		18E14C2F1C046F7700AA36C8 /* UNIAppointController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E14C2E1C046F7700AA36C8 /* UNIAppointController.m */; };
@@ -489,6 +491,10 @@
 		18D85DF71C475CE800A3FE3D /* UNIAddProjcetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAddProjcetCell.m; sourceTree = "<group>"; };
 		18D9CBE71BEC801F001EF50C /* MainMidMoveBackTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMidMoveBackTransition.h; sourceTree = "<group>"; };
 		18D9CBE81BEC801F001EF50C /* MainMidMoveBackTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMidMoveBackTransition.m; sourceTree = "<group>"; };
+		18DDBC641C97F57D0083D9AB /* UNITouristRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNITouristRequest.h; sourceTree = "<group>"; };
+		18DDBC651C97F57D0083D9AB /* UNITouristRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNITouristRequest.m; sourceTree = "<group>"; };
+		18DDBC671C98008E0083D9AB /* UNITouristModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNITouristModel.h; sourceTree = "<group>"; };
+		18DDBC681C98008E0083D9AB /* UNITouristModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNITouristModel.m; sourceTree = "<group>"; };
 		18DDD5741BEB5971005F7765 /* MainViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewModel.h; sourceTree = "<group>"; };
 		18DDD5751BEB5971005F7765 /* MainViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewModel.m; sourceTree = "<group>"; };
 		18DDD5781BEB6074005F7765 /* MainMoveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMoveTransition.h; sourceTree = "<group>"; };
@@ -724,6 +730,8 @@
 				184482101C5227EB0047D2EF /* UNIOrderListModel.m */,
 				187E509D1C803D9500B88786 /* UNIShopModel.h */,
 				187E509E1C803D9500B88786 /* UNIShopModel.m */,
+				18DDBC671C98008E0083D9AB /* UNITouristModel.h */,
+				18DDBC681C98008E0083D9AB /* UNITouristModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1261,6 +1269,8 @@
 				182E8A581C71CBA500870968 /* UNILawRequest.m */,
 				18D5F1A91C881F630033553D /* UNIShopRequest.h */,
 				18D5F1AA1C881F630033553D /* UNIShopRequest.m */,
+				18DDBC641C97F57D0083D9AB /* UNITouristRequest.h */,
+				18DDBC651C97F57D0083D9AB /* UNITouristRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1570,6 +1580,7 @@
 				1844820B1C5217530047D2EF /* UNIOrderListView.m in Sources */,
 				18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */,
 				18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */,
+				18DDBC661C97F57D0083D9AB /* UNITouristRequest.m in Sources */,
 				1808385A1BFACDA200727B61 /* UIColor+HexString.m in Sources */,
 				18C315681BFDCDF600B8438E /* UIActionSheet+Blocks.m in Sources */,
 				18CCA0161C02B84000B90092 /* BTKeyboardTool.m in Sources */,
@@ -1627,6 +1638,7 @@
 				18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */,
 				18C3ED041C0EF93400B0A192 /* UNIMapAnnotation.m in Sources */,
 				18BA7D6C1BE9A19100DD7826 /* EAIntroView.m in Sources */,
+				18DDBC691C98008E0083D9AB /* UNITouristModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

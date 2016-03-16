@@ -93,7 +93,7 @@
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
    [LLARingSpinnerView RingSpinnerViewStop1];
     //清除UIWebView的缓存
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+   // [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning {
@@ -102,7 +102,7 @@
 }
 -(void)dealloc{
     //清除UIWebView的缓存
-   // [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
     webView = nil;
 }
 /*

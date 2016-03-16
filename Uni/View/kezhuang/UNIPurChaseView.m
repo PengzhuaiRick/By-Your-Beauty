@@ -85,9 +85,6 @@
             lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, (ceeH - imgWH)/2, labW, imgWH)];
             lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?18:15];
             [cell addSubview:lab];
-            
-            
-            imgView=nil; lab=nil;
         }
         switch (indexPath.row ) {
             case 0:
@@ -102,7 +99,6 @@
         
     }
     return cell;
-                return nil;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

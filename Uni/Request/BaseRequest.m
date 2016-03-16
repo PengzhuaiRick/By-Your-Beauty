@@ -21,7 +21,7 @@
     NSString* URL = [self spliceURL:code];
     //NSLog(@" 吃吃吃吃   URL %@",URL);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
     NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:dic] forKey:@"json"];
     NSLog(@"%@  %@",code[1],ddic);
     [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {

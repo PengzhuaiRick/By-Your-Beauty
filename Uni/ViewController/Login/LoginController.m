@@ -11,7 +11,7 @@
 #import "AccountManager.h"
 #import "UNILoginViewRequest.h"
 #import "BTKeyboardTool.h"
-#import "UNITouristController.h"
+
 @interface LoginController ()<KeyboardToolDelegate>{
     
       UITextField *codeField;    //验证码
@@ -643,6 +643,8 @@
         
         request.rqloginBlock = ^(int userId,
                                  int shopId,
+                                 int hasActivity,
+                                 int activityId,
                                  NSString* token,
                                  NSString* tips,
                                  NSError* er){
@@ -678,6 +680,15 @@
                     AppDelegate* app = [UIApplication sharedApplication].delegate;
                     [app setupViewController];
 //                }
+                
+                if (hasActivity <2) {
+//                    double delayInSeconds = 2.0;
+//                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
+//                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
+//                        [app setupActivityController];
+//                    });
+                    [app performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:2];
+                }
             }else
                 [YIToast showText:NETWORKINGPEOBLEM];
            // [YIToast showWithText:tips];
@@ -846,14 +857,14 @@
 #pragma mark 用户为游客时跳转界面
 -(void)userIsTourist{
     
-    UNITouristController* tourist = [[UNITouristController alloc]init];
-    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tourist];
-    [self presentViewController:nav animated:YES completion:^{
-        [self timerStop:self->time];
-        self->phoneField.text=@"";
-        self->codeField.text=@"";
-        self->nikeName.text=@"";
-    }];
+//    UNITouristController* tourist = [[UNITouristController alloc]init];
+//    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tourist];
+//    [self presentViewController:nav animated:YES completion:^{
+//        [self timerStop:self->time];
+//        self->phoneField.text=@"";
+//        self->codeField.text=@"";
+//        self->nikeName.text=@"";
+//    }];
 }
 
 - (BOOL)isMobileNumber:(NSString *)mobileNum
