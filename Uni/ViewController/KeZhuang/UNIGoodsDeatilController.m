@@ -56,7 +56,21 @@
         ifFirst = YES;
         self.myScroller.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     }
+    myWeb.scrollView.delegate = nil;
+    myWeb.delegate= nil;
+    self.myTable.delegate = nil;
+    self.myTable.dataSource = nil;
+    self.myScroller.delegate = nil;
      [super viewDidDisappear:animated];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    
+    myWeb.scrollView.delegate = self;
+    myWeb.delegate= self;
+    self.myScroller.delegate = self;
+    self.myTable.delegate = self;
+    self.myTable.dataSource = self;
+    [super viewWillAppear:animated];
 }
 
 - (void)viewDidLoad {
@@ -100,8 +114,9 @@
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     if (self.myScroller.contentOffset.y == 0) {
-        [LLARingSpinnerView RingSpinnerViewStop1];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+       // [LLARingSpinnerView RingSpinnerViewStop1];
+       // [[NSURLCache sharedURLCache] removeAllCachedResponses];
+        [self.navigationController popViewControllerAnimated:YES];
     }else{
         [self.myScroller setContentOffset:CGPointMake(0, 0) animated:YES];
     }
@@ -289,6 +304,7 @@
     self.myScroller.contentSize = CGSizeMake(scW, scH);
     self.myScroller.backgroundColor = [UIColor clearColor];
     self.myScroller.pagingEnabled =YES;
+    self.myScroller.scrollsToTop=YES;
     [self.view addSubview:self.myScroller];
     
     [self.view bringSubviewToFront:bottomView];
@@ -300,6 +316,7 @@
     tabview.separatorStyle = 0;
     tabview.delegate = self;
     tabview.dataSource = self;
+    tabview.scrollsToTop = NO;
     tabview.backgroundColor = [UIColor clearColor];
     tabview.showsVerticalScrollIndicator=NO;
     [self.myScroller addSubview:tabview];
@@ -334,6 +351,7 @@
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_myTable.frame), _myTable.frame.size.width, _myScroller.frame.size.height)];
     web.scrollView.delegate = self;
     web.delegate= self;
+    web.scrollView.scrollsToTop = NO;
     NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,model.url];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [web loadRequest:request];
@@ -376,13 +394,7 @@
     }];
             return cell;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-   
-//            UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-//            UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
-//            imgAndText.projectId = model.projectId;
-//            [self.navigationController pushViewController:imgAndText animated:YES];
-     }
+
 
 -(CGSize)suanziti:(NSString*)text andFont:(float)font andWidth:(float)width{
     CGRect rect = [text boundingRectWithSize:CGSizeMake(width, 8000)//限制最大的宽度和高度

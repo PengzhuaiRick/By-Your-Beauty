@@ -45,6 +45,8 @@
             ges.enabled=NO;
         }
     }
+    webView.delegate = nil;
+    webView.scrollView.delegate = nil;
     array = nil;
     [super viewWillDisappear:animated];
 }
@@ -100,7 +102,7 @@
     NSLog(@"request.URL.absoluteString  %@",url);
     
     self.navigationItem.rightBarButtonItem = nil;
-    if([url rangeOfString:@"id=2"].location !=NSNotFound){
+    if([url rangeOfString:@"id=2&"].location !=NSNotFound){
         UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
         shareTitle = urlManager.APP_BWHL_SHARE_TITLE;
         shareDesc =urlManager.APP_BWHL_SHARE_DESC;
@@ -111,14 +113,16 @@
         NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
         shareUrl= [self URLEncodedString:str3];
         self.navigationItem.rightBarButtonItem = rightBar;
+        
     }
-    if([url rangeOfString:@"id=11"].location !=NSNotFound){
+    if([url rangeOfString:@"id=11&"].location !=NSNotFound){
         UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
         shareTitle = urlManager.APP_HB_SHARE_TITLE;
         shareDesc =urlManager.APP_HB_SHARE_DESC;
         shareImg =urlManager.APP_HB_SHARE_IMG;
         shareUrl = urlManager.WX_HB_URL;
         self.navigationItem.rightBarButtonItem = rightBar;
+        
     }
     if ([url rangeOfString:@"act=app"].location != NSNotFound) {
         NSArray* array = [url componentsSeparatedByString:@"&"];
@@ -157,7 +161,7 @@
         else
             [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
-    [LLARingSpinnerView RingSpinnerViewStop1];
+    //[LLARingSpinnerView RingSpinnerViewStop1];
 }
 
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{

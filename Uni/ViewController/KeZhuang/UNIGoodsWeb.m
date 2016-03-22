@@ -15,7 +15,16 @@
 @end
 
 @implementation UNIGoodsWeb
-
+-(void)viewWillAppear:(BOOL)animated{
+    webView.delegate = self;
+    webView.scrollView.delegate = self;
+    [super viewWillAppear:animated];
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    webView.delegate = nil;
+    webView.scrollView.delegate = nil;
+    [super viewWillDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
@@ -29,8 +38,8 @@
     [self.view addSubview:lab];
     
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, KMainScreenWidth, KMainScreenHeight-64)];
-    web.delegate = self;
-    web.scrollView.delegate = self;
+   
+    web.scrollView.scrollsToTop=YES;
     web.backgroundColor = [UIColor clearColor];
     web.scrollView.backgroundColor = [UIColor clearColor];
     
@@ -55,8 +64,10 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
     [LLARingSpinnerView RingSpinnerViewStop1];
     self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-    
-    
+//    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+//    [[NSUserDefaults standardUserDefaults] synchronize];
 
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
@@ -77,7 +88,7 @@
         [self.delegate UNIGoodsWebDelegateMethodAndprojectId:projectId Andtype:type AndIsHeaderShow:0];
         
         array=nil; projectId=nil;type=nil;
-        
+        return NO;
     }
     return YES;
 }
@@ -89,7 +100,9 @@
         [webView reload];
     }
 }
-
+-(BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
+    return YES;
+}
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
    [LLARingSpinnerView RingSpinnerViewStop1];
     //清除UIWebView的缓存

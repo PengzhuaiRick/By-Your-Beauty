@@ -56,6 +56,7 @@
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [LLARingSpinnerView RingSpinnerViewStop1];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -248,7 +249,7 @@
                      if (order) {
                          //[YIToast showText:@"预约成功"];
 #ifdef IS_IOS9_OR_LATER
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"您的预约已提交，请等待店家确认。预约结果以短信回复为准" message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"您的预约已提交，请等待店家确认。预约结果以电话回复为准" message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         //[self locationNotificationTask:nil];
          [self locationNotificationTask:order];
@@ -256,7 +257,7 @@
     [alertController addAction:cancelAction];
     [self presentViewController:alertController animated:YES completion:nil];
 #else
-    [UIAlertView showWithTitle:@"您的预约已提交,请等待店家确认.\n预约结果以短信回复为准" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    [UIAlertView showWithTitle:@"您的预约已提交，请等待店家确认。预约结果以电话回复为准" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
         
             [self locationNotificationTask:order];
     }];

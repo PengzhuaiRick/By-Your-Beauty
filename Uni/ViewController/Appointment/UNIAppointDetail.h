@@ -14,4 +14,5 @@
 @property (assign , nonatomic)int shopId;
 
 @property (assign , nonatomic)BOOL ifMyDetail; // 是否从我的详情界面跳入
+@property (nonatomic,strong)MKMapView* mappView;
 @end

@@ -26,6 +26,7 @@
     //img.contentSize = CGSizeMake(3*imgWH, imgWH);
     img.pagingEnabled=YES;
     img.delegate = self;
+    img.scrollsToTop=NO;
     [self addSubview:img];
     self.mainImage = img;
     

@@ -23,7 +23,7 @@
     float midCellH;
     float bottomCellH;
     UNIShopModel* shopManage;
-    MKMapView* _mapView;
+   // MKMapView* _mapView;
     
     CalloutMapAnnotation *_calloutAnnotation;
 }
@@ -32,18 +32,27 @@
 @end
 
 @implementation UNIAppointDetail
+-(void)viewWillAppear:(BOOL)animated{
+    self.mappView.delegate = self;
+    self.myTableView.delegate = self;
+    self.myTableView.dataSource = self;
+    [super viewWillAppear:animated];
+}
+
 -(void)viewDidDisappear:(BOOL)animated{
     CGRect vRe = self.view.frame;
     vRe.origin.y = 64;
     self.view.frame = vRe;
-    
+    self.mappView.delegate = nil;
     self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+    self.myTableView.delegate = nil;
+    self.myTableView.dataSource = nil;
     [super viewDidDisappear:animated];
 }
 -(void)dealloc{
     shopManage = nil;
     _myTableView = nil;
-    _mapView = nil;
+    _mappView = nil;
     _order = nil;
     
 }
@@ -61,6 +70,7 @@
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    //[self.myTableView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -86,6 +96,7 @@
     };
 }
 -(void)requestShopInfo{
+    //__weak UNIAppointDetail* mySelf = self;
     UNIShopRequest* rq = [[UNIShopRequest alloc]init];
     rq.rwshopModelBlock = ^(UNIShopModel* manager,NSString*tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -103,14 +114,14 @@
                 if (self.orderState<2) {
                     NSArray* arr = [UNITransfromX_Y bd_decrypt:manager.x and:manager.y];
                    CLLocationCoordinate2D td =CLLocationCoordinate2DMake([arr[0] doubleValue],[arr[1] doubleValue]);
-                    self->_mapView.centerCoordinate = td;
+                    self.mappView.centerCoordinate = td;
                     
                     CalloutMapAnnotation * end =[[CalloutMapAnnotation alloc]initWithLatitude:td.latitude andLongitude:td.longitude];
-                    [self->_mapView addAnnotation:end];
+                    [self.mappView addAnnotation:end];
                     
                     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
-                    MKCoordinateRegion adjustedRegion = [self->_mapView regionThatFits:viewRegion];//适配map view的尺寸
-                    [self->_mapView setRegion:adjustedRegion animated:YES];
+                    MKCoordinateRegion adjustedRegion = [self.mappView regionThatFits:viewRegion];//适配map view的尺寸
+                    [self.mappView setRegion:adjustedRegion animated:YES];
                     
                     arr=nil; end=nil;
                 }
@@ -191,15 +202,20 @@
          float mapX = 16;
          float mapWH = self.myTableView.frame.size.width - mapX*2;
          MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];
-         mapView.mapType = MKMapTypeStandard;//标准模式
-         mapView.delegate = self;
-         mapView.showsUserLocation = YES;//显示自己
+        // mapView.mapType = MKMapTypeStandard;//标准模式
+        // mapView.delegate = self;
+        // mapView.showsUserLocation = YES;//显示自己
          mapView.zoomEnabled = YES;//支持缩放
          [view addSubview:mapView];
-         _mapView = mapView;
+         self.mappView = mapView;
          mapView=nil;
     }
     view=nil;
+}
+#pragma mark 地图移动是会不断请求内存，释放地图内存
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    [self.mappView removeFromSuperview];
+    [self.myTableView.tableFooterView addSubview:mapView];
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

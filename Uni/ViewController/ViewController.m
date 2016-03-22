@@ -41,7 +41,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callPhoneToShop) name:@"callPhoneToShop" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callOtherMapApp) name:@"callOtherMapApp" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(flashTheCellNum:) name:@"flashTheCellNum" object:nil];
-    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(jumpToMyReward) name:@"jumpToMyReward" object:nil];//从我的详情跳转到我的奖励
 }
 
 -(void)setupSelf{
@@ -94,6 +94,7 @@
     tab.dataSource = self;
     tab.separatorStyle = UITableViewCellSeparatorStyleNone;
     tab.backgroundColor = [UIColor clearColor];
+    tab.scrollsToTop=NO;
     [self.view addSubview:tab];
     _myTableView  = tab;
     _myTableView.tableFooterView = [UIView new];
@@ -269,10 +270,17 @@
         cell.numLab.hidden=YES;
 }
 
+#pragma mark 通知跳转到我的奖励
+-(void)jumpToMyReward{
+    NSIndexPath* index = [NSIndexPath indexPathForRow:2 inSection:0];
+    [self tableView:self.myTableView didSelectRowAtIndexPath:index];
+}
+
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callOtherMapApp" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callPhoneToShop" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"flashTheCellNum" object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"jumpToMyReward" object:nil];
 }
 
 @end

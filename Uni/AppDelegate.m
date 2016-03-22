@@ -24,7 +24,7 @@
 #import "WXApiManager.h"
 #import "UNIShopModel.h"
 #import "UNIHttpUrlManager.h"
-#import "UNITouristController.h"
+
 
 @interface AppDelegate (){
     UIImageView* imag;
@@ -128,18 +128,6 @@
             self.window.rootViewController.view.alpha = 1;
     }];
     st=nil; tc=nil;vc=nil;
-}
-
-#pragma mark 有活动就弹出活动界面
--(void)setupActivityController:(NSArray*)hasActivity{
-    UNITouristController* tourist = [[UNITouristController alloc]init];
-    tourist.hasActivity = [hasActivity[0] intValue];
-    tourist.activityId = [hasActivity[1] intValue];
-    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tourist];
-    [self.window.rootViewController presentViewController:nav animated:YES completion:^{
-    }];
-    
-    tourist = nil; 
 }
 #pragma mark 开始登陆界面
 -(void)setupLoginController{

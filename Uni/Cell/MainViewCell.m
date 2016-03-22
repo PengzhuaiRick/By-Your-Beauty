@@ -127,6 +127,7 @@
     if (type == 2) {
          self.numLab.hidden = YES;
         self.accessoryType = UITableViewCellAccessoryNone;
+        
          UNIMyProjectModel* info =(UNIMyProjectModel*) data;
         if (info) {
             self.handleBtn.hidden = NO;

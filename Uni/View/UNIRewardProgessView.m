@@ -39,16 +39,36 @@
         [self setNeedsDisplay];
     }
     else{
-        UILabel* LAB = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-        LAB.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
-        LAB.textAlignment = NSTextAlignmentCenter;
-        LAB.textColor = [UIColor whiteColor];
-        LAB.layer.masksToBounds=YES;
-        LAB.layer.cornerRadius = self.frame.size.height/2;
-        LAB.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14) weight:0];
-        LAB.text = @"可领取";
-        [self addSubview:LAB];
-        LAB = nil;
+//        UILabel* LAB = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+//        LAB.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
+//        LAB.textAlignment = NSTextAlignmentCenter;
+//        LAB.textColor = [UIColor whiteColor];
+//        LAB.layer.masksToBounds=YES;
+//        LAB.layer.cornerRadius = self.frame.size.height/2;
+//        LAB.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14) weight:0];
+//        LAB.text = @"可领取";
+//        [self addSubview:LAB];
+//        LAB = nil;
+        
+        UIColor* theme =[UIColor colorWithHexString:kMainThemeColor];
+        UIColor* white =[UIColor whiteColor];
+        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame =CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+        [btn setTitle:@"可领取" forState:UIControlStateNormal];
+        btn.titleLabel.font= [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14) weight:0];
+        btn.layer.masksToBounds=YES;
+        btn.layer.cornerRadius = self.frame.size.height/2;
+        btn.layer.borderWidth = 0.5;
+        btn.layer.borderColor =theme.CGColor;
+        [btn setBackgroundImage:[self createImageWithColor:theme] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[self createImageWithColor:white] forState:UIControlStateHighlighted];
+        [btn setTitleColor:white forState:UIControlStateNormal];
+        [btn setTitleColor:theme forState:UIControlStateHighlighted];
+         [self addSubview:btn];
+        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+        subscribeNext:^(id x) {
+            [UIAlertView showWithTitle:@"请联系店员领取奖励！" message:@"" cancelButtonTitle:@"我知道了" otherButtonTitles:nil tapBlock:nil];
+        }];
     }
 }
 - (void)drawRect:(CGRect)rect {
@@ -121,5 +141,16 @@
     [str2 drawInRect:CGRectMake(tx, ty, titleSize2.width, titleSize2.height) withAttributes:@{NSFontAttributeName:fontt ,NSForegroundColorAttributeName:[UIColor blackColor]}];
     
 }
-
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
+}
 @end

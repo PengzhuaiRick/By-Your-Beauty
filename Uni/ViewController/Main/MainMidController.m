@@ -23,13 +23,19 @@
 @implementation MainMidController
 
 -(void)viewWillAppear:(BOOL)animated{
+    self.tableView.delegate = self;
+    self.tableView.dataSource=self;
     [super viewWillAppear:animated];
 
 }
 -(void)viewWillDisappear:(BOOL)animated{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     [super viewWillDisappear:animated];
 }
 -(void)dealloc{
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
     [self.myData removeAllObjects];
     self.myData = nil;
 }
@@ -170,21 +176,15 @@
                 [self.tableView.footer endRefreshing];
                 if (!err) {
                     
+                    if (self->pageNum == 0)//下拉刷新
+                        [self.myData removeAllObjects];
                     if (myAppointArr.count<20)
-                        [self.tableView.footer setHidden:YES];
+                        [self.tableView.footer endRefreshingWithNoMoreData];
                     
-                    if (myAppointArr.count>0){
-                        if (self->pageNum == 0)//下拉刷新
-                            [self.myData removeAllObjects];
-                        
-                        [self.myData addObjectsFromArray:myAppointArr];
-                        [self.tableView reloadData];
-                    }else{
-                        if (self->pageNum == 0){//下拉刷新
-                            [self.myData removeAllObjects];
-                            [self.tableView reloadData];
-                        }
-                    }
+                    [self.myData addObjectsFromArray:myAppointArr];
+                    [self.tableView reloadData];
+                    
+                    
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
             });

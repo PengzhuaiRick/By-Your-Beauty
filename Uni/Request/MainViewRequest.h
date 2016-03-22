@@ -84,6 +84,15 @@ typedef void(^RQMainBgBlock)(NSArray* array,NSString* tips,NSError* er);
  */
 typedef void(^RQSellInfoBlock)(NSArray* array,NSString* tips,NSError* er);
 
+/**
+ *  请求请求用户是否存在活动
+ *
+ *  @param hasActivity 0
+ *  @param tips  反馈信息
+ *  @param er    错误信息
+ */
+typedef void(^RQActivity)(int hasActivity,int activityId,NSString* tips,NSError* er);
+
 @interface MainViewRequest : BaseRequest
 
 
@@ -109,4 +118,7 @@ typedef void(^RQSellInfoBlock)(NSArray* array,NSString* tips,NSError* er);
 
 // 请求首页销售商品信息
 @property(nonatomic,copy)RQSellInfoBlock resellInfoBlock;
+
+// 请求请求用户是否存在活动
+@property(nonatomic,copy)RQActivity rqactivity;
 @end

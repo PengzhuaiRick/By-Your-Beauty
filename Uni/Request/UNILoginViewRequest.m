@@ -40,11 +40,11 @@
          if (code == 0) {
              int userId = [[self safeObject:dic ForKey:@"userId"] intValue];
              int shopId = [[self safeObject:dic ForKey:@"shopId"] intValue];
-             int hasActivity = [[self safeObject:dic ForKey:@"hasActivity"] intValue];
-             int activityId = [[self safeObject:dic ForKey:@"activityId"] intValue];
+//             int hasActivity = [[self safeObject:dic ForKey:@"hasActivity"] intValue];
+//             int activityId = [[self safeObject:dic ForKey:@"activityId"] intValue];
              NSString* token = [self safeObject:dic ForKey:@"token"];
              NSString* tips = [self safeObject:dic ForKey:@"tips"];
-             _rqloginBlock(userId,shopId,hasActivity,activityId,token,tips,nil);
+             _rqloginBlock(userId,shopId,-1,-1,token,tips,nil);
          }else
              _rqloginBlock(-1,-1,-1,-1,nil,tips,nil);
     }
@@ -67,6 +67,15 @@
             _setTouristBlock(code,tel,tips,nil);
         }else
             _setTouristBlock(-1,nil,tips,nil);
+    }
+
+    //请求游客按钮显示
+    if ([param1 isEqualToString:API_PARAM_UNI]&&
+        [param2 isEqualToString:API_URL_RetCode]) {
+        if (code == 0) {
+            _rqtouristBtn(code,tips,nil);
+        }else
+            _rqtouristBtn(-1,tips,nil);
     }
 
 
@@ -96,6 +105,11 @@
         [param2 isEqualToString:API_URL_SetCustomInfo]) {
             _setTouristBlock(-1,nil,nil,err);
     }
-
+    
+    //请求游客按钮显示
+    if ([param1 isEqualToString:API_PARAM_UNI]&&
+        [param2 isEqualToString:API_URL_RetCode]) {
+        _rqtouristBtn(-1,nil,err);
+    }
 }
 @end

@@ -175,7 +175,7 @@
                         [self.myData removeAllObjects];
                     
                     if (myProjectArr.count<20)
-                        [self.myTableview.footer setHidden:YES];
+                        [self.myTableview.footer endRefreshingWithNoMoreData];
                     
                     if (myProjectArr.count>0){
                         NSMutableArray* data = [NSMutableArray arrayWithArray:myProjectArr];

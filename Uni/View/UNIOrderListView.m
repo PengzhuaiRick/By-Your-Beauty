@@ -41,7 +41,7 @@
             
             
             if (array.count<20)
-                [self.myTable.footer setHidden:YES] ;
+                [self.myTable.footer endRefreshingWithNoMoreData] ;
             
                 [self.allArray addObjectsFromArray:array];
                 [self setupTableView];

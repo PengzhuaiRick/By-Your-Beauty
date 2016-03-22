@@ -23,15 +23,16 @@
 #import "UNIGoodsWeb.h"
 #import "UNIHttpUrlManager.h"
 
+#import "UNITouristController.h"
+
 @interface MainViewController ()</*UINavigationControllerDelegate,*/MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
-  //  UITableView* footTableView;
     float cellHight;
     int appointTotal;
     int type1;
     int goodId1;
+    int bottomPage;//底部数据加载页数
     
-    CGRect topRe;
     UILabel* progessLab; //9/10
     UILabel* goods1;
     UILabel* goods2;
@@ -54,7 +55,7 @@
 
 }
 @property(nonatomic,strong) NSArray* midData;
-@property(nonatomic,strong) NSArray* bottomData;
+@property(nonatomic,strong) NSMutableArray* bottomData;
 //@property(nonatomic,strong) MainMidController* midController ;
 //@property(nonatomic,strong) MainBottomController* buttomController;
 @end
@@ -85,6 +86,7 @@
     [super viewDidLoad];
     [self setupNavigation];
     [self setupScroller];
+    [self requestActivityInfo];
     [self startRequestShopInfo];//请求商家信息
     [self startRequestReward];//请求约满信息
     [self startRequestAppointInfo];//请求我已预约
@@ -94,48 +96,34 @@
 
     //[self addLocateNotication];
 }
--(void)addLocateNotication{
-    NSMutableArray* arr = [NSMutableArray array];
-    for (int i =0 ; i<2; i++) {
-        
-        UILocalNotification *localNotification = [[UILocalNotification alloc] init];
-        
-        NSTimeZone* zo = [NSTimeZone systemTimeZone];
-        
-        NSDate *date = [NSDate dateWithTimeIntervalSinceNow:24*60*60*i];
-        
-        NSInteger interval = [zo secondsFromGMTForDate: date];
-        
-        NSDate *localeDate = [date  dateByAddingTimeInterval: interval];
-        
-       // localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:24*60*60*i];
-        localNotification.fireDate = localeDate;
-        //设置本地通知的时区
-        localNotification.timeZone = [NSTimeZone defaultTimeZone];
-        //设置通知的内容
-        localNotification.alertBody =  @"您预约的服务时间还有一小时";
-        //设置通知动作按钮的标题
-        localNotification.alertAction = @"查看";
-        //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声
-        localNotification.soundName = UILocalNotificationDefaultSoundName;
-        //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
-        
-        NSDictionary *infoDic = @{@"OrderId":@"1223",@"useId":[AccountManager userId]};
-        localNotification.userInfo = infoDic;
-        //在规定的日期触发通知
-        [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-        
-        NSDictionary* dic = @{@"time":localNotification.fireDate,
-                              @"OrderId":@"1223",
-                              @"useId":[AccountManager userId]};
-        [arr addObject:dic];
-    }
-    
-    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
-    [userD setValue:arr forKey:@"appointArr"];
-    [userD synchronize];
+#pragma mark 请求活动信息
+-(void)requestActivityInfo{
+    MainViewRequest* request = [[MainViewRequest alloc]init];
+    [request postWithSerCode:@[API_PARAM_UNI,API_URL_HasActivity]
+                       params:nil];
+    request.rqactivity=^(int hasActivity,int activityId,NSString* tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (activityId>-1 && hasActivity < 2)
+                [self setupActivityController:@[@(hasActivity),@(activityId)]];
+            
+        });
+    };
 }
-
+#pragma mark 有活动就弹出活动界面
+-(void)setupActivityController:(NSArray*)hasActivity{
+    UNITouristController* tourist = [[UNITouristController alloc]init];
+    tourist.hasActivity = [hasActivity[0] intValue];
+    tourist.activityId = [hasActivity[1] intValue];
+    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tourist];
+    [self presentViewController:nav animated:YES completion:^{
+    }];
+    
+   // tourist = nil;
+}
 #pragma mark
 -(void)setupNavigation{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
@@ -148,18 +136,19 @@
     self.navigationItem.leftBarButtonItem = bar;
      self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
     
-    UIButton* stateBtn =[UIButton buttonWithType:UIButtonTypeCustom];
-    stateBtn.frame = CGRectMake(40, -20, KMainScreenWidth-80, 60);
-    stateBtn.backgroundColor = [UIColor clearColor];
-    //[[UIApplication sharedApplication].keyWindow addSubview:stateBtn];
-    [self.navigationController.view addSubview:stateBtn];
-    backTopBtn = stateBtn;
-    [[stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-    subscribeNext:^(id x) {
-        NSLog(@"顶部");
-        CGPoint p = CGPointMake(0, 0);
-        [self->myTable setContentOffset:p animated:YES];
-    }];
+    
+//    UIButton* stateBtn =[UIButton buttonWithType:UIButtonTypeCustom];
+//    stateBtn.frame = CGRectMake(40, 0, KMainScreenWidth-80, 60);
+//    stateBtn.backgroundColor = [UIColor clearColor];
+//    //[[UIApplication sharedApplication].keyWindow addSubview:stateBtn];
+//    [self.view addSubview:stateBtn];
+//    backTopBtn = stateBtn;
+//    [[stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+//    subscribeNext:^(id x) {
+//        NSLog(@"顶部");
+//        CGPoint p = CGPointMake(0, 0);
+//        [self->myTable setContentOffset:p animated:YES];
+//    }];
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -175,6 +164,8 @@
 #pragma mark 设置Scroller
 -(void)setupScroller{
     
+    bottomPage = 0;
+    _bottomData = [NSMutableArray array];
     float tabX = 0;
     float tabY = 64;
     float tabW = KMainScreenWidth ;
@@ -192,7 +183,7 @@
     
    // float imgH = tabH*0.6-20;
     float imgH = KMainScreenWidth;
-    topRe =CGRectMake(0,0,tabW,imgH);
+    CGRect topRe =CGRectMake(0,0,tabW,imgH);
     UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
     //topImg.image = [UIImage imageNamed:@"main_img_top"];
     topImg.userInteractionEnabled = YES;
@@ -207,6 +198,7 @@
     [self setupTabViewHeader:topImg];
    
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        self->bottomPage = 0;
         [self startRequestReward];//请求约满信息
         [self startRequestAppointInfo];//请求我已预约
         [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
@@ -492,7 +484,10 @@
         [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
     }else{
             cell.handleBtn.tag =indexPath.row;
+        if (_bottomData.count>0)
           [cell setupCellWithData:_bottomData[indexPath.row -1] type:2 andTotal:-1];
+        else
+            [cell setupCellWithData:nil type:2 andTotal:-1];
     }
     
 
@@ -573,13 +568,13 @@
                             self.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shortName];
                         else
                             self.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shopName];
-                    }else{
+                    }
+                     if (!manager.shopName)
                         //检测不到店铺信息 需要重新登录
                         [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
-                    }
+                    
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
-                
             });
             
         };
@@ -640,7 +635,7 @@
                     self->appointTotal = count;
                     self.midData = nil;
                     self.midData = myAppointArr;
-                  //  [self->myTable reloadData];
+                    [self->myTable reloadData];
                        // [self.midView startReloadData:myAppointArr andType:1];
                    
 //                    else
@@ -654,21 +649,41 @@
 -(void)startRequestProjectInfo{
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
-                           params:@{@"page":@(0),@"size":@(50)}];
+                           params:@{@"page":@(bottomPage),@"size":@(10)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
+                    [self->myTable.footer endRefreshing];
+                    //刷新侧边栏我的礼包的数量
                     [[NSNotificationCenter defaultCenter]postNotificationName:@"flashTheCellNum" object:nil userInfo:@{@"count":@(count)}];
-                    self.bottomData = nil;
                     
-                        self.bottomData=myProjectArr;
+                    if (self->bottomPage<1)
+                        [self.bottomData removeAllObjects];
+                    
+                    if (myProjectArr.count<10)
+                        [self->myTable.footer endRefreshingWithNoMoreData];
+                    
+                    
+                    [self.bottomData addObjectsFromArray: myProjectArr];
                     [self->myTable reloadData];
+                    [self addTableViewReflashFootView];
                        // [self setupTableViewFooter];
                 }
                 else
                     [YIToast showText:NETWORKINGPEOBLEM];
             });
         };
+}
+#pragma mark 判断是否添加上拉加载
+-(void)addTableViewReflashFootView{
+    if (myTable.footer){
+        return;}
+    
+        myTable.footer =[MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            self->bottomPage++;
+            [self startRequestProjectInfo];
+        }];
+
 }
 
 #pragma mark 获取背景图片 和 奖励商品图片

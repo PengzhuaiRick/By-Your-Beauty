@@ -96,6 +96,93 @@
     [footer addSubview:btn];
     loginBtn = btn;
     
+    
+    UNILoginViewRequest* req = [[UNILoginViewRequest alloc]init];
+    [req postWithSerCode:@[API_PARAM_UNI,API_URL_RetCode] params:nil];
+    req.rqtouristBtn = ^(int code,NSString* tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (code == 0) {
+                
+                self.fourthCell.hidden = YES;
+                
+                float btnX = KMainScreenWidth* 40/320;
+                float btnW =footer.frame.size.width - btnX*2;
+                float btnH = KMainScreenWidth* 40/320;
+                float btnY = CGRectGetMaxY(self->loginBtn.frame)+10;
+                UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+                btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
+                [btn setTitle:@"游客登录" forState:UIControlStateNormal];
+                btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*17/320];
+                [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                btn.layer.borderWidth=1;
+                btn.layer.masksToBounds = YES;
+                btn.layer.cornerRadius = 3;
+                btn.layer.borderColor = [UIColor whiteColor].CGColor;
+                [btn setBackgroundColor:[UIColor clearColor]];
+                [footer addSubview:btn];
+                
+                [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+                 subscribeNext:^(UIButton* x) {
+                     x.enabled = NO;
+                     [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
+                     UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
+                     [request postWithoutUserIdSerCode:@[API_PARAM_UNI,
+                                                         API_URL_Login]
+                                                params:@{@"code":@"13267208242",
+                                                         @"password":@"000000",
+                                                         @"name":@"哈哈",
+                                                         @"sex":@(1)}];
+                     
+                     request.rqloginBlock = ^(int userId,
+                                              int shopId,
+                                              int hasActivity,
+                                              int activityId,
+                                              NSString* token,
+                                              NSString* tips,
+                                              NSError* er){
+                         x.enabled = YES;
+                         [LLARingSpinnerView RingSpinnerViewStop1];
+                         if (er==nil) {
+                             if (!token){
+#ifdef IS_IOS9_OR_LATER
+                                 UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"登陆失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                                 
+                                 UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
+                                 [alertController addAction:cancelAction];
+                                 [self presentViewController:alertController animated:YES completion:nil];
+#else
+                                 [UIAlertView showWithTitle:@"登陆失败" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                     if (buttonIndex>0)
+                                         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+                                 }];
+#endif
+                                 
+                                 return ;
+                             }
+                             //保存信息
+                             [AccountManager setToken:token];
+                             [AccountManager setUserId:@(userId)];
+                             [AccountManager setShopId:@(shopId)];
+                             [AccountManager setLocalLoginName:@"13267208242"];
+                             
+                             
+                             self.view.window.backgroundColor = [UIColor whiteColor];
+                             AppDelegate* app = [UIApplication sharedApplication].delegate;
+                             [app setupViewController];
+                         }else
+                             [YIToast showText:NETWORKINGPEOBLEM];
+                         // [YIToast showWithText:tips];
+                     };
+                     
+                 }];
+            }
+        });
+    };
+
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return cellH;
@@ -136,6 +223,7 @@
     field.placeholder = @"请输入手机号";
     [field setValue: [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    field.text = [[NSUserDefaults standardUserDefaults] objectForKey:LASTUSERLOGINNAME];
     field.keyboardType = UIKeyboardTypeNumberPad;
     field.textColor = [UIColor whiteColor];
     [cell addSubview:field];
@@ -477,7 +565,7 @@
 #endif
                     return ;
                 }
-                
+                self.sex = sex;
                 self->ifStatus = status;
                 self->nikeName.text = name;
                 if (sex == 1){
@@ -496,7 +584,7 @@
 //                if (llt) {
 //                    if (self.fourthCell.alpha==1) {
 //                        CGRect p1 = self.firstCell.frame;
-//                                                                          CGRect p2 = self.secondCell.frame;
+//                        CGRect p2 = self.secondCell.frame;
 //                        CGRect p3 = self.thirldCell.frame;
 //                        p1.origin.y+=20;
 //                        p2.origin.y+=20;
@@ -672,26 +760,20 @@
                 [AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
                 [AccountManager setLocalLoginName:field1.text];
-                //跳转  
-//                if (self->ifStatus == 3) {
-//                    [self userIsTourist];
-//                }else{
+                
+                //保存用户上次登录的电话号码
+                [[NSUserDefaults standardUserDefaults]setObject:field1.text forKey:LASTUSERLOGINNAME];
+                
+                //跳转
                     self.view.window.backgroundColor = [UIColor whiteColor];
                     AppDelegate* app = [UIApplication sharedApplication].delegate;
                     [app setupViewController];
-//                }
                 
-                if (hasActivity <2) {
-//                    double delayInSeconds = 2.0;
-//                    dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-//                    dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-//                        [app setupActivityController];
-//                    });
-                    [app performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:2];
-                }
+//                if (hasActivity <2) {
+//                    [app performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:2];
+//                }
             }else
                 [YIToast showText:NETWORKINGPEOBLEM];
-           // [YIToast showWithText:tips];
         };
         
     }];

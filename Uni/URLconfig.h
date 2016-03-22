@@ -135,9 +135,15 @@
 //获取提示语言接口
 #define API_URL_GetAppTips @"getAppTips"
 
+//获取用户是否参加过活动
+#define API_URL_HasActivity @"hasActivity"
+
 //获取活动分享内容
 #define API_URL_ActivityShare @"activityShare"
 
 //获取服务预约内容信息
 #define API_URL_GetProjectModel @"getProjectModel"
+
+//获取游客按钮显示
+#define API_URL_RetCode @"retCode"
 #endif /* URLconfig_h */

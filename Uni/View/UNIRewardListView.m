@@ -41,8 +41,7 @@
             if (self.page == 0)
                 [self.allArray removeAllObjects];
             
-            if (array.count>0)
-                [self.allArray addObjectsFromArray:array];
+            [self.allArray addObjectsFromArray:array];
             
             [self setupTableView:array];
         });
@@ -56,10 +55,7 @@
     if (self.myTable){
         [self.myTable reloadData];
         if (arr.count<20){
-            if (self.page > 0)
-            [ self.myTable.footer setHidden:YES];
-            else
-                [ self.myTable.footer setHidden:NO];
+            [self.myTable.footer endRefreshingWithNoMoreData];
         }
         return;
     }
@@ -103,9 +99,10 @@
     img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
     [nodata addSubview:img];
     
-    UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+    //UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
-    lab.text=manager.NO_ORDER_TIPS;
+   // lab.text=manager.NO_ORDER_TIPS;
+    lab.text = @"很抱歉您还没有获得奖励哦！";
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab.textAlignment = NSTextAlignmentCenter;
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];

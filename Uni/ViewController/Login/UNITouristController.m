@@ -39,8 +39,7 @@
     //[self setupUI];
    // [self setupWX];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(wxShareResult:) name:@"wxShareResult" object:nil];
-
-    }
+}
 -(void)startRequest{
     UNITouristRequest* rq = [[UNITouristRequest alloc]init];
     rq.getTouristinfo=^(UNITouristModel* model,NSString* tips,NSError* er){
@@ -76,6 +75,9 @@
 
 #pragma mark 微信授权登录
 -(void)setupWX{
+    if (!self->myModel) {
+        return;
+    }
     [WXApiManager sharedManager].delegate = self;
     
     SendAuthReq* req =[[SendAuthReq alloc] init];
@@ -161,7 +163,7 @@
     self.title = @"参与活动";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
-    if(_hasActivity>0)
+   // if(_hasActivity>0)
         self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];

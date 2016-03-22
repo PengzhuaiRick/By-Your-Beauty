@@ -110,6 +110,15 @@
             }else
                 _resellInfoBlock(nil,tips,nil);
         }
+        if ([param2 isEqualToString:API_URL_HasActivity] ) {
+            if (code == 0) {
+                NSDictionary* result = [self safeObject:dic ForKey:@"result"];
+                int hasActivity = [[self safeObject:result ForKey:@"hasActivity"] intValue];
+                int activityId = [[self safeObject:result ForKey:@"activityId"] intValue];
+                _rqactivity(hasActivity,activityId,tips,nil);
+            }else
+                _rqactivity(-1,-1,tips,nil);
+        }
 
 
     }
@@ -147,6 +156,10 @@
         if ([param2 isEqualToString:API_URL_GetSellInfo2] ) {
             _resellInfoBlock(nil,nil,err);
         }
+        if ([param2 isEqualToString:API_URL_HasActivity] ) {
+                _rqactivity(-1,-1,nil,err);
+        }
+
 
     }
 
