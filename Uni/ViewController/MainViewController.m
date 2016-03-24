@@ -86,7 +86,8 @@
     [super viewDidLoad];
     [self setupNavigation];
     [self setupScroller];
-    [self requestActivityInfo];
+   // [self requestActivityInfo];
+    [self requestActivityShowOrNot];
     [self startRequestShopInfo];//请求商家信息
     [self startRequestReward];//请求约满信息
     [self startRequestAppointInfo];//请求我已预约
@@ -96,8 +97,27 @@
 
     //[self addLocateNotication];
 }
+#pragma mark 审核期间 是否显示活动页面
+-(void)requestActivityShowOrNot{
+    MainViewRequest* request = [[MainViewRequest alloc]init];
+    [request postWithSerCode:@[API_PARAM_UNI,API_URL_RetCode]
+                      params:nil];
+    request.rqshowAcitivityOrNot=^(int code,NSString* tips,NSError* er){
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (code != 1) {
+                [self requestActivityInfo];
+            }
+        
+    };
+
+}
+
 #pragma mark 请求活动信息
 -(void)requestActivityInfo{
+    
     MainViewRequest* request = [[MainViewRequest alloc]init];
     [request postWithSerCode:@[API_PARAM_UNI,API_URL_HasActivity]
                        params:nil];
@@ -108,22 +128,21 @@
                 return ;
             }
             if (activityId>-1 && hasActivity < 2)
-                [self setupActivityController:@[@(hasActivity),@(activityId)]];
+               [self performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
+               //[self setupActivityController:@[@(hasActivity),@(activityId)]];
             
         });
     };
 }
 #pragma mark 有活动就弹出活动界面
--(void)setupActivityController:(NSArray*)hasActivity{
+-(void)setupActivityController:(NSArray*)Activity{
     UNITouristController* tourist = [[UNITouristController alloc]init];
-    tourist.hasActivity = [hasActivity[0] intValue];
-    tourist.activityId = [hasActivity[1] intValue];
+    tourist.hasActivity = [Activity[0] intValue];
+    tourist.activityId = [Activity[1] intValue];
     UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tourist];
-    [self presentViewController:nav animated:YES completion:^{
-    }];
-    
-   // tourist = nil;
+    [self presentViewController:nav animated:YES completion:^{}];
 }
+
 #pragma mark
 -(void)setupNavigation{
     self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
@@ -199,6 +218,7 @@
    
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->bottomPage = 0;
+        [self startRequestShopInfo];//请求商家信息
         [self startRequestReward];//请求约满信息
         [self startRequestAppointInfo];//请求我已预约
         [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
@@ -613,6 +633,13 @@
                             self->goods2.text=[NSString stringWithFormat:@"可获得%@",[projectName substringToIndex:yuan.location+1]];
                             self->goodsLab.text = [projectName substringFromIndex:yuan.location+1];
                         }
+                    }else{
+                        self->numLab.text = nil;
+                        self->goods1.text= nil;
+                        self->progessLab.text = nil;
+                        self->goods2.text=nil;
+                        self->goodsLab.text = nil;
+                        [self->progessView setupProgreaa:0 and:0];
                     }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
@@ -647,6 +674,7 @@
 }
 #pragma mark 开始请求我的项目
 -(void)startRequestProjectInfo{
+    
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
                            params:@{@"page":@(bottomPage),@"size":@(10)}];
@@ -663,8 +691,8 @@
                     if (myProjectArr.count<10)
                         [self->myTable.footer endRefreshingWithNoMoreData];
                     
-                    
                     [self.bottomData addObjectsFromArray: myProjectArr];
+                
                     [self->myTable reloadData];
                     [self addTableViewReflashFootView];
                        // [self setupTableViewFooter];
@@ -753,26 +781,18 @@
 }
 
 -(void)appointSuccessAndReflash{
-    [myTable.header beginRefreshing];
+    if ([AccountManager token]) {
+        [myTable.header beginRefreshing];
+    }else{
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
+    }
+    
 }
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:APPOINTANDREFLASH object:nil];
 }
 
-//#pragma mark <UINavigationControllerDelegate>
-//- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
-//                                   animationControllerForOperation:(UINavigationControllerOperation)operation
-//                                                fromViewController:(UIViewController *)fromVC
-//                                                  toViewController:(UIViewController *)toVC{
-//    if ([toVC isKindOfClass:[MainMidController class]]||[toVC isKindOfClass:[MainBottomController class]]){
-//      
-//    MainMoveTransition *transition = [[MainMoveTransition alloc]init];
-//        return transition;
-//    }
-//    return nil;
-//                                                            
-//}
 #pragma mark 颜色转图片
 -(UIImage*)createImageWithColor:(UIColor*) color
 {

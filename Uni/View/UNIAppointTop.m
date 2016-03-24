@@ -422,6 +422,16 @@
         [view removeFromSuperview];
     }
     
+    if (cout<1) {
+        UILabel* nodate = [[UILabel alloc]init];
+        nodate.text = @"没有可以预约的时间哦！";
+        nodate.font = [UIFont systemFontOfSize:14];
+        nodate.textColor = [UIColor colorWithHexString:kMainTitleColor];
+        [nodate sizeToFit];
+        nodate.frame = CGRectMake((self.midScroller.frame.size.width - nodate.frame.size.width)/2, btnH, nodate.frame.size.width, nodate.frame.size.height);
+        [self.midScroller addSubview:nodate];
+    }
+    
     for (int i = 0; i<cout; i++) {
         NSDictionary* dic = freeTimes[i];
         float btnX =KK/2+ i%3 * btnW;

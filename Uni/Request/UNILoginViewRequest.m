@@ -72,10 +72,7 @@
     //请求游客按钮显示
     if ([param1 isEqualToString:API_PARAM_UNI]&&
         [param2 isEqualToString:API_URL_RetCode]) {
-        if (code == 0) {
             _rqtouristBtn(code,tips,nil);
-        }else
-            _rqtouristBtn(-1,tips,nil);
     }
 
 

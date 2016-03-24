@@ -39,9 +39,12 @@
         if ([param2 isEqualToString:API_URL_SetCustomInfo]) {
             if (code == 0|| code == 7) {
                 NSString* tel = [self safeObject:dic ForKey:@"tel"];
-                _setTouristBlock(code,tel,tips,nil);
+                 NSString* token = [self safeObject:dic ForKey:@"token"];
+                int userId = [[self safeObject:dic ForKey:@"userId"] intValue];
+                int shopId = [[self safeObject:dic ForKey:@"shopId"] intValue];
+                _setTouristBlock(code,userId,shopId,token,tel,tips,nil);
             }else
-                _setTouristBlock(-1,nil,tips,nil);
+                _setTouristBlock(-1,-1,-1,nil,nil,tips,nil);
         }
 
     }
@@ -62,7 +65,7 @@
         }
         //设置游客基础信息
         if ([param2 isEqualToString:API_URL_SetCustomInfo]) {
-            _setTouristBlock(-1,nil,nil,err);
+             _setTouristBlock(-1,-1,-1,nil,nil,nil,err);
         }
     }
     

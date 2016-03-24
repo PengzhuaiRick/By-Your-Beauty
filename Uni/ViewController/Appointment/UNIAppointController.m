@@ -263,10 +263,10 @@
     }];
 #endif
                      }else
-                         [YIToast showText:@"您已经在这个点预约过了，请选择其他时间预约。"];
+                        // [YIToast showText:@"您已经在这个点预约过了，请选择其他时间预约。"];
+                         [UIAlertView showWithTitle:tips message:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil tapBlock:nil];
                  };
-    
-             });
+            });
     
     arr=nil; date = nil;
 }

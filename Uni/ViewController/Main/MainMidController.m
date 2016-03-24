@@ -15,8 +15,8 @@
 #import "UNIAppointDetail.h"
 @interface MainMidController ()
 {
-    int pageNum;
-    int pageSize;
+    //int pageNum;
+    //int pageSize;
 }
 @end
 
@@ -75,22 +75,20 @@
 -(void)setupParams{
     _myData = [NSMutableArray array];
    //_num = (int)_myData.count;
-    pageNum = 0;
-    pageSize = 20;
-
+    _pageNum = 0;
 }
 #pragma mark 设置刷新方法
 -(void)setupMJReflash{
+    
+    __weak MainMidController* myself = self;
     self.tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-        self->pageNum =0;
-        self->pageSize =20;
-        [self startRequestInfoPage];
+        myself.pageNum =0;
+        [myself startRequestInfoPage];
     }];
  
         self.tableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-            ++self->pageNum;
-            self->pageSize =20;
-            [self startRequestInfoPage];
+            ++myself.pageNum;
+            [myself startRequestInfoPage];
         }];
     
 }
@@ -166,23 +164,25 @@
 
 #pragma mark 开始请求我已预约项目
 -(void)startRequestInfoPage{
+    __weak MainMidController* myself = self;
+    int page = _pageNum;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
-                          params:@{@"page":@(self->pageNum),@"size":@(self->pageSize)}];
+                          params:@{@"page":@(page),@"size":@(10)}];
         request.reappointmentBlock =^(int count,NSArray* myAppointArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.tableView.header endRefreshing];
-                [self.tableView.footer endRefreshing];
+                [myself.tableView.header endRefreshing];
+                [myself.tableView.footer endRefreshing];
                 if (!err) {
                     
-                    if (self->pageNum == 0)//下拉刷新
-                        [self.myData removeAllObjects];
+                    if (page == 0)//下拉刷新
+                        [myself.myData removeAllObjects];
                     if (myAppointArr.count<20)
-                        [self.tableView.footer endRefreshingWithNoMoreData];
+                        [myself.tableView.footer endRefreshingWithNoMoreData];
                     
-                    [self.myData addObjectsFromArray:myAppointArr];
-                    [self.tableView reloadData];
+                    [myself.myData addObjectsFromArray:myAppointArr];
+                    [myself.tableView reloadData];
                     
                     
                 }else

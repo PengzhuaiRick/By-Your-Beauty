@@ -71,6 +71,14 @@
         }
         //获取约满奖励
        if ([param2 isEqualToString:API_URL_MRInfo] ) {
+           
+           if (code ==3) {
+               [UIAlertView showWithTitle:@"提示" message:@"您授权码已过期！请重新登录" cancelButtonTitle:@"知道" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                   [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
+               }];
+               
+           }
+           
            if (code == 0) {
                int nextRewardNum = [[self safeObject:dic ForKey:@"nextRewardNum"] intValue];
                int num = [[self safeObject:dic ForKey:@"num"] intValue];
@@ -81,6 +89,7 @@
                _rerewardBlock(nextRewardNum,num,type,goodsId,url,projectName,tips,nil);
            }else
                _rerewardBlock(-1,-1,-1,-1,nil,nil,tips,nil);
+          
         }
         if ([param2 isEqualToString:API_URL_GetImgByshopIdCode] ) {
             if (code == 0) {
@@ -119,7 +128,11 @@
             }else
                 _rqactivity(-1,-1,tips,nil);
         }
-
+        
+        //审核期间是否显示活动
+        if ([param2 isEqualToString:API_URL_RetCode]) {
+            _rqshowAcitivityOrNot(code,tips,nil);
+        }
 
     }
 }
@@ -159,8 +172,10 @@
         if ([param2 isEqualToString:API_URL_HasActivity] ) {
                 _rqactivity(-1,-1,nil,err);
         }
-
-
+        //审核期间是否显示活动
+        if ([param2 isEqualToString:API_URL_RetCode]) {
+            _rqshowAcitivityOrNot(-1,nil,err);
+        }
     }
 
 

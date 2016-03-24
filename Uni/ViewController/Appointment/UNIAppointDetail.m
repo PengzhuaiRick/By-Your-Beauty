@@ -22,13 +22,14 @@
     float topCellH;
     float midCellH;
     float bottomCellH;
-    UNIShopModel* shopManage;
+    
    // MKMapView* _mapView;
     
     CalloutMapAnnotation *_calloutAnnotation;
 }
 @property(nonatomic,strong)NSArray* modelArr;
 @property(nonatomic,assign)int orderState;
+@property(strong ,nonatomic)UNIShopModel* shopManage;
 @end
 
 @implementation UNIAppointDetail
@@ -36,6 +37,8 @@
     self.mappView.delegate = self;
     self.myTableView.delegate = self;
     self.myTableView.dataSource = self;
+//    self.mappView.showsUserLocation = YES;//显示自己
+//    self.mappView.zoomEnabled = YES;//支持缩放
     [super viewWillAppear:animated];
 }
 
@@ -44,13 +47,15 @@
     vRe.origin.y = 64;
     self.view.frame = vRe;
     self.mappView.delegate = nil;
+//    self.mappView.showsUserLocation = NO;//显示自己
+//    self.mappView.zoomEnabled = NO;//支持缩放
     self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     self.myTableView.delegate = nil;
     self.myTableView.dataSource = nil;
     [super viewDidDisappear:animated];
 }
 -(void)dealloc{
-    shopManage = nil;
+    _shopManage = nil;
     _myTableView = nil;
     _mappView = nil;
     _order = nil;
@@ -70,11 +75,14 @@
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
-    //[self.myTableView removeFromSuperview];
+    [self.mappView removeFromSuperview];
+    self.mappView = nil;
+    [self.myTableView removeFromSuperview];
     [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)startRequest{
+    __weak UNIAppointDetail* myself= self;
      [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
     [rquest postWithSerCode:@[API_PARAM_UNI,API_URL_GetAppointInfo]
@@ -87,16 +95,16 @@
                 return ;
             }
             if (models && models.count>0) {
-                self.modelArr = models;
-                [self setupData];
-                [self setupMyTableView];
-                [self requestShopInfo];
+                myself.modelArr = models;
+                [myself setupData];
+                [myself setupMyTableView];
+                [myself requestShopInfo];
             }
         });
     };
 }
 -(void)requestShopInfo{
-    //__weak UNIAppointDetail* mySelf = self;
+    __weak UNIAppointDetail* mySelf = self;
     UNIShopRequest* rq = [[UNIShopRequest alloc]init];
     rq.rwshopModelBlock = ^(UNIShopModel* manager,NSString*tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -105,23 +113,23 @@
                 return ;
             }
             if (manager){
-                self->shopManage = manager;
-                NSIndexPath *index = [NSIndexPath indexPathForRow:(int)self.modelArr.count+1 inSection:0];
-                UNIAppointDetail2Cell* cell = [self.myTableView cellForRowAtIndexPath:index];
+                mySelf.shopManage = manager;
+                NSIndexPath *index = [NSIndexPath indexPathForRow:(int)mySelf.modelArr.count+1 inSection:0];
+                UNIAppointDetail2Cell* cell = [mySelf.myTableView cellForRowAtIndexPath:index];
                 cell.label1.text = manager.shopName;
                 cell.label2.text = manager.address;
                 
-                if (self.orderState<2) {
+                if (mySelf.orderState<2) {
                     NSArray* arr = [UNITransfromX_Y bd_decrypt:manager.x and:manager.y];
                    CLLocationCoordinate2D td =CLLocationCoordinate2DMake([arr[0] doubleValue],[arr[1] doubleValue]);
-                    self.mappView.centerCoordinate = td;
+                    mySelf.mappView.centerCoordinate = td;
                     
                     CalloutMapAnnotation * end =[[CalloutMapAnnotation alloc]initWithLatitude:td.latitude andLongitude:td.longitude];
-                    [self.mappView addAnnotation:end];
+                    [mySelf.mappView addAnnotation:end];
                     
                     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
-                    MKCoordinateRegion adjustedRegion = [self.mappView regionThatFits:viewRegion];//适配map view的尺寸
-                    [self.mappView setRegion:adjustedRegion animated:YES];
+                    MKCoordinateRegion adjustedRegion = [mySelf.mappView regionThatFits:viewRegion];//适配map view的尺寸
+                    [mySelf.mappView setRegion:adjustedRegion animated:YES];
                     
                     arr=nil; end=nil;
                 }
@@ -183,16 +191,15 @@
     [button setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
     [button setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
     [view addSubview:button];
+       __weak UNIAppointDetail* myself = self;
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-//         UNIMyAppointInfoModel* info =self.modelArr.lastObject;
-//         NSArray* arr= @[self.order,info.projectName,info.createTime];
          UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
          UNIEvaluateController* eva = [story instantiateViewControllerWithIdentifier:@"UNIEvaluateController"];
-         eva.model =self.modelArr[0];
-         eva.order = self.order;
-         eva.shopId = self.shopId;
-         [self.navigationController pushViewController:eva animated:YES];
+         eva.model =myself.modelArr[0];
+         eva.order = myself.order;
+         eva.shopId = myself.shopId;
+         [myself.navigationController pushViewController:eva animated:YES];
          eva = nil;
          story=nil;
      }];
@@ -203,9 +210,9 @@
          float mapWH = self.myTableView.frame.size.width - mapX*2;
          MKMapView* mapView = [[MKMapView alloc]initWithFrame:CGRectMake(mapX, 0, mapWH, mapWH)];
         // mapView.mapType = MKMapTypeStandard;//标准模式
-        // mapView.delegate = self;
-        // mapView.showsUserLocation = YES;//显示自己
-         mapView.zoomEnabled = YES;//支持缩放
+         mapView.delegate = self;
+         //mapView.showsUserLocation = YES;//显示自己
+        // mapView.zoomEnabled = YES;//支持缩放
          [view addSubview:mapView];
          self.mappView = mapView;
          mapView=nil;
@@ -214,8 +221,10 @@
 }
 #pragma mark 地图移动是会不断请求内存，释放地图内存
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    [self.mappView removeFromSuperview];
-    [self.myTableView.tableFooterView addSubview:mapView];
+   // [self.mappView removeFromSuperview];
+   // [self.myTableView.tableFooterView addSubview:mapView];
+    self.mappView = mapView;
+    mapView = nil;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -259,6 +268,10 @@
             cell =[[UNIAppointDetail2Cell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,bottomCellH) reuseIdentifier:name3];
             cell.selectionStyle =UITableViewCellSelectionStyleNone;
         }
+        if (self.shopManage) {
+            cell.label1.text = self.shopManage.shopName;
+            cell.label2.text = self.shopManage.address;
+        }
         
         return cell;
     }else{
@@ -286,24 +299,7 @@
         [self callOtherMapApp];
     
 }
-- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view {
-//    if ([view.annotation isKindOfClass:[UNIMapAnnotation class]]) {
-//        if (_calloutAnnotation.coordinate.latitude == view.annotation.coordinate.latitude&&
-//            _calloutAnnotation.coordinate.longitude == view.annotation.coordinate.longitude) {
-//            return;
-//        }
-//        if (_calloutAnnotation) {
-//            [mapView removeAnnotation:_calloutAnnotation];
-//            _calloutAnnotation = nil;
-//        }
-//        _calloutAnnotation = [[CalloutMapAnnotation alloc]
-//                               initWithLatitude:view.annotation.coordinate.latitude
-//                               andLongitude:view.annotation.coordinate.longitude];
-//        [mapView addAnnotation:_calloutAnnotation];
-//        
-//        [mapView setCenterCoordinate:_calloutAnnotation.coordinate animated:YES];
-//    }
-}
+
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[CalloutMapAnnotation class]]) {
         CallOutAnnotationVifew *annotationView =(CallOutAnnotationVifew*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomAnnotation"];
@@ -323,8 +319,8 @@
 
 #pragma mark 调用其他地图APP
 -(void)callOtherMapApp{
-    CLLocationCoordinate2D end = CLLocationCoordinate2DMake(shopManage.x, shopManage.y);
-    UNITransfromX_Y* xy = [[UNITransfromX_Y alloc]initWithView:self.view withEndCoor:end withAim:shopManage.shopName];
+    CLLocationCoordinate2D end = CLLocationCoordinate2DMake(_shopManage.x, _shopManage.y);
+    UNITransfromX_Y* xy = [[UNITransfromX_Y alloc]initWithView:self.view withEndCoor:end withAim:_shopManage.shopName];
     [xy setupUI];
     xy=nil;
 }

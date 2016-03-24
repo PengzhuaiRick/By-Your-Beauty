@@ -13,6 +13,7 @@
 @interface UNIShopListController ()<UITableViewDataSource,UITableViewDelegate>{
     int pageNum;
     int pageSize;
+    UILabel* noData;
 }
 @property(nonatomic,strong)NSMutableArray* myData;
 @property(nonatomic,strong) UITableView* tableView;
@@ -33,12 +34,17 @@
         UNIMypointRequest* rq = [[UNIMypointRequest alloc]init];
         rq.rqshopList=^(NSArray* arr,NSString* tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
+                [self.tableView.header endRefreshing];
+                [self.tableView.footer endRefreshing];
                 if (er) {
                     [YIToast showText:NETWORKINGPEOBLEM];
                     return ;
                 }
                 if (self->pageNum==0)
                     [self.myData removeAllObjects];
+                if (arr.count<self->pageNum) {
+                    [self.tableView.footer endRefreshingWithNoMoreData];
+                }
                 
                 [self.myData addObjectsFromArray:arr];
                 [self setupTableView];
@@ -69,8 +75,11 @@
 }
 #pragma mark 初始化TableView
 -(void)setupTableView{
-    if (self.tableView)
+    if (self.tableView){
+         noData.hidden = _myData.count>0;
         [self.tableView reloadData];
+        return;
+    }
     
     UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, KMainScreenWidth, KMainScreenHeight-64) style:UITableViewStylePlain];
     tab.delegate = self;
@@ -91,6 +100,14 @@
         [self startRequest];
     }];
 
+    UILabel* nodate = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 50)];
+    nodate.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    nodate.hidden = _myData.count>0;
+    nodate.text = @"没有其他店铺可以选择哦！";
+    nodate.textAlignment = NSTextAlignmentCenter;
+    nodate.font = [UIFont systemFontOfSize:14];
+    [self.tableView addSubview:nodate];
+    noData= nodate;
 
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {

@@ -12,7 +12,7 @@
 #import "UNILoginViewRequest.h"
 #import "BTKeyboardTool.h"
 
-@interface LoginController ()<KeyboardToolDelegate>{
+@interface LoginController ()<KeyboardToolDelegate,UITextFieldDelegate>{
     
       UITextField *codeField;    //验证码
       UITextField *phoneField;
@@ -105,8 +105,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code == 0) {
-                
+            if (code == 1) {
                 self.fourthCell.hidden = YES;
                 
                 float btnX = KMainScreenWidth* 40/320;
@@ -220,6 +219,7 @@
     float tetH = KMainScreenWidth* 30/320;
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
+    //field.delegate = self;
     field.placeholder = @"请输入手机号";
     [field setValue: [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
@@ -267,6 +267,7 @@
     float tetH =KMainScreenWidth>400?45:30;
     float tetY = (cellH - tetH)/2;
     UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(tetX, tetY, tetW, tetH)];
+   // field.delegate = self;
     field.placeholder = @"请输入验证码";
     [field setValue: [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     field.textColor = [UIColor whiteColor];
@@ -283,7 +284,7 @@
     lay.backgroundColor =  [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1].CGColor;
     [cell.layer addSublayer:lay];
         
-    [self setupCodeField];
+   [self setupCodeField];
     [self setupCodeBtn];
 }
 -(void)setupThirdCell:(UITableViewCell*)cell{
@@ -341,9 +342,6 @@
         float viewX = KMainScreenWidth/2 - btnW ;
         view.frame = CGRectMake(viewX, btnY, btnW, btnH);
         [cell addSubview:view];
-    
-    
-    
     
     UIImage* image4 =[UIImage imageNamed:@"login_btn_sex2"];
      UIView* view1 = [[UIView alloc]initWithFrame:CGRectMake(0, 0, btnW, btnH)];
@@ -406,12 +404,14 @@
     [header addSubview:headImge];
     self.tableView.tableHeaderView = header;
 }
+
+
 #pragma mark 设置手机号码
 -(void)setupPhoneField{
    // UITextField* teft = phoneField;
     [[phoneField.rac_textSignal
      filter:^BOOL(NSString* value) {
-
+         
          BOOL le =NO;//是否能走下一步
          if (value.length>0) {
              char r = [value characterAtIndex:value.length-1];
@@ -440,7 +440,6 @@
         }else{
             NSLog(@"no");
             [YIToast showText:@"请输入正确的电话号"];
-            
         }
        
     }];
@@ -836,6 +835,7 @@
     codeField.tag = 5;
     nikeName.tag = 6;
 }
+
 -(void)keyboardTool:(BTKeyboardTool*)tool buttonClick:(KeyBoardToolButtonType)type{
     switch (type)
     {
@@ -934,19 +934,6 @@
     AppDelegate* app = [UIApplication sharedApplication].delegate;
     [app setupViewController];
     
-}
-
-#pragma mark 用户为游客时跳转界面
--(void)userIsTourist{
-    
-//    UNITouristController* tourist = [[UNITouristController alloc]init];
-//    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tourist];
-//    [self presentViewController:nav animated:YES completion:^{
-//        [self timerStop:self->time];
-//        self->phoneField.text=@"";
-//        self->codeField.text=@"";
-//        self->nikeName.text=@"";
-//    }];
 }
 
 - (BOOL)isMobileNumber:(NSString *)mobileNum

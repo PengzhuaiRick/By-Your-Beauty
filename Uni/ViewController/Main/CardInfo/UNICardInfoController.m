@@ -204,7 +204,7 @@
 
 }
 -(void)setupmidView:(int)total and:(int)num{
-    if (num>total) 
+    if (num>total)
        num=total;
    
     

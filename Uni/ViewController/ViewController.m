@@ -42,6 +42,7 @@
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callOtherMapApp) name:@"callOtherMapApp" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(flashTheCellNum:) name:@"flashTheCellNum" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(jumpToMyReward) name:@"jumpToMyReward" object:nil];//从我的详情跳转到我的奖励
+     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(cleanAndJump) name:@"setupLoginController" object:nil];
 }
 
 -(void)setupSelf{
@@ -281,6 +282,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callPhoneToShop" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"flashTheCellNum" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"jumpToMyReward" object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"setupLoginController" object:nil];
 }
 
 @end

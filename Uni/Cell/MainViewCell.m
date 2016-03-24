@@ -68,7 +68,7 @@
     
     //float labX = size.height/3.5+16+20;
     float labX = CGRectGetMaxX(img.frame)+20;
-    float labW = size.width -labX*2;
+    float labW = size.width -labX*2-10;
     float labH = KMainScreenWidth* 20/320;
     float lab1Y = size.height/2 - labH - 2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab1Y, labW, labH)];
@@ -150,12 +150,12 @@
     }
     
     
-    [self.mainLab sizeToFit];
+    //[self.mainLab sizeToFit];
 
     
-    CGRect mainLR = self.mainLab.frame;
-    mainLR.origin.y = self.mainImage.center.y - mainLR.size.height - 2;
-    self.mainLab.frame = mainLR;
+//    CGRect mainLR = self.mainLab.frame;
+//    mainLR.origin.y = self.mainImage.center.y - mainLR.size.height - 2;
+//    self.mainLab.frame = mainLR;
     
    
 }

@@ -124,6 +124,7 @@
 //    self.progessView.num = total;
 //    self.progessView.total = info.rewardNum;
     
+//    total = info.rewardNum;
     [self.progessView setNum:total andTotal:info.rewardNum];
     
     info = nil;

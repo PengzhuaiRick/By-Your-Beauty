@@ -47,7 +47,7 @@
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
    // NSURL* url = [NSURL URLWithString:@"http://uni.dodwow.com/uni_api/product/productlist.html"];//创建URL
      NSURL* url = [NSURL URLWithString:[UNIHttpUrlManager sharedInstance].APP_KZ_URL];//创建URL
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+    NSURLRequest* request = [[NSURLRequest alloc]initWithURL:url];
     
     [web loadRequest:request];//加载
     webView = web;
@@ -64,10 +64,10 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
     [LLARingSpinnerView RingSpinnerViewStop1];
     self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-//    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
-//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
-//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
-//    [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
@@ -100,13 +100,12 @@
         [webView reload];
     }
 }
--(BOOL)scrollViewShouldScrollToTop:(UIScrollView *)scrollView{
-    return YES;
-}
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
    [LLARingSpinnerView RingSpinnerViewStop1];
     //清除UIWebView的缓存
-   // [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [webView removeFromSuperview];
+    webView = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
 - (void)didReceiveMemoryWarning {
@@ -116,7 +115,7 @@
 -(void)dealloc{
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    webView = nil;
+    //webView = nil;
 }
 /*
 #pragma mark - Navigation

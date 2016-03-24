@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MainMidController : UITableViewController
+@property(nonatomic,assign)int pageNum;
 @property(nonatomic,strong)NSMutableArray* myData;
 
 

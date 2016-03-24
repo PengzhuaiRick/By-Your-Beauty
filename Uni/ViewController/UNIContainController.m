@@ -18,7 +18,7 @@
 {
     CGPoint startPoint;
     CGPoint currentPoint;
-//    UINavigationController* mainNav;
+    UINavigationController* mainNav;
     //MainViewController* mainCtr;
 //    UIViewController* myRewardNav;
 //    UINavigationController* walletNav;
@@ -129,16 +129,16 @@
 //首页
 -(void)setupMainController{
     [self removeController];
-    //if (!mainNav) {
+    if (!mainNav) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
        MainViewController* mainCtr= [st instantiateViewControllerWithIdentifier:@"MainViewController"];
         mainCtr.containController = self;
-      UINavigationController* mainNav = [[UINavigationController alloc]initWithRootViewController:mainCtr];
-   // }
+        mainNav = [[UINavigationController alloc]initWithRootViewController:mainCtr];
+    }
     [self.view addSubview:mainNav.view];
     [self addChildViewController:mainNav];
-      mainCtr = nil;
-    mainNav = nil;
+//      mainCtr = nil;
+//    mainNav = nil;
    
 }
 

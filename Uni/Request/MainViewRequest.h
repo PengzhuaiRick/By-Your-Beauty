@@ -93,6 +93,14 @@ typedef void(^RQSellInfoBlock)(NSArray* array,NSString* tips,NSError* er);
  */
 typedef void(^RQActivity)(int hasActivity,int activityId,NSString* tips,NSError* er);
 
+/**
+ *  审核期间是否显示活动
+ *  @param code
+ *  @param tips      反馈信息
+ *  @param er        错误信息
+ */
+typedef void(^RQShowAcitivityOrNot)(int code,NSString* tips,NSError* er);
+
 @interface MainViewRequest : BaseRequest
 
 
@@ -121,4 +129,7 @@ typedef void(^RQActivity)(int hasActivity,int activityId,NSString* tips,NSError*
 
 // 请求请求用户是否存在活动
 @property(nonatomic,copy)RQActivity rqactivity;
+
+//  审核期间是否显示活动
+@property(nonatomic,copy)RQShowAcitivityOrNot rqshowAcitivityOrNot;
 @end

@@ -12,6 +12,8 @@
 #import "UNIShopManage.h"
 #import "UNIHttpUrlManager.h"
 #import "UNIAppointController.h"
+#import "UNITouristRequest.h"
+#import "UNIGoodsDeatilController.h"
 @interface UNIGiftController ()<UIWebViewDelegate,UIScrollViewDelegate>{
     UIView* shareView;
     UIView* bgView;
@@ -23,7 +25,8 @@
     NSString* shareUrl;
     UIBarButtonItem* rightBar;
 }
-
+@property(nonatomic,assign)int activityId;
+@property(nonatomic,strong)UNITouristModel* myModel;
 @end
 
 @implementation UNIGiftController
@@ -35,6 +38,8 @@
         }
     }
     array=nil;
+    webView.delegate = self;
+    webView.scrollView.delegate = self;
     [super viewWillAppear:animated];
     
 }
@@ -45,9 +50,9 @@
             ges.enabled=NO;
         }
     }
+    array = nil;
     webView.delegate = nil;
     webView.scrollView.delegate = nil;
-    array = nil;
     [super viewWillDisappear:animated];
 }
 
@@ -77,6 +82,46 @@
     str1 = nil; str2 = nil; str3 = nil; str4 = nil; str5 = nil; urlString = nil; url = nil; request = nil;
 }
 
+#pragma mark 请求活动分享信息
+-(void)startRequest:(int)style{
+    __weak UNIGiftController* myself = self;
+    UNITouristRequest* rq = [[UNITouristRequest alloc]init];
+    rq.getTouristinfo=^(UNITouristModel* model,NSString* tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (model) {
+              //  myself.myModel = model;
+                
+                WXMediaMessage* message = [WXMediaMessage message];
+//                message.title = self->shareTitle;
+//                message.description =self->shareDesc;
+//                [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self->shareImg]]]];
+                message.title = model.shareTitle;
+                message.description =model.shareDetail;
+                [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.logoUrl]]]];
+                
+                WXWebpageObject* web = [WXWebpageObject object];
+               // web.webpageUrl = self->shareUrl;
+                 web.webpageUrl = model.shareUrl;
+                message.mediaObject = web;
+                SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
+                rep.bText = NO;
+                if (style == 1)
+                    rep.scene = WXSceneSession;
+                if (style == 2)
+                    rep.scene = WXSceneTimeline;
+                rep.message = message;
+                [WXApi sendReq:rep];
+                [myself hidenShareView];
+            }
+        });
+    };
+    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];
+    
+}
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 }
@@ -102,41 +147,52 @@
     NSLog(@"request.URL.absoluteString  %@",url);
     
     self.navigationItem.rightBarButtonItem = nil;
-    if([url rangeOfString:@"id=2&"].location !=NSNotFound){
-        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
-        shareTitle = urlManager.APP_BWHL_SHARE_TITLE;
-        shareDesc =urlManager.APP_BWHL_SHARE_DESC;
-        shareImg =urlManager.APP_BWHL_SHARE_IMG;
-        
-        NSString* str1 = urlManager.MY_LIBAO_SHARE_URL;
-        NSString* str2 = [[AccountManager userId]stringValue];
-        NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
-        shareUrl= [self URLEncodedString:str3];
+//    if([url rangeOfString:@"id=20&"].location !=NSNotFound){
+//        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
+//        shareTitle = urlManager.APP_BWHL_SHARE_TITLE;
+//        shareDesc =urlManager.APP_BWHL_SHARE_DESC;
+//        shareImg =urlManager.APP_BWHL_SHARE_IMG;
+//        
+//        NSString* str1 = urlManager.MY_LIBAO_SHARE_URL;
+//        NSString* str2 = [[AccountManager userId]stringValue];
+//        NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
+//        shareUrl= [self URLEncodedString:str3];
+//        self.navigationItem.rightBarButtonItem = rightBar;
+//        
+//    }
+//    if([url rangeOfString:@"id=11&"].location !=NSNotFound){
+//        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
+//        shareTitle = urlManager.APP_HB_SHARE_TITLE;
+//        shareDesc =urlManager.APP_HB_SHARE_DESC;
+//        shareImg =urlManager.APP_HB_SHARE_IMG;
+//        shareUrl = urlManager.WX_HB_URL;
+//        self.navigationItem.rightBarButtonItem = rightBar;
+//    }
+    if([url rangeOfString:@"id="].location !=NSNotFound){
+        NSArray* arr = [url componentsSeparatedByString:@"id="];
+        NSString* str1 = arr[1];
+        NSRange ran = [str1 rangeOfString:@"&"];
+         NSString* str2 = [str1 substringToIndex:ran.location];
+        self.activityId = str2.intValue;
+        //self.activityId =2;
+        NSLog(@" self.activityId  %d",self.activityId);
         self.navigationItem.rightBarButtonItem = rightBar;
-        
-    }
-    if([url rangeOfString:@"id=11&"].location !=NSNotFound){
-        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
-        shareTitle = urlManager.APP_HB_SHARE_TITLE;
-        shareDesc =urlManager.APP_HB_SHARE_DESC;
-        shareImg =urlManager.APP_HB_SHARE_IMG;
-        shareUrl = urlManager.WX_HB_URL;
-        self.navigationItem.rightBarButtonItem = rightBar;
-        
     }
     if ([url rangeOfString:@"act=app"].location != NSNotFound) {
         NSArray* array = [url componentsSeparatedByString:@"&"];
         NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
         NSString* type = [array[2] componentsSeparatedByString:@"="][1];
-        [self gotoUNIGoodsDeatilControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
-        
+        if ([type isEqualToString:@"1"])
+            [self gotoUNIAppointControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
+        if ([type isEqualToString:@"2"])
+            [self gotoUNIGoodsDeatilControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
         array=nil; projectId=nil;type=nil;
         return NO;
     }
 
     return YES;
 }
--(void)gotoUNIGoodsDeatilControllerprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
+-(void)gotoUNIAppointControllerprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
     appoint.projectId = ProjectId;
@@ -144,7 +200,17 @@
     appoint=nil;
     story=nil;
 }
-
+-(void)gotoUNIGoodsDeatilControllerprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+    good.projectId = ProjectId;
+    good.type = Type;
+    good.isHeadShow = isH;
+    [self.navigationController pushViewController:good animated:YES];
+    kz=nil;
+    good=nil;
+}
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -206,32 +272,14 @@
         [btn setBackgroundImage:[UIImage imageNamed:imgArr[i]] forState:UIControlStateNormal];
         btn.tag = i+1;
         [view addSubview:btn];
+        
+        __weak UNIGiftController* myself = self;
+        
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
         subscribeNext:^(UIButton* x) {
             
+            [myself startRequest:(int)btn.tag];
             //UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
-            
-            WXMediaMessage* message = [WXMediaMessage message];
-            message.title = self->shareTitle;
-            message.description =self->shareDesc;
-            [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self->shareImg]]]];
-            //[message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://uni.dodwow.com/images/logo.jpg"]]]];
-            
-            WXWebpageObject* web = [WXWebpageObject object];
-          
-            web.webpageUrl = self->shareUrl;
-            
-            message.mediaObject = web;
-            
-            SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
-            rep.bText = NO;
-            if (btn.tag == 1)
-                rep.scene = WXSceneSession;
-            if (btn.tag == 2)
-                rep.scene = WXSceneTimeline;
-            rep.message = message;
-            [WXApi sendReq:rep];
-            [self hidenShareView];
         }];
         
         float labX =btnxx-5;

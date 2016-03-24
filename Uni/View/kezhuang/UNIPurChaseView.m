@@ -283,20 +283,13 @@
             req.package = [dict objectForKey:@"package"];
             req.sign = [dict objectForKey:@"sign"];
             NSString* tip = nil;
-            if (!req.openID)
-                tip = @"参数有误";
-            if (!req.prepayId)
-                tip = @"参数有误";
-            if (!req.partnerId)
-                tip = @"参数有误";
-            if (!req.nonceStr)
-                tip = @"参数有误";
-            if (!req.timeStamp)
-                tip = @"参数有误";
-            if (!req.package)
-                tip = @"参数有误";
-            if (!req.sign)
-                tip = @"参数有误";
+            if (!req.openID)  tip = @"参数有误";
+            if (!req.prepayId) tip = @"参数有误";
+            if (!req.partnerId) tip = @"参数有误";
+            if (!req.nonceStr) tip = @"参数有误";
+            if (!req.timeStamp) tip = @"参数有误";
+            if (!req.package) tip = @"参数有误";
+            if (!req.sign) tip = @"参数有误";
             if(tip){
                 [UIAlertView showWithTitle:@"提示" message:tip cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:nil];
             }else

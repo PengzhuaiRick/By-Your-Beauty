@@ -114,7 +114,7 @@
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     if (self.myScroller.contentOffset.y == 0) {
-       // [LLARingSpinnerView RingSpinnerViewStop1];
+        [LLARingSpinnerView RingSpinnerViewStop1];
        // [[NSURLCache sharedURLCache] removeAllCachedResponses];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
@@ -365,6 +365,10 @@
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStop1];
     [_myTable.header endRefreshing];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{

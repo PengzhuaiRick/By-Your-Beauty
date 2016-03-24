@@ -11,7 +11,7 @@
 #import "UNIShopManage.h"
 #import "AccountManager.h"
 //#import "UNILoginViewRequest.h"
-//#import "UNIHttpUrlManager.h"
+#import "UNIHttpUrlManager.h"
 #import "UNITouristRequest.h"
 #import "AccountManager.h"
 @interface UNITouristController ()<WXApiManagerDelegate,UIScrollViewDelegate,UIWebViewDelegate>{
@@ -55,7 +55,7 @@
         });
     };
     [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];
- 
+// [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ActivityShare] params:@{@"activityId":@(2)}];
 }
 -(void)setupUI{
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
@@ -78,6 +78,11 @@
     if (!self->myModel) {
         return;
     }
+     wxUnionid=[AccountManager unionid];
+    if (wxUnionid) {
+        [self startShare];
+        return;
+    }
     [WXApiManager sharedManager].delegate = self;
     
     SendAuthReq* req =[[SendAuthReq alloc] init];
@@ -95,12 +100,7 @@
 }
 #pragma mark 授权成功 调用微信接口获取 unionid
 - (void)managerDidRecvAuthResponse:(SendAuthResp *)response {
-    wxUnionid=[AccountManager unionid];
-    [self setupCustomInfoAPI];
-    if (wxUnionid) {
-        [self startShare];
-        return;
-    }
+   
     //NSLog(@"%@",[NSString stringWithFormat:@"code:%@,state:%@,errcode:%d", response.code, response.state, response.errCode]);
     NSString* URL =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code",WECHATAPPID,WECHATAPPSecret,response.code];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -112,6 +112,7 @@
         if (str) {
             self->wxUnionid = str;
             [AccountManager setUnionid:str];
+            [self setupCustomInfoAPI];
             [self startShare];
         }
         
@@ -126,25 +127,26 @@
 #pragma mark 调用设置游客信息
 -(void)setupCustomInfoAPI{
     UNITouristRequest* rq = [[UNITouristRequest alloc]init];
-    rq.setTouristBlock=^(int code,NSString* tel,NSString* tips,NSError* er){
+    rq.setTouristBlock=^(int code,int userId,int shopId,NSString* token,NSString* tel,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
             if (code == 0) {
-                //                self.view.window.backgroundColor = [UIColor whiteColor];
-                //                AppDelegate* app = [UIApplication sharedApplication].delegate;
-                //                [app setupViewController];
-            }else if (code == 7){
-                NSString* message = [NSString stringWithFormat:@"%@已经在微信上注册过，请使用此号码登录",tel];
-                [UIAlertView showWithTitle:@"提示" message:message cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                    
+                [AccountManager setToken:token];
+                [AccountManager setUserId:@(userId)];
+                [AccountManager setShopId:@(shopId)];
+    
+            }
+            else {
+                [UIAlertView showWithTitle:@"提示" message:tips cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                      [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
                 }];
             }
         });
     };
-    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_SetCustomInfo] params:nil];
+    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_SetCustomInfo] params:@{@"openId":wxUnionid}];
  
 }
 
@@ -163,7 +165,7 @@
     self.title = @"参与活动";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
-   // if(_hasActivity>0)
+   if(_hasActivity>0)
         self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
     self.navigationItem.rightBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
@@ -172,7 +174,9 @@
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
+     [LLARingSpinnerView RingSpinnerViewStop1];
     [self dismissViewControllerAnimated:YES completion:^{
+        [[NSNotificationCenter defaultCenter]postNotificationName:APPOINTANDREFLASH object:nil];
     }];
 }
 
@@ -272,6 +276,9 @@
     rep.message = message;
     [WXApi sendReq:rep];
     [self hidenShareView];
+    
+    [self wxShareResult:nil];//显示返回按钮
+    
     str1= nil;
     //             str2 = nil;
     //             str3 = nil;
@@ -284,6 +291,7 @@
 
 -(void)hidenShareView{
     self.navigationItem.rightBarButtonItem.enabled = YES;
+    
     [UIView animateWithDuration:0.3 animations:^{
         self->bgView.alpha = 0;
         [self->bgView removeFromSuperview];
