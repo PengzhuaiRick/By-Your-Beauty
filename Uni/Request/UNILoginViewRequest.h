@@ -7,7 +7,7 @@
 //
 
 #import "BaseRequest.h"
-
+#import "UNILoginShopModel.h"
 /**
  *  请求验证码Block
  *  @param sex  性别
@@ -24,15 +24,12 @@ typedef void(^RqVertifivaBlock)( int status,int sex,NSString* name,NSString* ph,
 
 /**
  *  请求登录Block
- *  @param hasActivity 是否弹出活动界面 0：没参加过强制弹出活动页不能关闭； 1 参加过活动弹出活动页能关闭；2 不弹出活动页面
-    @param activityId  活动ID
- *  @param userId 用户ID
- *  @param shopId 美容院ID
- *  @param token
+ *  @param extra  0 没有用户，1 ，一个用户，2 ，2个以上
+    @param array  用户有的店铺列表
  *  @param tips   反馈信息
  *  @param er     错误信息
  */
-typedef void(^RqLoginBlock)(int userId,int shopId,int hasActivity,int activityId,NSString* token,NSString* tips,NSError* er);
+typedef void(^RqLoginBlock)(int extra,NSArray* array,NSString* tips,NSError* er);
 
 /**
  *  请求游客基础信息
@@ -62,6 +59,14 @@ typedef void(^STouristBlock)(int code,NSString* tel,NSString* tips,NSError* er);
  */
 typedef void(^RQTouristBtn)(int code,NSString* tips,NSError* er);
 
+/**
+ *  新用户选择店铺
+ *  @param code
+ *  @param tips      反馈信息
+ *  @param er        错误信息
+ */
+typedef void(^SAddUser)(int userId,int shopId,NSString* token,NSString* tips,NSError* er);
+
 @interface UNILoginViewRequest : BaseRequest
 
 
@@ -79,4 +84,7 @@ typedef void(^RQTouristBtn)(int code,NSString* tips,NSError* er);
 
 //请求游客按钮显示
 @property(nonatomic,copy)RQTouristBtn rqtouristBtn;
+
+//新用户选择店铺
+@property(nonatomic,copy)SAddUser sAddUser;
 @end

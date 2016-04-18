@@ -66,13 +66,13 @@
 
 -(void)setupCellContent:(id)model{
     UNIShopModel* info = model;
-    NSString* sre = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
-    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:sre]];
+//    NSString* sre = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
+//    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:sre]];
     self.mainLab.text = info.shortName;
     self.subLab.text = info.address;
     [self.subLab sizeToFit];
     info=nil;
-    sre=nil;
+//    sre=nil;
     
 }
 

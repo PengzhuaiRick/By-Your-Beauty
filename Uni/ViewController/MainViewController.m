@@ -107,7 +107,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code != 1) {
+            if (code != 3) {
                 [self requestActivityInfo];
             }
         
@@ -127,7 +127,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (activityId>-1 && hasActivity < 2)
+            if (activityId>0 && hasActivity < 2)
                [self performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
                //[self setupActivityController:@[@(hasActivity),@(activityId)]];
             
@@ -542,6 +542,11 @@
         if (_bottomData.count>0){
             id model = self.bottomData[indexPath.row-1];
             [self mainMidViewDelegataButton:model];
+        }else{
+            UNIGoodsWeb* web = [[UNIGoodsWeb alloc]init];
+            web.delegate = self;
+            [self.navigationController pushViewController:web animated:YES];
+            web=nil;
         }
     }
 }

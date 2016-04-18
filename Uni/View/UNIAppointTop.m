@@ -8,22 +8,38 @@
 
 #import "UNIAppointTop.h"
 #import "UNIShopManage.h"
-//#import "UNIAppontMid.h"
+#import "UNIMyProjectModel.h"
 
 @implementation UNIAppointTop
--(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp{
+//-(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp{
+//    self = [super initWithFrame:frame];
+//    if (self) {
+//        _projectId = proectId;
+//        _costTime = Cos;
+//        _shopId = shopIp;
+//        [self setupData];
+//        [self judgeBeforeDawn];
+//        [self setupTopScrollerContent];
+//        [self initSecondView];
+//        [self setupMidScroller];
+//        [self setupUI:frame];
+//        }
+//    return self;
+//}
+-(id)initWithFrame:(CGRect)frame andModel:(UNIMyProjectModel*)mod andShopId:(int)shopIp{
     self = [super initWithFrame:frame];
     if (self) {
-        _projectId = proectId;
-        _costTime = Cos;
-        _shopId = shopIp;
-        [self setupData];
-        [self judgeBeforeDawn];
+        _projectId =mod.projectId;
+        _costTime =mod.costTime;
+        _shopId =shopIp;
+        _projBeginDate = mod.projectBeginDate;
+        //[self setupData];
+        //[self judgeBeforeDawn];
         [self setupTopScrollerContent];
         [self initSecondView];
         [self setupMidScroller];
         [self setupUI:frame];
-        }
+    }
     return self;
 }
 -(void)setupData{
@@ -164,7 +180,8 @@
             }
             //if (data.count>0) {
                 self->freeTimes = data;
-                [self setupMidScroller];
+                self->noDate.hidden= data.count;
+            [self setupMidScroller];
            // }
 //            else
 //                [YIToast showText:@"请求预约时间点失败"];
@@ -188,19 +205,41 @@
     float btnH = _topScroller.frame.size.height;
     _topScroller.contentSize = CGSizeMake(btnW*8,btnH);
     _topScroller.delegate = self;
+    
+    NSDateFormatter* forma = [[NSDateFormatter alloc]init];
+    [forma setDateFormat:@"yyyy-MM-dd"];
+   // _projBeginDate = nil;
+    NSDate *beginDate =[forma dateFromString:_projBeginDate];
+    NSString* nowString = [forma stringFromDate:[NSDate date]];
+    NSDate* today = [forma dateFromString:nowString];
+    
+    if (!_projBeginDate)
+        beginDate = [forma dateFromString:nowString];
+    
+    if ([today timeIntervalSinceDate:beginDate] >= 0) {
+        beginDate = [today dateByAddingTimeInterval:(24*60*60)];
+    }
     for (int i =0 ; i<8; i++) {
         NSDate *now = nil;
-        if (i>0){
-            if (midNight){
-                now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*(2+i)];
-            }else
-                now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*i];}
-        else{
-            if (midNight){
-                now= [NSDate dateWithTimeIntervalSinceNow:(24*60*60)*2];
-            }else
-            now= [NSDate date];
-        }
+//        if (i>0){
+//            if (midNight){
+//                now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*(2+i)];
+//            }else
+//                now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*i];}
+//        else{
+//            if (midNight){
+//                now= [NSDate dateWithTimeIntervalSinceNow:(24*60*60)*2];
+//            }else
+//            now= [NSDate date];
+//        }
+        
+        if (i<1)
+            now =[beginDate dateByAddingTimeInterval:-(24*60*60)];
+        if (i == 1)
+            now = beginDate;
+        if (i>1)
+            now = [beginDate dateByAddingTimeInterval:(24*60*60)*i];
+        
         
         NSCalendar *calendar = [NSCalendar currentCalendar];
         NSUInteger unitFlags = kCFCalendarUnitWeekday | NSCalendarUnitMonth | NSCalendarUnitDay | NSCalendarUnitYear;
@@ -317,6 +356,18 @@
     [view addSubview:secondV];
     _midScroller = secondV;
     
+    UILabel* nodate = nil;
+    nodate = [[UILabel alloc]init];
+    nodate.text = @"没有可以预约的时间哦！";
+    nodate.font = [UIFont systemFontOfSize:14];
+    nodate.hidden = YES;
+    nodate.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    [nodate sizeToFit];
+    nodate.frame = CGRectMake((self.midScroller.frame.size.width - nodate.frame.size.width)/2, topH/2, nodate.frame.size.width, nodate.frame.size.height);
+    [self.midScroller addSubview:nodate];
+    noDate = nodate; nodate = nil;
+    
+    
     UISwipeGestureRecognizer* recognizer = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipeFrom:)];
     
     [recognizer setDirection:(UISwipeGestureRecognizerDirectionRight)];
@@ -418,18 +469,11 @@
     //移除数组里面的按钮对象
     [midBtns removeAllObjects];
     //移除self.midScroller里面的按钮
+    //NSArray* arr =self.midScroller.subviews;
     for (UIView* view in self.midScroller.subviews) {
+        if ([view isKindOfClass:[UILabel class]])
+            continue;
         [view removeFromSuperview];
-    }
-    
-    if (cout<1) {
-        UILabel* nodate = [[UILabel alloc]init];
-        nodate.text = @"没有可以预约的时间哦！";
-        nodate.font = [UIFont systemFontOfSize:14];
-        nodate.textColor = [UIColor colorWithHexString:kMainTitleColor];
-        [nodate sizeToFit];
-        nodate.frame = CGRectMake((self.midScroller.frame.size.width - nodate.frame.size.width)/2, btnH, nodate.frame.size.width, nodate.frame.size.height);
-        [self.midScroller addSubview:nodate];
     }
     
     for (int i = 0; i<cout; i++) {

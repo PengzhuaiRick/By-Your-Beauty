@@ -10,6 +10,7 @@
 #import "UNIMyProjectModel.h"
 #import "UNIMypointRequest.h"
 #import "BTKeyboardTool.h"
+@class UNIMyProjectModel;
 @interface UNIAppointTop : UIView<UIScrollViewDelegate,KeyboardToolDelegate>{
     int selectBtnNum;
     int topScrollerNum;
@@ -18,6 +19,7 @@
     UIImageView* arrowImg;
     float midBtnH;
     BOOL midNight; //如果当前时间在下班时间到上班时间之间 需要添加两天时间
+    UILabel* noDate;
 }
 //@property (assign, nonatomic) int member;//人数
 @property (assign ,nonatomic) int selectYear;   //年份
@@ -34,14 +36,15 @@
 @property (strong, nonatomic)  UIScrollView *midScroller;
 @property (assign ,nonatomic) int projectId;
 @property (assign ,nonatomic) int costTime;
+@property (copy ,nonatomic) NSString* projBeginDate;
 @property (assign ,nonatomic) int shopId;
 
 @property(strong,nonatomic)NSDate* finalTime;//最后可以选择的时间
 @property(strong,nonatomic)NSDate* startTime;//预约服务的时间
 @property(copy,nonatomic)NSString* lockupTime;//店铺下班时间
 @property(copy,nonatomic)NSString* workupTime;//店铺上班时间
--(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp;
-
+//-(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp;
+-(id)initWithFrame:(CGRect)frame andModel:(UNIMyProjectModel*)mod andShopId:(int)shopIp;
 -(void)beforeRequest;
 
 #pragma mark 改变shopid 重新请求数据

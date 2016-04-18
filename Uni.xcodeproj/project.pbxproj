@@ -122,6 +122,8 @@
 		18CD114C1C7D4A7800D48808 /* UNIMapAddressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */; };
 		18CD114D1C7DD79500D48808 /* UNIAppointDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECF11C0EC9C900B0A192 /* UNIAppointDetail.m */; };
 		18CE1FE01C214017000DE133 /* UNIImageAndTextController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CE1FDF1C214017000DE133 /* UNIImageAndTextController.m */; };
+		18D023051CB65A2A003AC324 /* UNILoginShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D023041CB65A2A003AC324 /* UNILoginShopModel.m */; };
+		18D023081CB65D58003AC324 /* UNILoginShopList.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D023071CB65D58003AC324 /* UNILoginShopList.m */; };
 		18D124641BF5BC440034990F /* UNIShopManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D124631BF5BC440034990F /* UNIShopManage.m */; };
 		18D434A41C229AD0006A8A3F /* UNILocateNotifiDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D434A31C229AD0006A8A3F /* UNILocateNotifiDetail.m */; };
 		18D5722E1BE883560055DE7F /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722B1BE883560055DE7F /* AccountManager.m */; };
@@ -471,6 +473,10 @@
 		18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMapAddressView.m; sourceTree = "<group>"; };
 		18CE1FDE1C214017000DE133 /* UNIImageAndTextController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIImageAndTextController.h; sourceTree = "<group>"; };
 		18CE1FDF1C214017000DE133 /* UNIImageAndTextController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIImageAndTextController.m; sourceTree = "<group>"; };
+		18D023031CB65A2A003AC324 /* UNILoginShopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILoginShopModel.h; sourceTree = "<group>"; };
+		18D023041CB65A2A003AC324 /* UNILoginShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILoginShopModel.m; sourceTree = "<group>"; };
+		18D023061CB65D58003AC324 /* UNILoginShopList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILoginShopList.h; sourceTree = "<group>"; };
+		18D023071CB65D58003AC324 /* UNILoginShopList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILoginShopList.m; sourceTree = "<group>"; };
 		18D124621BF5BC440034990F /* UNIShopManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopManage.h; sourceTree = "<group>"; };
 		18D124631BF5BC440034990F /* UNIShopManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopManage.m; sourceTree = "<group>"; };
 		18D434A21C229AD0006A8A3F /* UNILocateNotifiDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILocateNotifiDetail.h; sourceTree = "<group>"; };
@@ -732,6 +738,8 @@
 				187E509E1C803D9500B88786 /* UNIShopModel.m */,
 				18DDBC671C98008E0083D9AB /* UNITouristModel.h */,
 				18DDBC681C98008E0083D9AB /* UNITouristModel.m */,
+				18D023031CB65A2A003AC324 /* UNILoginShopModel.h */,
+				18D023041CB65A2A003AC324 /* UNILoginShopModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1282,6 +1290,8 @@
 				18F0966E1BF1DE4900B60A3D /* LoginController.m */,
 				18CCECDD1C7EB2A500888DA7 /* UNITouristController.h */,
 				18CCECDE1C7EB2A500888DA7 /* UNITouristController.m */,
+				18D023061CB65D58003AC324 /* UNILoginShopList.h */,
+				18D023071CB65D58003AC324 /* UNILoginShopList.m */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1587,6 +1597,7 @@
 				18C8D40C1C574A5100E6DDB3 /* openssl_wrapper.m in Sources */,
 				18014C7C1C28F991006A0489 /* WXApiManager.m in Sources */,
 				18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */,
+				18D023051CB65A2A003AC324 /* UNILoginShopModel.m in Sources */,
 				1827CEB71C157CAD00A40B45 /* UNIRewardListController.m in Sources */,
 				18E436AE1C8152E900B125AC /* UNIShopListController.m in Sources */,
 				18E3028E1C17DCD600990A14 /* UNIGoodsCell1.m in Sources */,
@@ -1608,6 +1619,7 @@
 				18C3ECF61C0ED53300B0A192 /* UNIAppointDetailCell.m in Sources */,
 				184481FC1C5202CA0047D2EF /* UNIOrderListController.m in Sources */,
 				18F096681BF1C99400B60A3D /* BaseRequest.m in Sources */,
+				18D023081CB65D58003AC324 /* UNILoginShopList.m in Sources */,
 				18BA7D6D1BE9A19100DD7826 /* SMPageControl.m in Sources */,
 				18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */,
 				18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */,

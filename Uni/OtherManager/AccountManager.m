@@ -167,7 +167,7 @@
 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     [userDefaults removeObjectForKey:tokenDefaultKey];
-    [userDefaults removeObjectForKey:userNameDefaultValue];
+   // [userDefaults removeObjectForKey:userNameDefaultValue];
     [userDefaults removeObjectForKey:userIdKey];
     [userDefaults removeObjectForKey:userShopID];
     [userDefaults removeObjectForKey:WXUnionid];

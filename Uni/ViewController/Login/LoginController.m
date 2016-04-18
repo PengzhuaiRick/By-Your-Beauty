@@ -11,6 +11,7 @@
 #import "AccountManager.h"
 #import "UNILoginViewRequest.h"
 #import "BTKeyboardTool.h"
+#import "UNILoginShopList.h"
 
 @interface LoginController ()<KeyboardToolDelegate,UITextFieldDelegate>{
     
@@ -105,7 +106,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code == 1) {
+            if (code == 3) {
                 self.fourthCell.hidden = YES;
                 
                 float btnX = KMainScreenWidth* 40/320;
@@ -136,17 +137,14 @@
                                                          @"name":@"哈哈",
                                                          @"sex":@(1)}];
                      
-                     request.rqloginBlock = ^(int userId,
-                                              int shopId,
-                                              int hasActivity,
-                                              int activityId,
-                                              NSString* token,
+                     request.rqloginBlock = ^(int extra,
+                                              NSArray* array,
                                               NSString* tips,
                                               NSError* er){
                          x.enabled = YES;
                          [LLARingSpinnerView RingSpinnerViewStop1];
                          if (er==nil) {
-                             if (!token){
+                             if (array.count==0){
 #ifdef IS_IOS9_OR_LATER
                                  UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"登陆失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
                                  
@@ -162,16 +160,15 @@
                                  
                                  return ;
                              }
+                             UNILoginShopModel* model = array[0];
                              //保存信息
-                             [AccountManager setToken:token];
-                             [AccountManager setUserId:@(userId)];
-                             [AccountManager setShopId:@(shopId)];
-                             [AccountManager setLocalLoginName:@"13267208242"];
+                             [AccountManager setToken:model.token];
+                             [AccountManager setUserId:@(model.userId)];
+                             [AccountManager setShopId:@(model.shopId)];
+                             //[AccountManager setLocalLoginName:@"13267208242"];
                              
                              
-                             self.view.window.backgroundColor = [UIColor whiteColor];
-                             AppDelegate* app = [UIApplication sharedApplication].delegate;
-                             [app setupViewController];
+                            [self log:nil];
                          }else
                              [YIToast showText:NETWORKINGPEOBLEM];
                          // [YIToast showWithText:tips];
@@ -223,7 +220,8 @@
     field.placeholder = @"请输入手机号";
     [field setValue: [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1] forKeyPath:@"_placeholderLabel.textColor"];
     field.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
-    field.text = [[NSUserDefaults standardUserDefaults] objectForKey:LASTUSERLOGINNAME];
+   // field.text = [[NSUserDefaults standardUserDefaults] objectForKey:LASTUSERLOGINNAME];
+    field.text = [AccountManager localLoginName];
     field.keyboardType = UIKeyboardTypeNumberPad;
     field.textColor = [UIColor whiteColor];
     [cell addSubview:field];
@@ -255,9 +253,10 @@
     btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
     [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [btn setBackgroundColor:[UIColor clearColor]];
-//    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateHighlighted];
-//    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateSelected];
-   // [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainPinkColor]] forState:UIControlStateNormal];
+    if (phoneField.text.length == 11) {
+        btn.layer.borderWidth =0;
+        [btn setBackgroundColor:[UIColor colorWithHexString:kMainPinkColor]];
+    }
     
     [cell addSubview:btn];
     codeBtn = btn;
@@ -519,7 +518,7 @@
          [self.view endEditing:YES];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
          [request postWithoutUserIdSerCode:@[API_PARAM_SSMS,
-                                    API_URL_Login]
+                                    API_URL_Verify]
                            params:@{@"phone":field.text}];
         
         request.rqvertifivaBlock = ^(int status,
@@ -640,6 +639,7 @@
         [self->codeBtn setBackgroundColor:[UIColor clearColor]];
         NSString* str = [NSString stringWithFormat:@"%ds",countDown];
         [codeBtn setTitle:str forState:UIControlStateNormal];
+        phoneField.enabled=NO;;
     }else
         [self timerStop:time];
 }
@@ -652,6 +652,7 @@
     codeBtn.enabled=YES;
     codeBtn.layer.borderWidth = 0;
     [codeBtn setBackgroundColor:[UIColor colorWithHexString:kMainPinkColor]];
+    phoneField.enabled=YES;
 }
 
 #pragma mark 设置昵称输入框
@@ -728,17 +729,14 @@
                                             @"name":field3.text,
                                             @"sex":@(self.sex)}];
         
-        request.rqloginBlock = ^(int userId,
-                                 int shopId,
-                                 int hasActivity,
-                                 int activityId,
-                                 NSString* token,
+        request.rqloginBlock = ^(int extra,
+                                 NSArray* array,
                                  NSString* tips,
                                  NSError* er){
             x.enabled = YES;
              [LLARingSpinnerView RingSpinnerViewStop1];
             if (er==nil) {
-                if (!token){
+                if (array.count == 0){
 #ifdef IS_IOS9_OR_LATER
                     UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"登陆失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
                     
@@ -754,19 +752,31 @@
 
                     return ;
                 }
-                //保存信息
-                [AccountManager setToken:token];
-                [AccountManager setUserId:@(userId)];
-                [AccountManager setShopId:@(shopId)];
-                [AccountManager setLocalLoginName:field1.text];
+                if (array.count == 1) {
+                    UNILoginShopModel* model = array[0];
+                    //保存信息
+                    [AccountManager setToken:model.token];
+                    [AccountManager setUserId:@(model.userId)];
+                    [AccountManager setShopId:@(model.shopId)];
+                    [AccountManager setLocalLoginName:field1.text];
+                    
+                    //保存用户上次登录的电话号码
+                   // [[NSUserDefaults standardUserDefaults]setObject:field1.text forKey:LASTUSERLOGINNAME];
+                    
+                    //跳转
+                    [self log:nil];
+                }
+                if (array.count > 1) {
+                    UNILoginShopList* list = [[UNILoginShopList alloc]init];
+                    list.extra = extra;
+                    list.phone = field1.text;
+                    list.randcode = field2.text;
+                    list.myData = [NSMutableArray arrayWithArray:array];
+                    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:list];
+                    [self presentViewController:nav animated:YES completion:nil];
+                }
                 
-                //保存用户上次登录的电话号码
-                [[NSUserDefaults standardUserDefaults]setObject:field1.text forKey:LASTUSERLOGINNAME];
-                
-                //跳转
-                    self.view.window.backgroundColor = [UIColor whiteColor];
-                    AppDelegate* app = [UIApplication sharedApplication].delegate;
-                    [app setupViewController];
+               
                 
 //                if (hasActivity <2) {
 //                    [app performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:2];

@@ -22,6 +22,8 @@
     UNIAppontMid* appontMid;
     //UNIAppointBotton* appointBotton;
     UIButton* sureBtn; //马上预约按钮
+    
+    int selectShopId; //选择的店铺Id
 }
 @end
 
@@ -104,7 +106,7 @@
 #pragma mark 店铺列表页面代理方法
 -(void)UNIShopListControllerDelegateMethod:(id)model{
     UNIShopModel* info = model;
-    shopModel = info;
+    shopModel = info;   
     shopView.nameLab.text = info.shortName;
     shopView.addressLab.text = info.address;
     shopView.shopId = info.shopId;
@@ -116,7 +118,8 @@
 #pragma mark 加载顶部Scroller
 -(void)setupTopScrollerWithProjectId:(int)project andCostime:(int)cost andShopId:(int)shopId{
     float topY = CGRectGetMaxY(shopView.frame)+10;
-    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andProjectId:project andCostime:cost andShopId:shopId];
+   // UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andProjectId:project andCostime:cost andShopId:shopId];
+    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andModel:_model  andShopId:shopId];
     [self.myScroller addSubview:top];
     appointTop = top;
     top = nil;

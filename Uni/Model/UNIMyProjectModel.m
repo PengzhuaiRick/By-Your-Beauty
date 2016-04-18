@@ -22,6 +22,7 @@
     self.price = [[self safeObject:dic ForKey:@"price"]floatValue];
     self.shopPrice = [[self safeObject:dic ForKey:@"shopPrice"]floatValue];
     self.desc = [self safeObject:dic ForKey:@"desc"];
+    self.projectBeginDate = [self safeObject:dic ForKey:@"projectBeginDate"];
     self.status = [[self safeObject:dic ForKey:@"status"]intValue];
     self.num = [[self safeObject:dic ForKey:@"num"]intValue];
     self.projectId = [[self safeObject:dic ForKey:@"projectId"]intValue];

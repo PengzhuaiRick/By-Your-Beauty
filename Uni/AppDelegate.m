@@ -403,6 +403,10 @@
         if (x1 > 0)
             return ;
         x1 = x;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[YILocationManager sharedInstance] stopUpdatingLocation];
+        });
+        
         
         CLLocation* curLocation = [[CLLocation alloc] initWithLatitude:x longitude:y];
                 dispatch_async(dispatch_get_global_queue(0, 0), ^{

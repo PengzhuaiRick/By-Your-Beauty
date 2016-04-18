@@ -12,6 +12,7 @@
 @property(nonatomic,copy)NSString* projectName;  //项目名称
 @property(nonatomic,copy)NSString* logoUrl;      //logo地址
 @property(nonatomic,copy)NSString* desc;         //详情
+@property(nonatomic,copy)NSString* projectBeginDate;    //项目开始日期
 @property(nonatomic,assign)float price;//市场价格
 @property(nonatomic,assign)float shopPrice; //本店价格
 @property(nonatomic,assign)int status;// 状态

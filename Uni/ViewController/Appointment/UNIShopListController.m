@@ -9,8 +9,8 @@
 #import "UNIShopListController.h"
 #import "UNIMypointRequest.h"
 #import <MJRefresh/MJRefresh.h>
-
-@interface UNIShopListController ()<UITableViewDataSource,UITableViewDelegate>{
+#import "BTKeyboardTool.h"
+@interface UNIShopListController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UISearchBarDelegate>{
     int pageNum;
     int pageSize;
     UILabel* noData;
@@ -25,6 +25,7 @@
     [super viewDidLoad];
     [self setupNavigation];
     [self setupSelf];
+    [self setupSearchBar];
     [self setupParams];
     [self startRequest];
     
@@ -73,6 +74,28 @@
     pageSize = 20;
     
 }
+#pragma mark 设置 searchBar
+-(void)setupSearchBar{
+    UISearchBar * bar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 0, 250, 40)];
+    bar.delegate =self;
+    [self.navigationItem.titleView addSubview:bar];
+    
+    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+    tool.toolDelegate = self;
+    [tool dismissTwoBtn];
+    bar.inputAccessoryView = tool;
+}
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
+    NSLog(@"searchText  %@",searchText);
+//    NSArray *array = [[NSArray alloc]initWithObjects:@"beijing",@"shanghai",@"guangzou",@"wuhan", nil];
+//    NSString *string = @"ang";
+//    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF CONTAINS %@",string];
+//    NSLog(@"%@",[array filteredArrayUsingPredicate:pred]);
+}
+-(void)keyboardTool:(BTKeyboardTool *)tool buttonClick:(KeyBoardToolButtonType)type{
+    [self.view endEditing:YES];
+}
+
 #pragma mark 初始化TableView
 -(void)setupTableView{
     if (self.tableView){

@@ -33,8 +33,11 @@
 // C部分 第一个参数 类型3
 #define API_PARAM_PAY @"PayConfig"
 
+////登录接口：
+//#define API_URL_Login @"login"
+
 //登录接口：
-#define API_URL_Login @"login"
+#define API_URL_Login @"beforeLogin"
 
 //获取首页背景图片 和 奖励商品图片
 #define API_URL_GetImgByshopIdCode @"getImgByshopIdCode"
@@ -61,7 +64,10 @@
 #define API_URL_Welcome @"welcome"
 
 //短信接口
-#define API_URL_Login @"login"
+//#define API_URL_Login @"login"
+
+//短信接口
+#define API_URL_Verify @"verify"
 
 //奖励信息接口
 #define API_URL_MRInfo @"rewardInfo"
@@ -146,4 +152,7 @@
 
 //获取游客按钮显示
 #define API_URL_RetCode @"retCode"
+
+//新用户选择店铺
+#define API_URL_addUser @"addUser"
 #endif /* URLconfig_h */

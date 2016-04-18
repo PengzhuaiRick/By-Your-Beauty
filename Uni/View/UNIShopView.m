@@ -7,6 +7,7 @@
 //
 
 #import "UNIShopView.h"
+#import "AccountManager.h"
 
 
 @implementation UNIShopView
@@ -14,6 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setupUI];
+        _shopId = [[AccountManager shopId]intValue];
     }
     return self;
 }

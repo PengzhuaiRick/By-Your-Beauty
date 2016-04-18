@@ -89,12 +89,12 @@
 -(void)swipeGestureRecognizer:(UISwipeGestureRecognizer*)swipe{
     float x = 0;
     if (swipe.direction == UISwipeGestureRecognizerDirectionRight) {
-        x = - _delectBtn.frame.size.height;
-        self.delectBtn.enabled = YES;
-    }
-    if (swipe.direction ==UISwipeGestureRecognizerDirectionLeft) {
         x = 0;
         self.delectBtn.enabled = NO;
+    }
+    if (swipe.direction ==UISwipeGestureRecognizerDirectionLeft) {
+        x = - _delectBtn.frame.size.height;
+        self.delectBtn.enabled = YES;
     }
     CGRect moveR = _moveView.frame;
     moveR.origin.x = x;
