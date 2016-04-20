@@ -11,13 +11,12 @@
 @implementation UNIOrderRequest
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
     // NSLog(@"requestSucceed  %@",dic);
-    NSString* param1 = array[0];
-    NSString* param2 = array[1];
+    //NSString* param1 = array[0];
+    NSString* param2 = array[0];
     
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
     
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
         //获取订单列表
         if ([param2 isEqualToString:API_URL_MyOrderList]) {
             if (code == 0) {
@@ -31,19 +30,15 @@
             }
             else
                 _myOrderListBlock(nil,tips,nil);
-        }
     }
     
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
-    NSString* param1 = array[0];
-    NSString* param2 = array[1];
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
+    //NSString* param1 = array[0];
+    NSString* param2 = array[0];
          //获取订单列表
         if ([param2 isEqualToString:API_URL_MyOrderList])
             _myOrderListBlock(nil,nil,err);
-            
-    }
 }
 @end

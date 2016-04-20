@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIContainController : UIViewController
+#import "baseViewController.h"
+@interface UNIContainController : baseViewController
 @property(nonatomic,assign)BOOL closing;
 @property(nonatomic,assign)float edag;
 @property(nonatomic,strong)UIPanGestureRecognizer* panGes;//侧滑手势;

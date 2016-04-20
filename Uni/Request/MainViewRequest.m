@@ -7,21 +7,19 @@
 //
 
 #import "MainViewRequest.h"
-
+#import "UNIHttpUrlManager.h"
 @implementation MainViewRequest
 
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
    // NSLog(@"requestSucceed  %@",dic);
     NSString* param1 = array[0];
-    NSString* param2 = array[1];
+   // NSString* param2 = array[1];
     
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
     
-    
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
         //获取已预约信息
-        if([param2 isEqualToString:API_URL_Appoint]){
+        if([param1 isEqualToString:API_URL_Appoint]){
             if (code == 0) {
                 int count =[[self safeObject:dic ForKey:@"count"]intValue];
                 NSArray* result = [self safeObject:dic ForKey:@"result"];
@@ -35,7 +33,7 @@
                 _reappointmentBlock(-1,nil,tips,nil);
         }
         //获取我的未预约项目
-        if ([param2 isEqualToString:API_URL_MyProjectInfo]) {
+        if ([param1 isEqualToString:API_URL_MyProjectInfo]) {
             
             int count = [[self safeObject:dic ForKey:@"count"] intValue];
             if (code==0) {
@@ -50,7 +48,7 @@
             _remyProjectBlock(nil,count,tips,nil);
         }
         //获取商铺信息
-        if ([param2 isEqualToString:API_URL_ShopInfo] ) {
+        if ([param1 isEqualToString:API_URL_ShopInfo] ) {
             if (code == 0) {
                 UNIShopManage* manager =[[UNIShopManage alloc]initWithDictionary:dic];
 //                manager.shopName = [self safeObject:dic ForKey:@"shopName"];
@@ -70,7 +68,7 @@
                 _reshopInfoBlock(nil,tips,nil);
         }
         //获取约满奖励
-       if ([param2 isEqualToString:API_URL_MRInfo] ) {
+       if ([param1 isEqualToString:API_URL_MRInfo] ) {
            
            if (code ==3) {
                [UIAlertView showWithTitle:@"提示" message:@"您授权码已过期！请重新登录" cancelButtonTitle:@"知道" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -91,15 +89,17 @@
                _rerewardBlock(-1,-1,-1,-1,nil,nil,tips,nil);
           
         }
-        if ([param2 isEqualToString:API_URL_GetImgByshopIdCode] ) {
+        if ([param1 isEqualToString:API_URL_GetImgByshopIdCode] ) {
             if (code == 0) {
+                UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+                [manager initHttpUrlManager:dic];
                  NSArray* result = [self safeObject:dic ForKey:@"result"];
                 _reMainBgBlock(result,tips,nil);
             }else
                  _reMainBgBlock(nil,tips,nil);
         }
         
-        if ([param2 isEqualToString:API_URL_GetSellInfo] ) {
+        if ([param1 isEqualToString:API_URL_GetSellInfo] ) {
             if (code == 0) {
                 NSArray* result = [self safeObject:dic ForKey:@"result"];
                 NSMutableArray* arr = [NSMutableArray arrayWithCapacity:result.count];
@@ -111,7 +111,7 @@
             }else
                 _resellInfoBlock(nil,tips,nil);
         }
-        if ([param2 isEqualToString:API_URL_GetSellInfo2] ) {
+        if ([param1 isEqualToString:API_URL_GetSellInfo2] ) {
             if (code == 0) {
                     UNIGoodsModel* model = [[UNIGoodsModel alloc]initWithDic:dic];
                 NSArray* arr = @[model];
@@ -119,7 +119,7 @@
             }else
                 _resellInfoBlock(nil,tips,nil);
         }
-        if ([param2 isEqualToString:API_URL_HasActivity] ) {
+        if ([param1 isEqualToString:API_URL_HasActivity] ) {
             if (code == 0) {
                 NSDictionary* result = [self safeObject:dic ForKey:@"result"];
                 int hasActivity = [[self safeObject:result ForKey:@"hasActivity"] intValue];
@@ -130,54 +130,61 @@
         }
         
         //审核期间是否显示活动
-        if ([param2 isEqualToString:API_URL_RetCode]) {
+        if ([param1 isEqualToString:API_URL_RetCode]) {
             _rqshowAcitivityOrNot(code,tips,nil);
         }
+    
+        //获取APP提示信息
+        if ([param1 isEqualToString:API_URL_GetAppTips]) {
+            if (code == 0)
+                _rqAppTips(code,nil,nil);
+            else
+                _rqAppTips(-1,nil,nil);
+        }
 
-    }
+    
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
     NSString* param1 = array[0];
-    NSString* param2 = array[1];
 
-    
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
         //获取已预约信息
-        if ([param2 isEqualToString:API_URL_Appoint])
+        if ([param1 isEqualToString:API_URL_Appoint])
             _reappointmentBlock(-1,nil,nil,err);
         
         //商店信息
-        if ([param2 isEqualToString:API_URL_ShopInfo] )
+        if ([param1 isEqualToString:API_URL_ShopInfo] )
             _reshopInfoBlock(nil,nil,err);
         
         
         //获取奖励信息
-        if ([param2 isEqualToString:API_URL_MRInfo]) 
+        if ([param1 isEqualToString:API_URL_MRInfo])
              _rerewardBlock(-1,-1,-1,-1,nil,nil,nil,err);
         
         //获取我的未预约项目
-        if ([param2 isEqualToString:API_URL_MyProjectInfo])
+        if ([param1 isEqualToString:API_URL_MyProjectInfo])
             _remyProjectBlock(nil,-1,nil,err);
         
-        if ([param2 isEqualToString:API_URL_GetImgByshopIdCode] )
+        if ([param1 isEqualToString:API_URL_GetImgByshopIdCode] )
             _reMainBgBlock(nil,nil,err);
         
-        if ([param2 isEqualToString:API_URL_GetSellInfo] )
+        if ([param1 isEqualToString:API_URL_GetSellInfo] )
             _resellInfoBlock(nil,nil,err);
         
-        if ([param2 isEqualToString:API_URL_GetSellInfo2] ) {
+        if ([param1 isEqualToString:API_URL_GetSellInfo2] ) {
             _resellInfoBlock(nil,nil,err);
         }
-        if ([param2 isEqualToString:API_URL_HasActivity] ) {
+        if ([param1 isEqualToString:API_URL_HasActivity] ) {
                 _rqactivity(-1,-1,nil,err);
         }
         //审核期间是否显示活动
-        if ([param2 isEqualToString:API_URL_RetCode]) {
+        if ([param1 isEqualToString:API_URL_RetCode]) {
             _rqshowAcitivityOrNot(-1,nil,err);
         }
+    //获取APP提示信息
+    if ([param1 isEqualToString:API_URL_GetAppTips]) {
+        _rqAppTips(-1,nil,err);
     }
-
 
 }
 @end

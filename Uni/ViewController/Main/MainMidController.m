@@ -168,7 +168,7 @@
     int page = _pageNum;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MainViewRequest* request = [[MainViewRequest alloc]init];
-        [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
+        [request postWithSerCode:@[API_URL_Appoint]
                           params:@{@"page":@(page),@"size":@(10)}];
         request.reappointmentBlock =^(int count,NSArray* myAppointArr,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 @class UNIShopModel;
-@interface UNILocateNotifiDetail : UIViewController
+@interface UNILocateNotifiDetail : baseViewController
 @property (strong, nonatomic) UITableView *myTableView;
 @property (copy, nonatomic) NSString* order;
 @property (assign , nonatomic)int shopId;

@@ -11,8 +11,10 @@
 @end
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 #import "UNIShopListCell.h"
-@interface UNIShopListController : UIViewController
+@interface UNIShopListController : baseViewController
+
 
 @property(nonatomic,assign)id<UNIShopListControllerDelegate> delegate;
 

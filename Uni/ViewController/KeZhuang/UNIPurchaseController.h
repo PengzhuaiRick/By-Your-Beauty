@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIPurchaseController : UIViewController
+#import "baseViewController.h"
+@interface UNIPurchaseController :baseViewController
 
 @end

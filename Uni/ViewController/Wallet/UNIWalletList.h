@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIWalletList : UIViewController
+#import "baseViewController.h"
+@interface UNIWalletList : baseViewController
 
 @end

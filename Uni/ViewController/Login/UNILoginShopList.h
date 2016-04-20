@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNILoginShopList : UIViewController
+#import "baseViewController.h"
+@interface UNILoginShopList : baseViewController
 @property(nonatomic , assign)int extra;
 @property(nonatomic , copy) NSString* phone;
 @property(nonatomic , copy) NSString* randcode;

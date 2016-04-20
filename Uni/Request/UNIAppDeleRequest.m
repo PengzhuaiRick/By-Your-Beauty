@@ -9,6 +9,10 @@
 #import "UNIAppDeleRequest.h"
 
 @implementation UNIAppDeleRequest
+//-(void)requestFirstUrlSucceed:(int)code{
+//    _rqfirstUrl(code);
+//}
+
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
    // NSLog(@"requestSucceed  %@",dic);
     NSString* param1 = array[0];

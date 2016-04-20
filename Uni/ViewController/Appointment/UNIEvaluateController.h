@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 #import "UNIMyAppointInfoModel.h"
-@interface UNIEvaluateController : UIViewController
+@interface UNIEvaluateController : baseViewController
 @property (strong, nonatomic)  UIView *mainView;
 @property (strong, nonatomic)  UILabel *label1;
 @property (strong, nonatomic)  UILabel *label2;

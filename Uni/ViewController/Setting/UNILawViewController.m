@@ -15,7 +15,15 @@
 @end
 
 @implementation UNILawViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNILawViewController.h"];
+    [super viewWillAppear:animated];
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNILawViewController.h"];
+    [super viewWillDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
@@ -40,7 +48,7 @@
             [self setupUI:url];
         }
     };
-    [req postWithSerCode:@[API_PARAM_UNI,API_URL_GetTextInfo] params:@{@"type":@"flsm"}];
+    [req postWithSerCode:@[API_URL_GetTextInfo] params:@{@"type":@"flsm"}];
 }
 -(void)setupUI:(NSString*)url{
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,64,KMainScreenWidth, KMainScreenHeight-64)];

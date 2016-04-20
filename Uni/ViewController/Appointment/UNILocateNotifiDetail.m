@@ -31,7 +31,16 @@
 @end
 
 @implementation UNILocateNotifiDetail
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNILocateNotifiDetail.h"];
+    
+}
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNILocateNotifiDetail.h"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title=@"预约详情";
@@ -51,7 +60,7 @@
 -(void)startRequest{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
-    [rquest postWithSerCode:@[API_PARAM_UNI,API_URL_GetAppointInfo]
+    [rquest postWithSerCode:@[API_URL_GetAppointInfo]
                      params:@{@"order":self.order,@"shopId":@(_shopId)}];
     rquest.reqMyAppointInfo = ^(NSArray* models,NSString* tips ,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{

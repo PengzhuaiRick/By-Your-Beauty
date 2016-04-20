@@ -125,6 +125,10 @@
 		18D023051CB65A2A003AC324 /* UNILoginShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D023041CB65A2A003AC324 /* UNILoginShopModel.m */; };
 		18D023081CB65D58003AC324 /* UNILoginShopList.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D023071CB65D58003AC324 /* UNILoginShopList.m */; };
 		18D124641BF5BC440034990F /* UNIShopManage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D124631BF5BC440034990F /* UNIShopManage.m */; };
+		18D4103E1CC5C8210086FC76 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4103D1CC5C8210086FC76 /* libBaiduMobStat.a */; };
+		18D410401CC5C9570086FC76 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4103F1CC5C9570086FC76 /* JavaScriptCore.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		18D410441CC5CD730086FC76 /* baseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D410431CC5CD730086FC76 /* baseViewController.m */; };
+		18D410471CC6154C0086FC76 /* UNIUrlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D410461CC6154C0086FC76 /* UNIUrlManager.m */; };
 		18D434A41C229AD0006A8A3F /* UNILocateNotifiDetail.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D434A31C229AD0006A8A3F /* UNILocateNotifiDetail.m */; };
 		18D5722E1BE883560055DE7F /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722B1BE883560055DE7F /* AccountManager.m */; };
 		18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722D1BE883560055DE7F /* YILocationManager.m */; };
@@ -479,6 +483,13 @@
 		18D023071CB65D58003AC324 /* UNILoginShopList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILoginShopList.m; sourceTree = "<group>"; };
 		18D124621BF5BC440034990F /* UNIShopManage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopManage.h; sourceTree = "<group>"; };
 		18D124631BF5BC440034990F /* UNIShopManage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopManage.m; sourceTree = "<group>"; };
+		18D4103C1CC5C8210086FC76 /* BaiduMobStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobStat.h; sourceTree = "<group>"; };
+		18D4103D1CC5C8210086FC76 /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobStat.a; sourceTree = "<group>"; };
+		18D4103F1CC5C9570086FC76 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		18D410421CC5CD730086FC76 /* baseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = baseViewController.h; sourceTree = "<group>"; };
+		18D410431CC5CD730086FC76 /* baseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = baseViewController.m; sourceTree = "<group>"; };
+		18D410451CC6154C0086FC76 /* UNIUrlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIUrlManager.h; sourceTree = "<group>"; };
+		18D410461CC6154C0086FC76 /* UNIUrlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIUrlManager.m; sourceTree = "<group>"; };
 		18D434A21C229AD0006A8A3F /* UNILocateNotifiDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNILocateNotifiDetail.h; sourceTree = "<group>"; };
 		18D434A31C229AD0006A8A3F /* UNILocateNotifiDetail.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNILocateNotifiDetail.m; sourceTree = "<group>"; };
 		18D5722A1BE883560055DE7F /* AccountManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountManager.h; sourceTree = "<group>"; };
@@ -570,6 +581,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18D410401CC5C9570086FC76 /* JavaScriptCore.framework in Frameworks */,
 				18D77DCE1C3B9BF800DFC738 /* libstdc++.tbd in Frameworks */,
 				18D77DCC1C3B9BE300DFC738 /* libz.1.2.5.tbd in Frameworks */,
 				18C745B61BF07D92000062AF /* libz.tbd in Frameworks */,
@@ -592,6 +604,7 @@
 				18C745A61BF07C3A000062AF /* CFNetwork.framework in Frameworks */,
 				18C745A41BF07C24000062AF /* libPushSDK-1.8.8.a in Frameworks */,
 				18BA7D721BEA064D00DD7826 /* CoreLocation.framework in Frameworks */,
+				18D4103E1CC5C8210086FC76 /* libBaiduMobStat.a in Frameworks */,
 				969E87D7F46C2F35E18C553F /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -781,6 +794,7 @@
 		1840FD731BE0712100DC78BC /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
+				18D410411CC5CD5B0086FC76 /* baseController */,
 				184E153E1C5F2D5A00D65E39 /* Setting */,
 				184481F91C5202B40047D2EF /* OrderList */,
 				18EC2E0B1C4A159F00A81DD9 /* gift */,
@@ -1153,9 +1167,28 @@
 			path = myReward;
 			sourceTree = "<group>";
 		};
+		18D4103B1CC5C8210086FC76 /* BaiduStat */ = {
+			isa = PBXGroup;
+			children = (
+				18D4103C1CC5C8210086FC76 /* BaiduMobStat.h */,
+				18D4103D1CC5C8210086FC76 /* libBaiduMobStat.a */,
+			);
+			path = BaiduStat;
+			sourceTree = "<group>";
+		};
+		18D410411CC5CD5B0086FC76 /* baseController */ = {
+			isa = PBXGroup;
+			children = (
+				18D410421CC5CD730086FC76 /* baseViewController.h */,
+				18D410431CC5CD730086FC76 /* baseViewController.m */,
+			);
+			path = baseController;
+			sourceTree = "<group>";
+		};
 		18D5720F1BE867FE0055DE7F /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				18D4103B1CC5C8210086FC76 /* BaiduStat */,
 				18C8D39D1C574A5100E6DDB3 /* AliPay */,
 				18A231D51C2807A600E57795 /* Wechat */,
 				18C745A11BF07C24000062AF /* JPush */,
@@ -1179,6 +1212,8 @@
 				18CB949F1C85664F00F834DA /* UNIHttpUrlManager.m */,
 				18D5F1AC1C8848FA0033553D /* UNITransfromX&Y.h */,
 				18D5F1AD1C8848FA0033553D /* UNITransfromX&Y.m */,
+				18D410451CC6154C0086FC76 /* UNIUrlManager.h */,
+				18D410461CC6154C0086FC76 /* UNIUrlManager.m */,
 			);
 			path = OtherManager;
 			sourceTree = "<group>";
@@ -1299,6 +1334,7 @@
 		4721F7A66D978636E4F252B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18D4103F1CC5C9570086FC76 /* JavaScriptCore.framework */,
 				18D77DCD1C3B9BF800DFC738 /* libstdc++.tbd */,
 				18D77DCB1C3B9BE300DFC738 /* libz.1.2.5.tbd */,
 				182EDD831C23B1F200949337 /* libc++.tbd */,
@@ -1579,6 +1615,7 @@
 				18C3ECFB1C0EEA2100B0A192 /* UNIAppointDetall1Cell.m in Sources */,
 				18BF0A041BF44428000AE604 /* LLARingSpinnerView.m in Sources */,
 				1814B5701C5B403600CB3BD9 /* UNIGoodsWeb.m in Sources */,
+				18D410471CC6154C0086FC76 /* UNIUrlManager.m in Sources */,
 				18250E6A1C183B670072F795 /* UNIPurchaseController.m in Sources */,
 				18C757A91C82FCB10052CCB4 /* UNIBaseCell.m in Sources */,
 				18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */,
@@ -1623,6 +1660,7 @@
 				18BA7D6D1BE9A19100DD7826 /* SMPageControl.m in Sources */,
 				18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */,
 				18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */,
+				18D410441CC5CD730086FC76 /* baseViewController.m in Sources */,
 				18CC75C01C2B8B6400625205 /* ViewControllerCell.m in Sources */,
 				182E8A591C71CBA500870968 /* UNILawRequest.m in Sources */,
 				1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */,
@@ -1823,7 +1861,7 @@
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/Public/SWTableViewCell\"",
-					"/Users/apple/Desktop/Uni\\ 4/Uni/Library/AliPay",
+					"/Users/apple/Desktop/Uni\\ 10/Uni/Library/AliPay",
 				);
 				INFOPLIST_FILE = Uni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1888,7 +1926,7 @@
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
 					"\"${PODS_ROOT}/Headers/Public/SWTableViewCell\"",
-					"/Users/apple/Desktop/Uni\\ 4/Uni/Library/AliPay",
+					"/Users/apple/Desktop/Uni\\ 10/Uni/Library/AliPay",
 				);
 				INFOPLIST_FILE = Uni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

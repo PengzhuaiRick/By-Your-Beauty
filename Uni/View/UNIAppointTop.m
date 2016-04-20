@@ -133,7 +133,7 @@
     self.selectTime = @"";
     NSString* string = self.selectDay;
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetFreeTime]
+    [request postWithSerCode:@[API_URL_GetFreeTime]
                       params:@{@"projectId":@(_projectId),
                                @"date":string,
                                @"costTime":@(_costTime),

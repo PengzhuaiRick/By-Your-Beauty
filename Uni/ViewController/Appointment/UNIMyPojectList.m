@@ -26,7 +26,16 @@
 
 
 @implementation UNIMyPojectList
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIMyPojectList.h"];
+    
+}
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIMyPojectList.h"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupData];
@@ -163,7 +172,7 @@
 -(void)startRequestInfo{
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
-        [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
+        [request1 postWithSerCode:@[API_URL_MyProjectInfo]
                            params:@{@"page":@(self->pageNum),@"size":@(20)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{

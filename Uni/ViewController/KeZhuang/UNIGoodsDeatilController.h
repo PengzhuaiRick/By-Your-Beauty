@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIGoodsDeatilController : UIViewController
+#import "baseViewController.h"
+@interface UNIGoodsDeatilController : baseViewController
 @property(nonatomic,copy)NSString* projectId;
 @property(nonatomic,copy)NSString* type;
 @property(nonatomic,assign)int isHeadShow;

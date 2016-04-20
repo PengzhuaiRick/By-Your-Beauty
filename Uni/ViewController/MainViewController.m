@@ -70,6 +70,7 @@
         }
     }
     backTopBtn.enabled = YES;
+     [[BaiduMobStat defaultStat] pageviewStartWithName:@"MainViewController.h"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -80,27 +81,44 @@
         }
     }
     backTopBtn.enabled = NO;
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"MainViewController.h"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
     [self setupScroller];
+    [self requestBackGroundUrl];
    // [self requestActivityInfo];
-    [self requestActivityShowOrNot];
-    [self startRequestShopInfo];//请求商家信息
-    [self startRequestReward];//请求约满信息
-    [self startRequestAppointInfo];//请求我已预约
-   [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
-    [self getSellInfo]; //获取首页销售商品
+   // [self requestActivityShowOrNot];
+//    [self startRequestShopInfo];//请求商家信息
+//    [self startRequestReward];//请求约满信息
+//    [self startRequestAppointInfo];//请求我已预约
+//   [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+//    [self getSellInfo]; //获取首页销售商品
     [self setupNotification];//注册通知
 
     //[self addLocateNotication];
 }
+#pragma mark 获取后台动态URL
+-(void)requestBackGroundUrl{
+     MainViewRequest* request = [[MainViewRequest alloc]init];
+    [request firstRequestUrl];
+    request.rqfirstUrl=^(int code){
+        //[self requestActivityShowOrNot];
+        [self startRequestShopInfo];//请求商家信息
+        [self startRequestReward];//请求约满信息
+        [self startRequestAppointInfo];//请求我已预约
+        [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+        [self getSellInfo]; //获取首页销售商品
+        [self requestAppTips];
+    };
+}
+
 #pragma mark 审核期间 是否显示活动页面
 -(void)requestActivityShowOrNot{
     MainViewRequest* request = [[MainViewRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_RetCode]
+    [request postWithSerCode:@[API_URL_RetCode]
                       params:nil];
     request.rqshowAcitivityOrNot=^(int code,NSString* tips,NSError* er){
             if (er) {
@@ -119,7 +137,7 @@
 -(void)requestActivityInfo{
     
     MainViewRequest* request = [[MainViewRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_HasActivity]
+    [request postWithSerCode:@[API_URL_HasActivity]
                        params:nil];
     request.rqactivity=^(int hasActivity,int activityId,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -583,7 +601,7 @@
         //AccountManager* manager = [AccountManager shared];
       
         MainViewRequest* request = [[MainViewRequest alloc]init];
-        [request postWithSerCode:@[API_PARAM_UNI,API_URL_ShopInfo]
+        [request postWithSerCode:@[API_URL_ShopInfo]
                           params:nil];
         request.reshopInfoBlock=^(UNIShopManage* manager,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -611,7 +629,7 @@
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //请求约满奖励
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
-        [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MRInfo]
+        [request1 postWithSerCode:@[API_URL_MRInfo]
                            params:nil];
         request1.rerewardBlock=^(int nextRewardNum,int num,int type,int goodid,NSString* url,NSString* projectName,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -657,7 +675,7 @@
 #pragma mark 开始请求我已预约项目
 -(void)startRequestAppointInfo{
         MainViewRequest* request = [[MainViewRequest alloc]init];
-        [request postWithSerCode:@[API_PARAM_UNI,API_URL_Appoint]
+        [request postWithSerCode:@[API_URL_Appoint]
                           params:@{@"page":@(0),@"size":@(1)}];
         request.reappointmentBlock =^(int count,NSArray* myAppointArr,NSString* tips,NSError* err){
             [self startRequestProjectInfo];
@@ -681,7 +699,7 @@
 -(void)startRequestProjectInfo{
     
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
-        [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_MyProjectInfo]
+        [request1 postWithSerCode:@[API_URL_MyProjectInfo]
                            params:@{@"page":@(bottomPage),@"size":@(10)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -724,7 +742,7 @@
     MainViewRequest* request1 = [[MainViewRequest alloc]init];
     int shopId =[[AccountManager shopId]intValue];
     NSString* code = [NSString stringWithFormat:@"%d_prize_shop,%d_index_bg",shopId,shopId];
-    [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_GetImgByshopIdCode]
+    [request1 postWithSerCode:@[API_URL_GetImgByshopIdCode]
                        params:@{@"code":code}];
     request1.reMainBgBlock =^(NSArray* result,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -747,7 +765,7 @@
 #pragma mark 获取首页销售商品信息
 -(void)getSellInfo{
     MainViewRequest* request1 = [[MainViewRequest alloc]init];
-    [request1 postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo2]
+    [request1 postWithSerCode:@[API_URL_GetSellInfo2]
                        params:@{@"projcetId":@"",@"type":@"2",@"isHeadShow":@(1)}];
     request1.resellInfoBlock =^(NSArray* arr,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -777,6 +795,14 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
         });
     };
+}
+
+-(void)requestAppTips{
+    MainViewRequest* request1 = [[MainViewRequest alloc]init];
+    [request1 postWithoutUserIdSerCode:@[API_URL_GetAppTips]
+                       params:nil];
+    request1.rqAppTips=^(int code,NSString* tips,NSError* err){};
+
 }
 
 #pragma mark 注册通知

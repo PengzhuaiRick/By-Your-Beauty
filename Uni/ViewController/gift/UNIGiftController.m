@@ -40,6 +40,7 @@
     array=nil;
     webView.delegate = self;
     webView.scrollView.delegate = self;
+     [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGiftController.h"];
     [super viewWillAppear:animated];
     
 }
@@ -53,6 +54,7 @@
     array = nil;
     webView.delegate = nil;
     webView.scrollView.delegate = nil;
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGiftController.h"];
     [super viewWillDisappear:animated];
 }
 
@@ -119,7 +121,7 @@
             }
         });
     };
-    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];
+    [rq postWithSerCode:@[API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];
     
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{

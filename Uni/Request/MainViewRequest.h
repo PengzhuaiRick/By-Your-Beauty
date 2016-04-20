@@ -11,6 +11,10 @@
 #import "UNIMyAppintModel.h"
 #import "UNIMyProjectModel.h"
 #import "UNIGoodsModel.h"
+
+
+
+
 /**
  *  请求版本号成功Block
  *
@@ -101,6 +105,14 @@ typedef void(^RQActivity)(int hasActivity,int activityId,NSString* tips,NSError*
  */
 typedef void(^RQShowAcitivityOrNot)(int code,NSString* tips,NSError* er);
 
+/**
+ *  请求APP提示信息
+ *  @param code
+ *  @param tips      反馈信息
+ *  @param er        错误信息
+ */
+typedef void(^RQAppTips)(int code,NSString* tips,NSError* er);
+
 @interface MainViewRequest : BaseRequest
 
 
@@ -132,4 +144,7 @@ typedef void(^RQShowAcitivityOrNot)(int code,NSString* tips,NSError* er);
 
 //  审核期间是否显示活动
 @property(nonatomic,copy)RQShowAcitivityOrNot rqshowAcitivityOrNot;
+
+//  请求APP提示信息
+@property(nonatomic,copy)RQAppTips rqAppTips;
 @end

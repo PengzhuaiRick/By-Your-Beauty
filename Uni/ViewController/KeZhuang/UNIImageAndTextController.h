@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIImageAndTextController : UIViewController
+#import "baseViewController.h"
+@interface UNIImageAndTextController : baseViewController
 
 @property (weak, nonatomic) IBOutlet UIWebView *myWebView;
 @property(copy,nonatomic)NSString* projectId;

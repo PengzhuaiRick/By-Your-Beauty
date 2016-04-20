@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 #import "UNIContainController.h"
-@interface UNIGiftController : UIViewController
+@interface UNIGiftController : baseViewController
 @property(nonatomic ,strong)UNIContainController* containController;
 @end

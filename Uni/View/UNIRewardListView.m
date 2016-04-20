@@ -27,7 +27,7 @@
 -(void)startRequest{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYRewardList]
+    [request postWithSerCode:@[API_URL_MYRewardList]
                       params:@{@"status":@(self.status),@"page":@(self.page),@"size":@(20)}];
     request.rewardListBlock=^(NSArray* array ,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -15,7 +15,15 @@
 @end
 
 @implementation UNIPurchaseController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIPurchaseController.h"];
+    [super viewWillAppear:animated];
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIPurchaseController.h"];
+    [super viewWillDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];

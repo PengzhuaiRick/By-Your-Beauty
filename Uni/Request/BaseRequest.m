@@ -8,10 +8,35 @@
 
 #import "BaseRequest.h"
 #import "AccountManager.h"
+#import "UNIUrlManager.h"
 @implementation BaseRequest
+
+-(void)firstRequestUrl{
+    NSString* url = [NSString stringWithFormat:
+                     @"http://uni.dodwow.com/v2/index.php?s=/App/Version/index/app_version/%@/device/ios",CURRENTVERSION];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes =
+    [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"firstRequestUrl : %@",responseObject);
+        int code = [[self safeObject:(NSDictionary*)responseObject ForKey:@"code"] intValue];
+//        if (code == 0) {
+            UNIUrlManager* manager = [UNIUrlManager sharedInstance];
+            [manager initUrlManager:responseObject];
+            self.rqfirstUrl(code);
+//            if ([self respondsToSelector:@selector(requestFirstUrlSucceed:)])
+//                [self requestFirstUrlSucceed:code];
+        
+      //  }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+       }];
+}
+
+
 -(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params{
     NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:params];
-    
+    [dic setObject:@"ios" forKey:@"device"];
+    [dic setObject:CURRENTVERSION forKey:@"app_version"];
     [dic setValue:@([[AccountManager userId] intValue]) forKey:@"userId"];
     [dic setValue:[AccountManager token] forKey:@"token"];
     
@@ -19,14 +44,11 @@
        [dic setValue:@([[AccountManager shopId]intValue]) forKey:@"shopId"];
     
     NSString* URL = [self spliceURL:code];
-    //NSLog(@" 吃吃吃吃   URL %@",URL);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
-    NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:dic] forKey:@"json"];
-    NSLog(@"%@  %@",code[1],ddic);
-    [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"JSON:%@ %@", code[1],responseObject);
-       // NSLog(@"%@",[self safeObject:responseObject ForKey:@"tips"]);
+    [manager POST:URL parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+      //  NSDictionary *content = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"code  %@   content  %@ ",code[0],responseObject);
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
             [self requestSucceed:responseObject andIdenCode:code];
         }
@@ -39,34 +61,42 @@
 }
 
 -(void)postWithoutUserIdSerCode:(NSArray*)code params:(NSDictionary *)params{
-
     NSString* URL = [self spliceURL:code];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
-    NSDictionary* ddic = [NSDictionary dictionaryWithObject:[self dictionaryToJson:params] forKey:@"json"];
-    NSLog(@" 吃吃吃吃   URL %@",URL);
-    NSLog(@"%@",ddic);
-    [manager POST:URL parameters:ddic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-         NSLog(@"JSON:%@ %@", code[1],responseObject);
-        // NSLog(@"%@",[self safeObject:responseObject ForKey:@"tips"]);
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript",@"text/plain"]];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    [manager POST:URL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+         NSDictionary *content = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSLog(@"code  %@   content  %@ ",code[0],content);
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
-            [self requestSucceed:responseObject andIdenCode:code];
+            [self requestSucceed:content andIdenCode:code];
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error:%@ %@",code[1], error);
+        NSLog(@"Error:%@ %@",code[0], error);
         if ([self respondsToSelector:@selector(requestFailed:andIdenCode:)]) {
             [self requestFailed:error andIdenCode:code];
         }
     }];
 }
 
--(void)getWithSerCode:(NSArray*)code params:(NSDictionary *)params{
-    
+-(NSString*)dictionaryToString:(NSDictionary*)dic{
+    NSArray* keys = [dic allKeys];
+    NSMutableString* url = [NSMutableString string];
+    for (int i=0;i<keys.count;i++) {
+        NSString* key = keys[i];
+        [url appendString:key];
+        if (i<keys.count-1)
+            [url appendFormat:@"/%@/",dic[key]];
+        else
+            [url appendFormat:@"/%@",dic[key]];
+    }
+    return url;
 }
 
 -(NSString*)spliceURL:(NSArray*)code{
-    NSString* str = [NSString stringWithFormat:@"%@/api.php?c=%@&a=%@",API_URL,code[0],code[1]];
+    //NSString* str = [NSString stringWithFormat:@"%@/api.php?c=%@&a=%@",API_URL,code[0],code[1]];
+    NSString* str = [NSString stringWithFormat:@"%@/index.php?s=/App/%@/app_version/%@/device/ios",[UNIUrlManager sharedInstance].server_url,code[0],CURRENTVERSION];
     return str;
 }
 
@@ -102,7 +132,9 @@
 -(void)requestSucceed:(NSDictionary *)dic andIdenCode:(NSArray *)array{
     
 }
-
+-(void)requestFirstUrlSucceed:(int)code{
+    
+}
 - (id)safeObject:(NSDictionary*)dic ForKey:(id)aKey
 {
     id obj = [dic objectForKey:aKey];

@@ -18,11 +18,13 @@
 -(void)viewWillAppear:(BOOL)animated{
     webView.delegate = self;
     webView.scrollView.delegate = self;
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGoodsWeb.h"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     webView.delegate = nil;
     webView.scrollView.delegate = nil;
+     [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGoodsWeb.h"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {

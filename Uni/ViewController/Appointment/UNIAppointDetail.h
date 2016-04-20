@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIAppointDetail : UIViewController
+#import "baseViewController.h"
+@interface UNIAppointDetail : baseViewController
 @property (strong, nonatomic) UITableView *myTableView;
 @property (copy, nonatomic) NSString* order;
 @property (assign , nonatomic)int shopId;

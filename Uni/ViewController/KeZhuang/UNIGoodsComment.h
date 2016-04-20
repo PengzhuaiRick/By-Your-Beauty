@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIGoodsComment : UIViewController
+#import "baseViewController.h"
+@interface UNIGoodsComment : baseViewController
 
 @end

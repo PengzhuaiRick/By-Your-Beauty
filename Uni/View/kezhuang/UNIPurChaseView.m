@@ -121,7 +121,7 @@
     NSDictionary* dic=@{@"goodsId":@(_model.projectId),@"goodsType":@(_model.type),@"payType":@(self.payStyle),@"shopPrice":[NSString stringWithFormat:@"%.f",_model.shopPrice*num],@"price":@(_model.shopPrice),
                         @"num":@(num)};
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetOutTradeNo] params:dic];
+    [requet postWithSerCode:@[API_URL_GetOutTradeNo] params:dic];
     requet.kzgoodsGetOrderBlock=^(float _price,NSString* orderNo,NSString*tips,NSError* err){
         [LLARingSpinnerView RingSpinnerViewStop1];
         if (err) {
@@ -146,7 +146,7 @@
     
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_PARAM_PAY,API_URL_GetAlipayConfig] params:nil];
+    [requet postWithSerCode:@[API_URL_GetAlipayConfig] params:nil];
     requet.kzalipayBlock =^(NSString* partner ,NSString* key,NSString* seller,NSString* ras_private_key,NSString* tips,NSError* er){
          [LLARingSpinnerView RingSpinnerViewStop1];
             if (er) {
@@ -183,6 +183,8 @@
                           @"show_url":@"m.alipay.com",
                           @"private_key":privateKey};
     [order loadData:dic];
+//    [order loadOrderString:@"_input_charset=utf-8&body=购买游戏币-[美丽由你提供]&it_b_pay=30m&notify_url=http://uni.dodwow.com/v2/alipay_notify.php&openid=&out_trade_no=1460974525&partner=2088121108997680&payment_type=1&product_id=1&seller_id=youunimail@163.com&service=mobile.securitypay.pay&show_url=m.alipay.com&sign=EaMmH6kh5MBb7xeHxd6W9occrcispUFxHsH5nCXv1gvgtTgwY0jCJtxTo5djs5bOznK9MJL9dsIM5E8ULmGEuhIx6jNE4fvVohqwjINtUGmT1FMCI5PKJqHt6xBexmS5M%2B1x46%2BpATlicHg0H4hfDIpvujzlQsiwgRhAyvLXC0Y%3D&sign_type=RSA&subject=购买游戏币-&total_fee=1&tradeType=APP"];
+
   //  order.partner = partner;
    // order.seller = seller;
    // order.tradeNO = @"4412831990091123"; //订单ID（由商家自行制定）
@@ -236,7 +238,7 @@
 -(void)requestWXPayKey{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_PARAM_PAY,API_URL_GetWXConfig] params:nil];
+    [requet postWithSerCode:@[API_URL_GetWXConfig] params:nil];
     requet.kzwxpayBlock =^(NSString* appid ,NSString* mchid,NSString* appsecret,NSString* tips,NSError* er){
         [LLARingSpinnerView RingSpinnerViewStop1];
         if (er) {

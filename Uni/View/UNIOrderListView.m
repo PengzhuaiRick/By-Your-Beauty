@@ -25,7 +25,7 @@
 -(void)startRequest{
     
     UNIOrderRequest* request = [[UNIOrderRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_MyOrderList]
+    [request postWithSerCode:@[API_URL_MyOrderList]
                       params:@{@"status":@(self.status),@"page":@(self.page),@"size":@(20)}];
     request.myOrderListBlock=^(NSArray* array ,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{

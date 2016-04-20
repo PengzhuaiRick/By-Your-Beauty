@@ -39,6 +39,7 @@
     self.myTableView.dataSource = self;
 //    self.mappView.showsUserLocation = YES;//显示自己
 //    self.mappView.zoomEnabled = YES;//支持缩放
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIAppointDetail.h"];
     [super viewWillAppear:animated];
 }
 
@@ -52,6 +53,7 @@
     self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     self.myTableView.delegate = nil;
     self.myTableView.dataSource = nil;
+     [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIAppointDetail.h"];
     [super viewDidDisappear:animated];
 }
 -(void)dealloc{
@@ -85,7 +87,7 @@
     __weak UNIAppointDetail* myself= self;
      [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyAppointInfoRequest* rquest = [[UNIMyAppointInfoRequest alloc]init];
-    [rquest postWithSerCode:@[API_PARAM_UNI,API_URL_GetAppointInfo]
+    [rquest postWithSerCode:@[API_URL_GetAppointInfo]
                      params:@{@"order":self.order,@"shopId":@(_shopId)}];
     rquest.reqMyAppointInfo = ^(NSArray* models,NSString* tips ,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -137,7 +139,7 @@
             }
         });
     };
-    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ShopInfo] params:@{@"shopId":@(_shopId)}];
+    [rq postWithSerCode:@[API_URL_ShopInfo] params:@{@"shopId":@(_shopId)}];
 }
 
 -(void)setupData{

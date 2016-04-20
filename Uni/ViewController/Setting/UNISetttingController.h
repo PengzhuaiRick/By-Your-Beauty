@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 #import "UNIContainController.h"
-@interface UNISetttingController : UIViewController
+@interface UNISetttingController : baseViewController
 @property(nonatomic ,strong)UNIContainController* containController;
 @end

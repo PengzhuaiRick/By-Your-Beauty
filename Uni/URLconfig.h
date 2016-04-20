@@ -37,88 +37,91 @@
 //#define API_URL_Login @"login"
 
 //登录接口：
-#define API_URL_Login @"beforeLogin"
+#define API_URL_Login @"Customer/login"
 
 //获取首页背景图片 和 奖励商品图片
-#define API_URL_GetImgByshopIdCode @"getImgByshopIdCode"
+#define API_URL_GetImgByshopIdCode @"file/getImgByshopIdCode"
 
 //获取首页背景图片 和 奖励商品图片
 #define API_URL_GetSellInfo @"getSellInfo"
 
 //获取店铺信息接口
-#define API_URL_ShopInfo @"shopInfo"
+#define API_URL_ShopInfo @"shop/shopInfo"
 
 //会员信息接口
 #define API_URL_CustomInfo @"customInfo"
 
 //获取已预约信息接口
-#define API_URL_Appoint @"appoint"
+#define API_URL_Appoint @"appoint/myAppoint"
 
 //我的项目接口
-#define API_URL_MyProjectInfo @"myProjectInfo"
+#define API_URL_MyProjectInfo @"project/myProjectInfo"
 
 //版本校验接口
 #define API_URL_CheckVersion @"checkVersion"
 
 //请求欢迎页
-#define API_URL_Welcome @"welcome"
+#define API_URL_Welcome @"index/welcome"
 
 //短信接口
 //#define API_URL_Login @"login"
 
 //短信接口
-#define API_URL_Verify @"verify"
+#define API_URL_Verify @"Customer/verify"
 
 //奖励信息接口
-#define API_URL_MRInfo @"rewardInfo"
+#define API_URL_MRInfo @"reward/rewardInfo"
 
 //获取可选时间接口
-#define API_URL_GetFreeTime @"getFreeTime"
+#define API_URL_GetFreeTime @"appoint/getFreeTime"
 
 //确认预约接口
-#define API_URL_SetAppoint @"setAppoint"
+#define API_URL_SetAppoint @"Appoint/setAppoint"
 
 //获取预约订单详情接口
-#define API_URL_GetAppointInfo @"getAppointInfo"
+#define API_URL_GetAppointInfo @"appoint/getAppointInfo"
 
 //获取客妆接口
 #define API_URL_GetSellInfo @"getSellInfo"
 
 //获取客妆接口2
-#define API_URL_GetSellInfo2 @"getSellGoodsInfo"
+#define API_URL_GetSellInfo2 @"SellGoods/getSellGoodsInfo"
+
+//获取客妆列表
+#define API_URL_GetSellList @"sellGoods/sellGoodsList"
 
 //获取客妆 订单号
 #define API_URL_GetOutTradeNo @"getOutTradeNo"
 
 //服务评价接口
-#define API_URL_SetServiceAppraise @"setServiceAppraise"
+#define API_URL_SetServiceAppraise @"comment/setServiceAppaise"
 
 //商品评价接口
-#define API_URL_GoodsAppraise @"setGoodsAppraise"
+#define API_URL_GoodsAppraise @"comment/SetGoodsAppaise"
 
 //会员卡详情接口
-#define API_URL_GetCardInfo @"getCardInfo"
+#define API_URL_GetCardInfo @"appoint/getCardInfo"
 
 //准时奖励信息接口
-#define API_URL_ITRewardInfo @"intimeRewardInfo"
+#define API_URL_ITRewardInfo @"reward/intimeReward"
 
 //我的奖励—约满奖励接口
-#define API_URL_MYRewardInfo @"myRewardInfo"
+#define API_URL_MYRewardInfo @"reward/myRewardInfo"
 
 //我的奖励--准时奖励接口
-#define API_URL_MYITRewardInfo @"myIntimeRewardInfo"
+#define API_URL_MYITRewardInfo @"reward/myIntimeRewardInfo"
 
 //客妆奖励接口
-#define API_URL_SellReward @"sellReward"
+#define API_URL_SellReward @"reward/sellReward"
 
 //我的奖励列表接口
-#define API_URL_MYRewardList @"myRewardList"
+#define API_URL_MYRewardList @"reward/myRewardList"
 
 //客户到店
-#define API_URL_ArriveShop @"setArriveShop"
+#define API_URL_ArriveShop @"appoint/setArriveShop"
 
 //获取订单列表
-#define API_URL_MyOrderList @"myOrderList"
+#define API_URL_MyOrderList @"order/myOrderList"
 
 //支付宝 私钥之类的KEY
 #define API_URL_GetAlipayConfig @"getAlipayConfig"
@@ -127,32 +130,32 @@
 #define API_URL_GetWXConfig @"getWXConfig"
 
 //获取法律声明文本接口
-#define API_URL_GetTextInfo @"getTextInfo"
+#define API_URL_GetTextInfo @"file/getTextInfo"
 
 //获取游客基础信息接口
-#define API_URL_GetCustomInfo @"getCustomInfo"
+#define API_URL_GetCustomInfo @"customer/getCustomInfo"
 
 //设置游客基础信息接口
-#define API_URL_SetCustomInfo @"setCustomInfo"
+#define API_URL_SetCustomInfo @"Customer/setCustomInfo"
 
 //获取店铺列表接口
-#define API_URL_GetShopListInfo @"getShopListInfo"
+#define API_URL_GetShopListInfo @"Shop/getShopListInfo"
 
 //获取提示语言接口
-#define API_URL_GetAppTips @"getAppTips"
+#define API_URL_GetAppTips @"AppTips/getAppTips"
 
 //获取用户是否参加过活动
-#define API_URL_HasActivity @"hasActivity"
+#define API_URL_HasActivity @"Activity/hasActivity"
 
 //获取活动分享内容
-#define API_URL_ActivityShare @"activityShare"
+#define API_URL_ActivityShare @"Activity/activityShare"
 
 //获取服务预约内容信息
-#define API_URL_GetProjectModel @"getProjectModel"
+#define API_URL_GetProjectModel @"Project/getProjectModel"
 
 //获取游客按钮显示
-#define API_URL_RetCode @"retCode"
+#define API_URL_RetCode @"File/retCode"
 
 //新用户选择店铺
-#define API_URL_addUser @"addUser"
+#define API_URL_addUser @"Customer/addUser"
 #endif /* URLconfig_h */

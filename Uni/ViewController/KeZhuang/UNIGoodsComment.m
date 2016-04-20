@@ -16,7 +16,15 @@
 @end
 
 @implementation UNIGoodsComment
-
+-(void)viewWillAppear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGoodsComment.h"];
+    [super viewWillAppear:animated];
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGoodsComment.h"];
+    [super viewWillDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];

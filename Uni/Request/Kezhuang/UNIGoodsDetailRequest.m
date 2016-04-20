@@ -12,13 +12,11 @@
 @implementation UNIGoodsDetailRequest
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
     // NSLog(@"requestSucceed  %@",dic);
-    NSString* param1 = array[0];
-    NSString* param2 = array[1];
+    //NSString* param1 = array[0];
+    NSString* param2 = array[0];
     
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
-    
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
         
         //客妆 商品信息接口
         if ([param2 isEqualToString:API_URL_GetSellInfo]) {
@@ -65,10 +63,10 @@
                 _kzgoodsGetOrderBlock( totalPrice,outTradeNo,tips,nil);
             }else
                 _kzgoodsGetOrderBlock(-1,nil,tips,nil);
-        }
+        
     }
     
-    if ([param1 isEqualToString:API_PARAM_PAY]) {
+
         //获取 支付宝 私钥
         if ([param2 isEqualToString:API_URL_GetAlipayConfig]) {
             if(code == 0 ){
@@ -93,14 +91,13 @@
             }else
                 _kzwxpayBlock(nil,nil,nil,tips,nil);
         }
-    }
+
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
-    NSString* param1 = array[0];
-    NSString* param2 = array[1];
+   // NSString* param1 = array[0];
+    NSString* param2 = array[0];
     
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
         //客妆奖励接口
         if ([param2 isEqualToString:API_URL_SellReward])
             _kzrewardBlock(nil,nil,err);
@@ -113,9 +110,7 @@
         if ([param2 isEqualToString:API_URL_GetSellInfo2]) {
              _kzgoodsInfoBlock(nil,nil,err);
         }
-    }
     
-    if ([param1 isEqualToString:API_PARAM_PAY]) {
         //获取 支付宝 私钥
         if ([param2 isEqualToString:API_URL_GetAlipayConfig])
             _kzalipayBlock(nil,nil,nil,nil,nil,err);
@@ -127,7 +122,7 @@
         //获取 支付宝 私钥
         if ([param2 isEqualToString:API_URL_GetAlipayConfig])
             _kzgoodsGetOrderBlock(-1,nil,nil,err);
-    }
+
     
 }
 

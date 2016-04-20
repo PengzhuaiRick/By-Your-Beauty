@@ -13,7 +13,15 @@
 @end
 
 @implementation UNIImageAndTextController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIImageAndTextController.h"];
+    [super viewWillAppear:animated];
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIImageAndTextController.h"];
+    [super viewWillDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"图文详情";

@@ -13,7 +13,15 @@
 @end
 
 @implementation UNIAboutUsController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIAboutUsController.h"];
+    [super viewWillAppear:animated];
+    
+}
+-(void)viewWillDisappear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIAboutUsController.h"];
+    [super viewWillDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];

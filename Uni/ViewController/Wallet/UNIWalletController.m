@@ -24,6 +24,7 @@
             ges.enabled=YES;
         }
     }
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIWalletController.h"];
     [super viewWillAppear:animated];
 
 }
@@ -34,6 +35,7 @@
             ges.enabled=NO;
         }
     }
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIWalletController.h"];
     [super viewWillDisappear:animated];
 }
 

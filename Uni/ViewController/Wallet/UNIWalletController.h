@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 #import "UNIContainController.h"
 @interface UNIWalletController : UIViewController
 @property(nonatomic ,strong)UNIContainController* containController;

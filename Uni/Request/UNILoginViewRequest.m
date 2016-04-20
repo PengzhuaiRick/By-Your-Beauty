@@ -14,14 +14,13 @@
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
    // NSLog(@"requestSucceed  %@",dic);
     NSString* param1 = array[0];
-    NSString* param2 = array[1];
+   // NSString* param2 = array[1];
     
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
      NSString* tips = [self safeObject:dic ForKey:@"tips"];
     
     //登录验证码
-    if ([param1 isEqualToString:API_PARAM_SSMS]&&
-        [param2 isEqualToString:API_URL_Verify]) {
+    if ([param1 isEqualToString:API_URL_Verify]) {
         
         if (code ==0) {
             NSString* lastLoginTime = [self safeObject:dic ForKey:@"lastLoginTime"];
@@ -35,8 +34,7 @@
             _rqvertifivaBlock(-1,-1,nil,nil,nil,nil,tips,nil);
     }
     //请求登录
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_Login]) {
+    if ([param1 isEqualToString:API_URL_Login]) {
          if (code == 0 || code == 2) {
               int extra = [[self safeObject:dic ForKey:@"extra"] intValue];
              NSArray* result = [self safeObject:dic ForKey:@"result"];
@@ -50,8 +48,7 @@
              _rqloginBlock(-1,nil,tips,nil);
     }
     //请求游客基础信息
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_GetCustomInfo]) {
+    if ([param1 isEqualToString:API_URL_GetCustomInfo]) {
         if (code == 0) {
             int projectId = [[self safeObject:dic ForKey:@"projectId"] intValue];
             int shopId = [[self safeObject:dic ForKey:@"shopId"] intValue];
@@ -61,8 +58,7 @@
     }
     
     //设置游客基础信息
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_SetCustomInfo]) {
+    if ([param1 isEqualToString:API_URL_SetCustomInfo]) {
         if (code == 0|| code == 7) {
             NSString* tel = [self safeObject:dic ForKey:@"tel"];
             _setTouristBlock(code,tel,tips,nil);
@@ -71,13 +67,11 @@
     }
 
     //请求游客按钮显示
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_RetCode]) {
+    if ([param1 isEqualToString:API_URL_RetCode]) {
             _rqtouristBtn(code,tips,nil);
     }
     //新用户选择店铺
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_addUser]) {
+    if ([param1 isEqualToString:API_URL_addUser]) {
         if (code == 0) {
             int userId = [[self safeObject:dic ForKey:@"userId"] intValue];
             int shopId = [[self safeObject:dic ForKey:@"shopId"] intValue];
@@ -92,38 +86,32 @@
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
     NSString* param1 = array[0];
-    NSString* param2 = array[1];
+    //NSString* param2 = array[1];
     
     //登录验证码
-    if ([param1 isEqualToString:API_PARAM_SSMS]&&
-        [param2 isEqualToString:API_URL_Verify]) {
+    if ([param1 isEqualToString:API_URL_Verify]) {
         _rqvertifivaBlock(-1,-1,nil,nil,nil,nil,nil,err);
     }
     //请求登录
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_Login]) {
+    if ([param1 isEqualToString:API_URL_Login]) {
         _rqloginBlock(-1,nil,nil,err);
     }
     //请求游客基础信息
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_GetCustomInfo]) {
+    if ([param1 isEqualToString:API_URL_GetCustomInfo]) {
             _rqTouristBlock(-1,-1,nil,err);
     }
     //设置游客基础信息
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_SetCustomInfo]) {
+    if ([param1 isEqualToString:API_URL_SetCustomInfo]) {
             _setTouristBlock(-1,nil,nil,err);
     }
     
     //请求游客按钮显示
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_RetCode]) {
+    if ([param1 isEqualToString:API_URL_RetCode]) {
         _rqtouristBtn(-1,nil,err);
     }
     
     //新用户选择店铺
-    if ([param1 isEqualToString:API_PARAM_UNI]&&
-        [param2 isEqualToString:API_URL_addUser]) {
+    if ([param1 isEqualToString:API_URL_addUser]) {
         _sAddUser(-1,-1,nil,nil,err);
     }
 }

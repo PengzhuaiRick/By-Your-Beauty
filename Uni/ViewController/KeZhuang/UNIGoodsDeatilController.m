@@ -15,7 +15,7 @@
 #import "BTKeyboardTool.h"
 #import "UNIPurChaseView.h"
 #import "UNIOrderListController.h"
-
+#import "UNIUrlManager.h"
 @interface UNIGoodsDeatilController ()<UIWebViewDelegate,UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIView* midView;
     UIView* bottomView;
@@ -61,6 +61,7 @@
     self.myTable.delegate = nil;
     self.myTable.dataSource = nil;
     self.myScroller.delegate = nil;
+     [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGoodsDeatilController.h"];
      [super viewDidDisappear:animated];
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -70,6 +71,7 @@
     self.myScroller.delegate = self;
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
+     [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGoodsDeatilController.h"];
     [super viewWillAppear:animated];
 }
 
@@ -87,7 +89,7 @@
 -(void)startRequestReward{
   //  _type = @"2";
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_PARAM_UNI,API_URL_GetSellInfo2] params:@{@"projectId":_projectId,@"type":_type,@"isHeadShow":@(_isHeadShow)}];
+    [requet postWithSerCode:@[API_URL_GetSellInfo2] params:@{@"projectId":_projectId,@"type":_type,@"isHeadShow":@(_isHeadShow)}];
     requet.kzgoodsInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
@@ -352,7 +354,8 @@
     web.scrollView.delegate = self;
     web.delegate= self;
     web.scrollView.scrollsToTop = NO;
-    NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,model.url];
+   // NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,model.url];
+    NSString* urlString = [NSString stringWithFormat:@"%@/%@",[UNIUrlManager sharedInstance].img_url,model.url];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [web loadRequest:request];
     [_myScroller addSubview:web];

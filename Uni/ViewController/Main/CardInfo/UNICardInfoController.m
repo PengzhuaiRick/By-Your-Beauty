@@ -34,7 +34,7 @@
     }
     myTableView.delegate = self;
     myTableView.dataSource = self;
-    
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNICardInfoController.h"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -46,6 +46,7 @@
     }
     myTableView.delegate = nil;
     myTableView.dataSource = nil;
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNICardInfoController.h"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
@@ -95,7 +96,7 @@
 #pragma mark 开始请求准时奖励信息
 -(void)startRequestInTimeInfo{
     UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_ITRewardInfo]
+    [request postWithSerCode:@[API_URL_ITRewardInfo]
                       params:nil];
     request.rqrewardBlock=^(int total,int num,NSString* projectName,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -123,7 +124,7 @@
 #pragma mark 开始请求会员卡信息
 -(void)startRequestCardInfo{
     UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_GetCardInfo]
+    [request postWithSerCode:@[API_URL_GetCardInfo]
                       params:@{@"page":@(pageNum),@"size":@(20)}];
     request.cardInfoBlock=^(NSArray* arr,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{

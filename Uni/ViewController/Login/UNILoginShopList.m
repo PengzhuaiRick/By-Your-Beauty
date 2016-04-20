@@ -26,7 +26,16 @@
 @end
 
 @implementation UNILoginShopList
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNILoginShopList.h"];
+    
+}
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNILoginShopList.h"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
@@ -159,7 +168,7 @@
     __weak UNILoginShopList* myself = self;
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNILoginViewRequest* rq = [[UNILoginViewRequest alloc]init];
-    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_addUser] params:@{@"phone":_phone,@"password":_randcode,@"shopId":@(shopId)}];
+    [rq postWithSerCode:@[API_URL_addUser] params:@{@"phone":_phone,@"password":_randcode,@"shopId":@(shopId)}];
     rq.sAddUser=^(int userId,int shopId,NSString* token,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             [LLARingSpinnerView RingSpinnerViewStop1];

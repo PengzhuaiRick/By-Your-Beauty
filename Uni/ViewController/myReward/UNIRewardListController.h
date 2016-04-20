@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNIRewardListController : UIViewController
+#import "baseViewController.h"
+@interface UNIRewardListController : baseViewController
 
 @end

@@ -8,6 +8,11 @@
 
 #import "BaseRequest.h"
 /**
+ *  获取后台URL后
+ */
+typedef void(^RqFirstUrl)(int code);
+
+/**
  *  请求版本号成功Block
  *
  *  @param version 版本号
@@ -51,6 +56,7 @@ typedef void(^SetArriveShopBlock)(int code,NSString* tips,NSError* er);
 
 //用户到店Block
 @property(nonatomic,copy)SetArriveShopBlock setArriveShopBlock;
+
 
 
 @end

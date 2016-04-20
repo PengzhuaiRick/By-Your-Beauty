@@ -28,9 +28,15 @@
 @end
 
 @implementation UNITouristController
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNITouristController.h"];
+    
+}
 -(void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"wxShareResult" object:nil];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNITouristController.h"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -54,7 +60,7 @@
             }
         });
     };
-    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];
+    [rq postWithSerCode:@[API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];
 // [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ActivityShare] params:@{@"activityId":@(2)}];
 }
 -(void)setupUI{
@@ -146,7 +152,7 @@
             }
         });
     };
-    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_SetCustomInfo] params:@{@"openId":wxUnionid}];
+    [rq postWithSerCode:@[API_URL_SetCustomInfo] params:@{@"openId":wxUnionid}];
  
 }
 

@@ -17,7 +17,16 @@
 @end
 
 @implementation UNIWalletList
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIWalletList.h"];
+    
+}
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIWalletList.h"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];

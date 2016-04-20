@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNITouristController : UIViewController
+#import "baseViewController.h"
+@interface UNITouristController : baseViewController
 @property(assign,nonatomic)int hasActivity;
 @property(assign,nonatomic)int activityId;
 @end

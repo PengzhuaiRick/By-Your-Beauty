@@ -11,13 +11,12 @@
 @implementation UNIMyRewardRequest
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
     // NSLog(@"requestSucceed  %@",dic);
-    NSString* param1 = array[0];
-    NSString* param2 = array[1];
+   // NSString* param1 = array[0];
+    NSString* param2 = array[0];
     
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
     
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
          //约满奖励
         if ([param2 isEqualToString:API_URL_MYRewardInfo]) {
             if (code == 0) {
@@ -62,17 +61,12 @@
             }else
                 _rewardListBlock(nil,tips,nil);
         }
-        
-
-}
     
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
-    NSString* param1 = array[0];
-    NSString* param2 = array[1];
-    
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
+    //NSString* param1 = array[0];
+    NSString* param2 = array[0];
         //约满奖励
         if ([param2 isEqualToString:API_URL_MYRewardInfo])
             _myrewardBlock(nil,-1,nil,err);
@@ -83,7 +77,6 @@
         //客妆-我的奖励列表
         if ([param2 isEqualToString:API_URL_MYRewardList])
              _rewardListBlock(nil,nil,err);
-    }
 }
 
 @end

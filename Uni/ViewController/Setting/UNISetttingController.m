@@ -21,6 +21,7 @@
             ges.enabled=YES;
         }
     }
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNISetttingController.h"];
     [super viewWillAppear:animated];
     
 }
@@ -31,6 +32,7 @@
             ges.enabled=NO;
         }
     }
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNISetttingController.h"];
     [super viewWillDisappear:animated];
 }
 

@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 @class UNIContainController;
-@interface ViewController : UIViewController{
+@interface ViewController : baseViewController{
     
 }
 

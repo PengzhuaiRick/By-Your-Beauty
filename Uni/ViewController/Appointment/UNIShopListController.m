@@ -20,7 +20,16 @@
 @end
 
 @implementation UNIShopListController
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIShopListController.h"];
+    
+}
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIShopListController.h"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
@@ -51,7 +60,7 @@
                 [self setupTableView];
             });
         };
-        [rq postWithSerCode:@[API_PARAM_UNI,API_URL_GetShopListInfo] params:@{@"size":@(20),@"page":@(self->pageNum)}];
+        [rq postWithSerCode:@[API_URL_GetShopListInfo] params:@{@"size":@(20),@"page":@(self->pageNum)}];
         });
 }
 -(void)setupNavigation{

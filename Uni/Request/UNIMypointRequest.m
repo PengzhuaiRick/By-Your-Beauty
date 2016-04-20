@@ -13,14 +13,13 @@
 
 -(void)requestSucceed:(NSDictionary*)dic andIdenCode:(NSArray *)array{
     // NSLog(@"requestSucceed  %@",dic);
-    NSString* param1 = array[0];
-    NSString* param2 = array[1];
+   // NSString* param1 = array[0];
+    NSString* param2 = array[0];
     
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
     
     //获取可预约时间
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
         if ([param2 isEqualToString:API_URL_GetFreeTime]) {
             if (code == 0) {
                 NSArray* array = [self safeObject:dic ForKey:@"result"];
@@ -59,16 +58,13 @@
             }else
                 _rqservice(nil,tips,nil);
         }
-
-    }
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
-    NSString* param1 = array[0];
-    NSString* param2 = array[1];
+   // NSString* param1 = array[0];
+    NSString* param2 = array[0];
     
     //获取可预约时间
-    if ([param1 isEqualToString:API_PARAM_UNI]) {
         if ([param2 isEqualToString:API_URL_GetFreeTime]) {
              _regetFreeTime(nil,nil,err);
         }
@@ -85,7 +81,5 @@
         if ([param2 isEqualToString:API_URL_GetProjectModel]) {
            _rqservice(nil,nil,err);
         }
-
-    }
 }
 @end

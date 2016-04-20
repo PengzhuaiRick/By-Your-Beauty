@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "baseViewController.h"
 @class UNIMyProjectModel;
-@interface UNIAppointController : UIViewController
+@interface UNIAppointController : baseViewController
+
 @property (strong ,nonatomic) UNIMyProjectModel* model;
 @property (copy ,nonatomic) NSString* projectId; // 存在的时候表示为从我的礼包跳转进来的
 

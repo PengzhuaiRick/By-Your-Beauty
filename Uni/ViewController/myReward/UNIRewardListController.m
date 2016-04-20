@@ -22,7 +22,15 @@
 @end
 
 @implementation UNIRewardListController
-
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIRewardListController.h"];
+    
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIRewardListController.h"];
+    [super viewDidDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];

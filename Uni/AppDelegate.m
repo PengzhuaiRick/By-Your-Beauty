@@ -15,16 +15,17 @@
 #import "AccountManager.h"
 #import "UNIShopManage.h"
 #import "UNIAppDeleRequest.h"
-#import "UIImageView+AFNetworking.h"
-#import "AFNetworkReachabilityManager.h"
+//#import "UIImageView+AFNetworking.h"
+//#import "AFNetworkReachabilityManager.h"
 #import "UNILocateNotifiDetail.h"
 #import "UIAlertView+Blocks.h"
 #import <AlipaySDK/AlipaySDK.h>//支付宝
 //#import "WXApi.h"//微信
 #import "WXApiManager.h"
 #import "UNIShopModel.h"
-#import "UNIHttpUrlManager.h"
-
+//#import "UNIHttpUrlManager.h"
+#import "BaiduMobStat.h"
+#import "UNIUrlManager.h"
 
 @interface AppDelegate (){
     UIImageView* imag;
@@ -48,13 +49,15 @@
 //        }
 //    }];
    // [self rqWelcomeImage];
-    [self rqCurrentVersion];
+    //[self rqCurrentVersion];
     [self rqAppTips];
-    [self judgeFirstTime];
     [self setupJPush:launchOptions];
-    //[self.window makeKeyAndVisible];
     [self setupNavigationStyle];
     [self setupWeChat];
+    // 初始化百度统计SDK
+    [self startBaiduMobStat];
+    [self judgeFirstTime];
+    [self.window makeKeyAndVisible];
     [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     return YES;
 
@@ -138,68 +141,97 @@
 
 #pragma mark 请求当前版本信息
 -(void)rqCurrentVersion{
-    UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
-    [model postWithoutUserIdSerCode:@[API_PARAM_UNI,
-                             API_URL_CheckVersion]
-                    params:@{@"type":@(2)}];
-    model.reqheckVersion=^(NSString* version,
-                           NSString* url,
-                           NSString* desc,
-                           NSString*tips,
-                           int type,
-                           NSError* er){
-        if (er==nil) {
-//            url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1077238256";
-            NSString *curVersion = CURRENTVERSION;      //获取项目版本号
-            float curVersinNum = curVersion.floatValue;
-            float versionNum = version.floatValue;
-            
-            if (versionNum <= curVersinNum)
-                return ;
-            dispatch_async(dispatch_get_main_queue(), ^{
-#ifdef IS_IOS9_OR_LATER
-                UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"更新提示" message:desc preferredStyle:UIAlertControllerStyleAlert];
-                if (type == 1) {
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-                    [alertController addAction:cancelAction];
+    
+    UNIAppDeleRequest* model1 = [[UNIAppDeleRequest alloc]init];
+    [model1 firstRequestUrl];
+    model1.rqfirstUrl=^(int code){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (code == 0) {
+                [self judgeFirstTime];
+                UNIUrlManager * mam = [UNIUrlManager sharedInstance];
+                NSString *curVersion = CURRENTVERSION;      //获取项目版本号
+                float curVersinNum = curVersion.floatValue;
+                if (mam.version>curVersinNum) {
+                    
+                        NSString* cancelTitle =@"取消";
+                        if (mam.update_type == 2)
+                                cancelTitle=nil;
+                        
+                    [UIAlertView showWithTitle:@"更新提示" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                                            if (buttonIndex>0)
+                                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:mam.url]];
+                    }];
                 }
-               
-                UIAlertAction *checkAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
-                }];
-                [alertController addAction:checkAction];
                 
-                
-                [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-#else
-                
-                NSString* cancelTitle =@"取消";
-                if (type == 1)
-                    cancelTitle=nil;
-                
-                [UIAlertView showWithTitle:@"更新提示" message:desc style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                    if (buttonIndex>0)
-                        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
-                }];
-#endif
-            });
-        }
+            }
+            
+        });
+        
     };
+    // [self performSelector:@selector(judgeFirstTime) withObject:nil afterDelay:2.0f];
+    
+//    UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
+//    [model postWithoutUserIdSerCode:@[API_PARAM_UNI,
+//                             API_URL_CheckVersion]
+//                    params:@{@"type":@(2)}];
+//    model.reqheckVersion=^(NSString* version,
+//                           NSString* url,
+//                           NSString* desc,
+//                           NSString*tips,
+//                           int type,
+//                           NSError* er){
+//        if (er==nil) {
+////            url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1077238256";
+//            NSString *curVersion = CURRENTVERSION;      //获取项目版本号
+//            float curVersinNum = curVersion.floatValue;
+//            float versionNum = version.floatValue;
+//            
+//            if (versionNum <= curVersinNum)
+//                return ;
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//#ifdef IS_IOS9_OR_LATER
+//                UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"更新提示" message:desc preferredStyle:UIAlertControllerStyleAlert];
+//                if (type == 1) {
+//                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+//                    [alertController addAction:cancelAction];
+//                }
+//               
+//                UIAlertAction *checkAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+//                }];
+//                [alertController addAction:checkAction];
+//                
+//                
+//                [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
+//#else
+//                
+//                NSString* cancelTitle =@"取消";
+//                if (type == 1)
+//                    cancelTitle=nil;
+//                
+//                [UIAlertView showWithTitle:@"更新提示" message:desc style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+//                    if (buttonIndex>0)
+//                        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
+//                }];
+//#endif
+//            });
+//        }
+//    };
 }
 
 #pragma mark 获取APP提示语信息
 -(void)rqAppTips{
-    NSString* URL = @"http://uni.dodwow.com/uni_api/getAppTips.php";
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
-    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"rqAppTips  JSON:%@",responseObject);
-        UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-        [manager initHttpUrlManager:responseObject];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"rqAppTips Error:%@", error);
-        
-    }];
+//    NSString* URL = @"http://uni.dodwow.com/uni_api/getAppTips.php";
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
+//    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        NSLog(@"rqAppTips  JSON:%@",responseObject);
+//        UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+//        [manager initHttpUrlManager:responseObject];
+//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        NSLog(@"rqAppTips Error:%@", error);
+//        
+//    }];
 
 }
 
@@ -604,6 +636,14 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     return theImage;
 }
 
-
+#pragma mark 百度统计
+- (void)startBaiduMobStat {
+    BaiduMobStat* statTracker = [BaiduMobStat defaultStat];
+    // 此处(startWithAppId之前)可以设置初始化的可选参数，具体有哪些参数，可详见BaiduMobStat.h文件，例如：
+    statTracker.shortAppVersion  = CURRENTVERSION;
+    statTracker.enableDebugOn = YES;
+    
+    [statTracker startWithAppId:BAIDUSTATAPPKEY]; // 设置您在mtj网站上添加的app的appkey,此处AppId即为应用的appKey
+}
 
 @end

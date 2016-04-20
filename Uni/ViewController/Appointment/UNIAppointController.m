@@ -28,7 +28,16 @@
 @end
 
 @implementation UNIAppointController
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIAppointController.h"];
+    
+}
 
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIAppointController.h"];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -44,7 +53,7 @@
             [self setupBottomContent];
             [self regirstKeyBoardNotification];
         };
-        [req postWithSerCode:@[API_PARAM_UNI,API_URL_GetProjectModel] params:@{@"projectId":_projectId}];
+        [req postWithSerCode:@[API_URL_GetProjectModel] params:@{@"projectId":_projectId}];
     }else{
     self.title =self.model.projectName;
     [self setupMyScroller];
@@ -227,21 +236,54 @@
                 [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
                 NSDate *date1 = [dateFormatter dateFromString:date];
                 int cost = 0;
-             for (UNIMyProjectModel* model in self->appontMid.myData) {
-                 NSDate* costDate = [date1 dateByAddingTimeInterval:cost];
-                 NSString* str1 = [dateFormatter stringFromDate:costDate];
-                 NSDictionary* dic1 = @{@"projectId":@(model.projectId),
-                                        @"date":str1,
-                                        @"costTime":@(model.costTime),
-                                        @"num":@(1)};
-                  [arr addObject:dic1];
-                 cost +=model.costTime*60;
-                 str1 =nil;
-                 costDate = nil;
-                 dic1 = nil;
-             }
-             [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetAppoint]
-                           params:@{@"data":arr,@"shopId":@(shopView.shopId)}];
+    
+    NSMutableString* projectIds=[NSMutableString string];
+    NSMutableString* dates=[NSMutableString string];
+    NSMutableString* costTimes=[NSMutableString string];
+    for (int i = 0; i< self->appontMid.myData.count; i++) {
+        UNIMyProjectModel* model = self->appontMid.myData[i];
+        NSDate* costDate = [date1 dateByAddingTimeInterval:cost];
+        NSString* str1 = [dateFormatter stringFromDate:costDate];
+        if (i< self->appontMid.myData.count-1){
+            [projectIds appendFormat:@"%d,",model.projectId];
+            [costTimes appendFormat:@"%d,",model.costTime];
+            [dates appendFormat:@"%@,",str1];
+        }else{
+            [projectIds appendFormat:@"%d",model.projectId];
+            [costTimes appendFormat:@"%d",model.costTime];
+            [dates appendFormat:@"%@",str1];
+        }
+//        if (i>0) {
+//            
+//            if (i< self->appontMid.myData.count-1)
+//                [dates appendFormat:@"%@,",str1];
+//            else
+//                [dates appendFormat:@"%@",str1];
+//        }
+        cost +=model.costTime*60;
+    }
+    
+//             for (UNIMyProjectModel* model in self->appontMid.myData) {
+//                 NSDate* costDate = [date1 dateByAddingTimeInterval:cost];
+//                 NSString* str1 = [dateFormatter stringFromDate:costDate];
+//                 NSDictionary* dic1 = @{@"projectId":@(model.projectId),
+//                                        @"date":str1,
+//                                        @"costTime":@(model.costTime),
+//                                        @"num":@(1)};
+//                  [arr addObject:dic1];
+//                 cost +=model.costTime*60;
+//                 str1 =nil;
+//                 costDate = nil;
+//                 dic1 = nil;
+//             }
+           //  [req postWithSerCode:@[API_URL_SetAppoint]
+           //                params:@{@"data":arr,@"shopId":@(shopView.shopId)}];
+            [req postWithSerCode:@[API_URL_SetAppoint]
+                          params:@{@"projectIds":projectIds,
+                                   @"costTimes":costTimes,
+                                   @"dates":dates,
+                                   @"shopId":@(shopView.shopId),
+                                   @"num":@(1)}];
              dispatch_async(dispatch_get_main_queue(), ^{
                  [LLARingSpinnerView RingSpinnerViewStop1];
                  req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){

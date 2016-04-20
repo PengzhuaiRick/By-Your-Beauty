@@ -12,8 +12,8 @@
 @end
 
 #import <UIKit/UIKit.h>
-
-@interface UNIMyPojectList : UIViewController
+#import "baseViewController.h"
+@interface UNIMyPojectList : baseViewController
 @property (assign,nonatomic)id<UNIMyPojectListDelegate> delegate;
 @property (strong,nonatomic) NSArray* projectIdArr;
 @property (strong, nonatomic) NSMutableArray* myData;

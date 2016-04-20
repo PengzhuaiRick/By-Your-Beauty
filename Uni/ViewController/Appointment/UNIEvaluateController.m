@@ -17,7 +17,21 @@
 @end
 
 @implementation UNIEvaluateController
-
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIEvaluateController.h"];
+    
+}
+-(void)viewDidDisappear:(BOOL)animated{
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIKeyboardWillShowNotification
+                                                 object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self
+                                                   name:UIKeyboardWillHideNotification
+                                                 object:nil];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIEvaluateController.h"];
+    [super viewDidDisappear:animated];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
@@ -232,7 +246,7 @@
 -(void)startSubmitComment{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIMyAppointInfoRequest* req = [[UNIMyAppointInfoRequest alloc]init];
-    [req postWithSerCode:@[API_PARAM_UNI,API_URL_SetServiceAppraise]
+    [req postWithSerCode:@[API_URL_SetServiceAppraise]
                   params:@{@"goodsId":@(self.model.projectId),@"level":@(grades),@"content":self.textView.text,@"order":self.order,@"projectName":self.model.projectName,@"shopId":@(_shopId)}];
     req.rqAppraise =^(int code,NSString*tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -284,15 +298,7 @@
                                      self.mainView.frame.size.height);
 }
 
--(void)viewDidDisappear:(BOOL)animated{
-    [[NSNotificationCenter defaultCenter]removeObserver:self
-                                                   name:UIKeyboardWillShowNotification
-                                                 object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self
-                                                   name:UIKeyboardWillHideNotification
-                                                 object:nil];
-    [super viewDidDisappear:animated];
-}
+
 
 -(BOOL)textViewShouldBeginEditing:(UITextView *)textView{
     if (first) {

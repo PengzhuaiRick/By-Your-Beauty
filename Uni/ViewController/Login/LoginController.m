@@ -50,6 +50,7 @@
 @implementation LoginController
 -(void)viewWillAppear:(BOOL)animated{
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"LoginController.h"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -60,6 +61,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"LoginController.h"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
@@ -99,7 +101,7 @@
     
     
     UNILoginViewRequest* req = [[UNILoginViewRequest alloc]init];
-    [req postWithSerCode:@[API_PARAM_UNI,API_URL_RetCode] params:nil];
+    [req postWithSerCode:@[API_URL_RetCode] params:nil];
     req.rqtouristBtn = ^(int code,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
@@ -130,8 +132,7 @@
                      x.enabled = NO;
                      [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
                      UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
-                     [request postWithoutUserIdSerCode:@[API_PARAM_UNI,
-                                                         API_URL_Login]
+                     [request postWithoutUserIdSerCode:@[API_URL_Login]
                                                 params:@{@"code":@"13267208242",
                                                          @"password":@"000000",
                                                          @"name":@"哈哈",
@@ -517,8 +518,7 @@
          x.enabled=NO;
          [self.view endEditing:YES];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
-         [request postWithoutUserIdSerCode:@[API_PARAM_SSMS,
-                                    API_URL_Verify]
+         [request postWithoutUserIdSerCode:@[API_URL_Verify]
                            params:@{@"phone":field.text}];
         
         request.rqvertifivaBlock = ^(int status,
@@ -722,8 +722,7 @@
          x.enabled = NO;
          [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
         UNILoginViewRequest* request = [[UNILoginViewRequest alloc]init];
-        [request postWithoutUserIdSerCode:@[API_PARAM_UNI,
-                                   API_URL_Login]
+        [request postWithoutUserIdSerCode:@[API_URL_Login]
                                 params:@{@"code":field1.text,
                                             @"password":field2.text,
                                             @"name":field3.text,

@@ -38,6 +38,7 @@
             ges.enabled=YES;
         }
     }
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIMyRewardController.h"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -48,6 +49,8 @@
         }
     }
     self.myTableView.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIMyRewardController.h"];
+
     [super viewWillDisappear:animated];
 }
 
@@ -142,7 +145,7 @@
 
 -(void)startRequestMyAppoint{
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYRewardInfo] params:@{@"size":@(20),@"page":@(page1)}];
+    [request postWithSerCode:@[API_URL_MYRewardInfo] params:@{@"size":@(20),@"page":@(page1)}];
     request.myrewardBlock=^(NSArray* arr,int total,NSString* tips,NSError* er){
         
         [self startRequestIntime];
@@ -153,18 +156,18 @@
             }
             self->apponitNum = 0;
              [self->appointArr removeAllObjects];
-            if (arr && arr.count>0) {
+           // if (arr && arr.count>0) {
                 self->apponitNum = total;
                 [self->appointArr addObjectsFromArray:arr];
                 //[self setupMyAppointView];
-            }
+           // }
 
         });
     };
 }
 -(void)startRequestIntime{
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
-    [request postWithSerCode:@[API_PARAM_UNI,API_URL_MYITRewardInfo] params:@{@"size":@(20),@"page":@(page2)}];
+    [request postWithSerCode:@[API_URL_MYITRewardInfo] params:@{@"size":@(20),@"page":@(page2)}];
     request.intimeBlock=^(NSArray* arr,int total,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.myTableView.header endRefreshing];
@@ -175,13 +178,13 @@
             
             self->inTimeNum = 0;
             [self->inTimeArr removeAllObjects];
-            if (arr && arr.count>0) {
+         //   if (arr && arr.count>0) {
                 self->inTimeNum = total;
                 
                 [self->inTimeArr addObjectsFromArray:arr];
                 [self setupTableView];
                // [self setupIntimeView];
-            }
+           // }
 //            else
 //                [YIToast showText:tips];
         });

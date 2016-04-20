@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface UNILawViewController : UIViewController
+#import "baseViewController.h"
+@interface UNILawViewController :baseViewController
 
 @end
