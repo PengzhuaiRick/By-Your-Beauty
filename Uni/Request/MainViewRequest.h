@@ -111,7 +111,7 @@ typedef void(^RQShowAcitivityOrNot)(int code,NSString* tips,NSError* er);
  *  @param tips      反馈信息
  *  @param er        错误信息
  */
-typedef void(^RQAppTips)(int code,NSString* tips,NSError* er);
+typedef void(^RQAppTips)(NSDictionary* dic,NSString* tips,NSError* er);
 
 @interface MainViewRequest : BaseRequest
 

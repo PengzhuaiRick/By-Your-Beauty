@@ -8,11 +8,15 @@
 
 @protocol UNIPurChaseViewDelegate <NSObject>
 
--(void)UNIPurChaseViewDelegateMethod;
+-(void)UNIPurChaseViewDelegateMethod:(NSString*)payStyle andNum:(int)num;
 
 @end
 
 #import <UIKit/UIKit.h>
+#import <AlipaySDK/AlipaySDK.h>
+#import "WXApi.h"
+#import "Order.h"
+#import "DataSigner.h"
 #import "UNIGoodsDetailRequest.h"
 @interface UNIPurChaseView : UIView<UITableViewDataSource,UITableViewDelegate>{
     int num; //购买数量
@@ -23,7 +27,7 @@
 }
 
 @property(nonatomic,strong)UITableView* myTableview;
-@property(nonatomic,assign)int payStyle; // 3:微信 2:支付宝
+@property(nonatomic,copy)NSString* payStyle; // ALIPAY_APP","WXPAY_APP
 @property(nonatomic,assign) id<UNIPurChaseViewDelegate> delegate;
 @property(nonatomic,strong)UNIGoodsModel* model;
 @property(nonatomic,strong)UIButton* closeBtn;

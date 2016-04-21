@@ -48,7 +48,11 @@
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
    // NSURL* url = [NSURL URLWithString:@"http://uni.dodwow.com/uni_api/product/productlist.html"];//创建URL
-     NSURL* url = [NSURL URLWithString:[UNIHttpUrlManager sharedInstance].APP_KZ_URL];//创建URL
+     UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+    if (!manager.APP_KZ_URL)
+        return;
+    
+     NSURL* url = [NSURL URLWithString:manager.APP_KZ_URL];//创建URL
     NSURLRequest* request = [[NSURLRequest alloc]initWithURL:url];
     
     [web loadRequest:request];//加载

@@ -22,7 +22,8 @@
 //#define API_URL @"http://192.168.0.199:8081"
 //#define API_URL @"http://show.api.meiliyouni.com/uni_api"
 
-#define API_IMG_URL @"http://uni.dodwow.com/images"
+//#define API_IMG_URL @"http://uni.dodwow.com/images"
+#define API_IMG_URL [UNIUrlManager sharedInstance].img_url
 
 // C部分 第一个参数 类型1
 #define API_PARAM_UNI @"UNI"
@@ -91,7 +92,7 @@
 #define API_URL_GetSellList @"sellGoods/sellGoodsList"
 
 //获取客妆 订单号
-#define API_URL_GetOutTradeNo @"getOutTradeNo"
+#define API_URL_GetOutTradeNo @"Pay/getPayInfo"
 
 //服务评价接口
 #define API_URL_SetServiceAppraise @"comment/setServiceAppaise"
@@ -123,11 +124,14 @@
 //获取订单列表
 #define API_URL_MyOrderList @"order/myOrderList"
 
-//支付宝 私钥之类的KEY
+//（废弃）支付宝 私钥之类的KEY
 #define API_URL_GetAlipayConfig @"getAlipayConfig"
 
-//微信支付 私钥之类的KEY
+//（废弃）微信支付 私钥之类的KEY
 #define API_URL_GetWXConfig @"getWXConfig"
+
+//支付后 和后台验证
+#define API_URL_GetOrderStatus @"Pay/getOrderStatus"
 
 //获取法律声明文本接口
 #define API_URL_GetTextInfo @"file/getTextInfo"

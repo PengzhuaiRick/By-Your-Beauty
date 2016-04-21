@@ -21,7 +21,7 @@
     UIView* bottomView;
     UILabel* priceLab;
     UITextField* numField;
-    
+    NSString* orderNo;//生成订单号
     float cell1H;
     UNIGoodsModel* model;
     
@@ -47,7 +47,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheZFB" object:nil];
+    //[[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheZFB" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheWCpay" object:nil];
     [super viewWillDisappear:animated];
 }
@@ -287,10 +287,6 @@
     }];
    
 }
-#pragma mark 点击支付方式 隐藏 purView 和 bgView
--(void)UNIPurChaseViewDelegateMethod{
-    [self tapAction:nil];
-}
 -(void)setupMyScroller{
     float scX =0 ;
     float scY = 64;
@@ -426,39 +422,100 @@
                                                object:nil];
     
     //处理ZFB支付结果
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dealWithResultOfTheZFB:) name:@"dealWithResultOfTheZFB" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dealWithResultOfTheZFB:) name:@"dealWithResultOfTheZFB" object:nil];
     
     //处理WC支付结果
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dealWithResultOfTheWCpay:) name:@"dealWithResultOfTheWCpay" object:nil];
 }
--(void)dealWithResultOfTheZFB:(NSNotification*)noiti{
-    int num = [[noiti.userInfo objectForKey:@"result"] intValue];
+#pragma mark 点击支付方式 隐藏 purView 和 bgView
+-(void)UNIPurChaseViewDelegateMethod:(NSString*)payStyle andNum:(int)num{
+    [self tapAction:nil];
+    if (payStyle)
+        [self requestTheOrderNo:payStyle andNum:num];
+}
+#pragma mark 请求订单号
+-(void)requestTheOrderNo:(NSString*)payStyle andNum:(int)num{
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+    NSDictionary* dic=@{@"goodsId":@(model.projectId),@"goodsType":@(model.type),@"payType":payStyle,@"shopPrice":[NSString stringWithFormat:@"%.f",model.shopPrice*num],@"price":@(model.shopPrice),
+                        @"num":@(num)};
+    UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
+    [requet postWithSerCode:@[API_URL_GetOutTradeNo] params:dic];
+    requet.kzgoodsGetOrderBlock=^(NSDictionary* dictionary,NSString*tips,NSError* err){
+        [LLARingSpinnerView RingSpinnerViewStop1];
+        if (err) {
+            [YIToast showText:NETWORKINGPEOBLEM];
+            return ;
+        }
+        if (dictionary) {
+            self->orderNo =[dictionary objectForKey:@"out_trade_no"];
+            if ( [payStyle isEqualToString:@"WXPAY_APP"])
+                [self jumpToBizPay:dictionary];
+            if ( [payStyle isEqualToString:@"ALIPAY_APP"])
+                [self payWithZFB:dictionary];
+        }
+    };
+}
+
+-(void)payWithZFB:(NSDictionary*)dic{
+    
+    Order *order = [[Order alloc] init];
+    NSString* str =[dic valueForKey:@"orderstr"];
+    if (str) {
+        [order loadOrderString:str];
+    }
+    
+    NSString *appScheme = @"UniZFBPay";
+    NSString *orderString = order.orderString;
+    
+    [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
+        NSLog(@"reslut = %@",resultDic);
+        [self dealWithResultOfTheZFB:resultDic];
+       // [self resultOfZFBpay:resultDic];
+        
+    }];
+}
+
+- (void)jumpToBizPay:(NSDictionary*)dia{
+    if (![WXApi isWXAppInstalled]) {
+        [UIAlertView showWithTitle:@"提示" message:@"请检查是否安装微信客户端" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            
+        }];
+        return;
+    }
+    
+    PayReq* req = [[PayReq alloc] init];
+    req.openID = [dia objectForKey:@"appid"];
+    req.prepayId= [dia objectForKey:@"prepayid"];
+    req.partnerId= [dia objectForKey:@"partnerid"];
+    req.nonceStr= [dia objectForKey:@"noncestr"];
+    req.timeStamp=[[dia objectForKey:@"timestamp"] intValue];
+    req.package = [dia objectForKey:@"package"];
+    req.sign = [dia objectForKey:@"sign"];
+    NSString* tip = nil;
+    if (!req.openID)  tip = @"参数有误";
+    if (!req.prepayId) tip = @"参数有误";
+    if (!req.partnerId) tip = @"参数有误";
+    if (!req.nonceStr) tip = @"参数有误";
+    if (!req.timeStamp) tip = @"参数有误";
+    if (!req.package) tip = @"参数有误";
+    if (!req.sign) tip = @"参数有误";
+    if(tip){
+        [UIAlertView showWithTitle:@"提示" message:tip cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:nil];
+    }else
+        [WXApi sendReq:req];
+}
+
+-(void)dealWithResultOfTheZFB:(NSDictionary*)noiti{
+    int num = [[noiti objectForKey:@"resultStatus"] intValue];
     NSString* string = @"支付失败!";
     if (num == 9000)
         string = @"支付成功!";
-    
-#ifdef IS_IOS9_OR_LATER
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        if (num == 9000){
-            UNIOrderListController* view = [[UNIOrderListController alloc]init];
-            view.type = 1;
-            [self.navigationController pushViewController:view animated:YES];
-            view=nil;
-        }
-    }];
-    [alertController addAction:cancelAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-#else
+
     [UIAlertView showWithTitle:string message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (num == 9000){
-            UNIOrderListController* view = [[UNIOrderListController alloc]init];
-            view.type = 1;
-            [self.navigationController pushViewController:view animated:YES];
-             view=nil;
+            [self checkTradeOrderStatus];
         }
     }];
-#endif
 }
 
 -(void)dealWithResultOfTheWCpay:(NSNotification*)noiti{
@@ -472,10 +529,11 @@
     UIAlertController* alertController = [UIAlertController alertControllerWithTitle:result message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         if (num == 0){
-            UNIOrderListController* view = [[UNIOrderListController alloc]init];
-            view.type = 1;
-            [self.navigationController pushViewController:view animated:YES];
-            view=nil;
+            [self checkTradeOrderStatus];
+//            UNIOrderListController* view = [[UNIOrderListController alloc]init];
+//            view.type = 1;
+//            [self.navigationController pushViewController:view animated:YES];
+//            view=nil;
         }
     }];
     [alertController addAction:cancelAction];
@@ -483,16 +541,33 @@
 #else
     [UIAlertView showWithTitle:result message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (num == 0){
-            UNIOrderListController* view = [[UNIOrderListController alloc]init];
-            view.type = 1;
-            [self.navigationController pushViewController:view animated:YES];
-            view=nil;
+            [self checkTradeOrderStatus];
+//            UNIOrderListController* view = [[UNIOrderListController alloc]init];
+//            view.type = 1;
+//            [self.navigationController pushViewController:view animated:YES];
+//            view=nil;
         }
     }];
 #endif
-
     
 }
+
+#pragma mark 支付成功后 和后台验证
+-(void)checkTradeOrderStatus{
+    UNIGoodsDetailRequest* req = [[UNIGoodsDetailRequest alloc]init];
+    req.ctorderStatusBlock=^(int code, NSString* tip,NSError* err){
+        [UIAlertView showWithTitle:tip message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            if (code == 0) {
+                UNIOrderListController* view = [[UNIOrderListController alloc]init];
+                view.type = 1;
+                [self.navigationController pushViewController:view animated:YES];
+            }
+        }];
+
+    };
+    [req postWithSerCode:@[API_URL_GetOrderStatus] params:@{@"out_trade_no":orderNo}];
+}
+
 
 #pragma mark 键盘出现
 -(void)keyboardWillShow:(NSNotification*)notifi{

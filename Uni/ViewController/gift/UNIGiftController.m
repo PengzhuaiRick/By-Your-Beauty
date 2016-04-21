@@ -81,7 +81,7 @@
     [web loadRequest:request];//加载
     webView = web;
     web=nil;
-    str1 = nil; str2 = nil; str3 = nil; str4 = nil; str5 = nil; urlString = nil; url = nil; request = nil;
+    str1 = nil;/* str2 = nil; str3 = nil; str4 = nil; str5 = nil; */urlString = nil; url = nil; request = nil;
 }
 
 #pragma mark 请求活动分享信息

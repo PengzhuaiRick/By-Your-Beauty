@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ViewController.h"
-#import "MainViewController.h"
+//#import "MainViewController.h"
 #import "UNIContainController.h"
 #import "YILocationManager.h"
 #import "APService.h"
@@ -18,7 +18,7 @@
 //#import "UIImageView+AFNetworking.h"
 //#import "AFNetworkReachabilityManager.h"
 #import "UNILocateNotifiDetail.h"
-#import "UIAlertView+Blocks.h"
+//#import "UIAlertView+Blocks.h"
 #import <AlipaySDK/AlipaySDK.h>//支付宝
 //#import "WXApi.h"//微信
 #import "WXApiManager.h"
@@ -50,7 +50,6 @@
 //    }];
    // [self rqWelcomeImage];
     //[self rqCurrentVersion];
-    [self rqAppTips];
     [self setupJPush:launchOptions];
     [self setupNavigationStyle];
     [self setupWeChat];
@@ -219,41 +218,25 @@
 //    };
 }
 
-#pragma mark 获取APP提示语信息
--(void)rqAppTips{
-//    NSString* URL = @"http://uni.dodwow.com/uni_api/getAppTips.php";
-//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-//    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html"]];
-//    [manager POST:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        NSLog(@"rqAppTips  JSON:%@",responseObject);
-//        UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-//        [manager initHttpUrlManager:responseObject];
-//        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSLog(@"rqAppTips Error:%@", error);
-//        
-//    }];
-
-}
-
 #pragma mark 请求欢迎页面图片
--(void)rqWelcomeImage{
-    UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
-    [model postWithoutUserIdSerCode:@[API_PARAM_UNI,
-                             API_URL_Welcome]
-                    params:@{@"type":@(2)}];
-    model.rqwelcomeBlock=^(NSString* url,
-                           NSString* tips,
-                           NSError* er){
-        if (er==nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self replaceWelcomeImage:url];
-                
-            });
-            
-        }else[YIToast showText:NETWORKINGPEOBLEM];
-    };
-
-}
+//-(void)rqWelcomeImage{
+//    UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
+//    [model postWithoutUserIdSerCode:@[API_PARAM_UNI,
+//                             API_URL_Welcome]
+//                    params:@{@"type":@(2)}];
+//    model.rqwelcomeBlock=^(NSString* url,
+//                           NSString* tips,
+//                           NSError* er){
+//        if (er==nil) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                [self replaceWelcomeImage:url];
+//                
+//            });
+//            
+//        }else[YIToast showText:NETWORKINGPEOBLEM];
+//    };
+//
+//}
 
 
 -(void)replaceWelcomeImage:(NSString*)url{

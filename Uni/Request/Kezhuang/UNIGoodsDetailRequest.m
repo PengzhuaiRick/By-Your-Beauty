@@ -57,12 +57,12 @@
         //客妆 获取订单号
         if ([param2 isEqualToString:API_URL_GetOutTradeNo]) {//API_URL_GetOutTradeNo
             if(code == 0 ){
-                NSString* outTradeNo = [self safeObject:dic ForKey:@"getOutTradeNo"];
+               // NSString* outTradeNo = [self safeObject:dic ForKey:@"getOutTradeNo"];
                // int num = [[self safeObject:dic ForKey:@"num"] intValue];
-                float totalPrice = [[self safeObject:dic ForKey:@"totalPrice"] floatValue];
-                _kzgoodsGetOrderBlock( totalPrice,outTradeNo,tips,nil);
+               // float totalPrice = [[self safeObject:dic ForKey:@"totalPrice"] floatValue];
+                _kzgoodsGetOrderBlock(dic,tips,nil);
             }else
-                _kzgoodsGetOrderBlock(-1,nil,tips,nil);
+                _kzgoodsGetOrderBlock(nil,tips,nil);
         
     }
     
@@ -91,6 +91,11 @@
             }else
                 _kzwxpayBlock(nil,nil,nil,tips,nil);
         }
+    
+    //支付后 和后台验证
+    if ([param2 isEqualToString:API_URL_GetOrderStatus]) {
+        _ctorderStatusBlock(code,tips,nil);
+    }
 
 }
 
@@ -121,8 +126,12 @@
         
         //获取 支付宝 私钥
         if ([param2 isEqualToString:API_URL_GetAlipayConfig])
-            _kzgoodsGetOrderBlock(-1,nil,nil,err);
-
+            _kzgoodsGetOrderBlock(nil,nil,err);
+    
+    //支付后 和后台验证
+    if ([param2 isEqualToString:API_URL_GetOrderStatus]) {
+        _ctorderStatusBlock(-1,nil,err);
+    }
     
 }
 

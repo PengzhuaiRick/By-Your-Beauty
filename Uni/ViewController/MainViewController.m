@@ -14,11 +14,8 @@
 #import "AccountManager.h"
 #import "UNIAppointController.h"
 #import <MJRefresh/MJRefresh.h>
-
 #import "UNIGoodsDeatilController.h"
-#import "UIAlertView+Blocks.h"
 #import "MainViewCell.h"
-
 #import "UNIMainProView.h"
 #import "UNIGoodsWeb.h"
 #import "UNIHttpUrlManager.h"
@@ -105,13 +102,17 @@
      MainViewRequest* request = [[MainViewRequest alloc]init];
     [request firstRequestUrl];
     request.rqfirstUrl=^(int code){
-        //[self requestActivityShowOrNot];
-        [self startRequestShopInfo];//请求商家信息
-        [self startRequestReward];//请求约满信息
-        [self startRequestAppointInfo];//请求我已预约
-        [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
-        [self getSellInfo]; //获取首页销售商品
-        [self requestAppTips];
+        dispatch_async(dispatch_get_main_queue(), ^{
+             [self requestAppTips];
+            //[self requestActivityShowOrNot];
+            [self startRequestShopInfo];//请求商家信息
+            [self startRequestReward];//请求约满信息
+            [self startRequestAppointInfo];//请求我已预约
+            [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+            [self getSellInfo]; //获取首页销售商品
+            
+        });
+        
     };
 }
 
@@ -173,19 +174,6 @@
     self.navigationItem.leftBarButtonItem = bar;
      self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
     
-    
-//    UIButton* stateBtn =[UIButton buttonWithType:UIButtonTypeCustom];
-//    stateBtn.frame = CGRectMake(40, 0, KMainScreenWidth-80, 60);
-//    stateBtn.backgroundColor = [UIColor clearColor];
-//    //[[UIApplication sharedApplication].keyWindow addSubview:stateBtn];
-//    [self.view addSubview:stateBtn];
-//    backTopBtn = stateBtn;
-//    [[stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-//    subscribeNext:^(id x) {
-//        NSLog(@"顶部");
-//        CGPoint p = CGPointMake(0, 0);
-//        [self->myTable setContentOffset:p animated:YES];
-//    }];
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -242,6 +230,7 @@
         [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
         [self getSellInfo]; //获取首页销售商品
         //[self startRequestProjectInfo];//请求我的项目
+        [self requestAppTips];
     }];
     
     tabview = nil;
@@ -288,7 +277,6 @@
          str2=nil;
      }];
     [imageView addSubview:proBtn];
-    proBtn=nil;
 
     float lab1W = proW;
     float lab1H = 25;
@@ -367,34 +355,6 @@
     img.image = iage;
     [imageView addSubview:img];
     
-//    float btnWH =  KMainScreenWidth*70/414;
-//    float btnY =imgH/4*3+(imgH/4 - btnWH)/2;
-//    float btnX = imgW - btnWH - imgVX;
-//    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-//    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
-//    btn.titleLabel.numberOfLines = 0;
-//    btn.titleLabel.lineBreakMode = 0;
-//    [btn setTitle:@"马上\n购买" forState:UIControlStateNormal];
-//    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*18/414];
-//    btn.layer.masksToBounds = YES;
-//    btn.layer.cornerRadius = btnWH/2;
-//    btn.layer.borderColor = [UIColor whiteColor].CGColor;
-//    btn.layer.borderWidth = 1;
-//    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-//    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateNormal];
-//    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithRed:1 green:1 blue:1 alpha:0.5]] forState:UIControlStateHighlighted];
-//    [imageView addSubview:btn];
-//    sellBtn = btn;
-//    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
-//    subscribeNext:^(id x) {
-//        if (self->sellGoods.count<1)
-//            return ;
-//        UNIGoodsModel* info = self->sellGoods.lastObject;
-//        NSString* str = [NSString stringWithFormat:@"%d",info.projectId];
-//        [self UNIGoodsWebDelegateMethodAndprojectId:str Andtype:@"2" AndIsHeaderShow:1];
-//    }];
-    
-    
     float lab6H = 20;
    // float lab6Y = CGRectGetMaxY(lay.frame)+(KMainScreenWidth>400?30:25);
     float lab6Y = img.center.y - lab6H - 2;
@@ -455,35 +415,6 @@
     alpBtn=nil; lab2=nil;lab3=nil;lab4=nil;lab5=nil;lab6=nil;lab7=nil;lab8=nil;lab9=nil;lay=nil; img=nil;shuangfu = nil;fu=nil;proView=nil;
 }
 
-#pragma mark 设置footerTable
--(void)setupTableViewFooter{
-//    int num =(int)_bottomData.count;
-//    if (num<1)
-//        num=1;
-//    if (footTableView) {
-//        CGRect footR =footTableView.frame;
-//        footR.size.height = num*cellHight;
-//        footTableView.frame = footR;
-//        [footTableView reloadData];
-//        
-//        footTableView.contentSize =CGSizeMake(footTableView.frame.size.width, num*cellHight);
-//        myTable.contentSize = CGSizeMake(myTable.frame.size.width, myTable.frame.size.height + --num*cellHight);
-//        return;
-//    }
-//    
-//    float tabW = KMainScreenWidth ;
-//    float tabH =num*cellHight;
-//    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, tabW, tabH) style:UITableViewStylePlain];
-//    tabview.delegate = self;
-//    tabview.dataSource = self;
-//    tabview.backgroundColor = [UIColor clearColor];
-//    tabview.separatorStyle = UITableViewCellSeparatorStyleNone;
-//    tabview.showsVerticalScrollIndicator=NO;
-//    myTable.tableFooterView = tabview;
-//    footTableView = tabview;
-
-}
-
 #pragma mark
 -(void)UNIGoodsWebDelegateMethodAndprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
     UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
@@ -527,21 +458,6 @@
         else
             [cell setupCellWithData:nil type:2 andTotal:-1];
     }
-    
-
-
-//    else if (tableView == footTableView){
-//        if (!cell){
-//            cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
-//            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-//             subscribeNext:^(UIButton* x) {
-//                 id model = self.bottomData[x.tag-1];
-//                 [self mainMidViewDelegataButton:model];
-//             }];
-//        }
-//            cell.handleBtn.tag = indexPath.row+1;
-//            [cell setupCellWithData:_bottomData[indexPath.row] type:2 andTotal:-1];
-//    }
        return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
@@ -718,7 +634,7 @@
                 
                     [self->myTable reloadData];
                     [self addTableViewReflashFootView];
-                       // [self setupTableViewFooter];
+                
                 }
                 else
                     [YIToast showText:NETWORKINGPEOBLEM];
@@ -797,11 +713,20 @@
     };
 }
 
+#pragma mark 获取APP提示信息
 -(void)requestAppTips{
     MainViewRequest* request1 = [[MainViewRequest alloc]init];
     [request1 postWithoutUserIdSerCode:@[API_URL_GetAppTips]
                        params:nil];
-    request1.rqAppTips=^(int code,NSString* tips,NSError* err){};
+    request1.rqAppTips=^(NSDictionary* dic,NSString* tips,NSError* err){
+        if (dic) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+                UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+                [manager initHttpUrlManager:dic];
+//                NSLog(@"UNIHttpUrlManager  %@",manager);
+//            });
+        }
+    };
 
 }
 

@@ -91,8 +91,8 @@
         }
         if ([param1 isEqualToString:API_URL_GetImgByshopIdCode] ) {
             if (code == 0) {
-                UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-                [manager initHttpUrlManager:dic];
+//                UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+//                [manager initHttpUrlManager:dic];
                  NSArray* result = [self safeObject:dic ForKey:@"result"];
                 _reMainBgBlock(result,tips,nil);
             }else
@@ -136,10 +136,9 @@
     
         //获取APP提示信息
         if ([param1 isEqualToString:API_URL_GetAppTips]) {
-            if (code == 0)
-                _rqAppTips(code,nil,nil);
-            else
-                _rqAppTips(-1,nil,nil);
+//                UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+//                [manager initHttpUrlManager:dic];
+                _rqAppTips(dic,nil,nil);
         }
 
     
@@ -183,7 +182,7 @@
         }
     //获取APP提示信息
     if ([param1 isEqualToString:API_URL_GetAppTips]) {
-        _rqAppTips(-1,nil,err);
+        _rqAppTips(nil,nil,err);
     }
 
 }

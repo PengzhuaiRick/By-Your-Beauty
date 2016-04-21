@@ -8,7 +8,7 @@
 
 #import "BaseRequest.h"
 #import "AccountManager.h"
-#import "UNIUrlManager.h"
+//#import "UNIUrlManager.h"
 @implementation BaseRequest
 
 -(void)firstRequestUrl{
@@ -20,14 +20,24 @@
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"firstRequestUrl : %@",responseObject);
         int code = [[self safeObject:(NSDictionary*)responseObject ForKey:@"code"] intValue];
-//        if (code == 0) {
-            UNIUrlManager* manager = [UNIUrlManager sharedInstance];
-            [manager initUrlManager:responseObject];
-            self.rqfirstUrl(code);
-//            if ([self respondsToSelector:@selector(requestFirstUrlSucceed:)])
-//                [self requestFirstUrlSucceed:code];
         
-      //  }
+        UNIUrlManager* manager = [UNIUrlManager sharedInstance];
+        [manager initUrlManager:responseObject];
+        NSString *curVersion = CURRENTVERSION;      //获取项目版本号
+        float curVersinNum = curVersion.floatValue;
+        if (manager.version>curVersinNum) {
+            
+            NSString* cancelTitle =@"取消";
+            if (manager.update_type == 2)
+                cancelTitle=nil;
+            
+            [UIAlertView showWithTitle:@"更新提示" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex>0)
+                    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:manager.url]];
+            }];
+        }
+        self.rqfirstUrl(code);
+        
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
        }];
 }
@@ -35,8 +45,8 @@
 
 -(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params{
     NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:params];
-    [dic setObject:@"ios" forKey:@"device"];
-    [dic setObject:CURRENTVERSION forKey:@"app_version"];
+//    [dic setObject:@"ios" forKey:@"device"];
+//    [dic setObject:CURRENTVERSION forKey:@"app_version"];
     [dic setValue:@([[AccountManager userId] intValue]) forKey:@"userId"];
     [dic setValue:[AccountManager token] forKey:@"token"];
     

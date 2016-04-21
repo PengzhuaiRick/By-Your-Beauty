@@ -34,7 +34,7 @@ typedef void(^KZGoodsInfoBlock)(NSArray* array,NSString* tips,NSError* er);
  *  @param tips  反馈信息
  *  @param er    错误信息
  */
-typedef void(^KZGoodsGetOrderBlock)(float totalPrice,NSString* outTradeNo ,NSString* tips,NSError* er);
+typedef void(^KZGoodsGetOrderBlock)(NSDictionary* dictionary,NSString* tips,NSError* er);
 
 /**
  *  获取支付宝 支付Key
@@ -60,6 +60,13 @@ typedef void(^KZAlipayBlock)(NSString* partner ,NSString* key,NSString* seller,N
  */
 typedef void(^KZWXpayBlock)(NSString* appid ,NSString* mchid,NSString* appsecret,NSString* tips,NSError* er);
 
+/**
+    检查支付后 和后台验证
+ *  code 0签名成功 203等待入账  204订单不存在
+ *  @param tips      反馈信息
+ *  @param er        错误信息
+ */
+typedef void(^CTOrderStatusBlock)(int code,NSString* tips,NSError* er);
 
 @interface UNIGoodsDetailRequest : BaseRequest
 
@@ -72,9 +79,13 @@ typedef void(^KZWXpayBlock)(NSString* appid ,NSString* mchid,NSString* appsecret
 // 客妆 获取订单号
 @property(nonatomic,copy)KZGoodsGetOrderBlock kzgoodsGetOrderBlock;
 
-// 获取支付宝 支付Key
+//(废弃) 获取支付宝 支付Key
 @property(nonatomic,copy)KZAlipayBlock kzalipayBlock;
 
-//获取微信支付  支付Key
+
+// (废弃) 获取微信支付  支付Key
 @property(nonatomic,copy)KZWXpayBlock kzwxpayBlock;
+
+//检查支付后 和后台验证
+@property(nonatomic,copy)CTOrderStatusBlock ctorderStatusBlock;
 @end

@@ -16,4 +16,5 @@
 #import "UIImageView+WebCache.h"
 #import "UIColor+HexString.h"
 #import "UIAlertView+Blocks.h"
+#import "UNIUrlManager.h"
 #endif /* UniHeader_pch */
