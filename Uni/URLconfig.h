@@ -95,7 +95,7 @@
 #define API_URL_GetOutTradeNo @"Pay/getPayInfo"
 
 //服务评价接口
-#define API_URL_SetServiceAppraise @"comment/setServiceAppaise"
+#define API_URL_SetServiceAppraise @"comment/setServiceAppraise"
 
 //商品评价接口
 #define API_URL_GoodsAppraise @"comment/SetGoodsAppaise"

@@ -49,7 +49,8 @@
 //        }
 //    }];
    // [self rqWelcomeImage];
-    //[self rqCurrentVersion];
+    [self setupWebViewUserAgent];
+    [self rqCurrentVersion];
     [self setupJPush:launchOptions];
     [self setupNavigationStyle];
     [self setupWeChat];
@@ -61,6 +62,14 @@
     return YES;
 
 }
+#pragma mark 设置webView 的 User - Agent 信息
+-(void)setupWebViewUserAgent{
+    NSString *userAgent = [[[UIWebView alloc] init] stringByEvaluatingJavaScriptFromString:@"navigator.userAgent"];
+    NSString* newAgent = [NSString stringWithFormat:@"%@ UNI/%@",userAgent,CURRENTVERSION];
+    NSDictionary *dictionnary = [[NSDictionary alloc] initWithObjectsAndKeys:newAgent, @"UserAgent", nil];
+    [[NSUserDefaults standardUserDefaults] registerDefaults:dictionnary];
+}
+
 #pragma mark 设置微信支付
 -(void)setupWeChat{
    [WXApi registerApp:WECHATAPPID withDescription:@"UniToWeChat"];

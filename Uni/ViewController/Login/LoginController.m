@@ -563,6 +563,7 @@
 #endif
                     return ;
                 }
+                x.enabled=YES;
                 self.sex = sex;
                 self->ifStatus = status;
                 self->nikeName.text = name;

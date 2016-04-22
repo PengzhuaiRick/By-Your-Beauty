@@ -108,6 +108,8 @@
 		18C8D40D1C574A5100E6DDB3 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D3FF1C574A5100E6DDB3 /* RSADataSigner.m */; };
 		18C8D40E1C574A5100E6DDB3 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D4011C574A5100E6DDB3 /* RSADataVerifier.m */; };
 		18C92C0B1C19625C002778C3 /* UNIGoodsDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */; };
+		18C9CB0C1CCA042F00D8FB5F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C9CB0B1CCA042F00D8FB5F /* AVFoundation.framework */; };
+		18C9CB0F1CCA046A00D8FB5F /* UNIScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */; };
 		18CA17921C489B8600636ABF /* UNIRewardDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */; };
 		18CA17951C48A21F00636ABF /* UNIRewardProgessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17941C48A21F00636ABF /* UNIRewardProgessView.m */; };
 		18CB94A01C85664F00F834DA /* UNIHttpUrlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB949F1C85664F00F834DA /* UNIHttpUrlManager.m */; };
@@ -453,6 +455,9 @@
 		18C8D4011C574A5100E6DDB3 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		18C92C091C19625C002778C3 /* UNIGoodsDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsDetailRequest.h; sourceTree = "<group>"; };
 		18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGoodsDetailRequest.m; sourceTree = "<group>"; };
+		18C9CB0B1CCA042F00D8FB5F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		18C9CB0D1CCA046A00D8FB5F /* UNIScanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIScanView.h; sourceTree = "<group>"; };
+		18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIScanView.m; sourceTree = "<group>"; };
 		18CA17901C489B8600636ABF /* UNIRewardDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardDetailCell.h; sourceTree = "<group>"; };
 		18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardDetailCell.m; sourceTree = "<group>"; };
 		18CA17931C48A21F00636ABF /* UNIRewardProgessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardProgessView.h; sourceTree = "<group>"; };
@@ -581,6 +586,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18C9CB0C1CCA042F00D8FB5F /* AVFoundation.framework in Frameworks */,
 				18D410401CC5C9570086FC76 /* JavaScriptCore.framework in Frameworks */,
 				18D77DCE1C3B9BF800DFC738 /* libstdc++.tbd in Frameworks */,
 				18D77DCC1C3B9BE300DFC738 /* libz.1.2.5.tbd in Frameworks */,
@@ -787,6 +793,8 @@
 				18EA4A811C60A3D00033E801 /* CalloutMapAnnotation.m */,
 				18CD114A1C7D4A7800D48808 /* UNIMapAddressView.h */,
 				18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */,
+				18C9CB0D1CCA046A00D8FB5F /* UNIScanView.h */,
+				18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1334,6 +1342,7 @@
 		4721F7A66D978636E4F252B1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				18C9CB0B1CCA042F00D8FB5F /* AVFoundation.framework */,
 				18D4103F1CC5C9570086FC76 /* JavaScriptCore.framework */,
 				18D77DCD1C3B9BF800DFC738 /* libstdc++.tbd */,
 				18D77DCB1C3B9BE300DFC738 /* libz.1.2.5.tbd */,
@@ -1603,6 +1612,7 @@
 				184482111C5227EB0047D2EF /* UNIOrderListModel.m in Sources */,
 				18D5722E1BE883560055DE7F /* AccountManager.m in Sources */,
 				18C8D4071C574A5100E6DDB3 /* base64.m in Sources */,
+				18C9CB0F1CCA046A00D8FB5F /* UNIScanView.m in Sources */,
 				184481FF1C5207DB0047D2EF /* UNIOrderDetailController.m in Sources */,
 				18CC75C41C2C127400625205 /* MainViewCell.m in Sources */,
 				188F123D1C16EB0B00EBE345 /* UNIWalletList.m in Sources */,

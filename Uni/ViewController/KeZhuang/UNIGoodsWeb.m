@@ -47,7 +47,7 @@
     
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-   // NSURL* url = [NSURL URLWithString:@"http://uni.dodwow.com/uni_api/product/productlist.html"];//创建URL
+    //NSURL* url = [NSURL URLWithString:@"http://machineadmin.weeguu.com/html/active.html"];//创建URL
      UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
     if (!manager.APP_KZ_URL)
         return;
@@ -57,6 +57,8 @@
     
     [web loadRequest:request];//加载
     webView = web;
+    
+
     
     web=nil;lab = nil;url=nil;request=nil;
    }
@@ -68,6 +70,7 @@
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 }
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
+    
     [LLARingSpinnerView RingSpinnerViewStop1];
     self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];

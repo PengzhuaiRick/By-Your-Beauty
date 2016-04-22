@@ -13,7 +13,10 @@
 @end
 
 @implementation baseViewController
-
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [LLARingSpinnerView RingSpinnerViewStop1];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

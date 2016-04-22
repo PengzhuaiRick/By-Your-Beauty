@@ -19,8 +19,8 @@
 #import "UNIMainProView.h"
 #import "UNIGoodsWeb.h"
 #import "UNIHttpUrlManager.h"
-
 #import "UNITouristController.h"
+//#import "UNIScanView.h"
 
 @interface MainViewController ()</*UINavigationControllerDelegate,*/MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
@@ -110,7 +110,7 @@
             [self startRequestAppointInfo];//请求我已预约
             [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
             [self getSellInfo]; //获取首页销售商品
-            
+
         });
         
     };
@@ -174,7 +174,21 @@
     self.navigationItem.leftBarButtonItem = bar;
      self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
     
+//    UIBarButtonItem* bar1 = [[UIBarButtonItem alloc]init];
+//    bar1.title = @"扫描";
+//    bar1.target = self;
+//    bar1.action = @selector(scan);
+//    self.navigationItem.rightBarButtonItem = bar1;
+    
+    
+    
 }
+//-(void)scan{
+//    UNIScanView* view = [[UNIScanView alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
+//    view.center = self.view.center;
+//    [self.view addSubview:view];
+//}
+
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
 

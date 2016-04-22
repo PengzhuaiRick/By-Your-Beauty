@@ -22,7 +22,7 @@
 /**
  *  主题颜色
  */
-#define kMainThemeColor @"e23469"
+#define kMainThemeColor @"ee4c7d"
 
 /**
  *  主题粉紫色
