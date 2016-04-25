@@ -28,6 +28,11 @@
 @property(nonatomic,strong)NSString *unionid;
 
 /**
+ *  微信openid
+ */
+@property(nonatomic,strong)NSString *openid;
+
+/**
  *  用户ID
  */
 @property(nonatomic,strong)NSNumber* userId;
@@ -89,6 +94,16 @@
  */
 +(void)setUnionid:(NSString *)unionid;
 +(NSString*)unionid;
+
+
+/**
+ *  获取和设置openid
+ *
+ *  @param openid 微信openid
+ */
++(void)setOpenid:(NSString *)openid;
++(NSString *)openid;
+
 
 
 #pragma mark  动态方法

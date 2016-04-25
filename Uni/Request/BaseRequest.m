@@ -12,6 +12,12 @@
 @implementation BaseRequest
 
 -(void)firstRequestUrl{
+     UNIUrlManager* man= [UNIUrlManager sharedInstance];
+    if (man.server_url) {
+        self.rqfirstUrl(0);
+        return;
+    }
+    
     NSString* url = [NSString stringWithFormat:
                      @"http://uni.dodwow.com/v2/index.php?s=/App/Version/index/app_version/%@/device/ios",CURRENTVERSION];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
@@ -32,7 +38,11 @@
                 cancelTitle=nil;
             
             [UIAlertView showWithTitle:@"更新提示" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                if (buttonIndex>0)
+                int index = 0;
+                if (cancelTitle)
+                    index = 1;
+                
+                if (buttonIndex==index)
                     [[UIApplication sharedApplication]openURL:[NSURL URLWithString:manager.url]];
             }];
         }

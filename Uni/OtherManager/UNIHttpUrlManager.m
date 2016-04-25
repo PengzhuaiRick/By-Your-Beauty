@@ -34,6 +34,7 @@
     self.APP_BWHL_SHARE_IMG = [self safeObject:dic ForKey:@"APP_BWHL_SHARE_IMG"];
     self.APP_HB_SHARE_IMG = [self safeObject:dic ForKey:@"APP_HB_SHARE_IMG"];
     self.APPOINT_SUCCESS = [self safeObject:dic ForKey:@"APPOINT_SUCCESS"];
+    self.APPOINT_SUCCESS_TIPS = [self safeObject:dic ForKey:@"APPOINT_SUCCESS_TIPS"];
     self.GOTOBUY = [self safeObject:dic ForKey:@"GOTOBUY"];
     self.IS_APPOINT = [self safeObject:dic ForKey:@"IS_APPOINT"];
     self.NO_CASE_TIPS = [self safeObject:dic ForKey:@"NO_CASE_TIPS"];

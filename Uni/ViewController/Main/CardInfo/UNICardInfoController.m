@@ -62,7 +62,7 @@
     self.title = @"我的详情";
     self.view .backgroundColor= [UIColor colorWithHexString: kMainBackGroundColor];
     
-      self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+      self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_function"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
 //    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"card_bar_user"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemAction:)];
 //    
@@ -114,8 +114,8 @@
                 top2.size.width = self->topView.frame.size.width - x;
                 top2.size.height =self->topLab1.frame.size.height;
                 self->topLab2.frame = top2;
-               [self setupmidView:total and:num];
-                // [self setupmidView:4 and:1];
+               //[self setupmidView:total and:num];
+                 [self setupmidView:1 and:1];
             }
         });
     };
@@ -260,7 +260,7 @@
     }
     [topView addSubview:awardBtn];
     
-    
+    int time =total> 5 ? 5:total;
     
     int xx = 1;
     if (total>5) {
@@ -270,7 +270,7 @@
         }else
             xx = 1;
     }
-    int time =total> 5 ? 5:total;
+    
     if (num<1) {
         xx=0;
         if (time<3) {

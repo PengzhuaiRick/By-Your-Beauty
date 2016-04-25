@@ -23,6 +23,7 @@
 @property(nonatomic,copy) NSString* APP_BWHL_SHARE_IMG;//百万好礼分享图片
 @property(nonatomic,copy) NSString* APP_HB_SHARE_IMG;//红包游戏图片
 @property(nonatomic,copy) NSString* APPOINT_SUCCESS;// 预约成功
+@property(nonatomic,copy) NSString* APPOINT_SUCCESS_TIPS;// 预约成功详细提示
 @property(nonatomic,copy) NSString* GOTOBUY;// 马上去买
 @property(nonatomic,copy) NSString* IS_APPOINT;//是否马上预约
 @property(nonatomic,copy) NSString* NO_CASE_TIPS;// 无现金券提示

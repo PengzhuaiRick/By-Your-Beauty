@@ -14,12 +14,12 @@
     @param status  3为游客
     @param name 用户别名
  *  @param ph  手机号码
- *  @param llt 最近登录时间
+ *  @param st 服务器时间
  *  @param rc  验证码
  *  @param tip 反馈信息
  *  @param er  错误信息
  */
-typedef void(^RqVertifivaBlock)( int status,int sex,NSString* name,NSString* ph,NSString* llt,NSString* rc,NSString*tip,NSError* er);
+typedef void(^RqVertifivaBlock)( int status,int sex,NSString* name,NSString* ph,long st,NSString* rc,NSString*tip,NSError* er);
 
 
 /**

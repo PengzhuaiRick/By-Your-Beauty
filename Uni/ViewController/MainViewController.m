@@ -100,11 +100,10 @@
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
      MainViewRequest* request = [[MainViewRequest alloc]init];
-    [request firstRequestUrl];
     request.rqfirstUrl=^(int code){
         dispatch_async(dispatch_get_main_queue(), ^{
              [self requestAppTips];
-            //[self requestActivityShowOrNot];
+           // [self requestActivityShowOrNot];
             [self startRequestShopInfo];//请求商家信息
             [self startRequestReward];//请求约满信息
             [self startRequestAppointInfo];//请求我已预约
@@ -112,8 +111,8 @@
             [self getSellInfo]; //获取首页销售商品
 
         });
-        
     };
+    [request firstRequestUrl];
 }
 
 #pragma mark 审核期间 是否显示活动页面
@@ -126,10 +125,8 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code != 3) {
+            if (code != 3) 
                 [self requestActivityInfo];
-            }
-        
     };
 
 }
@@ -387,7 +384,7 @@
     UILabel* lab7 = [[UILabel alloc]initWithFrame:CGRectMake(lab6X, lab7Y, lab7W, lab6H)];
     lab7.text = @"活动价";
     lab7.textColor = [UIColor whiteColor];
-    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth>400?12:10];
+    lab7.font = [UIFont systemFontOfSize:KMainScreenWidth>400?13:12];
     [lab7 sizeToFit];
     [imageView addSubview:lab7];
     sell3 = lab7;

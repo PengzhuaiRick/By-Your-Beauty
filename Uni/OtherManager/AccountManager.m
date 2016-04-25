@@ -13,6 +13,7 @@
 #define userIdKey             @"userIdKey"
 #define userShopID            @"userShopId"
 #define WXUnionid            @"WXUnionid"
+#define WXOpenid            @"WXOpenid"
 /**
  *  用户token
  */
@@ -151,6 +152,29 @@
     return unionid;
 }
 
+
+
++(void)setOpenid:(NSString *)openid{
+    [[[self class] shared]setOpenid:openid];
+}
+
++(NSString *)openid{
+    NSString* openid = [[[self class]shared]openid];
+    return openid;
+}
+
+-(void)setOpenid:(NSString *)openid{
+    if (!openid) openid = nil;
+    [self syncSetObject:openid forKey:WXOpenid];
+}
+-(NSString *)openid{
+    NSString *openid = [self stringWithKey:WXOpenid];
+    if (!openid)
+        openid=nil;
+    
+    return openid;
+}
+
 - (void)clear
 {
 //    self.memberInfo = nil;
@@ -171,6 +195,7 @@
     [userDefaults removeObjectForKey:userIdKey];
     [userDefaults removeObjectForKey:userShopID];
     [userDefaults removeObjectForKey:WXUnionid];
+    [userDefaults removeObjectForKey:WXOpenid];
     [userDefaults synchronize];
 }
 

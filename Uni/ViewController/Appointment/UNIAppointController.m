@@ -13,6 +13,7 @@
 #import "AccountManager.h"
 #import "UNIShopView.h"
 #import "UNIShopListController.h"
+#import "UNIHttpUrlManager.h"
 //#import "UNIMyProjectModel.h"
 @interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate,UNIShopListControllerDelegate>
 {
@@ -206,23 +207,12 @@
 //         if (self->appointTop.selectTime.length<1) {
 //             return ;
 //         }
-#ifdef IS_IOS9_OR_LATER
-         UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"是否确定预约?" message:nil preferredStyle:UIAlertControllerStyleAlert];
-         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-         [alertController addAction:cancelAction];
-         
-         UIAlertAction *sureAction = [UIAlertAction actionWithTitle:@"预约" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-             [self startAppoint];
-         }];
-         [alertController addAction:sureAction];
-         [self presentViewController:alertController animated:YES completion:nil];
-#else
-         [UIAlertView showWithTitle:@"是否确定预约?" message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"预约"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+          UNIHttpUrlManager* httpUrl =[UNIHttpUrlManager sharedInstance];
+         [UIAlertView showWithTitle:httpUrl.IS_APPOINT message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"预约"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
              if (buttonIndex == 1) {
                  [self startAppoint];
              }
          }];
-#endif
              }];
     btn=nil;
 }
@@ -292,21 +282,13 @@
                          return ;
                      }
                      if (order) {
-                         //[YIToast showText:@"预约成功"];
-#ifdef IS_IOS9_OR_LATER
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"您的预约已提交，请等待店家确认。预约结果以电话回复为准" message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        //[self locationNotificationTask:nil];
-         [self locationNotificationTask:order];
-    }];
-    [alertController addAction:cancelAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-#else
-    [UIAlertView showWithTitle:@"您的预约已提交，请等待店家确认。预约结果以电话回复为准" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                         //[YIToast showText:@"预约成功"];@"您的预约已提交，请等待店家确认。预约结果以电话回复为准"
+                         UNIHttpUrlManager* httpUrl =[UNIHttpUrlManager sharedInstance];
+    [UIAlertView showWithTitle:httpUrl.APPOINT_SUCCESS message:httpUrl.APPOINT_SUCCESS_TIPS cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
         
             [self locationNotificationTask:order];
     }];
-#endif
+
                      }else
                         // [YIToast showText:@"您已经在这个点预约过了，请选择其他时间预约。"];
                          [UIAlertView showWithTitle:tips message:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil tapBlock:nil];

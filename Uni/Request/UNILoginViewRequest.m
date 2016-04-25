@@ -23,15 +23,15 @@
     if ([param1 isEqualToString:API_URL_Verify]) {
         
         if (code ==0) {
-            NSString* lastLoginTime = [self safeObject:dic ForKey:@"lastLoginTime"];
+            long server_time = [[self safeObject:dic ForKey:@"server_time"] longValue];
             NSString* phone = [self safeObject:dic ForKey:@"phone"];
             NSString* randcode = [self safeObject:dic ForKey:@"randcode"];
             NSString* name = [self safeObject:dic ForKey:@"name"];
             int sex =[[self safeObject:dic ForKey:@"sex"] intValue];
             int status =[[self safeObject:dic ForKey:@"status"] intValue];
-            _rqvertifivaBlock(status,sex,name,phone,lastLoginTime,randcode,tips,nil);
+            _rqvertifivaBlock(status,sex,name,phone,server_time,randcode,tips,nil);
         }else
-            _rqvertifivaBlock(-1,-1,nil,nil,nil,nil,tips,nil);
+            _rqvertifivaBlock(-1,-1,nil,nil,-1,nil,tips,nil);
     }
     //请求登录
     if ([param1 isEqualToString:API_URL_Login]) {
@@ -90,7 +90,7 @@
     
     //登录验证码
     if ([param1 isEqualToString:API_URL_Verify]) {
-        _rqvertifivaBlock(-1,-1,nil,nil,nil,nil,nil,err);
+        _rqvertifivaBlock(-1,-1,nil,nil,-1,nil,nil,err);
     }
     //请求登录
     if ([param1 isEqualToString:API_URL_Login]) {

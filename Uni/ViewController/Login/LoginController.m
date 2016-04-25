@@ -37,7 +37,7 @@
     int bShu;
     int cellH;
     
-    int ifStatus; //是否为游客
+    NSDate* ServierTime; //服务器时间
 }
 @property (strong, nonatomic)  UITableViewCell *secondCell;
 @property (strong, nonatomic)  UITableViewCell *firstCell;
@@ -67,8 +67,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _sex = 2;
-    [self setupUI];
+   [self setupUI];
     [self setupFooterView];
+    [self startRequest];
    // [self setupPhoneField];
 //    [self setupCodeField];
 //    [self setupCodeBtn];
@@ -76,7 +77,19 @@
   //  [self setupLoginBtn];
    // [self setupSexBtn];
    [self regirstKeyBoardNotification];
+
 }
+
+-(void)startRequest{
+    UNILoginViewRequest* rq = [[UNILoginViewRequest alloc]init];
+    rq.rqfirstUrl=^(int code){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self setupTouristBtn];
+        });
+    };
+    [rq firstRequestUrl];
+}
+
 -(void)setupFooterView{
     UIView* footer = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, 100)];
     self.tableView.tableFooterView = footer;
@@ -98,8 +111,10 @@
 //    [btn setBackgroundImage:[self createImageWithColor:[UIColor clearColor]] forState:UIControlStateHighlighted];
     [footer addSubview:btn];
     loginBtn = btn;
-    
-    
+
+}
+
+-(void)setupTouristBtn{
     UNILoginViewRequest* req = [[UNILoginViewRequest alloc]init];
     [req postWithSerCode:@[API_URL_RetCode] params:nil];
     req.rqtouristBtn = ^(int code,NSString* tips,NSError* er){
@@ -111,9 +126,9 @@
             if (code == 3) {
                 self.fourthCell.hidden = YES;
                 
-                float btnX = KMainScreenWidth* 40/320;
-                float btnW =footer.frame.size.width - btnX*2;
-                float btnH = KMainScreenWidth* 40/320;
+                float btnX = self->loginBtn.frame.origin.x;
+                float btnW =self->loginBtn.frame.size.width;
+                float btnH = self->loginBtn.frame.size.height;
                 float btnY = CGRectGetMaxY(self->loginBtn.frame)+10;
                 UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
                 btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
@@ -125,7 +140,7 @@
                 btn.layer.cornerRadius = 3;
                 btn.layer.borderColor = [UIColor whiteColor].CGColor;
                 [btn setBackgroundColor:[UIColor clearColor]];
-                [footer addSubview:btn];
+                [self.tableView.tableFooterView addSubview:btn];
                 
                 [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
                  subscribeNext:^(UIButton* x) {
@@ -146,19 +161,7 @@
                          [LLARingSpinnerView RingSpinnerViewStop1];
                          if (er==nil) {
                              if (array.count==0){
-#ifdef IS_IOS9_OR_LATER
-                                 UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"登陆失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                                 
-                                 UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                                 [alertController addAction:cancelAction];
-                                 [self presentViewController:alertController animated:YES completion:nil];
-#else
-                                 [UIAlertView showWithTitle:@"登陆失败" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                     if (buttonIndex>0)
-                                         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
-                                 }];
-#endif
-                                 
+                                 [UIAlertView showWithTitle:@"登陆失败" message:tips style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {                                 }];
                                  return ;
                              }
                              UNILoginShopModel* model = array[0];
@@ -169,7 +172,7 @@
                              //[AccountManager setLocalLoginName:@"13267208242"];
                              
                              
-                            [self log:nil];
+                             [self log:nil];
                          }else
                              [YIToast showText:NETWORKINGPEOBLEM];
                          // [YIToast showWithText:tips];
@@ -179,8 +182,8 @@
             }
         });
     };
-
 }
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return cellH;
 }
@@ -403,6 +406,7 @@
     headImge.center = CGPointMake(header.center.x, header.center.y+30);
     [header addSubview:headImge];
     self.tableView.tableHeaderView = header;
+    
 }
 
 
@@ -525,7 +529,7 @@
                                      int sex,
                                      NSString* name,
                                      NSString* ph,
-                                     NSString* llt,
+                                     long st,
                                      NSString* rc,
                                      NSString*tip,
                                      NSError* er){
@@ -533,39 +537,17 @@
                 [LLARingSpinnerView RingSpinnerViewStop1];
                 self->codeField.text = @"";
                 if (er) {
-#ifdef IS_IOS9_OR_LATER
-                    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"请求失败,请检查网络" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                    [alertController addAction:cancelAction];
-                    [self presentViewController:alertController animated:YES completion:nil];
-#else
-                    [UIAlertView showWithTitle:@"请求失败,请检查网络" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                        if (buttonIndex>0)
-                            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
-                    }];
-#endif
+                    x.enabled=YES;
+                    [YIToast showWithText:NETWORKINGPEOBLEM];
                     return ;
                 }
                 
                 if(!rc){
-#ifdef IS_IOS9_OR_LATER
-                    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"获取验证码失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                    [alertController addAction:cancelAction];
-                    [self presentViewController:alertController animated:YES completion:nil];
-#else
-                    [UIAlertView showWithTitle:@"获取验证码失败" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                        if (buttonIndex>0)
-                            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
-                    }];
-#endif
+                    x.enabled=YES;
+                    [UIAlertView showWithTitle:@"获取验证码失败" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
                     return ;
                 }
-                x.enabled=YES;
                 self.sex = sex;
-                self->ifStatus = status;
                 self->nikeName.text = name;
                 if (sex == 1){
                     self->maleBtn.selected = YES;
@@ -616,7 +598,8 @@
                 if (rc != nil){
                    // btn.enabled = NO;
                     self->countDown = 60;
-                   
+                    self->ServierTime = [NSDate dateWithTimeIntervalSince1970:st];
+                    
                    self->time=[NSTimer scheduledTimerWithTimeInterval:1
                                                      target:self
                                                    selector:@selector(sixtySecondCountDown:)
@@ -635,12 +618,14 @@
 #pragma mark 验证码定时器事件
 -(void)sixtySecondCountDown:(NSTimer*)time1{
     if (countDown>1) {
-        countDown -- ;
+        int t = [[NSDate date] timeIntervalSinceDate:ServierTime];
+        countDown = 60-t;
         self->codeBtn.layer.borderWidth = 1;
         [self->codeBtn setBackgroundColor:[UIColor clearColor]];
         NSString* str = [NSString stringWithFormat:@"%ds",countDown];
         [codeBtn setTitle:str forState:UIControlStateNormal];
-        phoneField.enabled=NO;;
+        phoneField.enabled=NO;
+        
     }else
         [self timerStop:time];
 }
@@ -737,18 +722,7 @@
              [LLARingSpinnerView RingSpinnerViewStop1];
             if (er==nil) {
                 if (array.count == 0){
-#ifdef IS_IOS9_OR_LATER
-                    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"登陆失败" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                    
-                        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-                        [alertController addAction:cancelAction];
-                    [self presentViewController:alertController animated:YES completion:nil];
-#else
-                    [UIAlertView showWithTitle:@"登陆失败" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                        if (buttonIndex>0)
-                            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
-                    }];
-#endif
+                    [UIAlertView showWithTitle:@"登陆失败" message:tips style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
 
                     return ;
                 }

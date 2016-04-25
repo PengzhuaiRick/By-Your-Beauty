@@ -20,6 +20,7 @@
 //    int shopId;
 //    int projectId;
     NSString* wxUnionid;
+    NSString* wxOpenid;
     UIWebView* _webView;
     int shareStyle;
     UNITouristModel* myModel;
@@ -113,11 +114,13 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"text/plain"]];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         NSLog(@"responseObject  %@",responseObject);
-       // NSString* str = [responseObject objectForKey:@"openid"];
-        NSString* str = [responseObject objectForKey:@"unionid"];
-        if (str) {
-            self->wxUnionid = str;
-            [AccountManager setUnionid:str];
+        NSString* str = [responseObject objectForKey:@"openid"];
+        NSString* str1 = [responseObject objectForKey:@"unionid"];
+        if (str&&str1) {
+            self->wxOpenid = str;
+            self->wxUnionid = str1;
+            [AccountManager setOpenid:str];
+            [AccountManager setUnionid:str1];
             [self setupCustomInfoAPI];
             [self startShare];
         }
@@ -147,12 +150,12 @@
             }
             else {
                 [UIAlertView showWithTitle:@"提示" message:tips cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                      [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
+                    //  [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
                 }];
             }
         });
     };
-    [rq postWithSerCode:@[API_URL_SetCustomInfo] params:@{@"openId":wxUnionid}];
+    [rq postWithSerCode:@[API_URL_SetCustomInfo] params:@{@"openId":wxOpenid,@"unionId":wxUnionid}];
  
 }
 

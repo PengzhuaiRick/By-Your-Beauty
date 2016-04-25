@@ -38,19 +38,10 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-   
-//    AFNetworkReachabilityManager * mangaer = [AFNetworkReachabilityManager sharedManager];
-//    [mangaer startMonitoring];
-//    [mangaer setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-//        NSLog(@"AFNetworkReachabilityStatus  %ld",(long)status);
-//        if (status<0) {
-//            [YIToast showText:NETWORKINGPEOBLEM];
-//            return ;
-//        }
-//    }];
+
    // [self rqWelcomeImage];
     [self setupWebViewUserAgent];
-    [self rqCurrentVersion];
+   // [self rqCurrentVersion];
     [self setupJPush:launchOptions];
     [self setupNavigationStyle];
     [self setupWeChat];
@@ -156,20 +147,6 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             if (code == 0) {
                 [self judgeFirstTime];
-                UNIUrlManager * mam = [UNIUrlManager sharedInstance];
-                NSString *curVersion = CURRENTVERSION;      //获取项目版本号
-                float curVersinNum = curVersion.floatValue;
-                if (mam.version>curVersinNum) {
-                    
-                        NSString* cancelTitle =@"取消";
-                        if (mam.update_type == 2)
-                                cancelTitle=nil;
-                        
-                    [UIAlertView showWithTitle:@"更新提示" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                                            if (buttonIndex>0)
-                                [[UIApplication sharedApplication]openURL:[NSURL URLWithString:mam.url]];
-                    }];
-                }
                 
             }
             

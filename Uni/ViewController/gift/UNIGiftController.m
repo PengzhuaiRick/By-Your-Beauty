@@ -139,16 +139,17 @@
 //self.title = @"我的礼包";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
-    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_function"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
     rightBar =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
 }
-- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+- (BOOL)webView:(UIWebView *)webView1 shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString* url = request.URL.absoluteString ;
     NSLog(@"request.URL.absoluteString  %@",url);
     
     self.navigationItem.rightBarButtonItem = nil;
+    [self changeLeftBarImage];
 //    if([url rangeOfString:@"id=20&"].location !=NSNotFound){
 //        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
 //        shareTitle = urlManager.APP_BWHL_SHARE_TITLE;
@@ -179,6 +180,8 @@
         //self.activityId =2;
         NSLog(@" self.activityId  %d",self.activityId);
         self.navigationItem.rightBarButtonItem = rightBar;
+        self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"main_btn_back"];
+        
     }
     if ([url rangeOfString:@"act=app"].location != NSNotFound) {
         NSArray* array = [url componentsSeparatedByString:@"&"];
@@ -191,7 +194,7 @@
         array=nil; projectId=nil;type=nil;
         return NO;
     }
-
+    
     return YES;
 }
 -(void)gotoUNIAppointControllerprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
@@ -229,9 +232,15 @@
         else
             [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
-    //[LLARingSpinnerView RingSpinnerViewStop1];
 }
 
+#pragma mark 修改返回按钮图片
+-(void)changeLeftBarImage{
+    if ([webView canGoBack])
+        self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"main_btn_back"];
+    else
+        self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"main_btn_function"];
+}
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
     
     bar.enabled=NO;

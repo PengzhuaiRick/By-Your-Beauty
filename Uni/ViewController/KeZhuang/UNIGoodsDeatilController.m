@@ -508,47 +508,26 @@
 -(void)dealWithResultOfTheZFB:(NSDictionary*)noiti{
     int num = [[noiti objectForKey:@"resultStatus"] intValue];
     NSString* string = @"支付失败!";
-    if (num == 9000)
+    if (num == 9000){
         string = @"支付成功!";
-
+        [self checkTradeOrderStatus];
+        return;
+    }
     [UIAlertView showWithTitle:string message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        if (num == 9000){
-            [self checkTradeOrderStatus];
-        }
     }];
 }
 
 -(void)dealWithResultOfTheWCpay:(NSNotification*)noiti{
      int num = [[noiti.userInfo objectForKey:@"result"] intValue];
     NSString* result=nil;
-    if (num == 0)
+    if (num == 0){
         result = @"支付成功";
-    else
+         [self checkTradeOrderStatus];
+    }else{
         result = @"交易取消";
-#ifdef IS_IOS9_OR_LATER
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:result message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-        if (num == 0){
-            [self checkTradeOrderStatus];
-//            UNIOrderListController* view = [[UNIOrderListController alloc]init];
-//            view.type = 1;
-//            [self.navigationController pushViewController:view animated:YES];
-//            view=nil;
-        }
-    }];
-    [alertController addAction:cancelAction];
-    [self presentViewController:alertController animated:YES completion:nil];
-#else
     [UIAlertView showWithTitle:result message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        if (num == 0){
-            [self checkTradeOrderStatus];
-//            UNIOrderListController* view = [[UNIOrderListController alloc]init];
-//            view.type = 1;
-//            [self.navigationController pushViewController:view animated:YES];
-//            view=nil;
-        }
     }];
-#endif
+    }
     
 }
 
