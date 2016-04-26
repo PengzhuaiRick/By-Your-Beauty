@@ -97,7 +97,7 @@
 //    NSString* first = [user valueForKey:FIRSTINSTALL];
 //    if (first.length>0){
         AccountManager* manager = [[AccountManager alloc]init];
-        if (manager.userId.intValue>0)
+        if (manager.token.length>0)
        [self setupViewController];
         else
             [self setupLoginController];
@@ -339,7 +339,7 @@
         UILocalNotification* noti = notificaitons[i];
         NSLog(@"checkLocationNotification %d",i);
         NSDictionary* userInfo = noti.userInfo;
-        if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO) {
+        if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"token"]] == NO) {
             //删除本地通知
             [[UIApplication sharedApplication] cancelLocalNotification:noti];
             continue;
@@ -354,7 +354,7 @@
     
     for (int i = 0;i<arr.count;i++) {
         NSDictionary* userInfo =arr[i];
-        if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO)
+        if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"token"]] == NO)
             [arr removeObject:userInfo];
         }
     if (arr.count>0) {
@@ -496,37 +496,23 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     NSDictionary* userInfo = notification.userInfo;
-    if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"useId"]] == NO) {
+    if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"token"]] == NO) {
         //删除本地通知
         [[UIApplication sharedApplication] cancelLocalNotification:notification];
         return;
     }
-    
-#ifdef IS_IOS9_OR_LATER
-    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"您预约的项目时间还有一小时" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    [alertController addAction:cancelAction];
-    UIAlertAction *checkAction = [UIAlertAction actionWithTitle:@"查看" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self showLocationNotificationDetail:notification];
-    }];
-    [alertController addAction:checkAction];
-
-    
-    [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-#else
     
     [UIAlertView showWithTitle:@"提示" message:@"您预约的项目时间还有一小时" style:UIAlertViewStyleDefault cancelButtonTitle:@"取消" otherButtonTitles:@[@"查看"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex>0)
             [self showLocationNotificationDetail:notification];
         
     }];
-#endif
 }
 
 #pragma mark 判断是否当前登录用户
--(BOOL)determineCurrentLoggingUser:(NSNumber*)userNum{
+-(BOOL)determineCurrentLoggingUser:(NSString*)token{
     BOOL k = NO;
-    if ([[AccountManager userId].stringValue isEqualToString: userNum.stringValue])
+    if ([[AccountManager token] isEqualToString: token])
         k=YES;
     
     return k;

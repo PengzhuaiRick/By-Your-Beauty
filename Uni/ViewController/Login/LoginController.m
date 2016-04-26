@@ -167,7 +167,7 @@
                              UNILoginShopModel* model = array[0];
                              //保存信息
                              [AccountManager setToken:model.token];
-                             [AccountManager setUserId:@(model.userId)];
+                             //[AccountManager setUserId:@(model.userId)];
                              [AccountManager setShopId:@(model.shopId)];
                              //[AccountManager setLocalLoginName:@"13267208242"];
                              
@@ -730,7 +730,7 @@
                     UNILoginShopModel* model = array[0];
                     //保存信息
                     [AccountManager setToken:model.token];
-                    [AccountManager setUserId:@(model.userId)];
+                    //[AccountManager setUserId:@(model.userId)];
                     [AccountManager setShopId:@(model.shopId)];
                     [AccountManager setLocalLoginName:field1.text];
                     

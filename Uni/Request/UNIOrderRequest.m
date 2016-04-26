@@ -16,7 +16,9 @@
     
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
-    
+    if (code != 0) {
+        if (tips.length<1) tips = @"服务器处理失败， 未知错误";
+    }
         //获取订单列表
         if ([param2 isEqualToString:API_URL_MyOrderList]) {
             if (code == 0) {

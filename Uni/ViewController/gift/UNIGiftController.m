@@ -70,18 +70,18 @@
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
     NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_LIBAO_URL;
-    NSString* str2 = [[AccountManager userId]stringValue];
-    NSString* str3 =@"&json={%22userId%22:%22AA%22}";
-    NSString* str4 = [NSString stringWithFormat:@"%@%@",str1,str3];
-    NSString* str5 = [str4 stringByReplacingOccurrencesOfString:@"AA" withString:str2];
-    NSString* urlString = [self URLEncodedString:str5];
-    NSURL* url = [NSURL URLWithString:urlString];//创建URL
+//    NSString* str2 = [[AccountManager userId]stringValue];
+//    NSString* str3 =@"&json={%22userId%22:%22AA%22}";
+//    NSString* str4 = [NSString stringWithFormat:@"%@%@",str1,str3];
+//    NSString* str5 = [str4 stringByReplacingOccurrencesOfString:@"AA" withString:str2];
+//    NSString* urlString = [self URLEncodedString:str5];
+    NSURL* url = [NSURL URLWithString:str1];//创建URL
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
 
     [web loadRequest:request];//加载
     webView = web;
     web=nil;
-    str1 = nil;/* str2 = nil; str3 = nil; str4 = nil; str5 = nil; */urlString = nil; url = nil; request = nil;
+    str1 = nil;/* str2 = nil; str3 = nil; str4 = nil; str5 = nil; urlString = nil;*/ url = nil; request = nil;
 }
 
 #pragma mark 请求活动分享信息

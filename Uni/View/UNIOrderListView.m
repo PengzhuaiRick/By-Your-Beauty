@@ -55,7 +55,7 @@
     [_myTable addSubview:nodata];
     noDataView = nodata;
     
-    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata1"]];
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
     float imgWH = KMainScreenWidth>400?60:50,
     imgX = (nodata.frame.size.width - imgWH)/2;
     img.frame = CGRectMake(imgX, 30, imgWH, imgWH);

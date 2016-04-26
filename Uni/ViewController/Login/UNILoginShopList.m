@@ -153,7 +153,7 @@
     [self dismissViewControllerAnimated:YES completion:^{
         if (myself.extra == 2) {
             [AccountManager setToken:model.token];
-            [AccountManager setUserId:@(model.userId)];
+            //[AccountManager setUserId:@(model.userId)];
             [AccountManager setShopId:@(model.shopId)];
             [AccountManager setLocalLoginName:myself.phone];
             [myself login];
@@ -178,7 +178,7 @@
             }
             if (userId>-1) {
                 [AccountManager setToken:token];
-                [AccountManager setUserId:@(userId)];
+               // [AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
                 [AccountManager setLocalLoginName:myself.phone];
                 [myself login];

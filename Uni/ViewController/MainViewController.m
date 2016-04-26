@@ -103,7 +103,7 @@
     request.rqfirstUrl=^(int code){
         dispatch_async(dispatch_get_main_queue(), ^{
              [self requestAppTips];
-           // [self requestActivityShowOrNot];
+            //[self requestActivityShowOrNot];
             [self startRequestShopInfo];//请求商家信息
             [self startRequestReward];//请求约满信息
             [self startRequestAppointInfo];//请求我已预约

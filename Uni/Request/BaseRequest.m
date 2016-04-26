@@ -37,13 +37,17 @@
             if (manager.update_type == 2)
                 cancelTitle=nil;
             
-            [UIAlertView showWithTitle:@"更新提示" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            [UIAlertView showWithTitle:@"更新提示" message:manager.detail style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 int index = 0;
                 if (cancelTitle)
                     index = 1;
                 
-                if (buttonIndex==index)
+                if (buttonIndex==index){
+                    if (manager.update_type == 2)
+                        [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
+                    
                     [[UIApplication sharedApplication]openURL:[NSURL URLWithString:manager.url]];
+                }
             }];
         }
         self.rqfirstUrl(code);
@@ -57,13 +61,14 @@
     NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:params];
 //    [dic setObject:@"ios" forKey:@"device"];
 //    [dic setObject:CURRENTVERSION forKey:@"app_version"];
-    [dic setValue:@([[AccountManager userId] intValue]) forKey:@"userId"];
+//    [dic setValue:@([[AccountManager userId] intValue]) forKey:@"userId"];
     [dic setValue:[AccountManager token] forKey:@"token"];
     
    if([[params objectForKey:@"shopId"] intValue]<1)
        [dic setValue:@([[AccountManager shopId]intValue]) forKey:@"shopId"];
     
     NSString* URL = [self spliceURL:code];
+    NSLog(@"URL :  %@    ,   params : %@",URL , dic);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
     [manager POST:URL parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {

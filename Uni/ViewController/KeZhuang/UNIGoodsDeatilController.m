@@ -72,6 +72,7 @@
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
      [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGoodsDeatilController.h"];
+    [self regirstKeyBoardNotification];
     [super viewWillAppear:animated];
 }
 
@@ -102,7 +103,7 @@
                 [self setupBottomView];
                 [self setupMyScroller];
                 [self setupTableView];
-                [self regirstKeyBoardNotification];
+                
             }
         });
     };
@@ -533,16 +534,20 @@
 
 #pragma mark 支付成功后 和后台验证
 -(void)checkTradeOrderStatus{
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIGoodsDetailRequest* req = [[UNIGoodsDetailRequest alloc]init];
     req.ctorderStatusBlock=^(int code, NSString* tip,NSError* err){
-        [UIAlertView showWithTitle:tip message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            if (code == 0) {
-                UNIOrderListController* view = [[UNIOrderListController alloc]init];
-                view.type = 1;
-                [self.navigationController pushViewController:view animated:YES];
-            }
-        }];
-
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LLARingSpinnerView RingSpinnerViewStop1];
+            [UIAlertView showWithTitle:tip message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                if (code == 0) {
+                    UNIOrderListController* view = [[UNIOrderListController alloc]init];
+                    view.type = 1;
+                    [self.navigationController pushViewController:view animated:YES];
+                }
+            }];
+        });
+        
     };
     [req postWithSerCode:@[API_URL_GetOrderStatus] params:@{@"out_trade_no":orderNo}];
 }

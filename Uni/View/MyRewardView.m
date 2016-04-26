@@ -86,7 +86,7 @@
         UIImageView* imgVIew = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
         float imgWH = KMainScreenWidth>400? 60:50,
         imgX = (view.frame.size.width - imgWH)/2,
-        imgY = 15;
+        imgY = view.frame.size.height/2 - imgWH - 10;
         imgVIew.frame = CGRectMake(imgX, imgY, imgWH, imgWH);
         [view addSubview:imgVIew];
         
@@ -101,7 +101,7 @@
         labH = lab.frame.size.height,
         labX = (view.frame.size.width - labW)/2;
         
-        lab.frame= CGRectMake(labX, CGRectGetMaxY(imgVIew.frame)+15, labW, labH);
+        lab.frame= CGRectMake(labX, CGRectGetMaxY(imgVIew.frame)+10, labW, labH);
         [view addSubview:lab];
         
          imgVIew = nil; lab = nil;view = nil;

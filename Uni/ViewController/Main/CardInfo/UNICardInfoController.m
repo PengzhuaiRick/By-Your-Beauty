@@ -114,8 +114,8 @@
                 top2.size.width = self->topView.frame.size.width - x;
                 top2.size.height =self->topLab1.frame.size.height;
                 self->topLab2.frame = top2;
-               //[self setupmidView:total and:num];
-                 [self setupmidView:1 and:1];
+                [self setupmidView:total and:num];
+                // [self setupmidView:6 and:2];
             }
         });
     };
@@ -260,35 +260,25 @@
     }
     [topView addSubview:awardBtn];
     
-    int time =total> 5 ? 5:total;
     
-    int xx = 1;
-    if (total>5) {
-       // xx = total -4;
-        if (num>0) {
-            xx = total-num>4?num:total - 4;
-        }else
-            xx = 1;
-    }
     
-    if (num<1) {
-        xx=0;
-        if (time<3) {
-            time++;
-        }
-    }else if (num == 1&& time == 1){
-        ++time;
-    }
-    float jc = (topView.frame.size.width-20 - img4W)/(time-1);
-   
+    int time =total> 5 ? 5 :total;
+    if (time >1)  --time;
+    
+    int xx = total-num>4?num:total - 4;
+    if (xx < 1) xx = 1;
+    float jc = (topView.frame.size.width-20 - img4W)/(time);
+    
+    if (total <= 1 && num <= 1) xx = 0;
+    
     float btnWH = img4H*0.6;
     float btnY =  topView.frame.size.height - 5 - btnWH;
     float lw = jc -btnWH;
-    for (int i = 0; i<time-1; i++) {
-       
+    for (int i = 0; i<time; i++) {
+        
         UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-       
-         NSString* tit = [NSString stringWithFormat:@"%i",i+xx];
+        
+        NSString* tit = [NSString stringWithFormat:@"%i",i+xx];
         [btn setTitle:tit forState:UIControlStateNormal];
         btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
         if ((i+xx) <= num) {
@@ -297,10 +287,10 @@
             [btn setBackgroundImage:[UIImage imageNamed:@"card_btn_unget"] forState:UIControlStateNormal];
         btn.frame = CGRectMake(10+(jc*i), btnY, btnWH,btnWH);
         [topView addSubview:btn];
-
-       
         
-        if (i<time-1) {
+        
+        
+        if (i<time) {
             float imgX = CGRectGetMaxX(btn.frame)-1;
             float imgH = KMainScreenWidth*5/320;
             float imgW = lw+2;
@@ -314,15 +304,15 @@
             else
                 imgName = @"card_img_line1";
             
-            if (i == time - 2) {
+            if (i == time - 1) {
                 if(total == num)
                     imgName = @"card_img_line2";
                 else{
                     if(total-xx-i ==1)
-                     imgName = @"card_img_line1";
-               
+                        imgName = @"card_img_line1";
+                    
                     if (total-xx-i>1)
-                    imgName = @"card_img_line3";
+                        imgName = @"card_img_line3";
                 }
             }
             img.image = [UIImage imageNamed:imgName];
@@ -364,14 +354,16 @@
     [myTableView addSubview:nodata];
     noDataView = nodata;
     
-    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata1"]];
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
     float imgWH = KMainScreenWidth>400?60:50,
-    imgX = (nodata.frame.size.width - imgWH)/2;
-    img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
+    imgX = (nodata.frame.size.width - imgWH)/2,
+    ImgY=nodata.frame.size.height/2 - imgWH - 10;
+    
+    img.frame = CGRectMake(imgX, ImgY, imgWH, imgWH);
     [nodata addSubview:img];
     
    // UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+10, nodata.frame.size.width, 30)];
     lab.text=@"抱歉您还没有完成的预约哦！";
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab.textAlignment = NSTextAlignmentCenter;

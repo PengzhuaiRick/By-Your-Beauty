@@ -13,7 +13,6 @@
 //#import "UNILoginViewRequest.h"
 #import "UNIHttpUrlManager.h"
 #import "UNITouristRequest.h"
-#import "AccountManager.h"
 @interface UNITouristController ()<WXApiManagerDelegate,UIScrollViewDelegate,UIWebViewDelegate>{
     UIView* shareView;
     UIView* bgView;
@@ -144,7 +143,7 @@
             }
             if (code == 0) {
                 [AccountManager setToken:token];
-                [AccountManager setUserId:@(userId)];
+                //[AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
     
             }

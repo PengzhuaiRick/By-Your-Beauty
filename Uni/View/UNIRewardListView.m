@@ -93,7 +93,7 @@
     [_myTable addSubview:nodata];
     noDataView = nodata;
     
-    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata1"]];
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
     float imgWH = KMainScreenWidth>400?60:50,
     imgX = (nodata.frame.size.width - imgWH)/2;
     img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
@@ -102,7 +102,13 @@
     //UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
    // lab.text=manager.NO_ORDER_TIPS;
-    lab.text = @"很抱歉您还没有获得奖励哦！";
+    if (self.status == -1)
+        lab.text = @"很抱歉，您暂时还没获得奖励哦！";
+    if (self.status == 0)
+        lab.text = @"很抱歉，您暂时没有未领取的奖励！";
+    if (self.status == 1)
+        lab.text = @"很抱歉，您暂时没有已领取的奖励！";
+    
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab.textAlignment = NSTextAlignmentCenter;
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];

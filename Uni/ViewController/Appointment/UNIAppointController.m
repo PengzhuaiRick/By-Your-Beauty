@@ -208,7 +208,7 @@
 //             return ;
 //         }
           UNIHttpUrlManager* httpUrl =[UNIHttpUrlManager sharedInstance];
-         [UIAlertView showWithTitle:httpUrl.IS_APPOINT message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"预约"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+         [UIAlertView showWithTitle:httpUrl.IS_APPOINT message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
              if (buttonIndex == 1) {
                  [self startAppoint];
              }
@@ -327,7 +327,7 @@
     
     NSDictionary *infoDic = @{@"OrderId":order,
                               @"shopId":@(shopView.shopId),
-                              @"useId":[AccountManager userId],
+                              @"token":[AccountManager token],
                               @"shopX":@(shopModel.x),
                               @"shopY":@(shopModel.y),
                               @"shopAddress":shopModel.address,
@@ -338,7 +338,7 @@
     
     NSDictionary* dib = @{@"time":strDate,
                           @"OrderId":order,
-                          @"useId":[AccountManager userId],
+                          @"token":[AccountManager token],
                           @"shopId":@(shopView.shopId),
                           @"shopX":@(shopModel.x),
                           @"shopY":@(shopModel.y),

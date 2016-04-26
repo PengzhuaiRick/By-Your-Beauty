@@ -17,7 +17,9 @@
     
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
-        
+    if (code != 0) {
+        if (tips.length<1) tips = @"服务器处理失败， 未知错误";
+    }
         //客妆 商品信息接口
         if ([param2 isEqualToString:API_URL_GetSellInfo]) {
              if(code == 0 ){

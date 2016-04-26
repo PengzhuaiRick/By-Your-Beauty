@@ -137,10 +137,10 @@
 #define API_URL_GetTextInfo @"file/getTextInfo"
 
 //获取游客基础信息接口
-#define API_URL_GetCustomInfo @"customer/getCustomInfo"
+#define API_URL_GetCustomInfo @"User/getCustomInfo"
 
 //设置游客基础信息接口
-#define API_URL_SetCustomInfo @"Customer/setCustomInfo"
+#define API_URL_SetCustomInfo @"User/setCustomInfo"
 
 //获取店铺列表接口
 #define API_URL_GetShopListInfo @"Shop/getShopListInfo"

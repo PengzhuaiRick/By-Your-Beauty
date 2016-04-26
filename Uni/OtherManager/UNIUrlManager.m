@@ -21,6 +21,7 @@
 -(void)initUrlManager:(NSDictionary*)dic{
     _server_url = [self safeObject:dic ForKey:@"server_url"];
     _url = [self safeObject:dic ForKey:@"url"];
+    _detail = [self safeObject:dic ForKey:@"detail"];
      _img_url = [self safeObject:dic ForKey:@"img_url"];
     _version =[[self safeObject:dic ForKey:@"version"] floatValue];
     _update_type =[[self safeObject:dic ForKey:@"update_type"] intValue];
