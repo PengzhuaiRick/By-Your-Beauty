@@ -62,10 +62,12 @@
     [nodata addSubview:img];
     
     UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 50)];
     lab.text=manager.NO_ORDER_TIPS;
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab.textAlignment = NSTextAlignmentCenter;
+    lab.lineBreakMode = 0;
+    lab.numberOfLines = 0;
     lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [nodata addSubview:lab];
     

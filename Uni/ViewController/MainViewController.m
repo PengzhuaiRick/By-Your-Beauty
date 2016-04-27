@@ -84,8 +84,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    [self setupScroller];
-    [self requestBackGroundUrl];
+     [self requestBackGroundUrl];
+   
+   
    // [self requestActivityInfo];
    // [self requestActivityShowOrNot];
 //    [self startRequestShopInfo];//请求商家信息
@@ -103,7 +104,8 @@
     request.rqfirstUrl=^(int code){
         dispatch_async(dispatch_get_main_queue(), ^{
              [self requestAppTips];
-            //[self requestActivityShowOrNot];
+             [self setupScroller];
+            [self requestActivityShowOrNot];
             [self startRequestShopInfo];//请求商家信息
             [self startRequestReward];//请求约满信息
             [self startRequestAppointInfo];//请求我已预约
@@ -727,16 +729,11 @@
 #pragma mark 获取APP提示信息
 -(void)requestAppTips{
     MainViewRequest* request1 = [[MainViewRequest alloc]init];
-    [request1 postWithoutUserIdSerCode:@[API_URL_GetAppTips]
+    [request1 postWithSerCode:@[API_URL_GetAppTips]
                        params:nil];
     request1.rqAppTips=^(NSDictionary* dic,NSString* tips,NSError* err){
-        if (dic) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
                 UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
                 [manager initHttpUrlManager:dic];
-//                NSLog(@"UNIHttpUrlManager  %@",manager);
-//            });
-        }
     };
 
 }

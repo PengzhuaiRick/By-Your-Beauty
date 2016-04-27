@@ -196,6 +196,7 @@
     [userDefaults removeObjectForKey:userShopID];
     [userDefaults removeObjectForKey:WXUnionid];
     [userDefaults removeObjectForKey:WXOpenid];
+    [userDefaults removeObjectForKey:@"appointArr"];//清除提醒本地通知
     [userDefaults synchronize];
 }
 

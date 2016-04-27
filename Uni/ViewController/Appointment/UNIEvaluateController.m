@@ -150,7 +150,7 @@
     float textW = viewW - 2*textX;
     float textH = KMainScreenWidth *120 /320;
     UITextView* textView = [[UITextView alloc]initWithFrame:CGRectMake(textX, textY, textW, textH)];
-    textView.text = @"  写下你对本次服务宝贵意见,长度在50-100字以内.";
+    textView.text = @"  写下你对本次服务宝贵意见,长度在10-100字以内.";
     textView.textColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
     textView.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];
     textView.delegate = self;
@@ -256,8 +256,11 @@
                 return ;
             }
             if (code==0) {
-                [YIToast showText:@"评论成功"];
-                [self.navigationController popViewControllerAnimated:YES];
+                [UIAlertView showWithTitle:@"提示" message:tips cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    [self.navigationController popViewControllerAnimated:YES];
+                }];
+               // [YIToast showText:@"评论成功"];
+                
             }
 
         });

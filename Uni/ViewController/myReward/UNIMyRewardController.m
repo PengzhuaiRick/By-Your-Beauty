@@ -99,27 +99,7 @@
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     float max = (KMainScreenHeight)/2 - 40;
-//    float cellH = KMainScreenWidth>400?90:80;
-//    float rest = KMainScreenWidth* 50/320;
-//    
     cellHight = max;
-//    if (indexPath.row == 0) {
-//        if (appointArr.count>0) {
-//            cellHight = cellH*appointArr.count+rest;
-//            if (appointArr.count>2)
-//                cellHight = cellH*2+rest;
-//            
-//        }else
-//             cellHight = cellH*2+rest;
-//
-//    }if (indexPath.row == 1) {
-//        if (inTimeArr.count>0) {
-//            cellHight = cellH*inTimeArr.count+rest;
-//            if (inTimeArr.count>2)
-//                cellHight = cellH*2+rest;
-//        }else
-//            cellHight = cellH*2+rest;
-//    }
     return cellHight;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -221,8 +221,20 @@
 #pragma mark 调用电话功能
 -(void)callPhoneToShop{
     UNIShopManage* manager = [UNIShopManage getShopData];
-    NSString* tel = [NSString stringWithFormat:@"tel://%@",manager.telphone];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
+    NSString* tips=[NSString stringWithFormat:@"是否拨打电话:%@",manager.telphone];;
+    NSArray* arr =@[@"拨打"];
+    if (manager.telphone.length<11){
+        tips=@"暂无店铺电话号码！";
+        arr=nil;
+    }
+    
+    [UIAlertView showWithTitle:tips message:nil cancelButtonTitle:@"取消" otherButtonTitles:arr tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if(buttonIndex>0){
+            NSString* tel = [NSString stringWithFormat:@"tel://%@",manager.telphone];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
+        }
+    }];
+   
 }
 
 #pragma mark 调用退出登录
@@ -253,6 +265,7 @@
 -(void)cleanAndJump{
     [AccountManager clearAll];
     [UNIShopManage cleanShopinfo];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     AppDelegate* delegate = [UIApplication sharedApplication].delegate;
     [delegate judgeFirstTime];
 }

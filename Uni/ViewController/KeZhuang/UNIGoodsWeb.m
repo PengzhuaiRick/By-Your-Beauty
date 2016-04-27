@@ -8,21 +8,26 @@
 
 #import "UNIGoodsWeb.h"
 #import "UNIHttpUrlManager.h"
+#import "WebViewJavascriptBridge.h"
+#import "UNIGoodsDeatilController.h"
+#import "UNIAppointController.h"
 @interface UNIGoodsWeb ()<UIWebViewDelegate,UIScrollViewDelegate>
 {
     UIWebView* webView;
 }
+@property WebViewJavascriptBridge* bridge;
 @end
+
 
 @implementation UNIGoodsWeb
 -(void)viewWillAppear:(BOOL)animated{
-    webView.delegate = self;
+   // webView.delegate = self;
     webView.scrollView.delegate = self;
     [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGoodsWeb.h"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    webView.delegate = nil;
+   // webView.delegate = nil;
     webView.scrollView.delegate = nil;
      [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGoodsWeb.h"];
     [super viewWillDisappear:animated];
@@ -47,10 +52,7 @@
     
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    //NSURL* url = [NSURL URLWithString:@"http://machineadmin.weeguu.com/html/active.html"];//创建URL
      UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-    if (!manager.APP_KZ_URL)
-        return;
     
      NSURL* url = [NSURL URLWithString:manager.APP_KZ_URL];//创建URL
     NSURLRequest* request = [[NSURLRequest alloc]initWithURL:url];
@@ -58,10 +60,37 @@
     [web loadRequest:request];//加载
     webView = web;
     
-
+    __weak id myself = self;
+    
+    self.bridge =[WebViewJavascriptBridge bridgeForWebView:webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"data  %@",data);
+    }];
+    
+    [self.bridge send:@"init" responseCallback:^(id responseData) {}];
+    
+    [self.bridge registerHandler:@"gotoAppoint" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoAppoint %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoAppoint:str :@""];
+    }];
+    
+    [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoGoodsDetail: %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoGoodsDeatil:str :@"2" :1];
+        
+    }];
+    [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoBuyProject: %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoBuyProject:str :@"2" :1];
+        
+    }];
     
     web=nil;lab = nil;url=nil;request=nil;
    }
+
+
 -(void)setupNavigation{
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
 }
@@ -85,20 +114,20 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    NSString* url = request.URL.absoluteString ;
+   // NSString* url = request.URL.absoluteString ;
     if (navigationType == UIWebViewNavigationTypeReload) {
         return YES;
     }
-    if ([url rangeOfString:@"act=app"].location != NSNotFound) {
-        NSArray* array = [url componentsSeparatedByString:@"&"];
-        NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
-        NSString* type = [array[2] componentsSeparatedByString:@"="][1];
-        //[self.navigationController popViewControllerAnimated:YES];
-        [self.delegate UNIGoodsWebDelegateMethodAndprojectId:projectId Andtype:type AndIsHeaderShow:0];
-        
-        array=nil; projectId=nil;type=nil;
-        return NO;
-    }
+//    if ([url rangeOfString:@"act=app"].location != NSNotFound && url) {
+//        NSArray* array = [url componentsSeparatedByString:@"&"];
+//        NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
+//        NSString* type = [array[2] componentsSeparatedByString:@"="][1];
+//        //[self.navigationController popViewControllerAnimated:YES];
+//        [self.delegate UNIGoodsWebDelegateMethodAndprojectId:projectId Andtype:type AndIsHeaderShow:0];
+//        
+//        array=nil; projectId=nil;type=nil;
+//        return NO;
+//    }
     return YES;
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
@@ -116,6 +145,40 @@
     [webView removeFromSuperview];
     webView = nil;
     [self.navigationController popViewControllerAnimated:YES];
+}
+#pragma mark 调转预约界面
+-(void)gotoAppoint:(NSString *)ProjectId :(NSString *)Type{
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+    appoint.projectId = ProjectId;
+    [self.navigationController pushViewController:appoint animated:YES];
+    appoint=nil;
+    story=nil;
+}
+
+#pragma mark 调转客妆界面
+-(void)gotoGoodsDeatil:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+    good.projectId = ProjectId;
+    good.type = Type;
+    good.isHeadShow = isH;
+    [self.navigationController pushViewController:good animated:YES];
+    kz=nil;
+    good=nil;
+}
+#pragma mark 调转客妆界面
+-(void)gotoBuyProject:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+    good.projectId = ProjectId;
+    good.type = Type;
+    good.isHeadShow = isH;
+    [self.navigationController pushViewController:good animated:YES];
+    kz=nil;
+    good=nil;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

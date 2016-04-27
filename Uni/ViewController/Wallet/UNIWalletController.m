@@ -52,12 +52,6 @@
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
     //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
     NSString* str1 = [UNIHttpUrlManager sharedInstance].MY_YH_URL;
-//    NSString* str2 = [[AccountManager userId]stringValue];
-//    NSString* str3 =@"&json={%22userId%22:%22AA%22}";
-//    NSString* str4 = [NSString stringWithFormat:@"%@%@",str1,str3];
-//    NSString* str5 = [str4 stringByReplacingOccurrencesOfString:@"AA" withString:str2];
-//    NSString* urlString = [self URLEncodedString:str5];
-   //  NSString* urlString = str5;
     NSURL* url = [NSURL URLWithString:str1];//创建URL
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
@@ -105,7 +99,7 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString* url = request.URL.absoluteString ;
-    if ([url rangeOfString:@"act=app"].location != NSNotFound) {
+    if ([url rangeOfString:@"act=app"].location != NSNotFound && url) {
         NSArray* array = [url componentsSeparatedByString:@"&"];
         NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
         NSString* type = [array[2] componentsSeparatedByString:@"="][1];

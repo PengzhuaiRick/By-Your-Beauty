@@ -26,7 +26,7 @@
 //#import "UNIHttpUrlManager.h"
 #import "BaiduMobStat.h"
 #import "UNIUrlManager.h"
-
+#import "UNITransfromX&Y.h"
 @interface AppDelegate (){
     UIImageView* imag;
     __block UIBackgroundTaskIdentifier background_task;
@@ -153,55 +153,7 @@
         });
         
     };
-    // [self performSelector:@selector(judgeFirstTime) withObject:nil afterDelay:2.0f];
-    
-//    UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
-//    [model postWithoutUserIdSerCode:@[API_PARAM_UNI,
-//                             API_URL_CheckVersion]
-//                    params:@{@"type":@(2)}];
-//    model.reqheckVersion=^(NSString* version,
-//                           NSString* url,
-//                           NSString* desc,
-//                           NSString*tips,
-//                           int type,
-//                           NSError* er){
-//        if (er==nil) {
-////            url = @"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1077238256";
-//            NSString *curVersion = CURRENTVERSION;      //获取项目版本号
-//            float curVersinNum = curVersion.floatValue;
-//            float versionNum = version.floatValue;
-//            
-//            if (versionNum <= curVersinNum)
-//                return ;
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//#ifdef IS_IOS9_OR_LATER
-//                UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"更新提示" message:desc preferredStyle:UIAlertControllerStyleAlert];
-//                if (type == 1) {
-//                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-//                    [alertController addAction:cancelAction];
-//                }
-//               
-//                UIAlertAction *checkAction = [UIAlertAction actionWithTitle:@"更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//                    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
-//                }];
-//                [alertController addAction:checkAction];
-//                
-//                
-//                [self.window.rootViewController presentViewController:alertController animated:YES completion:nil];
-//#else
-//                
-//                NSString* cancelTitle =@"取消";
-//                if (type == 1)
-//                    cancelTitle=nil;
-//                
-//                [UIAlertView showWithTitle:@"更新提示" message:desc style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-//                    if (buttonIndex>0)
-//                        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:url]];
-//                }];
-//#endif
-//            });
-//        }
-//    };
+ 
 }
 
 #pragma mark 请求欢迎页面图片
@@ -416,9 +368,10 @@
                 NSMutableArray* arr = [NSMutableArray arrayWithArray:[userD objectForKey:@"appointArr"]] ;
                 for (int i = 0;i<arr.count;i++) {
                     NSDictionary* noti = arr[i];
-                     double shopX =[[noti objectForKey:@"shopX"] doubleValue];
+                    double shopX =[[noti objectForKey:@"shopX"] doubleValue];
                     double shopY =[[noti objectForKey:@"shopY"] doubleValue];
-                    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:shopX longitude:shopY];
+                    NSArray* XY= [UNITransfromX_Y bd_decrypt:shopX and:shopY];
+                    CLLocation* otherLocation = [[CLLocation alloc] initWithLatitude:[XY[0] doubleValue] longitude:[XY[1] doubleValue]];
                     double distance  = [curLocation distanceFromLocation:otherLocation];
                     if (distance<500) {
                         UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];

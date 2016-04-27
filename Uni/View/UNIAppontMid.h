@@ -13,8 +13,8 @@
 @end
 
 #import <UIKit/UIKit.h>
-#import "UNIAddMyAppointCell.h"
-@interface UNIAppontMid : UIView<UITableViewDataSource,UITableViewDelegate,SWTableViewCellDelegate,UNIAppontMidDelegate>{
+//#import "UNIAddMyAppointCell.h"
+@interface UNIAppontMid : UIView<UITableViewDataSource,UITableViewDelegate,UNIAppontMidDelegate>{
    
 }
 

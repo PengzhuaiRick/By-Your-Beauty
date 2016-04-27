@@ -14,6 +14,7 @@
 #import "UNIAppointController.h"
 #import "UNITouristRequest.h"
 #import "UNIGoodsDeatilController.h"
+#import "WebViewJavascriptBridge.h"
 @interface UNIGiftController ()<UIWebViewDelegate,UIScrollViewDelegate>{
     UIView* shareView;
     UIView* bgView;
@@ -27,6 +28,7 @@
 }
 @property(nonatomic,assign)int activityId;
 @property(nonatomic,strong)UNITouristModel* myModel;
+@property WebViewJavascriptBridge* bridge;
 @end
 
 @implementation UNIGiftController
@@ -38,8 +40,7 @@
         }
     }
     array=nil;
-    webView.delegate = self;
-    webView.scrollView.delegate = self;
+    [self setupUI];
      [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGiftController.h"];
     [super viewWillAppear:animated];
     
@@ -52,8 +53,9 @@
         }
     }
     array = nil;
-    webView.delegate = nil;
+    
     webView.scrollView.delegate = nil;
+    [webView removeFromSuperview];
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGiftController.h"];
     [super viewWillDisappear:animated];
 }
@@ -62,26 +64,49 @@
     [super viewDidLoad];
     [self setupNavigation];
     
+}
+
+-(void)setupUI{
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
-    web.delegate = self;
+    // web.delegate = self;
     web.scrollView.delegate = self;
     web.scrollView.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     [self.view addSubview:web];
     web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-    //NSString* str1 = @"http://uni.dodwow.com/uni_api/api.php?c=WX&a=gotoLibao&json={%22userId%22:%22AA%22}";
     NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_LIBAO_URL;
-//    NSString* str2 = [[AccountManager userId]stringValue];
-//    NSString* str3 =@"&json={%22userId%22:%22AA%22}";
-//    NSString* str4 = [NSString stringWithFormat:@"%@%@",str1,str3];
-//    NSString* str5 = [str4 stringByReplacingOccurrencesOfString:@"AA" withString:str2];
-//    NSString* urlString = [self URLEncodedString:str5];
     NSURL* url = [NSURL URLWithString:str1];//创建URL
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
-
+    
     [web loadRequest:request];//加载
     webView = web;
-    web=nil;
-    str1 = nil;/* str2 = nil; str3 = nil; str4 = nil; str5 = nil; urlString = nil;*/ url = nil; request = nil;
+    __weak id myself = self;
+    
+    self.bridge =[WebViewJavascriptBridge bridgeForWebView:web webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"data  %@",data);
+    }];
+    
+    [self.bridge send:@"init" responseCallback:^(id responseData) {}];
+    
+    
+    [self.bridge registerHandler:@"gotoAppoint" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoAppoint %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoAppoint:str :@""];
+    }];
+    
+    [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoGoodsDetail: %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoGoodsDeatil:str :@"2" :0];
+        
+    }];
+    [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoBuyProject: %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoBuyProject:str :@"2" :0];
+        
+    }];
+
 }
 
 #pragma mark 请求活动分享信息
@@ -130,7 +155,10 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
     self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
     [LLARingSpinnerView RingSpinnerViewStop1];
+  
+    
 }
+
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);
 }
@@ -142,61 +170,77 @@
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_function"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
     rightBar =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
+    self.navigationItem.rightBarButtonItem = rightBar;
 }
 - (BOOL)webView:(UIWebView *)webView1 shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
     NSString* url = request.URL.absoluteString ;
     NSLog(@"request.URL.absoluteString  %@",url);
-    
-    self.navigationItem.rightBarButtonItem = nil;
-    [self changeLeftBarImage];
-//    if([url rangeOfString:@"id=20&"].location !=NSNotFound){
-//        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
-//        shareTitle = urlManager.APP_BWHL_SHARE_TITLE;
-//        shareDesc =urlManager.APP_BWHL_SHARE_DESC;
-//        shareImg =urlManager.APP_BWHL_SHARE_IMG;
-//        
-//        NSString* str1 = urlManager.MY_LIBAO_SHARE_URL;
-//        NSString* str2 = [[AccountManager userId]stringValue];
-//        NSString* str3 = [str1 stringByReplacingOccurrencesOfString:@"###" withString:str2];
-//        shareUrl= [self URLEncodedString:str3];
+//
+//    self.navigationItem.rightBarButtonItem = nil;
+//    [self changeLeftBarImage];
+//    if([url rangeOfString:@"id="].location !=NSNotFound && url){
+//        NSArray* arr = [url componentsSeparatedByString:@"id="];
+//        NSString* str1 = arr[1];
+//        NSRange ran = [str1 rangeOfString:@"&"];
+//         NSString* str2 = [str1 substringToIndex:ran.location];
+//        self.activityId = str2.intValue;
+//        //self.activityId =2;
+//        NSLog(@" self.activityId  %d",self.activityId);
 //        self.navigationItem.rightBarButtonItem = rightBar;
+//        self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"main_btn_back"];
 //        
 //    }
-//    if([url rangeOfString:@"id=11&"].location !=NSNotFound){
-//        UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
-//        shareTitle = urlManager.APP_HB_SHARE_TITLE;
-//        shareDesc =urlManager.APP_HB_SHARE_DESC;
-//        shareImg =urlManager.APP_HB_SHARE_IMG;
-//        shareUrl = urlManager.WX_HB_URL;
-//        self.navigationItem.rightBarButtonItem = rightBar;
+//    if ([url rangeOfString:@"act=app"].location != NSNotFound && url) {
+//        NSArray* array = [url componentsSeparatedByString:@"&"];
+//        NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
+//        NSString* type = [array[2] componentsSeparatedByString:@"="][1];
+//        if ([type isEqualToString:@"1"])
+//            [self gotoUNIAppointControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
+//        if ([type isEqualToString:@"2"])
+//            [self gotoUNIGoodsDeatilControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
+//        array=nil; projectId=nil;type=nil;
+//        return NO;
 //    }
-    if([url rangeOfString:@"id="].location !=NSNotFound){
-        NSArray* arr = [url componentsSeparatedByString:@"id="];
-        NSString* str1 = arr[1];
-        NSRange ran = [str1 rangeOfString:@"&"];
-         NSString* str2 = [str1 substringToIndex:ran.location];
-        self.activityId = str2.intValue;
-        //self.activityId =2;
-        NSLog(@" self.activityId  %d",self.activityId);
-        self.navigationItem.rightBarButtonItem = rightBar;
-        self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"main_btn_back"];
-        
-    }
-    if ([url rangeOfString:@"act=app"].location != NSNotFound) {
-        NSArray* array = [url componentsSeparatedByString:@"&"];
-        NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
-        NSString* type = [array[2] componentsSeparatedByString:@"="][1];
-        if ([type isEqualToString:@"1"])
-            [self gotoUNIAppointControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
-        if ([type isEqualToString:@"2"])
-            [self gotoUNIGoodsDeatilControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
-        array=nil; projectId=nil;type=nil;
-        return NO;
-    }
     
     return YES;
 }
+#pragma mark 调转预约界面
+-(void)gotoAppoint:(NSString *)ProjectId :(NSString *)Type{
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+    appoint.projectId = ProjectId;
+    [self.navigationController pushViewController:appoint animated:YES];
+    appoint=nil;
+    story=nil;
+}
+
+#pragma mark 调转客妆界面
+-(void)gotoGoodsDeatil:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+    good.projectId = ProjectId;
+    good.type = Type;
+    good.isHeadShow = isH;
+    [self.navigationController pushViewController:good animated:YES];
+    kz=nil;
+    good=nil;
+}
+#pragma mark 调转客妆界面
+-(void)gotoBuyProject:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+    good.projectId = ProjectId;
+    good.type = Type;
+    good.isHeadShow = isH;
+    [self.navigationController pushViewController:good animated:YES];
+    kz=nil;
+    good=nil;
+}
+
+
 -(void)gotoUNIAppointControllerprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];

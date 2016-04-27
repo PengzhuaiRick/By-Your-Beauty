@@ -71,6 +71,7 @@
     UISearchBar * bar = [[UISearchBar alloc]initWithFrame:CGRectMake(0, 64, KMainScreenWidth, 40)];
     bar.delegate =self;
    // self.navigationItem.titleView = bar;
+    bar.placeholder = @"店铺名称或地址";
     [self.view addSubview:bar];
     
     BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
