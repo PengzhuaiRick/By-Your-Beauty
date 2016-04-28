@@ -123,7 +123,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code == 3) {
+            if (code == 4) {
                 self.fourthCell.hidden = YES;
                 
                 float btnX = self->loginBtn.frame.origin.x;
@@ -164,16 +164,25 @@
                                  [UIAlertView showWithTitle:@"登陆失败" message:tips style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {                                 }];
                                  return ;
                              }
-                             UNILoginShopModel* model = array[0];
-                             //保存信息
-                             [AccountManager setToken:model.token];
-                             //[AccountManager setUserId:@(model.userId)];
-                             [AccountManager setShopId:@(model.shopId)];
-                             //[AccountManager setLocalLoginName:@"13267208242"];
-                             
-                             
-                             [self log:nil];
-                         }else
+                             if(array.count==1){
+                                 UNILoginShopModel* model = array[0];
+                                 //保存信息
+                                 [AccountManager setToken:model.token];
+                                 //[AccountManager setUserId:@(model.userId)];
+                                 [AccountManager setShopId:@(model.shopId)];
+                                 //[AccountManager setLocalLoginName:@"13267208242"];
+                                 
+                                 [self log:nil];
+                             }else if (array.count>1){
+                                 UNILoginShopList* list = [[UNILoginShopList alloc]init];
+                                 list.extra = extra;
+                                 list.phone = @"13267208242";
+                                 list.randcode = @"000000";
+                                 list.myData = [NSMutableArray arrayWithArray:array];
+                                 UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:list];
+                                 [self presentViewController:nav animated:YES completion:nil];
+                             }
+                        }else
                              [YIToast showText:NETWORKINGPEOBLEM];
                          // [YIToast showWithText:tips];
                      };

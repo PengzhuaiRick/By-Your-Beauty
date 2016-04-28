@@ -78,17 +78,28 @@
     _webView = web;
     web = nil;
 }
+-(void)wxShare:(UNITouristModel*)model andStyle:(int)style{
+    WXMediaMessage* message = [WXMediaMessage message];
+    message.title = model.shareTitle;
+    message.description =model.shareDetail;
+    [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.logoUrl]]]];
+    
+    WXWebpageObject* web = [WXWebpageObject object];
+    web.webpageUrl = model.shareUrl;
+    message.mediaObject = web;
+    SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
+    rep.bText = NO;
+    if (style == 1)
+        rep.scene = WXSceneSession;
+    if (style == 2)
+        rep.scene = WXSceneTimeline;
+    rep.message = message;
+    [WXApi sendReq:rep];
+    [self hidenShareView];
+}
 
 #pragma mark 微信授权登录
 -(void)setupWX{
-    if (!self->myModel) {
-        return;
-    }
-     wxUnionid=[AccountManager unionid];
-    if (wxUnionid) {
-        [self startShare];
-        return;
-    }
     [WXApiManager sharedManager].delegate = self;
     
     SendAuthReq* req =[[SendAuthReq alloc] init];
@@ -102,38 +113,54 @@
             viewController:self
                   delegate:[WXApiManager sharedManager]];
     }
-
+    
 }
 #pragma mark 授权成功 调用微信接口获取 unionid
 - (void)managerDidRecvAuthResponse:(SendAuthResp *)response {
-   
+    
     //NSLog(@"%@",[NSString stringWithFormat:@"code:%@,state:%@,errcode:%d", response.code, response.state, response.errCode]);
     NSString* URL =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code",WECHATAPPID,WECHATAPPSecret,response.code];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"text/plain"]];
     [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        NSLog(@"responseObject  %@",responseObject);
+        NSLog(@"授权成功 调用微信接口获取 unionid  %@",responseObject);
         NSString* str = [responseObject objectForKey:@"openid"];
         NSString* str1 = [responseObject objectForKey:@"unionid"];
+        NSString* str2 = [responseObject objectForKey:@"access_token"];
         if (str&&str1) {
             self->wxOpenid = str;
             self->wxUnionid = str1;
-            [AccountManager setOpenid:str];
-            [AccountManager setUnionid:str1];
-            [self setupCustomInfoAPI];
-            [self startShare];
+            [self requestWxNikeName:str2];
+            [self wxShare:self->myModel andStyle:self->shareStyle];
+            // [self setupCustomInfoAPI];
         }
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
-    
+        
     }];
-    
+}
+
+#pragma mark 请求微信用户的 nickname
+-(void)requestWxNikeName:(NSString*)token{
+    NSString* URL =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",token,wxOpenid];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"text/plain"]];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"请求微信用户的 nickname  %@",responseObject);
+        NSString* str = [responseObject objectForKey:@"nickname"];
+        if (str)
+            [self setupCustomInfoAPI:str];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        
+    }];
     
 }
 
 #pragma mark 调用设置游客信息
--(void)setupCustomInfoAPI{
+-(void)setupCustomInfoAPI:(NSString*)nikeName{
     UNITouristRequest* rq = [[UNITouristRequest alloc]init];
     rq.setTouristBlock=^(int code,int userId,int shopId,NSString* token,NSString* tel,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -145,7 +172,7 @@
                 [AccountManager setToken:token];
                 //[AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
-    
+                
             }
             else {
                 [UIAlertView showWithTitle:@"提示" message:tips cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -154,9 +181,10 @@
             }
         });
     };
-    [rq postWithSerCode:@[API_URL_SetCustomInfo] params:@{@"openId":wxOpenid,@"unionId":wxUnionid}];
- 
+    [rq postWithSerCode:@[API_URL_SetCustomInfo] params:@{@"openId":wxOpenid,@"unionId":wxUnionid,@"nickname":nikeName}];
+    
 }
+
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
@@ -236,7 +264,10 @@
              //UNIHttpUrlManager* urlManager =[UNIHttpUrlManager sharedInstance];
              
              self->shareStyle = (int)x.tag;
-             [self setupWX];
+             if (self->myModel.isWeixinAuth < 1) {
+                 [self wxShare:self->myModel andStyle:self->shareStyle];
+             }else
+                 [self setupWX];
          }];
         
         float labX =btnxx-5;

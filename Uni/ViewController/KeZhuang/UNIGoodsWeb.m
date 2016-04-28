@@ -77,13 +77,13 @@
     [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"gotoGoodsDetail: %@", data);
         NSString* str = [data objectForKey:@"projectId"];
-        [myself gotoGoodsDeatil:str :@"2" :1];
+        [myself gotoGoodsDeatil:str :@"2" :0];
         
     }];
     [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"gotoBuyProject: %@", data);
         NSString* str = [data objectForKey:@"projectId"];
-        [myself gotoBuyProject:str :@"2" :1];
+        [myself gotoBuyProject:str :@"3" :0];
         
     }];
     

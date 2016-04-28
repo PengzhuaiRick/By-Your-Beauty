@@ -11,5 +11,6 @@
 @interface UNIRewardProgessView : UIView
 @property(nonatomic,assign)int num;
 @property(nonatomic,assign)int total;
--(void)setNum:(int)num andTotal:(int)total;
+//-(void)setNum:(int)num andTotal:(int)total;
+-(void)setNum:(int)num andTotal:(int)total andStatue:(int)status;
 @end

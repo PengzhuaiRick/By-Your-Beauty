@@ -22,5 +22,6 @@
     self.shareTitle = [self safeObject:dic ForKey:@"shareTitle"];
     self.shareUrl = [self safeObject:dic ForKey:@"shareUrl"];
     self.activityUrl = [self safeObject:dic ForKey:@"activityUrl"];
+    self.isWeixinAuth = [[self safeObject:dic ForKey:@"isWeixinAuth"] intValue];
 }
 @end

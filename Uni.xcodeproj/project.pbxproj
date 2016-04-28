@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		18014C7C1C28F991006A0489 /* WXApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18014C7B1C28F991006A0489 /* WXApiManager.m */; };
+		1807E9431CD23F08005C533E /* UNIAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1807E9421CD23F08005C533E /* UNIAuthorizationManager.m */; };
 		1808385A1BFACDA200727B61 /* UIColor+HexString.m in Sources */ = {isa = PBXBuildFile; fileRef = 180838591BFACDA200727B61 /* UIColor+HexString.m */; };
 		1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1808385C1BFAE63600727B61 /* UNIMyProjectModel.m */; };
 		180CD3891BDF180A00C912FE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 180CD3881BDF180A00C912FE /* main.m */; };
@@ -196,6 +197,8 @@
 /* Begin PBXFileReference section */
 		18014C7A1C28F991006A0489 /* WXApiManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXApiManager.h; sourceTree = "<group>"; };
 		18014C7B1C28F991006A0489 /* WXApiManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXApiManager.m; sourceTree = "<group>"; };
+		1807E9411CD23F08005C533E /* UNIAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAuthorizationManager.h; sourceTree = "<group>"; };
+		1807E9421CD23F08005C533E /* UNIAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAuthorizationManager.m; sourceTree = "<group>"; };
 		180838581BFACDA200727B61 /* UIColor+HexString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HexString.h"; sourceTree = "<group>"; };
 		180838591BFACDA200727B61 /* UIColor+HexString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HexString.m"; sourceTree = "<group>"; };
 		1808385B1BFAE63600727B61 /* UNIMyProjectModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMyProjectModel.h; sourceTree = "<group>"; };
@@ -1222,6 +1225,8 @@
 				18D5F1AD1C8848FA0033553D /* UNITransfromX&Y.m */,
 				18D410451CC6154C0086FC76 /* UNIUrlManager.h */,
 				18D410461CC6154C0086FC76 /* UNIUrlManager.m */,
+				1807E9411CD23F08005C533E /* UNIAuthorizationManager.h */,
+				1807E9421CD23F08005C533E /* UNIAuthorizationManager.m */,
 			);
 			path = OtherManager;
 			sourceTree = "<group>";
@@ -1648,6 +1653,7 @@
 				1827CEB71C157CAD00A40B45 /* UNIRewardListController.m in Sources */,
 				18E436AE1C8152E900B125AC /* UNIShopListController.m in Sources */,
 				18E3028E1C17DCD600990A14 /* UNIGoodsCell1.m in Sources */,
+				1807E9431CD23F08005C533E /* UNIAuthorizationManager.m in Sources */,
 				18EC2E0E1C4A15B900A81DD9 /* UNIGiftController.m in Sources */,
 				18E14C321C0471DE00AA36C8 /* UNIAppointTop.m in Sources */,
 				18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */,
@@ -1870,7 +1876,6 @@
 					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
-					"\"${PODS_ROOT}/Headers/Public/SWTableViewCell\"",
 					"/Users/apple/Desktop/Uni\\ 10/Uni/Library/AliPay",
 				);
 				INFOPLIST_FILE = Uni/Info.plist;
@@ -1890,7 +1895,6 @@
 					"-l\"MJRefresh\"",
 					"-l\"ReactiveCocoa\"",
 					"-l\"SDWebImage\"",
-					"-l\"SWTableViewCell\"",
 					"-l\"sqlite3\"",
 					"-framework",
 					"\"CoreGraphics\"",
@@ -1935,7 +1939,6 @@
 					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
-					"\"${PODS_ROOT}/Headers/Public/SWTableViewCell\"",
 					"/Users/apple/Desktop/Uni\\ 10/Uni/Library/AliPay",
 				);
 				INFOPLIST_FILE = Uni/Info.plist;
@@ -1955,7 +1958,6 @@
 					"-l\"MJRefresh\"",
 					"-l\"ReactiveCocoa\"",
 					"-l\"SDWebImage\"",
-					"-l\"SWTableViewCell\"",
 					"-l\"sqlite3\"",
 					"-framework",
 					"\"CoreGraphics\"",

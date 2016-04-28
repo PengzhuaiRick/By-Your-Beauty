@@ -13,10 +13,10 @@
 #import <MJRefresh/MJRefresh.h>
 //#import "UNIAppointController.h"
 #import "UNIAppointDetail.h"
+#import "UNIHttpUrlManager.h"
 @interface MainMidController ()
 {
-    //int pageNum;
-    //int pageSize;
+    UIView* noData;
 }
 @end
 
@@ -46,7 +46,7 @@
     [self setupNavigation];
     [self setupParams];
     [self setupMJReflash];
-    
+    [self setupNodataView];
     [self.tableView.header beginRefreshing];
 }
 
@@ -98,17 +98,28 @@
     // Dispose of any resources that can be recreated.
 }
 
-//-(void)setupTableviewHeader:(NSString*)string{
-//    UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.tableView.frame.size.width, KMainScreenWidth*0.06)];
-//    view.image =[UIImage imageNamed:@"mian_img_cellH"];
-//    UILabel* lab = [[UILabel alloc]initWithFrame:
-//                    CGRectMake(10, 5,  self.tableView.frame.size.width-10, KMainScreenWidth*0.05)];
-//    lab.text=string;
-//    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-//    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*0.043];
-//    [view addSubview:lab];
-//    self.tableView.tableHeaderView = view;
-//}
+-(void)setupNodataView{
+    
+    UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0,20, self.tableView.frame.size.width, self.tableView.frame.size.height)];
+    [self.tableView addSubview:nodata];
+    noData = nodata;
+    
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
+    float imgWH = KMainScreenWidth>400?60:50,
+    imgX = (nodata.frame.size.width - imgWH)/2;
+    img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
+    [nodata addSubview:img];
+    
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
+    lab.text = [UNIHttpUrlManager sharedInstance].APPOINT_DESC;
+    
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    [nodata addSubview:lab];
+    
+    nodata=nil;img=nil; lab=nil;
+}
 
 -(void)setupTableviewFootView{
     UIView* bView = [[UIView alloc]initWithFrame:CGRectMake(0, 0,  self.tableView.frame.size.width, 5)];
@@ -182,8 +193,7 @@
                         [myself.tableView.footer endRefreshingWithNoMoreData];
                     
                     [myself.myData addObjectsFromArray:myAppointArr];
-                    [myself.tableView reloadData];
-                    
+                    [myself changeUI];
                     
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
@@ -192,6 +202,10 @@
     });
 }
 
+-(void)changeUI{
+    noData.hidden = _myData.count>0;
+    [self.tableView reloadData];
+}
 
 
 @end

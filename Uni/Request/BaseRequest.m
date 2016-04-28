@@ -74,6 +74,16 @@
     [manager POST:URL parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
       //  NSDictionary *content = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"code  %@   content  %@ ",code[0],responseObject);
+        
+        int resultcode = [[self safeObject:dic ForKey:@"code"] intValue];
+        if (resultcode == -1) {
+            [manager.operationQueue cancelAllOperations];
+            [UIAlertView showWithTitle:@"提示" message:@"您授权码已过期！请重新登录" cancelButtonTitle:@"知道" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
+            }];
+            return ;
+        }
+
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
             [self requestSucceed:responseObject andIdenCode:code];
         }

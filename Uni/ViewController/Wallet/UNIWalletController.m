@@ -11,9 +11,12 @@
 #import "UNIHttpUrlManager.h"
 #import "AccountManager.h"
 #import "UNIGoodsDeatilController.h"
+#import "UNIAppointController.h"
+#import "WebViewJavascriptBridge.h"
 @interface UNIWalletController ()<UIWebViewDelegate,UIScrollViewDelegate>{
     UIWebView* _webView;
 }
+@property WebViewJavascriptBridge* bridge;
 @end
 
 @implementation UNIWalletController
@@ -44,7 +47,7 @@
     [self setupNavigation];
 
     UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
-    web.delegate = self;
+   // web.delegate = self;
     web.scrollView.delegate = self;
     web.scrollView.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
     [self.view addSubview:web];
@@ -56,6 +59,35 @@
     NSURLRequest* request = [NSURLRequest requestWithURL:url];
     
     [web loadRequest:request];//加载
+    
+    __weak id myself = self;
+    
+    self.bridge =[WebViewJavascriptBridge bridgeForWebView:web webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"data  %@",data);
+    }];
+    
+    [self.bridge send:@"init" responseCallback:^(id responseData) {}];
+    
+    
+    [self.bridge registerHandler:@"gotoAppoint" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoAppoint %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoAppoint:str :@""];
+    }];
+    
+    [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoGoodsDetail: %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoGoodsDeatil:str :@"2" :0];
+        
+    }];
+    [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
+        NSLog(@"gotoBuyProject: %@", data);
+        NSString* str = [data objectForKey:@"projectId"];
+        [myself gotoBuyProject:str :@"3" :0];
+        
+    }];
+
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
@@ -121,7 +153,40 @@
     kz=nil;
     good=nil;
 }
+#pragma mark 调转预约界面
+-(void)gotoAppoint:(NSString *)ProjectId :(NSString *)Type{
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+    appoint.projectId = ProjectId;
+    [self.navigationController pushViewController:appoint animated:YES];
+    appoint=nil;
+    story=nil;
+}
 
+#pragma mark 调转客妆界面
+-(void)gotoGoodsDeatil:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+    good.projectId = ProjectId;
+    good.type = Type;
+    good.isHeadShow = isH;
+    [self.navigationController pushViewController:good animated:YES];
+    kz=nil;
+    good=nil;
+}
+#pragma mark 调转客妆界面
+-(void)gotoBuyProject:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+    good.projectId = ProjectId;
+    good.type = Type;
+    good.isHeadShow = isH;
+    [self.navigationController pushViewController:good animated:YES];
+    kz=nil;
+    good=nil;
+}
 
 - (NSString *)URLEncodedString:(NSString*)STR
 {

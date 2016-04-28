@@ -82,7 +82,6 @@
     LAY=nil;lab4=nil; lab2=nil; lab1=nil;view=nil;
 }
 
-
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
     
@@ -125,7 +124,7 @@
 //    self.progessView.total = info.rewardNum;
     
 //    total = info.rewardNum;
-    [self.progessView setNum:total andTotal:info.rewardNum];
+    [self.progessView setNum:total andTotal:info.rewardNum andStatue:info.status];
     
     info = nil;
 }

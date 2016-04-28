@@ -15,7 +15,14 @@
 #import "UNITouristRequest.h"
 #import "UNIGoodsDeatilController.h"
 #import "WebViewJavascriptBridge.h"
-@interface UNIGiftController ()<UIWebViewDelegate,UIScrollViewDelegate>{
+//#import "UNIAuthorizationManager.h"
+#import "WXApiManager.h"
+#import "UNIShopManage.h"
+#import "AccountManager.h"
+//#import "UNILoginViewRequest.h"
+#import "UNIHttpUrlManager.h"
+#import "UNITouristRequest.h"
+@interface UNIGiftController ()<UIWebViewDelegate,UIScrollViewDelegate,WXApiManagerDelegate>{
     UIView* shareView;
     UIView* bgView;
     UIWebView* webView;
@@ -25,6 +32,10 @@
     NSString* shareImg;
     NSString* shareUrl;
     UIBarButtonItem* rightBar;
+    
+    NSString* wxUnionid;
+    NSString* wxOpenid;
+    int btnTag;
 }
 @property(nonatomic,assign)int activityId;
 @property(nonatomic,strong)UNITouristModel* myModel;
@@ -63,7 +74,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    
+    //[self setupUI];
 }
 
 -(void)setupUI{
@@ -103,7 +114,7 @@
     [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"gotoBuyProject: %@", data);
         NSString* str = [data objectForKey:@"projectId"];
-        [myself gotoBuyProject:str :@"2" :0];
+        [myself gotoBuyProject:str :@"3" :0];
         
     }];
 
@@ -120,35 +131,59 @@
                 return ;
             }
             if (model) {
-              //  myself.myModel = model;
+                myself.myModel = model;
+                if (model.isWeixinAuth <1)
+                    [myself wxShare:model andStyle:style];
+                else
+                    [myself setupWX];
                 
-                WXMediaMessage* message = [WXMediaMessage message];
-//                message.title = self->shareTitle;
-//                message.description =self->shareDesc;
-//                [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self->shareImg]]]];
-                message.title = model.shareTitle;
-                message.description =model.shareDetail;
-                [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.logoUrl]]]];
-                
-                WXWebpageObject* web = [WXWebpageObject object];
-               // web.webpageUrl = self->shareUrl;
-                 web.webpageUrl = model.shareUrl;
-                message.mediaObject = web;
-                SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
-                rep.bText = NO;
-                if (style == 1)
-                    rep.scene = WXSceneSession;
-                if (style == 2)
-                    rep.scene = WXSceneTimeline;
-                rep.message = message;
-                [WXApi sendReq:rep];
-                [myself hidenShareView];
+//                WXMediaMessage* message = [WXMediaMessage message];
+////                message.title = self->shareTitle;
+////                message.description =self->shareDesc;
+////                [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self->shareImg]]]];
+//                message.title = model.shareTitle;
+//                message.description =model.shareDetail;
+//                [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.logoUrl]]]];
+//                
+//                WXWebpageObject* web = [WXWebpageObject object];
+//               // web.webpageUrl = self->shareUrl;
+//                 web.webpageUrl = model.shareUrl;
+//                message.mediaObject = web;
+//                SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
+//                rep.bText = NO;
+//                if (style == 1)
+//                    rep.scene = WXSceneSession;
+//                if (style == 2)
+//                    rep.scene = WXSceneTimeline;
+//                rep.message = message;
+//                [WXApi sendReq:rep];
+//                [myself hidenShareView];
             }
         });
     };
     [rq postWithSerCode:@[API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];
-    
 }
+
+-(void)wxShare:(UNITouristModel*)model andStyle:(int)style{
+    WXMediaMessage* message = [WXMediaMessage message];
+    message.title = model.shareTitle;
+    message.description =model.shareDetail;
+    [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.logoUrl]]]];
+    
+    WXWebpageObject* web = [WXWebpageObject object];
+    web.webpageUrl = model.shareUrl;
+    message.mediaObject = web;
+    SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
+    rep.bText = NO;
+    if (style == 1)
+        rep.scene = WXSceneSession;
+    if (style == 2)
+        rep.scene = WXSceneTimeline;
+    rep.message = message;
+    [WXApi sendReq:rep];
+    [self hidenShareView];
+}
+
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 }
@@ -176,32 +211,6 @@
 {
     NSString* url = request.URL.absoluteString ;
     NSLog(@"request.URL.absoluteString  %@",url);
-//
-//    self.navigationItem.rightBarButtonItem = nil;
-//    [self changeLeftBarImage];
-//    if([url rangeOfString:@"id="].location !=NSNotFound && url){
-//        NSArray* arr = [url componentsSeparatedByString:@"id="];
-//        NSString* str1 = arr[1];
-//        NSRange ran = [str1 rangeOfString:@"&"];
-//         NSString* str2 = [str1 substringToIndex:ran.location];
-//        self.activityId = str2.intValue;
-//        //self.activityId =2;
-//        NSLog(@" self.activityId  %d",self.activityId);
-//        self.navigationItem.rightBarButtonItem = rightBar;
-//        self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"main_btn_back"];
-//        
-//    }
-//    if ([url rangeOfString:@"act=app"].location != NSNotFound && url) {
-//        NSArray* array = [url componentsSeparatedByString:@"&"];
-//        NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
-//        NSString* type = [array[2] componentsSeparatedByString:@"="][1];
-//        if ([type isEqualToString:@"1"])
-//            [self gotoUNIAppointControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
-//        if ([type isEqualToString:@"2"])
-//            [self gotoUNIGoodsDeatilControllerprojectId:projectId Andtype:type AndIsHeaderShow:0];
-//        array=nil; projectId=nil;type=nil;
-//        return NO;
-//    }
     
     return YES;
 }
@@ -332,7 +341,7 @@
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
         subscribeNext:^(UIButton* x) {
-            
+            self->btnTag =(int)btn.tag;
             [myself startRequest:(int)btn.tag];
             //UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
         }];
@@ -374,6 +383,104 @@
         [self->shareView removeFromSuperview];
     }];
 }
+#pragma mark  微信授权
+-(void)authorization{
+//    UNIAuthorizationManager* manager =[[UNIAuthorizationManager alloc]init];
+//    [manager AuthorizationManager:self];
+}
+#pragma mark 微信授权登录
+-(void)setupWX{
+    [WXApiManager sharedManager].delegate = self;
+    
+    SendAuthReq* req =[[SendAuthReq alloc] init];
+    req.scope = @"snsapi_userinfo" ;
+    req.state = @"123456" ;
+    //第三方向微信终端发送一个SendAuthReq消息结构
+    if ([WXApi isWXAppInstalled]) {
+        [WXApi sendReq:req];
+    }else{
+        [WXApi sendAuthReq:req
+            viewController:self
+                  delegate:[WXApiManager sharedManager]];
+    }
+    
+}
+#pragma mark 授权成功 调用微信接口获取 unionid
+- (void)managerDidRecvAuthResponse:(SendAuthResp *)response {
+    
+    //NSLog(@"%@",[NSString stringWithFormat:@"code:%@,state:%@,errcode:%d", response.code, response.state, response.errCode]);
+    NSString* URL =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/oauth2/access_token?appid=%@&secret=%@&code=%@&grant_type=authorization_code",WECHATAPPID,WECHATAPPSecret,response.code];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"text/plain"]];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"responseObject  %@",responseObject);
+        NSString* str = [responseObject objectForKey:@"openid"];
+        NSString* str1 = [responseObject objectForKey:@"unionid"];
+        NSString* str2 = [responseObject objectForKey:@"access_token"];
+        if (str&&str1) {
+            self->wxOpenid = str;
+            self->wxUnionid = str1;
+            [self requestWxNikeName:str2];
+            [self wxShare:self.myModel andStyle:self->btnTag];
+           // [self setupCustomInfoAPI];
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        
+    }];
+}
+
+#pragma mark 请求微信用户的 nickname
+-(void)requestWxNikeName:(NSString*)token{
+    NSString* URL =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",token,wxOpenid];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"text/plain"]];
+    [manager GET:URL parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"responseObject  %@",responseObject);
+        NSString* str = [responseObject objectForKey:@"nickname"];
+        if (str)
+            [self setupCustomInfoAPI:str];
+       // NSString* str1 = [responseObject objectForKey:@"unionid"];
+//        if (str&&str1) {
+//            self->wxOpenid = str;
+//            self->wxUnionid = str1;
+//            [self setupCustomInfoAPI];
+//        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"Error: %@", error);
+        
+    }];
+
+}
+
+#pragma mark 调用设置游客信息
+-(void)setupCustomInfoAPI:(NSString*)nikeName{
+    UNITouristRequest* rq = [[UNITouristRequest alloc]init];
+    rq.setTouristBlock=^(int code,int userId,int shopId,NSString* token,NSString* tel,NSString* tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (code == 0) {
+                [AccountManager setToken:token];
+                //[AccountManager setUserId:@(userId)];
+                [AccountManager setShopId:@(shopId)];
+                
+            }
+            else {
+                [UIAlertView showWithTitle:@"提示" message:tips cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                    //  [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
+                }];
+            }
+        });
+    };
+    [rq postWithSerCode:@[API_URL_SetCustomInfo] params:@{@"openId":wxOpenid,@"unionId":wxUnionid,@"nickname":nikeName}];
+    
+}
+
 
 
 - (NSString *)URLEncodedString:(NSString*)STR

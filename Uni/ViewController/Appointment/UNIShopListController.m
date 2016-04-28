@@ -13,7 +13,7 @@
 @interface UNIShopListController ()<UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UISearchBarDelegate>{
     int pageNum;
     int pageSize;
-    UILabel* noData;
+    UIView* noData;
 }
 @property(nonatomic,strong)NSMutableArray* myData;
 @property(nonatomic,strong) UITableView* tableView;
@@ -132,15 +132,30 @@
         [self startRequest];
     }];
 
-    UILabel* nodate = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, self.view.frame.size.width, 50)];
-    nodate.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    nodate.hidden = _myData.count>0;
-    nodate.text = @"没有其他店铺可以选择哦！";
-    nodate.textAlignment = NSTextAlignmentCenter;
-    nodate.font = [UIFont systemFontOfSize:14];
-    [self.tableView addSubview:nodate];
-    noData= nodate;
+    [self setupNodataView];
+}
 
+-(void)setupNodataView{
+    
+    UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableView.frame.size.width, _tableView.frame.size.height)];
+   // nodata.hidden=self.allArray.count>0;
+    [_tableView addSubview:nodata];
+    noData = nodata;
+    
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
+    float imgWH = KMainScreenWidth>400?60:50,
+    imgX = (nodata.frame.size.width - imgWH)/2;
+    img.frame = CGRectMake(imgX, noData.frame.size.height/2 - imgWH - 10, imgWH, imgWH);
+    [nodata addSubview:img];
+    
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+10, nodata.frame.size.width, 30)];
+    lab.text = @"没有其他店铺可以选择哦！";
+    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    [nodata addSubview:lab];
+    
+    nodata=nil;img=nil; lab=nil;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return _myData.count;

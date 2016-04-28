@@ -26,6 +26,15 @@ typedef void(^KZRewardBlock)(NSArray* array,NSString* tips,NSError* er);
  */
 typedef void(^KZGoodsInfoBlock)(NSArray* array,NSString* tips,NSError* er);
 
+/**
+ *  获取项目详情
+ *
+ *  @param array UNIGoodsModel.h 数组对象
+ *  @param tips  反馈信息
+ *  @param er    错误信息
+ */
+typedef void(^GetServiceInfoBlock)(NSArray* array,NSString* tips,NSError* er);
+
 
 /**
  *  客妆 获取订单号
@@ -75,6 +84,9 @@ typedef void(^CTOrderStatusBlock)(int code,NSString* tips,NSError* er);
 
 // 客妆 商品信息
 @property(nonatomic,copy)KZGoodsInfoBlock kzgoodsInfoBlock;
+
+// 客妆 商品信息
+@property(nonatomic,copy)GetServiceInfoBlock gserviceInfoBlock;
 
 // 客妆 获取订单号
 @property(nonatomic,copy)KZGoodsGetOrderBlock kzgoodsGetOrderBlock;

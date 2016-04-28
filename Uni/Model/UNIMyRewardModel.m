@@ -20,5 +20,7 @@
     self.goods = [self safeObject:dic ForKey:@"goods"];
     self.rewardNum = [[self safeObject:dic ForKey:@"rewardNum"]intValue];
     self.price = [[self safeObject:dic ForKey:@"price"] intValue];
+    self.status = [[self safeObject:dic ForKey:@"status"] intValue];
+
 }
 @end

@@ -89,24 +89,54 @@
 #pragma mark 开始请求
 -(void)startRequestReward{
   //  _type = @"2";
-    UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_URL_GetSellInfo2] params:@{@"projectId":_projectId,@"type":_type,@"isHeadShow":@(_isHeadShow)}];
-    requet.kzgoodsInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (er) {
-                [YIToast showText:NETWORKINGPEOBLEM];
-                return ;
-            }
-            if(array){
-                self->model = array.lastObject;
-                self.title = self->model.projectName;
-                [self setupBottomView];
-                [self setupMyScroller];
-                [self setupTableView];
-                
-            }
-        });
-    };
+    if ([_type isEqualToString:@"2"]) {
+        [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+        UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
+        [requet postWithSerCode:@[API_URL_GetSellInfo2] params:@{@"projectId":_projectId,
+                                                                 // @"type":_type,
+                                                                 @"isHeadShow":@(_isHeadShow)}];
+        requet.kzgoodsInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [LLARingSpinnerView RingSpinnerViewStop1];
+                if (er) {
+                    [YIToast showText:NETWORKINGPEOBLEM];
+                    return ;
+                }
+                if(array){
+                    self->model = array.lastObject;
+                    self.title = self->model.projectName;
+                    [self setupBottomView];
+                    [self setupMyScroller];
+                    [self setupTableView];
+                    
+                }
+            });
+        };
+    }
+    if ([_type isEqualToString:@"3"]) {
+        [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+        UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
+        [requet postWithSerCode:@[API_URL_GetSellInfo3] params:@{@"projectId":_projectId,
+                                                                 // @"type":_type,
+                                                                 @"isHeadShow":@(_isHeadShow)}];
+        requet.gserviceInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [LLARingSpinnerView RingSpinnerViewStop1];
+//                if (er) {
+//                    [YIToast showText:NETWORKINGPEOBLEM];
+//                    return ;
+//                }
+//                if(array){
+//                    self->model = array.lastObject;
+//                    self.title = self->model.projectName;
+//                    [self setupBottomView];
+//                    [self setupMyScroller];
+//                    [self setupTableView];
+//                    
+//                }
+            });
+        };
+    }
 }
 
 -(void)setupNavigation{
@@ -255,7 +285,6 @@
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     [bg addGestureRecognizer:tap];
     
-    model.type = _type.intValue;
     UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.7,KMainScreenWidth*0.6) andNum:[numField.text intValue] andModel:model];
     pur.delegate = self;
     pur.alpha = 0;

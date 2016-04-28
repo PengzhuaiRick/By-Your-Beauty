@@ -88,6 +88,9 @@
 //获取客妆接口2
 #define API_URL_GetSellInfo2 @"SellGoods/getSellGoodsInfo"
 
+//获取项目详情
+#define API_URL_GetSellInfo3 @"Goods/getGoodsInfo"
+
 //获取客妆列表
 #define API_URL_GetSellList @"sellGoods/sellGoodsList"
 
@@ -158,7 +161,7 @@
 #define API_URL_GetProjectModel @"Project/getProjectModel"
 
 //获取游客按钮显示
-#define API_URL_RetCode @"File/retCode"
+#define API_URL_RetCode @"Download/retCode"
 
 //新用户选择店铺
 #define API_URL_addUser @"Customer/addUser"

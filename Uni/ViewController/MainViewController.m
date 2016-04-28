@@ -20,7 +20,7 @@
 #import "UNIGoodsWeb.h"
 #import "UNIHttpUrlManager.h"
 #import "UNITouristController.h"
-//#import "UNIScanView.h"
+
 
 @interface MainViewController ()</*UINavigationControllerDelegate,*/MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
@@ -84,6 +84,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
+     [self setupScroller];
      [self requestBackGroundUrl];
    
    
@@ -104,7 +105,6 @@
     request.rqfirstUrl=^(int code){
         dispatch_async(dispatch_get_main_queue(), ^{
              [self requestAppTips];
-             [self setupScroller];
             [self requestActivityShowOrNot];
             [self startRequestShopInfo];//请求商家信息
             [self startRequestReward];//请求约满信息
@@ -123,12 +123,14 @@
     [request postWithSerCode:@[API_URL_RetCode]
                       params:nil];
     request.rqshowAcitivityOrNot=^(int code,NSString* tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code != 3) 
+            if (code != 4)
                 [self requestActivityInfo];
+        });
     };
 
 }
@@ -243,7 +245,7 @@
         [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
         [self getSellInfo]; //获取首页销售商品
         //[self startRequestProjectInfo];//请求我的项目
-        [self requestAppTips];
+        //[self requestAppTips];
     }];
     
     tabview = nil;
@@ -715,6 +717,7 @@
                     self->sell1.text = @"";
                     self->sell2.text = @"";
                     self->sell3.hidden=YES;
+                    self->sell4.text = [UNIHttpUrlManager sharedInstance].MORE_YH_TIPS;
                     self->sell4.hidden=NO;
                     self->sellBtn.hidden=YES;
                     self->alphBtn.enabled=NO;
@@ -732,11 +735,11 @@
     [request1 postWithSerCode:@[API_URL_GetAppTips]
                        params:nil];
     request1.rqAppTips=^(NSDictionary* dic,NSString* tips,NSError* err){
-                UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-                [manager initHttpUrlManager:dic];
+        UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
+        [manager initHttpUrlManager:dic];
     };
-
 }
+
 
 #pragma mark 注册通知
 -(void)setupNotification{

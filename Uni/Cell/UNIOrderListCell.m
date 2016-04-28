@@ -99,7 +99,7 @@
     
     self.label1.text=info.projectName;
     self.label2.text=[NSString stringWithFormat:@"规格: %@     x%d",info.specifications,info.num];
-    self.label3.text=info.time;
+    self.label3.text=[info.time substringWithRange:NSMakeRange(5, 11)];
     
     if (info.status==0) {
         self.stateBtn.text= @"到店\n领取";

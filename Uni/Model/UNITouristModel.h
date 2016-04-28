@@ -14,5 +14,6 @@
 @property(nonatomic,copy)NSString* shareTitle;  //活动分享标头
 @property(nonatomic,copy)NSString* shareUrl;  //活动分享URL
 @property(nonatomic,copy)NSString* activityUrl; //活动URL;
+@property(nonatomic,assign)int isWeixinAuth; //1 授权  0 不授权;
 -(id)initWithDic:(NSDictionary*)dic;
 @end

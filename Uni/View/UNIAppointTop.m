@@ -122,6 +122,7 @@
 }
 
 -(void)beforeRequest{
+    
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
       [NSThread sleepForTimeInterval:1];
@@ -132,6 +133,7 @@
 -(void)startRequest{
     self.selectTime = @"";
     NSString* string = self.selectDay;
+    
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
     [request postWithSerCode:@[API_URL_GetFreeTime]
                       params:@{@"projectId":@(_projectId),
@@ -171,6 +173,7 @@
         }
        
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             self.midScroller.alpha = 1;
             [LLARingSpinnerView RingSpinnerViewStop1];
             self.userInteractionEnabled = YES;
@@ -180,7 +183,7 @@
             }
             //if (data.count>0) {
                 self->freeTimes = data;
-                self->noDate.hidden= data.count;
+                self->noDate.hidden= data.count>0;
             [self setupMidScroller];
            // }
 //            else
@@ -208,7 +211,8 @@
     
     NSDateFormatter* forma = [[NSDateFormatter alloc]init];
     [forma setDateFormat:@"yyyy-MM-dd"];
-   // _projBeginDate = nil;
+    //_projBeginDate = @"2016-4-03";
+   // _projBeginDate =nil;
     NSDate *beginDate =[forma dateFromString:_projBeginDate];
     NSString* nowString = [forma stringFromDate:[NSDate date]];
     NSDate* today = [forma dateFromString:nowString];
@@ -221,24 +225,13 @@
     }
     for (int i =0 ; i<8; i++) {
         NSDate *now = nil;
-//        if (i>0){
-//            if (midNight){
-//                now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*(2+i)];
-//            }else
-//                now =[NSDate dateWithTimeIntervalSinceNow:(24*60*60)*i];}
-//        else{
-//            if (midNight){
-//                now= [NSDate dateWithTimeIntervalSinceNow:(24*60*60)*2];
-//            }else
-//            now= [NSDate date];
-//        }
         
         if (i<1)
             now =[beginDate dateByAddingTimeInterval:-(24*60*60)];
         if (i == 1)
             now = beginDate;
         if (i>1)
-            now = [beginDate dateByAddingTimeInterval:(24*60*60)*i];
+            now = [beginDate dateByAddingTimeInterval:(24*60*60)*(i-1)];
         
         
         NSCalendar *calendar = [NSCalendar currentCalendar];
@@ -319,6 +312,7 @@
     self.userInteractionEnabled = NO;
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     self.midScroller.alpha = 0.5;
+    noDate.hidden=YES;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         [NSThread sleepForTimeInterval:1.0];
         [self startRequest];

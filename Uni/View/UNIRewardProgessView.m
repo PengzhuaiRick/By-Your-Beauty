@@ -27,48 +27,51 @@
     [self setNeedsDisplay];
 }
 
--(void)setNum:(int)num andTotal:(int)total{
-    if (num<total) {
-        _num=num;
-        _total=total;
-        for (UIView* vi in self.subviews) {
-            if ([vi isKindOfClass:[UILabel class]]) {
-                [vi removeFromSuperview];
+-(void)setNum:(int)num andTotal:(int)total andStatue:(int)status{
+    if (status == 0) {
+        if (num<total) {
+            _num=num;
+            _total=total;
+            for (UIView* vi in self.subviews) {
+                if ([vi isKindOfClass:[UIButton class]] ||[vi isKindOfClass:[UILabel class]]) {
+                    [vi removeFromSuperview];
+                }
             }
+            [self setNeedsDisplay];
         }
-        [self setNeedsDisplay];
-    }
-    else{
-//        UILabel* LAB = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-//        LAB.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
-//        LAB.textAlignment = NSTextAlignmentCenter;
-//        LAB.textColor = [UIColor whiteColor];
-//        LAB.layer.masksToBounds=YES;
-//        LAB.layer.cornerRadius = self.frame.size.height/2;
-//        LAB.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14) weight:0];
-//        LAB.text = @"可领取";
-//        [self addSubview:LAB];
-//        LAB = nil;
-        
-        UIColor* theme =[UIColor colorWithHexString:kMainThemeColor];
-        UIColor* white =[UIColor whiteColor];
-        UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame =CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-        [btn setTitle:@"可领取" forState:UIControlStateNormal];
-        btn.titleLabel.font= [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14) weight:0];
-        btn.layer.masksToBounds=YES;
-        btn.layer.cornerRadius = self.frame.size.height/2;
-        btn.layer.borderWidth = 0.5;
-        btn.layer.borderColor =theme.CGColor;
-        [btn setBackgroundImage:[self createImageWithColor:theme] forState:UIControlStateNormal];
-        [btn setBackgroundImage:[self createImageWithColor:white] forState:UIControlStateHighlighted];
-        [btn setTitleColor:white forState:UIControlStateNormal];
-        [btn setTitleColor:theme forState:UIControlStateHighlighted];
-         [self addSubview:btn];
-        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
-        subscribeNext:^(id x) {
-            [UIAlertView showWithTitle:@"请联系店员领取奖励！" message:@"" cancelButtonTitle:@"我知道了" otherButtonTitles:nil tapBlock:nil];
-        }];
+        else{
+            
+            UIColor* theme =[UIColor colorWithHexString:kMainThemeColor];
+            UIColor* white =[UIColor whiteColor];
+            UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            btn.frame =CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+            [btn setTitle:@"可领取" forState:UIControlStateNormal];
+            btn.titleLabel.font= [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14) weight:0];
+            btn.layer.masksToBounds=YES;
+            btn.layer.cornerRadius = self.frame.size.height/2;
+            btn.layer.borderWidth = 0.5;
+            btn.layer.borderColor =theme.CGColor;
+            [btn setBackgroundImage:[self createImageWithColor:theme] forState:UIControlStateNormal];
+            [btn setBackgroundImage:[self createImageWithColor:white] forState:UIControlStateHighlighted];
+            [btn setTitleColor:white forState:UIControlStateNormal];
+            [btn setTitleColor:theme forState:UIControlStateHighlighted];
+            [self addSubview:btn];
+            [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+             subscribeNext:^(id x) {
+                 [UIAlertView showWithTitle:@"请联系店员领取奖励！" message:@"" cancelButtonTitle:@"我知道了" otherButtonTitles:nil tapBlock:nil];
+             }];
+        }
+    }else if(status == 1){
+        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
+        lab.layer.masksToBounds=YES;
+        lab.layer.cornerRadius = self.frame.size.height/2;
+        //lab.layer.borderWidth = 0.5;
+        lab.textAlignment=NSTextAlignmentCenter;
+        lab.text=@"已领取";
+        lab.font= [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14) weight:0];
+        lab.backgroundColor= [UIColor colorWithHexString:kMainTitleColor];
+        lab.textColor = [UIColor whiteColor];
+        [self addSubview:lab];
     }
 }
 - (void)drawRect:(CGRect)rect {
