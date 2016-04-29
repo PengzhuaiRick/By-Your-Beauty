@@ -115,19 +115,6 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
    // NSString* url = request.URL.absoluteString ;
-    if (navigationType == UIWebViewNavigationTypeReload) {
-        return YES;
-    }
-//    if ([url rangeOfString:@"act=app"].location != NSNotFound && url) {
-//        NSArray* array = [url componentsSeparatedByString:@"&"];
-//        NSString* projectId = [array[1] componentsSeparatedByString:@"="][1];
-//        NSString* type = [array[2] componentsSeparatedByString:@"="][1];
-//        //[self.navigationController popViewControllerAnimated:YES];
-//        [self.delegate UNIGoodsWebDelegateMethodAndprojectId:projectId Andtype:type AndIsHeaderShow:0];
-//        
-//        array=nil; projectId=nil;type=nil;
-//        return NO;
-//    }
     return YES;
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{

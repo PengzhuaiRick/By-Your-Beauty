@@ -101,24 +101,29 @@
 }
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
+    __weak id myself = self;
      MainViewRequest* request = [[MainViewRequest alloc]init];
     request.rqfirstUrl=^(int code){
         dispatch_async(dispatch_get_main_queue(), ^{
-             [self requestAppTips];
-            [self requestActivityShowOrNot];
-            [self startRequestShopInfo];//请求商家信息
-            [self startRequestReward];//请求约满信息
-            [self startRequestAppointInfo];//请求我已预约
-            [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
-            [self getSellInfo]; //获取首页销售商品
-
+            [myself startRequestMain];
         });
     };
     [request firstRequestUrl];
 }
 
+-(void)startRequestMain{
+    [self requestAppTips];
+    [self requestActivityShowOrNot];
+    [self startRequestShopInfo];//请求商家信息
+    [self startRequestReward];//请求约满信息
+    [self startRequestAppointInfo];//请求我已预约
+    [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+    [self getSellInfo]; //获取首页销售商品
+}
+
 #pragma mark 审核期间 是否显示活动页面
 -(void)requestActivityShowOrNot{
+    __weak id myself = self;
     MainViewRequest* request = [[MainViewRequest alloc]init];
     [request postWithSerCode:@[API_URL_RetCode]
                       params:nil];
@@ -129,7 +134,7 @@
                 return ;
             }
             if (code != 4)
-                [self requestActivityInfo];
+                [myself requestActivityInfo];
         });
     };
 
@@ -137,7 +142,7 @@
 
 #pragma mark 请求活动信息
 -(void)requestActivityInfo{
-    
+    __weak id myself = self;
     MainViewRequest* request = [[MainViewRequest alloc]init];
     [request postWithSerCode:@[API_URL_HasActivity]
                        params:nil];
@@ -148,7 +153,7 @@
                 return ;
             }
             if (activityId>0 && hasActivity < 2)
-               [self performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
+               [myself performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
                //[self setupActivityController:@[@(hasActivity),@(activityId)]];
             
         });
@@ -175,20 +180,8 @@
     self.navigationItem.leftBarButtonItem = bar;
      self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
     
-//    UIBarButtonItem* bar1 = [[UIBarButtonItem alloc]init];
-//    bar1.title = @"扫描";
-//    bar1.target = self;
-//    bar1.action = @selector(scan);
-//    self.navigationItem.rightBarButtonItem = bar1;
-    
-    
     
 }
-//-(void)scan{
-//    UNIScanView* view = [[UNIScanView alloc]initWithFrame:CGRectMake(0, 0, 200, 200)];
-//    view.center = self.view.center;
-//    [self.view addSubview:view];
-//}
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -237,13 +230,15 @@
     
     [self setupTabViewHeader:topImg];
    
+    __weak MainViewController* myself = self;
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->bottomPage = 0;
-        [self startRequestShopInfo];//请求商家信息
-        [self startRequestReward];//请求约满信息
-        [self startRequestAppointInfo];//请求我已预约
-        [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
-        [self getSellInfo]; //获取首页销售商品
+        [myself startRequestMain];
+//        [myself startRequestShopInfo];//请求商家信息
+//        [myself startRequestReward];//请求约满信息
+//        [myself startRequestAppointInfo];//请求我已预约
+//        [myself getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+//        [myself getSellInfo]; //获取首页销售商品
         //[self startRequestProjectInfo];//请求我的项目
         //[self requestAppTips];
     }];
@@ -280,6 +275,7 @@
     
     UIButton* proBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     proBtn.frame = progessView.frame;
+    __weak MainViewController* myself = self;
     [[proBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          if (self->goodId1<1)
@@ -287,7 +283,7 @@
          NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
          NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
          //[self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
-         [self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
+         [myself UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
          str1=nil;
          str2=nil;
      }];
@@ -421,8 +417,8 @@
     [[alpBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(id x) {
         UNIGoodsWeb* web = [[UNIGoodsWeb alloc]init];
-        web.delegate = self;
-        [self.navigationController pushViewController:web animated:YES];
+        web.delegate = myself;
+        [myself.navigationController pushViewController:web animated:YES];
         web=nil;
     }];
     alphBtn = alpBtn;
@@ -455,12 +451,12 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     MainViewCell* cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
     if (!cell){
-          //  cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
+         __weak MainViewController* myself = self;
         cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
                     [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
                      subscribeNext:^(UIButton* x) {
-                         id model = self.bottomData[x.tag-1];
-                         [self mainMidViewDelegataButton:model];
+                         id model = myself.bottomData[x.tag-1];
+                         [myself mainMidViewDelegataButton:model];
                      }];
 
     }
@@ -527,7 +523,7 @@
 
 #pragma mark 请求店铺信息
 -(void)startRequestShopInfo{
-
+ __weak MainViewController* myself = self;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //AccountManager* manager = [AccountManager shared];
       
@@ -539,9 +535,9 @@
                 if (!er) {
                     if (manager) {
                         if (manager.shortName.length>0)
-                            self.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shortName];
+                            myself.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shortName];
                         else
-                            self.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shopName];
+                            myself.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shopName];
                     }
                      if (!manager.shopName)
                         //检测不到店铺信息 需要重新登录
@@ -557,6 +553,7 @@
 
 #pragma mark 请求约满信息
 -(void)startRequestReward{
+    
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //请求约满奖励
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
@@ -605,6 +602,7 @@
 
 #pragma mark 开始请求我已预约项目
 -(void)startRequestAppointInfo{
+    __weak MainViewController* myself = self;
         MainViewRequest* request = [[MainViewRequest alloc]init];
         [request postWithSerCode:@[API_URL_Appoint]
                           params:@{@"page":@(0),@"size":@(1)}];
@@ -614,8 +612,8 @@
                 [self->myTable.header endRefreshing];
                 if (!err) {
                     self->appointTotal = count;
-                    self.midData = nil;
-                    self.midData = myAppointArr;
+                    myself.midData = nil;
+                    myself.midData = myAppointArr;
                     [self->myTable reloadData];
                        // [self.midView startReloadData:myAppointArr andType:1];
                    
@@ -628,7 +626,7 @@
 }
 #pragma mark 开始请求我的项目
 -(void)startRequestProjectInfo{
-    
+    __weak MainViewController* myself = self;
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_URL_MyProjectInfo]
                            params:@{@"page":@(bottomPage),@"size":@(10)}];
@@ -640,15 +638,15 @@
                     [[NSNotificationCenter defaultCenter]postNotificationName:@"flashTheCellNum" object:nil userInfo:@{@"count":@(count)}];
                     
                     if (self->bottomPage<1)
-                        [self.bottomData removeAllObjects];
+                        [myself.bottomData removeAllObjects];
                     
                     if (myProjectArr.count<10)
                         [self->myTable.footer endRefreshingWithNoMoreData];
                     
-                    [self.bottomData addObjectsFromArray: myProjectArr];
+                    [myself.bottomData addObjectsFromArray: myProjectArr];
                 
                     [self->myTable reloadData];
-                    [self addTableViewReflashFootView];
+                    [myself addTableViewReflashFootView];
                 
                 }
                 else
@@ -660,16 +658,17 @@
 -(void)addTableViewReflashFootView{
     if (myTable.footer){
         return;}
-    
+        __weak MainViewController* myself = self;
         myTable.footer =[MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             self->bottomPage++;
-            [self startRequestProjectInfo];
+            [myself startRequestProjectInfo];
         }];
 
 }
 
 #pragma mark 获取背景图片 和 奖励商品图片
 -(void)getBgImageAndGoodsImage{
+   
     MainViewRequest* request1 = [[MainViewRequest alloc]init];
     int shopId =[[AccountManager shopId]intValue];
     NSString* code = [NSString stringWithFormat:@"%d_prize_shop,%d_index_bg",shopId,shopId];
