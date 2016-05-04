@@ -221,6 +221,7 @@
         int k =[x intValue];
         if (k>0)
             self.num =k ;
+         [[BaiduMobStat defaultStat]logEvent:@"btn_buy_sub_num" eventLabel:@"购买减少数量按钮"];
     }];
     
     [RACObserve(self,num)subscribeNext:^(id x) {
@@ -248,6 +249,7 @@
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          ++self.num;
+         [[BaiduMobStat defaultStat]logEvent:@"btn_buy_add_num" eventLabel:@"购买添加数量按钮"];
     }];
 
     float btn3WH = KMainScreenWidth*70/414;
@@ -272,6 +274,7 @@
     [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
          [self showThePayStyle];
+         [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_detail" eventLabel:@"产品详情购买按"];
      }];
     
     bottom = nil; btn3=nil; btn2=nil;text=nil; lab2=nil; lab=nil;
@@ -381,12 +384,16 @@
     web.delegate= self;
     web.scrollView.scrollsToTop = NO;
    // NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,model.url];
-    NSString* urlString = [NSString stringWithFormat:@"%@/%@",[UNIUrlManager sharedInstance].img_url,model.url];
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+   // NSString* urlString = [NSString stringWithFormat:@"%@/%@",[UNIUrlManager sharedInstance].img_url,model.url];
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:model.url]];
     [web loadRequest:request];
     [_myScroller addSubview:web];
     myWeb = web;
     web=nil;
+}
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
+    NSLog(@"didFailLoadWithError  %@",error);
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
@@ -462,12 +469,19 @@
     [self tapAction:nil];
     if (payStyle)
         [self requestTheOrderNo:payStyle andNum:num];
+    
+    if ( [payStyle isEqualToString:@"WXPAY_APP"])
+        [[BaiduMobStat defaultStat]logEvent:@"btn_pay_weixin" eventLabel:@"产品详情微信支付按钮"];
+  
+    if ( [payStyle isEqualToString:@"ALIPAY_APP"])
+         [[BaiduMobStat defaultStat]logEvent:@"btn_pay_alipay" eventLabel:@"产品详情支付宝支付"];
 }
 #pragma mark 请求订单号
 -(void)requestTheOrderNo:(NSString*)payStyle andNum:(int)num{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     NSDictionary* dic=@{@"goodsId":@(model.projectId),@"goodsType":@(model.type),@"payType":payStyle,@"shopPrice":[NSString stringWithFormat:@"%.f",model.shopPrice*num],@"price":@(model.shopPrice),
                         @"num":@(num)};
+    __weak id myself = self;
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_URL_GetOutTradeNo] params:dic];
     requet.kzgoodsGetOrderBlock=^(NSDictionary* dictionary,NSString*tips,NSError* err){
@@ -478,10 +492,10 @@
         }
         if (dictionary) {
             self->orderNo =[dictionary objectForKey:@"out_trade_no"];
-            if ( [payStyle isEqualToString:@"WXPAY_APP"])
-                [self jumpToBizPay:dictionary];
-            if ( [payStyle isEqualToString:@"ALIPAY_APP"])
-                [self payWithZFB:dictionary];
+            if ( [payStyle isEqualToString:@"WXPAY_APP"]){
+                [myself jumpToBizPay:dictionary];}
+            if ( [payStyle isEqualToString:@"ALIPAY_APP"]){
+                [myself payWithZFB:dictionary];}
         }
     };
 }

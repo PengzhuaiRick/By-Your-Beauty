@@ -78,13 +78,14 @@
         NSLog(@"gotoGoodsDetail: %@", data);
         NSString* str = [data objectForKey:@"projectId"];
         [myself gotoGoodsDeatil:str :@"2" :0];
+        [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_list" eventLabel:@"产品列表购买按钮"];
         
     }];
     [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
         NSLog(@"gotoBuyProject: %@", data);
         NSString* str = [data objectForKey:@"projectId"];
         [myself gotoBuyProject:str :@"3" :0];
-        
+         [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_list" eventLabel:@"产品列表购买按钮"];
     }];
     
     web=nil;lab = nil;url=nil;request=nil;

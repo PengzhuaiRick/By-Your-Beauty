@@ -109,6 +109,7 @@
     [self.view addSubview:btn1];
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         [self loginOut];
+        [[BaiduMobStat defaultStat]logEvent:@"menu_setting" eventLabel:@"首页设置菜单点击"];
     }];
     
     UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -121,6 +122,7 @@
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
         [self.tv closeTheBox];
         [self.tv setupSettingController];
+        [[BaiduMobStat defaultStat]logEvent:@"menu_exit" eventLabel:@"首页退出菜单点击"];
     }];
 
     
@@ -178,32 +180,40 @@
         case 0:
             [_tv closeTheBox];
             [_tv setupMainController];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_main" eventLabel:@"首页菜单点击"];
             break;
         case 1:
             [_tv closeTheBox];
             [_tv setupCardController];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_detail" eventLabel:@"我的详情菜单点击"];
             break;
         case 2://我的奖励
              [_tv closeTheBox];
             [_tv setupMyController];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_reward" eventLabel:@"我的奖励菜单点击"];
             break;
         case 3:
             [_tv closeTheBox];
             [_tv setupGiftController];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_gift" eventLabel:@"我的礼包菜单点击"];
             break;
         case 4:
             [_tv closeTheBox];
             [_tv setupOrderListController];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_order" eventLabel:@"我的订单菜单点击"];
             break;
         case 5:
             [_tv closeTheBox];
             [_tv setupWalletController];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_coupon" eventLabel:@"我的优惠菜单点击"];
             break;
         case 6:
             [self callOtherMapApp];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_gps" eventLabel:@"首页导航到店菜单点击"];
             break;
         case 7:
             [self callPhoneToShop];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_call_phone" eventLabel:@"首页致电商家菜单点击"];
             break;
 
     }

@@ -127,25 +127,14 @@
         UNILawViewController* ab = [[UNILawViewController alloc]init];
         [self.navigationController pushViewController:ab animated:YES];
     }if (indexPath.row == 0) {
-#ifdef IS_IOS9_OR_LATER
-        UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"是否拨打电话02038904856" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alertController addAction:cancelAction];
-        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"拨打" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSString* tel = @"tel://02038904856";
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
-        }];
-        [alertController addAction:sure];
-        [self presentViewController:alertController animated:YES completion:nil];
-#else
+        
         [UIAlertView showWithTitle:@"是否拨打电话02038904856" message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"拨打"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
                 NSString* tel = @"tel://02038904856";
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
             }
         }];
-#endif
-
+        [[BaiduMobStat defaultStat]logEvent:@"btn_setting_call" eventLabel:@"设置拨打电话按钮"];
     }
     
 }//02038904856

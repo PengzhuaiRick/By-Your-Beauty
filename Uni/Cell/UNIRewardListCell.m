@@ -33,19 +33,35 @@
     float lab3WH = KMainScreenWidth*70/414;
     float lab3Y =(size.height - lab3WH)/2;
     float lab3X = size.width - imgX - lab3WH;
-    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3WH, lab3WH)];
-    lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
-    lab3.textColor = [UIColor whiteColor];
-    lab3.textAlignment = NSTextAlignmentCenter;
-    lab3.lineBreakMode = 0;
-    lab3.numberOfLines = 0;
-    lab3.layer.masksToBounds = YES;
-    lab3.layer.cornerRadius = lab3WH/2;
-    [self addSubview:lab3];
-    self.stateBtn = lab3;
+//    UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y, lab3WH, lab3WH)];
+//    lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
+//    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
+//    lab3.textColor = [UIColor whiteColor];
+//    lab3.textAlignment = NSTextAlignmentCenter;
+//    lab3.lineBreakMode = 0;
+//    lab3.numberOfLines = 0;
+//    lab3.layer.masksToBounds = YES;
+//    lab3.layer.cornerRadius = lab3WH/2;
+//    [self addSubview:lab3];
+//    self.stateBtn = lab3;
 //    self.stateBtn.text= @"到店\n领取";
 //    [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+    
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame =CGRectMake(lab3X, lab3Y, lab3WH, lab3WH);
+    btn.titleLabel.font =[UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
+    btn.titleLabel.lineBreakMode = 0;
+    btn.titleLabel.numberOfLines = 0;
+    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
+    [btn setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
+    btn.layer.masksToBounds = YES;
+    btn.layer.cornerRadius = lab3WH/2;
+    btn.layer.borderWidth = 0.5;
+    btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
+    [self addSubview:btn];
+    self.stateBtn = btn;
 
     
     float labX = CGRectGetMaxX(img.frame)+5;
@@ -83,7 +99,7 @@
     LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
     [self.layer addSublayer:LAY];
     
-    LAY=nil; lab4=nil; lab2=nil; lab1=nil; lab3=nil; img=nil;
+    LAY=nil; lab4=nil; lab2=nil; lab1=nil;  img=nil;
 }
 
 
@@ -105,10 +121,16 @@
 //    self.label3.text=@"9-21 15:20";
     
     if (info.status==0) {
-         self.stateBtn.text= @"到店\n领取";
+//         self.stateBtn.text= @"到店\n领取";
+        self.stateBtn.enabled=YES;
+        self.stateBtn.layer.borderWidth = 1;
         [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+        [self.stateBtn setTitle:@"到店\n领取" forState:UIControlStateNormal];
     }else{
-        self.stateBtn.text= @"已领取";
+       // self.stateBtn.text= @"已领取";
+        self.stateBtn.enabled=NO;
+        self.stateBtn.layer.borderWidth = 0;
+        [self.stateBtn setTitle:@"已领取" forState:UIControlStateNormal];
         [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainTitleColor]];
     }
 }
@@ -117,6 +139,19 @@
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+#pragma mark 颜色转图片
+-(UIImage*)createImageWithColor:(UIColor*) color
+{
+    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+    UIGraphicsBeginImageContext(rect.size);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextSetFillColorWithColor(context, [color CGColor]);
+    CGContextFillRect(context, rect);
+    UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return theImage;
 }
 
 @end

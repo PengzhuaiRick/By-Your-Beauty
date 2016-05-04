@@ -9,6 +9,7 @@
 #import "UNIAppontMid.h"
 #import "UNIMyProjectModel.h"
 #import "UNIAddAndDelectCell.h"
+#import "BaiduMobStat.h"
 @implementation UNIAppontMid
 -(id)initWithFrame:(CGRect)frame andModel:(id)model{
     self=[super initWithFrame:frame];
@@ -100,6 +101,7 @@
                                     withRowAnimation:UITableViewRowAnimationAutomatic];
             
             [self.delegate UNIAppontMidDelegateMethod];
+            [[BaiduMobStat defaultStat]logEvent:@"btn_delete_project_appoint" eventLabel:@"预约界面左滑删除项目"];
 
         }];
     }

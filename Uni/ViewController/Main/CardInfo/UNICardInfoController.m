@@ -216,28 +216,6 @@
     float img4W = img4.size.width*img4H / img4.size.height;
     float img4X = topView.frame.size.width - 10 - img4W;
     
-//    UIImageView* awardImge = [[UIImageView alloc]init];
-//    awardImge.userInteractionEnabled = YES;
-//    awardImge.frame =CGRectMake(img4X,img4Y,img4W,img4H);
-//    if (total ==num){
-//        awardImge.frame =CGRectMake(img4X,img4Y-15,img4W,img4H+20);
-//        awardImge.image = [UIImage imageNamed:@"card_img_open"];
-//    }
-//    else{
-//        awardImge.image =img4;
-//        UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, img4H*0.45, img4W, img4H/2)];
-//        lab.text = [NSString stringWithFormat:@"%d",total];
-//        lab.textColor = [UIColor whiteColor];
-//        lab.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
-//        lab.textAlignment = NSTextAlignmentCenter;
-//        [awardImge addSubview:lab];
-//    }
-//    [topView addSubview:awardImge];
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
-//    [awardImge addGestureRecognizer:tap];
-//    [[tap rac_gestureSignal]subscribeNext:^(id x) {
-//        
-//    }];
     
     UIButton* awardBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     awardBtn.frame =CGRectMake(img4X,img4Y,img4W,img4H);
@@ -248,6 +226,7 @@
         [[awardBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(id x) {
              [[NSNotificationCenter defaultCenter]postNotificationName:@"jumpToMyReward" object:nil];
+             [[BaiduMobStat defaultStat]logEvent:@"btn_yueman_intime" eventLabel:@"准时到店满足次数盖子点击"];
          }];
     }
     else{

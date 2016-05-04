@@ -13,7 +13,7 @@
 @property (strong, nonatomic)  UILabel *label1;
 @property (strong, nonatomic)  UILabel *label2;
 @property (strong, nonatomic)  UILabel *label3;
-@property (strong, nonatomic)  UILabel *stateBtn;
+@property (strong, nonatomic)  UIButton *stateBtn;
 
 -(void)setupCellContentWith:(id)model;
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;

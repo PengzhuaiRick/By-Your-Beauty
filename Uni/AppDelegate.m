@@ -117,6 +117,7 @@
 
 #pragma mark 开始主界面
 -(void)setupViewController{
+    self.window.rootViewController = nil ;
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIContainController* tc = [st instantiateViewControllerWithIdentifier:@"UNIContainController"];
     tc.edag = KMainScreenWidth*60/320;

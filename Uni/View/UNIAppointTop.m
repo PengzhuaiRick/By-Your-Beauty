@@ -9,6 +9,7 @@
 #import "UNIAppointTop.h"
 #import "UNIShopManage.h"
 #import "UNIMyProjectModel.h"
+#import "BaiduMobStat.h"
 
 @implementation UNIAppointTop
 //-(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp{
@@ -88,7 +89,7 @@
                 [self.topScroller setContentOffset:CGPointMake(0, 0) animated:YES];
             }
         }
-
+        [[BaiduMobStat defaultStat]logEvent:@"arrow_right_appoint" eventLabel:@"预约右边翻页"];
     }
     if (gesture.direction == UISwipeGestureRecognizerDirectionLeft) {
         if (self->selectBtnNum<7) {
@@ -104,6 +105,7 @@
                 [self.topScroller setContentOffset:CGPointMake(self.frame.size.width/5*3, 0) animated:YES];
             }
         }
+        [[BaiduMobStat defaultStat]logEvent:@"arrow_left_appoint" eventLabel:@"预约左边翻页"];
     }
     [UIView animateWithDuration:0.5 animations:^{
         self.midScroller.frame =newX;

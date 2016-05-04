@@ -7,7 +7,7 @@
 //
 
 #import "UNIRewardProgessView.h"
-
+#import "BaiduMobStat.h"
 @implementation UNIRewardProgessView
 -(id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
@@ -59,6 +59,8 @@
             [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
              subscribeNext:^(id x) {
                  [UIAlertView showWithTitle:@"请联系店员领取奖励！" message:@"" cancelButtonTitle:@"我知道了" otherButtonTitles:nil tapBlock:nil];
+                 [[BaiduMobStat defaultStat]logEvent:@"btn_get_award_yueman" eventLabel:@"约满领取奖励按钮"];
+                 
              }];
         }
     }else if(status == 1){

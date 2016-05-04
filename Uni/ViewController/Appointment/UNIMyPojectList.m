@@ -118,6 +118,7 @@
             }
         }
         [self.delegate UNIMyPojectListDelegateMethod:arr];
+        [[BaiduMobStat defaultStat]logEvent:@"btn_select_projects" eventLabel:@"项目列表选择项目按钮"];
         [self.navigationController popViewControllerAnimated:YES];
     }];
 }

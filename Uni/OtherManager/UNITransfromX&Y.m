@@ -27,6 +27,7 @@ API                坐标系
 #import "UIActionSheet+Blocks.h"
 #import "YILocationManager.h"
 #import "UNIShopManage.h"
+#import "BaiduMobStat.h"
 @implementation UNITransfromX_Y
 -(id)initWithView:(UIView*)view withEndCoor:(CLLocationCoordinate2D)endCo withAim:(NSString*)name{
     self = [super init];
@@ -84,6 +85,7 @@ API                坐标系
         NSString *toName =self.aimName;
         
             if ([tag isEqualToString:@"百度地图"]){
+                [[BaiduMobStat defaultStat]logEvent:@"btn_gps_baidu" eventLabel:@"百度导航到店按钮"];
             //百度地图
             NSArray* arr = [self bd_encrypt:x and:y];
             CLLocationCoordinate2D pt1 = CLLocationCoordinate2DMake([arr[0] doubleValue], [arr[1] doubleValue]);
@@ -92,8 +94,11 @@ API                坐标系
             NSString *urlString = [[NSString stringWithFormat:@"baidumap://map/direction?origin=latlng:%f,%f|name:我的位置&destination=latlng:%f,%f|name:%@&mode=transit",
                                     pt1.latitude, pt1.longitude, endCoor.latitude, endCoor.longitude, toName]stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
             [[UIApplication sharedApplication]openURL:[NSURL URLWithString:urlString]];
+            
         }
         if ([tag isEqualToString:@"高德地图"]){
+            [[BaiduMobStat defaultStat]logEvent:@"btn_gps_gaode" eventLabel:@"高德导航到店按钮"];
+            
             NSArray* arr = [self bd_decrypt:self.endCoor.latitude and:self.endCoor.longitude];
             CLLocationCoordinate2D endCoor =  CLLocationCoordinate2DMake([arr[0] doubleValue], [arr[1] doubleValue]);
             //高德地图

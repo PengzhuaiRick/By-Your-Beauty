@@ -96,6 +96,11 @@
     rep.message = message;
     [WXApi sendReq:rep];
     [self hidenShareView];
+    
+    if (style == 1)
+        [[BaiduMobStat defaultStat]logEvent:@"btn_share_activity_weixin" eventLabel:@"首页活动微信好友分享"];
+    if (style == 2)
+        [[BaiduMobStat defaultStat]logEvent:@"btn_share_activity_w_moments" eventLabel:@"首页活动微信朋友圈分享"];
 }
 
 #pragma mark 微信授权登录
@@ -288,6 +293,7 @@
         bg.alpha = 0.5;
         view.frame = viRe;
     }];
+    [[BaiduMobStat defaultStat]logEvent:@"btn_share_activity" eventLabel:@"首页活动分享按钮"];
 }
 
 #pragma mark 设置分享内容

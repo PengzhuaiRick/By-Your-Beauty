@@ -67,7 +67,7 @@
         }
     }
     backTopBtn.enabled = YES;
-     [[BaiduMobStat defaultStat] pageviewStartWithName:@"MainViewController.h"];
+     [[BaiduMobStat defaultStat] pageviewStartWithName:@"首页"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -78,7 +78,7 @@
         }
     }
     backTopBtn.enabled = NO;
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"MainViewController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"首页"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
@@ -192,6 +192,7 @@
     else{
          [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
+    [[BaiduMobStat defaultStat]logEvent:@"btn_menu_main" eventLabel:@"首页菜单切换按钮"];
 }
 
 #pragma mark 设置Scroller
@@ -286,6 +287,7 @@
          [myself UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
          str1=nil;
          str2=nil;
+         [[BaiduMobStat defaultStat]logEvent:@"btn_main_bottle" eventLabel:@"首页瓶子礼品点击"];
      }];
     [imageView addSubview:proBtn];
 
@@ -457,6 +459,7 @@
                      subscribeNext:^(UIButton* x) {
                          id model = myself.bottomData[x.tag-1];
                          [myself mainMidViewDelegataButton:model];
+                         
                      }];
 
     }
@@ -504,21 +507,18 @@
        // self.midController.myData = [NSMutableArray arrayWithArray:self.midData];
         [self.navigationController pushViewController:midController animated:YES];
     }
-//    else if (type == 2){
-//        self.buttomController = [main instantiateViewControllerWithIdentifier:@"MainBottomController"];
-//        //self.buttomController.myData =  [NSMutableArray arrayWithArray:self.bottomData];;
-//        [self.navigationController pushViewController:self.buttomController animated:YES];
-//    }
 }
 
 #pragma mark  mainMidView代理方法 点击 mainMidView 的button
 -(void)mainMidViewDelegataButton:(id)model{
+    
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
     appoint.model = model;
     [self.navigationController pushViewController:appoint animated:YES];
     appoint=nil;
     story=nil;
+     [[BaiduMobStat defaultStat]logEvent:@"btn_appoint_main" eventLabel:@"首页预约按钮"];
 }
 
 #pragma mark 请求店铺信息
@@ -776,6 +776,5 @@
     [super didReceiveMemoryWarning];
     
 }
-
 
 @end

@@ -124,6 +124,7 @@
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
              [self xingxingTouchAction:btn];
+             [[BaiduMobStat defaultStat]logEvent:@"btn_comment_star" eventLabel:@"评价星星选择按钮"];
          }];
 
         switch (i) {
@@ -227,6 +228,7 @@
     [[self.submitBnt rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
          [self startSubmitComment];
+          [[BaiduMobStat defaultStat]logEvent:@"btn_comment" eventLabel:@"评价按钮"];
     }];
  }
 

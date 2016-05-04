@@ -101,7 +101,7 @@
         shopC.delegate = self;
         [self.navigationController pushViewController:shopC animated:YES];
         shopC=nil;
-        
+        [[BaiduMobStat defaultStat]logEvent:@"btn_select_shop" eventLabel:@"预约选择店铺按钮"];
     }];
     [shop addGestureRecognizer:tap];
     tap=nil;
@@ -165,6 +165,8 @@
          [self.navigationController pushViewController:list animated:YES];
          stroy=nil;
          list=nil;
+         
+         [[BaiduMobStat defaultStat]logEvent:@"btn_add_projects" eventLabel:@"预约界面添加项目按钮"];
      }];
     mid=nil;
 }
@@ -204,16 +206,14 @@
     
         [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-//         if (self->appointTop.selectTime.length<1) {
-//             return ;
-//         }
           UNIHttpUrlManager* httpUrl =[UNIHttpUrlManager sharedInstance];
          [UIAlertView showWithTitle:httpUrl.IS_APPOINT message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
              if (buttonIndex == 1) {
                  [self startAppoint];
              }
          }];
-             }];
+         [[BaiduMobStat defaultStat]logEvent:@"btn_appoint" eventLabel:@"预约页面马上预约按钮"];
+     }];
     btn=nil;
 }
 

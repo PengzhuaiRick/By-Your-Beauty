@@ -52,7 +52,7 @@
     }
     array=nil;
     [self setupUI];
-     [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGiftController.h"];
+     [[BaiduMobStat defaultStat] pageviewStartWithName:@"活动页面"];
     [super viewWillAppear:animated];
     
 }
@@ -67,7 +67,7 @@
     
     webView.scrollView.delegate = nil;
     [webView removeFromSuperview];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGiftController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"活动页面"];
     [super viewWillDisappear:animated];
 }
 
@@ -103,6 +103,7 @@
         NSLog(@"gotoAppoint %@", data);
         NSString* str = [data objectForKey:@"projectId"];
         [myself gotoAppoint:str :@""];
+        [[BaiduMobStat defaultStat]logEvent:@"btn_appoint_gift_list" eventLabel:@"我的礼包预约按钮"];
     }];
     
     [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
@@ -115,6 +116,7 @@
         NSLog(@"gotoBuyProject: %@", data);
         NSString* str = [data objectForKey:@"projectId"];
         [myself gotoBuyProject:str :@"3" :0];
+         [[BaiduMobStat defaultStat]logEvent:@"btn_awarded_gift_list" eventLabel:@"我的礼包已获得按钮"];
         
     }];
 
@@ -136,32 +138,15 @@
                     [myself wxShare:model andStyle:style];
                 else
                     [myself setupWX];
-                
-//                WXMediaMessage* message = [WXMediaMessage message];
-////                message.title = self->shareTitle;
-////                message.description =self->shareDesc;
-////                [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self->shareImg]]]];
-//                message.title = model.shareTitle;
-//                message.description =model.shareDetail;
-//                [message setThumbImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:model.logoUrl]]]];
-//                
-//                WXWebpageObject* web = [WXWebpageObject object];
-//               // web.webpageUrl = self->shareUrl;
-//                 web.webpageUrl = model.shareUrl;
-//                message.mediaObject = web;
-//                SendMessageToWXReq* rep = [[SendMessageToWXReq alloc]init];
-//                rep.bText = NO;
-//                if (style == 1)
-//                    rep.scene = WXSceneSession;
-//                if (style == 2)
-//                    rep.scene = WXSceneTimeline;
-//                rep.message = message;
-//                [WXApi sendReq:rep];
-//                [myself hidenShareView];
             }
         });
     };
     [rq postWithSerCode:@[API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];
+    
+    if (style == 1)
+       [[BaiduMobStat defaultStat]logEvent:@"btn_share_gift_weixin" eventLabel:@"礼包分享微信好友"];
+    if (style == 2)
+        [[BaiduMobStat defaultStat]logEvent:@"btn_share_gift_weixin_moment" eventLabel:@"礼包分享微信朋友圈"];
 }
 
 -(void)wxShare:(UNITouristModel*)model andStyle:(int)style{
@@ -182,6 +167,7 @@
     rep.message = message;
     [WXApi sendReq:rep];
     [self hidenShareView];
+    
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
@@ -343,7 +329,6 @@
         subscribeNext:^(UIButton* x) {
             self->btnTag =(int)btn.tag;
             [myself startRequest:(int)btn.tag];
-            //UNIHttpUrlManager* urlManager = [UNIHttpUrlManager sharedInstance];
         }];
         
         float labX =btnxx-5;
@@ -368,6 +353,7 @@
         view.frame = viRe;
     }];
     bg= nil;view = nil;   arr=nil; imgArr=nil;
+     [[BaiduMobStat defaultStat]logEvent:@"btn_share_gift" eventLabel:@"礼包分享按钮"];
 }
 
 -(void)tapGestureRecognizerAction:(UIGestureRecognizer*)ge{

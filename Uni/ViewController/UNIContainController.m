@@ -108,6 +108,7 @@
     }
 }
 -(void)closeTheBox{
+    //[[BaiduMobStat defaultStat]logEvent:@"menu_main" eventLabel:@"首页菜单点击"];
     self.closing = YES;
     [UIView animateWithDuration:0.2 animations:^{
         // self.tv.view.userInteractionEnabled=YES;
@@ -117,7 +118,7 @@
     
 }
 -(void)openTheBox{
-   
+    
     [UIView animateWithDuration:0.2 animations:^{
        
         self.view.frame = CGRectMake(KMainScreenWidth-self.edag, 0, self.view.frame.size.width,self.view.frame.size.height);

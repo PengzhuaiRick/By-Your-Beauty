@@ -151,7 +151,6 @@
     [self.view endEditing:YES];
      UNILoginShopModel* model = resultArr[indexPath.row];
     __weak UNILoginShopList* myself = self;
-    [self dismissViewControllerAnimated:YES completion:^{
         if (myself.extra == 2) {
             [AccountManager setToken:model.token];
             //[AccountManager setUserId:@(model.userId)];
@@ -160,7 +159,7 @@
             [myself login];
         }else if(myself.extra == 0)
             [myself addUser:model.shopId];
-    }];
+   
    
     
 }
@@ -177,7 +176,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (userId>-1) {
+            if (token) {
                 [AccountManager setToken:token];
                // [AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
@@ -190,9 +189,17 @@
 }
 -(void)login{
     //跳转
+   // [self dismissViewControllerAnimated:NO completion:nil];
     self.view.window.backgroundColor = [UIColor whiteColor];
     AppDelegate* app = [UIApplication sharedApplication].delegate;
     [app setupViewController];
+    
+    [self performSelector:@selector(dismiss) withObject:nil afterDelay:1];
+    
+}
+
+-(void)dismiss{
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

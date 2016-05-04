@@ -325,6 +325,7 @@
     UNITransfromX_Y* xy = [[UNITransfromX_Y alloc]initWithView:self.view withEndCoor:end withAim:_shopManage.shopName];
     [xy setupUI];
     xy=nil;
+    [[BaiduMobStat defaultStat]logEvent:@"btn_gps_appoint_detail" eventLabel:@"预约详情导航按钮"];
 }
 
 

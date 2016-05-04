@@ -138,7 +138,7 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    //[self.delegate UNIRewardListViewDelegate:self.allArray[indexPath.row]];
+   
 }
 
 /*
