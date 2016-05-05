@@ -61,7 +61,9 @@
     self.myTable.delegate = nil;
     self.myTable.dataSource = nil;
     self.myScroller.delegate = nil;
-     [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGoodsDeatilController.h"];
+    //清除UIWebView的缓存
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+     [[BaiduMobStat defaultStat] pageviewEndWithName:@"客妆界面"];
      [super viewDidDisappear:animated];
 }
 -(void)viewWillAppear:(BOOL)animated{
@@ -71,7 +73,7 @@
     self.myScroller.delegate = self;
     self.myTable.delegate = self;
     self.myTable.dataSource = self;
-     [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGoodsDeatilController.h"];
+     [[BaiduMobStat defaultStat] pageviewStartWithName:@"客妆界面"];
     [self regirstKeyBoardNotification];
     [super viewWillAppear:animated];
 }
@@ -178,10 +180,6 @@
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?24:20];
     lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
-//    if (model.shopPrice>1)
-//        lab.text = [NSString stringWithFormat:@"￥%.f",model.shopPrice];
-//    else
-//        lab.text = [NSString stringWithFormat:@"￥%.2f",model.shopPrice];
     [bottomView addSubview:lab];
     priceLab = lab;
     
@@ -226,9 +224,9 @@
     
     [RACObserve(self,num)subscribeNext:^(id x) {
         self->numField.text = [NSString stringWithFormat:@"%d",self.num];
-        if (self->model.shopPrice>1)
-            self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
-        else
+//        if (self->model.shopPrice>1)
+//            self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
+//        else
             self->priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice*self.num];
     }];
     
@@ -370,8 +368,12 @@
     if (scrollView == _myScroller) {
         if (scrollView.contentOffset.y<-80) {
             if (self->myWeb) {
+                
                 if (self->myWeb.loading)
                     return ;
+                
+                //清除UIWebView的缓存
+                [[NSURLCache sharedURLCache] removeAllCachedResponses];
                 [self->myWeb reload];
             }
         }
@@ -393,7 +395,7 @@
 }
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     NSLog(@"didFailLoadWithError  %@",error);
-    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+    [LLARingSpinnerView RingSpinnerViewStop1];
 }
 -(void)webViewDidStartLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];

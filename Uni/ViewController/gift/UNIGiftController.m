@@ -67,6 +67,8 @@
     
     webView.scrollView.delegate = nil;
     [webView removeFromSuperview];
+    //清除UIWebView的缓存
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"活动页面"];
     [super viewWillDisappear:animated];
 }
@@ -483,6 +485,8 @@
     if (scrollView.contentOffset.y<-170) {
         if (webView.loading)
             return;
+        //清除UIWebView的缓存
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
         [webView reload];
     }
 }

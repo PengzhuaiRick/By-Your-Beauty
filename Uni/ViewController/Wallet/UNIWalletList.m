@@ -19,13 +19,13 @@
 @implementation UNIWalletList
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIWalletList.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"钱包明细"];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIWalletList.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"钱包明细"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

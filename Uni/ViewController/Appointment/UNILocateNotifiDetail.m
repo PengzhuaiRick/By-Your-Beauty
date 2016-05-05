@@ -33,13 +33,13 @@
 @implementation UNILocateNotifiDetail
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNILocateNotifiDetail.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"本地通知提醒"];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNILocateNotifiDetail.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"本地通知提醒"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

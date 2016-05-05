@@ -111,6 +111,17 @@
     };
     [request firstRequestUrl];
 }
+#pragma mark 获取后台动态URL 下拉刷新
+-(void)requestBackGroundUrl1{
+    __weak id myself = self;
+    MainViewRequest* request = [[MainViewRequest alloc]init];
+    request.rqfirstUrl=^(int code){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [myself startRequestMain];
+        });
+    };
+    [request firstRequestUrl];
+}
 
 -(void)startRequestMain{
     [self requestAppTips];
@@ -234,7 +245,7 @@
     __weak MainViewController* myself = self;
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->bottomPage = 0;
-        [myself startRequestMain];
+        [myself requestBackGroundUrl1];
 //        [myself startRequestShopInfo];//请求商家信息
 //        [myself startRequestReward];//请求约满信息
 //        [myself startRequestAppointInfo];//请求我已预约
@@ -567,8 +578,8 @@
                         self->goodId1 = goodid;
                         self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
                         [self->progessView setupProgreaa:num and:nextRewardNum];
-                         NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
-                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
+                        // NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
+                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:url]];
                         if (nextRewardNum>num) {
                             self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
                             self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?45:35];
@@ -680,11 +691,11 @@
                 for (NSDictionary* dic in result) {
                     NSString* code = [dic valueForKey:@"code"];
                     NSString* url = [dic valueForKey:@"url"];
-                    NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
+                   // NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
                     if ([code hasSuffix:@"_bg"]) {
-                        [self->headerImg sd_setImageWithURL:[NSURL URLWithString:usrl]];
+                        [self->headerImg sd_setImageWithURL:[NSURL URLWithString:url]];
                     }
-                    code=nil; url = nil; usrl = nil;
+                    code=nil; url = nil;
                 }
             }
             else
@@ -704,9 +715,9 @@
                     self->sellGoods = arr;
                     UNIGoodsModel* info = arr[0];
                     self->sell1.text = info.projectName;
-                    if (info.shopPrice>1)
-                        self->sell2.text = [NSString stringWithFormat:@"￥%.f",info.shopPrice];
-                    else
+//                    if (info.shopPrice>1)
+//                        self->sell2.text = [NSString stringWithFormat:@"￥%.f",info.shopPrice];
+//                    else
                         self->sell2.text = [NSString stringWithFormat:@"￥%.2f",info.shopPrice];
                     self->sell3.hidden=NO;
                     self->sell4.hidden=YES;

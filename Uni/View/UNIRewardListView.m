@@ -11,6 +11,9 @@
 #import "UNIMyRewardRequest.h"
 #import <MJRefresh/MJRefresh.h>
 #import "UNIHttpUrlManager.h"
+#import "UNITransfromX&Y.h"
+#import "UNIShopManage.h"
+#import "BaiduMobStat.h"
 @implementation UNIRewardListView
 
 -(id)initWithFrame:(CGRect)frame andState:(int)st{
@@ -131,6 +134,16 @@
         cell = [[UNIRewardListCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
+    [[cell.stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         UNIShopManage* shopMan = [UNIShopManage getShopData];
+         double endLat = [shopMan.x doubleValue];
+         double endLong = [shopMan.y doubleValue];
+         UNITransfromX_Y* xy= [[UNITransfromX_Y alloc]initWithView:self withEndCoor:CLLocationCoordinate2DMake(endLat, endLong) withAim:shopMan.shopName];
+         [xy setupUI];
+         [[BaiduMobStat defaultStat]logEvent:@"btn_reward_get" eventLabel:@"奖励到店领取"];
+     }];
+
     
     [cell setupCellContentWith:self.allArray[indexPath.row]];
     

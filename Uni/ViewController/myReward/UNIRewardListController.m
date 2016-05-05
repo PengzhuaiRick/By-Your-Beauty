@@ -24,11 +24,11 @@
 @implementation UNIRewardListController
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIRewardListController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"我的奖励列表"];
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIRewardListController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"我的奖励列表"];
     [super viewDidDisappear:animated];
 }
 - (void)viewDidLoad {

@@ -107,9 +107,9 @@
     if (arr.count>0)
         imgUrl = arr[0];
     
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:str]
-                    placeholderImage:[UIImage imageNamed:@"main_img_shuang"]];
+   // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
+    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+                    placeholderImage:nil];
 
     
     self.label1.text=info.projectName;
@@ -120,14 +120,15 @@
         //         self.stateBtn.text= @"到店\n领取";
         self.stateBtn.enabled=YES;
         self.stateBtn.layer.borderWidth = 1;
-        [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+        //[self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
         [self.stateBtn setTitle:@"到店\n领取" forState:UIControlStateNormal];
+        [self.stateBtn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
     }else{
         // self.stateBtn.text= @"已领取";
         self.stateBtn.enabled=NO;
         self.stateBtn.layer.borderWidth = 0;
         [self.stateBtn setTitle:@"已领取" forState:UIControlStateNormal];
-        [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainTitleColor]];
+        [self.stateBtn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainTitleColor]] forState:UIControlStateNormal];
     }
     
     imgUrl =nil; arr=nil;

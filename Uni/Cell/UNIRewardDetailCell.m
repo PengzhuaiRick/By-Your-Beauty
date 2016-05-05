@@ -102,28 +102,7 @@
         self.subLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
        // self.stateLab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
     }
-    
-//    CGSize titleSize = [info.goods boundingRectWithSize:CGSizeMake(self.subLab.frame.size.width, 1000) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth>400?15:13]} context:nil].size;
-//    
-//    CGRect subRe = self.subLab.frame;
-//    subRe.size.width = titleSize.width;
-//    subRe.size.height = titleSize.height;
-//    self.subLab.frame = subRe;
-    
-    
-//    CGSize title1Size = [self.stateLab.text boundingRectWithSize:CGSizeMake(self.stateLab.frame.size.width,20) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:KMainScreenWidth*13/320]} context:nil].size;
-    
-//    CGRect stateRe = self.stateLab.frame;
-//    stateRe.origin.x = CGRectGetMaxX(self.subLab.frame);
-////    stateRe.size.width = title1Size.width;
-////    stateRe.size.height = title1Size.height;
-//    self.stateLab.frame = stateRe;
-//    [self.stateLab sizeToFit];
-    
-//    self.progessView.num = total;
-//    self.progessView.total = info.rewardNum;
-    
-//    total = info.rewardNum;
+
     [self.progessView setNum:total andTotal:info.rewardNum andStatue:info.status];
     
     info = nil;

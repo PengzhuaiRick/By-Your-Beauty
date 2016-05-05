@@ -120,21 +120,21 @@
     
     if (imgArr.count>0) {
         for (int i = 0;i<k;i++) {
-            NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgArr[i]];
+           // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgArr[i]];
             UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgW, 0, imgW, imgH)];
                    // view.image= [UIImage imageNamed:@"KZ_img_bg"];
                     //view.contentMode = UIViewContentModeScaleAspectFit;
-                    [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
+                    [view sd_setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:nil];
                     [_mainImage addSubview:view];
-                    str=nil; view = nil;
+                    view = nil;
         }
     }else{
-        NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.imgUrl];
+        //NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.imgUrl];
         UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imgW, imgH)];
         // view.contentMode = UIViewContentModeScaleAspectFit;
-        [view sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
+        [view sd_setImageWithURL:[NSURL URLWithString:info.imgUrl] placeholderImage:nil];
         [_mainImage addSubview:view];
-         str=nil; view = nil;
+         view = nil;
     }
 
     imgArr = nil;

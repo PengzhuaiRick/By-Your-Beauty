@@ -17,12 +17,12 @@
 
 @implementation UNIGoodsComment
 -(void)viewWillAppear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGoodsComment.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"商品评论"];
     [super viewWillAppear:animated];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGoodsComment.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"商品评论"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {

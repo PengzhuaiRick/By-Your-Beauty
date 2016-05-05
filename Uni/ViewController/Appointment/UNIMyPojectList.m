@@ -28,13 +28,13 @@
 @implementation UNIMyPojectList
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIMyPojectList.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"预约我的项目列表"];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIMyPojectList.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"预约我的项目列表"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

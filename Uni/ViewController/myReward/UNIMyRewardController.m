@@ -38,7 +38,7 @@
             ges.enabled=YES;
         }
     }
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIMyRewardController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"我的奖励"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -49,7 +49,7 @@
         }
     }
     self.myTableView.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIMyRewardController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"我的奖励"];
 
     [super viewWillDisappear:animated];
 }

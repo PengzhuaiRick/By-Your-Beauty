@@ -58,7 +58,7 @@
     [btn setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
     btn.layer.masksToBounds = YES;
     btn.layer.cornerRadius = lab3WH/2;
-    btn.layer.borderWidth = 0.5;
+    btn.layer.borderWidth = 1;
     btn.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
     [self addSubview:btn];
     self.stateBtn = btn;
@@ -109,29 +109,26 @@
     NSArray* arr = [info.logoUrl componentsSeparatedByString:@","];
     if (arr.count>0)
         imgUrl = arr[0];
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:str]
+    
+    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
                     placeholderImage:[UIImage imageNamed:@"main_img_shuang"]];
     self.label1.text =info.projectName;
     self.label2.text =[NSString stringWithFormat:@"规格: %@     x%d",info.specifications,info.num];
     self.label3.text = [info.time substringWithRange:NSMakeRange(5, 11)];
     
-//    self.label1.text=@"ALBION 爽肤精萃液";
-//    self.label2.text=@"规格: 330ml     x1";
-//    self.label3.text=@"9-21 15:20";
-    
     if (info.status==0) {
-//         self.stateBtn.text= @"到店\n领取";
+        //         self.stateBtn.text= @"到店\n领取";
         self.stateBtn.enabled=YES;
         self.stateBtn.layer.borderWidth = 1;
-        [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+        //[self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
         [self.stateBtn setTitle:@"到店\n领取" forState:UIControlStateNormal];
+        [self.stateBtn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
     }else{
-       // self.stateBtn.text= @"已领取";
+        // self.stateBtn.text= @"已领取";
         self.stateBtn.enabled=NO;
         self.stateBtn.layer.borderWidth = 0;
         [self.stateBtn setTitle:@"已领取" forState:UIControlStateNormal];
-        [self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainTitleColor]];
+        [self.stateBtn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainTitleColor]] forState:UIControlStateNormal];
     }
 }
 

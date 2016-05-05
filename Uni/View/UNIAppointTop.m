@@ -12,26 +12,13 @@
 #import "BaiduMobStat.h"
 
 @implementation UNIAppointTop
-//-(id)initWithFrame:(CGRect)frame andProjectId:(int)proectId andCostime:(int)Cos andShopId:(int)shopIp{
-//    self = [super initWithFrame:frame];
-//    if (self) {
-//        _projectId = proectId;
-//        _costTime = Cos;
-//        _shopId = shopIp;
-//        [self setupData];
-//        [self judgeBeforeDawn];
-//        [self setupTopScrollerContent];
-//        [self initSecondView];
-//        [self setupMidScroller];
-//        [self setupUI:frame];
-//        }
-//    return self;
-//}
+
 -(id)initWithFrame:(CGRect)frame andModel:(UNIMyProjectModel*)mod andShopId:(int)shopIp{
     self = [super initWithFrame:frame];
     if (self) {
-        _projectId =mod.projectId;
-        _costTime =mod.costTime;
+       // _projectId =mod.projectId;
+        projectArr = @[mod];
+        //_costTime =mod.costTime;
         _shopId =shopIp;
         _projBeginDate = mod.projectBeginDate;
         //[self setupData];
@@ -126,9 +113,10 @@
 -(void)beforeRequest{
     
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+    self.midScroller.alpha = 0.5;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
       [NSThread sleepForTimeInterval:1];
-        [self startRequest];
+    [self startRequest];
     });
 }
 
@@ -136,11 +124,22 @@
     self.selectTime = @"";
     NSString* string = self.selectDay;
     
+    NSMutableString* projectIds = [NSMutableString string];
+    int allCostTime =0;
+    for (int i=0; i<projectArr.count; i++) {
+        UNIMyProjectModel* model = projectArr[i];
+        allCostTime+=model.costTime;
+        if (i != projectArr.count-1)
+            [projectIds appendFormat:@"%d,",model.projectId];
+        else
+            [projectIds appendFormat:@"%d",model.projectId];
+    }
+    
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
     [request postWithSerCode:@[API_URL_GetFreeTime]
-                      params:@{@"projectId":@(_projectId),
+                      params:@{@"projectId":projectIds,
                                @"date":string,
-                               @"costTime":@(_costTime),
+                               @"costTime":@(allCostTime),
                                @"shopId":@(_shopId)}];
     request.regetFreeTime=^(NSArray* array,NSString* tips,NSError* err){
         //筛选已经过去了的时间点
@@ -175,9 +174,9 @@
         }
        
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            self.midScroller.alpha = 1;
             [LLARingSpinnerView RingSpinnerViewStop1];
+            self.midScroller.alpha = 1;
+            
             self.userInteractionEnabled = YES;
             if (err) {
                 [YIToast showText:NETWORKINGPEOBLEM];
@@ -319,6 +318,7 @@
         [NSThread sleepForTimeInterval:1.0];
         [self startRequest];
     });
+    //[self performSelector:@selector(startRequest) withObject:nil afterDelay:0.5];
 
 }
 
@@ -378,7 +378,6 @@
     [_midScroller addGestureRecognizer:recognizer1];
 
 
-    
     //float btn3Y = (view.frame.size.height- btn3WH)/2;
     UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn3.frame = CGRectMake(0, 0, btn3WH, viewH);
@@ -541,7 +540,7 @@
              dateFormatter = nil; str=nil;
              
              //通知移除添加的项目
-             [[NSNotificationCenter defaultCenter]postNotificationName:@"delectTheAddProject" object:nil];
+            // [[NSNotificationCenter defaultCenter]postNotificationName:@"delectTheAddProject" object:nil];
              //delectTheAddProject
              
 
@@ -574,6 +573,11 @@
 #pragma mark 改变shopid 重新请求数据
 -(void)changeShopId:(int)shopid{
     _shopId = shopid;
+    [self beforeRequest];
+}
+
+-(void)changeProjectIds:(NSArray*)projects{
+    projectArr = projects;
     [self beforeRequest];
 }
 

@@ -111,9 +111,9 @@
     if (arr.count>0)
         imgUrl = arr[0];
     
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:str]
-                    placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
+   // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
+    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+                    placeholderImage:nil];
     
     self.mainLab.text = model.projectName;
     self.subLab.text = [NSString stringWithFormat:@"服务时长%d分钟",model.costTime];

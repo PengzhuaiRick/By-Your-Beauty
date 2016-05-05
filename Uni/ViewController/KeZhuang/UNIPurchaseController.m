@@ -16,12 +16,12 @@
 
 @implementation UNIPurchaseController
 -(void)viewWillAppear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIPurchaseController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"商品购买"];
     [super viewWillAppear:animated];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIPurchaseController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"商品购买"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {

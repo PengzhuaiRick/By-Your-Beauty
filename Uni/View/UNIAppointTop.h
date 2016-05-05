@@ -20,6 +20,8 @@
     float midBtnH;
     BOOL midNight; //如果当前时间在下班时间到上班时间之间 需要添加两天时间
     UILabel* noDate;
+    
+    NSArray* projectArr;
 }
 //@property (assign, nonatomic) int member;//人数
 @property (assign ,nonatomic) int selectYear;   //年份
@@ -34,8 +36,8 @@
 @property (strong, nonatomic)  UIButton *midLeftBtn;
 @property (strong, nonatomic)  UIButton *midRightBtn;
 @property (strong, nonatomic)  UIScrollView *midScroller;
-@property (assign ,nonatomic) int projectId;
-@property (assign ,nonatomic) int costTime;
+//@property (assign ,nonatomic) int projectId;
+//@property (assign ,nonatomic) int costTime;
 @property (copy ,nonatomic) NSString* projBeginDate;
 @property (assign ,nonatomic) int shopId;
 
@@ -49,4 +51,7 @@
 
 #pragma mark 改变shopid 重新请求数据
 -(void)changeShopId:(int)shopid;
+
+#pragma mark 改变projects 重新请求数据
+-(void)changeProjectIds:(NSArray*)projects;
 @end

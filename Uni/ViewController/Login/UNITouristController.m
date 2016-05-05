@@ -30,13 +30,15 @@
 @implementation UNITouristController
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNITouristController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"首页活动弹出页面"];
     
 }
--(void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"wxShareResult" object:nil];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNITouristController.h"];
+    //清除UIWebView的缓存
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"首页活动弹出页面"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -349,6 +351,8 @@
     if (scrollView.contentOffset.y<-170) {
         if (_webView.loading)
             return;
+        //清除UIWebView的缓存
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
         [_webView reload];
     }
 }

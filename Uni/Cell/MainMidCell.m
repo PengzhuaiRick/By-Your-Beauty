@@ -75,8 +75,8 @@
         NSArray* arr = [model.logoUrl componentsSeparatedByString:@","];
         if (arr.count>0)
             imgUrl = arr[0];
-        NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-        [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str]
+       // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
+        [self.mainImage sd_setImageWithURL:[NSURL URLWithString:imgUrl]
                           placeholderImage:nil];
         self.mainLab.text = model.projectName;
         
@@ -102,17 +102,17 @@
                 break;
         }
         self.stateLab.text = btnTitle;
-        btnTitle=nil; str1= nil;time=nil;str=nil; arr=nil;model=nil; imgUrl = nil;
+        btnTitle=nil; str1= nil;time=nil; arr=nil;model=nil; imgUrl = nil;
     }
     if (type == 2) {
         UNIMyProjectModel* model = model1;
-        NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,model.logoUrl];
-        [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str]
+       // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,model.logoUrl];
+        [self.mainImage sd_setImageWithURL:[NSURL URLWithString:model.logoUrl]
                           placeholderImage:[UIImage imageNamed:@"main_img_cell1"]];
         self.mainLab.text = model.projectName;
         self.subLab .text =[NSString stringWithFormat:@"剩余%d次",model.num];
         model=nil;
-        str=nil;
+       // str=nil;
     }
 }
 

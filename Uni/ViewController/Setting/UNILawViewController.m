@@ -16,12 +16,12 @@
 
 @implementation UNILawViewController
 -(void)viewWillAppear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNILawViewController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"法律声明"];
     [super viewWillAppear:animated];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNILawViewController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"法律声明"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
@@ -55,8 +55,8 @@
     web.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     web.delegate = self;
     web.scrollView.delegate = self;
-    NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,url];
-    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    //NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,url];
+    NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
     [web loadRequest:request];
     [self.view addSubview:web];
     webView = web;

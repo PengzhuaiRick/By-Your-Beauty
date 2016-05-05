@@ -21,7 +21,7 @@
             ges.enabled=YES;
         }
     }
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNISetttingController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"设置页面"];
     [super viewWillAppear:animated];
     
 }
@@ -32,7 +32,7 @@
             ges.enabled=NO;
         }
     }
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNISetttingController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"设置页面"];
     [super viewWillDisappear:animated];
 }
 

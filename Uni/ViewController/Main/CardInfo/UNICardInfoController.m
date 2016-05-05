@@ -34,7 +34,7 @@
     }
     myTableView.delegate = self;
     myTableView.dataSource = self;
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNICardInfoController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"我的详情"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -46,7 +46,7 @@
     }
     myTableView.delegate = nil;
     myTableView.dataSource = nil;
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNICardInfoController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"我的详情"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {

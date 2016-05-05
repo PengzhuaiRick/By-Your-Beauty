@@ -27,7 +27,7 @@
             ges.enabled=YES;
         }
     }
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIWalletController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"我的优惠"];
     [super viewWillAppear:animated];
 
 }
@@ -38,7 +38,9 @@
             ges.enabled=NO;
         }
     }
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIWalletController.h"];
+    //清除UIWebView的缓存
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"我的优惠"];
     [super viewWillDisappear:animated];
 }
 
@@ -126,6 +128,8 @@
     if (scrollView.contentOffset.y<-170) {
         if (_webView.loading)
             return;
+        //清除UIWebView的缓存
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
         [_webView reload];
     }
 }

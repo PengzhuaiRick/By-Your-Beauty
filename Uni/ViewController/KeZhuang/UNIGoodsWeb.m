@@ -23,13 +23,15 @@
 -(void)viewWillAppear:(BOOL)animated{
    // webView.delegate = self;
     webView.scrollView.delegate = self;
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIGoodsWeb.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"商品列表"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
    // webView.delegate = nil;
     webView.scrollView.delegate = nil;
-     [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIGoodsWeb.h"];
+    //清除UIWebView的缓存
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+     [[BaiduMobStat defaultStat] pageviewEndWithName:@"商品列表"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {
@@ -111,6 +113,7 @@
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
     NSLog(@"%@",error);
+     [LLARingSpinnerView RingSpinnerViewStop1];
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
@@ -123,6 +126,8 @@
     if (scrollView.contentOffset.y<-170) {
         if (webView.loading)
             return;
+        //清除UIWebView的缓存
+        [[NSURLCache sharedURLCache] removeAllCachedResponses];
         [webView reload];
     }
 }

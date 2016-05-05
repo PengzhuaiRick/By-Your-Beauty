@@ -14,12 +14,12 @@
 
 @implementation UNIAboutUsController
 -(void)viewWillAppear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIAboutUsController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"关于我们"];
     [super viewWillAppear:animated];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIAboutUsController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"关于我们"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {

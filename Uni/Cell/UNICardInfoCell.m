@@ -82,8 +82,8 @@
     NSArray* arr = [info.logoUrl componentsSeparatedByString:@","];
     if (arr.count>0)
         imgUrl = arr[0];
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:[UIImage imageNamed:@"KZ_img_userImg"]];
+    //NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:nil];
     self.mainLab.text = info.projectName;
     [self.mainLab sizeToFit];
     CGRect mR = self.mainLab.frame;

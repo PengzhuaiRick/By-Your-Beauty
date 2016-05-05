@@ -39,7 +39,7 @@
     self.myTableView.dataSource = self;
 //    self.mappView.showsUserLocation = YES;//显示自己
 //    self.mappView.zoomEnabled = YES;//支持缩放
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIAppointDetail.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"预约详情"];
     [super viewWillAppear:animated];
 }
 
@@ -53,7 +53,7 @@
     self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
     self.myTableView.delegate = nil;
     self.myTableView.dataSource = nil;
-     [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIAppointDetail.h"];
+     [[BaiduMobStat defaultStat] pageviewEndWithName:@"预约详情"];
     [super viewDidDisappear:animated];
 }
 -(void)dealloc{

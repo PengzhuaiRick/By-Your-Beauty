@@ -50,7 +50,7 @@
 @implementation LoginController
 -(void)viewWillAppear:(BOOL)animated{
     [self.navigationController.navigationBar setBarTintColor:[UIColor redColor]];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"LoginController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"登录界面"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
@@ -61,7 +61,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"LoginController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"登录界面"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {

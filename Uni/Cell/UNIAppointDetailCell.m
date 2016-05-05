@@ -90,12 +90,12 @@
 
 -(void)setupCellContentWith:(id)model{
     UNIMyAppointInfoModel* info = model;
-     NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
-    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
+     //NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:info.url] placeholderImage:nil];
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
-    str=nil;
+   // str=nil;
     
     NSString* titel = nil;
     UIColor* stateColor = nil;
@@ -150,12 +150,12 @@
 }
 -(void)setupCellContentWith1:(id)model{
     UNIMyAppointInfoModel* info = model;
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
-    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
+   // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:info.url] placeholderImage:nil];
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
-    str=nil;
+    //str=nil;
     NSString* titel = @"";
     UIColor* stateColor = nil;
     switch (info.status) {

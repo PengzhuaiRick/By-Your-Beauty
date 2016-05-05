@@ -14,12 +14,12 @@
 
 @implementation UNIImageAndTextController
 -(void)viewWillAppear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIImageAndTextController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"图文详情"];
     [super viewWillAppear:animated];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIImageAndTextController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"图文详情"];
     [super viewWillDisappear:animated];
 }
 - (void)viewDidLoad {

@@ -28,13 +28,13 @@
 @implementation UNILoginShopList
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNILoginShopList.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"请选择店铺"];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNILoginShopList.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"请选择店铺"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

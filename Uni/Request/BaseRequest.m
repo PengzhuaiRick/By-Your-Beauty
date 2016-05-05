@@ -12,11 +12,11 @@
 @implementation BaseRequest
 
 -(void)firstRequestUrl{
-     UNIUrlManager* man= [UNIUrlManager sharedInstance];
-    if (man.server_url) {
-        self.rqfirstUrl(0);
-        return;
-    }
+//     UNIUrlManager* man= [UNIUrlManager sharedInstance];
+//    if (man.server_url) {
+//        self.rqfirstUrl(0);
+//        return;
+//    }
     
     NSString* url = [NSString stringWithFormat:
                      @"http://uni.dodwow.com/v2/index.php?s=/App/Version/index/app_version/%@/device/ios",CURRENTVERSION];

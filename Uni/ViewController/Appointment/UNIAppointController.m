@@ -31,13 +31,13 @@
 @implementation UNIAppointController
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIAppointController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"项目预约界面"];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIAppointController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"项目预约界面"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -106,12 +106,6 @@
     [shop addGestureRecognizer:tap];
     tap=nil;
     shop=nil;
-//    [[shop.listBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-//    subscribeNext:^(id x) {
-//        UNIShopListController* shop = [[UNIShopListController alloc]init];
-//        shop.delegate = self;
-//        [self.navigationController pushViewController:shop animated:YES];
-//    }];
 }
 #pragma mark 店铺列表页面代理方法
 -(void)UNIShopListControllerDelegateMethod:(id)model{
@@ -120,15 +114,11 @@
     shopView.nameLab.text = info.shortName;
     shopView.addressLab.text = info.address;
     shopView.shopId = info.shopId;
-//    [appointTop removeFromSuperview];
-//    appointTop = nil;
-//    [self setupTopScrollerWithProjectId:_model.projectId andCostime:_model.costTime andShopId:info.shopId];
     [appointTop changeShopId:info.shopId];
 }
 #pragma mark 加载顶部Scroller
 -(void)setupTopScrollerWithProjectId:(int)project andCostime:(int)cost andShopId:(int)shopId{
     float topY = CGRectGetMaxY(shopView.frame)+10;
-   // UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andProjectId:project andCostime:cost andShopId:shopId];
     UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andModel:_model  andShopId:shopId];
     [self.myScroller addSubview:top];
     appointTop = top;
@@ -243,31 +233,8 @@
             [costTimes appendFormat:@"%d",model.costTime];
             [dates appendFormat:@"%@",str1];
         }
-//        if (i>0) {
-//            
-//            if (i< self->appontMid.myData.count-1)
-//                [dates appendFormat:@"%@,",str1];
-//            else
-//                [dates appendFormat:@"%@",str1];
-//        }
         cost +=model.costTime*60;
     }
-    
-//             for (UNIMyProjectModel* model in self->appontMid.myData) {
-//                 NSDate* costDate = [date1 dateByAddingTimeInterval:cost];
-//                 NSString* str1 = [dateFormatter stringFromDate:costDate];
-//                 NSDictionary* dic1 = @{@"projectId":@(model.projectId),
-//                                        @"date":str1,
-//                                        @"costTime":@(model.costTime),
-//                                        @"num":@(1)};
-//                  [arr addObject:dic1];
-//                 cost +=model.costTime*60;
-//                 str1 =nil;
-//                 costDate = nil;
-//                 dic1 = nil;
-//             }
-           //  [req postWithSerCode:@[API_URL_SetAppoint]
-           //                params:@{@"data":arr,@"shopId":@(shopView.shopId)}];
             [req postWithSerCode:@[API_URL_SetAppoint]
                           params:@{@"projectIds":projectIds,
                                    @"costTimes":costTimes,
@@ -393,11 +360,16 @@
 #pragma mark UNIMyPojectListDelegate 代理实现方法
 -(void)UNIMyPojectListDelegateMethod:(NSArray *)arr{
     //UNIMyProjectModel* info = model;
+    [appontMid.myData addObjectsFromArray:arr];
     [appontMid addProject:arr];
+    
+     [appointTop changeProjectIds:appontMid.myData];
     [self modifitacteAppontMid];
 }
 
 -(void)UNIAppontMidDelegateMethod{
+    
+    [appointTop changeProjectIds:appontMid.myData];
     [self modifitacteAppontMid];
 }
 

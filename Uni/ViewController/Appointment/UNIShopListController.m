@@ -22,13 +22,13 @@
 @implementation UNIShopListController
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIShopListController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"店铺列表"];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIShopListController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"店铺列表"];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];

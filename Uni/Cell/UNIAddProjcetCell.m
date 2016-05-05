@@ -80,8 +80,8 @@
     NSArray* arr = [info.logoUrl componentsSeparatedByString:@","];
     if (arr.count>0)
         imgUrl = arr[0];
-    NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:str] placeholderImage:nil];
+  //  NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:nil];
     self.mainLab.text = info.projectName;
     self.subLab .text = [NSString stringWithFormat:@"剩余%d次",info.num];
     if (info.select) {
@@ -92,7 +92,7 @@
     arr=nil;
     imgUrl=nil;
     info=nil;
-    str=nil;
+    //str=nil;
 }
 
 

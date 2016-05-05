@@ -19,7 +19,7 @@
         if (model)
         [_myData addObject:model];
         [self setupUI:frame];
-        [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(delectTheAddProject) name:@"delectTheAddProject" object:nil];
+        //[[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(delectTheAddProject) name:@"delectTheAddProject" object:nil];
     }
     return self;
 }
@@ -81,11 +81,6 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString* name = @"cell";
-//    UNIAddMyAppointCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-//    if (!cell) {
-//        cell =[[UNIAddMyAppointCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, _cellH) reuseIdentifier:name];
-//               cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    }
     UNIAddAndDelectCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
         cell =[[UNIAddAndDelectCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, _cellH) reuseIdentifier:name];
@@ -143,7 +138,7 @@
 
 
 -(void)addProject:(NSArray*)modelArr{
-    [self.myData addObjectsFromArray:modelArr];
+   // [self.myData addObjectsFromArray:modelArr];
     [_myTableView reloadData];
     
 }

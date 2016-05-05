@@ -19,7 +19,7 @@
 @implementation UNIEvaluateController
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"UNIEvaluateController.h"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"服务评价"];
     
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -29,7 +29,7 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"UNIEvaluateController.h"];
+    [[BaiduMobStat defaultStat] pageviewEndWithName:@"服务评价"];
     [super viewDidDisappear:animated];
 }
 - (void)viewDidLoad {
