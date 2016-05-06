@@ -144,7 +144,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code != 4)
+            if (code != 5)
                 [myself requestActivityInfo];
         });
     };
@@ -576,7 +576,12 @@
                     if (nextRewardNum>0) {
                         self->type1 = type;
                         self->goodId1 = goodid;
-                        self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
+                        
+                        if (num>nextRewardNum)
+                            self->progessLab.text = [NSString stringWithFormat:@"%d/%d",nextRewardNum,nextRewardNum];
+                        else
+                            self->progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
+                        
                         [self->progessView setupProgreaa:num and:nextRewardNum];
                         // NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
                         [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:url]];

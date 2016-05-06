@@ -110,13 +110,13 @@
                 cell = [[UNIRewordAndIntimeCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:name andNum:apponitNum andType:1];
 
             }
-         [cell setupCell:appointArr];
+         [cell setupCell:appointArr andNum:apponitNum];
     }
     if (indexPath.row == 1) {
             if (!cell){
                 cell = [[UNIRewordAndIntimeCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:name andNum:inTimeNum andType:2];
             }
-                [cell setupCell:inTimeArr];
+                [cell setupCell:inTimeArr andNum:inTimeNum];
     }
 
     return cell;

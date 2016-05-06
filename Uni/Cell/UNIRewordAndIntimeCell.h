@@ -14,5 +14,5 @@
 
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier andNum:(int)num andType:(int)ty;
 
--(void)setupCell:(NSArray*)arr;
+-(void)setupCell:(NSArray*)arr andNum:(int)num;
 @end

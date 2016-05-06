@@ -123,7 +123,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code == 4) {
+            if (code == 5) {
                 self.fourthCell.hidden = YES;
                 
                 float btnX = self->loginBtn.frame.origin.x;

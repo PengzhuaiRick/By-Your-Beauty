@@ -18,5 +18,5 @@
 
 -(id)initWithFrame:(CGRect)frame andNum:(int)num andType:(int)ty;
 
--(void)startReflashTableView:(NSArray*)arr;
+-(void)startReflashTableView:(NSArray*)arr andNum:(int)num;
 @end

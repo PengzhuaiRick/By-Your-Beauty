@@ -36,7 +36,7 @@ typedef void(^RqTouristBlock)(int shopId,int projectId,NSString* tips,NSError* e
  *  @param tips      反馈信息
  *  @param er        错误信息
  */
-typedef void(^STouristBlock)(int code,int userId,int shopId,NSString* token,NSString* tel,NSString* tips,NSError* er);
+typedef void(^STouristBlock)(int code,int shopId,NSString* token,NSString* shareUrl,NSString* tips,NSError* er);
 
 @interface UNITouristRequest : BaseRequest
 

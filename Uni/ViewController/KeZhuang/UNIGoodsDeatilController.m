@@ -124,18 +124,18 @@
         requet.gserviceInfoBlock =^(NSArray* array,NSString* tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 [LLARingSpinnerView RingSpinnerViewStop1];
-//                if (er) {
-//                    [YIToast showText:NETWORKINGPEOBLEM];
-//                    return ;
-//                }
-//                if(array){
-//                    self->model = array.lastObject;
-//                    self.title = self->model.projectName;
-//                    [self setupBottomView];
-//                    [self setupMyScroller];
-//                    [self setupTableView];
-//                    
-//                }
+                if (er) {
+                    [YIToast showText:NETWORKINGPEOBLEM];
+                    return ;
+                }
+                if(array){
+                    self->model = array.lastObject;
+                    self.title = self->model.projectName;
+                    [self setupBottomView];
+                    [self setupMyScroller];
+                    [self setupTableView];
+                    
+                }
             });
         };
     }

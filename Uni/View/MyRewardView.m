@@ -76,7 +76,7 @@
     //[self.delegate mainMidViewDelegataCell:type];
 }
 
--(void)startReflashTableView:(NSArray*)arr{
+-(void)startReflashTableView:(NSArray*)arr andNum:(int)num{
     if (arr.count<1) {
         self.midTableview.hidden=YES;
         UIView* view = [[UIView alloc]initWithFrame:self.midTableview.frame];
@@ -107,6 +107,8 @@
          imgVIew = nil; lab = nil;view = nil;
         return;
     }
+    
+    total = num;
     NSArray* array =[arr sortedArrayUsingComparator:^NSComparisonResult(UNIMyRewardModel* obj1, UNIMyRewardModel* obj2) {
         if (obj1.rewardNum > obj2.rewardNum)
             return NSOrderedDescending;

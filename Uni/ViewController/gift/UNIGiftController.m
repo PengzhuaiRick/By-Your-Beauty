@@ -178,8 +178,6 @@
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
     self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
     [LLARingSpinnerView RingSpinnerViewStop1];
-  
-    
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
@@ -409,7 +407,7 @@
             self->wxOpenid = str;
             self->wxUnionid = str1;
             [self requestWxNikeName:str2];
-            [self wxShare:self.myModel andStyle:self->btnTag];
+           
            // [self setupCustomInfoAPI];
         }
         
@@ -445,8 +443,9 @@
 
 #pragma mark 调用设置游客信息
 -(void)setupCustomInfoAPI:(NSString*)nikeName{
+    __weak UNIGiftController* myself = self;
     UNITouristRequest* rq = [[UNITouristRequest alloc]init];
-    rq.setTouristBlock=^(int code,int userId,int shopId,NSString* token,NSString* tel,NSString* tips,NSError* er){
+    rq.setTouristBlock=^(int code,int shopId,NSString* token,NSString* shareUrll,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
@@ -456,7 +455,8 @@
                 [AccountManager setToken:token];
                 //[AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
-                
+                myself.myModel.shareUrl = shareUrll;
+                 [myself wxShare:myself.myModel andStyle:self->btnTag];
             }
             else {
                 [UIAlertView showWithTitle:@"提示" message:tips cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {

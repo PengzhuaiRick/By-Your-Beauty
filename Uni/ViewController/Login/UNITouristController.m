@@ -138,7 +138,7 @@
             self->wxOpenid = str;
             self->wxUnionid = str1;
             [self requestWxNikeName:str2];
-            [self wxShare:self->myModel andStyle:self->shareStyle];
+            
             // [self setupCustomInfoAPI];
         }
         
@@ -168,8 +168,9 @@
 
 #pragma mark 调用设置游客信息
 -(void)setupCustomInfoAPI:(NSString*)nikeName{
+    __weak UNITouristController* myself = self;
     UNITouristRequest* rq = [[UNITouristRequest alloc]init];
-    rq.setTouristBlock=^(int code,int userId,int shopId,NSString* token,NSString* tel,NSString* tips,NSError* er){
+    rq.setTouristBlock=^(int code,int shopId,NSString* token,NSString* shareUrl,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
@@ -179,7 +180,8 @@
                 [AccountManager setToken:token];
                 //[AccountManager setUserId:@(userId)];
                 [AccountManager setShopId:@(shopId)];
-                
+                self->myModel.shareUrl = shareUrl;
+                [myself wxShare:self->myModel andStyle:self->shareStyle];
             }
             else {
                 [UIAlertView showWithTitle:@"提示" message:tips cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {

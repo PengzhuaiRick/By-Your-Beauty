@@ -42,7 +42,17 @@
             }else
                 _kzgoodsInfoBlock(nil,tips,nil);
         }
-        
+        //客妆 获取项目详情
+        if ([param2 isEqualToString:API_URL_GetSellInfo3]) {
+            if(code == 0 ){
+            UNIGoodsModel * model = [[UNIGoodsModel alloc]initWithDic:dic];
+            NSArray* array = @[model];
+            _gserviceInfoBlock(array,tips,nil);
+            }else
+            _gserviceInfoBlock(nil,tips,nil);
+        }
+
+    
         //客妆奖励接口
         if ([param2 isEqualToString:API_URL_SellReward]) {
             if(code == 0 ){
@@ -116,6 +126,10 @@
          //客妆 商品信息接口2
         if ([param2 isEqualToString:API_URL_GetSellInfo2]) {
              _kzgoodsInfoBlock(nil,nil,err);
+        }
+        //客妆 获取项目详情
+        if ([param2 isEqualToString:API_URL_GetSellInfo3]) {
+            _gserviceInfoBlock(nil,nil,err);
         }
     
         //获取 支付宝 私钥

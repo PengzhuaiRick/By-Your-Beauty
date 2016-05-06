@@ -28,8 +28,8 @@
     view=nil;
 
 }
--(void)setupCell:(NSArray*)arr{
-    [self.RewordAndIntimeView startReflashTableView:arr];
+-(void)setupCell:(NSArray*)arr andNum:(int)num{
+    [self.RewordAndIntimeView startReflashTableView:arr andNum:num];
 }
 
 - (void)awakeFromNib {
