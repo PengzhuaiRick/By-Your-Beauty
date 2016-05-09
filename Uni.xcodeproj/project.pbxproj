@@ -50,6 +50,7 @@
 		184482161C5247B60047D2EF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 184482151C5247B60047D2EF /* Images.xcassets */; };
 		184E15441C5F2DB500D65E39 /* UNISetttingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E15431C5F2DB500D65E39 /* UNISetttingController.m */; };
 		184E15471C5F4C4700D65E39 /* UNIAboutUsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E15461C5F4C4700D65E39 /* UNIAboutUsController.m */; };
+		186166361CE06B97006C2285 /* BaseWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186166351CE06B97006C2285 /* BaseWebController.m */; };
 		187E509F1C803D9500B88786 /* UNIShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E509E1C803D9500B88786 /* UNIShopModel.m */; };
 		1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882FA611BE739C300CC8D51 /* BaseViewModel.m */; };
 		18864B881C1AB24E00592DA1 /* UNIGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18864B871C1AB24E00592DA1 /* UNIGoodsModel.m */; };
@@ -273,6 +274,8 @@
 		184E15431C5F2DB500D65E39 /* UNISetttingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNISetttingController.m; sourceTree = "<group>"; };
 		184E15451C5F4C4700D65E39 /* UNIAboutUsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAboutUsController.h; sourceTree = "<group>"; };
 		184E15461C5F4C4700D65E39 /* UNIAboutUsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAboutUsController.m; sourceTree = "<group>"; };
+		186166341CE06B97006C2285 /* BaseWebController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseWebController.h; sourceTree = "<group>"; };
+		186166351CE06B97006C2285 /* BaseWebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseWebController.m; sourceTree = "<group>"; };
 		187E509D1C803D9500B88786 /* UNIShopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopModel.h; sourceTree = "<group>"; };
 		187E509E1C803D9500B88786 /* UNIShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopModel.m; sourceTree = "<group>"; };
 		1882FA601BE739C300CC8D51 /* BaseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewModel.h; sourceTree = "<group>"; };
@@ -1195,6 +1198,8 @@
 			children = (
 				18D410421CC5CD730086FC76 /* baseViewController.h */,
 				18D410431CC5CD730086FC76 /* baseViewController.m */,
+				186166341CE06B97006C2285 /* BaseWebController.h */,
+				186166351CE06B97006C2285 /* BaseWebController.m */,
 			);
 			path = baseController;
 			sourceTree = "<group>";
@@ -1705,6 +1710,7 @@
 				18CD114C1C7D4A7800D48808 /* UNIMapAddressView.m in Sources */,
 				184E15441C5F2DB500D65E39 /* UNISetttingController.m in Sources */,
 				18CB94A01C85664F00F834DA /* UNIHttpUrlManager.m in Sources */,
+				186166361CE06B97006C2285 /* BaseWebController.m in Sources */,
 				18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */,
 				18C3ED041C0EF93400B0A192 /* UNIMapAnnotation.m in Sources */,
 				18BA7D6C1BE9A19100DD7826 /* EAIntroView.m in Sources */,

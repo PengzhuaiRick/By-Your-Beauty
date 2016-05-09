@@ -21,7 +21,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 }
+#pragma mark 百度统计开始
+-(void)BaiduStatBegin:(NSString*)text{
+    [[BaiduMobStat defaultStat] pageviewStartWithName:text];
+}
 
+#pragma mark 百度统计结束
+-(void)BaiduStatEnd:(NSString*)text{
+    [[BaiduMobStat defaultStat] pageviewEndWithName:text];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

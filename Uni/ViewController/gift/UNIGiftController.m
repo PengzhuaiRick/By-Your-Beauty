@@ -9,23 +9,13 @@
 #import "UNIGiftController.h"
 #import "AccountManager.h"
 #import "WXApiManager.h"
-#import "UNIShopManage.h"
-#import "UNIHttpUrlManager.h"
-#import "UNIAppointController.h"
-#import "UNITouristRequest.h"
-#import "UNIGoodsDeatilController.h"
-#import "WebViewJavascriptBridge.h"
-//#import "UNIAuthorizationManager.h"
-#import "WXApiManager.h"
-#import "UNIShopManage.h"
-#import "AccountManager.h"
-//#import "UNILoginViewRequest.h"
 #import "UNIHttpUrlManager.h"
 #import "UNITouristRequest.h"
-@interface UNIGiftController ()<UIWebViewDelegate,UIScrollViewDelegate,WXApiManagerDelegate>{
+
+@interface UNIGiftController ()/*<UIWebViewDelegate,UIScrollViewDelegate,WXApiManagerDelegate>*/{
     UIView* shareView;
     UIView* bgView;
-    UIWebView* webView;
+    //UIWebView* webView;
     
     NSString* shareTitle;
     NSString* shareDesc;
@@ -39,7 +29,7 @@
 }
 @property(nonatomic,assign)int activityId;
 @property(nonatomic,strong)UNITouristModel* myModel;
-@property WebViewJavascriptBridge* bridge;
+//@property WebViewJavascriptBridge* bridge;
 @end
 
 @implementation UNIGiftController
@@ -51,8 +41,9 @@
         }
     }
     array=nil;
-    [self setupUI];
-     [[BaiduMobStat defaultStat] pageviewStartWithName:@"活动页面"];
+   // [self setupUI];
+     //[[BaiduMobStat defaultStat] pageviewStartWithName:@"活动页面"];
+    [self BaiduStatBegin:@"活动页面"];
     [super viewWillAppear:animated];
     
 }
@@ -65,62 +56,66 @@
     }
     array = nil;
     
-    webView.scrollView.delegate = nil;
-    [webView removeFromSuperview];
+  //  webView.scrollView.delegate = nil;
+  //  [webView removeFromSuperview];
     //清除UIWebView的缓存
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    [[BaiduMobStat defaultStat] pageviewEndWithName:@"活动页面"];
+   // [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [self BaiduStatEnd:@"活动页面"];
     [super viewWillDisappear:animated];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    //[self setupUI];
+    [self setupUI];
 }
 
 -(void)setupUI{
-    UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
-    // web.delegate = self;
-    web.scrollView.delegate = self;
-    web.scrollView.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
-    [self.view addSubview:web];
-    web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
+    
     NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_LIBAO_URL;
-    NSURL* url = [NSURL URLWithString:str1];//创建URL
-    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+    [self setupUI:str1];
     
-    [web loadRequest:request];//加载
-    webView = web;
-    __weak id myself = self;
-    
-    self.bridge =[WebViewJavascriptBridge bridgeForWebView:web webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"data  %@",data);
-    }];
-    
-    [self.bridge send:@"init" responseCallback:^(id responseData) {}];
-    
-    
-    [self.bridge registerHandler:@"gotoAppoint" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"gotoAppoint %@", data);
-        NSString* str = [data objectForKey:@"projectId"];
-        [myself gotoAppoint:str :@""];
-        [[BaiduMobStat defaultStat]logEvent:@"btn_appoint_gift_list" eventLabel:@"我的礼包预约按钮"];
-    }];
-    
-    [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"gotoGoodsDetail: %@", data);
-        NSString* str = [data objectForKey:@"projectId"];
-        [myself gotoGoodsDeatil:str :@"2" :0];
-        
-    }];
-    [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
-        NSLog(@"gotoBuyProject: %@", data);
-        NSString* str = [data objectForKey:@"projectId"];
-        [myself gotoBuyProject:str :@"3" :0];
-         [[BaiduMobStat defaultStat]logEvent:@"btn_awarded_gift_list" eventLabel:@"我的礼包已获得按钮"];
-        
-    }];
+//    UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
+//    // web.delegate = self;
+//    web.scrollView.delegate = self;
+//    web.scrollView.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
+//    [self.view addSubview:web];
+//    web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
+//    NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_LIBAO_URL;
+//    NSURL* url = [NSURL URLWithString:str1];//创建URL
+//    NSURLRequest* request = [NSURLRequest requestWithURL:url];
+//    
+//    [web loadRequest:request];//加载
+//    webView = web;
+//    __weak id myself = self;
+//    
+//    self.bridge =[WebViewJavascriptBridge bridgeForWebView:web webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
+//        NSLog(@"data  %@",data);
+//    }];
+//    
+//    [self.bridge send:@"init" responseCallback:^(id responseData) {}];
+//    
+//    
+//    [self.bridge registerHandler:@"gotoAppoint" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        NSLog(@"gotoAppoint %@", data);
+//        NSString* str = [data objectForKey:@"projectId"];
+//        [myself gotoAppoint:str :@""];
+//        [[BaiduMobStat defaultStat]logEvent:@"btn_appoint_gift_list" eventLabel:@"我的礼包预约按钮"];
+//    }];
+//    
+//    [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        NSLog(@"gotoGoodsDetail: %@", data);
+//        NSString* str = [data objectForKey:@"projectId"];
+//        [myself gotoGoodsDeatil:str :@"2" :0];
+//        
+//    }];
+//    [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
+//        NSLog(@"gotoBuyProject: %@", data);
+//        NSString* str = [data objectForKey:@"projectId"];
+//        [myself gotoBuyProject:str :@"3" :0];
+//         [[BaiduMobStat defaultStat]logEvent:@"btn_awarded_gift_list" eventLabel:@"我的礼包已获得按钮"];
+//        
+//    }];
 
 }
 
@@ -172,17 +167,24 @@
     
 }
 
-- (void)webViewDidStartLoad:(UIWebView *)webView{
-    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
-}
-- (void)webViewDidFinishLoad:(UIWebView *)webView1{
-    self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
-    [LLARingSpinnerView RingSpinnerViewStop1];
-}
-
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
-    NSLog(@"%@",error);
-}
+//- (void)webViewDidStartLoad:(UIWebView *)webView{
+//    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+//}
+//- (void)webViewDidFinishLoad:(UIWebView *)webView1{
+//    self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
+//    [LLARingSpinnerView RingSpinnerViewStop1];
+//}
+//
+//- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
+//    NSLog(@"%@",error);
+//}
+//- (BOOL)webView:(UIWebView *)webView1 shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+//{
+//    NSString* url = request.URL.absoluteString ;
+//    NSLog(@"request.URL.absoluteString  %@",url);
+//    
+//    return YES;
+//}
 
 -(void)setupNavigation{
 //self.title = @"我的礼包";
@@ -193,47 +195,41 @@
     rightBar =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
     self.navigationItem.rightBarButtonItem = rightBar;
 }
-- (BOOL)webView:(UIWebView *)webView1 shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-{
-    NSString* url = request.URL.absoluteString ;
-    NSLog(@"request.URL.absoluteString  %@",url);
-    
-    return YES;
-}
-#pragma mark 调转预约界面
--(void)gotoAppoint:(NSString *)ProjectId :(NSString *)Type{
-    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
-    appoint.projectId = ProjectId;
-    [self.navigationController pushViewController:appoint animated:YES];
-    appoint=nil;
-    story=nil;
-}
 
-#pragma mark 调转客妆界面
--(void)gotoGoodsDeatil:(NSString *)ProjectId :(NSString *)Type :(int)isH{
-    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
-    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
-    good.projectId = ProjectId;
-    good.type = Type;
-    good.isHeadShow = isH;
-    [self.navigationController pushViewController:good animated:YES];
-    kz=nil;
-    good=nil;
-}
-#pragma mark 调转客妆界面
--(void)gotoBuyProject:(NSString *)ProjectId :(NSString *)Type :(int)isH{
-    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
-    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
-    good.projectId = ProjectId;
-    good.type = Type;
-    good.isHeadShow = isH;
-    [self.navigationController pushViewController:good animated:YES];
-    kz=nil;
-    good=nil;
-}
+//#pragma mark 调转预约界面
+//-(void)gotoAppoint:(NSString *)ProjectId :(NSString *)Type{
+//    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
+//    appoint.projectId = ProjectId;
+//    [self.navigationController pushViewController:appoint animated:YES];
+//    appoint=nil;
+//    story=nil;
+//}
+//
+//#pragma mark 调转客妆界面
+//-(void)gotoGoodsDeatil:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+//    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+//    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+//    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+//    good.projectId = ProjectId;
+//    good.type = Type;
+//    good.isHeadShow = isH;
+//    [self.navigationController pushViewController:good animated:YES];
+//    kz=nil;
+//    good=nil;
+//}
+//#pragma mark 调转客妆界面
+//-(void)gotoBuyProject:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+//    UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
+//    UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
+//    //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
+//    good.projectId = ProjectId;
+//    good.type = Type;
+//    good.isHeadShow = isH;
+//    [self.navigationController pushViewController:good animated:YES];
+//    kz=nil;
+//    good=nil;
+//}
 
 
 -(void)gotoUNIAppointControllerprojectId:(NSString *)ProjectId Andtype:(NSString *)Type AndIsHeaderShow:(int)isH{
@@ -258,8 +254,8 @@
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    if ([webView canGoBack]) {
-        [webView goBack];
+    if ([self.baseWebView canGoBack]) {
+        [self.baseWebView goBack];
         shareTitle = nil;
         shareDesc =nil;
         shareImg =nil;
@@ -275,7 +271,7 @@
 
 #pragma mark 修改返回按钮图片
 -(void)changeLeftBarImage{
-    if ([webView canGoBack])
+    if ([self.baseWebView canGoBack])
         self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"main_btn_back"];
     else
         self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"main_btn_function"];
@@ -481,15 +477,15 @@
     return encodedString;
 }
 
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView.contentOffset.y<-170) {
-        if (webView.loading)
-            return;
-        //清除UIWebView的缓存
-        [[NSURLCache sharedURLCache] removeAllCachedResponses];
-        [webView reload];
-    }
-}
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+//    if (scrollView.contentOffset.y<-170) {
+//        if (webView.loading)
+//            return;
+//        //清除UIWebView的缓存
+//        [[NSURLCache sharedURLCache] removeAllCachedResponses];
+//        [webView reload];
+//    }
+//}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
