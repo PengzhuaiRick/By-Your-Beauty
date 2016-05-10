@@ -11,7 +11,7 @@
 #import "WXApiManager.h"
 #import "UNIHttpUrlManager.h"
 #import "UNITouristRequest.h"
-
+#import "UNIGuideView.h"
 @interface UNIGiftController ()/*<UIWebViewDelegate,UIScrollViewDelegate,WXApiManagerDelegate>*/{
     UIView* shareView;
     UIView* bgView;
@@ -170,10 +170,10 @@
 //- (void)webViewDidStartLoad:(UIWebView *)webView{
 //    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 //}
-//- (void)webViewDidFinishLoad:(UIWebView *)webView1{
-//    self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
-//    [LLARingSpinnerView RingSpinnerViewStop1];
-//}
+- (void)webViewDidFinishLoad:(UIWebView *)webView1{
+    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:CARDGUIDE];
+    [[UIApplication sharedApplication].keyWindow addSubview:guide];
+}
 //
 //- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
 //    NSLog(@"%@",error);

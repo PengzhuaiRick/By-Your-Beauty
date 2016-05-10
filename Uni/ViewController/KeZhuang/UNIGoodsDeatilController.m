@@ -559,21 +559,43 @@
         [self checkTradeOrderStatus];
         return;
     }
-    [UIAlertView showWithTitle:string message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    [UIAlertView showWithTitle:string message:[noiti objectForKey:@"memo"] cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
     }];
 }
 
 -(void)dealWithResultOfTheWCpay:(NSNotification*)noiti{
      int num = [[noiti.userInfo objectForKey:@"result"] intValue];
+    NSString* errString = nil;
+    switch (num) {
+        case 0:
+            errString = @"交易成功";
+            break;
+        case -1:
+            errString = @"交易失败";
+            break;
+        case -2:
+            errString = @"用户点击取消并返回";
+            break;
+        case -3:
+            errString = @"发送失败";
+            break;
+        case -4:
+            errString = @"授权失败";
+            break;
+        case -5:
+            errString = @"微信不支持";
+            break;
+            
+    }
     NSString* result=nil;
     if (num == 0){
-        result = @"支付成功";
+        result = @"支付成功!";
          [self checkTradeOrderStatus];
     }else{
-        result = @"交易取消";
-    [UIAlertView showWithTitle:result message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        result = @"支付失败!";
+    [UIAlertView showWithTitle:result message:errString cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
     }];
-    }
+}
     
 }
 

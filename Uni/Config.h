@@ -108,6 +108,35 @@
  */
 #define LASTUSERLOGINNAME @"LASTUSERLOGINNAME"
 
+/**
+ *  是否第一次打开首页
+ */
+#define MAINGUIDE @"MainGuide"
+
+/**
+ *  是否第一次打开我的礼包
+ */
+#define CARDGUIDE @"CardGuide"
+/**
+ *  是否第一次打开侧边栏
+ */
+#define FUNCTIONGUIDE @"FunctionGuide"
+/**
+ *  是否第一次打开我的奖励
+ */
+#define REWARDGUIDE @"RewardGuide"
+/**
+ *  是否第一次打开预约界面1
+ */
+#define APPOINTGUIDE1 @"AppointGuide1"
+/**
+ *  是否第一次打开预约界面2
+ */
+#define APPOINTGUIDE2 @"AppointGuide2"
+/**
+ *  是否第一次打开删除预约项目
+ */
+#define APPOINTDELGUIDE @"AppointDelGuide"
 
 
 //支付宝公钥

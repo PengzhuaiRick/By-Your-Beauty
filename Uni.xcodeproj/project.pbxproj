@@ -174,6 +174,7 @@
 		18F096681BF1C99400B60A3D /* BaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F096671BF1C99400B60A3D /* BaseRequest.m */; };
 		18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F0966A1BF1CA1D00B60A3D /* MainViewRequest.m */; };
 		18F0966F1BF1DE4900B60A3D /* LoginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F0966E1BF1DE4900B60A3D /* LoginController.m */; };
+		18F881151CE1BA4700FE2C4E /* UNIGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18F881141CE1BA4700FE2C4E /* UNIGuideView.m */; };
 		18FD49781C16748900C07BF5 /* UNIRewardListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FD49771C16748900C07BF5 /* UNIRewardListModel.m */; };
 		18FD497B1C16845B00C07BF5 /* UNIRewardListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18FD497A1C16845B00C07BF5 /* UNIRewardListView.m */; };
 		969E87D7F46C2F35E18C553F /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51A488F547F00A72A2F3F5B9 /* libPods.a */; };
@@ -580,6 +581,8 @@
 		18F0966A1BF1CA1D00B60A3D /* MainViewRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewRequest.m; sourceTree = "<group>"; };
 		18F0966D1BF1DE4900B60A3D /* LoginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginController.h; sourceTree = "<group>"; };
 		18F0966E1BF1DE4900B60A3D /* LoginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginController.m; sourceTree = "<group>"; };
+		18F881131CE1BA4700FE2C4E /* UNIGuideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGuideView.h; sourceTree = "<group>"; };
+		18F881141CE1BA4700FE2C4E /* UNIGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGuideView.m; sourceTree = "<group>"; };
 		18FD49761C16748900C07BF5 /* UNIRewardListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardListModel.h; sourceTree = "<group>"; };
 		18FD49771C16748900C07BF5 /* UNIRewardListModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardListModel.m; sourceTree = "<group>"; };
 		18FD49791C16845B00C07BF5 /* UNIRewardListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardListView.h; sourceTree = "<group>"; };
@@ -804,6 +807,8 @@
 				18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */,
 				18C9CB0D1CCA046A00D8FB5F /* UNIScanView.h */,
 				18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */,
+				18F881131CE1BA4700FE2C4E /* UNIGuideView.h */,
+				18F881141CE1BA4700FE2C4E /* UNIGuideView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1628,6 +1633,7 @@
 				18C9CB0F1CCA046A00D8FB5F /* UNIScanView.m in Sources */,
 				184481FF1C5207DB0047D2EF /* UNIOrderDetailController.m in Sources */,
 				18CC75C41C2C127400625205 /* MainViewCell.m in Sources */,
+				18F881151CE1BA4700FE2C4E /* UNIGuideView.m in Sources */,
 				188F123D1C16EB0B00EBE345 /* UNIWalletList.m in Sources */,
 				181347AF1BF33E6D001674D9 /* UNILoginViewModel.m in Sources */,
 				18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */,

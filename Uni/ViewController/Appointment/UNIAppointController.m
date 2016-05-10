@@ -14,6 +14,7 @@
 #import "UNIShopView.h"
 #import "UNIShopListController.h"
 #import "UNIHttpUrlManager.h"
+#import "UNIGuideView.h"
 //#import "UNIMyProjectModel.h"
 @interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate,UNIShopListControllerDelegate>
 {
@@ -65,6 +66,9 @@
     [self regirstKeyBoardNotification];
     }
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+    
+    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTGUIDE1];
+    [[UIApplication sharedApplication].keyWindow addSubview:guide];
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
@@ -365,8 +369,12 @@
     
      [appointTop changeProjectIds:appontMid.myData];
     [self modifitacteAppontMid];
+    [self performSelector:@selector(showGuideView) withObject:nil afterDelay:0.8];
 }
-
+-(void)showGuideView{
+    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTDELGUIDE];
+    [[UIApplication sharedApplication].keyWindow addSubview:guide];
+}
 -(void)UNIAppontMidDelegateMethod{
     
     [appointTop changeProjectIds:appontMid.myData];
@@ -374,6 +382,7 @@
 }
 
 -(void)modifitacteAppontMid{
+    
     // 添加项目和减少项目的时候 修改 appontMid 的高度 和 sureBtn 的位置
     NSArray* x = appontMid.myData;
     

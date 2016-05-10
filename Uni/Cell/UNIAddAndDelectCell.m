@@ -21,7 +21,8 @@
     
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(size.width - size.height, 0, size.height, size.height);
-    [btn setTitle:@"删除" forState:UIControlStateNormal];
+   // [btn setTitle:@"删除" forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:@"appoint_btn_del"] forState:UIControlStateNormal];
     btn.enabled = NO;
     btn.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
     [self addSubview:btn];

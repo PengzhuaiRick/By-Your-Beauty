@@ -20,7 +20,7 @@
 #import "UNIGoodsWeb.h"
 #import "UNIHttpUrlManager.h"
 #import "UNITouristController.h"
-
+#import "UNIGuideView.h"
 
 @interface MainViewController ()</*UINavigationControllerDelegate,*/MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
@@ -97,7 +97,8 @@
 //    [self getSellInfo]; //获取首页销售商品
     [self setupNotification];//注册通知
 
-    //[self addLocateNotication];
+    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:MAINGUIDE];
+    [[UIApplication sharedApplication].keyWindow addSubview:guide];
 }
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
@@ -130,6 +131,8 @@
     [self startRequestAppointInfo];//请求我已预约
     [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
     [self getSellInfo]; //获取首页销售商品
+    
+   
 }
 
 #pragma mark 审核期间 是否显示活动页面
@@ -199,6 +202,8 @@
 
     if (self.containController.closing) {
         [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
+        UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:FUNCTIONGUIDE];
+        [[UIApplication sharedApplication].keyWindow addSubview:guide];
     }
     else{
          [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];

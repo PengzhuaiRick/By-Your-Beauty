@@ -76,7 +76,6 @@
     
     //设置返回按钮颜色
     [bar setTintColor:[UIColor blackColor]];
-    [bar setBarTintColor:[UIColor clearColor]];
     
     //设置导航栏标题字体颜色
     

@@ -11,8 +11,9 @@
 #import "UNIMyRewardRequest.h"
 #import "UNIRewardListController.h"
 #import <MJRefresh/MJRefresh.h>
-
 #import "UNIRewordAndIntimeCell.h"
+#import "UNIGuideView.h"
+
 @interface UNIMyRewardController ()<UITableViewDataSource,UITableViewDelegate>{
     MyRewardView* appointView;
     MyRewardView* inTimeView;
@@ -167,6 +168,8 @@
            // }
 //            else
 //                [YIToast showText:tips];
+            UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:REWARDGUIDE];
+            [[UIApplication sharedApplication].keyWindow addSubview:guide];
         });
     };
 }
