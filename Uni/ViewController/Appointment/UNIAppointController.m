@@ -67,8 +67,9 @@
     }
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
     
-    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTGUIDE1];
-    [[UIApplication sharedApplication].keyWindow addSubview:guide];
+//    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTGUIDE1];
+//    [[UIApplication sharedApplication].keyWindow addSubview:guide];
+    [self showGuideView:APPOINTGUIDE1];
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
@@ -99,16 +100,16 @@
     shopModel.telphone = ma.telphone;
     shopModel.shortName = ma.shortName;
     
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
-    [tap.rac_gestureSignal subscribeNext:^(id x) {
-        UNIShopListController* shopC = [[UNIShopListController alloc]init];
-        shopC.delegate = self;
-        [self.navigationController pushViewController:shopC animated:YES];
-        shopC=nil;
-        [[BaiduMobStat defaultStat]logEvent:@"btn_select_shop" eventLabel:@"预约选择店铺按钮"];
-    }];
-    [shop addGestureRecognizer:tap];
-    tap=nil;
+//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
+//    [tap.rac_gestureSignal subscribeNext:^(id x) {
+//        UNIShopListController* shopC = [[UNIShopListController alloc]init];
+//        shopC.delegate = self;
+//        [self.navigationController pushViewController:shopC animated:YES];
+//        shopC=nil;
+//        [[BaiduMobStat defaultStat]logEvent:@"btn_select_shop" eventLabel:@"预约选择店铺按钮"];
+//    }];
+//    [shop addGestureRecognizer:tap];
+//    tap=nil;
     shop=nil;
 }
 #pragma mark 店铺列表页面代理方法
@@ -372,8 +373,9 @@
     [self performSelector:@selector(showGuideView) withObject:nil afterDelay:0.8];
 }
 -(void)showGuideView{
-    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTDELGUIDE];
-    [[UIApplication sharedApplication].keyWindow addSubview:guide];
+//    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTDELGUIDE];
+//    [[UIApplication sharedApplication].keyWindow addSubview:guide];
+    [self showGuideView:APPOINTDELGUIDE];
 }
 -(void)UNIAppontMidDelegateMethod{
     

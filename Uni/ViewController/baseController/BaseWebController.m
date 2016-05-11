@@ -7,7 +7,7 @@
 //
 
 #import "BaseWebController.h"
-
+#import "UNIGuideView.h"
 @interface BaseWebController ()
 @property WebViewJavascriptBridge* bridge;
 @end
@@ -89,6 +89,9 @@
 
 #pragma mark 调转预约界面
 -(void)gotoAppoint:(NSString *)ProjectId :(NSString *)Type{
+    if (!ProjectId)
+        return;
+    
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
     appoint.projectId = ProjectId;
@@ -99,6 +102,9 @@
 
 #pragma mark 调转客妆界面
 -(void)gotoGoodsDeatil:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+    
+    if (!ProjectId)
+        return;
     UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
     UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
     //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
@@ -111,6 +117,9 @@
 }
 #pragma mark 调转客妆界面
 -(void)gotoBuyProject:(NSString *)ProjectId :(NSString *)Type :(int)isH{
+    
+    if (!ProjectId)
+        return;
     UIStoryboard* kz = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
     UNIGoodsDeatilController* good = [kz instantiateViewControllerWithIdentifier:@"UNIGoodsDeatilController"];
     //UNIGoodsDeatilController* good = [[UNIGoodsDeatilController alloc]init];
@@ -154,7 +163,13 @@
     }
 }
 
-
+#pragma mark 显示指引图片
+-(void)showGuideView:(NSString*)className{
+   // if (![UNIGuideView determineWhetherFirstTime:className]) {
+        UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:className];
+        [[UIApplication sharedApplication].keyWindow addSubview:guide];
+    //}
+}
 
 #pragma mark 百度统计开始
 -(void)BaiduStatBegin:(NSString*)text{

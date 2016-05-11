@@ -171,8 +171,7 @@
 //    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
 //}
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
-    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:CARDGUIDE];
-    [[UIApplication sharedApplication].keyWindow addSubview:guide];
+    [self showGuideView:CARDGUIDE];
 }
 //
 //- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{

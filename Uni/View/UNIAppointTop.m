@@ -121,7 +121,7 @@
 }
 
 -(void)startRequest{
-    self.selectTime = @"";
+   // self.selectTime = @"";
     NSString* string = self.selectDay;
     
     NSMutableString* projectIds = [NSMutableString string];
@@ -151,8 +151,8 @@
         if ([title isEqualToString: string]) {
             NSString* title1 = [[NSDate date].description substringWithRange:NSMakeRange(11, 5)];
             NSArray* now = [title1 componentsSeparatedByString:@":"];
-            int xs = [now[0] intValue]+8;
-            int m = [now[1] intValue];
+            int xs = [now[0] intValue]+8;  //+8小时为北京时间
+            int m = [now[1] intValue];     //分钟
             for (NSDictionary* dic in array) {
                 NSString* time = [dic objectForKey:@"time"];
                 NSArray* st = [time componentsSeparatedByString:@":"];
@@ -171,6 +171,24 @@
             }
         }else{
             [data addObjectsFromArray:array];
+        }
+        
+        if (self.selectTime) {
+            BOOL cuizai = NO;
+            for (int i = 0;i<data.count;i++) {
+                NSDictionary* dic = data[i];
+                if ([self.selectTime isEqualToString:dic[@"time"]])
+                    cuizai = YES;
+                
+                if (i == data.count - 1 && cuizai==NO)
+                    self.selectTime = nil;
+                
+            }
+        }
+        
+        if (!self.selectTime){
+            NSDictionary* dic = data[0];
+            self.selectTime = dic[@"time"];
         }
        
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -477,9 +495,16 @@
         float btnY =i/3*btnH;
         UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
         but.frame=CGRectMake(btnX+1, btnY+1, btnW-2, btnH-2);
-        if(i == 0){
+        
+        NSString* btnString =[dic valueForKey:@"time"];
+        if ([self.selectTime isEqualToString:btnString])
             but.selected=YES;
-            self.selectTime =[dic valueForKey:@"time"];
+        
+       
+        if(i == 0){
+            
+           // but.selected=YES;
+            //self.selectTime =[dic valueForKey:@"time"];
             
             self.startTime = nil;
             NSString* str = [NSString stringWithFormat:@"%@ %@",self.selectDay,self.selectTime];
@@ -488,6 +513,7 @@
             self.startTime = [dateFormatter dateFromString:str];
             dateFormatter = nil; str=nil;
         }
+        
         if (i == cout-1) {
             self.finalTime=nil;
             NSString* str = [NSString stringWithFormat:@"%@ %@",_selectDay,[dic valueForKey:@"time"]];
@@ -538,12 +564,7 @@
              [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
              self.startTime = [dateFormatter dateFromString:str];
              dateFormatter = nil; str=nil;
-             
-             //通知移除添加的项目
-            // [[NSNotificationCenter defaultCenter]postNotificationName:@"delectTheAddProject" object:nil];
-             //delectTheAddProject
-             
-
+            
         }];
         but = nil;
     }

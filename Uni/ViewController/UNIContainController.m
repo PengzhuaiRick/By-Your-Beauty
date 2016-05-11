@@ -14,6 +14,7 @@
 #import "UNIGiftController.h"
 #import "UNIOrderListController.h"
 #import "UNISetttingController.h"
+
 @interface UNIContainController ()
 {
     CGPoint startPoint;
@@ -125,6 +126,8 @@
     }];
     //self.tapGes.enabled=YES;
     self.closing=NO;
+    
+    [self showGuideView:FUNCTIONGUIDE];
 }
 
 //首页

@@ -27,8 +27,6 @@
     
     [self BaiduStatBegin:@"商品列表"];
     [super viewWillAppear:animated];
-    [[UINavigationBar appearance] setBarTintColor:[UIColor orangeColor]];
-    [self.navigationController.navigationBar setTranslucent:YES];
 }
 -(void)viewWillDisappear:(BOOL)animated{
    // webView.delegate = nil;
