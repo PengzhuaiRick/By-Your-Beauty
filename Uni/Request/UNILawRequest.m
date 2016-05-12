@@ -28,7 +28,18 @@
                 _getLawInfoBlock(nil,tips,nil);
         }
     
-    
+    /**
+     *  获取
+     */
+    if ([param2 isEqualToString:API_URL_getUNIPhone]) {
+        if (code == 0) {
+            NSDictionary* result = [self safeObject:dic ForKey:@"result"];
+            NSString* phone = [self safeObject:result ForKey:@"phone"];
+            _getUniPhone(code,phone,tips,nil);
+        }else
+             _getUniPhone(-1,nil,tips,nil);
+    }
+
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
@@ -38,7 +49,8 @@
         if ([param2 isEqualToString:API_URL_GetTextInfo]) {
                 _getLawInfoBlock(nil,nil,err);
         }
-
+     if ([param2 isEqualToString:API_URL_getUNIPhone])
+          _getUniPhone(-1,nil,nil,err);
 }
 
 @end

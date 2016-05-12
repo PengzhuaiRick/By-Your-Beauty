@@ -367,10 +367,9 @@
     //UNIMyProjectModel* info = model;
     [appontMid.myData addObjectsFromArray:arr];
     [appontMid addProject:arr];
-    
-     [appointTop changeProjectIds:appontMid.myData];
     [self modifitacteAppontMid];
-    [self performSelector:@selector(showGuideView) withObject:nil afterDelay:0.8];
+    [appointTop changeProjectIds:appontMid.myData];
+    [self performSelector:@selector(showGuideView) withObject:nil afterDelay:0.5];
 }
 -(void)showGuideView{
 //    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTDELGUIDE];

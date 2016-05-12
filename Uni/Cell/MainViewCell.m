@@ -132,7 +132,8 @@
         if (info) {
             self.handleBtn.hidden = NO;
             //NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.logoUrl];
-            [self.mainImage sd_setImageWithURL:[NSURL URLWithString:info.logoUrl]];
+            [self.mainImage sd_setImageWithURL:[NSURL URLWithString:info.logoUrl]
+                              placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
             self.mainLab.text = info.projectName;
             self.subLab .text = [NSString stringWithFormat:@"剩余%d次",info.num];
             CGRect subR =self.subLab.frame;

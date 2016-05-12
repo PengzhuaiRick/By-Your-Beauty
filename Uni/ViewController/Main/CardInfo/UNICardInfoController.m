@@ -207,7 +207,13 @@
 -(void)setupmidView:(int)total and:(int)num{
     if (num>total)
        num=total;
-   
+
+    for (UIView* view in topView.subviews) {
+        if ([view isKindOfClass:[UIImageView class]])
+            [view removeFromSuperview];
+        if ([view isKindOfClass:[UIButton class]])
+            [view removeFromSuperview];
+    }
     
     UIImage* img4 =[UIImage imageNamed:@"card_img_unopen"];
     
@@ -317,10 +323,12 @@
     myTableView.tableFooterView = [UIView new];
     
     myTableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self startRequestInTimeInfo];
         self->pageNum =0;
         [self startRequestCardInfo];
     }];
         myTableView.footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+            
             ++self->pageNum;
             [self startRequestCardInfo];
         }];

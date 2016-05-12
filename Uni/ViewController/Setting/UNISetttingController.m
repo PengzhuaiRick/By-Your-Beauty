@@ -10,7 +10,7 @@
 #import "UNIAboutUsController.h"
 #import "UNILawViewController.h"
 @interface UNISetttingController ()<UITableViewDelegate,UITableViewDataSource>
-
+@property(nonatomic,copy)NSString* phone;
 @end
 
 @implementation UNISetttingController
@@ -40,6 +40,7 @@
     [super viewDidLoad];
     [self setupNavigation];
     [self setupUI];
+    [self requestTheUniPhone];
 }
 -(void)setupNavigation{
     self.title = @"设置";
@@ -128,9 +129,11 @@
         [self.navigationController pushViewController:ab animated:YES];
     }if (indexPath.row == 0) {
         
-        [UIAlertView showWithTitle:@"是否拨打电话02038904856" message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"拨打"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        NSString* str = [NSString stringWithFormat:@"是否拨打电话%@",self.phone];
+        [UIAlertView showWithTitle:str message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"拨打"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
-                NSString* tel = @"tel://02038904856";
+                //NSString* tel = @"tel://02038904856";
+                NSString* tel =[NSString stringWithFormat:@"tel://%@",self.phone];
                 [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
             }
         }];
@@ -147,6 +150,17 @@
         [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
     }
 }
+#pragma mark 请求公司电话
+-(void)requestTheUniPhone{
+    __weak UNISetttingController* myself = self;
+    UNILawRequest * req = [[UNILawRequest alloc]init];
+    req.getUniPhone=^(int code,NSString* phone,NSString* tips,NSError* err){
+        myself.phone = phone;
+    };
+    [req postWithSerCode:@[API_URL_getUNIPhone] params:nil];
+}
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

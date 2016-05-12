@@ -109,7 +109,7 @@
     
    // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
     [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                    placeholderImage:nil];
+                    placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
 
     
     self.label1.text=info.projectName;

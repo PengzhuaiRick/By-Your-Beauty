@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "baseViewController.h"
+#import "UNILawRequest.h"
 @interface UNILawViewController :baseViewController
 
 @end

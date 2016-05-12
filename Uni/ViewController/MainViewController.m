@@ -97,7 +97,7 @@
 //    [self getSellInfo]; //获取首页销售商品
     [self setupNotification];//注册通知
     
-     [self showGuideView:MAINGUIDE];
+     //[self showGuideView:MAINGUIDE];
 }
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
@@ -148,6 +148,8 @@
             }
             if (code != 5)
                 [myself requestActivityInfo];
+            else
+                [myself showGuideView:MAINGUIDE];
         });
     };
 
@@ -168,7 +170,8 @@
             if (activityId>0 && hasActivity < 2)
                [myself performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
                //[self setupActivityController:@[@(hasActivity),@(activityId)]];
-            
+            else
+                [myself showGuideView:MAINGUIDE];
         });
     };
 }
@@ -232,7 +235,7 @@
     float imgH = KMainScreenWidth;
     CGRect topRe =CGRectMake(0,0,tabW,imgH);
     UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
-    //topImg.image = [UIImage imageNamed:@"main_img_top"];
+    //topImg.image = [UIImage imageNamed:@"main_img_goodsBg"];
     topImg.userInteractionEnabled = YES;
     tabview.tableHeaderView = topImg;
     headerImg = topImg;
@@ -572,7 +575,7 @@
         MainViewRequest* request1 = [[MainViewRequest alloc]init];
         [request1 postWithSerCode:@[API_URL_MRInfo]
                            params:nil];
-        request1.rerewardBlock=^(int nextRewardNum,int num,int type,int goodid,NSString* url,NSString* projectName,NSString*tips,NSError* er){
+        request1.rerewardBlock=^(int nextRewardNum,int num,int type,int goodid,NSString* url,NSString* projectName,NSString* title,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (nextRewardNum>0) {
@@ -594,14 +597,16 @@
                             self->goods1.text = @"再预约次数";
                         }if (nextRewardNum <= num) {
                             self->numLab.text = @"恭喜您!";
-                            self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
+                            self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:15];
                             self->goods1.hidden=YES;
                         }
-                        NSRange yuan = [projectName rangeOfString:@"元"];
-                        if (yuan.length>0) {
-                            self->goods2.text=[NSString stringWithFormat:@"可获得%@",[projectName substringToIndex:yuan.location+1]];
-                            self->goodsLab.text = [projectName substringFromIndex:yuan.location+1];
-                        }
+                        self->goods2.text = title;
+                        self->goodsLab.text = projectName;
+//                        NSRange yuan = [projectName rangeOfString:@"元"];
+//                        if (yuan.length>0) {
+//                            self->goods2.text=[NSString stringWithFormat:@"可获得%@",[projectName substringToIndex:yuan.location+1]];
+//                            self->goodsLab.text = [projectName substringFromIndex:yuan.location+1];
+//                        }
                     }else{
                         self->numLab.text = nil;
                         self->goods1.text= nil;
@@ -700,7 +705,8 @@
                     NSString* url = [dic valueForKey:@"url"];
                    // NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
                     if ([code hasSuffix:@"_bg"]) {
-                        [self->headerImg sd_setImageWithURL:[NSURL URLWithString:url]];
+                        [self->headerImg sd_setImageWithURL:[NSURL URLWithString:url]
+                                           placeholderImage:[UIImage imageNamed:@"main_img_goodsBg"]];
                     }
                     code=nil; url = nil;
                 }
@@ -767,6 +773,7 @@
 -(void)appointSuccessAndReflash{
     if ([AccountManager token]) {
         [myTable.header beginRefreshing];
+        [self showGuideView:MAINGUIDE];
     }else{
         [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
     }

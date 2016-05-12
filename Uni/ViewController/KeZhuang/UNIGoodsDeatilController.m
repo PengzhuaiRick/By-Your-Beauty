@@ -224,10 +224,7 @@
     
     [RACObserve(self,num)subscribeNext:^(id x) {
         self->numField.text = [NSString stringWithFormat:@"%d",self.num];
-//        if (self->model.shopPrice>1)
-//            self->priceLab.text = [NSString stringWithFormat:@"￥%.f",self->model.shopPrice*self.num];
-//        else
-            self->priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice*self.num];
+            self->priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice*self.num - self->model.reduceMoney];
     }];
     
     
@@ -554,12 +551,25 @@
 -(void)dealWithResultOfTheZFB:(NSDictionary*)noiti{
     int num = [[noiti objectForKey:@"resultStatus"] intValue];
     NSString* string = @"支付失败!";
+    NSString* message = [noiti objectForKey:@"memo"];
     if (num == 9000){
         string = @"支付成功!";
         [self checkTradeOrderStatus];
         return;
     }
-    [UIAlertView showWithTitle:string message:[noiti objectForKey:@"memo"] cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+    switch (num) {
+        case 4000: message=@"支付宝系统异常"; break;
+        case 4001: message=@"数据格式不正确";  break;
+        case 4003: message=@"该用户绑定的支付宝账户被冻结或不允许支付"; break;
+        case 4004: message=@"该用户已解除绑定";  break;
+        case 4005: message=@"绑定失败或没有绑定"; break;
+        case 4006: message=@"订单支付失败"; break;
+        case 4010: message=@"重新绑定账户";  break;
+        case 6000: message=@"支付服务正在进行升级操作"; break;
+        case 6001: message=@"用户中途取消支付操作";  break;
+        case 7001: message=@"网页支付失败"; break;
+    }
+    [UIAlertView showWithTitle:string message:message cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
     }];
 }
 

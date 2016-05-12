@@ -1924,7 +1924,7 @@
 					"\"SystemConfiguration\"",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.AoYa.Uni1.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AoYa.Uni;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s arm64";
@@ -1987,7 +1987,7 @@
 					"\"SystemConfiguration\"",
 					"$(inherited)",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.AoYa.Uni1.7;
+				PRODUCT_BUNDLE_IDENTIFIER = com.AoYa.Uni;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "armv7 armv7s arm64";

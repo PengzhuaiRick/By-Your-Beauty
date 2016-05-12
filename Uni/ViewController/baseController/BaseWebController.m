@@ -18,6 +18,7 @@
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     self.baseWebView.scrollView.delegate = nil;
+    //[_progressView removeFromSuperview];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -165,10 +166,10 @@
 
 #pragma mark 显示指引图片
 -(void)showGuideView:(NSString*)className{
-   // if (![UNIGuideView determineWhetherFirstTime:className]) {
+   if (![UNIGuideView determineWhetherFirstTime:className]) {
         UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:className];
         [[UIApplication sharedApplication].keyWindow addSubview:guide];
-    //}
+    }
 }
 
 #pragma mark 百度统计开始

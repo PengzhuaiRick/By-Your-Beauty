@@ -114,7 +114,7 @@
     
    // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
     [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                    placeholderImage:nil];
+                    placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
     
     self.mainLab.text = model.projectName;
     self.subLab.text = [NSString stringWithFormat:@"服务时长%d分钟",model.costTime];

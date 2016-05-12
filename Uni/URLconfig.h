@@ -165,4 +165,7 @@
 
 //新用户选择店铺
 #define API_URL_addUser @"Customer/addUser"
+
+//获取 UNI 办公室电话
+#define API_URL_getUNIPhone @"NotLogin/getMessage"
 #endif /* URLconfig_h */

@@ -114,10 +114,10 @@
     
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     self.midScroller.alpha = 0.5;
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-      [NSThread sleepForTimeInterval:1];
+   // dispatch_async(dispatch_get_global_queue(0, 0), ^{
+      //[NSThread sleepForTimeInterval:1];
     [self startRequest];
-    });
+    //});
 }
 
 -(void)startRequest{
@@ -367,6 +367,7 @@
     float topW =view.frame.size.width - 2* btn3WH;
     UIScrollView* secondV = [[UIScrollView alloc]initWithFrame:CGRectMake(topX, topY,topW, topH)];
     secondV.delegate = self;
+    secondV.pagingEnabled=NO;
     [view addSubview:secondV];
     _midScroller = secondV;
     
@@ -453,15 +454,15 @@
             f++;
     }
     
-    CGPoint point = CGPointMake(0, 0);
-    [self.midScroller setContentOffset:point animated:YES];
+//    CGPoint point = CGPointMake(0, 0);
+//    [self.midScroller setContentOffset:point animated:YES];
     
     float KK =0;
     float btnW = (_midScroller.frame.size.width - KK)/3;
     float btnH = midBtnH;
     _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width ,
                                               btnH*f);
-    _midScroller.pagingEnabled=YES;
+   // _midScroller.pagingEnabled=YES;
     
     
         [[self.midRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]

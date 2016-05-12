@@ -24,6 +24,7 @@
     self.type = [[self safeObject:dic ForKey:@"type"] intValue];
     self.price = [[self safeObject:dic ForKey:@"price"]floatValue];
     self.shopPrice = [[self safeObject:dic ForKey:@"shopPrice"]floatValue];
+    self.reduceMoney = [[self safeObject:dic ForKey:@"reduceMoney"]floatValue];
     self.desc = [self safeObject:dic ForKey:@"desc"];
     self.goodsCode = [self safeObject:dic ForKey:@"goodsCode"];
     self.specifications = [self safeObject:dic ForKey:@"specifications"];

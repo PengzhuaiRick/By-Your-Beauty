@@ -56,7 +56,7 @@
     float lab2H = KMainScreenWidth*30/320;
     float lab2Y = CGRectGetMaxY(lab.frame);
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(0, lab2Y, lab2W, lab2H)];
-    lab2.text=@"满1000元减100元";
+   // lab2.text=@"满1000元减100元";
     lab2.textColor = [UIColor whiteColor];
     lab2.textAlignment=NSTextAlignmentCenter;
     lab2 .font =[UIFont systemFontOfSize:KMainScreenWidth*14/320];

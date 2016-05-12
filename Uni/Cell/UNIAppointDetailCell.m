@@ -91,7 +91,8 @@
 -(void)setupCellContentWith:(id)model{
     UNIMyAppointInfoModel* info = model;
      //NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
-    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:info.url] placeholderImage:nil];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:info.url]
+                      placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];
@@ -151,7 +152,8 @@
 -(void)setupCellContentWith1:(id)model{
     UNIMyAppointInfoModel* info = model;
    // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.url];
-    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:info.url] placeholderImage:nil];
+    [self.mainImage sd_setImageWithURL:[NSURL URLWithString:info.url]
+                      placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
     self.mainLab.text = info.projectName;
     self.subLab.text = [NSString stringWithFormat:@"预约时间 : %@",[info.date substringToIndex:16]];
     self.timeLab.text =[NSString stringWithFormat:@"服务时长 : %d分钟",info.costTime ];

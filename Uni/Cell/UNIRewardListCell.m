@@ -111,7 +111,7 @@
         imgUrl = arr[0];
     
     [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                    placeholderImage:[UIImage imageNamed:@"main_img_shuang"]];
+                    placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
     self.label1.text =info.projectName;
     self.label2.text =[NSString stringWithFormat:@"规格: %@     x%d",info.specifications,info.num];
     self.label3.text = [info.time substringWithRange:NSMakeRange(5, 11)];

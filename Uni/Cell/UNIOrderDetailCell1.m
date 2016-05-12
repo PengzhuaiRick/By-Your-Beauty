@@ -75,7 +75,8 @@
         imgUrl = arr[0];
     
    // NSString* url = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:nil];
+    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+                    placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
     self.lab1.text =info.projectName;
     [self.lab1 sizeToFit];
     self.lab2.text = [NSString stringWithFormat:@"￥%@",info.price];
