@@ -240,10 +240,11 @@
 }
 //后台
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    //获取当前所有的本地通知
-    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
-    NSArray* appointArr =[userD objectForKey:@"appointArr"];
-    if (appointArr.count<1) {
+     NSArray *notificaitons = [[UIApplication sharedApplication] scheduledLocalNotifications];
+//    //获取当前所有的本地通知
+//    NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
+//    NSArray* appointArr =[userD objectForKey:@"appointArr"];
+    if (notificaitons.count<1) {
         return;
     }
     if ([[UIDevice currentDevice] respondsToSelector:@selector(isMultitaskingSupported)])
@@ -300,7 +301,7 @@
     }
     
     //是否存在快到预约时间的通知
-    BOOL have = NO;
+//    BOOL have = NO;
     NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
     NSArray* appointArr =[userD objectForKey:@"appointArr"];
     NSMutableArray* arr = [NSMutableArray arrayWithArray:appointArr] ;
@@ -310,10 +311,12 @@
         if ([self determineCurrentLoggingUser:[userInfo objectForKey:@"token"]] == NO)
             [arr removeObject:userInfo];
         }
-    if (arr.count>0) {
-        have = YES;
+    if (arr.count>0)
         [self checkLocationNotification1];
-    }
+    else
+        //结束后台服务
+         [self closeTheBackGroundTask];
+    
   /*
     for (int i = 0;i<arr.count;i++) {
         NSDictionary* userInfo =arr[i];
@@ -341,12 +344,12 @@
         }
     }*/
     
-    [userD setObject:arr forKey:@"appointArr"];
-    [userD synchronize];
+//    [userD setObject:arr forKey:@"appointArr"];
+//    [userD synchronize];
    
-    if (have == NO)
+   // if (have == NO)
         //结束后台服务
-        [self closeTheBackGroundTask];
+       // [self closeTheBackGroundTask];
 }
 
 #pragma mark 检查所有本地预约提醒通知

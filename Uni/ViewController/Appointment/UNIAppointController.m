@@ -285,7 +285,7 @@
     //设置本地通知的触发时间（如果要立即触发，无需设置）
     localNotification.fireDate =strDate;
     
-    //localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     //设置通知的内容
@@ -308,26 +308,26 @@
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
     
-    NSDictionary* dib = @{@"time":strDate,
-                          @"OrderId":order,
-                          @"token":[AccountManager token],
-                          @"shopId":@(shopView.shopId),
-                          @"shopX":@(shopModel.x),
-                          @"shopY":@(shopModel.y),
-//                          @"shopAddress":shopModel.address,
-//                          @"shopName":shopModel.shopName
-                          };
-    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-    NSArray* appointArr = [user objectForKey:@"appointArr"];
-    NSMutableArray* arr;
-    if (appointArr.count>0)
-        arr =[NSMutableArray arrayWithArray:appointArr];
-    else
-        arr =[NSMutableArray array];
-    
-    [arr addObject:dib];
-    [user setObject:arr forKey:@"appointArr"];
-    [user synchronize];
+//    NSDictionary* dib = @{@"time":strDate,
+//                          @"OrderId":order,
+//                          @"token":[AccountManager token],
+//                          @"shopId":@(shopView.shopId),
+//                          @"shopX":@(shopModel.x),
+//                          @"shopY":@(shopModel.y),
+////                          @"shopAddress":shopModel.address,
+////                          @"shopName":shopModel.shopName
+//                          };
+//    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
+//    NSArray* appointArr = [user objectForKey:@"appointArr"];
+//    NSMutableArray* arr;
+//    if (appointArr.count>0)
+//        arr =[NSMutableArray arrayWithArray:appointArr];
+//    else
+//        arr =[NSMutableArray array];
+//    
+//    [arr addObject:dib];
+//    [user setObject:arr forKey:@"appointArr"];
+//    [user synchronize];
     
     //预约成功刷新界面
     [[NSNotificationCenter defaultCenter] postNotificationName:APPOINTANDREFLASH object:nil];

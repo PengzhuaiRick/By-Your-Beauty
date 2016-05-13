@@ -143,6 +143,30 @@
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
    
 }
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    static BOOL isRequestWeb = YES;
+    
+    if (isRequestWeb) {
+        NSHTTPURLResponse *response = nil;
+        
+        NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:nil];
+        if (response.statusCode == 404) {
+            // code for 404
+            return NO;
+        } else if (response.statusCode == 403) {
+            // code for 403
+            return NO;
+        }
+        
+        [webView loadData:data MIMEType:@"text/html" textEncodingName:nil baseURL:[request URL]];
+        
+        isRequestWeb = NO;
+        return NO;
+    }
+    
+    return YES;
+}
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     float y = scrollView.contentOffset.y;
     if (y< -130) {
@@ -181,6 +205,8 @@
 -(void)BaiduStatEnd:(NSString*)text{
     [[BaiduMobStat defaultStat] pageviewEndWithName:text];
 }
+
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
