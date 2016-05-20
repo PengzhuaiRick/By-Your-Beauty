@@ -22,13 +22,14 @@
         self.status = st;
         //[self setupTableView];
         self.allArray = [NSMutableArray array];
+        [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
          [self startRequest];
        
     }
     return self;
 }
 -(void)startRequest{
-    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+    
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
     [request postWithSerCode:@[API_URL_MYRewardList]
                       params:@{@"status":@(self.status),@"page":@(self.page),@"size":@(20)}];

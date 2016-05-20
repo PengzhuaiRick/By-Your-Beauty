@@ -139,10 +139,11 @@
         //获取 微信支付 私钥
         if ([param2 isEqualToString:API_URL_GetWXConfig])
             _kzwxpayBlock(nil,nil,nil,nil,err);
-        
-        //获取 支付宝 私钥
-        if ([param2 isEqualToString:API_URL_GetAlipayConfig])
+    
+        //客妆 获取订单号
+        if ([param2 isEqualToString:API_URL_GetOutTradeNo])
             _kzgoodsGetOrderBlock(nil,nil,err);
+    
     
     //支付后 和后台验证
     if ([param2 isEqualToString:API_URL_GetOrderStatus]) {

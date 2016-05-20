@@ -109,7 +109,7 @@
             }
         });
     };
-    [rq postWithSerCode:@[API_PARAM_UNI,API_URL_ShopInfo] params:@{@"shopId":@(_shopId)}];
+    [rq postWithSerCode:@[API_URL_ShopInfo] params:@{@"shopId":@(_shopId)}];
 }
 
 -(void)setupData{

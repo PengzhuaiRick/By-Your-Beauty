@@ -21,8 +21,8 @@
         //_costTime =mod.costTime;
         _shopId =shopIp;
         _projBeginDate = mod.projectBeginDate;
-        //[self setupData];
-        //[self judgeBeforeDawn];
+//        [self setupData];
+//        [self judgeBeforeDawn];
         [self setupTopScrollerContent];
         [self initSecondView];
         [self setupMidScroller];
@@ -31,9 +31,12 @@
     return self;
 }
 -(void)setupData{
-    UNIShopManage* shop = [UNIShopManage getShopData];
-    _lockupTime= shop.end_time;
-    _workupTime = shop.begin_time;
+//    UNIShopManage* shop = [UNIShopManage getShopData];
+//    _lockupTime= shop.end_time;
+//    _workupTime = shop.begin_time;
+    _lockupTime= nil;
+    _workupTime =nil;
+
 }
 
 #pragma mark 判断是否凌晨
@@ -142,6 +145,11 @@
                                @"costTime":@(allCostTime),
                                @"shopId":@(_shopId)}];
     request.regetFreeTime=^(NSArray* array,NSString* tips,NSError* err){
+        [LLARingSpinnerView RingSpinnerViewStop1];
+        if (err) {
+            [YIToast showText:NETWORKINGPEOBLEM];
+            return ;
+        }
         //筛选已经过去了的时间点
         NSDateFormatter* dateF = [[NSDateFormatter alloc]init];
         [dateF setDateFormat:@"yyyy-M-d"];
@@ -169,9 +177,9 @@
                     }
                 }
             }
-        }else{
+        }else
             [data addObjectsFromArray:array];
-        }
+        
         
         if (self.selectTime) {
             BOOL cuizai = NO;
@@ -182,31 +190,23 @@
                 
                 if (i == data.count - 1 && cuizai==NO)
                     self.selectTime = nil;
-                
             }
         }
-        
         if (!self.selectTime){
-            NSDictionary* dic = data[0];
-            self.selectTime = dic[@"time"];
+            if (data.count>0) {
+                NSDictionary* dic = data[0];
+                self.selectTime = dic[@"time"];
+            }
         }
        
         dispatch_async(dispatch_get_main_queue(), ^{
-            [LLARingSpinnerView RingSpinnerViewStop1];
+            
             self.midScroller.alpha = 1;
             
-            self.userInteractionEnabled = YES;
-            if (err) {
-                [YIToast showText:NETWORKINGPEOBLEM];
-                return ;
-            }
-            //if (data.count>0) {
+            self.userInteractionEnabled = YES;\
                 self->freeTimes = data;
                 self->noDate.hidden= data.count>0;
             [self setupMidScroller];
-           // }
-//            else
-//                [YIToast showText:@"请求预约时间点失败"];
         });
     };
 }
@@ -230,13 +230,11 @@
     
     NSDateFormatter* forma = [[NSDateFormatter alloc]init];
     [forma setDateFormat:@"yyyy-MM-dd"];
-    //_projBeginDate = @"2016-4-03";
-   // _projBeginDate =nil;
     NSDate *beginDate =[forma dateFromString:_projBeginDate];
     NSString* nowString = [forma stringFromDate:[NSDate date]];
     NSDate* today = [forma dateFromString:nowString];
     
-    if (!_projBeginDate)
+    if (!_projBeginDate ||[_projBeginDate isEqualToString:@""])
         beginDate = [forma dateFromString:nowString];
     
     if ([today timeIntervalSinceDate:beginDate] >= 0) {
@@ -336,7 +334,6 @@
         [NSThread sleepForTimeInterval:1.0];
         [self startRequest];
     });
-    //[self performSelector:@selector(startRequest) withObject:nil afterDelay:0.5];
 
 }
 
@@ -503,9 +500,6 @@
         
        
         if(i == 0){
-            
-           // but.selected=YES;
-            //self.selectTime =[dic valueForKey:@"time"];
             
             self.startTime = nil;
             NSString* str = [NSString stringWithFormat:@"%@ %@",self.selectDay,self.selectTime];

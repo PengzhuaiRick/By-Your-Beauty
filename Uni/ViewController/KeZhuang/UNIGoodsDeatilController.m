@@ -16,7 +16,8 @@
 #import "UNIPurChaseView.h"
 #import "UNIOrderListController.h"
 #import "UNIUrlManager.h"
-@interface UNIGoodsDeatilController ()<UIWebViewDelegate,UIScrollViewDelegate,UITableViewDataSource,UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
+@interface UNIGoodsDeatilController ()<UIWebViewDelegate,UIScrollViewDelegate,UITableViewDataSource,
+UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIView* midView;
     UIView* bottomView;
     UILabel* priceLab;
@@ -283,7 +284,9 @@
     UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
     [bg addGestureRecognizer:tap];
     
-    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.7,KMainScreenWidth*0.6) andNum:[numField.text intValue] andModel:model];
+    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.7,KMainScreenWidth*0.6)
+                                                          andNum:[numField.text intValue]
+                                                        andModel:model];
     pur.delegate = self;
     pur.alpha = 0;
     pur.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
@@ -511,7 +514,7 @@
     NSString *orderString = order.orderString;
     
     [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-        NSLog(@"reslut = %@",resultDic);
+        //NSLog(@"reslut = %@",resultDic);
         [self dealWithResultOfTheZFB:resultDic];
        // [self resultOfZFBpay:resultDic];
         
@@ -520,9 +523,7 @@
 
 - (void)jumpToBizPay:(NSDictionary*)dia{
     if (![WXApi isWXAppInstalled]) {
-        [UIAlertView showWithTitle:@"提示" message:@"请检查是否安装微信客户端" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            
-        }];
+        [UIAlertView showWithTitle:@"提示" message:@"请检查是否安装微信客户端" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
         return;
     }
     

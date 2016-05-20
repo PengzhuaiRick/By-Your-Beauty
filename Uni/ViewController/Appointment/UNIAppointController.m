@@ -18,7 +18,7 @@
 //#import "UNIMyProjectModel.h"
 @interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate,UNIShopListControllerDelegate>
 {
-    UNIShopModel* shopModel;
+   // UNIShopModel* shopModel;
     UNIShopView* shopView;
     UNIAppointTop* appointTop;
     UNIAppontMid* appontMid;
@@ -46,6 +46,15 @@
     if (_projectId) {
         UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
         req.rqservice = ^(UNIMyProjectModel* model,NSString*tips,NSError* er){
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (!model) {
+                [YIToast showText:tips];
+                return ;
+            }
+            
             self.model = model;
             self.title =self.model.projectName;
             [self setupMyScroller];
@@ -91,36 +100,17 @@
     shop.backgroundColor = [UIColor whiteColor];
     [self.myScroller addSubview:shop];
     shopView = shop;
-    UNIShopManage* ma =[UNIShopManage getShopData];
-    shopModel = [[UNIShopModel alloc]init];
-    shopModel.x =[ma.x doubleValue];
-    shopModel.y =[ma.y doubleValue];
-    shopModel.address = ma.address;
-    shopModel.shopName = ma.shopName;
-    shopModel.telphone = ma.telphone;
-    shopModel.shortName = ma.shortName;
-    
-//    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
-//    [tap.rac_gestureSignal subscribeNext:^(id x) {
-//        UNIShopListController* shopC = [[UNIShopListController alloc]init];
-//        shopC.delegate = self;
-//        [self.navigationController pushViewController:shopC animated:YES];
-//        shopC=nil;
-//        [[BaiduMobStat defaultStat]logEvent:@"btn_select_shop" eventLabel:@"预约选择店铺按钮"];
-//    }];
-//    [shop addGestureRecognizer:tap];
-//    tap=nil;
     shop=nil;
 }
 #pragma mark 店铺列表页面代理方法
--(void)UNIShopListControllerDelegateMethod:(id)model{
-    UNIShopModel* info = model;
-    shopModel = info;   
-    shopView.nameLab.text = info.shortName;
-    shopView.addressLab.text = info.address;
-    shopView.shopId = info.shopId;
-    [appointTop changeShopId:info.shopId];
-}
+//-(void)UNIShopListControllerDelegateMethod:(id)model{
+//    UNIShopModel* info = model;
+//    shopModel = info;   
+//    shopView.nameLab.text = info.shortName;
+//    shopView.addressLab.text = info.address;
+//    shopView.shopId = info.shopId;
+//    [appointTop changeShopId:info.shopId];
+//}
 #pragma mark 加载顶部Scroller
 -(void)setupTopScrollerWithProjectId:(int)project andCostime:(int)cost andShopId:(int)shopId{
     float topY = CGRectGetMaxY(shopView.frame)+10;
@@ -254,15 +244,11 @@
                          return ;
                      }
                      if (order) {
-                         //[YIToast showText:@"预约成功"];@"您的预约已提交，请等待店家确认。预约结果以电话回复为准"
                          UNIHttpUrlManager* httpUrl =[UNIHttpUrlManager sharedInstance];
-    [UIAlertView showWithTitle:httpUrl.APPOINT_SUCCESS message:httpUrl.APPOINT_SUCCESS_TIPS cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-        
-            [self locationNotificationTask:order];
-    }];
-
+                         [UIAlertView showWithTitle:httpUrl.APPOINT_SUCCESS message:httpUrl.APPOINT_SUCCESS_TIPS cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                             [self locationNotificationTask:order];
+                         }];
                      }else
-                        // [YIToast showText:@"您已经在这个点预约过了，请选择其他时间预约。"];
                          [UIAlertView showWithTitle:tips message:nil cancelButtonTitle:@"知道了" otherButtonTitles:nil tapBlock:nil];
                  };
             });
@@ -275,15 +261,15 @@
 
    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
 
-    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
-    int seleZhong = [array[0] intValue];
-    NSString* sele = [NSString stringWithFormat:@"%@ %d:%@:00",appointTop.selectDay,--seleZhong,array[1]];
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
-    NSDate* strDate = [dateFormatter dateFromString:sele];
+//    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
+//    int seleZhong = [array[0] intValue];
+//    NSString* sele = [NSString stringWithFormat:@"%@ %d:%@:00",appointTop.selectDay,--seleZhong,array[1]];
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+//    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    //NSDate* strDate = [dateFormatter dateFromString:sele];
     //设置本地通知的触发时间（如果要立即触发，无需设置）
-    localNotification.fireDate =strDate;
+    //localNotification.fireDate =strDate;
     
     localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     //设置本地通知的时区
@@ -296,38 +282,17 @@
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     //设置通知的相关信息，这个很重要，可以添加一些标记性内容，方便以后区分和获取通知的信息
     
-    
+    UNIShopManage* manager = [UNIShopManage getShopData];
     NSDictionary *infoDic = @{@"OrderId":order,
-                              @"shopId":@(shopView.shopId),
-                              @"token":[AccountManager token],
-                              @"shopX":@(shopModel.x),
-                              @"shopY":@(shopModel.y),
-                              @"shopAddress":shopModel.address,
-                              @"shopName":shopModel.shopName};
+                              @"shopId" :@(shopView.shopId),
+                              @"token"  :[AccountManager token],
+                              @"shopX"  :manager.x,
+                              @"shopY"  :manager.y,
+                              @"shopAddress":manager.address,
+                              @"shopName":manager.shopName};
     localNotification.userInfo = infoDic;
     //在规定的日期触发通知
    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
-    
-//    NSDictionary* dib = @{@"time":strDate,
-//                          @"OrderId":order,
-//                          @"token":[AccountManager token],
-//                          @"shopId":@(shopView.shopId),
-//                          @"shopX":@(shopModel.x),
-//                          @"shopY":@(shopModel.y),
-////                          @"shopAddress":shopModel.address,
-////                          @"shopName":shopModel.shopName
-//                          };
-//    NSUserDefaults* user = [NSUserDefaults standardUserDefaults];
-//    NSArray* appointArr = [user objectForKey:@"appointArr"];
-//    NSMutableArray* arr;
-//    if (appointArr.count>0)
-//        arr =[NSMutableArray arrayWithArray:appointArr];
-//    else
-//        arr =[NSMutableArray array];
-//    
-//    [arr addObject:dib];
-//    [user setObject:arr forKey:@"appointArr"];
-//    [user synchronize];
     
     //预约成功刷新界面
     [[NSNotificationCenter defaultCenter] postNotificationName:APPOINTANDREFLASH object:nil];

@@ -33,6 +33,7 @@
 @implementation UNIMyRewardController
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     NSArray* array =self.containController.view.gestureRecognizers;
     for (UIGestureRecognizer* ges in array) {
         if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
@@ -40,9 +41,10 @@
         }
     }
     [[BaiduMobStat defaultStat] pageviewStartWithName:@"我的奖励"];
-    [super viewWillAppear:animated];
+    
 }
 -(void)viewWillDisappear:(BOOL)animated{
+     [super viewWillDisappear:animated];
     NSArray* array =self.containController.view.gestureRecognizers;
     for (UIGestureRecognizer* ges in array) {
         if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
@@ -52,7 +54,7 @@
     self.myTableView.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"我的奖励"];
 
-    [super viewWillDisappear:animated];
+   
 }
 
 - (void)viewDidLoad {
@@ -128,7 +130,6 @@
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
     [request postWithSerCode:@[API_URL_MYRewardInfo] params:@{@"size":@(20),@"page":@(page1)}];
     request.myrewardBlock=^(NSArray* arr,int total,NSString* tips,NSError* er){
-        
         [self startRequestIntime];
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {

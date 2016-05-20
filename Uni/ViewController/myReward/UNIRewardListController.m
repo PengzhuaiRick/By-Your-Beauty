@@ -12,8 +12,8 @@
 @interface UNIRewardListController ()<UIScrollViewDelegate,UNIRewardListViewDelegate>{
     UIView* topView;
     float scrollerX;
-    float startArrowX;
-    UIImageView* arrowImg;
+    //float startArrowX;
+    UIView* arrowImg;
 }
 @property(nonatomic,strong)UIScrollView* myScroller;
 @property(nonatomic,strong)UNIRewardListView* unGetView; //未领
@@ -53,9 +53,25 @@
 -(void)setupTopView{
     float topH = KMainScreenWidth * 45/320;
     UIView* top = [[UIView alloc]initWithFrame:CGRectMake(0, 64, KMainScreenWidth, topH)];
-    top.backgroundColor = [UIColor whiteColor];
+    top.backgroundColor = [UIColor blackColor];
     [self.view addSubview:top];
     topView = top;
+    
+    UIView* redView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth/3, topH)];
+    redView.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
+    [top addSubview:redView];
+    arrowImg = redView;
+    
+    float arrowW =KMainScreenWidth*5/320;
+    float arrowH = KMainScreenWidth*4/320;
+    float arrowX = (redView.frame.size.width-arrowW)/2;
+    float arrowY = top.frame.size.height - arrowH;
+   // startArrowX = arrowX;
+    UIImageView* arrow = [[UIImageView alloc]initWithFrame:CGRectMake(arrowX, arrowY, arrowW, arrowH)];
+    arrow.image = [UIImage imageNamed:@"appoint_img_arrows"];
+    [redView addSubview:arrow];
+    
+    
     
     NSArray* titil = @[@"全部",@"未领取",@"已领取"];
 
@@ -67,32 +83,17 @@
         btn.tag = i+1;
         [btn setTitle:str forState:UIControlStateNormal];
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btn setBackgroundImage:[self createImageWithColor:[UIColor blackColor]] forState:UIControlStateNormal];
-        [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateSelected];
-        [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
-        
-        if (i == 0)
-            btn.selected = YES;
+
         btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
             [top addSubview:btn];
         
         
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
-             [self btnChangeTextColor:x];
-             [self buttonLoadViewAction:x];
+            // [self btnChangeTextColor:x];
+            [self buttonLoadViewAction:x];
         }];
     }
-    
-    float arrowW =KMainScreenWidth*5/320;
-    float arrowH = KMainScreenWidth*4/320;
-    float arrowX = (btnW-arrowW)/2;
-    float arrowY = top.frame.size.height - arrowH;
-    startArrowX = arrowX;
-    UIImageView* arrow = [[UIImageView alloc]initWithFrame:CGRectMake(arrowX, arrowY, arrowW, arrowH)];
-    arrow.image = [UIImage imageNamed:@"appoint_img_arrows"];
-    [top addSubview:arrow];
-    arrowImg = arrow;
 
 }
 #pragma mark 按钮改变字体颜色
@@ -171,35 +172,20 @@
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     
-    float xx = scrollView.contentOffset.x;
+    float xx = scrollView.contentOffset.x/3;
     if (xx>-1 && xx<2*KMainScreenWidth) {
-        float offsetX = xx* (scrollView.frame.size.width/3) /KMainScreenWidth;
+        float offsetX = xx;
         CGRect arrowR =self->arrowImg.frame;
-        arrowR.origin.x = offsetX+self->startArrowX;
+        arrowR.origin.x = offsetX;
         self->arrowImg.frame = arrowR;
     }
-
-    if (xx==0) {
-        int tag = 1;
-        UIButton* btn = (UIButton*)[topView viewWithTag:tag];
-        [self btnChangeTextColor:btn];
-    }
-    
-    if(xx == KMainScreenWidth){
+  
+    if(xx == KMainScreenWidth/3)
         [self setupUnGetView];
-        int tag = 2;
-        UIButton* btn = (UIButton*)[topView viewWithTag:tag];
-        [self btnChangeTextColor:btn];
-
-    }
     
-    if(xx == 2*KMainScreenWidth){
+    if(xx == 2*KMainScreenWidth/3)
         [self setupGotView];
-       int tag = 3;
-        UIButton* btn = (UIButton*)[topView viewWithTag:tag];
-        [self btnChangeTextColor:btn];
-    }
-    }
+}
 
 
 - (void)didReceiveMemoryWarning {

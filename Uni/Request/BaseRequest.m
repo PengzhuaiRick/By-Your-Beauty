@@ -21,6 +21,7 @@
     NSString* url = [NSString stringWithFormat:
                      @"http://uni.dodwow.com/v2/index.php?s=/App/Version/index/app_version/%@/device/ios",CURRENTVERSION];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 10.f;
     manager.responseSerializer.acceptableContentTypes =
     [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
     [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
@@ -59,9 +60,6 @@
 
 -(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params{
     NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:params];
-//    [dic setObject:@"ios" forKey:@"device"];
-//    [dic setObject:CURRENTVERSION forKey:@"app_version"];
-//    [dic setValue:@([[AccountManager userId] intValue]) forKey:@"userId"];
     [dic setValue:[AccountManager token] forKey:@"token"];
     
    if([[params objectForKey:@"shopId"] intValue]<1)
@@ -70,11 +68,10 @@
     NSString* URL = [self spliceURL:code];
     NSLog(@"URL :  %@    ,   params : %@",URL , dic);
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 10.f;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
     [manager POST:URL parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
-      //  NSDictionary *content = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"code  %@   content  %@ ",code[0],responseObject);
-        
         int resultcode = [[self safeObject:dic ForKey:@"code"] intValue];
         if (resultcode == -1) {
             [manager.operationQueue cancelAllOperations];
@@ -99,6 +96,7 @@
     NSString* URL = [self spliceURL:code];
     
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 10.f;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript",@"text/plain"]];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager POST:URL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {

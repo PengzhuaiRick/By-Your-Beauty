@@ -128,6 +128,8 @@
         UNILawViewController* ab = [[UNILawViewController alloc]init];
         [self.navigationController pushViewController:ab animated:YES];
     }if (indexPath.row == 0) {
+        if (!self.phone)
+            return;
         
         NSString* str = [NSString stringWithFormat:@"是否拨打电话%@",self.phone];
         [UIAlertView showWithTitle:str message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"拨打"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
@@ -155,7 +157,12 @@
     __weak UNISetttingController* myself = self;
     UNILawRequest * req = [[UNILawRequest alloc]init];
     req.getUniPhone=^(int code,NSString* phone,NSString* tips,NSError* err){
-        myself.phone = phone;
+        if (err) {
+            [YIToast showText:NETWORKINGPEOBLEM];
+            return ;
+        }
+        if (phone)
+            myself.phone = phone;
     };
     [req postWithSerCode:@[API_URL_getUNIPhone] params:nil];
 }

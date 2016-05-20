@@ -13,4 +13,6 @@
 @property(nonatomic,strong)UILabel* addressLab;
 @property(nonatomic,strong)UIButton* listBtn;
 @property(nonatomic,assign)int shopId;
+@property(nonatomic,assign)double x;
+@property(nonatomic,assign)double y;
 @end

@@ -18,11 +18,12 @@
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     self.baseWebView.scrollView.delegate = nil;
-    //[_progressView removeFromSuperview];
+    [_progressView setHidden:YES];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.baseWebView.scrollView.delegate = self;
+    [_progressView setHidden:NO];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -86,7 +87,6 @@
         [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_list" eventLabel:@"产品列表购买按钮"];
     }];
 }
-
 
 #pragma mark 调转预约界面
 -(void)gotoAppoint:(NSString *)ProjectId :(NSString *)Type{

@@ -146,7 +146,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code != 5)
+            if (code != 6)
                 [myself requestActivityInfo];
             else
                 [myself showGuideView:MAINGUIDE];

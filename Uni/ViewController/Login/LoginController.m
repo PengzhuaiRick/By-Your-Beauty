@@ -123,7 +123,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code == 5) {
+            if (code == 6) {
                 self.fourthCell.hidden = YES;
                 
                 float btnX = self->loginBtn.frame.origin.x;
@@ -456,43 +456,35 @@
         }
        
     }];
-    
-//    phoneSignal =
-//    [phoneField.rac_textSignal
-//     map:^id(NSString *text) {
-//         if(![self isMobileNumber:text])
-//             return @(NO);
-//        return @(text.length == 11?YES:NO);
-//     }];
-
 }
 
 #pragma mark 设置验证码输入框
 -(void)setupCodeField{
-     UITextField* teft = codeField;
-    [[codeField.rac_textSignal
-     filter:^BOOL(NSString* value) {
-        BOOL le =NO;
-        if (value.length>0) {
-            char r = [value characterAtIndex:value.length-1];
-            if (r<48||r>57){
-                NSString *str=[NSString stringWithCString:&r  encoding:NSUTF8StringEncoding];
-                teft.text = [value stringByReplacingOccurrencesOfString:str withString:@""];
-            }
-        }
-         if (value.length == 6)
-             le = YES;
-         else if (value.length>6)
-             teft.text = [value substringToIndex:6];
-         
-        return le;
-    }]subscribeNext:^(id x) {
-        
-    }];
+//     UITextField* teft = codeField;
+//    [[codeField.rac_textSignal
+//     filter:^BOOL(NSString* value) {
+//        BOOL le =NO;
+//        if (value.length>0) {
+//            char r = [value characterAtIndex:value.length-1];
+//            if (r<48||r>57){
+//                NSString *str=[NSString stringWithCString:&r  encoding:NSUTF8StringEncoding];
+//                teft.text = [value stringByReplacingOccurrencesOfString:str withString:@""];
+//            }
+//        }
+//         if (value.length == 6)
+//             le = YES;
+//         else if (value.length>6)
+//             teft.text = [value substringToIndex:6];
+//         
+//        return le;
+//    }]subscribeNext:^(id x) {
+//        
+//    }];
     
     codeFieldSignal =[codeField.rac_textSignal
                       map:^id(NSString* value) {
-        return @(value.length == 6?YES:NO);
+        //return @(value.length == 6?YES:NO);
+                          return @(value.length>0);
     }];
 }
 
@@ -500,11 +492,6 @@
 -(void)setupCodeBtn{
     //UIButton* btn = codeBtn ;
     UITextField* field = phoneField;
-    
-//    codeBtn.enabled = NO;
-//    [RAC(codeBtn,enabled) = phoneSignal map:^id(NSNumber* value) {
-//        return value;
-//    }];
     
     [[codeBtn rac_signalForControlEvents:UIControlEventTouchDown]
      subscribeNext:^(UIButton* x) {
@@ -571,43 +558,11 @@
                     self->imgView1.image = [UIImage imageNamed:@"login_btn_sex1"];
                 }
                 
-//                if (llt) {
-//                    if (self.fourthCell.alpha==1) {
-//                        CGRect p1 = self.firstCell.frame;
-//                        CGRect p2 = self.secondCell.frame;
-//                        CGRect p3 = self.thirldCell.frame;
-//                        p1.origin.y+=20;
-//                        p2.origin.y+=20;
-//                        p3.origin.y+=20;
-//                        [UIView animateWithDuration:0.5 animations:^{
-//                            
-//                            self.fourthCell.alpha = 0;
-//                            self.firstCell.frame = p1;
-//                            self.secondCell.frame =p2;
-//                            self.thirldCell.frame = p3;
-//                        }];
-//                    }
-//                }else{
-//                    if (self.fourthCell.alpha == 0) {
-//                        CGRect p1 = self.firstCell.frame;
-//                        CGRect p2 = self.secondCell.frame;
-//                        CGRect p3 = self.thirldCell.frame;
-//                        p1.origin.y-=20;
-//                        p2.origin.y-=20;
-//                        p3.origin.y-=20;
-//                        [UIView animateWithDuration:0.5 animations:^{
-//                            self.fourthCell.alpha = 1;
-//                            self.firstCell.frame = p1;
-//                            self.secondCell.frame =p2;
-//                            self.thirldCell.frame =p3;
-//                        }];
-//                        
-//                    }
-//                }
                 if (rc != nil){
                    // btn.enabled = NO;
                     self->countDown = 60;
-                    self->ServierTime = [NSDate dateWithTimeIntervalSince1970:st];
+                    //self->ServierTime = [NSDate dateWithTimeIntervalSince1970:st];
+                    self->ServierTime = [NSDate date];
                     
                    self->time=[NSTimer scheduledTimerWithTimeInterval:1
                                                      target:self
@@ -675,11 +630,7 @@
                                                   }
                                                   return @([code boolValue]);
                                               }];
-//    RAC(loginBtn,enabled) = [RACSignal combineLatest:@[phoneSignal,codeFieldSignal]
-//                                              reduce:^id(NSNumber* phone,
-//                                                         NSNumber* code){
-//          return @([phone boolValue]&&[code boolValue]);
-//    }];
+
     
     [[loginBtn rac_signalForControlEvents:UIControlEventTouchDown]
      subscribeNext:^(UIButton* x) {
@@ -758,12 +709,6 @@
                     UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:list];
                     [self presentViewController:nav animated:YES completion:nil];
                 }
-                
-               
-                
-//                if (hasActivity <2) {
-//                    [app performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:2];
-//                }
             }else
                 [YIToast showText:NETWORKINGPEOBLEM];
         };

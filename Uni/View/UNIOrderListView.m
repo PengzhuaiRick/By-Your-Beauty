@@ -20,8 +20,8 @@
     if (self) {
         self.status = st;
         self.allArray = [NSMutableArray array];
+        [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
          [self startRequest];
-        //[self setupTableView];
     }
     return self;
 }
@@ -34,6 +34,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.myTable.header endRefreshing];
             [self.myTable.footer endRefreshing];
+            [LLARingSpinnerView RingSpinnerViewStop1];
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
@@ -41,7 +42,6 @@
             
             if (self.page == 0)
                 [self.allArray removeAllObjects];
-            
             
             if (array.count<20)
                 [self.myTable.footer endRefreshingWithNoMoreData] ;

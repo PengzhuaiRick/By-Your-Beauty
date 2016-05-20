@@ -124,7 +124,7 @@
             UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgW, 0, imgW, imgH)];
                    // view.image= [UIImage imageNamed:@"KZ_img_bg"];
                     //view.contentMode = UIViewContentModeScaleAspectFit;
-                    [view sd_setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:nil];
+                    [view sd_setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:[UIImage imageNamed:@"KZ_img_goodsBg"]];
                     [_mainImage addSubview:view];
                     view = nil;
         }

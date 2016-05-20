@@ -391,7 +391,7 @@
                         [formatter2 setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
                         NSString *arriverTime = [formatter2 stringFromDate:[NSDate date]];
                         NSString* order = [noti objectForKey:@"OrderId"];
-                        [model postWithSerCode:@[API_PARAM_UNI,API_URL_ArriveShop]
+                        [model postWithSerCode:@[API_URL_ArriveShop]
                                         params:@{@"order":order,@"arriverTime":arriverTime}];
                     }
                     if (i == arr.count-1){
