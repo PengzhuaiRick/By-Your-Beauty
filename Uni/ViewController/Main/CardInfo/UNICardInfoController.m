@@ -95,11 +95,13 @@
 
 #pragma mark 开始请求准时奖励信息
 -(void)startRequestInTimeInfo{
+     [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
     UNICardInfoRequest* request = [[UNICardInfoRequest alloc]init];
     [request postWithSerCode:@[API_URL_ITRewardInfo]
                       params:nil];
     request.rqrewardBlock=^(int total,int num,NSString* projectName,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
+             [LLARingSpinnerView RingSpinnerViewStop1];
             if (err) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
@@ -128,6 +130,7 @@
                       params:@{@"page":@(pageNum),@"size":@(20)}];
     request.cardInfoBlock=^(NSArray* arr,NSString* tips,NSError* err){
         dispatch_async(dispatch_get_main_queue(), ^{
+            
             [self->myTableView.header endRefreshing];
             [self->myTableView.footer endRefreshing];
             if (err) {

@@ -17,7 +17,7 @@
    // NSLog(@"requestSucceed  %@",dic);
     NSString* param1 = array[0];
     NSString* param2 = array[1];
-    
+ 
     int code = [[self safeObject:dic ForKey:@"code"] intValue];
     NSString* tips = [self safeObject:dic ForKey:@"tips"];
     if (code != 0) {

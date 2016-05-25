@@ -63,6 +63,7 @@
     [self setupUI];
     //[self setupMyAppointView];
    // [self setupIntimeView];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
     [self startRequestMyAppoint];
     //[self startRequestIntime];
 }
@@ -127,6 +128,7 @@
 
 
 -(void)startRequestMyAppoint{
+   
     UNIMyRewardRequest* request = [[UNIMyRewardRequest alloc]init];
     [request postWithSerCode:@[API_URL_MYRewardInfo] params:@{@"size":@(20),@"page":@(page1)}];
     request.myrewardBlock=^(NSArray* arr,int total,NSString* tips,NSError* er){
@@ -152,6 +154,7 @@
     [request postWithSerCode:@[API_URL_MYITRewardInfo] params:@{@"size":@(20),@"page":@(page2)}];
     request.intimeBlock=^(NSArray* arr,int total,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
+             [LLARingSpinnerView RingSpinnerViewStop1];
             [self.myTableView.header endRefreshing];
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];

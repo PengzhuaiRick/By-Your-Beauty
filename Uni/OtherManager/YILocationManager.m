@@ -61,8 +61,12 @@
 
 #pragma mark 开始定位
 -(void)startUpdateUserLoaction{
-    if ([CLLocationManager locationServicesEnabled]) {
+    
+    if ([CLLocationManager locationServicesEnabled] &&
+        ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusAuthorized
+         || [CLLocationManager authorizationStatus] == kCLAuthorizationStatusNotDetermined)) {
         if(!_locationManager){
+             [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
             _locationManager =[[CLLocationManager alloc]init];
             _locationManager.delegate=self;
             //_locationManager.pausesLocationUpdatesAutomatically=NO;//更新是否自动暂停
@@ -78,7 +82,7 @@
         [_locationManager startUpdatingLocation];
        // [_locationManager startMonitoringSignificantLocationChanges];
         
-    }else{
+    }else if ([CLLocationManager authorizationStatus] == kCLAuthorizationStatusDenied){
         #ifdef IS_IOS8_OR_LATER
         UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"定位不成功 ,请确认开启定位" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
@@ -90,6 +94,7 @@
             [alertView show];
          #endif
     }
+    
     
 }
 //获取当前屏幕显示的viewcontroller
@@ -130,6 +135,8 @@
 
 #pragma mark  定位CLLocationManager  CLLocationManagerDelegate方法
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
+    
+     [LLARingSpinnerView RingSpinnerViewStop1];
     
 //    [manager stopUpdatingLocation];
     CLLocation* loca=locations.lastObject;

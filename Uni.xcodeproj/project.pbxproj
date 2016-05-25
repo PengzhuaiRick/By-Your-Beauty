@@ -1892,7 +1892,7 @@
 					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
-					"/Users/apple/Desktop/Uni\\ 10/Uni/Library/AliPay",
+					"/Users/pengboyao/Desktop/Uni\\ 13/Uni/Library/AliPay",
 				);
 				INFOPLIST_FILE = Uni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1940,7 +1940,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1955,7 +1955,7 @@
 					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
-					"/Users/apple/Desktop/Uni\\ 10/Uni/Library/AliPay",
+					"/Users/pengboyao/Desktop/Uni\\ 13/Uni/Library/AliPay",
 				);
 				INFOPLIST_FILE = Uni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

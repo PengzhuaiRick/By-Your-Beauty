@@ -77,7 +77,7 @@ API                坐标系
 
     
     
-    [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
+   
     YILocationManager* locaMan = [YILocationManager sharedInstance];
     locaMan.getUserLocBlock=^(double x,double y ){
         [LLARingSpinnerView RingSpinnerViewStop1];
