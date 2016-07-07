@@ -138,6 +138,7 @@
        MainViewController* mainCtr= [st instantiateViewControllerWithIdentifier:@"MainViewController"];
         mainCtr.containController = self;
         mainNav = [[UINavigationController alloc]initWithRootViewController:mainCtr];
+
     }
     [self.view addSubview:mainNav.view];
     [self addChildViewController:mainNav];

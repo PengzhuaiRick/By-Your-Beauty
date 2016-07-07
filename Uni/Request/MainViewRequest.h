@@ -113,6 +113,15 @@ typedef void(^RQShowAcitivityOrNot)(int code,NSString* tips,NSError* er);
  */
 typedef void(^RQAppTips)(NSDictionary* dic,NSString* tips,NSError* er);
 
+/**
+ *  请求首页优惠券信息
+ *
+ *  @param arr  优惠券价钱  优惠券标题
+ *  @param tips  反馈信息
+ *  @param er   错误信息
+ */
+typedef void(^RQCouponBlock)(NSArray* arr,NSString* tips,NSError* er);
+
 @interface MainViewRequest : BaseRequest
 
 
@@ -147,4 +156,7 @@ typedef void(^RQAppTips)(NSDictionary* dic,NSString* tips,NSError* er);
 
 //  请求APP提示信息
 @property(nonatomic,copy)RQAppTips rqAppTips;
+
+//  请求APP提示信息
+@property(nonatomic,copy)RQCouponBlock rqCouponBlock;
 @end

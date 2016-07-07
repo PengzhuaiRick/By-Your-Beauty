@@ -13,15 +13,16 @@
 @end
 
 #import <UIKit/UIKit.h>
-//#import "UNIAddMyAppointCell.h"
-@interface UNIAppontMid : UIView<UITableViewDataSource,UITableViewDelegate,UNIAppontMidDelegate>{
+#import "BTKeyboardTool.h"
+@interface UNIAppontMid : UIView<UITableViewDataSource,UITableViewDelegate,UNIAppontMidDelegate,KeyboardToolDelegate>{
    
 }
 
-@property (strong ,nonatomic)NSMutableArray* myData;
+@property (strong ,nonatomic) NSMutableArray* myData;
 @property (strong ,nonatomic) UILabel* lab1;
-@property (strong, nonatomic)  UIButton *addProBtn;//添加项目按钮
-@property (strong, nonatomic)  UITableView *myTableView;
+@property (strong, nonatomic) UIButton *addProBtn;//添加项目按钮
+@property (strong, nonatomic) UITableView *myTableView;
+@property (strong, nonatomic) UITextField *remarkField;
 @property (assign, nonatomic) float cellH;
 @property (assign, nonatomic) id<UNIAppontMidDelegate>delegate;
 

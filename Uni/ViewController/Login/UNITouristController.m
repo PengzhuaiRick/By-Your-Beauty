@@ -59,7 +59,8 @@
             if (model) {
                 self->myModel = model;
                 [self setupUI];
-            }
+            }else
+                [YIToast showText:tips];
         });
     };
     [rq postWithSerCode:@[API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];

@@ -1892,7 +1892,7 @@
 					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
-					"/Users/pengboyao/Desktop/Uni\\ 13/Uni/Library/AliPay",
+					"/Users/apple/Desktop/Uni\\ 14/Uni/Library/AliPay",
 				);
 				INFOPLIST_FILE = Uni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -1955,7 +1955,7 @@
 					"\"${PODS_ROOT}/Headers/Public/MJRefresh\"",
 					"\"${PODS_ROOT}/Headers/Public/ReactiveCocoa\"",
 					"\"${PODS_ROOT}/Headers/Public/SDWebImage\"",
-					"/Users/pengboyao/Desktop/Uni\\ 13/Uni/Library/AliPay",
+					"/Users/apple/Desktop/Uni\\ 14/Uni/Library/AliPay",
 				);
 				INFOPLIST_FILE = Uni/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

@@ -135,7 +135,8 @@
                     [myself wxShare:model andStyle:style];
                 else
                     [myself setupWX];
-            }
+            }else
+                [YIToast showText:tips];
         });
     };
     [rq postWithSerCode:@[API_URL_ActivityShare] params:@{@"activityId":@(_activityId)}];

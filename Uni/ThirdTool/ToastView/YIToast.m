@@ -113,14 +113,15 @@
                                   attributes:@{NSFontAttributeName: textLabel.font}
                                      context:nil];
     }
-    tmpRect.size.width = width;
+   // tmpRect.size.width = width;/本人修改屏蔽
+    tmpRect.size.width = tmpRect.size.width+50;//本人修改
     tmpRect.size.height = MAX(tmpRect.size.height + 20.0f, 38.0f);
     
     YIToast *toast = [[YIToast alloc] initWithFrame:tmpRect];
     toast.backgroundColor = RGBA(0, 0, 0, 0.8f);
-//    CALayer *layer = toast.layer;
-//    layer.masksToBounds = YES;
-//    layer.cornerRadius = 5.0f;
+    CALayer *layer = toast.layer;
+    layer.masksToBounds = YES;
+    layer.cornerRadius = 5.0f;
     
     textLabel.text = text;
     tmpRect.origin.x = floor((toast.frame.size.width - tmpRect.size.width) / 2.0f);
@@ -226,10 +227,10 @@
         default: {
            // angle = 0.0;
             CGFloat screenWidth = MIN(screenSize.width, screenSize.height);
-           // CGFloat screenHeight = MAX(screenSize.width, screenSize.height);
+            CGFloat screenHeight = MAX(screenSize.width, screenSize.height);
             x = floor((screenWidth - self.bounds.size.width) / 2.0f);
-           // y = screenHeight - self.bounds.size.height - 15.0f - TABBAR_OFFSET;
-            y = 64;
+            //  y = screenHeight - self.bounds.size.height - 15.0f - TABBAR_OFFSET; //本人修改屏蔽
+            y = (screenHeight - self.bounds.size.height)/2;//本人修改
             break;
         }
     }

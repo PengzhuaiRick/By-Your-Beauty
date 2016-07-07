@@ -123,7 +123,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code == 6) {
+            if (code == INAUDIT) {
                 self.fourthCell.hidden = YES;
                 
                 float btnX = self->loginBtn.frame.origin.x;
@@ -540,7 +540,7 @@
                 
                 if(!rc){
                     x.enabled=YES;
-                    [UIAlertView showWithTitle:@"获取验证码失败" message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
+                    [UIAlertView showWithTitle:tip message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
                     return ;
                 }
                 self.sex = sex;
@@ -682,7 +682,7 @@
              [LLARingSpinnerView RingSpinnerViewStop1];
             if (er==nil) {
                 if (array.count == 0){
-                    [UIAlertView showWithTitle:@"登陆失败" message:tips style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
+                    [UIAlertView showWithTitle:tips message:tips style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
 
                     return ;
                 }

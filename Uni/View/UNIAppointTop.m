@@ -16,11 +16,13 @@
 -(id)initWithFrame:(CGRect)frame andModel:(UNIMyProjectModel*)mod andShopId:(int)shopIp{
     self = [super initWithFrame:frame];
     if (self) {
-       // _projectId =mod.projectId;
-        projectArr = @[mod];
-        //_costTime =mod.costTime;
+        if (mod) {
+              projectArr = @[mod];
+             _projBeginDate = mod.projectBeginDate;
+        }
+      
         _shopId =shopIp;
-        _projBeginDate = mod.projectBeginDate;
+       
 //        [self setupData];
 //        [self judgeBeforeDawn];
         [self setupTopScrollerContent];
@@ -117,10 +119,8 @@
     
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     self.midScroller.alpha = 0.5;
-   // dispatch_async(dispatch_get_global_queue(0, 0), ^{
-      //[NSThread sleepForTimeInterval:1];
     [self startRequest];
-    //});
+
 }
 
 -(void)startRequest{
@@ -129,15 +129,18 @@
     
     NSMutableString* projectIds = [NSMutableString string];
     int allCostTime =0;
-    for (int i=0; i<projectArr.count; i++) {
-        UNIMyProjectModel* model = projectArr[i];
-        allCostTime+=model.costTime;
-        if (i != projectArr.count-1)
-            [projectIds appendFormat:@"%d,",model.projectId];
-        else
-            [projectIds appendFormat:@"%d",model.projectId];
+    if (projectArr.count < 1) {
+        [projectIds appendString: @"0"];
+    }else{
+        for (int i=0; i<projectArr.count; i++) {
+            UNIMyProjectModel* model = projectArr[i];
+            allCostTime+=model.costTime;
+            if (i != projectArr.count-1)
+                [projectIds appendFormat:@"%d,",model.projectId];
+            else
+                [projectIds appendFormat:@"%d",model.projectId];
+        }
     }
-    
     UNIMypointRequest* request = [[UNIMypointRequest alloc]init];
     [request postWithSerCode:@[API_URL_GetFreeTime]
                       params:@{@"projectId":projectIds,

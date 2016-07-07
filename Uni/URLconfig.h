@@ -168,4 +168,7 @@
 
 //获取 UNI 办公室电话
 #define API_URL_getUNIPhone @"NotLogin/getMessage"
+
+//获取首页优惠券信息
+#define API_URL_GetNewestCoupon @"SellGoods/getNewestCoupon"
 #endif /* URLconfig_h */

@@ -182,7 +182,8 @@
                 [AccountManager setShopId:@(shopId)];
                 [AccountManager setLocalLoginName:myself.phone];
                 [myself login];
-            }
+            }else
+                [YIToast showText:tips];
 
         });
             };

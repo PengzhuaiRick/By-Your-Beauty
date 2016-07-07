@@ -14,6 +14,9 @@
 
 #define APPOINTANDREFLASH @"APPOINTANDREFLASH"
 
+//是否已经提示过更新
+#define PromptUpData @"promptUpData"
+
 /**
  *  是否第一次登陆
  */
@@ -107,6 +110,11 @@
  *   上次用户登录的手机号码
  */
 #define LASTUSERLOGINNAME @"LASTUSERLOGINNAME"
+
+/**
+ *  审核期中的是否显示游客按钮 和 显示活动页面
+ */
+#define INAUDIT 7
 
 /**
  *  是否第一次打开首页

@@ -30,6 +30,8 @@
     int goodId1;
     int bottomPage;//底部数据加载页数
     
+    int cellNumber; //Cell的数量
+    
     UILabel* progessLab; //9/10
     UILabel* goods1;
     UILabel* goods2;
@@ -49,7 +51,7 @@
     UIButton* alphBtn;
     
     UIButton* backTopBtn;//返回顶部按钮
-
+    NSArray* couponArr;
 }
 @property(nonatomic,strong) NSArray* midData;
 @property(nonatomic,strong) NSMutableArray* bottomData;
@@ -60,27 +62,32 @@
 @implementation MainViewController
 
 -(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     NSArray* array =self.containController.view.gestureRecognizers;
     for (UIGestureRecognizer* ges in array) {
         if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
             ges.enabled=YES;
         }
     }
+    [self changeNavigationBarAlpha:0];
     backTopBtn.enabled = YES;
      [[BaiduMobStat defaultStat] pageviewStartWithName:@"首页"];
-    [super viewWillAppear:animated];
+    
 }
 -(void)viewWillDisappear:(BOOL)animated{
+     [super viewWillDisappear:animated];
     NSArray* array =self.containController.view.gestureRecognizers;
     for (UIGestureRecognizer* ges in array) {
         if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
             ges.enabled=NO;
         }
     }
+    [self changeNavigationBarAlpha:1];
     backTopBtn.enabled = NO;
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"首页"];
-    [super viewWillDisappear:animated];
+   
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
@@ -130,8 +137,29 @@
     [self startRequestAppointInfo];//请求我已预约
     [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
     [self getSellInfo]; //获取首页销售商品
-    
-   
+    [self requestCouponInfo];
+}
+
+-(void)requestCouponInfo{
+   // __weak id myself = self;
+    MainViewRequest* request = [[MainViewRequest alloc]init];
+    [request postWithSerCode:@[API_URL_GetNewestCoupon]
+                      params:nil];
+    request.rqCouponBlock=^(NSArray* array,NSString* tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (array.count>0){
+                self->couponArr = array;
+                NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
+                [self->myTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
+            }else
+               [YIToast showText:tips];
+        });
+    };
+
 }
 
 #pragma mark 审核期间 是否显示活动页面
@@ -146,7 +174,7 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (code != 6)
+            if (code != INAUDIT)
                 [myself requestActivityInfo];
             else
                 [myself showGuideView:MAINGUIDE];
@@ -186,17 +214,15 @@
 
 #pragma mark
 -(void)setupNavigation{
-    self.navigationController.navigationBar.barTintColor = [UIColor whiteColor];
-    self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    UIBarButtonItem* bar = [[UIBarButtonItem alloc]init];
-    bar.image = [UIImage imageNamed:@"main_btn_function"];
-    bar.style = UIBarButtonItemStyleDone;
-    bar.target = self;
-    bar.action=@selector(navigationControllerLeftBarAction:);
-    self.navigationItem.leftBarButtonItem = bar;
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn setImage:[UIImage imageNamed:@"main_img_function1"] forState:UIControlStateNormal];
+    btn.frame = CGRectMake(0, 0, 40, 40);
+    [btn addTarget:self action:@selector(navigationControllerLeftBarAction:) forControlEvents:UIControlEventTouchUpInside];
+
+  //  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_img_function1"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:btn];
+    
      self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
-    
-    
 }
 
 #pragma mark 功能按钮事件
@@ -217,7 +243,7 @@
     bottomPage = 0;
     _bottomData = [NSMutableArray array];
     float tabX = 0;
-    float tabY = 64;
+    float tabY =0;
     float tabW = KMainScreenWidth ;
     float tabH = KMainScreenHeight - tabY;
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
@@ -241,9 +267,10 @@
     headerImg = topImg;
     
     if (KMainScreenHeight<568)
-        cellHight =(568-64-imgH)/2;
+        cellHight =(568-KMainScreenWidth)/3;
     else
-        cellHight =(KMainScreenHeight-64-imgH)/2;
+        cellHight =(KMainScreenHeight-KMainScreenWidth)/3;
+   // cellHight =KMainScreenWidth*101/414;
     
     [self setupTabViewHeader:topImg];
    
@@ -454,12 +481,28 @@
     [self.navigationController pushViewController:good animated:YES];
     kz=nil; good=nil;
 }
-
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 4;
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    int cellNum = 2;
-    if (_bottomData.count>0)
-            cellNum =(int)_bottomData.count+1;
-    return cellNum;
+//    int cellNum =2;
+//    if (_midData.count>0) {
+//        cellNum++;
+//    }
+//    if (_bottomData.count>0)
+//            cellNum =(int)_bottomData.count+ cellNum;
+//    
+//    cellNumber = cellNum;
+//    return cellNum;
+    if (section == 0)
+        return 1;
+    if (section == 1)
+        return _midData.count;
+    if (section == 2)
+        return _bottomData.count;
+    if (section == 3)
+        return 1;
+    return 0;
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -473,46 +516,107 @@
         cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
                     [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
                      subscribeNext:^(UIButton* x) {
+                         
                          id model = myself.bottomData[x.tag-1];
                          [myself mainMidViewDelegataButton:model];
                          
                      }];
 
     }
-    if (indexPath.row < 1) {
-        [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
-    }else{
-            cell.handleBtn.tag =indexPath.row;
-        if (_bottomData.count>0)
-          [cell setupCellWithData:_bottomData[indexPath.row -1] type:2 andTotal:-1];
-        else
-            [cell setupCellWithData:nil type:2 andTotal:-1];
+//    if (indexPath.row == 0) {
+//        [cell setupCouponCell];
+//    }
+//    else if (indexPath.row == 1) {
+//        if (_midData.count>0)
+//            [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
+//        else if (_bottomData.count>0){
+//            cell.handleBtn.tag =indexPath.row;
+//             [cell setupCellWithData:_bottomData[indexPath.row -1] type:2 andTotal:-1];
+//        }else{
+//            [cell setupCustomCell];
+//        }
+//        
+//    }else if (indexPath.row == cellNumber-1) //最后一个Cell
+//       [cell setupCustomCell];
+//    else{
+//            cell.handleBtn.tag =indexPath.row;
+//        if (_bottomData.count>0)
+//          [cell setupCellWithData:_bottomData[indexPath.row -2] type:2 andTotal:-1];
+//        else
+//            [cell setupCellWithData:nil type:2 andTotal:-1];
+//    }
+    
+    
+    if (indexPath.section == 0) {
+        [cell setupCouponCell:couponArr];
     }
+    if (indexPath.section == 1) {
+        [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
+    }
+    if (indexPath.section == 2) {
+        cell.handleBtn.tag =indexPath.row+1;
+        if (_bottomData.count>0)
+            [cell setupCellWithData:_bottomData[indexPath.row] type:2 andTotal:-1];
+    }
+    if (indexPath.section == 3) {
+       [cell setupCustomCell];
+    }
+    
+    
        return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row<1) {
-        UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        if (indexPath.row == 0) {
-            if (_midData.count<1)
-                return;
-            
-            UINavigationController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-            [self.navigationController pushViewController:midController animated:YES];
-            midController=nil;
-        }
-    }else{
-        if (_bottomData.count>0){
-            id model = self.bottomData[indexPath.row-1];
-            [self mainMidViewDelegataButton:model];
-        }else{
-            UNIGoodsWeb* web = [[UNIGoodsWeb alloc]init];
-            web.delegate = self;
-            [self.navigationController pushViewController:web animated:YES];
-            web=nil;
-        }
+//    if (indexPath.row==0 ) {
+//        
+//    }else if (indexPath.row==1) {
+//        UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        if (indexPath.row == 0) {
+//            if (_midData.count<1)
+//                return;
+//            
+//            UINavigationController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+//            [self.navigationController pushViewController:midController animated:YES];
+//            midController=nil;
+//        }
+//    }else if(indexPath.row == cellNumber-1){
+//         [self mainMidViewDelegataButton:nil];
+//    }else{
+//        if (_bottomData.count>0){
+//            id model = self.bottomData[indexPath.row-1];
+//            [self mainMidViewDelegataButton:model];
+//        }else{
+//            UNIGoodsWeb* web = [[UNIGoodsWeb alloc]init];
+//            web.delegate = self;
+//            [self.navigationController pushViewController:web animated:YES];
+//            web=nil;
+//        }
+//    }
+    
+    if (indexPath.section==0 ) {
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"mainToMyCoupon" object:nil];
     }
+    if (indexPath.section==1 ) {
+       
+        if (_midData.count<1)
+                return;
+        UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UINavigationController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+        [self.navigationController pushViewController:midController animated:YES];
+    }
+
+    if (indexPath.section==2 ) {
+        if (_bottomData.count<1)
+            return;
+        id model = self.bottomData[indexPath.row];
+        [self mainMidViewDelegataButton:model];
+    }
+
+    if (indexPath.section==3) {
+         [self mainMidViewDelegataButton:nil];
+    }
+
+    
 }
 
 #pragma mark  mainMidView代理方法 点击 mainMidView 的Cell
@@ -532,14 +636,12 @@
     UNIAppointController* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointController"];
     appoint.model = model;
     [self.navigationController pushViewController:appoint animated:YES];
-    appoint=nil;
-    story=nil;
      [[BaiduMobStat defaultStat]logEvent:@"btn_appoint_main" eventLabel:@"首页预约按钮"];
 }
 
 #pragma mark 请求店铺信息
 -(void)startRequestShopInfo{
- __weak MainViewController* myself = self;
+ //__weak MainViewController* myself = self;
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         //AccountManager* manager = [AccountManager shared];
       
@@ -550,10 +652,10 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!er) {
                     if (manager) {
-                        if (manager.shortName.length>0)
-                            myself.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shortName];
-                        else
-                            myself.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shopName];
+//                        if (manager.shortName.length>0)
+//                            myself.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shortName];
+//                        else
+//                            myself.title =[NSString stringWithFormat:@"欢迎来到%@",manager.shopName];
                     }
                      if (!manager.shopName)
                         //检测不到店铺信息 需要重新登录
@@ -589,7 +691,14 @@
                         
                         [self->progessView setupProgreaa:num and:nextRewardNum];
                         // NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
-                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:url]];
+                        [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:url] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                            CGPoint center = self->goodsImg.center;
+                            CGRect goodsRect = self->goodsImg.frame;
+                            goodsRect.size.width = self->goodsImg.frame.size.height * image.size.width / image.size.height;
+                            self->goodsImg.frame = goodsRect;
+                            self->goodsImg.center = center;
+                            
+                        }];
                         if (nextRewardNum>num) {
                             self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
                             self->numLab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?45:35];
@@ -731,7 +840,7 @@
 //                    if (info.shopPrice>1)
 //                        self->sell2.text = [NSString stringWithFormat:@"￥%.f",info.shopPrice];
 //                    else
-                        self->sell2.text = [NSString stringWithFormat:@"￥%.2f",info.shopPrice];
+                        self->sell2.text = [NSString stringWithFormat:@"￥%.f",info.shopPrice];
                     self->sell3.hidden=NO;
                     self->sell4.hidden=YES;
                     self->sellBtn.hidden=NO;
@@ -784,6 +893,11 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:APPOINTANDREFLASH object:nil];
 }
 
+-(void)changeNavigationBarAlpha:(CGFloat)alp{
+    //导航栏颜色渐变透明
+    [[[self.navigationController.navigationBar subviews]objectAtIndex:0] setAlpha:alp];
+}
+
 #pragma mark 颜色转图片
 -(UIImage*)createImageWithColor:(UIColor*) color
 {
@@ -795,6 +909,9 @@
     UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return theImage;
+}
+- (UIStatusBarStyle)preferredStatusBarStyle{
+    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning{

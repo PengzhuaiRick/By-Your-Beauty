@@ -94,7 +94,7 @@
     LAY=nil; lab2=nil; lab3 =nil; btn= nil; lab1 = nil; img= nil;
    }
 -(void)setupCellWithData:(id)data type:(int)type andTotal:(int)total{
-   
+   self.textLabel.text =@"";
     if (type == 1) {
         self.handleBtn.hidden = YES;
          UNIMyAppintModel* info = data[0];
@@ -149,17 +149,39 @@
             self.subLab.frame = subR;
         }
     }
-    
-    
-    //[self.mainLab sizeToFit];
 
-    
-//    CGRect mainLR = self.mainLab.frame;
-//    mainLR.origin.y = self.mainImage.center.y - mainLR.size.height - 2;
-//    self.mainLab.frame = mainLR;
-    
-   
 }
+
+#pragma mark 优惠券Cell
+-(void)setupCouponCell:(NSArray*)array{
+    if (!array) {
+        self.mainLab.text = nil;
+        self.subLab.text = nil;
+        self.textLabel.text =@"            您还没有优惠券，马上去抢！";
+        self.textLabel.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
+        self.textLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*16/414];
+    }else{
+        self.textLabel.text = nil;
+        self.mainLab.text = [NSString stringWithFormat:@"立减￥%@",array[0]];
+        self.subLab.text = array[1];
+    }
+    self.handleBtn.hidden = YES;
+    self.numLab.hidden = YES;
+    self.mainImage.image = [UIImage imageNamed:@"main_img_cell3"];
+    //self.mainLab.text = @"您还没有优惠券，马上去抢！";
+   
+
+}
+
+#pragma mark 自定义预约内容
+-(void)setupCustomCell{
+    self.numLab.hidden = YES;
+    self.handleBtn.hidden = NO;
+    self.mainImage.image = [UIImage imageNamed:@"main_img_cell4"];
+    self.mainLab.text = @"自定义预约项目";
+    self.subLab .text = @"来这里休憩片刻~";
+}
+
 - (void)awakeFromNib {
     // Initialization code
 }

@@ -163,6 +163,8 @@
         }
         if (phone)
             myself.phone = phone;
+        else
+           [YIToast showText:tips];
     };
     [req postWithSerCode:@[API_URL_getUNIPhone] params:nil];
 }

@@ -101,7 +101,8 @@
                 [myself setupData];
                 [myself setupMyTableView];
                 [myself requestShopInfo];
-            }
+            }else
+                [YIToast showText:tips];
         });
     };
 }
@@ -136,7 +137,8 @@
                     arr=nil; end=nil;
                 }
                
-            }
+            }else
+                [YIToast showText:tips];
         });
     };
     [rq postWithSerCode:@[API_URL_ShopInfo] params:@{@"shopId":@(_shopId)}];

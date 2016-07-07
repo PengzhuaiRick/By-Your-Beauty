@@ -262,7 +262,6 @@
                     [self.navigationController popViewControllerAnimated:YES];
                 }];
                // [YIToast showText:@"评论成功"];
-                
             }
 
         });

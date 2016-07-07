@@ -42,10 +42,27 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = [UNIShopManage getShopData].shopName;
     
     if (_projectId) {
-        UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
-        req.rqservice = ^(UNIMyProjectModel* model,NSString*tips,NSError* er){
+        [self goinFromGiftController];
+    }else if(_model){
+        self.title =self.model.projectName;
+        [self setupUI];
+    }else{
+        [self setupUI];
+    }
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+
+    [self showGuideView:APPOINTGUIDE1];
+}
+
+#pragma mark 从我的礼包跳进
+-(void)goinFromGiftController{
+    __weak UNIAppointController* myself = self;
+    UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
+    req.rqservice = ^(UNIMyProjectModel* model,NSString*tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
@@ -55,30 +72,24 @@
                 return ;
             }
             
-            self.model = model;
-            self.title =self.model.projectName;
-            [self setupMyScroller];
-            [self setupShopView];
-            [self setupTopScrollerWithProjectId:self.model.projectId andCostime:self.model.costTime andShopId:[[AccountManager shopId] intValue]];
-            [self setupMidScroller];
-            [self setupBottomContent];
-            [self regirstKeyBoardNotification];
-        };
-        [req postWithSerCode:@[API_URL_GetProjectModel] params:@{@"projectId":_projectId}];
-    }else{
-    self.title =self.model.projectName;
+            myself.model = model;
+            myself.title =myself.model.projectName;
+            [myself setupUI];
+        });
+    };
+    [req postWithSerCode:@[API_URL_GetProjectModel] params:@{@"projectId":_projectId}];
+}
+
+-(void)setupUI{
     [self setupMyScroller];
-    [self setupShopView];
-    [self setupTopScrollerWithProjectId:_model.projectId andCostime:_model.costTime andShopId:[[AccountManager shopId] intValue]];
+   // [self setupShopView];
+    if (_model)
+    [self setupTopScrollerWithProjectId:self.model.projectId andCostime:self.model.costTime andShopId:[[AccountManager shopId] intValue]];
+    else
+        [self setupTopScrollerWithProjectId:0 andCostime:0 andShopId:[[AccountManager shopId] intValue]];
     [self setupMidScroller];
     [self setupBottomContent];
     [self regirstKeyBoardNotification];
-    }
-    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
-    
-//    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTGUIDE1];
-//    [[UIApplication sharedApplication].keyWindow addSubview:guide];
-    [self showGuideView:APPOINTGUIDE1];
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
@@ -215,27 +226,34 @@
     NSMutableString* projectIds=[NSMutableString string];
     NSMutableString* dates=[NSMutableString string];
     NSMutableString* costTimes=[NSMutableString string];
-    for (int i = 0; i< self->appontMid.myData.count; i++) {
-        UNIMyProjectModel* model = self->appontMid.myData[i];
-        NSDate* costDate = [date1 dateByAddingTimeInterval:cost];
-        NSString* str1 = [dateFormatter stringFromDate:costDate];
-        if (i< self->appontMid.myData.count-1){
-            [projectIds appendFormat:@"%d,",model.projectId];
-            [costTimes appendFormat:@"%d,",model.costTime];
-            [dates appendFormat:@"%@,",str1];
-        }else{
-            [projectIds appendFormat:@"%d",model.projectId];
-            [costTimes appendFormat:@"%d",model.costTime];
-            [dates appendFormat:@"%@",str1];
+    if(appontMid.myData.count>0){
+        for (int i = 0; i< self->appontMid.myData.count; i++) {
+            UNIMyProjectModel* model = self->appontMid.myData[i];
+            NSDate* costDate = [date1 dateByAddingTimeInterval:cost];
+            NSString* str1 = [dateFormatter stringFromDate:costDate];
+            if (i< self->appontMid.myData.count-1){
+                [projectIds appendFormat:@"%d,",model.projectId];
+                [costTimes appendFormat:@"%d,",model.costTime];
+                [dates appendFormat:@"%@,",str1];
+            }else{
+                [projectIds appendFormat:@"%d",model.projectId];
+                [costTimes appendFormat:@"%d",model.costTime];
+                [dates appendFormat:@"%@",str1];
+            }
+            cost +=model.costTime*60;
         }
-        cost +=model.costTime*60;
+    }else{
+        [projectIds appendString:@"0"];
+        [dates appendString:date];
+        [costTimes appendString:@"0"];
     }
             [req postWithSerCode:@[API_URL_SetAppoint]
                           params:@{@"projectIds":projectIds,
                                    @"costTimes":costTimes,
                                    @"dates":dates,
                                    @"shopId":@(shopView.shopId),
-                                   @"num":@(1)}];
+                                   @"num":@(1),
+                                   @"remark":appontMid.remarkField.text}];
              dispatch_async(dispatch_get_main_queue(), ^{
                  [LLARingSpinnerView RingSpinnerViewStop1];
                  req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){
@@ -261,21 +279,21 @@
 
    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
 
-//    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
-//    int seleZhong = [array[0] intValue];
-//    NSString* sele = [NSString stringWithFormat:@"%@ %d:%@:00",appointTop.selectDay,--seleZhong,array[1]];
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
-//    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
-    //NSDate* strDate = [dateFormatter dateFromString:sele];
+    NSArray* array = [appointTop.selectTime componentsSeparatedByString:@":"];
+    int seleZhong = [array[0] intValue];
+    NSString* sele = [NSString stringWithFormat:@"%@ %d:%@:00",appointTop.selectDay,--seleZhong,array[1]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    NSDate* strDate = [dateFormatter dateFromString:sele];
     //设置本地通知的触发时间（如果要立即触发，无需设置）
-    //localNotification.fireDate =strDate;
+    localNotification.fireDate =strDate;
     
-    localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
+   // localNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:5];
     //设置本地通知的时区
     localNotification.timeZone = [NSTimeZone defaultTimeZone];
     //设置通知的内容
-    localNotification.alertBody =  @"您预约的服务时间还有一小时";
+    localNotification.alertBody =  @"您预约的项目还有1小时就开始啦!";
     //设置通知动作按钮的标题
     localNotification.alertAction = @"查看";
     //设置提醒的声音，可以自己添加声音文件，这里设置为默认提示声

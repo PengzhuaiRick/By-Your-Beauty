@@ -112,7 +112,8 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
                     [self setupMyScroller];
                     [self setupTableView];
                     
-                }
+                }else
+                    [YIToast showText:tips];
             });
         };
     }
@@ -136,7 +137,8 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
                     [self setupMyScroller];
                     [self setupTableView];
                     
-                }
+                }else
+                    [YIToast showText:tips];
             });
         };
     }
@@ -498,7 +500,8 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
                 [myself jumpToBizPay:dictionary];}
             if ( [payStyle isEqualToString:@"ALIPAY_APP"]){
                 [myself payWithZFB:dictionary];}
-        }
+        }else
+            [YIToast showText:tips];
     };
 }
 

@@ -144,6 +144,18 @@
 //                [manager initHttpUrlManager:dic];
                 _rqAppTips(dic,nil,nil);
         }
+    
+    //获取首页优惠券信息
+    if ([param1 isEqualToString:API_URL_GetNewestCoupon]) {
+         if (code == 0) {
+             NSDictionary* result = [self safeObject:dic ForKey:@"result"];
+             NSString* name = [self safeObject:result ForKey:@"name"];
+             NSString* return_money = [self safeObject:result ForKey:@"return_money"];
+             
+             if (self.rqCouponBlock)  self.rqCouponBlock (@[return_money , name],tips,nil);
+         }else
+             if (self.rqCouponBlock)  self.rqCouponBlock (nil,tips,nil);
+    }
 
     
 }
@@ -187,6 +199,10 @@
     //获取APP提示信息
     if ([param1 isEqualToString:API_URL_GetAppTips]) {
         _rqAppTips(nil,nil,err);
+    }
+    //获取首页优惠券信息
+    if ([param1 isEqualToString:API_URL_GetNewestCoupon]) {
+        if (self.rqCouponBlock)  self.rqCouponBlock (nil,nil,err);
     }
 
 }

@@ -44,9 +44,10 @@
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
-        if (url) {
+        if (url)
             [self setupUI:url];
-        }
+        else
+            [YIToast showText:tip];
     };
     [req postWithSerCode:@[API_URL_GetTextInfo] params:@{@"type":@"flsm"}];
 }

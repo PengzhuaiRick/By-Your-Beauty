@@ -74,7 +74,8 @@
                 [self setupData];
                 [self setupMyTableView];
                 [self requestShopInfo];
-            }
+            }else
+                [YIToast showText:tips];
         });
     };
 }
@@ -105,8 +106,8 @@
                     MKCoordinateRegion adjustedRegion = [self->_mapView regionThatFits:viewRegion];//适配map view的尺寸
                     [self->_mapView setRegion:adjustedRegion animated:YES];
                 }
-                
-            }
+            }else
+                [YIToast showText:tips];
         });
     };
     [rq postWithSerCode:@[API_URL_ShopInfo] params:@{@"shopId":@(_shopId)}];

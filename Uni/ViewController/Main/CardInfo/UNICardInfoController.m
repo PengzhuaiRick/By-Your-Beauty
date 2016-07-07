@@ -118,7 +118,8 @@
                 self->topLab2.frame = top2;
                 [self setupmidView:total and:num];
                 // [self setupmidView:6 and:2];
-            }
+            }else
+                [YIToast showText:tips];
         });
     };
 }

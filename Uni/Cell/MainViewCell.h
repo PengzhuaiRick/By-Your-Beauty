@@ -19,4 +19,10 @@
 
 -(void)setupCellWithData:(id)data type:(int)type andTotal:(int)total;
 -(id)initWithCellSize:(CGSize)cellSize reuseIdentifier:(NSString *)reuseIdentifier;
+
+#pragma mark 优惠券Cell
+-(void)setupCouponCell:(NSArray*)array;
+
+#pragma mark 自定义预约内容
+-(void)setupCustomCell;
 @end

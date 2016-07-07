@@ -10,6 +10,7 @@
 #import "UNIMyProjectModel.h"
 #import "UNIAddAndDelectCell.h"
 #import "BaiduMobStat.h"
+
 @implementation UNIAppontMid
 -(id)initWithFrame:(CGRect)frame andModel:(id)model{
     self=[super initWithFrame:frame];
@@ -39,9 +40,30 @@
     [self addSubview:lab];
     self.lab1 = lab;
     
-    _cellH =(frame.size.height - CGRectGetMaxY(lab.frame) - (KMainScreenWidth>400?40:25) - 10)/3;
+    float fieldH =KMainScreenWidth* 32 / 414;
+    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(labX,CGRectGetMaxY(lab.frame)+10, self.frame.size.width-2*labX,fieldH)];
+    field.hidden =_myData.count>0;
+    field.placeholder = @" 填写您想预约的项目名称";
+    field.layer.masksToBounds = YES;
+    field.layer.cornerRadius = 3;
+    field.layer.borderWidth = 1;
+    field.layer.borderColor = [UIColor colorWithHexString:@"eeeeee"].CGColor;
+    field.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
+    [self addSubview:field];
+    self.remarkField = field;
+    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+    tool.toolDelegate= self;
+    [tool dismissTwoBtn];
+    field.inputAccessoryView = tool;
+    
+    //_cellH =(frame.size.height - CGRectGetMaxY(lab.frame) - (KMainScreenWidth>400?40:25) - 10)/3;
+    _cellH = KMainScreenWidth* 78/414;
+    
+    float tabY =CGRectGetMaxY(lab.frame);
+    if (_myData.count <1) tabY =CGRectGetMaxY(field.frame);
+    
     float tabH = _myData.count* _cellH;
-    _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(10, CGRectGetMaxY(lab.frame), self.frame.size.width-20,tabH) style:UITableViewStylePlain];
+    _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(10,tabY+10, self.frame.size.width-20,tabH) style:UITableViewStylePlain];
     _myTableView.delegate = self;
     _myTableView.dataSource = self;
     [self addSubview:_myTableView];
@@ -141,6 +163,10 @@
    // [self.myData addObjectsFromArray:modelArr];
     [_myTableView reloadData];
     
+}
+
+-(void)keyboardTool:(BTKeyboardTool *)tool buttonClick:(KeyBoardToolButtonType)type{
+    [self endEditing:YES];
 }
 
 /*

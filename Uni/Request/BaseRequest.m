@@ -28,22 +28,29 @@
         float curVersinNum = curVersion.floatValue;
         if (manager.version>curVersinNum) {
             
-            NSString* cancelTitle =@"取消";
-            if (manager.update_type == 2)
-                cancelTitle=nil;
-            
-            [UIAlertView showWithTitle:@"更新提示" message:manager.detail style:UIAlertViewStyleDefault cancelButtonTitle:cancelTitle otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                int index = 0;
-                if (cancelTitle)
-                    index = 1;
-                
-                if (buttonIndex==index){
-                    if (manager.update_type == 2)
+            if (manager.update_type == 2){
+                [UIAlertView showWithTitle:@"更新提示" message:manager.detail style:UIAlertViewStyleDefault cancelButtonTitle:nil otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                         [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
-                    
-                    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:manager.url]];
+                        [[UIApplication sharedApplication]openURL:[NSURL URLWithString:manager.url]];
+                }];
+        }
+            else if (manager.update_type == 1){
+                
+                NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
+                NSString* promptUpData = [userD objectForKey:PromptUpData];
+                
+                if(promptUpData.length<1){
+                    [userD setObject:PromptUpData forKey:PromptUpData];
+                    [userD synchronize];
                 }
-            }];
+
+                if (promptUpData.length<1) {
+                    [UIAlertView showWithTitle:@"更新提示" message:manager.detail style:UIAlertViewStyleDefault cancelButtonTitle:@"取消" otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        if (buttonIndex>0)
+                            [[UIApplication sharedApplication]openURL:[NSURL URLWithString:manager.url]];
+                    }];
+                }
+            }
         }
         self.rqfirstUrl(code);
         

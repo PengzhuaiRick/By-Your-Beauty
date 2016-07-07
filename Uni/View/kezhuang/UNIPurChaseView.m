@@ -134,7 +134,8 @@
                 [self jumpToBizPay:dictionary];
             if ( [self.payStyle isEqualToString:@"ALIPAY_APP"])
                 [self payWithZFB:dictionary];
-        }
+        }else
+            [YIToast showText:tips];
     };
 }
 
