@@ -54,7 +54,7 @@
     }
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 
-    [self showGuideView:APPOINTGUIDE1];
+   [self showGuideView:APPOINTGUIDE1];
 }
 
 #pragma mark 从我的礼包跳进
@@ -350,13 +350,16 @@
     //UNIMyProjectModel* info = model;
     [appontMid.myData addObjectsFromArray:arr];
     [appontMid addProject:arr];
+    if (appontMid.myData.count>0)
+        appontMid.remarkField.placeholder = @"备注";
+     else
+        appontMid.remarkField.placeholder = @"填写您想预约的项目名称";
+    
     [self modifitacteAppontMid];
     [appointTop changeProjectIds:appontMid.myData];
     [self performSelector:@selector(showGuideView) withObject:nil afterDelay:0.5];
 }
 -(void)showGuideView{
-//    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTDELGUIDE];
-//    [[UIApplication sharedApplication].keyWindow addSubview:guide];
     [self showGuideView:APPOINTDELGUIDE];
 }
 -(void)UNIAppontMidDelegateMethod{

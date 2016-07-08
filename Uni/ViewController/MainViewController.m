@@ -151,12 +151,13 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            if (array.count>0){
+          //  if (array.count>0){
                 self->couponArr = array;
                 NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
                 [self->myTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-            }else
-               [YIToast showText:tips];
+         //   }
+//            else
+//               [YIToast showText:tips];
         });
     };
 
@@ -485,15 +486,7 @@
     return 4;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-//    int cellNum =2;
-//    if (_midData.count>0) {
-//        cellNum++;
-//    }
-//    if (_bottomData.count>0)
-//            cellNum =(int)_bottomData.count+ cellNum;
-//    
-//    cellNumber = cellNum;
-//    return cellNum;
+
     if (section == 0)
         return 1;
     if (section == 1)
@@ -516,6 +509,9 @@
         cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
                     [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
                      subscribeNext:^(UIButton* x) {
+                         if (x.tag == -1){ //最后一个cell 自定义预约
+                             [myself mainMidViewDelegataButton:nil];
+                             return ;}
                          
                          id model = myself.bottomData[x.tag-1];
                          [myself mainMidViewDelegataButton:model];
@@ -523,29 +519,6 @@
                      }];
 
     }
-//    if (indexPath.row == 0) {
-//        [cell setupCouponCell];
-//    }
-//    else if (indexPath.row == 1) {
-//        if (_midData.count>0)
-//            [cell setupCellWithData:_midData type:1 andTotal:appointTotal];
-//        else if (_bottomData.count>0){
-//            cell.handleBtn.tag =indexPath.row;
-//             [cell setupCellWithData:_bottomData[indexPath.row -1] type:2 andTotal:-1];
-//        }else{
-//            [cell setupCustomCell];
-//        }
-//        
-//    }else if (indexPath.row == cellNumber-1) //最后一个Cell
-//       [cell setupCustomCell];
-//    else{
-//            cell.handleBtn.tag =indexPath.row;
-//        if (_bottomData.count>0)
-//          [cell setupCellWithData:_bottomData[indexPath.row -2] type:2 andTotal:-1];
-//        else
-//            [cell setupCellWithData:nil type:2 andTotal:-1];
-//    }
-    
     
     if (indexPath.section == 0) {
         [cell setupCouponCell:couponArr];
@@ -559,6 +532,7 @@
             [cell setupCellWithData:_bottomData[indexPath.row] type:2 andTotal:-1];
     }
     if (indexPath.section == 3) {
+        cell.handleBtn.tag = -1;
        [cell setupCustomCell];
     }
     
@@ -567,31 +541,6 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-//    if (indexPath.row==0 ) {
-//        
-//    }else if (indexPath.row==1) {
-//        UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//        if (indexPath.row == 0) {
-//            if (_midData.count<1)
-//                return;
-//            
-//            UINavigationController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
-//            [self.navigationController pushViewController:midController animated:YES];
-//            midController=nil;
-//        }
-//    }else if(indexPath.row == cellNumber-1){
-//         [self mainMidViewDelegataButton:nil];
-//    }else{
-//        if (_bottomData.count>0){
-//            id model = self.bottomData[indexPath.row-1];
-//            [self mainMidViewDelegataButton:model];
-//        }else{
-//            UNIGoodsWeb* web = [[UNIGoodsWeb alloc]init];
-//            web.delegate = self;
-//            [self.navigationController pushViewController:web animated:YES];
-//            web=nil;
-//        }
-//    }
     
     if (indexPath.section==0 ) {
         [[NSNotificationCenter defaultCenter]postNotificationName:@"mainToMyCoupon" object:nil];

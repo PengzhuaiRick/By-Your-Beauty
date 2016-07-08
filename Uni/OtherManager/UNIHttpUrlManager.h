@@ -30,6 +30,8 @@
 @property(nonatomic,copy) NSString* NO_ORDER_TIPS;//无订单提示
 @property(nonatomic,copy) NSString* APPOINT_DESC;//忙里忙外，也要记得体贴自己！\n马上预约，来这里休息片刻~
 @property(nonatomic,copy) NSString* MORE_YH_TIPS;//更多优惠持续更新，敬请关注!
+@property(nonatomic,copy) NSString* SELF_APPOINT_TITLE;//忙里忙外，也要记得体贴自己！\n马上预约，来这里休息片刻~
+@property(nonatomic,copy) NSString* SELF_APPOINT_CONTENT;//更多优惠持续更新，敬请关注!
 + (UNIHttpUrlManager *)sharedInstance;
 -(void)initHttpUrlManager:(NSDictionary*)dic;
 @end

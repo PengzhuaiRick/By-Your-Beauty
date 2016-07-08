@@ -175,11 +175,12 @@
 
 #pragma mark 自定义预约内容
 -(void)setupCustomCell{
+    self.textLabel.text =nil;
     self.numLab.hidden = YES;
     self.handleBtn.hidden = NO;
     self.mainImage.image = [UIImage imageNamed:@"main_img_cell4"];
-    self.mainLab.text = @"自定义预约项目";
-    self.subLab .text = @"来这里休憩片刻~";
+    self.mainLab.text = [UNIHttpUrlManager sharedInstance].SELF_APPOINT_TITLE;
+    self.subLab .text = [UNIHttpUrlManager sharedInstance].SELF_APPOINT_CONTENT;
 }
 
 - (void)awakeFromNib {
