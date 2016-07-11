@@ -21,8 +21,10 @@
 #import "UNIHttpUrlManager.h"
 #import "UNITouristController.h"
 
+#import "ViewController.h"
+#import "UNIGiftController.h"
 
-@interface MainViewController ()</*UINavigationControllerDelegate,*/MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
+@interface MainViewController ()<MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
     float cellHight;
     int appointTotal;
@@ -55,8 +57,6 @@
 }
 @property(nonatomic,strong) NSArray* midData;
 @property(nonatomic,strong) NSMutableArray* bottomData;
-//@property(nonatomic,strong) MainMidController* midController ;
-//@property(nonatomic,strong) MainBottomController* buttomController;
 @end
 
 @implementation MainViewController
@@ -93,18 +93,7 @@
     [self setupNavigation];
      [self setupScroller];
      [self requestBackGroundUrl];
-   
-   
-   // [self requestActivityInfo];
-   // [self requestActivityShowOrNot];
-//    [self startRequestShopInfo];//请求商家信息
-//    [self startRequestReward];//请求约满信息
-//    [self startRequestAppointInfo];//请求我已预约
-//   [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
-//    [self getSellInfo]; //获取首页销售商品
     [self setupNotification];//注册通知
-    
-     //[self showGuideView:MAINGUIDE];
 }
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
@@ -229,13 +218,29 @@
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
 
-    if (self.containController.closing) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
-    }
-    else{
-         [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
-    }
-    [[BaiduMobStat defaultStat]logEvent:@"btn_menu_main" eventLabel:@"首页菜单切换按钮"];
+//    if (self.containController.closing) {
+//        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
+//    }
+//    else{
+//         [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
+//    }
+//    [[BaiduMobStat defaultStat]logEvent:@"btn_menu_main" eventLabel:@"首页菜单切换按钮"];
+    
+    ViewController* view = [[ViewController alloc]init];
+    view.tv = self;
+    view.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
+    if (IOS_VERSION>=8.0)
+        view.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+    else
+        self.modalPresentationStyle=UIModalPresentationCurrentContext;
+    
+    [self presentViewController:view animated:NO completion:^{
+      //  view.view.superview.backgroundColor = [UIColor clearColor];
+        [UIView animateWithDuration:0.3 animations:^{
+             view.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+        }];
+       
+    }];
 }
 
 #pragma mark 设置Scroller
@@ -279,13 +284,6 @@
     tabview.header =[MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->bottomPage = 0;
         [myself requestBackGroundUrl1];
-//        [myself startRequestShopInfo];//请求商家信息
-//        [myself startRequestReward];//请求约满信息
-//        [myself startRequestAppointInfo];//请求我已预约
-//        [myself getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
-//        [myself getSellInfo]; //获取首页销售商品
-        //[self startRequestProjectInfo];//请求我的项目
-        //[self requestAppTips];
     }];
     
     tabview = nil;
@@ -543,7 +541,9 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section==0 ) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"mainToMyCoupon" object:nil];
+        //[[NSNotificationCenter defaultCenter]postNotificationName:@"mainToMyCoupon" object:nil];
+        UNIGiftController* view = [[UNIGiftController alloc]init];
+        [self.navigationController pushViewController:view animated:YES];
     }
     if (indexPath.section==1 ) {
        

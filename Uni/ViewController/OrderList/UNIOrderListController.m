@@ -57,7 +57,7 @@
     NSString* imgString = @"main_btn_function";
     if (_type==1)
         imgString = @"main_btn_back";
-    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:imgString] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+//    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:imgString] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     scrollerX = 0;
 }
 

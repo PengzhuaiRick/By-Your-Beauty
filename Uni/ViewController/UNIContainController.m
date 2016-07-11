@@ -38,8 +38,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    [self setupSelf];
-    [self setupNotification];
+  //  [self setupSelf];
+   // [self setupNotification];
     [self setupMainController];
    }
 -(void)setupSelf{

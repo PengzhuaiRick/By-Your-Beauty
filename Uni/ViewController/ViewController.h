@@ -8,12 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "baseViewController.h"
-@class UNIContainController;
+//@class UNIContainController;
+@class MainViewController;
 @interface ViewController : baseViewController{
     
 }
 
-@property(nonatomic,strong) UNIContainController* tv;
+@property(nonatomic,strong) MainViewController* tv;
 
 @end
 

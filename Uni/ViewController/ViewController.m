@@ -10,11 +10,19 @@
 #import "UIActionSheet+Blocks.h"
 #import "UNIShopManage.h"
 #import "YILocationManager.h"
-#import "UNIContainController.h"
+#import "MainViewController.h"
 #import "AccountManager.h"
 #import "AppDelegate.h"
 #import "ViewControllerCell.h"
 #import "UNITransfromX&Y.h"
+
+
+#import "UNIMyRewardController.h"
+#import "UNIWalletController.h"
+#import "UNICardInfoController.h"
+#import "UNIGiftController.h"
+#import "UNIOrderListController.h"
+#import "UNISetttingController.h"
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -34,8 +42,8 @@
     [super viewDidLoad];
     [self setupParams];
     [self setupTableView];
-    [self setupSelf];
-    [self setupNotification];
+    //[self setupSelf];
+   // [self setupNotification];
 }
 -(void)setupNotification{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callPhoneToShop) name:@"callPhoneToShop" object:nil];
@@ -53,7 +61,7 @@
 }
 
 -(void)setupParams{
-    titleArray = @[@"首页",
+    titleArray = @[//@"首页",
                    @"我的详情",
                    @"我的奖励",
                    @"我的礼包",
@@ -64,7 +72,7 @@
 //                   ,
 //                   @"Copyright @2014-2021\n广州由你电子商务有限公司"
                    ];
-    imgArray =@[@"function_img_cell1",
+    imgArray =@[//@"function_img_cell1",
                 @"function_img_cell2",
                 @"function_img_cell3",
                 @"function_img_cell4",
@@ -73,7 +81,7 @@
                 @"function_img_cell6",
                 @"function_img_cell7"
                 ];
-    imgSArray =@[@"function_img_scell1",
+    imgSArray =@[//@"function_img_scell1",
                 @"function_img_scell2",
                 @"function_img_scell3",
                 @"function_img_scell4",
@@ -82,16 +90,12 @@
                 @"function_img_scell6",
                 @"function_img_scell7"
                 ];
-    
 }
 
 
 -(void)setupTableView{
-//    UIImageView* bg = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_menu"]];
-//    bg.frame = CGRectMake(0, 0, self.view.frame.size.width - _tv.edag, self.view.frame.size.height);
-//    [self.view addSubview:bg];
     
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 20, self.view.frame.size.width - _tv.edag, self.view.frame.size.height - 60) style:UITableViewStylePlain];
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64*2) style:UITableViewStylePlain];
     tab.delegate = self;
     tab.dataSource = self;
     tab.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -121,8 +125,8 @@
     [btn2 setTitleColor:[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] forState:UIControlStateNormal];
     [self.view addSubview:btn2];
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        [self.tv closeTheBox];
-        [self.tv setupSettingController];
+        [self selfDismiss];
+        [self setupSettingController];
         [[BaiduMobStat defaultStat]logEvent:@"menu_exit" eventLabel:@"首页退出菜单点击"];
     }];
 
@@ -178,46 +182,58 @@
         }
     }
     switch (indexPath.row) {
+//        case 0:
+//             [self selfDismiss];
+//          //  [_tv setupMainController];
+//            [[BaiduMobStat defaultStat]logEvent:@"menu_main" eventLabel:@"首页菜单点击"];
+//            break;
         case 0:
-            [_tv closeTheBox];
-            [_tv setupMainController];
-            [[BaiduMobStat defaultStat]logEvent:@"menu_main" eventLabel:@"首页菜单点击"];
-            break;
-        case 1:
-            [_tv closeTheBox];
-            [_tv setupCardController];
+            [self selfDismiss];
+            [self setupCardController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_detail" eventLabel:@"我的详情菜单点击"];
             break;
-        case 2://我的奖励
-             [_tv closeTheBox];
-            [_tv setupMyController];
+        case 1://我的奖励
+              [self selfDismiss];
+            [self setupMyController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_reward" eventLabel:@"我的奖励菜单点击"];
             break;
-        case 3:
-            [_tv closeTheBox];
-            [_tv setupGiftController];
+        case 2:
+            [self selfDismiss];
+           [self setupGiftController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_gift" eventLabel:@"我的礼包菜单点击"];
             break;
-        case 4:
-            [_tv closeTheBox];
-            [_tv setupOrderListController];
+        case 3:
+            [self selfDismiss];
+            [self setupOrderListController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_order" eventLabel:@"我的订单菜单点击"];
             break;
-        case 5:
-            [_tv closeTheBox];
-            [_tv setupWalletController];
+        case 4:
+            [self selfDismiss];
+            [self setupWalletController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_coupon" eventLabel:@"我的优惠菜单点击"];
             break;
-        case 6:
+        case 5:
             [self callOtherMapApp];
             [[BaiduMobStat defaultStat]logEvent:@"menu_gps" eventLabel:@"首页导航到店菜单点击"];
             break;
-        case 7:
+        case 6:
             [self callPhoneToShop];
             [[BaiduMobStat defaultStat]logEvent:@"menu_call_phone" eventLabel:@"首页致电商家菜单点击"];
             break;
-
     }
+   
+}
+
+#pragma mark 让自己消失
+-(void)selfDismiss{
+    __weak ViewController* myself = self;
+    [UIView animateWithDuration:0.3 animations:^{
+        myself.view.alpha = 0;
+    } completion:^(BOOL finished) {
+        [myself dismissViewControllerAnimated:NO completion:^{
+            
+        }];
+    }];
 }
 
 #pragma mark 调用其他地图APP
@@ -315,5 +331,44 @@
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"setupLoginController" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"mainToMyCoupon" object:nil];
 }
+
+//我的奖励
+-(void)setupMyController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+    UNIMyRewardController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
+    [_tv.navigationController pushViewController:mainCtr animated:YES];
+}
+
+//我的钱包
+-(void)setupWalletController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+    UNIWalletController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
+   [_tv.navigationController pushViewController:view animated:YES];
+}
+
+//会员卡详情
+-(void)setupCardController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UNICardInfoController* view = [st instantiateViewControllerWithIdentifier:@"UNICardInfoController"];
+     [_tv.navigationController pushViewController:view animated:YES];
+}
+
+//我的礼包
+-(void)setupGiftController{
+    UNIGiftController* view = [[UNIGiftController alloc]init];
+    [_tv.navigationController pushViewController:view animated:YES];
+}
+
+//订单列表
+-(void)setupOrderListController{
+    UNIOrderListController* view = [[UNIOrderListController alloc]init];
+    [_tv.navigationController pushViewController:view animated:YES];
+}
+//设置页面
+-(void)setupSettingController{
+    UNISetttingController* view = [[UNISetttingController alloc]init];
+     [_tv.navigationController pushViewController:view animated:YES];
+}
+
 
 @end

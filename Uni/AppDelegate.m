@@ -121,15 +121,15 @@
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIContainController* tc = [st instantiateViewControllerWithIdentifier:@"UNIContainController"];
     tc.edag = KMainScreenWidth*60/320;
-    ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
-    vc.tv = tc;
-    self.window.rootViewController = vc ;
+    tc.modalPresentationStyle = UIModalPresentationCurrentContext;
+//    ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
+//    vc.tv = tc;
+    self.window.rootViewController = tc ;
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController.view.alpha = 0;
     [UIView animateWithDuration:1 animations:^{
             self.window.rootViewController.view.alpha = 1;
     }];
-    st=nil; tc=nil;vc=nil;
 }
 #pragma mark 开始登陆界面
 -(void)setupLoginController{

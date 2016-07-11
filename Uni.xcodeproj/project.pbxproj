@@ -27,6 +27,7 @@
 		18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18250E721C18492C0072F795 /* UNIPurChaseView.m */; };
 		1827CEB71C157CAD00A40B45 /* UNIRewardListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB61C157CAD00A40B45 /* UNIRewardListController.m */; };
 		1827CEBB1C15893E00A40B45 /* UNIRewardListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */; };
+		182BB3261D338BC300D31005 /* UNIFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 182BB3251D338BC300D31005 /* UNIFunctionView.m */; };
 		182E8A511C71C6E600870968 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A4E1C71C6E600870968 /* AlipaySDK.framework */; };
 		182E8A521C71C6E600870968 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A4F1C71C6E600870968 /* libcrypto.a */; };
 		182E8A531C71C6E600870968 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A501C71C6E600870968 /* libssl.a */; };
@@ -236,6 +237,8 @@
 		1827CEB61C157CAD00A40B45 /* UNIRewardListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardListController.m; sourceTree = "<group>"; };
 		1827CEB81C15893E00A40B45 /* UNIRewardListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardListCell.h; sourceTree = "<group>"; };
 		1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardListCell.m; sourceTree = "<group>"; };
+		182BB3241D338BC300D31005 /* UNIFunctionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIFunctionView.h; sourceTree = "<group>"; };
+		182BB3251D338BC300D31005 /* UNIFunctionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIFunctionView.m; sourceTree = "<group>"; };
 		182E8A4E1C71C6E600870968 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		182E8A4F1C71C6E600870968 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		182E8A501C71C6E600870968 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
@@ -809,6 +812,8 @@
 				18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */,
 				18F881131CE1BA4700FE2C4E /* UNIGuideView.h */,
 				18F881141CE1BA4700FE2C4E /* UNIGuideView.m */,
+				182BB3241D338BC300D31005 /* UNIFunctionView.h */,
+				182BB3251D338BC300D31005 /* UNIFunctionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1603,6 +1608,7 @@
 				18E661DB1C118AF0000042B7 /* UNIMyRewardModel.m in Sources */,
 				18EC2E091C49E74100A81DD9 /* UNIWalletCell.m in Sources */,
 				18C8D4081C574A5100E6DDB3 /* DataSigner.m in Sources */,
+				182BB3261D338BC300D31005 /* UNIFunctionView.m in Sources */,
 				18AD74C81C3282DA006FA84D /* UNIRewordAndIntimeCell.m in Sources */,
 				18CCA01E1C030FF600B90092 /* UNIMyRewardController.m in Sources */,
 				18C8D40A1C574A5100E6DDB3 /* MD5DataSigner.m in Sources */,
