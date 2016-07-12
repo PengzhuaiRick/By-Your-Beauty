@@ -55,6 +55,14 @@
 //    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 
    [self showGuideView:APPOINTGUIDE1];
+    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+}
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [LLARingSpinnerView RingSpinnerViewStop1];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark 从我的礼包跳进
@@ -92,10 +100,7 @@
     [self regirstKeyBoardNotification];
 }
 
--(void)leftBarButtonEvent:(UIBarButtonItem*)item{
-    [LLARingSpinnerView RingSpinnerViewStop1];
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 
 -(void)setupMyScroller{
     self.myScroller.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];

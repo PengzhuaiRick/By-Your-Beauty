@@ -8,7 +8,5 @@
 
 #import <UIKit/UIKit.h>
 #import "baseViewController.h"
-#import "UNIContainController.h"
 @interface UNICardInfoController : baseViewController
-@property(nonatomic ,strong)UNIContainController* containController;
 @end

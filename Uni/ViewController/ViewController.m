@@ -26,13 +26,14 @@
 
 @interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
-//    CGPoint startPoint;
-//    CGPoint currentPoint;
     
     NSArray* titleArray;
     NSArray* imgArray;
     NSArray* imgSArray;
 }
+@property (strong, nonatomic) UIButton* backBtn;
+@property (strong, nonatomic) UIButton* setBtn;
+@property (strong, nonatomic) UIButton* loginOutBtn;
 @property (strong, nonatomic) UITableView *myTableView;
 @end
 
@@ -42,7 +43,7 @@
     [super viewDidLoad];
     [self setupParams];
     [self setupTableView];
-    //[self setupSelf];
+    [self setupSelf];
    // [self setupNotification];
 }
 -(void)setupNotification{
@@ -55,9 +56,17 @@
 }
 
 -(void)setupSelf{
-    self.view.backgroundColor = [UIColor colorWithHexString:@"1b1b1b"];
-    [self.view addSubview:_tv.view];
-    self.view.multipleTouchEnabled=YES;
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(KMainScreenWidth - 100, -76, 100, 76);
+    [btn setImage:[UIImage imageNamed:@"view_btn_back"] forState:UIControlStateNormal];
+    [self.view addSubview:btn];
+    _backBtn = btn;
+    
+    __weak ViewController* myself = self;
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        [myself selfDismiss:nil];
+    }];
 }
 
 -(void)setupParams{
@@ -95,7 +104,19 @@
 
 -(void)setupTableView{
     
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height - 64*2) style:UITableViewStylePlain];
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
+    [self.view addSubview:effectview];
+    
+    __weak ViewController* myself = self;
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
+    [effectview addGestureRecognizer:tap];
+    [[tap rac_gestureSignal]subscribeNext:^(id x) {
+        [myself selfDismiss:nil];
+    }];
+    
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 156, self.view.frame.size.width/2, self.view.frame.size.height - 76*2) style:UITableViewStylePlain];
     tab.delegate = self;
     tab.dataSource = self;
     tab.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -106,27 +127,30 @@
     _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(tab.frame.size.width/2, CGRectGetMaxY(tab.frame),tab.frame.size.width/2, 30);
+    btn1.frame = CGRectMake(self.view.frame.size.width/2, KMainScreenHeight-100,self.view.frame.size.width/2, 30);
     [btn1 setTitle:@"   退出" forState:UIControlStateNormal];
     [btn1 setImage:[UIImage imageNamed:@"function_btn_quit"] forState:UIControlStateNormal];
     btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
     [btn1 setTitleColor: [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] forState:UIControlStateNormal];
     [self.view addSubview:btn1];
+    _loginOutBtn = btn1;
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        [self loginOut];
+        [myself loginOut];
         [[BaiduMobStat defaultStat]logEvent:@"menu_setting" eventLabel:@"首页设置菜单点击"];
     }];
     
     UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn2.frame = CGRectMake(0, CGRectGetMaxY(tab.frame),tab.frame.size.width/2, 30);
+    btn2.frame = CGRectMake(0,KMainScreenHeight-100,self.view.frame.size.width/2, 30);
     [btn2 setTitle:@"   设置" forState:UIControlStateNormal];
     [btn2 setImage:[UIImage imageNamed:@"function_btn_set"] forState:UIControlStateNormal];
     btn2.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
     [btn2 setTitleColor:[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] forState:UIControlStateNormal];
     [self.view addSubview:btn2];
+    _setBtn = btn2;
+    
     [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        [self selfDismiss];
-        [self setupSettingController];
+        [myself selfDismiss:@selector(setupSettingController)];
+        //[self setupSettingController];
         [[BaiduMobStat defaultStat]logEvent:@"menu_exit" eventLabel:@"首页退出菜单点击"];
     }];
 
@@ -151,8 +175,9 @@
         cell = [[ViewControllerCell alloc]initWithCellH:KMainScreenWidth*70/414 reuseIdentifier:name];
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (indexPath.row == 3) {
+        if (indexPath.row == 2) {
             cell.numLab.hidden=NO;
+            cell.numLab.text = [NSString stringWithFormat:@"%d",_tv.giftNum];
         }else
         cell.numLab.hidden=YES;
     }
@@ -164,7 +189,7 @@
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-        //[tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ViewControllerCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     cell.mainLab.textColor = [UIColor colorWithHexString:kMainThemeColor];
 
@@ -182,34 +207,29 @@
         }
     }
     switch (indexPath.row) {
-//        case 0:
-//             [self selfDismiss];
-//          //  [_tv setupMainController];
-//            [[BaiduMobStat defaultStat]logEvent:@"menu_main" eventLabel:@"首页菜单点击"];
-//            break;
         case 0:
-            [self selfDismiss];
-            [self setupCardController];
+            [self selfDismiss:@selector(setupCardController)];
+           // [self setupCardController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_detail" eventLabel:@"我的详情菜单点击"];
             break;
         case 1://我的奖励
-              [self selfDismiss];
-            [self setupMyController];
+            [self selfDismiss:@selector(setupMyController)];
+           // [self setupMyController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_reward" eventLabel:@"我的奖励菜单点击"];
             break;
         case 2:
-            [self selfDismiss];
-           [self setupGiftController];
+            [self selfDismiss:@selector(setupGiftController)];
+          // [self setupGiftController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_gift" eventLabel:@"我的礼包菜单点击"];
             break;
         case 3:
-            [self selfDismiss];
-            [self setupOrderListController];
+             [self selfDismiss:@selector(setupOrderListController)];
+            //[self setupOrderListController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_order" eventLabel:@"我的订单菜单点击"];
             break;
         case 4:
-            [self selfDismiss];
-            [self setupWalletController];
+             [self selfDismiss:@selector(setupWalletController)];
+           // [self setupWalletController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_coupon" eventLabel:@"我的优惠菜单点击"];
             break;
         case 5:
@@ -224,14 +244,40 @@
    
 }
 
+-(void)showViewAnimation{
+    
+    CGRect btnR = _backBtn.frame;
+    btnR.origin.y = 0;
+    
+    CGRect tabR = _myTableView.frame;
+    tabR.origin.y = 76;
+    
+    CGRect btnS = _setBtn.frame;
+    btnS.origin.y = CGRectGetMaxY(tabR);
+    
+    CGRect btnL = _loginOutBtn.frame;
+    btnL.origin.y = CGRectGetMaxY(tabR);
+    
+    __weak ViewController* myself = self;
+    [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:30 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        myself.backBtn.frame = btnR;
+        myself.myTableView.frame = tabR;
+        myself.loginOutBtn.frame = btnL;
+        myself.setBtn.frame = btnS;
+    } completion:^(BOOL finished) {
+        
+    }];
+}
+
 #pragma mark 让自己消失
--(void)selfDismiss{
+-(void)selfDismiss:(SEL)action{
     __weak ViewController* myself = self;
     [UIView animateWithDuration:0.3 animations:^{
         myself.view.alpha = 0;
     } completion:^(BOOL finished) {
         [myself dismissViewControllerAnimated:NO completion:^{
-            
+            if (action)
+                [myself performSelectorOnMainThread:action withObject:nil waitUntilDone:NO];
         }];
     }];
 }
@@ -298,18 +344,18 @@
 }
 
 #pragma mark 刷新功能列表上红色小圆圈的数字
--(void)flashTheCellNum:(NSNotification*)notificate{
-    NSDictionary* dic = notificate.userInfo;
-    int count = [[dic objectForKey:@"count"] intValue];
-    
-    NSIndexPath* index = [NSIndexPath indexPathForRow:3 inSection:0];
-    ViewControllerCell* cell = [_myTableView cellForRowAtIndexPath:index];
-    if (count>0){
-        cell.numLab.hidden=NO;
-        cell.numLab.text = [NSString stringWithFormat:@"%d",count];
-    }else
-        cell.numLab.hidden=YES;
-}
+//-(void)flashTheCellNum:(NSNotification*)notificate{
+//    NSDictionary* dic = notificate.userInfo;
+//    int count = [[dic objectForKey:@"count"] intValue];
+//    
+//    NSIndexPath* index = [NSIndexPath indexPathForRow:3 inSection:0];
+//    ViewControllerCell* cell = [_myTableView cellForRowAtIndexPath:index];
+//    if (count>0){
+//        cell.numLab.hidden=NO;
+//        cell.numLab.text = [NSString stringWithFormat:@"%d",count];
+//    }else
+//        cell.numLab.hidden=YES;
+//}
 
 #pragma mark 通知跳转到我的奖励
 -(void)jumpToMyReward{

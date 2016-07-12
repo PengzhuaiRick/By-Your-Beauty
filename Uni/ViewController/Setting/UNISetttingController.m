@@ -48,6 +48,9 @@
     
 //    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    
 }
 
 -(void)setupUI{
@@ -145,13 +148,9 @@
 }//02038904856
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    if (self.containController.closing) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
-    }
-    else{
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
-    }
+    [self.navigationController popViewControllerAnimated:YES];
 }
+
 #pragma mark 请求公司电话
 -(void)requestTheUniPhone{
     __weak UNISetttingController* myself = self;

@@ -8,11 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "baseViewController.h"
-#import "MainMidView.h"
-#import "UNIContainController.h"
+//#import "MainMidView.h"
+//#import "UNIContainController.h"
 @interface MainViewController : baseViewController
-
-@property(nonatomic ,strong)MainMidView* midView;
-@property(nonatomic ,strong)MainMidView* buttomView;
-@property(nonatomic ,strong)UNIContainController* containController;
+@property(nonatomic , assign)int giftNum; //我的礼包数量
 @end

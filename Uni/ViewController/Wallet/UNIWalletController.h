@@ -9,7 +9,5 @@
 #import <UIKit/UIKit.h>
 //#import "baseViewController.h"
 #import "BaseWebController.h"
-#import "UNIContainController.h"
 @interface UNIWalletController : BaseWebController
-@property(nonatomic ,strong)UNIContainController* containController;
 @end

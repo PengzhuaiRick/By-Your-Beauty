@@ -7,9 +7,9 @@
 //
 
 #import "MainViewController.h"
-#import "MainMidController.h"
+//#import "MainMidController.h"
 //#import "MainBottomController.h"
-#import "MainMoveTransition.h"
+//#import "MainMoveTransition.h"
 #import "MainViewRequest.h"
 #import "AccountManager.h"
 #import "UNIAppointController.h"
@@ -22,9 +22,9 @@
 #import "UNITouristController.h"
 
 #import "ViewController.h"
-#import "UNIGiftController.h"
+#import "UNIWalletController.h"
 
-@interface MainViewController ()<MainMidViewDelegate,UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
+@interface MainViewController ()<UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
     UITableView* myTable;
     float cellHight;
     int appointTotal;
@@ -52,7 +52,6 @@
     UIButton* sellBtn;
     UIButton* alphBtn;
     
-    UIButton* backTopBtn;//返回顶部按钮
     NSArray* couponArr;
 }
 @property(nonatomic,strong) NSArray* midData;
@@ -63,37 +62,25 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=YES;
-        }
-    }
+   
     [self changeNavigationBarAlpha:0];
-    backTopBtn.enabled = YES;
-     [[BaiduMobStat defaultStat] pageviewStartWithName:@"首页"];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"首页"];
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
      [super viewWillDisappear:animated];
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=NO;
-        }
-    }
     [self changeNavigationBarAlpha:1];
-    backTopBtn.enabled = NO;
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"首页"];
-   
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-     [self setupScroller];
-     [self requestBackGroundUrl];
+    [self setupScroller];
     [self setupNotification];//注册通知
+    [self requestBackGroundUrl];
 }
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
@@ -140,13 +127,9 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-          //  if (array.count>0){
                 self->couponArr = array;
                 NSIndexSet *indexSet=[[NSIndexSet alloc]initWithIndex:0];
                 [self->myTable reloadSections:indexSet withRowAnimation:UITableViewRowAnimationAutomatic];
-         //   }
-//            else
-//               [YIToast showText:tips];
         });
     };
 
@@ -208,24 +191,27 @@
     [btn setImage:[UIImage imageNamed:@"main_img_function1"] forState:UIControlStateNormal];
     btn.frame = CGRectMake(0, 0, 40, 40);
     [btn addTarget:self action:@selector(navigationControllerLeftBarAction:) forControlEvents:UIControlEventTouchUpInside];
-
-  //  self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_img_function1"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:btn];
     
-     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
+    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
+   // swipe.direction = UISwipeGestureRecognizerDirectionRight;
+    [self.view addGestureRecognizer:pan];
+
+}
+-(void)panGestureRecognizerAction:(UIPanGestureRecognizer*)x{
+    CGPoint point = [x translationInView:self.view];
+    if (x.state == UIGestureRecognizerStateChanged) {
+        if (point.x>1){
+            [self showViewController];}
+    }
+    
 }
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-
-//    if (self.containController.closing) {
-//        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
-//    }
-//    else{
-//         [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
-//    }
-//    [[BaiduMobStat defaultStat]logEvent:@"btn_menu_main" eventLabel:@"首页菜单切换按钮"];
-    
+    [self showViewController];
+}
+-(void)showViewController{
     ViewController* view = [[ViewController alloc]init];
     view.tv = self;
     view.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
@@ -235,12 +221,13 @@
         self.modalPresentationStyle=UIModalPresentationCurrentContext;
     
     [self presentViewController:view animated:NO completion:^{
-      //  view.view.superview.backgroundColor = [UIColor clearColor];
+        //  view.view.superview.backgroundColor = [UIColor clearColor];
         [UIView animateWithDuration:0.3 animations:^{
-             view.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.8];
+            [view showViewAnimation];
         }];
-       
+        
     }];
+
 }
 
 #pragma mark 设置Scroller
@@ -288,6 +275,10 @@
     
     tabview = nil;
     topImg=nil;
+    
+//    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 30, KMainScreenHeight)];
+//    view.userInteractionEnabled = NO;
+//    [self.view addSubview:view];
 }
 
 #pragma mark 创建  tableHeaderView
@@ -542,7 +533,7 @@
     
     if (indexPath.section==0 ) {
         //[[NSNotificationCenter defaultCenter]postNotificationName:@"mainToMyCoupon" object:nil];
-        UNIGiftController* view = [[UNIGiftController alloc]init];
+        UNIWalletController* view = [[UNIWalletController alloc]init];
         [self.navigationController pushViewController:view animated:YES];
     }
     if (indexPath.section==1 ) {
@@ -716,7 +707,7 @@
                 if (!err) {
                     [self->myTable.footer endRefreshing];
                     //刷新侧边栏我的礼包的数量
-                    [[NSNotificationCenter defaultCenter]postNotificationName:@"flashTheCellNum" object:nil userInfo:@{@"count":@(count)}];
+                    myself.giftNum = count;
                     
                     if (self->bottomPage<1)
                         [myself.bottomData removeAllObjects];
@@ -858,9 +849,6 @@
     UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return theImage;
-}
-- (UIStatusBarStyle)preferredStatusBarStyle{
-    return UIStatusBarStyleLightContent;
 }
 
 - (void)didReceiveMemoryWarning{

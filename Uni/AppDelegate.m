@@ -7,9 +7,9 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
+//#import "ViewController.h"
 //#import "MainViewController.h"
-#import "UNIContainController.h"
+//#import "UNIContainController.h"
 #import "YILocationManager.h"
 #import "APService.h"
 #import "AccountManager.h"
@@ -50,6 +50,8 @@
     [self judgeFirstTime];
     [self.window makeKeyAndVisible];
     [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
+    
+    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     return YES;
 
 }
@@ -71,6 +73,7 @@
 
 #pragma mark 设置导航栏样式
 -(void)setupNavigationStyle{
+    
     
     UINavigationBar *bar = [UINavigationBar appearance];
     
@@ -119,12 +122,13 @@
 -(void)setupViewController{
     self.window.rootViewController = nil ;
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UNIContainController* tc = [st instantiateViewControllerWithIdentifier:@"UNIContainController"];
-    tc.edag = KMainScreenWidth*60/320;
-    tc.modalPresentationStyle = UIModalPresentationCurrentContext;
+    UIViewController* tc = [st instantiateViewControllerWithIdentifier:@"MainViewController"];
+    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tc];
+    //tc.edag = KMainScreenWidth*60/320;
+//    tc.modalPresentationStyle = UIModalPresentationCurrentContext;
 //    ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
 //    vc.tv = tc;
-    self.window.rootViewController = tc ;
+    self.window.rootViewController = nav ;
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController.view.alpha = 0;
     [UIView animateWithDuration:1 animations:^{

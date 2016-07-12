@@ -43,102 +43,14 @@
     
      UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
     [self setupUI:manager.APP_KZ_URL];
-    
-    
-    //self.title = @"由你商城";
-    
-//    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, KMainScreenHeight - 40,KMainScreenWidth, 30)];
-//    lab.text = @"已显示全部内容";
-//    lab.textColor = [UIColor colorWithRed:90/255.f green:90/255.f blue:90/255.f alpha:1];
-//    lab.textAlignment = NSTextAlignmentCenter;
-//    lab.font = [UIFont boldSystemFontOfSize:14];
-//    [self.view addSubview:lab];
-//    
-//    UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0, 64, KMainScreenWidth, KMainScreenHeight-64)];
-//   
-//    web.scrollView.scrollsToTop=YES;
-//    web.backgroundColor = [UIColor clearColor];
-//    web.scrollView.backgroundColor = [UIColor clearColor];
-//    web.scalesPageToFit = YES;
-//    [self.view addSubview:web];
-//    //自动对页面进行缩放以适应屏幕
-//     UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-//    
-//     NSURL* url = [NSURL URLWithString:manager.APP_KZ_URL];//创建URL
-//    NSURLRequest* request = [[NSURLRequest alloc]initWithURL:url];
-//    
-//    [web loadRequest:request];//加载
-//    webView = web;
-//    
-//    __weak id myself = self;
-//    
-//    self.bridge =[WebViewJavascriptBridge bridgeForWebView:webView webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"data  %@",data);
-//    }];
-//    
-//    [self.bridge send:@"init" responseCallback:^(id responseData) {}];
-//    
-//    [self.bridge registerHandler:@"gotoAppoint" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"gotoAppoint %@", data);
-//        NSString* str = [data objectForKey:@"projectId"];
-//        [myself gotoAppoint:str :@""];
-//    }];
-//    
-//    [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"gotoGoodsDetail: %@", data);
-//        NSString* str = [data objectForKey:@"projectId"];
-//        [myself gotoGoodsDeatil:str :@"2" :0];
-//        [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_list" eventLabel:@"产品列表购买按钮"];
-//        
-//    }];
-//    [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"gotoBuyProject: %@", data);
-//        NSString* str = [data objectForKey:@"projectId"];
-//        [myself gotoBuyProject:str :@"3" :0];
-//         [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_list" eventLabel:@"产品列表购买按钮"];
-//    }];
-//    
-//    web=nil;lab = nil;url=nil;request=nil;
 }
 
 
 -(void)setupNavigation{
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
 }
 
-//- (void)webViewDidStartLoad:(UIWebView *)webView{
-//    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
-//}
-//- (void)webViewDidFinishLoad:(UIWebView *)webView1{
-//    
-//    [LLARingSpinnerView RingSpinnerViewStop1];
-//    self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
-//    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
-//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
-//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-//
-//}
-//- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
-//    NSLog(@"%@",error);
-//     [LLARingSpinnerView RingSpinnerViewStop1];
-//}
-//
-//- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-//{
-//   // NSString* url = request.URL.absoluteString ;
-//    return YES;
-//}
-//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-//    //NSLog(@"%f",scrollView.contentOffset.y);
-//    if (scrollView.contentOffset.y<-170) {
-//        if (webView.loading)
-//            return;
-//        //清除UIWebView的缓存
-//        [[NSURLCache sharedURLCache] removeAllCachedResponses];
-//        [webView reload];
-//    }
-//}
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
    [LLARingSpinnerView RingSpinnerViewStop1];
     //清除UIWebView的缓存

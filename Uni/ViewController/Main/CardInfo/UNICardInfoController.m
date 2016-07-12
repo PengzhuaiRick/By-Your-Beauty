@@ -12,6 +12,8 @@
 #import <MJRefresh/MJRefresh.h>
 #import "UNIAppointDetail.h"
 #import "AccountManager.h"
+
+#import "UNIMyRewardController.h"
 @interface UNICardInfoController ()<UITableViewDataSource,UITableViewDelegate>{
     int pageNum;
     UIView* topView;
@@ -26,24 +28,14 @@
 
 @implementation UNICardInfoController
 -(void)viewWillAppear:(BOOL)animated{
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=YES;
-        }
-    }
+  
     myTableView.delegate = self;
     myTableView.dataSource = self;
     [[BaiduMobStat defaultStat] pageviewStartWithName:@"我的详情"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=NO;
-        }
-    }
+   
     myTableView.delegate = nil;
     myTableView.dataSource = nil;
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"我的详情"];
@@ -61,24 +53,18 @@
 -(void)setupNavigation{
     self.title = @"我的详情";
     self.view .backgroundColor= [UIColor colorWithHexString: kMainBackGroundColor];
-    
-//      self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_function"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
-    
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"card_bar_user"] style:UIBarButtonItemStylePlain target:self action:@selector(rightBarButtonItemAction:)];
-//    
+   
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
-}
-#pragma mark 功能按钮事件
--(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    if (self.containController.closing) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
-    }
-    else{
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
-    }
     
-    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
 }
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [LLARingSpinnerView RingSpinnerViewStop1];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)rightBarButtonItemAction:(UIBarButtonItem*)item{
     NSString* msg = [NSString stringWithFormat:@"用户账号: %@",[AccountManager localLoginName]];
 #ifdef IS_IOS9_OR_LATER
@@ -235,7 +221,8 @@
         [awardBtn setBackgroundImage:[UIImage imageNamed:@"card_img_open"] forState:UIControlStateNormal];
         [[awardBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(id x) {
-             [[NSNotificationCenter defaultCenter]postNotificationName:@"jumpToMyReward" object:nil];
+             UNIMyRewardController* reward = [[UNIMyRewardController alloc]init];
+             [self.navigationController pushViewController:reward animated:YES];
              [[BaiduMobStat defaultStat]logEvent:@"btn_yueman_intime" eventLabel:@"准时到店满足次数盖子点击"];
          }];
     }

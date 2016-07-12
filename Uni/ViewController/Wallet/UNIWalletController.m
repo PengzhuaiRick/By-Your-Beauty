@@ -22,22 +22,10 @@
 @implementation UNIWalletController
 -(void)viewWillAppear:(BOOL)animated{
      [super viewWillAppear:animated];
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=YES;
-        }
-    }
      [self BaiduStatBegin:@"我的优惠"];
 }
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=NO;
-        }
-    }
     [self BaiduStatEnd:@"我的优惠"];
 }
 
@@ -55,21 +43,17 @@
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
 //    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_function"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
-
+    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
 }
-
-
-
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     if ([self.baseWebView canGoBack]) {
         [self.baseWebView goBack];
     }else{
-        if (self.containController.closing)
-            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
-        else
-            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
+        [self.navigationController popViewControllerAnimated:YES];
     }
 }
 

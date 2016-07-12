@@ -34,32 +34,13 @@
 
 @implementation UNIGiftController
 -(void)viewWillAppear:(BOOL)animated{
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=YES;
-        }
-    }
-    array=nil;
-   // [self setupUI];
-     //[[BaiduMobStat defaultStat] pageviewStartWithName:@"活动页面"];
+
     [self BaiduStatBegin:@"活动页面"];
     [super viewWillAppear:animated];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=NO;
-        }
-    }
-    array = nil;
-    
-  //  webView.scrollView.delegate = nil;
-  //  [webView removeFromSuperview];
-    //清除UIWebView的缓存
-   // [[NSURLCache sharedURLCache] removeAllCachedResponses];
+ 
     [self BaiduStatEnd:@"活动页面"];
     [super viewWillDisappear:animated];
 }
@@ -168,32 +149,35 @@
     
 }
 
-//- (void)webViewDidStartLoad:(UIWebView *)webView{
-//    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
-//}
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
     [self showGuideView:CARDGUIDE];
 }
-//
-//- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
-//    NSLog(@"%@",error);
-//}
-//- (BOOL)webView:(UIWebView *)webView1 shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
-//{
-//    NSString* url = request.URL.absoluteString ;
-//    NSLog(@"request.URL.absoluteString  %@",url);
-//    
-//    return YES;
-//}
+
 
 -(void)setupNavigation{
 //self.title = @"我的礼包";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
-//    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_function"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     
     rightBar =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"gift_bar_share"] style:0 target:self action:@selector(navigationControllerRightBarAction:)];
     self.navigationItem.rightBarButtonItem = rightBar;
+    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+}
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    if ([self.baseWebView canGoBack]) {
+        [self.baseWebView goBack];
+        shareTitle = nil;
+        shareDesc =nil;
+        shareImg =nil;
+        shareUrl = nil;
+        [self hidenShareView];
+    }else{
+        [LLARingSpinnerView RingSpinnerViewStop1];
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 //#pragma mark 调转预约界面
@@ -253,21 +237,21 @@
 }
 
 #pragma mark 功能按钮事件
--(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    if ([self.baseWebView canGoBack]) {
-        [self.baseWebView goBack];
-        shareTitle = nil;
-        shareDesc =nil;
-        shareImg =nil;
-        shareUrl = nil;
-        [self hidenShareView];
-    }else{
-        if (self.containController.closing)
-            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
-        else
-            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
-    }
-}
+//-(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
+//    if ([self.baseWebView canGoBack]) {
+//        [self.baseWebView goBack];
+//        shareTitle = nil;
+//        shareDesc =nil;
+//        shareImg =nil;
+//        shareUrl = nil;
+//        [self hidenShareView];
+//    }else{
+//        if (self.containController.closing)
+//            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
+//        else
+//            [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
+//    }
+//}
 
 #pragma mark 修改返回按钮图片
 -(void)changeLeftBarImage{

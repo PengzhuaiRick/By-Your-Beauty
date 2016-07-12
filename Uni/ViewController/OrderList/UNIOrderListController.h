@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "baseViewController.h"
-#import "UNIContainController.h"
 @interface UNIOrderListController : baseViewController
-@property(nonatomic ,strong)UNIContainController* containController;
 @property(nonatomic,assign)int type ;
 @end

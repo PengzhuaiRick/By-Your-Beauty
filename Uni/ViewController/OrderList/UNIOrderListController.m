@@ -25,22 +25,12 @@
 @implementation UNIOrderListController
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=YES;
-        }
-    }
+
     [[BaiduMobStat defaultStat] pageviewStartWithName:@"我的订单"];
     [super viewWillAppear:animated];
 }
 -(void)viewWillDisappear:(BOOL)animated{
-    NSArray* array =self.containController.view.gestureRecognizers;
-    for (UIGestureRecognizer* ges in array) {
-        if ([ges isKindOfClass:[UIPanGestureRecognizer class]]) {
-            ges.enabled=NO;
-        }
-    }
+    
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"我的订单"];
     [super viewWillDisappear:animated];
 }
@@ -52,13 +42,13 @@
     [self setupTableView];
 }
 -(void)setupNavigation{
+    scrollerX = 0;
     self.title = @"我的订单";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    NSString* imgString = @"main_btn_function";
-    if (_type==1)
-        imgString = @"main_btn_back";
-//    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:imgString] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
-    scrollerX = 0;
+    
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    
 }
 
 -(void)setupTopView{
@@ -228,16 +218,8 @@
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
-    if (_type == 1) {
-        [self.navigationController popViewControllerAnimated:YES];
-    }else{
-    if (self.containController.closing) {
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWOPEN object:nil];
-    }
-    else{
-        [[NSNotificationCenter defaultCenter]postNotificationName:CONTAITVIEWCLOSE object:nil];
-    }
-    }
+  
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 @end

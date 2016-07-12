@@ -8,12 +8,12 @@
 
 #import "UNIContainController.h"
 #import "MainViewController.h"
-#import "UNIMyRewardController.h"
-#import "UNIWalletController.h"
-#import "UNICardInfoController.h"
-#import "UNIGiftController.h"
-#import "UNIOrderListController.h"
-#import "UNISetttingController.h"
+//#import "UNIMyRewardController.h"
+//#import "UNIWalletController.h"
+//#import "UNICardInfoController.h"
+//#import "UNIGiftController.h"
+//#import "UNIOrderListController.h"
+//#import "UNISetttingController.h"
 
 @interface UNIContainController ()
 {
@@ -42,35 +42,35 @@
    // [self setupNotification];
     [self setupMainController];
    }
--(void)setupSelf{
-    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
-    [self.view addGestureRecognizer:pan];
-    self.panGes = pan;
-    
-    UITapGestureRecognizer* tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeTheBox)];
-    [self.view addGestureRecognizer:tap];
-    tap.enabled=NO;
-    self.tapGes = tap;
-    
-    _closing = YES;
-    [RACObserve(self, closing)
-     subscribeNext:^(NSNumber* x) {
-         if (!x.boolValue) {
-             self.tapGes.enabled = YES;
-             for (UIView* view in self.view.subviews)
-                 view.userInteractionEnabled=NO;
-         }else{
-             self.tapGes.enabled = NO;
-             for (UIView* view in self.view.subviews)
-                 view.userInteractionEnabled=YES;
-         }
-     }];
-}
-#pragma mark 设置通知功能
--(void)setupNotification{
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeTheBox) name:CONTAITVIEWCLOSE object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openTheBox) name:CONTAITVIEWOPEN object:nil];
-}
+//-(void)setupSelf{
+//    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan1:)];
+//    [self.view addGestureRecognizer:pan];
+//    self.panGes = pan;
+//    
+//    UITapGestureRecognizer* tap =[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(closeTheBox)];
+//    [self.view addGestureRecognizer:tap];
+//    tap.enabled=NO;
+//    self.tapGes = tap;
+//    
+//    _closing = YES;
+//    [RACObserve(self, closing)
+//     subscribeNext:^(NSNumber* x) {
+//         if (!x.boolValue) {
+//             self.tapGes.enabled = YES;
+//             for (UIView* view in self.view.subviews)
+//                 view.userInteractionEnabled=NO;
+//         }else{
+//             self.tapGes.enabled = NO;
+//             for (UIView* view in self.view.subviews)
+//                 view.userInteractionEnabled=YES;
+//         }
+//     }];
+//}
+//#pragma mark 设置通知功能
+//-(void)setupNotification{
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(closeTheBox) name:CONTAITVIEWCLOSE object:nil];
+//    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(openTheBox) name:CONTAITVIEWOPEN object:nil];
+//}
 
 -(void)handlePan1:(UIPanGestureRecognizer*)pan{
     CGPoint point = [pan translationInView:[self view]];
@@ -108,35 +108,34 @@
         }
     }
 }
--(void)closeTheBox{
-    //[[BaiduMobStat defaultStat]logEvent:@"menu_main" eventLabel:@"首页菜单点击"];
-    self.closing = YES;
-    [UIView animateWithDuration:0.2 animations:^{
-        // self.tv.view.userInteractionEnabled=YES;
-        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
-    }];
-   // self.tapGes.enabled=NO;
-    
-}
--(void)openTheBox{
-    
-    [UIView animateWithDuration:0.2 animations:^{
-       
-        self.view.frame = CGRectMake(KMainScreenWidth-self.edag, 0, self.view.frame.size.width,self.view.frame.size.height);
-    }];
-    //self.tapGes.enabled=YES;
-    self.closing=NO;
-    
-    [self showGuideView:FUNCTIONGUIDE];
-}
-
+//-(void)closeTheBox{
+//    //[[BaiduMobStat defaultStat]logEvent:@"menu_main" eventLabel:@"首页菜单点击"];
+//    self.closing = YES;
+//    [UIView animateWithDuration:0.2 animations:^{
+//        // self.tv.view.userInteractionEnabled=YES;
+//        self.view.frame = CGRectMake(0, 0, self.view.frame.size.width,self.view.frame.size.height);
+//    }];
+//   // self.tapGes.enabled=NO;
+//    
+//}
+//-(void)openTheBox{
+//    
+//    [UIView animateWithDuration:0.2 animations:^{
+//       
+//        self.view.frame = CGRectMake(KMainScreenWidth-self.edag, 0, self.view.frame.size.width,self.view.frame.size.height);
+//    }];
+//    //self.tapGes.enabled=YES;
+//    self.closing=NO;
+//    
+//    [self showGuideView:FUNCTIONGUIDE];
+//}
+//
 //首页
 -(void)setupMainController{
-    [self removeController];
     if (!mainNav) {
         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
        MainViewController* mainCtr= [st instantiateViewControllerWithIdentifier:@"MainViewController"];
-        mainCtr.containController = self;
+      //  mainCtr.containController = self;
         mainNav = [[UINavigationController alloc]initWithRootViewController:mainCtr];
 
     }
@@ -146,111 +145,111 @@
 //    mainNav = nil;
    
 }
-
-//我的奖励
--(void)setupMyController{
-    [self removeController];
-    //if (!rewardCtr) {
-        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-        UNIMyRewardController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
-        mainCtr.containController = self;
-       // rewardCtr = mainCtr;
-        UINavigationController*  myRewardNav =[[UINavigationController alloc]initWithRootViewController:mainCtr];
-    //}
-   
-    [self.view addSubview:myRewardNav.view];
-    [self addChildViewController:myRewardNav];
-     mainCtr = nil;
-    myRewardNav=nil;
-}
-
-//我的钱包
--(void)setupWalletController{
-    [self removeController];
-    //if (!wallet) {
-        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-        UNIWalletController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
-         view.containController = self;
-        //wallet = view;
-     UINavigationController*  walletNav =[[UINavigationController alloc]initWithRootViewController:view];
-     view = nil;
-    //}
-    [self.view addSubview:walletNav.view];
-    [self addChildViewController:walletNav];
-    walletNav = nil;
-}
-
-//会员卡详情
--(void)setupCardController{
-    [self removeController];
-    //if (!card) {
-        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UNICardInfoController* view = [st instantiateViewControllerWithIdentifier:@"UNICardInfoController"];
-        view.containController = self;
-       UINavigationController* card =[[UINavigationController alloc]initWithRootViewController:view];
-    view = nil;
-    //}
-    [self.view addSubview:card.view];
-    [self addChildViewController:card];
-    card = nil;
-}
-
-//我的礼包
--(void)setupGiftController{
-    [self removeController];
-    //if (!gift) {
-
-        UNIGiftController* view = [[UNIGiftController alloc]init];
-        view.containController = self;
-      UINavigationController* gift =[[UINavigationController alloc]initWithRootViewController:view];
-   // }
-    [self.view addSubview:gift.view];
-    [self addChildViewController:gift];
-    view = nil;
-    gift=nil;
-}
-
-//订单列表
--(void)setupOrderListController{
-    [self removeController];
-   // if (!orderList) {
-        
-        UNIOrderListController* view = [[UNIOrderListController alloc]init];
-        view.containController = self;
-     UINavigationController*  orderList =[[UINavigationController alloc]initWithRootViewController:view];
-   // }
-    [self.view addSubview:orderList.view];
-    [self addChildViewController:orderList];
-    view = nil;
-    orderList=nil;
-    
-}
-//设置页面
--(void)setupSettingController{
-    [self removeController];
-    //if (!set) {
-        
-        UNISetttingController* view = [[UNISetttingController alloc]init];
-        view.containController = self;
-  UINavigationController*  set =[[UINavigationController alloc]initWithRootViewController:view];
-   // }
-    [self.view addSubview:set.view];
-    [self addChildViewController:set];
-    view = nil;
-    set=nil;
-    
-}
-
--(void)removeController{
-    for (UIView* vi in self.view.subviews){
-        [vi removeFromSuperview];
-       // vi = nil;
-    }
-    
-    for (UIViewController* vc in self.childViewControllers){
-        [vc removeFromParentViewController];
-    }
-}
+//
+////我的奖励
+//-(void)setupMyController{
+//    [self removeController];
+//    //if (!rewardCtr) {
+//        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+//        UNIMyRewardController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
+//        mainCtr.containController = self;
+//       // rewardCtr = mainCtr;
+//        UINavigationController*  myRewardNav =[[UINavigationController alloc]initWithRootViewController:mainCtr];
+//    //}
+//   
+//    [self.view addSubview:myRewardNav.view];
+//    [self addChildViewController:myRewardNav];
+//     mainCtr = nil;
+//    myRewardNav=nil;
+//}
+//
+////我的钱包
+//-(void)setupWalletController{
+//    [self removeController];
+//    //if (!wallet) {
+//        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+//        UNIWalletController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
+//         view.containController = self;
+//        //wallet = view;
+//     UINavigationController*  walletNav =[[UINavigationController alloc]initWithRootViewController:view];
+//     view = nil;
+//    //}
+//    [self.view addSubview:walletNav.view];
+//    [self addChildViewController:walletNav];
+//    walletNav = nil;
+//}
+//
+////会员卡详情
+//-(void)setupCardController{
+//    [self removeController];
+//    //if (!card) {
+//        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//        UNICardInfoController* view = [st instantiateViewControllerWithIdentifier:@"UNICardInfoController"];
+//        view.containController = self;
+//       UINavigationController* card =[[UINavigationController alloc]initWithRootViewController:view];
+//    view = nil;
+//    //}
+//    [self.view addSubview:card.view];
+//    [self addChildViewController:card];
+//    card = nil;
+//}
+//
+////我的礼包
+//-(void)setupGiftController{
+//    [self removeController];
+//    //if (!gift) {
+//
+//        UNIGiftController* view = [[UNIGiftController alloc]init];
+//        view.containController = self;
+//      UINavigationController* gift =[[UINavigationController alloc]initWithRootViewController:view];
+//   // }
+//    [self.view addSubview:gift.view];
+//    [self addChildViewController:gift];
+//    view = nil;
+//    gift=nil;
+//}
+//
+////订单列表
+//-(void)setupOrderListController{
+//    [self removeController];
+//   // if (!orderList) {
+//        
+//        UNIOrderListController* view = [[UNIOrderListController alloc]init];
+//        view.containController = self;
+//     UINavigationController*  orderList =[[UINavigationController alloc]initWithRootViewController:view];
+//   // }
+//    [self.view addSubview:orderList.view];
+//    [self addChildViewController:orderList];
+//    view = nil;
+//    orderList=nil;
+//    
+//}
+////设置页面
+//-(void)setupSettingController{
+//    [self removeController];
+//    //if (!set) {
+//        
+//        UNISetttingController* view = [[UNISetttingController alloc]init];
+//        view.containController = self;
+//  UINavigationController*  set =[[UINavigationController alloc]initWithRootViewController:view];
+//   // }
+//    [self.view addSubview:set.view];
+//    [self addChildViewController:set];
+//    view = nil;
+//    set=nil;
+//    
+//}
+//
+//-(void)removeController{
+//    for (UIView* vi in self.view.subviews){
+//        [vi removeFromSuperview];
+//       // vi = nil;
+//    }
+//    
+//    for (UIViewController* vc in self.childViewControllers){
+//        [vc removeFromParentViewController];
+//    }
+//}
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:CONTAITVIEWOPEN object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:CONTAITVIEWCLOSE object:nil];

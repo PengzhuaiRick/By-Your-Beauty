@@ -10,11 +10,9 @@
 #import "baseViewController.h"
 //@class UNIContainController;
 @class MainViewController;
-@interface ViewController : baseViewController{
-    
-}
-
+@interface ViewController : baseViewController
 @property(nonatomic,strong) MainViewController* tv;
 
+-(void)showViewAnimation;
 @end
 
