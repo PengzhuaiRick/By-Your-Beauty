@@ -28,7 +28,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     
     UNIPurChaseView* purView;
     UIView* bgView;
-    BOOL ifFirst; //是否第一次消失
+ //   BOOL ifFirst; //是否第一次消失
     UIWebView* myWeb;
 }
 @property(nonatomic,assign)int num; //购买数量
@@ -53,30 +53,18 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     [super viewWillDisappear:animated];
 }
 -(void)viewDidDisappear:(BOOL)animated{
-    if (!ifFirst) {
-        ifFirst = YES;
-        self.myScroller.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
-    }
-    myWeb.scrollView.delegate = nil;
-    myWeb.delegate= nil;
-    self.myTable.delegate = nil;
-    self.myTable.dataSource = nil;
-    self.myScroller.delegate = nil;
+//    if (!ifFirst) {
+//        ifFirst = YES;
+//        self.myScroller.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+//    }
+    [super viewDidDisappear:animated];
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
      [[BaiduMobStat defaultStat] pageviewEndWithName:@"客妆界面"];
-     [super viewDidDisappear:animated];
 }
 -(void)viewWillAppear:(BOOL)animated{
-    
-    myWeb.scrollView.delegate = self;
-    myWeb.delegate= self;
-    self.myScroller.delegate = self;
-    self.myTable.delegate = self;
-    self.myTable.dataSource = self;
-     [[BaiduMobStat defaultStat] pageviewStartWithName:@"客妆界面"];
-    [self regirstKeyBoardNotification];
     [super viewWillAppear:animated];
+     [[BaiduMobStat defaultStat] pageviewStartWithName:@"客妆界面"];
 }
 
 - (void)viewDidLoad {
@@ -84,6 +72,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     [self setupNavigation];
     [self startRequestReward];
     [self setupData];
+    [self regirstKeyBoardNotification];
 //    [self setupBottomView];
 //    [self setupMyScroller];
 //    [self setupTableView];
@@ -163,7 +152,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
 
 -(void)setupData{
     _num = 1;
-    ifFirst = NO;
+   // ifFirst = NO;
     self.allArray = [NSMutableArray array];
 }
 
@@ -324,7 +313,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     float scX =0 ;
     float scY = 64;
     float scW = KMainScreenWidth ;
-    float scH = KMainScreenHeight - 64 -bottomView.frame.size.height;
+    float scH = KMainScreenHeight - scY -bottomView.frame.size.height;
     if (KMainScreenHeight<568)
         cell1H = 568 -bottomView.frame.size.height;
     else
@@ -338,12 +327,12 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     self.myScroller.scrollsToTop=YES;
     [self.view addSubview:self.myScroller];
     
-    [self.view bringSubviewToFront:bottomView];
+  //  [self.view bringSubviewToFront:bottomView];
 }
 -(void)setupTableView{
     
     float tabW = self.myScroller.frame.size.width;
-    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, tabW,_myScroller.frame.size.height) style:UITableViewStylePlain];
+    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0,0, tabW,_myScroller.frame.size.height) style:UITableViewStylePlain];
     tabview.separatorStyle = 0;
     tabview.delegate = self;
     tabview.dataSource = self;
@@ -354,17 +343,21 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     self.myTable =tabview;
     
     MJRefreshAutoNormalFooter* footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-        self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myScroller.frame.size.height*2);
-        [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
-        self.myTable.footer = nil;
-        [self setupWebView];
-
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myTable.frame.size.height*2);
+            [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
+            self.myTable.footer = nil;
+            [self setupWebView];
+            NSLog(@" _myScroller.frame  %@ \n _myTable.frame  %@ ",NSStringFromCGRect(_myScroller.frame),NSStringFromCGRect(_myTable.frame));
+        });
     }];
     [footer setTitle:@"继续拖动，查看图文详情" forState:1];
     
     tabview.footer =footer;
     
     tabview = nil; footer = nil;
+    
+     NSLog(@" _myScroller.frame  %@ \n _myTable.frame  %@ ",NSStringFromCGRect(_myScroller.frame),NSStringFromCGRect(_myTable.frame));
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (scrollView == _myScroller) {
