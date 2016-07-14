@@ -199,11 +199,11 @@
         if (i == indexPath.row) {
             cell.mainLab.textColor = [UIColor colorWithHexString:kMainThemeColor];
             cell.mainImg.image = [UIImage imageNamed:imgSArray[i]];
-            cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.1];
+           // cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.1];
         }else{
             cell.mainLab.textColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
             cell.mainImg.image = [UIImage imageNamed:imgArray[i]];
-            cell.backgroundColor = [UIColor clearColor];
+           // cell.backgroundColor = [UIColor clearColor];
         }
     }
     switch (indexPath.row) {

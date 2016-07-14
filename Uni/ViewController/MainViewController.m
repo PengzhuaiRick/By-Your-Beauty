@@ -254,7 +254,7 @@
     float imgH = KMainScreenWidth;
     CGRect topRe =CGRectMake(0,0,tabW,imgH);
     UIImageView* topImg = [[UIImageView alloc]initWithFrame:topRe];
-    //topImg.image = [UIImage imageNamed:@"main_img_goodsBg"];
+    topImg.image = [UIImage imageNamed:@"main_img_goodsBg"];
     topImg.userInteractionEnabled = YES;
     tabview.tableHeaderView = topImg;
     headerImg = topImg;
