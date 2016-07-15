@@ -34,9 +34,9 @@
 
 @implementation UNIAppointDetail
 -(void)viewWillAppear:(BOOL)animated{
-    self.mappView.delegate = self;
-    self.myTableView.delegate = self;
-    self.myTableView.dataSource = self;
+//    self.mappView.delegate = self;
+//    self.myTableView.delegate = self;
+//    self.myTableView.dataSource = self;
 //    self.mappView.showsUserLocation = YES;//显示自己
 //    self.mappView.zoomEnabled = YES;//支持缩放
     [[BaiduMobStat defaultStat] pageviewStartWithName:@"预约详情"];
@@ -44,17 +44,23 @@
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
-    CGRect vRe = self.view.frame;
-    vRe.origin.y = 64;
-    self.view.frame = vRe;
-    self.mappView.delegate = nil;
+//    CGRect vRe = self.view.frame;
+//    vRe.origin.y = 64;
+//    self.view.frame = vRe;
+//    self.mappView.delegate = nil;
 //    self.mappView.showsUserLocation = NO;//显示自己
 //    self.mappView.zoomEnabled = NO;//支持缩放
-    self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
-    self.myTableView.delegate = nil;
-    self.myTableView.dataSource = nil;
+//    self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
+//    self.myTableView.delegate = nil;
+//    self.myTableView.dataSource = nil;
      [[BaiduMobStat defaultStat] pageviewEndWithName:@"预约详情"];
     [super viewDidDisappear:animated];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [self.mappView removeFromSuperview];
+    self.mappView = nil;
 }
 -(void)dealloc{
     _shopManage = nil;
@@ -69,7 +75,8 @@
     self.title=@"预约详情";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
      self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
-    
+    [self setupData];
+    [self setupMyTableView];
     [self startRequest];
 //    [self setupData];
 //    [self setupMyTableView];
@@ -90,6 +97,7 @@
     [rquest postWithSerCode:@[API_URL_GetAppointInfo]
                      params:@{@"order":self.order,@"shopId":@(_shopId)}];
     rquest.reqMyAppointInfo = ^(NSArray* models,NSString* tips ,NSError* er){
+        [myself requestShopInfo];
         dispatch_async(dispatch_get_main_queue(), ^{
             [LLARingSpinnerView RingSpinnerViewStop1];
             if (er) {
@@ -100,7 +108,9 @@
                 myself.modelArr = models;
                 [myself setupData];
                 [myself setupMyTableView];
-                [myself requestShopInfo];
+                
+              //  [self performSelector:@selector(requestShopInfo) withObject:nil afterDelay:1];
+               // [myself requestShopInfo];
             }else
                 [YIToast showText:tips];
         });
@@ -130,9 +140,9 @@
                     CalloutMapAnnotation * end =[[CalloutMapAnnotation alloc]initWithLatitude:td.latitude andLongitude:td.longitude];
                     [mySelf.mappView addAnnotation:end];
                     
-                    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,2000, 2000);//以td为中心，显示2000米
+                    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(td,1000, 1000);//以td为中心，显示2000米
                     MKCoordinateRegion adjustedRegion = [mySelf.mappView regionThatFits:viewRegion];//适配map view的尺寸
-                    [mySelf.mappView setRegion:adjustedRegion animated:YES];
+                    [mySelf.mappView setRegion:adjustedRegion animated:NO];
                     
                     arr=nil; end=nil;
                 }
@@ -157,8 +167,13 @@
     
 }
 -(void)setupMyTableView{
+    if (_myTableView) {
+        [_myTableView reloadData];
+        return;
+    }
     
-    float tableY =64+15;
+    //float tableY =64+15;
+    float tableY =0;
     float tableH = KMainScreenHeight - tableY;
     self.myTableView = [[UITableView alloc]initWithFrame:CGRectMake(0, tableY, KMainScreenWidth, tableH) style:UITableViewStylePlain];
     self.myTableView.separatorStyle = 0;
@@ -225,13 +240,25 @@
 }
 #pragma mark 地图移动是会不断请求内存，释放地图内存
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-   // [self.mappView removeFromSuperview];
-   // [self.myTableView.tableFooterView addSubview:mapView];
+    [self.mappView removeFromSuperview];
+    [self.myTableView.tableFooterView addSubview:mapView];
     self.mappView = mapView;
     mapView = nil;
 }
 
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 15;
+}
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth,15)];
+    view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    return view;
+}
+
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (_modelArr.count<1)
+        return 0;
+    
     return _modelArr.count+2;
     //return 3;
 }
@@ -259,7 +286,7 @@
         if (!cell){
             cell =[[UNIAppointDetall1Cell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width,midCellH) reuseIdentifier:name1];
             cell.selectionStyle =UITableViewCellSelectionStyleNone;}
-        
+      
         [cell setupCellContentWith:@[@(self.orderState),self.order,model.createTime,model.lastModifiedDate]];
         
         return cell;
