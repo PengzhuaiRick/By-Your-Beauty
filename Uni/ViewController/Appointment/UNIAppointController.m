@@ -33,12 +33,13 @@
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[BaiduMobStat defaultStat] pageviewStartWithName:@"项目预约界面"];
-    
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showGuideView) name:@"AppointGuide" object:nil];
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
     [super viewDidDisappear:animated];
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"项目预约界面"];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"AppointGuide" object:nil];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -53,11 +54,13 @@
         [self setupUI];
     }
 //    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
-
-   [self showGuideView:APPOINTGUIDE1];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    
+    [self showGuideView:APPOINTGUIDE1];
+    [self showGuideView];
+   
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
@@ -362,10 +365,11 @@
     
     [self modifitacteAppontMid];
     [appointTop changeProjectIds:appontMid.myData];
-    [self performSelector:@selector(showGuideView) withObject:nil afterDelay:0.5];
+    
 }
 -(void)showGuideView{
-    [self showGuideView:APPOINTDELGUIDE];
+    if (!_model)
+        [self showGuideView:APPOINTDELGUIDE];
 }
 -(void)UNIAppontMidDelegateMethod{
     

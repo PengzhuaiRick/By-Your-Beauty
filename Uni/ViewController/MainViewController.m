@@ -632,6 +632,8 @@
                         [self->progessView setupProgreaa:num and:nextRewardNum];
                         // NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
                         [self->goodsImg sd_setImageWithURL:[NSURL URLWithString:url] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
+                            if (!image)
+                                return ;
                             CGPoint center = self->goodsImg.center;
                             CGRect goodsRect = self->goodsImg.frame;
                             goodsRect.size.width = self->goodsImg.frame.size.height * image.size.width / image.size.height;

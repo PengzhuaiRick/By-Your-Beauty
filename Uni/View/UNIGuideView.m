@@ -20,7 +20,11 @@
             if ([myself.className isEqualToString:APPOINTGUIDE1]) {
                 myself.className = APPOINTGUIDE2;
                 myself.mainImg.image = [myself accordingToClassNameAndScreenSize];
-            }else
+            }else if ([myself.className isEqualToString:APPOINTGUIDE2]){
+                 [myself removeFromSuperview];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"AppointGuide" object:nil];
+            }
+            else
                 [myself removeFromSuperview];
         }];
         [self addGestureRecognizer:tap];

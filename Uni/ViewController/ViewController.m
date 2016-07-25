@@ -45,11 +45,12 @@
     [self setupTableView];
     [self setupSelf];
    // [self setupNotification];
+    [self showGuideView:FUNCTIONGUIDE];
 }
 -(void)setupNotification{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callPhoneToShop) name:@"callPhoneToShop" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callOtherMapApp) name:@"callOtherMapApp" object:nil];
-    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(flashTheCellNum:) name:@"flashTheCellNum" object:nil];
+    //[[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(flashTheCellNum:) name:@"flashTheCellNum" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(jumpToMyReward) name:@"jumpToMyReward" object:nil];//从我的详情跳转到我的奖励
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(cleanAndJump) name:@"setupLoginController" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(mainToMyCoupon) name:@"mainToMyCoupon" object:nil];//从首页跳到我的优惠券
@@ -372,7 +373,7 @@
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callOtherMapApp" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"callPhoneToShop" object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"flashTheCellNum" object:nil];
+    //[[NSNotificationCenter defaultCenter]removeObserver:self name:@"flashTheCellNum" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"jumpToMyReward" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"setupLoginController" object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"mainToMyCoupon" object:nil];
