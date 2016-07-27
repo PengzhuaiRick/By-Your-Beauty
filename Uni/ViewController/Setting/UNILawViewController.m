@@ -27,8 +27,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
+    [self setupWebView];
     [self startRequest];
     
+}
+
+-(void)setupWebView{
+    UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,0,KMainScreenWidth, KMainScreenHeight)];
+    web.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    web.delegate = self;
+    web.scrollView.delegate = self;
+    [self.view addSubview:web];
+    webView = web;
+
 }
 -(void)setupNavigation{
     self.title = @"法律声明";
@@ -52,15 +63,8 @@
     [req postWithSerCode:@[API_URL_GetTextInfo] params:@{@"type":@"flsm"}];
 }
 -(void)setupUI:(NSString*)url{
-    UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,64,KMainScreenWidth, KMainScreenHeight-64)];
-    web.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    web.delegate = self;
-    web.scrollView.delegate = self;
-    //NSString* urlString = [NSString stringWithFormat:@"%@/%@",API_IMG_URL,url];
     NSURLRequest* request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [web loadRequest:request];
-    [self.view addSubview:web];
-    webView = web;
+    [webView loadRequest:request];
 }
 -(void)navigationControllerLeftBarAction{
     [self.navigationController popViewControllerAnimated:YES];

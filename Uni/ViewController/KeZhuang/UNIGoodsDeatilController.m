@@ -21,6 +21,8 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIView* midView;
     UIView* bottomView;
     UILabel* priceLab;
+    UILabel* nonPriceLab;
+    CALayer* nonLine;
     UITextField* numField;
     NSString* orderNo;//生成订单号
     float cell1H;
@@ -168,12 +170,30 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     float labX = 20;
     float labH = KMainScreenWidth>400?28:23;
     float labY = boH/2 - labH - 5;
-    float labW = KMainScreenWidth*300/414;
+    float labW = KMainScreenWidth*150/414;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?24:20];
     lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [bottomView addSubview:lab];
     priceLab = lab;
+    
+    NSString* nonString =[NSString stringWithFormat:@"￥%.2f",model.price];
+    UILabel* non = [[UILabel alloc]init];
+    non.textColor =[UIColor colorWithHexString:kMainTitleColor];
+    non.text = nonString;
+    non.font =[UIFont systemFontOfSize:KMainScreenWidth>400?20:16];
+    [bottomView addSubview:non];
+    CGSize nonS = [self contentSize:non];
+    non.frame = CGRectMake(CGRectGetMaxX(lab.frame), labY, nonS.width, labH);
+    nonPriceLab = non;
+    nonPriceLab.hidden = model.price <= model.shopPrice;
+    
+    nonLine= [CALayer layer];
+    nonLine.frame = CGRectMake(0, labH/2, nonS.width, 1);
+    nonLine.backgroundColor =[UIColor colorWithHexString:kMainTitleColor].CGColor;
+    [non.layer addSublayer:nonLine];
+    nonLine.hidden = nonPriceLab.hidden;
+    
     
     float lab2H = KMainScreenWidth>400?25:20;
    // float lab2Y =boH - lab2H - (KMainScreenWidth>400?20:12);
@@ -216,7 +236,16 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     
     [RACObserve(self,num)subscribeNext:^(id x) {
         self->numField.text = [NSString stringWithFormat:@"%d",self.num];
-            self->priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice*self.num - self->model.reduceMoney];
+        self->priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice*self.num - self->model.reduceMoney];
+        CGSize pS = [self contentSize:self->priceLab];
+        CGRect rect = self->priceLab.frame;
+        rect.size.width = pS.width;
+        self->priceLab.frame = rect;
+        
+        CGRect nR = self->nonPriceLab.frame;
+        nR.origin.x = CGRectGetMaxX(rect)+10;
+        self->nonPriceLab.frame = nR;
+        
     }];
     
     
@@ -348,7 +377,6 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
             [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
             self.myTable.footer = nil;
             [self setupWebView];
-            NSLog(@" _myScroller.frame  %@ \n _myTable.frame  %@ ",NSStringFromCGRect(_myScroller.frame),NSStringFromCGRect(_myTable.frame));
         });
     }];
     [footer setTitle:@"继续拖动，查看图文详情" forState:1];
@@ -664,6 +692,21 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIImage*theImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return theImage;
+}
+#pragma mark 计算Label 高度
+-(CGSize)contentSize:(UILabel*)lab{
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = lab.lineBreakMode;
+    paragraphStyle.alignment = lab.textAlignment;
+    
+    NSDictionary * attributes = @{NSFontAttributeName : lab.font,
+                                  NSParagraphStyleAttributeName : paragraphStyle};
+    
+    CGSize contentSize = [lab.text boundingRectWithSize:CGSizeMake(KMainScreenWidth, MAXFLOAT)
+                                                options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                             attributes:attributes
+                                                context:nil].size;
+    return contentSize;
 }
 
 - (void)didReceiveMemoryWarning {

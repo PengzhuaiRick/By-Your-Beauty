@@ -62,7 +62,7 @@
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth*10/320];
     lab.numberOfLines = 0;
     lab.lineBreakMode = 0;
-    lab.text = @"广州由你电子商务有限公司 版权所有\n Copyright @2014-2021.\n All Rights Reserved";
+    lab.text = @"广州由你电子商务有限公司 版权所有\n Copyright @2015-2021.\n All Rights Reserved";
     [self.view addSubview:lab];
     
     float tabY = 64;
