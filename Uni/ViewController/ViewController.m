@@ -24,17 +24,16 @@
 #import "UNIOrderListController.h"
 #import "UNISetttingController.h"
 
-@interface ViewController ()<UITableViewDelegate,UITableViewDataSource>
+@interface ViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 {
-    
+    int seletNum ;
     NSArray* titleArray;
     NSArray* imgArray;
     NSArray* imgSArray;
 }
-@property (strong, nonatomic) UIButton* backBtn;
-@property (strong, nonatomic) UIButton* setBtn;
-@property (strong, nonatomic) UIButton* loginOutBtn;
-@property (strong, nonatomic) UITableView *myTableView;
+
+@property (weak, nonatomic) IBOutlet UIButton *shopCarBtn;
+@property (weak, nonatomic) IBOutlet UICollectionView *myCollectView;
 @end
 
 @implementation ViewController
@@ -42,11 +41,26 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupParams];
-    [self setupTableView];
-    [self setupSelf];
+    //[self setupTableView];
+    //[self setupSelf];
    // [self setupNotification];
-    [self showGuideView:FUNCTIONGUIDE];
+   // [self showGuideView:FUNCTIONGUIDE];
+    [self setupBackView];
+    [self setupCollestView];
 }
+
+-(void)setupBackView{
+    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
+    effectview.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
+    //[self.view addSubview:effectview];
+    [self.view insertSubview:effectview belowSubview:_shopCarBtn];
+}
+-(void)setupCollestView{
+    [_myCollectView registerNib:[UINib nibWithNibName:@"ViewControllerCell" bundle:nil] forCellWithReuseIdentifier:@"cell"];
+    _myCollectView.backgroundColor = [UIColor clearColor];
+}
+
 -(void)setupNotification{
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callPhoneToShop) name:@"callPhoneToShop" object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(callOtherMapApp) name:@"callOtherMapApp" object:nil];
@@ -58,10 +72,10 @@
 
 -(void)setupSelf{
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(KMainScreenWidth - 100, -76, 100, 76);
+    btn.frame = CGRectMake(50, -76, 100, 76);
     [btn setImage:[UIImage imageNamed:@"view_btn_back"] forState:UIControlStateNormal];
     [self.view addSubview:btn];
-    _backBtn = btn;
+   // _backBtn = btn;
     
     __weak ViewController* myself = self;
     [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -69,63 +83,47 @@
         [myself selfDismiss:nil];
     }];
 }
+#pragma mark 返回按钮事件
+- (IBAction)backBtnAction:(UIButton *)sender {
+    [self selfDismiss:nil];
+}
 
 -(void)setupParams{
-    titleArray = @[//@"首页",
+    
+    seletNum = 0;
+    titleArray = @[@"首页",
                    @"我的详情",
                    @"我的奖励",
                    @"我的礼包",
                    @"我的订单",
-                   @"我的优惠",
+                   @"致电商家",
                    @"导航到店",
-                   @"致电商家"
+                   @"设置"
 //                   ,
 //                   @"Copyright @2014-2021\n广州由你电子商务有限公司"
                    ];
-    imgArray =@[//@"function_img_cell1",
+    imgArray =@[@"function_img_cell1",
                 @"function_img_cell2",
                 @"function_img_cell3",
                 @"function_img_cell4",
                 @"function_img_cell5",
-                @"function_img_cell8",
+                @"function_img_cell7",
                 @"function_img_cell6",
-                @"function_img_cell7"
+                @"function_img_cell8"
                 ];
-    imgSArray =@[//@"function_img_scell1",
+    imgSArray =@[@"function_img_scell1",
                 @"function_img_scell2",
                 @"function_img_scell3",
                 @"function_img_scell4",
                 @"function_img_scell5",
-                @"function_img_scell8",
+                @"function_img_scell7",
                 @"function_img_scell6",
-                @"function_img_scell7"
+                @"function_img_scell8"
                 ];
 }
 
 
 -(void)setupTableView{
-    
-    UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
-    UIVisualEffectView *effectview = [[UIVisualEffectView alloc] initWithEffect:blur];
-    effectview.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
-    [self.view addSubview:effectview];
-    
-    __weak ViewController* myself = self;
-    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
-    [effectview addGestureRecognizer:tap];
-    [[tap rac_gestureSignal]subscribeNext:^(id x) {
-        [myself selfDismiss:nil];
-    }];
-    
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 156, self.view.frame.size.width/2, self.view.frame.size.height - 76*2) style:UITableViewStylePlain];
-    tab.delegate = self;
-    tab.dataSource = self;
-    tab.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tab.backgroundColor = [UIColor clearColor];
-    tab.scrollsToTop=NO;
-    [self.view addSubview:tab];
-    _myTableView  = tab;
-    _myTableView.tableFooterView = [UIView new];
     
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     btn1.frame = CGRectMake(self.view.frame.size.width/2, KMainScreenHeight-100,self.view.frame.size.width/2, 30);
@@ -134,25 +132,10 @@
     btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
     [btn1 setTitleColor: [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] forState:UIControlStateNormal];
     [self.view addSubview:btn1];
-    _loginOutBtn = btn1;
+   // _loginOutBtn = btn1;
     [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        [myself loginOut];
+       // [myself loginOut];
         [[BaiduMobStat defaultStat]logEvent:@"menu_setting" eventLabel:@"首页设置菜单点击"];
-    }];
-    
-    UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn2.frame = CGRectMake(0,KMainScreenHeight-100,self.view.frame.size.width/2, 30);
-    [btn2 setTitle:@"   设置" forState:UIControlStateNormal];
-    [btn2 setImage:[UIImage imageNamed:@"function_btn_set"] forState:UIControlStateNormal];
-    btn2.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
-    [btn2 setTitleColor:[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] forState:UIControlStateNormal];
-    [self.view addSubview:btn2];
-    _setBtn = btn2;
-    
-    [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-        [myself selfDismiss:@selector(setupSettingController)];
-        //[self setupSettingController];
-        [[BaiduMobStat defaultStat]logEvent:@"menu_exit" eventLabel:@"首页退出菜单点击"];
     }];
 
     
@@ -161,112 +144,109 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth*70/414;
+#pragma mark UICollectionView  的代理方法
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    //return self.goodsListArr.count;
+    return 1;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    
     return titleArray.count;
 }
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(KMainScreenWidth/2-1, collectionView.bounds.size.height/4);
 
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString* name = @"cell";
-    ViewControllerCell*cell = [tableView dequeueReusableCellWithIdentifier:name];
-    if (!cell) {
-        cell = [[ViewControllerCell alloc]initWithCellH:KMainScreenWidth*70/414 reuseIdentifier:name];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        if (indexPath.row == 2) {
-            cell.numLab.hidden=NO;
-            cell.numLab.text = [NSString stringWithFormat:@"%d",_tv.giftNum];
-        }else
-        cell.numLab.hidden=YES;
-    }
+}
+-(UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(0,0, 0, 0);
+}
+
+-(UICollectionViewCell*)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString* cellName = @"cell";
+    ViewControllerCell* cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellName
+                                                                  forIndexPath:indexPath];
+    cell.titleName.text = titleArray[indexPath.row];
+    if (indexPath.row == seletNum) {
+        cell.mainImg.image = [UIImage imageNamed:imgSArray[indexPath.row]];
+        cell.titleName.textColor = [UIColor colorWithHexString:kMainThemeColor];
+        cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.1];
+    }else{
         cell.mainImg.image = [UIImage imageNamed:imgArray[indexPath.row]];
-        cell.mainLab.text = titleArray[indexPath.row];
-        cell.mainLab.textColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
-   
-
+        cell.titleName.textColor = [UIColor colorWithHexString:@"c9c9c9"];
+        cell.backgroundColor = [UIColor clearColor];
+    }
+    if (indexPath.row == 3) {
+        cell.numLab.hidden = _tv.giftNum <1;
+        cell.numLab.text = [NSString stringWithFormat:@"%d",_tv.giftNum];
+    }else
+        cell.numLab.hidden =YES;
     return cell;
 }
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ViewControllerCell* cell = [tableView cellForRowAtIndexPath:indexPath];
-    cell.mainLab.textColor = [UIColor colorWithHexString:kMainThemeColor];
-
-    for (int i = 0 ; i<titleArray.count; i++) {
-        NSIndexPath* index = [NSIndexPath indexPathForRow:i inSection:0];
-        ViewControllerCell* cell = [tableView cellForRowAtIndexPath:index];
-        if (i == indexPath.row) {
-            cell.mainLab.textColor = [UIColor colorWithHexString:kMainThemeColor];
-            cell.mainImg.image = [UIImage imageNamed:imgSArray[i]];
-           // cell.backgroundColor = [UIColor colorWithRed:1 green:1 blue:1 alpha:0.1];
-        }else{
-            cell.mainLab.textColor = [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1];
-            cell.mainImg.image = [UIImage imageNamed:imgArray[i]];
-           // cell.backgroundColor = [UIColor clearColor];
-        }
+-(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row != seletNum) {
+        int oldNum = seletNum;
+        seletNum = (int)indexPath.row;
+        NSIndexPath* oldIndex = [NSIndexPath indexPathForRow:oldNum inSection:0];
+        [collectionView reloadItemsAtIndexPaths:@[oldIndex , indexPath]];
     }
+    
+    
     switch (indexPath.row) {
         case 0:
-            [self selfDismiss:@selector(setupCardController)];
-           // [self setupCardController];
-            [[BaiduMobStat defaultStat]logEvent:@"menu_detail" eventLabel:@"我的详情菜单点击"];
+             [self selfDismiss:nil];
             break;
-        case 1://我的奖励
+        case 1:
+               [self selfDismiss:@selector(setupCardController)];
+               // [self setupCardController];
+                [[BaiduMobStat defaultStat]logEvent:@"menu_detail" eventLabel:@"我的详情菜单点击"];
+        break;
+        case 2://我的奖励
             [self selfDismiss:@selector(setupMyController)];
-           // [self setupMyController];
+            // [self setupMyController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_reward" eventLabel:@"我的奖励菜单点击"];
-            break;
-        case 2:
+        break;
+        case 3:
             [self selfDismiss:@selector(setupGiftController)];
-          // [self setupGiftController];
+            // [self setupGiftController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_gift" eventLabel:@"我的礼包菜单点击"];
             break;
-        case 3:
-             [self selfDismiss:@selector(setupOrderListController)];
+        case 4:
+            [self selfDismiss:@selector(setupOrderListController)];
             //[self setupOrderListController];
             [[BaiduMobStat defaultStat]logEvent:@"menu_order" eventLabel:@"我的订单菜单点击"];
             break;
-        case 4:
-             [self selfDismiss:@selector(setupWalletController)];
-           // [self setupWalletController];
-            [[BaiduMobStat defaultStat]logEvent:@"menu_coupon" eventLabel:@"我的优惠菜单点击"];
+        case 7:
+            [self selfDismiss:@selector(setupSettingController)];
+            [[BaiduMobStat defaultStat]logEvent:@"menu_exit" eventLabel:@"首页退出菜单点击"];
             break;
-        case 5:
+        case 6:
             [self callOtherMapApp];
             [[BaiduMobStat defaultStat]logEvent:@"menu_gps" eventLabel:@"首页导航到店菜单点击"];
             break;
-        case 6:
+        case 5:
             [self callPhoneToShop];
             [[BaiduMobStat defaultStat]logEvent:@"menu_call_phone" eventLabel:@"首页致电商家菜单点击"];
             break;
     }
-   
+
 }
+
+
 
 -(void)showViewAnimation{
     
-    CGRect btnR = _backBtn.frame;
-    btnR.origin.y = 0;
-    
-    CGRect tabR = _myTableView.frame;
+   __block CGRect tabR = _myCollectView.frame;
     tabR.origin.y = 76;
-    
-    CGRect btnS = _setBtn.frame;
-    btnS.origin.y = CGRectGetMaxY(tabR);
-    
-    CGRect btnL = _loginOutBtn.frame;
-    btnL.origin.y = CGRectGetMaxY(tabR);
     
     __weak ViewController* myself = self;
     [UIView animateWithDuration:0.5 delay:0 usingSpringWithDamping:0.9 initialSpringVelocity:30 options:UIViewAnimationOptionCurveEaseOut animations:^{
-        myself.backBtn.frame = btnR;
-        myself.myTableView.frame = tabR;
-        myself.loginOutBtn.frame = btnL;
-        myself.setBtn.frame = btnS;
+        myself.myCollectView.frame = tabR;
     } completion:^(BOOL finished) {
-        
+        tabR.origin.y = 64;
+        myself.myCollectView.frame = tabR;
     }];
 }
 
@@ -361,13 +341,13 @@
 #pragma mark 通知跳转到我的奖励
 -(void)jumpToMyReward{
     NSIndexPath* index = [NSIndexPath indexPathForRow:2 inSection:0];
-    [self tableView:self.myTableView didSelectRowAtIndexPath:index];
+   // [self tableView:self.myTableView didSelectRowAtIndexPath:index];
 }
 
 #pragma mark 通知跳转到我的优惠券
 -(void)mainToMyCoupon{
     NSIndexPath* index = [NSIndexPath indexPathForRow:5 inSection:0];
-    [self tableView:self.myTableView didSelectRowAtIndexPath:index];
+   // [self tableView:self.myTableView didSelectRowAtIndexPath:index];
 }
 
 -(void)dealloc{

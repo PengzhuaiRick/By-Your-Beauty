@@ -2,19 +2,15 @@
 //  ViewControllerCell.h
 //  Uni
 //
-//  Created by apple on 15/12/24.
-//  Copyright © 2015年 apple. All rights reserved.
+//  Created by apple on 16/8/9.
+//  Copyright © 2016年 apple. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-#import "UNIBaseCell.h"
-@interface ViewControllerCell : UNIBaseCell{
-    float cellHight;
-}
-@property (strong, nonatomic)  UIImageView *mainImg;
-@property (strong, nonatomic)  UILabel *mainLab;
-@property (strong, nonatomic)  UILabel *numLab;
 
--(id)initWithCellH:(float)cellH reuseIdentifier:(NSString *)reuseIdentifier;
+@interface ViewControllerCell : UICollectionViewCell
+@property (weak, nonatomic) IBOutlet UIImageView *mainImg;
+@property (weak, nonatomic) IBOutlet UILabel *titleName;
+@property (weak, nonatomic) IBOutlet UILabel *numLab;
 
 @end

@@ -27,7 +27,6 @@
 		18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18250E721C18492C0072F795 /* UNIPurChaseView.m */; };
 		1827CEB71C157CAD00A40B45 /* UNIRewardListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB61C157CAD00A40B45 /* UNIRewardListController.m */; };
 		1827CEBB1C15893E00A40B45 /* UNIRewardListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */; };
-		182BB3261D338BC300D31005 /* UNIFunctionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 182BB3251D338BC300D31005 /* UNIFunctionView.m */; };
 		182E8A511C71C6E600870968 /* AlipaySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A4E1C71C6E600870968 /* AlipaySDK.framework */; };
 		182E8A521C71C6E600870968 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A4F1C71C6E600870968 /* libcrypto.a */; };
 		182E8A531C71C6E600870968 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 182E8A501C71C6E600870968 /* libssl.a */; };
@@ -52,6 +51,8 @@
 		184E15441C5F2DB500D65E39 /* UNISetttingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E15431C5F2DB500D65E39 /* UNISetttingController.m */; };
 		184E15471C5F4C4700D65E39 /* UNIAboutUsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 184E15461C5F4C4700D65E39 /* UNIAboutUsController.m */; };
 		186166361CE06B97006C2285 /* BaseWebController.m in Sources */ = {isa = PBXBuildFile; fileRef = 186166351CE06B97006C2285 /* BaseWebController.m */; };
+		187B8B4A1D59BDB7004AEE8A /* ViewControllerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 187B8B481D59BDB7004AEE8A /* ViewControllerCell.m */; };
+		187B8B4B1D59BDB7004AEE8A /* ViewControllerCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 187B8B491D59BDB7004AEE8A /* ViewControllerCell.xib */; };
 		187E509F1C803D9500B88786 /* UNIShopModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 187E509E1C803D9500B88786 /* UNIShopModel.m */; };
 		1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1882FA611BE739C300CC8D51 /* BaseViewModel.m */; };
 		18864B881C1AB24E00592DA1 /* UNIGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18864B871C1AB24E00592DA1 /* UNIGoodsModel.m */; };
@@ -117,7 +118,6 @@
 		18CA17921C489B8600636ABF /* UNIRewardDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */; };
 		18CA17951C48A21F00636ABF /* UNIRewardProgessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17941C48A21F00636ABF /* UNIRewardProgessView.m */; };
 		18CB94A01C85664F00F834DA /* UNIHttpUrlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB949F1C85664F00F834DA /* UNIHttpUrlManager.m */; };
-		18CC75C01C2B8B6400625205 /* ViewControllerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CC75BE1C2B8B6400625205 /* ViewControllerCell.m */; };
 		18CC75C41C2C127400625205 /* MainViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CC75C31C2C127400625205 /* MainViewCell.m */; };
 		18CCA0161C02B84000B90092 /* BTKeyboardTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA0141C02B84000B90092 /* BTKeyboardTool.m */; };
 		18CCA0171C02B84000B90092 /* BTKeyboardTool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18CCA0151C02B84000B90092 /* BTKeyboardTool.xib */; };
@@ -237,8 +237,6 @@
 		1827CEB61C157CAD00A40B45 /* UNIRewardListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardListController.m; sourceTree = "<group>"; };
 		1827CEB81C15893E00A40B45 /* UNIRewardListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardListCell.h; sourceTree = "<group>"; };
 		1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardListCell.m; sourceTree = "<group>"; };
-		182BB3241D338BC300D31005 /* UNIFunctionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIFunctionView.h; sourceTree = "<group>"; };
-		182BB3251D338BC300D31005 /* UNIFunctionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIFunctionView.m; sourceTree = "<group>"; };
 		182E8A4E1C71C6E600870968 /* AlipaySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AlipaySDK.framework; sourceTree = "<group>"; };
 		182E8A4F1C71C6E600870968 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
 		182E8A501C71C6E600870968 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
@@ -280,6 +278,9 @@
 		184E15461C5F4C4700D65E39 /* UNIAboutUsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAboutUsController.m; sourceTree = "<group>"; };
 		186166341CE06B97006C2285 /* BaseWebController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseWebController.h; sourceTree = "<group>"; };
 		186166351CE06B97006C2285 /* BaseWebController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseWebController.m; sourceTree = "<group>"; };
+		187B8B471D59BDB7004AEE8A /* ViewControllerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerCell.h; sourceTree = "<group>"; };
+		187B8B481D59BDB7004AEE8A /* ViewControllerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerCell.m; sourceTree = "<group>"; };
+		187B8B491D59BDB7004AEE8A /* ViewControllerCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewControllerCell.xib; sourceTree = "<group>"; };
 		187E509D1C803D9500B88786 /* UNIShopModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopModel.h; sourceTree = "<group>"; };
 		187E509E1C803D9500B88786 /* UNIShopModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopModel.m; sourceTree = "<group>"; };
 		1882FA601BE739C300CC8D51 /* BaseViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewModel.h; sourceTree = "<group>"; };
@@ -476,8 +477,6 @@
 		18CA17941C48A21F00636ABF /* UNIRewardProgessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardProgessView.m; sourceTree = "<group>"; };
 		18CB949E1C85664F00F834DA /* UNIHttpUrlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHttpUrlManager.h; sourceTree = "<group>"; };
 		18CB949F1C85664F00F834DA /* UNIHttpUrlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHttpUrlManager.m; sourceTree = "<group>"; };
-		18CC75BD1C2B8B6400625205 /* ViewControllerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewControllerCell.h; sourceTree = "<group>"; };
-		18CC75BE1C2B8B6400625205 /* ViewControllerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewControllerCell.m; sourceTree = "<group>"; };
 		18CC75C21C2C127400625205 /* MainViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCell.h; sourceTree = "<group>"; };
 		18CC75C31C2C127400625205 /* MainViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCell.m; sourceTree = "<group>"; };
 		18CCA0131C02B84000B90092 /* BTKeyboardTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTKeyboardTool.h; sourceTree = "<group>"; };
@@ -812,8 +811,6 @@
 				18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */,
 				18F881131CE1BA4700FE2C4E /* UNIGuideView.h */,
 				18F881141CE1BA4700FE2C4E /* UNIGuideView.m */,
-				182BB3241D338BC300D31005 /* UNIFunctionView.h */,
-				182BB3251D338BC300D31005 /* UNIFunctionView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -994,8 +991,9 @@
 				18C7459D1BF047F9000062AF /* MainMidCell.m */,
 				18C757A71C82FCB10052CCB4 /* UNIBaseCell.h */,
 				18C757A81C82FCB10052CCB4 /* UNIBaseCell.m */,
-				18CC75BD1C2B8B6400625205 /* ViewControllerCell.h */,
-				18CC75BE1C2B8B6400625205 /* ViewControllerCell.m */,
+				187B8B471D59BDB7004AEE8A /* ViewControllerCell.h */,
+				187B8B481D59BDB7004AEE8A /* ViewControllerCell.m */,
+				187B8B491D59BDB7004AEE8A /* ViewControllerCell.xib */,
 				18CC75C21C2C127400625205 /* MainViewCell.h */,
 				18CC75C31C2C127400625205 /* MainViewCell.m */,
 				18C73A7C1C06F74D00A3A4CA /* UNIAddMyAppointCell.h */,
@@ -1511,6 +1509,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				187B8B4B1D59BDB7004AEE8A /* ViewControllerCell.xib in Resources */,
 				18CCA0171C02B84000B90092 /* BTKeyboardTool.xib in Resources */,
 				18C745961BF0334E000062AF /* Guide.storyboard in Resources */,
 				180CD3971BDF180A00C912FE /* LaunchScreen.storyboard in Resources */,
@@ -1608,7 +1607,6 @@
 				18E661DB1C118AF0000042B7 /* UNIMyRewardModel.m in Sources */,
 				18EC2E091C49E74100A81DD9 /* UNIWalletCell.m in Sources */,
 				18C8D4081C574A5100E6DDB3 /* DataSigner.m in Sources */,
-				182BB3261D338BC300D31005 /* UNIFunctionView.m in Sources */,
 				18AD74C81C3282DA006FA84D /* UNIRewordAndIntimeCell.m in Sources */,
 				18CCA01E1C030FF600B90092 /* UNIMyRewardController.m in Sources */,
 				18C8D40A1C574A5100E6DDB3 /* MD5DataSigner.m in Sources */,
@@ -1698,7 +1696,6 @@
 				18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */,
 				18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */,
 				18D410441CC5CD730086FC76 /* baseViewController.m in Sources */,
-				18CC75C01C2B8B6400625205 /* ViewControllerCell.m in Sources */,
 				182E8A591C71CBA500870968 /* UNILawRequest.m in Sources */,
 				1808385D1BFAE63600727B61 /* UNIMyProjectModel.m in Sources */,
 				180CD3891BDF180A00C912FE /* main.m in Sources */,
@@ -1710,6 +1707,7 @@
 				18864B881C1AB24E00592DA1 /* UNIGoodsModel.m in Sources */,
 				18D85DF81C475CE800A3FE3D /* UNIAddProjcetCell.m in Sources */,
 				1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */,
+				187B8B4A1D59BDB7004AEE8A /* ViewControllerCell.m in Sources */,
 				18C8D4091C574A5100E6DDB3 /* DataVerifier.m in Sources */,
 				1827CEBB1C15893E00A40B45 /* UNIRewardListCell.m in Sources */,
 				18EA4A831C60A3D00033E801 /* CalloutMapAnnotation.m in Sources */,

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2ZO-qP-GFP">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2ZO-qP-GFP">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -23,30 +23,72 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="ViewController" title="功能界面" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2z3-ck-pS4">
+                                <rect key="frame" x="0.0" y="656" width="414" height="80"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="10" maxX="-25" maxY="0.0"/>
+                                <state key="normal" title="购物车" backgroundImage="function_btn_shopcar"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gPr-hD-OWU">
+                                <rect key="frame" x="20" y="34" width="53" height="22"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="view_btn_back"/>
+                                <connections>
+                                    <action selector="backBtnAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9fk-M9-Nt0"/>
+                                </connections>
+                            </button>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="Zlb-Nl-Zix">
+                                <rect key="frame" x="0.0" y="64" width="414" height="597"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="5lK-W3-tTA">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="cqJ-k5-Yo3">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                    </collectionViewCell>
+                                </cells>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="cMk-vJ-g0q"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="wGO-Jl-zf3"/>
+                                </connections>
+                            </collectionView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="function_img_car" id="V21-wO-zqN">
+                                <rect key="frame" x="161" y="690" width="32" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="X8e-EG-hJP"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="myCollectView" destination="Zlb-Nl-Zix" id="xpI-l8-hia"/>
+                        <outlet property="shopCarBtn" destination="2z3-ck-pS4" id="7pw-4f-wW8"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="157" y="458"/>
+            <point key="canvasLocation" x="116" y="605"/>
         </scene>
         <!--容器页面-->
         <scene sceneID="b7G-AU-qes">
             <objects>
                 <viewController storyboardIdentifier="UNIContainController" title="容器页面" id="pBc-2A-ppI" customClass="UNIContainController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="NMF-iL-DBb"/>
-                        <viewControllerLayoutGuide type="bottom" id="xLQ-TP-RO6"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="0Zt-2l-F4b">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -487,10 +529,6 @@
         <scene sceneID="PFh-Eo-Xl6">
             <objects>
                 <viewController storyboardIdentifier="TestViewController" id="4nx-iu-ExJ" customClass="TestViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="kC8-vw-aj7"/>
-                        <viewControllerLayoutGuide type="bottom" id="e3V-7j-f5z"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Dda-cU-had">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -506,25 +544,16 @@
         <scene sceneID="VWw-eY-Pbf">
             <objects>
                 <viewController storyboardIdentifier="UNIAppointController" title="预约界面" id="H91-VO-mHW" customClass="UNIAppointController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="jQy-Po-N0A"/>
-                        <viewControllerLayoutGuide type="bottom" id="OOa-L1-Gih"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="w1I-A1-Shq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jbs-3S-Bd8">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="jbs-3S-Bd8">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="jbs-3S-Bd8" firstAttribute="bottom" secondItem="OOa-L1-Gih" secondAttribute="top" id="Ovh-aY-yxk"/>
-                            <constraint firstItem="jbs-3S-Bd8" firstAttribute="top" secondItem="w1I-A1-Shq" secondAttribute="top" id="QRX-sR-A11"/>
-                            <constraint firstItem="jbs-3S-Bd8" firstAttribute="leading" secondItem="w1I-A1-Shq" secondAttribute="leading" id="ahb-xA-F7q"/>
-                            <constraint firstAttribute="trailing" secondItem="jbs-3S-Bd8" secondAttribute="trailing" id="u4O-Q4-5KF"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="yDz-xW-nve"/>
                     <connections>
@@ -539,10 +568,6 @@
         <scene sceneID="MKT-8i-CQk">
             <objects>
                 <viewController storyboardIdentifier="UNIMyPojectList" title="添加项目列表" id="zSk-zp-YbB" customClass="UNIMyPojectList" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="1nn-HS-YJl"/>
-                        <viewControllerLayoutGuide type="bottom" id="gTG-If-Ip0"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Lbk-fp-b0t">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -558,10 +583,6 @@
         <scene sceneID="NPe-cY-h2Z">
             <objects>
                 <viewController storyboardIdentifier="UNIAppointDetail" title="预约详情界面" id="49I-UP-MDC" customClass="UNIAppointDetail" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="svA-XG-NQC"/>
-                        <viewControllerLayoutGuide type="bottom" id="O02-42-S5p"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eXp-ek-JM5">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -577,10 +598,6 @@
         <scene sceneID="edN-WV-dBk">
             <objects>
                 <viewController storyboardIdentifier="UNIEvaluateController" title="服务评价界面" id="37R-8l-C9U" customClass="UNIEvaluateController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="gRT-vr-2va"/>
-                        <viewControllerLayoutGuide type="bottom" id="w1T-Gx-LjN"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="svi-zW-wgE">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -596,10 +613,6 @@
         <scene sceneID="ZN1-ez-sbd">
             <objects>
                 <viewController storyboardIdentifier="UNICardInfoController" title="会员卡使用详情" id="eLc-jS-Xp6" customClass="UNICardInfoController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="P19-Eh-9nj"/>
-                        <viewControllerLayoutGuide type="bottom" id="HMs-74-Nbq"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="IUU-Ya-KMR">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -632,10 +645,6 @@
         <scene sceneID="RpC-3c-1Vh">
             <objects>
                 <viewController storyboardIdentifier="MainViewController" title="首页界面" id="iwN-bq-9NS" customClass="MainViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="oiy-bG-Raf"/>
-                        <viewControllerLayoutGuide type="bottom" id="8hy-U6-V7A"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="mJA-CP-iC2">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -758,6 +767,11 @@
             <point key="canvasLocation" x="2652" y="-820"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="function_btn_shopcar" width="360" height="90"/>
+        <image name="function_img_car" width="18" height="18"/>
+        <image name="view_btn_back" width="18" height="9"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="bFk-zS-4tV"/>
     </inferredMetricsTieBreakers>

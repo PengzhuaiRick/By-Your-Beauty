@@ -60,6 +60,7 @@
  *  字体
  */
 #define kMainFont(si)  [UIFont fontWithName:@"Arial-BoldItalicMT" size:si];
+#define kWTFont(y) [UIFont systemFontOfSize:KMainScreenWidth*y/414]
 
 
 /**

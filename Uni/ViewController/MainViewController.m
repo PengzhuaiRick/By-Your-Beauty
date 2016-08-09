@@ -212,7 +212,9 @@
     [self showViewController];
 }
 -(void)showViewController{
-    ViewController* view = [[ViewController alloc]init];
+  //  ViewController* view = [[ViewController alloc]init];
+   UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    ViewController* view = [story instantiateViewControllerWithIdentifier:@"ViewController"];
     view.tv = self;
     view.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.0];
     if (IOS_VERSION>=8.0)
