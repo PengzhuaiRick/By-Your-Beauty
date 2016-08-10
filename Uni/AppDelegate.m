@@ -39,7 +39,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
-   // [self rqWelcomeImage];
+    [self setupNotifications];
     [self setupWebViewUserAgent];
    // [self rqCurrentVersion];
     [self setupJPush:launchOptions];
@@ -83,8 +83,8 @@
     //设置导航栏标题字体颜色
     
     NSMutableDictionary *barAttrs = [NSMutableDictionary dictionary];
-    [barAttrs setObject:[UIColor blackColor] forKey:NSForegroundColorAttributeName];
-    [barAttrs setObject:[UIFont systemFontOfSize:KMainScreenWidth>400?15:13] forKey:NSFontAttributeName];
+    [barAttrs setObject:[UIColor whiteColor] forKey:NSForegroundColorAttributeName];
+    [barAttrs setObject:[UIFont systemFontOfSize:14] forKey:NSFontAttributeName];
     [bar setTitleTextAttributes:barAttrs];
     
     //
@@ -122,13 +122,11 @@
 -(void)setupViewController{
     self.window.rootViewController = nil ;
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController* tc = [st instantiateViewControllerWithIdentifier:@"MainViewController"];
-    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tc];
-    //tc.edag = KMainScreenWidth*60/320;
-//    tc.modalPresentationStyle = UIModalPresentationCurrentContext;
-//    ViewController* vc = [st instantiateViewControllerWithIdentifier:@"ViewController"];
-//    vc.tv = tc;
-    self.window.rootViewController = nav ;
+    UIViewController* tc = [st instantiateViewControllerWithIdentifier:@"NavToMain"];
+//    UIViewController* tc = [st instantiateViewControllerWithIdentifier:@"MainViewController"];
+//    UINavigationController* nav = [[UINavigationController alloc]initWithRootViewController:tc];
+
+    self.window.rootViewController = tc ;
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController.view.alpha = 0;
     [UIView animateWithDuration:1 animations:^{
@@ -160,26 +158,6 @@
     };
  
 }
-
-#pragma mark 请求欢迎页面图片
-//-(void)rqWelcomeImage{
-//    UNIAppDeleRequest* model = [[UNIAppDeleRequest alloc]init];
-//    [model postWithoutUserIdSerCode:@[API_PARAM_UNI,
-//                             API_URL_Welcome]
-//                    params:@{@"type":@(2)}];
-//    model.rqwelcomeBlock=^(NSString* url,
-//                           NSString* tips,
-//                           NSError* er){
-//        if (er==nil) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [self replaceWelcomeImage:url];
-//                
-//            });
-//            
-//        }else[YIToast showText:NETWORKINGPEOBLEM];
-//    };
-//
-//}
 
 
 -(void)replaceWelcomeImage:(NSString*)url{

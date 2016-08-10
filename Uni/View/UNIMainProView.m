@@ -25,8 +25,8 @@
     shape.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     shape.fillColor = [UIColor clearColor].CGColor;
     shape.backgroundColor = [UIColor clearColor].CGColor;
-    shape.lineWidth = 8;
-    shape.transform = CATransform3DMakeRotation(M_PI/2 +M_PI/6 , 0, 0, 1);//90+30度
+    shape.lineWidth = 1;
+    //shape.transform = CATransform3DMakeRotation(M_PI*2 , 0, 0, 1);//90+30度
     [self.layer addSublayer:shape];
     _shapeLayer = shape;
     
@@ -34,8 +34,8 @@
     progess.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
     progess.fillColor = [UIColor clearColor].CGColor;
     progess.backgroundColor = [UIColor clearColor].CGColor;
-    progess.lineWidth = 8;
-    progess.transform = CATransform3DMakeRotation(M_PI/2 +M_PI/6, 0, 0, 1); //90+30度
+    progess.lineWidth = 1;
+   // progess.transform = CATransform3DMakeRotation(M_PI*2, 0, 0, 1); //90+30度
     [self.layer addSublayer:progess];
     _progessLayer = progess;
     
@@ -46,15 +46,14 @@
     CGPoint center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     
     UIBezierPath *bezier = [UIBezierPath bezierPath];
-    [bezier addArcWithCenter:center radius:radius-8 startAngle:0 endAngle:M_PI*5/3 clockwise:YES];//0到300度
+    [bezier addArcWithCenter:center radius:radius-1 startAngle:M_PI/2 endAngle:M_PI*2+M_PI/2 clockwise:YES];//0到300度
     
     _shapeLayer.path = bezier.CGPath;
     
     UIBezierPath *progessBezier = [UIBezierPath bezierPath];
-    [progessBezier addArcWithCenter:center radius:radius-8 startAngle:0 endAngle:(_num * (M_PI*5/3) /_total) clockwise:YES];
+    [progessBezier addArcWithCenter:center radius:radius-1 startAngle:M_PI/2 endAngle:(_num * (M_PI*2) /_total)+M_PI/2 clockwise:YES];
     _progessLayer.path = progessBezier.CGPath;
     
-     bezier = nil; progessBezier = nil;
 }
 
 -(void)setShapeColor:(UIColor *)shapeColor{

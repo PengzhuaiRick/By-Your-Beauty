@@ -84,6 +84,8 @@
 		18C3FBFD1C1044FD0031AFAC /* UNICardInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBFC1C1044FD0031AFAC /* UNICardInfoController.m */; };
 		18C3FC011C104F890031AFAC /* UNICardInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBFF1C104F880031AFAC /* UNICardInfoCell.m */; };
 		18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C57CE11C05933D00E30B87 /* UNIAppontMid.m */; };
+		18C5A9551D5ACDA30035EDAB /* MainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C5A9531D5ACDA30035EDAB /* MainCell.m */; };
+		18C5A9561D5ACDA30035EDAB /* MainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C5A9541D5ACDA30035EDAB /* MainCell.xib */; };
 		18C73A7B1C069B1300A3A4CA /* UNIMypointRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C73A7A1C069B1300A3A4CA /* UNIMypointRequest.m */; };
 		18C73A7F1C06F74D00A3A4CA /* UNIAddMyAppointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C73A7D1C06F74D00A3A4CA /* UNIAddMyAppointCell.m */; };
 		18C73A831C06FAAD00A3A4CA /* UNIMyPojectList.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C73A821C06FAAD00A3A4CA /* UNIMyPojectList.m */; };
@@ -345,6 +347,9 @@
 		18C3FBFF1C104F880031AFAC /* UNICardInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNICardInfoCell.m; sourceTree = "<group>"; };
 		18C57CE01C05933D00E30B87 /* UNIAppontMid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppontMid.h; sourceTree = "<group>"; };
 		18C57CE11C05933D00E30B87 /* UNIAppontMid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppontMid.m; sourceTree = "<group>"; };
+		18C5A9521D5ACDA30035EDAB /* MainCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainCell.h; sourceTree = "<group>"; };
+		18C5A9531D5ACDA30035EDAB /* MainCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainCell.m; sourceTree = "<group>"; };
+		18C5A9541D5ACDA30035EDAB /* MainCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainCell.xib; sourceTree = "<group>"; };
 		18C73A791C069B1300A3A4CA /* UNIMypointRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIMypointRequest.h; sourceTree = "<group>"; };
 		18C73A7A1C069B1300A3A4CA /* UNIMypointRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMypointRequest.m; sourceTree = "<group>"; };
 		18C73A7C1C06F74D00A3A4CA /* UNIAddMyAppointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAddMyAppointCell.h; sourceTree = "<group>"; };
@@ -996,6 +1001,9 @@
 				187B8B491D59BDB7004AEE8A /* ViewControllerCell.xib */,
 				18CC75C21C2C127400625205 /* MainViewCell.h */,
 				18CC75C31C2C127400625205 /* MainViewCell.m */,
+				18C5A9521D5ACDA30035EDAB /* MainCell.h */,
+				18C5A9531D5ACDA30035EDAB /* MainCell.m */,
+				18C5A9541D5ACDA30035EDAB /* MainCell.xib */,
 				18C73A7C1C06F74D00A3A4CA /* UNIAddMyAppointCell.h */,
 				18C73A7D1C06F74D00A3A4CA /* UNIAddMyAppointCell.m */,
 				18C3ECF31C0ED53300B0A192 /* UNIAppointDetailCell.h */,
@@ -1521,6 +1529,7 @@
 				18E302891C17D6F100990A14 /* KeZhuang.storyboard in Resources */,
 				180CD3BB1BDF294E00C912FE /* Podfile in Resources */,
 				18E302A61C180AAB00990A14 /* UNIGoodsCommentCell.xib in Resources */,
+				18C5A9561D5ACDA30035EDAB /* MainCell.xib in Resources */,
 				180CD3921BDF180A00C912FE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1716,6 +1725,7 @@
 				18C8D40D1C574A5100E6DDB3 /* RSADataSigner.m in Sources */,
 				18BA7D781BEA169300DD7826 /* MainMidController.m in Sources */,
 				18C3ED001C0EF01200B0A192 /* UNIAppointDetail2Cell.m in Sources */,
+				18C5A9551D5ACDA30035EDAB /* MainCell.m in Sources */,
 				188F123A1C16E85100EBE345 /* UNIWalletController.m in Sources */,
 				18CD114C1C7D4A7800D48808 /* UNIMapAddressView.m in Sources */,
 				184E15441C5F2DB500D65E39 /* UNISetttingController.m in Sources */,
