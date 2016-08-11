@@ -548,12 +548,12 @@
             <objects>
                 <viewController storyboardIdentifier="UNIAppointController" title="预约界面" id="H91-VO-mHW" customClass="UNIAppointController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="w1I-A1-Shq">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="jbs-3S-Bd8">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -617,15 +617,60 @@
             <objects>
                 <viewController storyboardIdentifier="UNICardInfoController" title="会员卡使用详情" id="eLc-jS-Xp6" customClass="UNICardInfoController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="IUU-Ya-KMR">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cardinfo_img_back" id="nxg-8D-FqT">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="8k1-oR-nMN">
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="0kj-2g-K83">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="350"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    <subviews>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="e0h-Or-hpz">
+                                            <rect key="frame" x="141" y="245" width="132" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <state key="normal" backgroundImage="cardinfo_btn_rd"/>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tf4-Fz-bOR">
+                                            <rect key="frame" x="45" y="290" width="325" height="31"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="cardinfo_img_clock" id="JKq-rb-Wst">
+                                            <rect key="frame" x="132" y="57" width="150" height="150"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <connections>
+                                    <outlet property="dataSource" destination="eLc-jS-Xp6" id="43g-sD-Vcg"/>
+                                    <outlet property="delegate" destination="eLc-jS-Xp6" id="d0v-SQ-I02"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="iku-SD-RUH"/>
+                    <connections>
+                        <outlet property="clockimg" destination="JKq-rb-Wst" id="Iuh-05-fWJ"/>
+                        <outlet property="headerView" destination="0kj-2g-K83" id="gD6-fm-wcI"/>
+                        <outlet property="intimebtn" destination="e0h-Or-hpz" id="9rp-GF-vtX"/>
+                        <outlet property="rewardNameLab" destination="Tf4-Fz-bOR" id="Nop-uC-W9Q"/>
+                        <outlet property="tableView" destination="8k1-oR-nMN" id="9oa-Xr-Yf1"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="I0w-Ob-RRa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1828" y="-180"/>
+            <point key="canvasLocation" x="2056" y="-26"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rKl-g1-gn9">
@@ -692,7 +737,7 @@
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z1b-Hp-Lw7">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z1b-Hp-Lw7">
                                             <rect key="frame" x="31" y="400" width="344" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -702,7 +747,7 @@
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vV3-wE-gJt">
                                             <rect key="frame" x="184" y="367" width="38" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="1" backgroundImage="main_btn_num"/>
+                                            <state key="normal" backgroundImage="main_btn_num"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qbf-ya-SoG">
                                             <rect key="frame" x="20" y="458" width="171" height="70"/>
@@ -741,6 +786,7 @@
                         <outlet property="numBtn" destination="vV3-wE-gJt" id="ZTV-hu-TZr"/>
                         <outlet property="progessLab" destination="uWE-qU-PuX" id="W4u-PJ-osA"/>
                         <outlet property="progessView" destination="gHr-m4-rni" id="cOE-jk-Chi"/>
+                        <outlet property="reward" destination="Wdw-RG-x1c" id="61R-kH-eiq"/>
                         <outlet property="rewardLab" destination="Z1b-Hp-Lw7" id="H9V-RB-Qd8"/>
                         <outlet property="shopBtn" destination="K6q-pW-zLM" id="Zgc-C9-1hD"/>
                         <segue destination="vAI-1i-bdi" kind="push" id="bFk-zS-4tV"/>
@@ -771,6 +817,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Rmj-Qn-rDe" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3ce-AX-rWC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -782,7 +829,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JLk-KN-U16" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="649" y="-1449"/>
+            <point key="canvasLocation" x="573" y="-1449"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="u1W-jF-peg">
@@ -825,6 +872,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="sDx-cX-w8j" sceneMemberID="viewController">
                     <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ktk-MQ-AR0">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -836,7 +884,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="sQ3-I4-ilX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1470" y="-180"/>
+            <point key="canvasLocation" x="1590" y="-26"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jTm-1V-Cfm">
@@ -858,6 +906,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="cardinfo_btn_rd" width="115" height="26"/>
+        <image name="cardinfo_img_back" width="360" height="640"/>
+        <image name="cardinfo_img_clock" width="135" height="135"/>
         <image name="function_btn_shopcar" width="360" height="90"/>
         <image name="function_img_car" width="18" height="18"/>
         <image name="main_btn_coupon" width="66" height="66"/>

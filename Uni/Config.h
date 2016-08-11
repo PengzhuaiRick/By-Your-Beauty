@@ -30,7 +30,7 @@
 /**
  *  主题粉紫色
  */
-#define kMainPinkColor @"e738b1"
+#define kMainPinkColor @"fd3492"
 
 /**
  *  背景颜色
@@ -55,6 +55,11 @@
  *  分割线颜色
  */
 #define kMainSeparatorColor @"eeeeee"
+
+/**
+ *  分割线颜色
+ */
+#define kMainNavigationColor @"362745"
 
 /**
  *  字体

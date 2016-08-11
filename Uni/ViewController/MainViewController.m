@@ -61,6 +61,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *progessLab;
 @property (weak, nonatomic) IBOutlet UIButton *numBtn;
 @property (weak, nonatomic) IBOutlet UILabel *rewardLab;
+@property (weak, nonatomic) IBOutlet UILabel *reward;
 @property (weak, nonatomic) IBOutlet UIButton *couponBtn;
 @property (weak, nonatomic) IBOutlet UIButton *shopBtn;
 @property(nonatomic,strong) NSMutableArray* bottomData;
@@ -80,7 +81,6 @@
      [super viewWillDisappear:animated];
     [self changeNavigationBarAlpha:1];
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"首页"];
-    [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
 }
 
 - (void)viewDidLoad {
@@ -202,6 +202,12 @@
     [btn addTarget:self action:@selector(navigationControllerLeftBarAction:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:btn];
     
+    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    [btn1 setImage:[UIImage imageNamed:@"main_bar_left"] forState:UIControlStateNormal];
+    btn1.frame = CGRectMake(0, 0, 40, 40);
+    [btn1 addTarget:self action:@selector(navigationControllerLeftBarAction:) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:btn1];
+    
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
    // swipe.direction = UISwipeGestureRecognizerDirectionRight;
     [self.view addGestureRecognizer:pan];
@@ -215,13 +221,18 @@
     }
     
 }
+#pragma mark 跳转优惠券
 - (IBAction)gotoCouponController:(id)sender {
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
     UNIWalletController* view = [st instantiateViewControllerWithIdentifier:@"UNIWalletController"];
     [self.navigationController pushViewController:view animated:YES];
 }
+
+#pragma mark 跳转商城列表
 - (IBAction)gotoGoodsWeb:(id)sender {
-    }
+    UNIGoodsWeb* web = [[UNIGoodsWeb alloc]init];
+    [self.navigationController pushViewController:web animated:YES];
+}
 
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
@@ -276,14 +287,9 @@
     progess.backgroundColor =[UIColor clearColor];
     progess.shapeColor = [UIColor colorWithHexString:@"9e928c"];
     progess.progessColor = [UIColor whiteColor];
-    [progess setupProgreaa:4 and:6];
+    [progess setupProgreaa:0 and:0];
     [_headerView addSubview:progess];
     _progessView =progess;
-    
-//    _progessView.backgroundColor =[UIColor clearColor];
-//    _progessView.shapeColor = [UIColor colorWithHexString:@"9e928c"];
-//    _progessView.progessColor = [UIColor whiteColor];
-//    [_progessView setupProgreaa:4 and:6];
     
     _rewardLab.layer.masksToBounds=YES;
     _rewardLab.layer.cornerRadius = _rewardLab.frame.size.height/2;
@@ -376,24 +382,6 @@
         cell.handleBtn.tag =indexPath.section+1;
         [cell setupOtherCell:_bottomData[indexPath.section]];
     }
-    
-    
-//    if (cellNumber<3) {
-//        if (indexPath.section == 1) {
-//            cell.handleBtn.tag = -1;
-//            [cell setupCustomCell];
-//        }
-//    }else{
-//        if (indexPath.section > 0 && indexPath.section < cellNumber-1) {
-//            cell.handleBtn.tag =indexPath.section+1;
-//            [cell setupOtherCell:_bottomData[indexPath.section]];
-//        }
-//        if (indexPath.section < cellNumber-1) {
-//            cell.handleBtn.tag = -1;
-//            [cell setupCustomCell];
-//        }
-//    }
-    
     
        return cell;
 }
@@ -491,7 +479,7 @@
                         else
                             myself.progessLab.text = [NSString stringWithFormat:@"%d/%d",num,nextRewardNum];
                         
-                        //[myself.progessView setupProgreaa:num and:nextRewardNum];
+                        [myself.progessView setupProgreaa:num and:nextRewardNum];
                         // NSString* usrl = [NSString stringWithFormat:@"%@%@",API_IMG_URL,url];
                         [myself.goodsImg sd_setImageWithURL:[NSURL URLWithString:url] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
                             if (!image)
@@ -504,10 +492,11 @@
                             
                         }];
                         if (nextRewardNum>num) {
-                            //self->numLab.text = [NSString stringWithFormat:@"%d",nextRewardNum - num];
+                             myself.reward.text =@"再预约次数";
                             [myself.numBtn setTitle:[NSString stringWithFormat:@"%d",nextRewardNum - num] forState:UIControlStateNormal];
                         }if (nextRewardNum <= num) {
-                            [myself.numBtn setTitle:@"恭喜您!" forState:UIControlStateNormal];
+                            myself.reward.text =@"恭喜您!";
+                            [myself.numBtn setTitle:@"" forState:UIControlStateNormal];
                         }
                         myself.rewardLab.text = projectName;
 
@@ -515,7 +504,7 @@
                         myself.progessLab.text = nil;
                         myself.rewardLab.text = nil;
                         [myself.numBtn setTitle:@"" forState:UIControlStateNormal];
-                       // [myself.progessView setupProgreaa:0 and:0];
+                        [myself.progessView setupProgreaa:0 and:0];
                     }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];

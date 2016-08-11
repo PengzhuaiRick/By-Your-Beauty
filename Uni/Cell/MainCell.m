@@ -42,6 +42,7 @@
     if(data){
         UNIMyAppintModel* info = data[0];
         [_handleBtn setTitle:@"查看\n详情" forState:UIControlStateNormal];
+        _handleImg.image = [UIImage imageNamed:@"main_btn_cell1"];
         self.numLab.hidden=NO;
         self.numLab.text = [NSString stringWithFormat:@"%d",total];
         self.mainImage.image = [UIImage imageNamed:@"main_img_cell1"];
@@ -51,6 +52,11 @@
         NSString* str1 = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
         self.subLab .text = [NSString stringWithFormat:@"我已预约:%@",str1];
         
+    }else{
+        self.numLab.hidden=YES;
+        self.mainImage.image = [UIImage imageNamed:@"main_img_nodata1"];
+        self.mainLab.text = @"已约完!";
+        self.subLab .text = [UNIHttpUrlManager sharedInstance].APPOINT_DESC;
     }
     
 }
@@ -64,6 +70,8 @@
                           placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
         self.mainLab.text = info.projectName;
         self.subLab .text = [NSString stringWithFormat:@"剩余%d次",info.num];
+        [_handleBtn setTitle:@"马上\n预约" forState:UIControlStateNormal];
+        _handleImg.image = [UIImage imageNamed:@"main_btn_cell2"];
     }
    
 }

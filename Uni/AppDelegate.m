@@ -78,7 +78,10 @@
     UINavigationBar *bar = [UINavigationBar appearance];
     
     //设置返回按钮颜色
-    [bar setTintColor:[UIColor blackColor]];
+    [bar setTintColor:[UIColor whiteColor]];
+    
+    //导航栏颜色
+    bar.barTintColor = [UIColor colorWithHexString:kMainNavigationColor];
     
     //设置导航栏标题字体颜色
     

@@ -11,15 +11,16 @@
 #import "UNIAppontMid.h"
 #import "UNIMyPojectList.h"
 #import "AccountManager.h"
-#import "UNIShopView.h"
-#import "UNIShopListController.h"
+//#import "UNIShopView.h"
+//#import "UNIShopListController.h"
 #import "UNIHttpUrlManager.h"
 #import "UNIGuideView.h"
 //#import "UNIMyProjectModel.h"
-@interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate,UNIShopListControllerDelegate>
+#import "UNIShopManage.h"
+@interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate>
 {
-   // UNIShopModel* shopModel;
-    UNIShopView* shopView;
+    int shopID;
+    //UNIShopView* shopView;
     UNIAppointTop* appointTop;
     UNIAppontMid* appontMid;
     //UNIAppointBotton* appointBotton;
@@ -44,7 +45,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = [UNIShopManage getShopData].shopName;
-    
+    shopID =[[AccountManager shopId] intValue];
     if (_projectId) {
         [self goinFromGiftController];
     }else if(_model){
@@ -93,11 +94,10 @@
 
 -(void)setupUI{
     [self setupMyScroller];
-   // [self setupShopView];
     if (_model)
-    [self setupTopScrollerWithProjectId:self.model.projectId andCostime:self.model.costTime andShopId:[[AccountManager shopId] intValue]];
+    [self setupTopScrollerWithProjectId:self.model.projectId andCostime:self.model.costTime andShopId:shopID];
     else
-        [self setupTopScrollerWithProjectId:0 andCostime:0 andShopId:[[AccountManager shopId] intValue]];
+        [self setupTopScrollerWithProjectId:0 andCostime:0 andShopId:shopID];
     [self setupMidScroller];
     [self setupBottomContent];
     [self regirstKeyBoardNotification];
@@ -113,27 +113,9 @@
         self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
 }
 
-#pragma mark 加载顶部店铺名字View
--(void)setupShopView{
-    UNIShopView* shop =[[UNIShopView alloc]initWithFrame:CGRectMake(10,10, KMainScreenWidth - 20, (KMainScreenWidth>400?70:55))];
-    shop.backgroundColor = [UIColor whiteColor];
-    [self.myScroller addSubview:shop];
-    shopView = shop;
-    shop=nil;
-}
-#pragma mark 店铺列表页面代理方法
-//-(void)UNIShopListControllerDelegateMethod:(id)model{
-//    UNIShopModel* info = model;
-//    shopModel = info;   
-//    shopView.nameLab.text = info.shortName;
-//    shopView.addressLab.text = info.address;
-//    shopView.shopId = info.shopId;
-//    [appointTop changeShopId:info.shopId];
-//}
 #pragma mark 加载顶部Scroller
 -(void)setupTopScrollerWithProjectId:(int)project andCostime:(int)cost andShopId:(int)shopId{
-    float topY = CGRectGetMaxY(shopView.frame)+10;
-    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(10,topY, KMainScreenWidth-20,KMainScreenWidth*210/320) andModel:_model  andShopId:shopId];
+    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(0,0, KMainScreenWidth,KMainScreenWidth*282/414) andModel:_model  andShopId:shopId];
     [self.myScroller addSubview:top];
     appointTop = top;
     top = nil;
@@ -143,13 +125,27 @@
 -(void)setupMidScroller{
     float midY = CGRectGetMaxY(appointTop.frame)+10;
     float midH = self.myScroller.contentSize.height - midY - 10;
-    UNIAppontMid* mid = [[UNIAppontMid alloc]initWithFrame:CGRectMake(10, midY, KMainScreenWidth-20,midH) andModel:_model];
+    UNIAppontMid* mid = [[UNIAppontMid alloc]initWithFrame:CGRectMake(16, midY, KMainScreenWidth-32,midH) andModel:_model];
     mid.delegate = self;
     [self.myScroller addSubview:mid];
     appontMid = mid;
+
+}
+
+#pragma mark 加载 添加预约 和 马上预约按钮
+-(void)setupBottomContent{
+    float btnX = 16;
+    float btnW = (KMainScreenWidth-2*btnX)/2;
+    float btnH = KMainScreenWidth * 51/414;
+    float btnY = self.myScroller.contentSize.height - btnH-10 ;
     
+    UIButton* btn = [UIButton buttonWithType: UIButtonTypeCustom];
+    btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
+    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_addPro"] forState:UIControlStateNormal];
+   
+    [_myScroller addSubview:btn];
     
-    [[appontMid.addProBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+        [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
          NSTimeInterval diffTime = [self->appointTop.finalTime timeIntervalSinceDate:self->appointTop.startTime];
          if (diffTime<10) {
@@ -172,45 +168,30 @@
          
          [[BaiduMobStat defaultStat]logEvent:@"btn_add_projects" eventLabel:@"预约界面添加项目按钮"];
      }];
-    mid=nil;
-}
-#pragma mark 加载底部Scroller
--(void)setupBottomContent{
-    float btnWH = KMainScreenWidth*70/414;
-    float btnY = self.myScroller.contentSize.height - btnWH-10 ;
-    float btnX = (KMainScreenWidth - btnWH)/2;
     
-    UIButton* btn = [UIButton buttonWithType: UIButtonTypeCustom];
-    btn.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
-    [btn setTitle:@"马上\n预约" forState:UIControlStateNormal];
-    //[btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
-    btn.titleLabel.lineBreakMode = 0;
-    btn.titleLabel.numberOfLines = 0;
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
-    btn.layer.masksToBounds=YES;
-    btn.layer.cornerRadius = btnWH/2;
-    btn.layer.borderWidth = 0.5;
-    btn.layer.borderColor =[UIColor colorWithHexString:kMainThemeColor].CGColor;
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
-    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
-    [_myScroller addSubview:btn];
-    sureBtn = btn;
+    
+    
+    float btn1X = CGRectGetMaxX(btn.frame)-1;
+    
+    UIButton* btn1 = [UIButton buttonWithType: UIButtonTypeCustom];
+    btn1.frame = CGRectMake(btn1X, btnY, btnW+1, btnH);
+    [btn1 setBackgroundImage:[UIImage imageNamed:@"appoint_btn_appNow"] forState:UIControlStateNormal];
+    [_myScroller addSubview:btn1];
+    sureBtn = btn1;
     
     //检测是否有 预约时间点 存在，选择了预约时间点 才能进行 确定预约 否则预约按钮不可点击
     [RACObserve(appointTop, selectTime)
-    subscribeNext:^(NSString* x) {
-        if (x.length>0)
-            self->sureBtn.enabled=YES;
-        else
-            self->sureBtn.enabled =NO;
-    }];
+     subscribeNext:^(NSString* x) {
+         if (x.length>0)
+             self->sureBtn.enabled=YES;
+         else
+             self->sureBtn.enabled =NO;
+     }];
     
     
-        [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    [[sureBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-          UNIHttpUrlManager* httpUrl =[UNIHttpUrlManager sharedInstance];
+         UNIHttpUrlManager* httpUrl =[UNIHttpUrlManager sharedInstance];
          [UIAlertView showWithTitle:httpUrl.IS_APPOINT message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"确定"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
              if (buttonIndex == 1) {
                  [self startAppoint];
@@ -218,7 +199,8 @@
          }];
          [[BaiduMobStat defaultStat]logEvent:@"btn_appoint" eventLabel:@"预约页面马上预约按钮"];
      }];
-    btn=nil;
+
+    
 }
 
 -(void)startAppoint{
@@ -259,7 +241,7 @@
                           params:@{@"projectIds":projectIds,
                                    @"costTimes":costTimes,
                                    @"dates":dates,
-                                   @"shopId":@(shopView.shopId),
+                                   @"shopId":@(shopID),
                                    @"num":@(1),
                                    @"remark":appontMid.remarkField.text}];
              dispatch_async(dispatch_get_main_queue(), ^{
@@ -310,7 +292,7 @@
     
     UNIShopManage* manager = [UNIShopManage getShopData];
     NSDictionary *infoDic = @{@"OrderId":order,
-                              @"shopId" :@(shopView.shopId),
+                              @"shopId" :@(shopID),
                               @"token"  :[AccountManager token],
                               @"shopX"  :manager.x,
                               @"shopY"  :manager.y,
@@ -403,13 +385,9 @@
     tabRe.size.height = self->appontMid.cellH*count;
     self->appontMid.myTableView.frame =tabRe;
     
-    CGRect addRec = self->appontMid.addProBtn.frame;
-    addRec.origin.y =CGRectGetMaxY(tabRe)+5;
-    self->appontMid.addProBtn.frame =addRec;
-    
     
     CGRect midRec =self-> appontMid.frame;
-    midRec.size.height = CGRectGetMaxY(addRec)+5; ;
+    midRec.size.height = CGRectGetMaxY(tabRe)+5;
     self-> appontMid.frame = midRec;
     
 }

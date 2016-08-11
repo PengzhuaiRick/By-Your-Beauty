@@ -8,9 +8,9 @@
 
 #import "UNIAppontMid.h"
 #import "UNIMyProjectModel.h"
-#import "UNIAddAndDelectCell.h"
+//#import "UNIAddAndDelectCell.h"
 #import "BaiduMobStat.h"
-
+#import "UNIAppointCell.h"
 @implementation UNIAppontMid
 -(id)initWithFrame:(CGRect)frame andModel:(id)model{
     self=[super initWithFrame:frame];
@@ -31,17 +31,26 @@
 -(void)setupUI:(CGRect)frame{
    
     float labX = 16;
-    float labY = KMainScreenWidth>400?10:5;
-    float labH = KMainScreenWidth>400?20:17;
-    float labW =  KMainScreenWidth* 100/320;
+    float labY = 0;
+    float labH = KMainScreenWidth*40/414;
+    float labW =  KMainScreenWidth* 120/414;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"预约项目";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
+    lab.font = kWTFont(15);
     [self addSubview:lab];
     self.lab1 = lab;
     
+    float lab1WH =  KMainScreenWidth* 20/414;
+    float lab1X = self.frame.size.width - 10 - lab1WH;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, 10, lab1WH, lab1WH)];
+    lab1.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
+    lab1.textColor = [UIColor whiteColor];
+    lab1.font = kWTFont(12);
+    lab1.layer.masksToBounds=YES;
+    
+    
     float fieldH =KMainScreenWidth* 32 / 414;
-    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(labX,CGRectGetMaxY(lab.frame)+10, self.frame.size.width-2*labX,fieldH)];
+    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(labX,CGRectGetMaxY(lab.frame), self.frame.size.width-2*labX,fieldH)];
     field.hidden =_myData.count>0;
     field.placeholder = @" 填写您想预约的项目名称";
     field.layer.masksToBounds = YES;
@@ -57,7 +66,7 @@
     field.inputAccessoryView = tool;
     
     //_cellH =(frame.size.height - CGRectGetMaxY(lab.frame) - (KMainScreenWidth>400?40:25) - 10)/3;
-    _cellH = KMainScreenWidth* 78/414;
+    _cellH = KMainScreenWidth* 76/414;
     
     float tabY =CGRectGetMaxY(lab.frame);
     if (_myData.count <1) tabY =CGRectGetMaxY(field.frame);
@@ -68,27 +77,10 @@
     _myTableView.dataSource = self;
     [self addSubview:_myTableView];
     _myTableView.tableFooterView = [UIView new];
-    
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, CGRectGetMaxY(_myTableView.frame)+5, self.frame.size.width, (KMainScreenWidth>400?40:25));
-    [btn setTitle:@" 添加项目" forState:UIControlStateNormal];
-    [btn setBackgroundColor:[UIColor whiteColor]];
-    [btn setImage:[UIImage imageNamed:@"appoint_img_add"] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor colorWithHexString:kMainBlackTitleColor] forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:13];
-    [self addSubview:btn];
-    _addProBtn = btn;
-    
+   
     CGRect selfR = self.frame;
-    selfR.size.height = CGRectGetMaxY(btn.frame)+5;
+    selfR.size.height = CGRectGetMaxY(_myTableView.frame)+5;
     self.frame = selfR;
-    
-    btn = nil;lab = nil;
-    
-//    CALayer* lay = [CALayer layer];
-//    lay.frame = CGRectMake(10, CGRectGetMinY(btn.frame), _myTableView.frame.size.width - 20, 0.5);
-//    lay.backgroundColor = kMainGrayBackColor.CGColor;
-//    [btn.layer addSublayer:lay];
     
 }
 
@@ -103,16 +95,15 @@
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString* name = @"cell";
-    UNIAddAndDelectCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    UNIAppointCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell =[[UNIAddAndDelectCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, _cellH) reuseIdentifier:name];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.delectBtn.tag = indexPath.row;
+       // cell =[[UNIAddAndDelectCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, _cellH) reuseIdentifier:name];
+        cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAppointCell" owner:self options:nil].lastObject;
+        
         [[cell.delectBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
         subscribeNext:^(UIButton* x) {
-            NSLog(@"%@",x.superview);
             
-            NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:(UNIAddAndDelectCell*)x.superview];
+            NSIndexPath *cellIndexPath = [self.myTableView indexPathForCell:(UNIAppointCell*)x.superview];
             [self.myData removeObjectAtIndex:cellIndexPath.row];
             [self.myTableView deleteRowsAtIndexPaths:@[cellIndexPath]
                                     withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -122,14 +113,10 @@
 
         }];
     }
-    if (indexPath.row >0){
-        cell.moveView.userInteractionEnabled = YES;
-        //cell.delectBtn.enabled = YES;
-    }
-    else{
-        cell.moveView.userInteractionEnabled = NO;
-       // cell.delectBtn.enabled = NO;
-    }
+    cell.delectBtn.tag = indexPath.row;
+    if (indexPath.row >0) cell.delectBtn.hidden = YES;
+    else cell.delectBtn.enabled = NO;
+    
     
     [cell setupCellContent:_myData[indexPath.row]];
     

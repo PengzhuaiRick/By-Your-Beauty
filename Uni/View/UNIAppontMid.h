@@ -20,7 +20,7 @@
 
 @property (strong ,nonatomic) NSMutableArray* myData;
 @property (strong ,nonatomic) UILabel* lab1;
-@property (strong, nonatomic) UIButton *addProBtn;//添加项目按钮
+//@property (strong, nonatomic) UIButton *addProBtn;//添加项目按钮
 @property (strong, nonatomic) UITableView *myTableView;
 @property (strong, nonatomic) UITextField *remarkField;
 @property (assign, nonatomic) float cellH;

@@ -112,6 +112,7 @@
     topScrollerNum = 0;
    // _maxNum = 1;
     midBtns = [NSMutableArray array];
+    self.backgroundColor = [UIColor clearColor];
     [self beforeRequest];
 }
 
@@ -216,18 +217,24 @@
 
 #pragma mark 加载scroller里面的内容
 -(void)setupTopScrollerContent{
-    float topH =KMainScreenWidth*45/320;
+    float topH =KMainScreenWidth*46/320;
     UIScrollView* view = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, topH)];
+    view.backgroundColor = [UIColor blackColor];
     view.showsHorizontalScrollIndicator=NO;
     view.delegate = self;
     [self addSubview:view];
     _topScroller = view;
     
+    float btnW =self.frame.size.width/5;
+    float btnH = _topScroller.frame.size.height+1;
+    
+    UIImageView* backMove = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_img_top"]];
+    backMove.frame = CGRectMake(0, 0, btnW, btnH);
+    [view addSubview:backMove];
+    arrowImg = backMove;
     
     _topBtns = [NSMutableArray arrayWithCapacity:8];
-    
-    float btnW =self.frame.size.width/5;
-    float btnH = _topScroller.frame.size.height;
+   
     _topScroller.contentSize = CGSizeMake(btnW*8,btnH);
     _topScroller.delegate = self;
     
@@ -273,16 +280,14 @@
         btn.titleLabel.numberOfLines = 0;
         btn.titleLabel.textAlignment = NSTextAlignmentCenter;
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [btn setBackgroundImage:[self createImageWithColor:[UIColor blackColor]] forState:UIControlStateNormal];
-        [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateSelected];
-        [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
+        [btn setBackgroundColor:[UIColor clearColor]];
         if (i==1){
             self->selectBtnNum = 1;
             btn.selected = YES;
             self.selectYear =year;
             self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
             }
-        btn.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?14:11)];
+        btn.titleLabel.font = kWTFont(15);
         [_topScroller addSubview:btn];
         [_topBtns addObject:btn];
         
@@ -297,18 +302,6 @@
         }];
         btn=nil;
     }
-    
-    float arrowW =KMainScreenWidth*5/320;
-    float arrowH = KMainScreenWidth*4/320;
-    float arrowX = btnW+(btnW-arrowW)/2;
-    float arrowY = _topScroller.frame.size.height - arrowH;
-    UIImageView* arrow = [[UIImageView alloc]initWithFrame:CGRectMake(arrowX, arrowY, arrowW, arrowH)];
-    arrow.image = [UIImage imageNamed:@"appoint_img_arrows"];
-    [_topScroller addSubview:arrow];
-    arrowImg = arrow;
-    
-    arrow=nil; view = nil;
-
 }
 -(void)dateBtnAction:(UIButton*)x{
     self.numDay = (int)x.tag;
@@ -341,28 +334,27 @@
 }
 
 -(void)initSecondView{
-    float viewX = 0;
+    float viewX = 16;
     float viewY = CGRectGetMaxY(_topScroller.frame)+10;
     float viewH = self.frame.size.height - viewY;
-    float viewW = self.frame.size.width;
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];
+    float viewW = self.frame.size.width - 2*viewX;
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW , viewH)];
     view.backgroundColor = [UIColor whiteColor];
     [self addSubview:view];
     
     float labX = 16;
-    float labY = KMainScreenWidth>400?10:5;
-    float labH = KMainScreenWidth* 25/414;
+    float labY = 0;
+    float labH = KMainScreenWidth* 40/414;
     float labW =  KMainScreenWidth* 100/320;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"开始时间";
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
+    lab.font = kWTFont(15);
     [view addSubview:lab];
 
-    float btn3WH = KMainScreenWidth*30/320;
+    float btn3WH = KMainScreenWidth*30/414;
     
     float topH =viewH - CGRectGetMaxY(lab.frame)-10;
-    midBtnH =topH/5*2;
-    float topY = CGRectGetMaxY(lab.frame)+5;
+    float topY = CGRectGetMaxY(lab.frame);
     float topX = btn3WH;
     float topW =view.frame.size.width - 2* btn3WH;
     UIScrollView* secondV = [[UIScrollView alloc]initWithFrame:CGRectMake(topX, topY,topW, topH)];
@@ -374,7 +366,7 @@
     UILabel* nodate = nil;
     nodate = [[UILabel alloc]init];
     nodate.text = @"没有可以预约的时间哦！";
-    nodate.font = [UIFont systemFontOfSize:14];
+    nodate.font = kWTFont(15);;
     nodate.hidden = YES;
     nodate.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [nodate sizeToFit];
@@ -454,17 +446,12 @@
             f++;
     }
     
-//    CGPoint point = CGPointMake(0, 0);
-//    [self.midScroller setContentOffset:point animated:YES];
-    
     float KK =0;
     float btnW = (_midScroller.frame.size.width - KK)/3;
-    float btnH = midBtnH;
+    float btnH = KMainScreenWidth*70/414;
     _midScroller.contentSize = CGSizeMake(_midScroller.frame.size.width ,
                                               btnH*f);
-   // _midScroller.pagingEnabled=YES;
-    
-    
+
         [[self.midRightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(id x) {
                  CGPoint point = CGPointMake(0, 0);
@@ -497,9 +484,9 @@
         UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
         but.frame=CGRectMake(btnX+1, btnY+1, btnW-2, btnH-2);
         
-        NSString* btnString =[dic valueForKey:@"time"];
-        if ([self.selectTime isEqualToString:btnString])
-            but.selected=YES;
+//        NSString* btnString =[dic valueForKey:@"time"];
+//        if ([self.selectTime isEqualToString:btnString])
+//            but.selected=YES;
         
        
         if(i == 0){
@@ -522,13 +509,17 @@
         }
         [but setTitle:[dic valueForKey:@"time"] forState:UIControlStateNormal];
         but.tag = 10+i;
-        [but setTitleColor:[UIColor colorWithHexString:kMainBlackTitleColor] forState:UIControlStateNormal];
-        [but setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-        [but setTitleColor:[UIColor whiteColor] forState:UIControlStateSelected];
-        [but setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-        [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
-        [but setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateSelected];
-        but.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth>400?16:14)];
+        [but setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [but setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateHighlighted];
+        [but setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateSelected];
+        but.titleLabel.font = [UIFont systemFontOfSize:(KMainScreenWidth*15/414)];
+        but.layer.borderColor =[UIColor colorWithHexString:kMainPinkColor].CGColor;
+        if (i == 0){
+            but.selected=YES;
+            but.layer.borderWidth = 1;
+        }
+        
+        
         [_midScroller addSubview:but];
         [self->midBtns addObject:but];
        
@@ -551,10 +542,12 @@
         [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
              x.selected = YES;
+             x.layer.borderWidth =1;
              self.selectTime = [x titleForState:UIControlStateNormal];
              for (UIButton* k in self->midBtns) {
-                 if (k!=x)
+                 if (k!=x){
                      k.selected=NO;
+                     k.layer.borderWidth =0;}
              }
              self.startTime = nil;
              NSString* str = [NSString stringWithFormat:@"%@ %@",self.selectDay,self.selectTime];

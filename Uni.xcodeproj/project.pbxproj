@@ -74,6 +74,10 @@
 		18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A061BF4740F000AE604 /* UNIAppDeleRequest.m */; };
 		18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A0C1BF48984000AE604 /* UNIWelController.m */; };
 		18BF0A111BF49BDF000AE604 /* YIToast.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A101BF49BDF000AE604 /* YIToast.m */; };
+		18C2A8231D5C623D0088F58A /* UNIAppointCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C2A8211D5C623D0088F58A /* UNIAppointCell.m */; };
+		18C2A8241D5C623D0088F58A /* UNIAppointCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C2A8221D5C623D0088F58A /* UNIAppointCell.xib */; };
+		18C2A8281D5C90380088F58A /* UNIVIPMemberCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C2A8261D5C90380088F58A /* UNIVIPMemberCell.m */; };
+		18C2A8291D5C90380088F58A /* UNIVIPMemberCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C2A8271D5C90380088F58A /* UNIVIPMemberCell.xib */; };
 		18C315681BFDCDF600B8438E /* UIActionSheet+Blocks.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */; };
 		18C3ECF61C0ED53300B0A192 /* UNIAppointDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECF41C0ED53300B0A192 /* UNIAppointDetailCell.m */; };
 		18C3ECFB1C0EEA2100B0A192 /* UNIAppointDetall1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3ECF91C0EEA2100B0A192 /* UNIAppointDetall1Cell.m */; };
@@ -82,7 +86,6 @@
 		18C3FBF61C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBF51C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m */; };
 		18C3FBF91C1011B70031AFAC /* UNIMyAppointInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBF81C1011B70031AFAC /* UNIMyAppointInfoModel.m */; };
 		18C3FBFD1C1044FD0031AFAC /* UNICardInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBFC1C1044FD0031AFAC /* UNICardInfoController.m */; };
-		18C3FC011C104F890031AFAC /* UNICardInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C3FBFF1C104F880031AFAC /* UNICardInfoCell.m */; };
 		18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C57CE11C05933D00E30B87 /* UNIAppontMid.m */; };
 		18C5A9551D5ACDA30035EDAB /* MainCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C5A9531D5ACDA30035EDAB /* MainCell.m */; };
 		18C5A9561D5ACDA30035EDAB /* MainCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18C5A9541D5ACDA30035EDAB /* MainCell.xib */; };
@@ -325,6 +328,12 @@
 		18BF0A0C1BF48984000AE604 /* UNIWelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIWelController.m; sourceTree = "<group>"; };
 		18BF0A0F1BF49BDF000AE604 /* YIToast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YIToast.h; sourceTree = "<group>"; };
 		18BF0A101BF49BDF000AE604 /* YIToast.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YIToast.m; sourceTree = "<group>"; };
+		18C2A8201D5C623D0088F58A /* UNIAppointCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppointCell.h; sourceTree = "<group>"; };
+		18C2A8211D5C623D0088F58A /* UNIAppointCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppointCell.m; sourceTree = "<group>"; };
+		18C2A8221D5C623D0088F58A /* UNIAppointCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIAppointCell.xib; sourceTree = "<group>"; };
+		18C2A8251D5C90380088F58A /* UNIVIPMemberCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIVIPMemberCell.h; sourceTree = "<group>"; };
+		18C2A8261D5C90380088F58A /* UNIVIPMemberCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIVIPMemberCell.m; sourceTree = "<group>"; };
+		18C2A8271D5C90380088F58A /* UNIVIPMemberCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIVIPMemberCell.xib; sourceTree = "<group>"; };
 		18C315661BFDCDF600B8438E /* UIActionSheet+Blocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActionSheet+Blocks.h"; sourceTree = "<group>"; };
 		18C315671BFDCDF600B8438E /* UIActionSheet+Blocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIActionSheet+Blocks.m"; sourceTree = "<group>"; };
 		18C3ECF01C0EC9C900B0A192 /* UNIAppointDetail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppointDetail.h; sourceTree = "<group>"; };
@@ -343,8 +352,6 @@
 		18C3FBF81C1011B70031AFAC /* UNIMyAppointInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyAppointInfoModel.m; sourceTree = "<group>"; };
 		18C3FBFB1C1044FD0031AFAC /* UNICardInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNICardInfoController.h; sourceTree = "<group>"; };
 		18C3FBFC1C1044FD0031AFAC /* UNICardInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNICardInfoController.m; sourceTree = "<group>"; };
-		18C3FBFE1C104F880031AFAC /* UNICardInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNICardInfoCell.h; sourceTree = "<group>"; };
-		18C3FBFF1C104F880031AFAC /* UNICardInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNICardInfoCell.m; sourceTree = "<group>"; };
 		18C57CE01C05933D00E30B87 /* UNIAppontMid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppontMid.h; sourceTree = "<group>"; };
 		18C57CE11C05933D00E30B87 /* UNIAppontMid.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppontMid.m; sourceTree = "<group>"; };
 		18C5A9521D5ACDA30035EDAB /* MainCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainCell.h; sourceTree = "<group>"; };
@@ -1012,8 +1019,9 @@
 				18C3ECF91C0EEA2100B0A192 /* UNIAppointDetall1Cell.m */,
 				18C3ECFD1C0EF01200B0A192 /* UNIAppointDetail2Cell.h */,
 				18C3ECFE1C0EF01200B0A192 /* UNIAppointDetail2Cell.m */,
-				18C3FBFE1C104F880031AFAC /* UNICardInfoCell.h */,
-				18C3FBFF1C104F880031AFAC /* UNICardInfoCell.m */,
+				18C2A8251D5C90380088F58A /* UNIVIPMemberCell.h */,
+				18C2A8261D5C90380088F58A /* UNIVIPMemberCell.m */,
+				18C2A8271D5C90380088F58A /* UNIVIPMemberCell.xib */,
 				1827CEB81C15893E00A40B45 /* UNIRewardListCell.h */,
 				1827CEB91C15893E00A40B45 /* UNIRewardListCell.m */,
 				18AD74C61C3282DA006FA84D /* UNIRewordAndIntimeCell.h */,
@@ -1036,6 +1044,9 @@
 				18E436B01C8172FF00B125AC /* UNIShopListCell.m */,
 				18E76CCA1C8C00940036888E /* UNIAddAndDelectCell.h */,
 				18E76CCB1C8C00940036888E /* UNIAddAndDelectCell.m */,
+				18C2A8201D5C623D0088F58A /* UNIAppointCell.h */,
+				18C2A8211D5C623D0088F58A /* UNIAppointCell.m */,
+				18C2A8221D5C623D0088F58A /* UNIAppointCell.xib */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -1520,10 +1531,12 @@
 				187B8B4B1D59BDB7004AEE8A /* ViewControllerCell.xib in Resources */,
 				18CCA0171C02B84000B90092 /* BTKeyboardTool.xib in Resources */,
 				18C745961BF0334E000062AF /* Guide.storyboard in Resources */,
+				18C2A8241D5C623D0088F58A /* UNIAppointCell.xib in Resources */,
 				180CD3971BDF180A00C912FE /* LaunchScreen.storyboard in Resources */,
 				184482161C5247B60047D2EF /* Images.xcassets in Resources */,
 				18C745B81BF07EE4000062AF /* PushConfig.plist in Resources */,
 				18CCA0201C0310F600B90092 /* Function.storyboard in Resources */,
+				18C2A8291D5C90380088F58A /* UNIVIPMemberCell.xib in Resources */,
 				18C8D4021C574A5100E6DDB3 /* AlipaySDK.bundle in Resources */,
 				180CD3941BDF180A00C912FE /* Assets.xcassets in Resources */,
 				18E302891C17D6F100990A14 /* KeZhuang.storyboard in Resources */,
@@ -1645,6 +1658,7 @@
 				18C8D4071C574A5100E6DDB3 /* base64.m in Sources */,
 				18C9CB0F1CCA046A00D8FB5F /* UNIScanView.m in Sources */,
 				184481FF1C5207DB0047D2EF /* UNIOrderDetailController.m in Sources */,
+				18C2A8281D5C90380088F58A /* UNIVIPMemberCell.m in Sources */,
 				18CC75C41C2C127400625205 /* MainViewCell.m in Sources */,
 				18F881151CE1BA4700FE2C4E /* UNIGuideView.m in Sources */,
 				188F123D1C16EB0B00EBE345 /* UNIWalletList.m in Sources */,
@@ -1663,9 +1677,9 @@
 				18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */,
 				18FD497B1C16845B00C07BF5 /* UNIRewardListView.m in Sources */,
 				18E661CC1C112AAF000042B7 /* UNICardInfoRequest.m in Sources */,
-				18C3FC011C104F890031AFAC /* UNICardInfoCell.m in Sources */,
 				18E302A51C180AAB00990A14 /* UNIGoodsCommentCell.m in Sources */,
 				18CE1FE01C214017000DE133 /* UNIImageAndTextController.m in Sources */,
+				18C2A8231D5C623D0088F58A /* UNIAppointCell.m in Sources */,
 				181355AD1CD303FF001DAB97 /* NullSafe.m in Sources */,
 				1844820B1C5217530047D2EF /* UNIOrderListView.m in Sources */,
 				18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */,
