@@ -12,7 +12,7 @@
     CGSize cellS;
 }
 @property (strong, nonatomic)  UIImageView *mainImage;
-@property (strong, nonatomic)  UIImageView *intimeImg;
+//@property (strong, nonatomic)  UIImageView *intimeImg;
 @property (strong, nonatomic)  UILabel *mainLab;
 @property (strong, nonatomic)  UILabel *subLab;
 @property (strong, nonatomic)  UILabel *stateLab;

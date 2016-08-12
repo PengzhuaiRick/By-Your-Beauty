@@ -71,7 +71,7 @@
     float lab1Y = imgH - lab1H-10;
     float lab1W = imgW - lab1X*2;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, lab1Y,lab1W, lab1H)];
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*14/320];
+    lab1.font = kWTFont(15);
     lab1.textColor = [UIColor whiteColor];
     [img addSubview:lab1];
     self.label1 = lab1;
@@ -82,7 +82,7 @@
     float lab2Y = CGRectGetMaxY(img.frame)+10;
     float lab2W = viewW - 2*lab2X;
     UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(lab2X, lab2Y,lab2W, lab2H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
+    lab2.font = kWTFont(15);
     lab2.textColor = [UIColor colorWithHexString:kMainThemeColor];
     [view addSubview:lab2];
     self.label2 = lab2;
@@ -93,7 +93,7 @@
     float lab3Y = CGRectGetMaxY(lab2.frame)+8;
     float lab3W = viewW - 2*lab2X;
     UILabel* lab3 = [[UILabel alloc]initWithFrame:CGRectMake(lab3X, lab3Y,lab3W, lab3H)];
-    lab3.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
+    lab3.font = kWTFont(15);;
     lab3.textColor = [UIColor colorWithHexString:kMainTitleColor];
     [view addSubview:lab3];
     self.label3 = lab3;
@@ -103,8 +103,8 @@
     float lab4Y = CGRectGetMaxY(lab3.frame)+12;
     float lab4W = viewW /2;
     UILabel* lab4 = [[UILabel alloc]initWithFrame:CGRectMake(lab4X, lab4Y, lab4W, lab4H)];
-    lab4.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:13];
-     lab4.textColor = [UIColor colorWithHexString:kMainTitleColor];
+    lab4.font = kWTFont(15);
+     lab4.textColor = [UIColor colorWithHexString:@"1b1b1b"];
     lab4.text = @"服务满意度";
     [view addSubview:lab4];
     
@@ -158,22 +158,14 @@
     [view addSubview:textView];
     self.textView = textView;
 
-    float btWH =KMainScreenWidth*70/414;
+    float btWH =KMainScreenWidth*73/414;
     float btX = (KMainScreenWidth - btWH)/2;
     float btY = CGRectGetMaxY(textView.frame)+30;
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame =CGRectMake(btX, btY, btWH, btWH);
     [btn setTitle:@"提交" forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?18:15];
-    btn.layer.masksToBounds = YES;
-    btn.layer.cornerRadius = btWH/2;
-    btn.layer.borderColor =[UIColor colorWithHexString:kMainThemeColor].CGColor;
-    btn.layer.borderWidth = 0.5;
-    [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
-    [btn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
-    [btn setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
-    
+    btn.titleLabel.font = kWTFont(18);
+    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_remark"] forState:UIControlStateNormal];
     [view addSubview:btn];
     self.submitBnt = btn;
 

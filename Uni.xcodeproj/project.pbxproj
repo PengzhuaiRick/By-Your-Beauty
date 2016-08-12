@@ -119,7 +119,6 @@
 		18C8D40E1C574A5100E6DDB3 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D4011C574A5100E6DDB3 /* RSADataVerifier.m */; };
 		18C92C0B1C19625C002778C3 /* UNIGoodsDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */; };
 		18C9CB0C1CCA042F00D8FB5F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C9CB0B1CCA042F00D8FB5F /* AVFoundation.framework */; };
-		18C9CB0F1CCA046A00D8FB5F /* UNIScanView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */; };
 		18CA17921C489B8600636ABF /* UNIRewardDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */; };
 		18CA17951C48A21F00636ABF /* UNIRewardProgessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17941C48A21F00636ABF /* UNIRewardProgessView.m */; };
 		18CB94A01C85664F00F834DA /* UNIHttpUrlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB949F1C85664F00F834DA /* UNIHttpUrlManager.m */; };
@@ -154,6 +153,7 @@
 		18DDBC691C98008E0083D9AB /* UNITouristModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDBC681C98008E0083D9AB /* UNITouristModel.m */; };
 		18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDD5751BEB5971005F7765 /* MainViewModel.m */; };
 		18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDD5791BEB6074005F7765 /* MainMoveTransition.m */; };
+		18DF959B1D5D6C5400DF945F /* UNICardInfoProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DF959A1D5D6C5400DF945F /* UNICardInfoProgress.m */; };
 		18E14C2F1C046F7700AA36C8 /* UNIAppointController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E14C2E1C046F7700AA36C8 /* UNIAppointController.m */; };
 		18E14C321C0471DE00AA36C8 /* UNIAppointTop.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E14C311C0471DE00AA36C8 /* UNIAppointTop.m */; };
 		18E302871C17D31000990A14 /* UNIGoodsDeatilController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E302861C17D31000990A14 /* UNIGoodsDeatilController.m */; };
@@ -481,8 +481,6 @@
 		18C92C091C19625C002778C3 /* UNIGoodsDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsDetailRequest.h; sourceTree = "<group>"; };
 		18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGoodsDetailRequest.m; sourceTree = "<group>"; };
 		18C9CB0B1CCA042F00D8FB5F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
-		18C9CB0D1CCA046A00D8FB5F /* UNIScanView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIScanView.h; sourceTree = "<group>"; };
-		18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIScanView.m; sourceTree = "<group>"; };
 		18CA17901C489B8600636ABF /* UNIRewardDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardDetailCell.h; sourceTree = "<group>"; };
 		18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardDetailCell.m; sourceTree = "<group>"; };
 		18CA17931C48A21F00636ABF /* UNIRewardProgessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardProgessView.h; sourceTree = "<group>"; };
@@ -544,6 +542,8 @@
 		18DDD5751BEB5971005F7765 /* MainViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewModel.m; sourceTree = "<group>"; };
 		18DDD5781BEB6074005F7765 /* MainMoveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMoveTransition.h; sourceTree = "<group>"; };
 		18DDD5791BEB6074005F7765 /* MainMoveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMoveTransition.m; sourceTree = "<group>"; };
+		18DF95991D5D6C5400DF945F /* UNICardInfoProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNICardInfoProgress.h; sourceTree = "<group>"; };
+		18DF959A1D5D6C5400DF945F /* UNICardInfoProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNICardInfoProgress.m; sourceTree = "<group>"; };
 		18E14C2D1C046F7700AA36C8 /* UNIAppointController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppointController.h; sourceTree = "<group>"; };
 		18E14C2E1C046F7700AA36C8 /* UNIAppointController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppointController.m; sourceTree = "<group>"; };
 		18E14C301C0471DE00AA36C8 /* UNIAppointTop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppointTop.h; sourceTree = "<group>"; };
@@ -819,10 +819,10 @@
 				18EA4A811C60A3D00033E801 /* CalloutMapAnnotation.m */,
 				18CD114A1C7D4A7800D48808 /* UNIMapAddressView.h */,
 				18CD114B1C7D4A7800D48808 /* UNIMapAddressView.m */,
-				18C9CB0D1CCA046A00D8FB5F /* UNIScanView.h */,
-				18C9CB0E1CCA046A00D8FB5F /* UNIScanView.m */,
 				18F881131CE1BA4700FE2C4E /* UNIGuideView.h */,
 				18F881141CE1BA4700FE2C4E /* UNIGuideView.m */,
+				18DF95991D5D6C5400DF945F /* UNICardInfoProgress.h */,
+				18DF959A1D5D6C5400DF945F /* UNICardInfoProgress.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1656,7 +1656,6 @@
 				184482111C5227EB0047D2EF /* UNIOrderListModel.m in Sources */,
 				18D5722E1BE883560055DE7F /* AccountManager.m in Sources */,
 				18C8D4071C574A5100E6DDB3 /* base64.m in Sources */,
-				18C9CB0F1CCA046A00D8FB5F /* UNIScanView.m in Sources */,
 				184481FF1C5207DB0047D2EF /* UNIOrderDetailController.m in Sources */,
 				18C2A8281D5C90380088F58A /* UNIVIPMemberCell.m in Sources */,
 				18CC75C41C2C127400625205 /* MainViewCell.m in Sources */,
@@ -1748,6 +1747,7 @@
 				18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */,
 				18C3ED041C0EF93400B0A192 /* UNIMapAnnotation.m in Sources */,
 				18BA7D6C1BE9A19100DD7826 /* EAIntroView.m in Sources */,
+				18DF959B1D5D6C5400DF945F /* UNICardInfoProgress.m in Sources */,
 				18DDBC691C98008E0083D9AB /* UNITouristModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

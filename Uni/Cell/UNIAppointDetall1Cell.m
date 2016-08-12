@@ -20,7 +20,7 @@
     float labX = 16;
     float labW = size.width - 2*labX;
     float labH = KMainScreenWidth*18/320;
-    float labY = KMainScreenWidth*5/320;
+    float labY = KMainScreenWidth*10/320;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
     lab1.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:13];

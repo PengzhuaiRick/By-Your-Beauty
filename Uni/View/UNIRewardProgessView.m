@@ -40,7 +40,6 @@
             [self setNeedsDisplay];
         }
         else{
-            
             UIColor* theme =[UIColor colorWithHexString:kMainThemeColor];
             UIColor* white =[UIColor whiteColor];
             UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];

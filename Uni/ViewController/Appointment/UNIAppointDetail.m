@@ -158,12 +158,12 @@
     UNIMyAppointInfoModel* model = self.modelArr.lastObject;
     self.orderState = model.status;
 
-    topCellH =KMainScreenWidth * 100 /320;
-    midCellH =KMainScreenWidth * 65 /320;
-    bottomCellH = KMainScreenWidth * 60 /320;
+    topCellH =KMainScreenWidth * 112 /414;
+    midCellH =KMainScreenWidth * 100 /414;
+    bottomCellH = KMainScreenWidth * 78 /414;
     
     if (self.orderState != 3) //取消
-        midCellH -=KMainScreenWidth * 18 /320;
+        midCellH =KMainScreenWidth * 76 /414;
     
 }
 -(void)setupMyTableView{
@@ -187,28 +187,17 @@
     UIView* view =[[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight/2)];
      self.myTableView.tableFooterView = view;
    if (self.orderState == 2){
-//       CALayer* lay = [CALayer layer];
-//       lay.frame = CGRectMake(16, 0, view.frame.size.width, 1);
-//       lay.backgroundColor = [UIColor colorWithHexString:@"E6E6E6"].CGColor;
-//       [view.layer addSublayer:lay];
        
-    float btnWH =KMainScreenWidth*70/414;
+    float btnWH =KMainScreenWidth*73/414;
     float btnX = (KMainScreenWidth - btnWH)/2;
     float btnY = 30;
     UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.frame = CGRectMake(btnX, btnY, btnWH, btnWH);
-    button.layer.masksToBounds = YES;
-    button.layer.cornerRadius = btnWH/2;
     button.titleLabel.numberOfLines = 0;
     button.titleLabel.lineBreakMode = 0;
-       button.layer.borderWidth = 0.5;
-       button.layer.borderColor = [UIColor colorWithHexString:kMainThemeColor].CGColor;
-    button.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth>400?17:14];
+    button.titleLabel.font =kWTFont(18);
+       [button setBackgroundImage:[UIImage imageNamed:@"appoint_btn_remark"] forState:UIControlStateNormal];
     [button setTitle:@"服务\n评价" forState:UIControlStateNormal];
-       [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-       [button setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
-    [button setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
-    [button setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
     [view addSubview:button];
        __weak UNIAppointDetail* myself = self;
     [[button rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -219,10 +208,7 @@
          eva.order = myself.order;
          eva.shopId = myself.shopId;
          [myself.navigationController pushViewController:eva animated:YES];
-         eva = nil;
-         story=nil;
      }];
-       button = nil;
     }
      if (self.orderState < 2){
          float mapX = 16;
@@ -236,7 +222,6 @@
          self.mappView = mapView;
          mapView=nil;
     }
-    view=nil;
 }
 #pragma mark 地图移动是会不断请求内存，释放地图内存
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
@@ -313,9 +298,9 @@
             cell.selectionStyle =UITableViewCellSelectionStyleNone;
         }
         model =self.modelArr[indexPath.row];
-        if (_ifMyDetail) {
-            [cell setupCellContentWith1:model];
-        }else
+//        if (_ifMyDetail) {
+//            [cell setupCellContentWith1:model];
+//        }else
             [cell setupCellContentWith:model];
         
         return cell;

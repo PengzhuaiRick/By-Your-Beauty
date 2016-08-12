@@ -15,6 +15,7 @@
 #import "UNIMyRewardController.h"
 
 #import "UNIVIPMemberCell.h"
+#import "UNICardInfoProgress.h"
 
 @interface UNICardInfoController ()<UITableViewDataSource,UITableViewDelegate>{
     int pageNum;
@@ -27,6 +28,8 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property(nonatomic, strong)NSMutableArray* myData;
+@property(nonatomic, strong)UNICardInfoProgress* progressView;
+@property(nonatomic, strong)UIImageView* rewardImg;
 @end
 
 @implementation UNICardInfoController
@@ -69,6 +72,20 @@
     _rewardNameLab.layer.borderWidth = 0.5;
     _rewardNameLab.layer.borderColor = [UIColor whiteColor].CGColor;
     _rewardNameLab.layer.cornerRadius = _rewardNameLab.frame.size.height/2;
+    
+    CGFloat proWH = KMainScreenWidth* 182/414;
+    UNICardInfoProgress* view = [[UNICardInfoProgress alloc]initWithFrame:CGRectMake(0, 0, proWH, proWH) andData:@[@(0),@(0)]];
+    view.center = _clockimg.center;
+    view.backgroundColor = [UIColor clearColor];
+    [_headerView addSubview:view];
+    _progressView = view;
+    
+    UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_img_intime"]];
+    img.contentMode = UIViewContentModeScaleAspectFit;
+    img.center = view.center;
+    img.hidden=YES;
+    [_headerView addSubview:img];
+    _rewardImg = img;
 }
 
 #pragma mark 开始请求准时奖励信息
@@ -86,7 +103,19 @@
                 return ;
             }
             if (total>0) {
-                [myself.intimebtn setTitle:[NSString stringWithFormat:@"准时到店满%d次",total] forState:UIControlStateNormal];
+                if (num<total) {
+                    myself.clockimg.hidden=NO;
+                    myself.progressView.hidden=NO;
+                    myself.rewardImg.hidden=YES;
+                    [myself.intimebtn setTitle:[NSString stringWithFormat:@"准时到店满%d次",total] forState:UIControlStateNormal];
+                    [myself.progressView setProgrssLayerEndStroke:num and:total];
+                }else{
+                    myself.clockimg.hidden=YES;
+                    myself.progressView.hidden=YES;
+                    myself.rewardImg.hidden=NO;
+                    [myself.intimebtn setTitle:@"点击领取" forState:UIControlStateNormal];
+                }
+                
                 myself.rewardNameLab.text =projectName;
             }else
                 [YIToast showText:tips];
