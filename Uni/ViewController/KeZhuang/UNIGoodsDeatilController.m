@@ -19,11 +19,11 @@
 @interface UNIGoodsDeatilController ()<UIWebViewDelegate,UIScrollViewDelegate,UITableViewDataSource,
 UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIView* midView;
-    UIView* bottomView;
-    UILabel* priceLab;
-    UILabel* nonPriceLab;
-    CALayer* nonLine;
-    UITextField* numField;
+    //UIView* bottomView;
+    //UILabel* priceLab;
+//    UILabel* nonPriceLab;
+//    CALayer* nonLine;
+    //UITextField* numField;
     NSString* orderNo;//生成订单号
     float cell1H;
     UNIGoodsModel* model;
@@ -34,9 +34,15 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     UIWebView* myWeb;
 }
 @property(nonatomic,assign)int num; //购买数量
-@property(nonatomic,strong)UIScrollView* myScroller;
-@property(nonatomic,strong)UITableView* myTable;
 @property(nonatomic,strong)NSMutableArray* allArray;
+@property (weak, nonatomic) IBOutlet UIScrollView *myScroller;
+@property (weak, nonatomic) IBOutlet UITableView *myTable;
+@property (weak, nonatomic) IBOutlet UITextField *numField;
+@property (weak, nonatomic) IBOutlet UIButton *cutBtn;
+@property (weak, nonatomic) IBOutlet UIButton *addBtn;
+@property (weak, nonatomic) IBOutlet UILabel *priceLab;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
+@property (weak, nonatomic) IBOutlet UIView *numerView;
 
 @end
 
@@ -72,13 +78,12 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    [self startRequestReward];
     [self setupData];
     [self regirstKeyBoardNotification];
-//    [self setupBottomView];
-//    [self setupMyScroller];
-//    [self setupTableView];
-//    [self regirstKeyBoardNotification];
+    [self setupMyScroller];
+    [self setupBottomView];
+    [self setupTableView];
+    [self startRequestReward];
 }
 #pragma mark 开始请求
 -(void)startRequestReward{
@@ -99,9 +104,9 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
                 if(array){
                     self->model = array.lastObject;
                     self.title = self->model.projectName;
-                    [self setupBottomView];
-                    [self setupMyScroller];
-                    [self setupTableView];
+                    self.priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice];
+                    [self.myTable reloadData];
+                    [self.myScroller setContentOffset:CGPointMake(0, 0) animated:YES];
                     
                 }else
                     [YIToast showText:tips];
@@ -124,9 +129,9 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
                 if(array){
                     self->model = array.lastObject;
                     self.title = self->model.projectName;
-                    [self setupBottomView];
-                    [self setupMyScroller];
-                    [self setupTableView];
+                     self.priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice];
+                    [self.myTable reloadData];
+                    [self.myScroller setContentOffset:CGPointMake(0, 0) animated:YES];
                     
                 }else
                     [YIToast showText:tips];
@@ -154,146 +159,79 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
 
 -(void)setupData{
     _num = 1;
-   // ifFirst = NO;
+    cell1H = KMainScreenWidth*528/414;
     self.allArray = [NSMutableArray array];
 }
 
 -(void)setupBottomView{
-    float boH = KMainScreenWidth>400?90:80;
-    float boY = KMainScreenHeight - boH;
-    UIView* bottom = [[UIView alloc]initWithFrame:CGRectMake(0, boY, KMainScreenWidth, boH)];
-    bottom.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:bottom];
-    bottomView = bottom;
     
-    //float labX = KMainScreenWidth*30/414;
-    float labX = 20;
-    float labH = KMainScreenWidth>400?28:23;
-    float labY = boH/2 - labH - 5;
-    float labW = KMainScreenWidth*150/414;
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?24:20];
-    lab.textColor = [UIColor colorWithHexString:kMainThemeColor];
-    [bottomView addSubview:lab];
-    priceLab = lab;
+    __weak UNIGoodsDeatilController* myself = self;
     
-    NSString* nonString =[NSString stringWithFormat:@"￥%.2f",model.price];
-    UILabel* non = [[UILabel alloc]init];
-    non.textColor =[UIColor colorWithHexString:kMainTitleColor];
-    non.text = nonString;
-    non.font =[UIFont systemFontOfSize:KMainScreenWidth>400?20:16];
-    [bottomView addSubview:non];
-    CGSize nonS = [self contentSize:non];
-    non.frame = CGRectMake(CGRectGetMaxX(lab.frame), labY, nonS.width, labH);
-    nonPriceLab = non;
-    nonPriceLab.hidden = model.price <= model.shopPrice;
+    _numerView.layer.masksToBounds = YES;
+    _numerView.layer.borderColor =[UIColor colorWithHexString:@"959595"].CGColor;
+    _numerView.layer.borderWidth = 1;
+    _numerView.layer.cornerRadius = _numerView.frame.size.height/2;
     
-    nonLine= [CALayer layer];
-    nonLine.frame = CGRectMake(0, labH/2, nonS.width, 1);
-    nonLine.backgroundColor =[UIColor colorWithHexString:kMainTitleColor].CGColor;
-    [non.layer addSublayer:nonLine];
-    nonLine.hidden = nonPriceLab.hidden;
+    [_addBtn setImage:[UIImage imageNamed:@"appoint_btn_sjia"] forState:UIControlStateNormal];
+//    [_addBtn setImage:[UIImage imageNamed:@"appoint_btn_sjia"] forState:UIControlStateHighlighted];
+//    [_addBtn setImage:[UIImage imageNamed:@"appoint_btn_sjia"] forState:UIControlStateSelected];
+   // _addBtn.selected=YES;
     
+    [_cutBtn setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
+    [_cutBtn setImage:[UIImage imageNamed:@"appoint_btn_sjian"] forState:UIControlStateHighlighted];
+    [_cutBtn setImage:[UIImage imageNamed:@"appoint_btn_sjian"] forState:UIControlStateSelected];
+   
     
-    float lab2H = KMainScreenWidth>400?25:20;
-   // float lab2Y =boH - lab2H - (KMainScreenWidth>400?20:12);
-     float lab2Y =boH/2+5;
-    float lab2W = KMainScreenWidth>400?75:65;
-    UILabel* lab2 = [[UILabel alloc]initWithFrame:CGRectMake(labX, lab2Y, lab2W, lab2H)];
-    lab2.font = [UIFont systemFontOfSize:KMainScreenWidth>400?15:14];
-    lab2.text = @"购买数量:";
-    [bottomView addSubview:lab2];
+    _priceLab.font = kWTFont(23);
+    _numField.font = kWTFont(13);
+    
 
-    float btn1WH = lab2H;
-    float btn1X = CGRectGetMaxX(lab2.frame)+5;
-    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(btn1X, lab2Y, btn1WH, btn1WH);
-    [btn1 setImage:[UIImage imageNamed:@"appoint_btn_jian"] forState:UIControlStateNormal];
-    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-    [btn1 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
-    [bottomView addSubview:btn1];
-    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(id x) {
-         if (self.num>1) {
-             --self.num;
+    [[_cutBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(UIButton* x) {
+         if (myself.num>1) {
+             --myself.num;
          }
     }];
-    
-    float teX = CGRectGetMaxX(btn1.frame);
-    float teW = KMainScreenWidth* 40/320;
-    UITextField* text = [[UITextField alloc]initWithFrame:CGRectMake(teX, lab2Y, teW, btn1WH)];
-    text.keyboardType = UIKeyboardTypeNumberPad;
-    text.textAlignment = NSTextAlignmentCenter;
-    text.text=@"1";
-    [bottomView addSubview:text];
-    numField = text;
-    [text.rac_textSignal subscribeNext:^(NSString* x) {
+ 
+    [_numField.rac_textSignal subscribeNext:^(NSString* x) {
         int k =[x intValue];
         if (k>0)
-            self.num =k ;
+            myself.num =k ;
          [[BaiduMobStat defaultStat]logEvent:@"btn_buy_sub_num" eventLabel:@"购买减少数量按钮"];
     }];
     
+    
     [RACObserve(self,num)subscribeNext:^(id x) {
-        self->numField.text = [NSString stringWithFormat:@"%d",self.num];
-        self->priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice*self.num - self->model.reduceMoney];
-        CGSize pS = [self contentSize:self->priceLab];
-        CGRect rect = self->priceLab.frame;
-        rect.size.width = pS.width;
-        self->priceLab.frame = rect;
+        myself.numField.text = [NSString stringWithFormat:@"%d",self.num];
+        myself.priceLab.text = [NSString stringWithFormat:@"￥%.2f",self->model.shopPrice*self.num - self->model.reduceMoney];
         
-        CGRect nR = self->nonPriceLab.frame;
-        nR.origin.x = CGRectGetMaxX(rect)+10;
-        self->nonPriceLab.frame = nR;
-        
+        if (self.num>1)
+            self.cutBtn.selected=YES;
+        else
+            self.cutBtn.selected=NO;
     }];
     
     
     BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
     tool.toolDelegate=self;
     [tool dismissTwoBtn];
-    text.inputAccessoryView = tool;
-    tool=nil;
-    
-    float btn2X = CGRectGetMaxX(text.frame);
-    UIButton* btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn2.frame = CGRectMake(btn2X, lab2Y, btn1WH, btn1WH);
-    [btn2 setImage:[UIImage imageNamed:@"appoint_btn_jia"] forState:UIControlStateNormal];
-    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-    [btn2 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateHighlighted];
-    [bottomView addSubview:btn2];
-    [[btn2 rac_signalForControlEvents:UIControlEventTouchUpInside]
+    _numField.inputAccessoryView = tool;
+
+    [[_addBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
-         ++self.num;
+         ++myself.num;
          [[BaiduMobStat defaultStat]logEvent:@"btn_buy_add_num" eventLabel:@"购买添加数量按钮"];
     }];
+}
 
-    float btn3WH = KMainScreenWidth*70/414;
-    float btn3Y = (boH - btn3WH)/2;
-    float btn3X =KMainScreenWidth - labX - btn3WH;
-    UIButton* btn3 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn3.frame = CGRectMake(btn3X, btn3Y, btn3WH, btn3WH);
-    btn3.layer.masksToBounds = YES;
-    btn3.layer.cornerRadius = btn3WH/2;
-    [btn3 setTitle:@"马上\n购买" forState:UIControlStateNormal];
-    btn3.titleLabel.lineBreakMode = 0;
-    btn3.titleLabel.numberOfLines = 0;
-    [btn3 setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
-    btn3.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*15/320];
-    [bottomView addSubview:btn3];
-    [btn3 setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
-    [btn3 setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]] forState:UIControlStateHighlighted];
-    [btn3 setTitleColor:[UIColor whiteColor] forState:UIControlStateHighlighted];
-    [btn3 setTitleColor:[UIColor colorWithHexString:kMainThemeColor] forState:UIControlStateHighlighted];
-    btn3.layer.borderColor =[UIColor colorWithHexString:kMainThemeColor].CGColor;
-    btn3.layer.borderWidth =0.5;
-    [[btn3 rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(id x) {
-         [self showThePayStyle];
-         [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_detail" eventLabel:@"产品详情购买按"];
-     }];
-    
-    bottom = nil; btn3=nil; btn2=nil;text=nil; lab2=nil; lab=nil;
+#pragma mark 放入购物车按钮
+- (IBAction)addToShopCar:(id)sender {
+}
+
+#pragma mark 马上购买按钮
+- (IBAction)payNow:(id)sender {
+    [self showThePayStyle];
+    [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_detail" eventLabel:@"产品详情购买按"];
 }
 -(void)showThePayStyle{
     UIView* bg = [[UIView alloc]initWithFrame:self.view.frame];
@@ -305,7 +243,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     [bg addGestureRecognizer:tap];
     
     UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.7,KMainScreenWidth*0.6)
-                                                          andNum:[numField.text intValue]
+                                                          andNum:[_numField.text intValue]
                                                         andModel:model];
     pur.delegate = self;
     pur.alpha = 0;
@@ -339,53 +277,29 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
    
 }
 -(void)setupMyScroller{
-    float scX =0 ;
-    float scY = 64;
-    float scW = KMainScreenWidth ;
-    float scH = KMainScreenHeight - scY -bottomView.frame.size.height;
-    if (KMainScreenHeight<568)
-        cell1H = 568 -bottomView.frame.size.height;
-    else
-        cell1H = scH;
     
-    self.myScroller = [[UIScrollView alloc]initWithFrame:CGRectMake(scX, scY, scW, scH)];
-    self.myScroller.delegate = self;
-    self.myScroller.contentSize = CGSizeMake(scW, scH);
+    self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, cell1H);
     self.myScroller.backgroundColor = [UIColor clearColor];
     self.myScroller.pagingEnabled =YES;
     self.myScroller.scrollsToTop=YES;
-    [self.view addSubview:self.myScroller];
-    
-  //  [self.view bringSubviewToFront:bottomView];
 }
 -(void)setupTableView{
-    
-    float tabW = self.myScroller.frame.size.width;
-    UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0,0, tabW,_myScroller.frame.size.height) style:UITableViewStylePlain];
-    tabview.separatorStyle = 0;
-    tabview.delegate = self;
-    tabview.dataSource = self;
-    tabview.scrollsToTop = NO;
-    tabview.backgroundColor = [UIColor clearColor];
-    tabview.showsVerticalScrollIndicator=NO;
-    [self.myScroller addSubview:tabview];
-    self.myTable =tabview;
-    
+
+    self.myTable.scrollsToTop = NO;
+    self.myTable.backgroundColor = [UIColor clearColor];
+  
+    __weak UNIGoodsDeatilController* myself = self;
     MJRefreshAutoNormalFooter* footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myTable.frame.size.height*2);
-            [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
-            self.myTable.footer = nil;
-            [self setupWebView];
+            myself.myScroller.contentSize = CGSizeMake(myself.myScroller.frame.size.width,self->cell1H*2);
+            [myself.myScroller setContentOffset:CGPointMake(0,self->cell1H) animated:YES];
+            myself.myTable.footer = nil;
+            [myself setupWebView];
         });
     }];
     [footer setTitle:@"继续拖动，查看图文详情" forState:1];
     
-    tabview.footer =footer;
-    
-    tabview = nil; footer = nil;
-    
-     NSLog(@" _myScroller.frame  %@ \n _myTable.frame  %@ ",NSStringFromCGRect(_myScroller.frame),NSStringFromCGRect(_myTable.frame));
+    self.myTable.footer =footer;
 }
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     if (scrollView == _myScroller) {
@@ -404,7 +318,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
 }
 #pragma mark 加载webView
 -(void)setupWebView{
-    UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_myTable.frame), _myTable.frame.size.width, _myScroller.frame.size.height)];
+    UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_myTable.frame), _myTable.frame.size.width, cell1H)];
     web.scrollView.delegate = self;
     web.delegate= self;
     web.scrollView.scrollsToTop = NO;
@@ -433,9 +347,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    float cell = 0;
-    cell = cell1H;
-    return cell;
+    return cell1H;
 }
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -448,12 +360,8 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     [cell setupCellContentWith:model];
     [[cell.prideBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(id x) {
-//        UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
-//        UNIImageAndTextController* imgAndText = [st instantiateViewControllerWithIdentifier:@"UNIImageAndTextController"];
-//        imgAndText.projectId = self->model.url;
-//        [self.navigationController pushViewController:imgAndText animated:YES];
-        self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self.myScroller.frame.size.height*2);
-        [self.myScroller setContentOffset:CGPointMake(0,self.myScroller.frame.size.height) animated:YES];
+        self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self->cell1H*2);
+        [self.myScroller setContentOffset:CGPointMake(0,self->cell1H) animated:YES];
         self.myTable.footer = nil;
         [self setupWebView];
     }];
@@ -661,20 +569,19 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     NSValue *value = [info objectForKey:UIKeyboardFrameBeginUserInfoKey];
     CGSize keyboardSize = [value CGRectValue].size;
     
-    CGRect boRe = bottomView.frame;
+    CGRect boRe = _bottomView.frame;
     boRe.origin.y -=keyboardSize.height;
-    bottomView.frame = boRe;
-    
-    info=nil; value=nil;
+    _bottomView.frame = boRe;
+
 }
 #pragma mark 键盘隐藏
 -(void)keyboardWillHide:(NSNotification*)notifi{
-    CGRect boRe = bottomView.frame;
+    CGRect boRe = _bottomView.frame;
     boRe.origin.y =KMainScreenHeight - boRe.size.height;
-    bottomView.frame = boRe;
+    _bottomView.frame = boRe;
     
-    int k = [numField.text intValue];
-    if (k==0 || [numField.text isEqualToString:@""]) {
+    int k = [_numField.text intValue];
+    if (k==0 || [_numField.text isEqualToString:@""]) {
         self.num = 1;
     }
 }
@@ -715,19 +622,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
 }
 
 -(void)dealloc{
-    midView=nil;
-    bottomView = nil;
-    priceLab = nil;
-    numField=nil;
-    model=nil;
-    purView=nil;
-    bgView=nil;
-    myWeb=nil;
-    _myScroller=nil;
-    _myTable=nil;
-    _allArray=nil;
-    _projectId=nil;
-    _type = nil;
+ 
 }
 /*
 #pragma mark - Navigation

@@ -9,11 +9,11 @@
 #import "UNIMyPojectList.h"
 #import "MainViewRequest.h"
 #import <MJRefresh/MJRefresh.h>
-#import "UNIAddProjcetCell.h"
-#define CELLH KMainScreenWidth*70/320
+//#import "UNIAddProjcetCell.h"
+#import "UNIAddProjectsCell.h"
+#define CELLH KMainScreenWidth*85/414
 #define MAXTABLEH KMainScreenHeight-74-60  //tableview最大高度
 @interface UNIMyPojectList ()<UITableViewDataSource,UITableViewDelegate>{
-    UIButton* needKnowBtn;//需知按钮
     CGRect tableRect;//
     CGRect btnRect;
     int pageNum;
@@ -21,7 +21,9 @@
     
     int seletNum;
     UILabel* numLab;
+    __weak IBOutlet UIButton *needKnowBtn;
 }
+@property (weak, nonatomic) IBOutlet UITableView *myTableview;
 @end
 
 
@@ -62,7 +64,7 @@
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, btnWH, btnWH)];
     lab.text=@"0";
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
-    lab.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
+    lab.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
     lab.layer.masksToBounds=YES;
     lab.layer.cornerRadius = btnWH/2;
     lab.textAlignment = NSTextAlignmentCenter;
@@ -71,18 +73,7 @@
     numLab = lab;
 }
 -(void)setupTableView{
-   
-    tableRect =CGRectMake(0, 64+10, KMainScreenWidth,MAXTABLEH);
-    _myTableview = [[UITableView alloc]initWithFrame:tableRect
-                                               style:UITableViewStylePlain];
 
-    _myTableview.delegate =self;
-    _myTableview.dataSource = self;
-    _myTableview.separatorStyle = 0;
-    if (IOS_VERSION>8.0)
-        _myTableview.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
-    [self.view addSubview:_myTableview];
-    
     self.myTableview.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         self->pageNum =0;
         self->pageSize =(int)self.myData.count;
@@ -94,57 +85,53 @@
             [self startRequestInfo];
         }];
 
-    
-    _myTableview.tableFooterView = [UIView new];
-    
-    NSString* btnT = @"选 择";
-    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [btn setBackgroundColor:[UIColor clearColor]];
-    
-    btnRect =  CGRectMake(0,KMainScreenHeight - 60,KMainScreenWidth, 60);
-    btn.frame =btnRect;
-    [btn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
-    [btn setTitle:btnT forState:UIControlStateNormal];
-    btn.titleLabel.font = [UIFont boldSystemFontOfSize:KMainScreenWidth>400?20:17];
-    [self.view addSubview:btn];
-    needKnowBtn = btn;
-    
-    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
-    subscribeNext:^(id x) {
-        NSMutableArray* arr = [NSMutableArray array];
-        for (UNIMyProjectModel* model in self.myData) {
-            if (model.select) {
-                [arr addObject:model];
-            }
-        }
-        [self.delegate UNIMyPojectListDelegateMethod:arr];
-        [[BaiduMobStat defaultStat]logEvent:@"btn_select_projects" eventLabel:@"项目列表选择项目按钮"];
-        [self.navigationController popViewControllerAnimated:YES];
-    }];
+    needKnowBtn.titleLabel.font = kWTFont(18);
 }
+#pragma mark 选择 按钮事件
+- (IBAction)selectBtnAcvtion:(id)sender {
+    NSMutableArray* arr = [NSMutableArray array];
+    for (UNIMyProjectModel* model in self.myData) {
+        if (model.select) {
+            [arr addObject:model];
+        }
+    }
+    [self.delegate UNIMyPojectListDelegateMethod:arr];
+    [[BaiduMobStat defaultStat]logEvent:@"btn_select_projects" eventLabel:@"项目列表选择项目按钮"];
+    [self.navigationController popViewControllerAnimated:YES];
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 15;
+}
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return CELLH;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return _myData.count;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 1;
 }
 
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"cell";
-    UNIAddProjcetCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    UNIAddProjectsCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell) {
-        cell =[[UNIAddProjcetCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, CELLH) reuseIdentifier:name];
+        cell =[[NSBundle mainBundle]loadNibNamed:@"UNIAddProjectsCell" owner:self options:nil].lastObject;
     }
-    UNIMyProjectModel* model = _myData[indexPath.row];
+    UNIMyProjectModel* model = _myData[indexPath.section];
     [cell setupCellWithData:model];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    UNIMyProjectModel* model = _myData[indexPath.row];
-    UNIAddProjcetCell* cell = [tableView cellForRowAtIndexPath:indexPath];
+    UNIMyProjectModel* model = _myData[indexPath.section];
+    UNIAddProjectsCell* cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (model.select){
         

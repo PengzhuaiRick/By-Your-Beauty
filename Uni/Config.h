@@ -57,7 +57,7 @@
 #define kMainSeparatorColor @"eeeeee"
 
 /**
- *  分割线颜色
+ *  导航栏颜色
  */
 #define kMainNavigationColor @"362745"
 

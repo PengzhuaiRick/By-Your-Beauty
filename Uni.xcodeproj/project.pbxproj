@@ -173,6 +173,9 @@
 		18E661D81C11896C000042B7 /* UNIMyRewardRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E661D71C11896C000042B7 /* UNIMyRewardRequest.m */; };
 		18E661DB1C118AF0000042B7 /* UNIMyRewardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E661DA1C118AF0000042B7 /* UNIMyRewardModel.m */; };
 		18E76CCC1C8C00940036888E /* UNIAddAndDelectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E76CCB1C8C00940036888E /* UNIAddAndDelectCell.m */; };
+		18EA38321D61C103003A6A09 /* UNIGoodsDeatilController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E302861C17D31000990A14 /* UNIGoodsDeatilController.m */; };
+		18EA38361D61D2EC003A6A09 /* UNIAddProjectsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA38341D61D2EC003A6A09 /* UNIAddProjectsCell.m */; };
+		18EA38371D61D2EC003A6A09 /* UNIAddProjectsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18EA38351D61D2EC003A6A09 /* UNIAddProjectsCell.xib */; };
 		18EA4A821C60A3D00033E801 /* CallOutAnnotationVifew.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA4A7F1C60A3D00033E801 /* CallOutAnnotationVifew.m */; };
 		18EA4A831C60A3D00033E801 /* CalloutMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EA4A811C60A3D00033E801 /* CalloutMapAnnotation.m */; };
 		18EC2E091C49E74100A81DD9 /* UNIWalletCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18EC2E081C49E74100A81DD9 /* UNIWalletCell.m */; };
@@ -581,6 +584,9 @@
 		18E661DA1C118AF0000042B7 /* UNIMyRewardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIMyRewardModel.m; sourceTree = "<group>"; };
 		18E76CCA1C8C00940036888E /* UNIAddAndDelectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAddAndDelectCell.h; sourceTree = "<group>"; };
 		18E76CCB1C8C00940036888E /* UNIAddAndDelectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAddAndDelectCell.m; sourceTree = "<group>"; };
+		18EA38331D61D2EC003A6A09 /* UNIAddProjectsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAddProjectsCell.h; sourceTree = "<group>"; };
+		18EA38341D61D2EC003A6A09 /* UNIAddProjectsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAddProjectsCell.m; sourceTree = "<group>"; };
+		18EA38351D61D2EC003A6A09 /* UNIAddProjectsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIAddProjectsCell.xib; sourceTree = "<group>"; };
 		18EA4A7E1C60A3D00033E801 /* CallOutAnnotationVifew.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CallOutAnnotationVifew.h; sourceTree = "<group>"; };
 		18EA4A7F1C60A3D00033E801 /* CallOutAnnotationVifew.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CallOutAnnotationVifew.m; sourceTree = "<group>"; };
 		18EA4A801C60A3D00033E801 /* CalloutMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutMapAnnotation.h; sourceTree = "<group>"; };
@@ -1028,6 +1034,9 @@
 				18AD74C71C3282DA006FA84D /* UNIRewordAndIntimeCell.m */,
 				18D85DF61C475CE800A3FE3D /* UNIAddProjcetCell.h */,
 				18D85DF71C475CE800A3FE3D /* UNIAddProjcetCell.m */,
+				18EA38331D61D2EC003A6A09 /* UNIAddProjectsCell.h */,
+				18EA38341D61D2EC003A6A09 /* UNIAddProjectsCell.m */,
+				18EA38351D61D2EC003A6A09 /* UNIAddProjectsCell.xib */,
 				18CA17901C489B8600636ABF /* UNIRewardDetailCell.h */,
 				18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */,
 				18EC2E071C49E74100A81DD9 /* UNIWalletCell.h */,
@@ -1542,6 +1551,7 @@
 				18E302891C17D6F100990A14 /* KeZhuang.storyboard in Resources */,
 				180CD3BB1BDF294E00C912FE /* Podfile in Resources */,
 				18E302A61C180AAB00990A14 /* UNIGoodsCommentCell.xib in Resources */,
+				18EA38371D61D2EC003A6A09 /* UNIAddProjectsCell.xib in Resources */,
 				18C5A9561D5ACDA30035EDAB /* MainCell.xib in Resources */,
 				180CD3921BDF180A00C912FE /* Main.storyboard in Resources */,
 			);
@@ -1676,6 +1686,7 @@
 				18C7459F1BF047F9000062AF /* MainMidCell.m in Sources */,
 				18FD497B1C16845B00C07BF5 /* UNIRewardListView.m in Sources */,
 				18E661CC1C112AAF000042B7 /* UNICardInfoRequest.m in Sources */,
+				18EA38361D61D2EC003A6A09 /* UNIAddProjectsCell.m in Sources */,
 				18E302A51C180AAB00990A14 /* UNIGoodsCommentCell.m in Sources */,
 				18CE1FE01C214017000DE133 /* UNIImageAndTextController.m in Sources */,
 				18C2A8231D5C623D0088F58A /* UNIAppointCell.m in Sources */,
@@ -1756,6 +1767,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18EA38321D61C103003A6A09 /* UNIGoodsDeatilController.m in Sources */,
 				180CD3A21BDF180A00C912FE /* UniTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

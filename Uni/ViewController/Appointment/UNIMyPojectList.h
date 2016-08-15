@@ -17,7 +17,7 @@
 @property (assign,nonatomic)id<UNIMyPojectListDelegate> delegate;
 @property (strong,nonatomic) NSArray* projectIdArr;
 @property (strong, nonatomic) NSMutableArray* myData;
-@property (strong, nonatomic) UITableView *myTableview;
+//@property (strong, nonatomic) UITableView *myTableview;
 @property (assign,nonatomic) int restTime;
 
 
