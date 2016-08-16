@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="7US-eF-7Fw">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -9,35 +9,143 @@
         <scene sceneID="ZlO-xw-vdC">
             <objects>
                 <viewController storyboardIdentifier="UNWelcomeController" id="7US-eF-7Fw" customClass="UNWelcomeController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="3re-qv-eBG"/>
-                        <viewControllerLayoutGuide type="bottom" id="twf-U7-MPF"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Keh-tv-8v7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6hY-f9-uaC">
-                                <rect key="frame" x="137" y="269" width="46" height="30"/>
-                                <state key="normal" title="引导页"/>
-                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_back" id="rfE-oC-NeW">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_img_quan" id="XHs-wE-Tmd">
+                                <rect key="frame" x="127" y="194" width="160" height="160"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_header" id="1pW-FF-jnI">
+                                <rect key="frame" x="183" y="210" width="48" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_img_ziLogo-1" id="h1J-tw-QF9">
+                                <rect key="frame" x="160" y="373" width="95" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
-                        <outlet property="finishBtn" destination="6hY-f9-uaC" id="YrI-GW-ldw"/>
+                        <outlet property="rotationImg" destination="XHs-wE-Tmd" id="SkS-yV-26X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Rf-vA-1Tt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="35" y="258"/>
+            <point key="canvasLocation" x="-65" y="303"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="8uz-SV-U9D">
+            <objects>
+                <navigationController id="516-g0-ygd" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oqB-nG-0yO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="pAa-aP-XKP" kind="relationship" relationship="rootViewController" id="Ri4-ee-Yf4"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Ng-ww-iyR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="388" y="400"/>
+        </scene>
+        <!--Settting Controller-->
+        <scene sceneID="Nue-QZ-aQt">
+            <objects>
+                <viewController storyboardIdentifier="UNISetttingController" id="pAa-aP-XKP" customClass="UNISetttingController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="IBN-7Y-aXG">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="wjP-Fy-Ndb">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.12941176469999999" green="0.098039215690000001" blue="0.16862745100000001" alpha="1" colorSpace="calibratedRGB"/>
+                                <view key="tableHeaderView" contentMode="scaleToFill" id="cEv-xw-CJE">
+                                    <rect key="frame" x="0.0" y="64" width="320" height="505"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_img_quan" id="Qaa-Lw-X39">
+                                            <rect key="frame" x="105" y="15" width="111" height="111"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_img_ziLogo" id="cnT-My-lIA">
+                                            <rect key="frame" x="131" y="134" width="58" height="18"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="oA7-wz-3N1">
+                                            <rect key="frame" x="36" y="187" width="248" height="36"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <state key="normal" title="联系我们" backgroundImage="set_btn_back"/>
+                                            <connections>
+                                                <action selector="contactUsAction:" destination="pAa-aP-XKP" eventType="touchUpInside" id="C1d-2g-0yK"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="yGZ-7Z-ADS">
+                                            <rect key="frame" x="36" y="231" width="248" height="35"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <state key="normal" title="关于我们" backgroundImage="set_btn_back"/>
+                                            <connections>
+                                                <action selector="aboutUsAction:" destination="pAa-aP-XKP" eventType="touchUpInside" id="Vol-IQ-jCi"/>
+                                            </connections>
+                                        </button>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="sWA-a7-Yfi">
+                                            <rect key="frame" x="36" y="359" width="248" height="36"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <state key="normal" title="退 出"/>
+                                            <connections>
+                                                <action selector="logOut:" destination="pAa-aP-XKP" eventType="touchUpInside" id="kme-VM-UwV"/>
+                                            </connections>
+                                        </button>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" adjustsFontSizeToFit="NO" id="0pY-E8-QsM">
+                                            <rect key="frame" x="0.0" y="437" width="320" height="68"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                            <string key="text">广州由你电子商务有限公司 版权所有
+Copyright @2014-2021.
+All Rights Reserved</string>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" red="0.37254901959999998" green="0.30196078430000001" blue="0.43921568630000002" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_header" id="nH3-yR-cad">
+                                            <rect key="frame" x="144" y="36" width="33" height="70"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="64H-Eq-haI"/>
+                    <connections>
+                        <outlet property="apertureImg" destination="Qaa-Lw-X39" id="qJL-EB-S4H"/>
+                        <outlet property="crLabel" destination="0pY-E8-QsM" id="gZm-W0-4gJ"/>
+                        <outlet property="logoImg" destination="nH3-yR-cad" id="6Hn-7k-1Eb"/>
+                        <outlet property="logoutBtn" destination="sWA-a7-Yfi" id="5dE-np-dDc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lL5-hC-jos" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="740" y="400"/>
         </scene>
         <!--登陆界面-->
         <scene sceneID="duD-tc-8DD">
             <objects>
-                <tableViewController storyboardIdentifier="LoginController" title="登陆界面" id="272-OT-oaO" customClass="LoginController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="JEn-9z-vx4">
+                <tableViewController storyboardIdentifier="LoginController1" title="登陆界面" id="272-OT-oaO" customClass="LoginController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="JEn-9z-vx4">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -54,6 +162,138 @@
             </objects>
             <point key="canvasLocation" x="508" y="1090"/>
         </scene>
+        <!--Login Controller-->
+        <scene sceneID="yIP-iP-x7e">
+            <objects>
+                <viewController storyboardIdentifier="LoginController" id="Ka1-tQ-VmF" customClass="LoginController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="M6J-yV-OAa">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_back" id="u1s-Tj-qlQ">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Egq-gJ-Ytg">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_img_quan" id="uJt-hx-Btb">
+                                        <rect key="frame" x="130" y="85" width="155" height="155"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_header" id="g4D-ME-vJA">
+                                        <rect key="frame" x="183" y="117" width="48" height="92"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                    </imageView>
+                                    <view tag="1" contentMode="scaleToFill" id="aqw-ca-2KX">
+                                        <rect key="frame" x="48" y="279" width="318" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_phone" id="fL9-xp-cN7">
+                                                <rect key="frame" x="24" y="11" width="25" height="25"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入手机号" minimumFontSize="17" id="aP0-78-KK8">
+                                                <rect key="frame" x="55" y="9" width="255" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view tag="2" contentMode="scaleToFill" id="CSk-Ts-VV6">
+                                        <rect key="frame" x="48" y="344" width="318" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_code" id="6Rc-Fp-PTd">
+                                                <rect key="frame" x="24" y="11" width="25" height="25"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入验证码" minimumFontSize="17" id="yAc-m3-pTY">
+                                                <rect key="frame" x="55" y="9" width="142" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0gn-k5-mt2">
+                                                <rect key="frame" x="205" y="0.0" width="113" height="48"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <state key="normal" title="获取验证码" backgroundImage="login_btn_codeback"/>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <view tag="3" contentMode="scaleToFill" id="CKT-Fw-gP9">
+                                        <rect key="frame" x="48" y="408" width="318" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <subviews>
+                                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_nikename" id="wKz-8l-I3u">
+                                                <rect key="frame" x="24" y="11" width="25" height="25"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            </imageView>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="请输入称谓名" minimumFontSize="17" id="2in-l0-iI7">
+                                                <rect key="frame" x="55" y="9" width="255" height="30"/>
+                                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    </view>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="T0u-B2-Ir7">
+                                        <rect key="frame" x="64" y="482" width="119" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title=" 女士" image="login_btn_sfemale">
+                                            <color key="titleColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="nkc-VN-ezf">
+                                        <rect key="frame" x="224" y="482" width="109" height="37"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title=" 男士" image="login_btn_male">
+                                            <color key="titleColor" red="0.68627450980392157" green="0.43529411764705883" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
+                                        </state>
+                                    </button>
+                                    <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kqY-TA-ZZH">
+                                        <rect key="frame" x="48" y="551" width="318" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="登 录"/>
+                                    </button>
+                                    <button hidden="YES" opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="bfn-xM-ADL">
+                                        <rect key="frame" x="48" y="607" width="318" height="48"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="游客登录"/>
+                                    </button>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="codeBtn" destination="0gn-k5-mt2" id="cPt-KH-NLU"/>
+                        <outlet property="codeField" destination="yAc-m3-pTY" id="A0p-yT-I6b"/>
+                        <outlet property="customBtn" destination="bfn-xM-ADL" id="p9O-f1-V4y"/>
+                        <outlet property="femaleBtn" destination="T0u-B2-Ir7" id="Qff-ch-6ic"/>
+                        <outlet property="loginBtn" destination="kqY-TA-ZZH" id="7Bm-lK-bha"/>
+                        <outlet property="maleBtn" destination="nkc-VN-ezf" id="4bl-Lh-Wz9"/>
+                        <outlet property="nikeName" destination="2in-l0-iI7" id="7Bn-Ni-VeM"/>
+                        <outlet property="phoneField" destination="aP0-78-KK8" id="Oqu-kv-7Zc"/>
+                        <outlet property="rotationImg" destination="uJt-hx-Btb" id="n0a-77-LWt"/>
+                        <outlet property="scrollerView" destination="Egq-gJ-Ytg" id="28Z-sT-FE4"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nF4-vS-XLe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="920" y="1101"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="pQV-5p-dIs">
             <objects>
@@ -69,4 +309,18 @@
             <point key="canvasLocation" x="106" y="1090"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="login_btn_codeback" width="97" height="40"/>
+        <image name="login_btn_male" width="14" height="14"/>
+        <image name="login_btn_sfemale" width="12" height="16"/>
+        <image name="login_img_back" width="360" height="640"/>
+        <image name="login_img_code" width="15" height="18"/>
+        <image name="login_img_header" width="31" height="62"/>
+        <image name="login_img_nikename" width="12" height="15"/>
+        <image name="login_img_phone" width="12" height="17"/>
+        <image name="set_btn_back" width="277" height="40"/>
+        <image name="set_img_quan" width="111" height="111"/>
+        <image name="set_img_ziLogo" width="65" height="20"/>
+        <image name="set_img_ziLogo-1" width="85" height="26"/>
+    </resources>
 </document>

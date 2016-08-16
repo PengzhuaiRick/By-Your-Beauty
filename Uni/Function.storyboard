@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -9,10 +9,6 @@
         <scene sceneID="qZt-9o-fqd">
             <objects>
                 <viewController storyboardIdentifier="UNIMyRewardController" title="我的奖励界面" id="wNH-uF-Wys" customClass="UNIMyRewardController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="UIv-aD-A93"/>
-                        <viewControllerLayoutGuide type="bottom" id="RPP-XE-yfT"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="rJ6-iL-OHd">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -26,16 +22,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GgB-IP-8JV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="318"/>
+            <point key="canvasLocation" x="542.39999999999998" y="301.04000000000002"/>
         </scene>
         <!--我的奖励列表-->
         <scene sceneID="L5G-Wi-sbQ">
             <objects>
                 <viewController storyboardIdentifier="UNIRewardListController" title="我的奖励列表" id="3Bh-Kf-6QX" customClass="UNIRewardListController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="vU2-j5-Z1P"/>
-                        <viewControllerLayoutGuide type="bottom" id="sGa-Nk-Yl9"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="SQw-so-pTY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -46,16 +38,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n77-tv-H2N" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="999"/>
+            <point key="canvasLocation" x="542.39999999999998" y="945.72000000000003"/>
         </scene>
         <!--我的奖励订单详细界面-->
         <scene sceneID="gmG-sN-Q7B">
             <objects>
                 <viewController storyboardIdentifier="UNIRewardDetail" title="我的奖励订单详细界面" id="J0o-aM-56Y" customClass="UNIRewardDetail" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="8Yk-hE-Vat"/>
-                        <viewControllerLayoutGuide type="bottom" id="8Ds-3M-mB6"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="pLy-qu-gYA">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -66,16 +54,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vGQ-XP-3Pu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="1646"/>
+            <point key="canvasLocation" x="542.39999999999998" y="1558.2133333333334"/>
         </scene>
         <!--我的钱包-->
         <scene sceneID="o6b-Fb-na1">
             <objects>
                 <viewController storyboardIdentifier="UNIWalletController" title="我的钱包" id="wsM-tm-nDu" customClass="UNIWalletController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="zr8-Jo-Mfq"/>
-                        <viewControllerLayoutGuide type="bottom" id="gxb-UU-eaN"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="ATQ-cb-1fH">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -89,16 +73,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Xeh-d5-Dae" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1017" y="2291"/>
+            <point key="canvasLocation" x="542.39999999999998" y="2168.8133333333335"/>
         </scene>
         <!--钱包明细-->
         <scene sceneID="ei2-0W-Y5y">
             <objects>
                 <viewController storyboardIdentifier="UNIWalletList" title="钱包明细" id="LOn-5f-XdY" customClass="UNIWalletList" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="ZOW-xr-QzQ"/>
-                        <viewControllerLayoutGuide type="bottom" id="cAO-P5-u1f"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="CQq-3X-tAa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -109,16 +89,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="e9h-LT-2kB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1427" y="2291"/>
+            <point key="canvasLocation" x="925" y="2168"/>
         </scene>
         <!--本地通知详情-->
         <scene sceneID="soD-Bt-JFu">
             <objects>
                 <viewController storyboardIdentifier="UNILocateNotifiDetail" title="本地通知详情" id="MoT-Qn-PCG" customClass="UNILocateNotifiDetail" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="qgi-pk-MtG"/>
-                        <viewControllerLayoutGuide type="bottom" id="wO9-jo-Eim"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="lMU-jK-IXG">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -128,7 +104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KeU-01-Fxx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1329" y="3012"/>
+            <point key="canvasLocation" x="708.79999999999995" y="2851.3600000000001"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Onn-KK-UEL">
@@ -147,7 +123,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LKf-hZ-xpU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="637" y="318"/>
+            <point key="canvasLocation" x="180" y="301"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WoP-79-Htb">
@@ -166,7 +142,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ATz-VY-vhh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="637" y="999"/>
+            <point key="canvasLocation" x="172" y="945"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="jcp-Lt-91s">
@@ -185,7 +161,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7aq-IN-zDg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="637" y="1646"/>
+            <point key="canvasLocation" x="188" y="1558"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Uh6-1b-Cwg">
@@ -204,7 +180,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rUF-kT-Z7B" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="637" y="2291"/>
+            <point key="canvasLocation" x="146" y="2168"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rRE-nH-MZJ">
@@ -223,7 +199,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CcE-tU-pWY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="935" y="3012"/>
+            <point key="canvasLocation" x="330" y="2851"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>

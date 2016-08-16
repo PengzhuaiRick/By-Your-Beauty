@@ -393,8 +393,12 @@
 }
 //设置页面
 -(void)setupSettingController{
-    UNISetttingController* view = [[UNISetttingController alloc]init];
-     [_tv.navigationController pushViewController:view animated:YES];
+//    UNISetttingController* view = [[UNISetttingController alloc]init];
+//     [_tv.navigationController pushViewController:view animated:YES];
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNISetttingController"];
+    [_tv.navigationController pushViewController:view animated:YES];
+    
 }
 
 

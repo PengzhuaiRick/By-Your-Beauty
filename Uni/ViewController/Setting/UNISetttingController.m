@@ -9,8 +9,16 @@
 #import "UNISetttingController.h"
 #import "UNIAboutUsController.h"
 #import "UNILawViewController.h"
-@interface UNISetttingController ()<UITableViewDelegate,UITableViewDataSource>
+#import "AccountManager.h"
+#import "UNIShopManage.h"
+#import "AppDelegate.h"
+@interface UNISetttingController ()
 @property(nonatomic,copy)NSString* phone;
+@property (weak, nonatomic) IBOutlet UIImageView *apertureImg;//旋转光圈
+@property (weak, nonatomic) IBOutlet UIImageView *logoImg;
+@property (weak, nonatomic) IBOutlet UILabel *crLabel;
+@property (weak, nonatomic) IBOutlet UIButton *logoutBtn;//退出按钮
+
 @end
 
 @implementation UNISetttingController
@@ -44,111 +52,77 @@
 }
 -(void)setupNavigation{
     self.title = @"设置";
-    self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    
-//    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
-    
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
-    
 }
 
 -(void)setupUI{
-    float labH = KMainScreenWidth* 80/320;
-    float labY = KMainScreenHeight - labH ;
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, labY, KMainScreenWidth, labH)];
-    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab.textAlignment = NSTextAlignmentCenter;
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth*10/320];
-    lab.numberOfLines = 0;
-    lab.lineBreakMode = 0;
-    lab.text = @"广州由你电子商务有限公司 版权所有\n Copyright @2015-2021.\n All Rights Reserved";
-    [self.view addSubview:lab];
-    
-    float tabY = 64;
-    float tabH = KMainScreenHeight - tabY - labH;
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, tabY,KMainScreenWidth, tabH) style:UITableViewStylePlain];
-    tab.delegate = self;
-    tab.dataSource = self;
-    tab.backgroundColor = [UIColor clearColor];
-    [self.view addSubview:tab];
-    tab.tableFooterView = [UIView new];
-    [self setupTabHeaderView:tab];
-}
--(void)setupTabHeaderView:(UITableView*)tab{
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*150/320)];
-    
-    UIImage* img = [UIImage imageNamed:@"login_img_header"];
-    float imgW = KMainScreenWidth/6;
-    float imgH = img.size.height * imgW / img.size.width;
-    float imgX =( view.frame.size.width - imgW )/ 2;
-    UIImageView* imgview = [[UIImageView alloc]init];
-    imgview.frame = CGRectMake(imgX, 20, imgW, imgH);
-    imgview.image = img;
-    [view addSubview:imgview];
-    
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(imgview.frame), KMainScreenWidth, KMainScreenWidth*15/320)];
-    lab.textAlignment = NSTextAlignmentCenter;
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?13:10];
-    lab.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab.text = @"由你";
-    [view addSubview:lab];
-    tab.tableHeaderView = view;
+    _logoutBtn.layer.masksToBounds=YES;
+    _logoutBtn.layer.cornerRadius = _logoutBtn.frame.size.height/2;
 }
 
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 3;
-}
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 45;
+//-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//    if (indexPath.row == 1) {
+//        UNIAboutUsController* ab = [[UNIAboutUsController alloc]init];
+//        [self.navigationController pushViewController:ab animated:YES];
+//    }
+//    if (indexPath.row == 2) {
+//        UNILawViewController* ab = [[UNILawViewController alloc]init];
+//        [self.navigationController pushViewController:ab animated:YES];
+//    }if (indexPath.row == 0) {
+//        if (!self.phone)
+//            return;
+//
+//        NSString* str = [NSString stringWithFormat:@"是否拨打电话%@",self.phone];
+//        [UIAlertView showWithTitle:str message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"拨打"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+//            if (buttonIndex == 1) {
+//                //NSString* tel = @"tel://02038904856";
+//                NSString* tel =[NSString stringWithFormat:@"tel://%@",self.phone];
+//                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
+//            }
+//        }];
+//        [[BaiduMobStat defaultStat]logEvent:@"btn_setting_call" eventLabel:@"设置拨打电话按钮"];
+//    }
+//    
+//}//02038904856
+-(void)cleanAndJump{
+    [AccountManager clearAll];
+    [UNIShopManage cleanShopinfo];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    AppDelegate* delegate = [UIApplication sharedApplication].delegate;
+    [delegate judgeFirstTime];
 }
 
--(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell*cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
-    switch (indexPath.row) {
-        case 0:
-            cell.textLabel.text = @"联系我们";
-            break;
-        case 1:
-            cell.textLabel.text = @"关于我们";
-            break;
-        case 2:
-            cell.textLabel.text = @"法律声明";
-            break;
-    }
-    cell.textLabel.textColor= [UIColor colorWithHexString:kMainBlackTitleColor];
-    cell.textLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*13/320];
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    return cell;
-}
--(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 1) {
-        UNIAboutUsController* ab = [[UNIAboutUsController alloc]init];
-        [self.navigationController pushViewController:ab animated:YES];
-    }
-    if (indexPath.row == 2) {
-        UNILawViewController* ab = [[UNILawViewController alloc]init];
-        [self.navigationController pushViewController:ab animated:YES];
-    }if (indexPath.row == 0) {
-        if (!self.phone)
-            return;
-        
-        NSString* str = [NSString stringWithFormat:@"是否拨打电话%@",self.phone];
-        [UIAlertView showWithTitle:str message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"拨打"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            if (buttonIndex == 1) {
-                //NSString* tel = @"tel://02038904856";
-                NSString* tel =[NSString stringWithFormat:@"tel://%@",self.phone];
-                [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
-            }
-        }];
-        [[BaiduMobStat defaultStat]logEvent:@"btn_setting_call" eventLabel:@"设置拨打电话按钮"];
-    }
-    
-}//02038904856
+
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     [self.navigationController popViewControllerAnimated:YES];
+}
+#pragma mark 联系我们 方法
+- (IBAction)contactUsAction:(id)sender {
+    if (!self.phone)
+        return;
+    
+    NSString* str = [NSString stringWithFormat:@"是否拨打电话%@",self.phone];
+    [UIAlertView showWithTitle:str message:nil cancelButtonTitle:@"取消" otherButtonTitles:@[@"拨打"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == 1) {
+            //NSString* tel = @"tel://02038904856";
+            NSString* tel =[NSString stringWithFormat:@"tel://%@",self.phone];
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:tel]];
+        }
+    }];
+    [[BaiduMobStat defaultStat]logEvent:@"btn_setting_call" eventLabel:@"设置拨打电话按钮"];
+}
+#pragma mark 关于我们 方法
+- (IBAction)aboutUsAction:(id)sender {
+    UNIAboutUsController* ab = [[UNIAboutUsController alloc]init];
+    [self.navigationController pushViewController:ab animated:YES];
+}
+
+#pragma mark 退出 方法
+- (IBAction)logOut:(id)sender {
+    [self cleanAndJump];
 }
 
 #pragma mark 请求公司电话

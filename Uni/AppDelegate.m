@@ -47,9 +47,9 @@
     [self setupWeChat];
     // 初始化百度统计SDK
     [self startBaiduMobStat];
-    [self judgeFirstTime];
+    [self setupGuideController];
     [self.window makeKeyAndVisible];
-    [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
+   // [NSThread sleepForTimeInterval:3.0];//设置启动页面时间
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleDefault;
     return YES;

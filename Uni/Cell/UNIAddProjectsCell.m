@@ -12,6 +12,8 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    _backView.layer.masksToBounds=YES;
+    _backView.layer.cornerRadius = 5;
     _mainLab.font = kWTFont(14);
     _subLab.font = kWTFont(14);
 }

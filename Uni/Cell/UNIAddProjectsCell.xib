@@ -46,6 +46,7 @@
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="backView" destination="tki-BW-t7c" id="Rh5-Yw-moU"/>
                 <outlet property="handleImag" destination="r3L-Cg-LNk" id="sbx-Y6-OMD"/>
                 <outlet property="mainImage" destination="uRu-GJ-cwe" id="9vg-Pe-ghW"/>
                 <outlet property="mainLab" destination="ddJ-aG-5tC" id="pM1-L6-sVv"/>

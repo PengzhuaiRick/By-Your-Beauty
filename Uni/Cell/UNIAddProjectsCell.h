@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "UNIMyProjectModel.h"
 @interface UNIAddProjectsCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UIView *backView;
 @property (weak, nonatomic) IBOutlet UIImageView *mainImage;
 @property (weak, nonatomic) IBOutlet UILabel *mainLab;
 @property (weak, nonatomic) IBOutlet UILabel *subLab;

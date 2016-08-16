@@ -152,7 +152,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZCW-VP-OO9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="518.93333333333328" y="-882.29333333333329"/>
+            <point key="canvasLocation" x="800" y="-799"/>
         </scene>
         <!--支付页面-->
         <scene sceneID="unM-D3-pAJ">
