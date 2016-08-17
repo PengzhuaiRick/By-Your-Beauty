@@ -13,6 +13,11 @@
 @end
 
 @implementation baseViewController
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    self.navigationController.navigationBar.barTintColor =[UIColor colorWithHexString:kMainNavigationColor];
+}
+
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [LLARingSpinnerView RingSpinnerViewStop1];

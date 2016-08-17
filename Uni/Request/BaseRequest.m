@@ -56,7 +56,24 @@
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
        }];
+    
+    //[self requestMessage];
 }
+
+-(void)requestMessage{
+    NSString* url = @"http://itunes.apple.com/lookup?id=1077238256";
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.requestSerializer.timeoutInterval = 10.f;
+    manager.responseSerializer.acceptableContentTypes =
+    [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
+    [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        NSLog(@"requestMessage : %@",responseObject);
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+    }];
+}
+
+
 
 
 -(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params{

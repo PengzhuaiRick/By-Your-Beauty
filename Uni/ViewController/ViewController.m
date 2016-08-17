@@ -37,7 +37,10 @@
 @end
 
 @implementation ViewController
-
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //[self setupBackView];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupParams];
@@ -388,7 +391,11 @@
 
 //订单列表
 -(void)setupOrderListController{
-    UNIOrderListController* view = [[UNIOrderListController alloc]init];
+//    UNIOrderListController* view = [[UNIOrderListController alloc]init];
+//    [_tv.navigationController pushViewController:view animated:YES];
+    
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIOrderListController"];
     [_tv.navigationController pushViewController:view animated:YES];
 }
 //设置页面

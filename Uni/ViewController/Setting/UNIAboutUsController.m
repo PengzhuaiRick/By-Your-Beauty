@@ -9,6 +9,8 @@
 #import "UNIAboutUsController.h"
 
 @interface UNIAboutUsController ()
+@property (weak, nonatomic) IBOutlet UIImageView *rotationImg;
+@property (weak, nonatomic) IBOutlet UILabel *mainLab;
 
 @end
 
@@ -29,48 +31,22 @@
 }
 -(void)setupNavigation{
     self.title = @"关于我们";
-    self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction)];
     
 }
 
 -(void)setupUI{
-    float viewY =64+15;
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0,viewY, KMainScreenWidth, KMainScreenHeight - viewY)];
-    view.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:view];
+    _mainLab.font = kWTFont(14);
     
-    UIImage* img = [UIImage imageNamed:@"login_img_header"];
-    float imgW = KMainScreenWidth/6;
-    float imgH = img.size.height * imgW / img.size.width;
-    float imgX =( view.frame.size.width - imgW )/ 2;
-    UIImageView* imgview = [[UIImageView alloc]init];
-    imgview.frame = CGRectMake(imgX, 20, imgW, imgH);
-    imgview.image = img;
-    [view addSubview:imgview];
+    NSMutableAttributedString *string =[[NSMutableAttributedString alloc]initWithString:_mainLab.text];
+    long number = KMainScreenWidth* 14/414;
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    [paragraphStyle setLineSpacing:number];//调整行间距
     
-    float k = KMainScreenWidth>400?90:40;
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(15, CGRectGetMaxY(imgview.frame)+k, KMainScreenWidth-30, KMainScreenWidth*15/320)];
-    lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?18:14];
-    lab.textColor = [UIColor colorWithHexString:kMainBlackTitleColor];
-    lab.numberOfLines = 0;
-    lab.lineBreakMode = 0;
-    lab.text = @"广州由你电子商务有限公司（简称由你）于2015年创立，是澳亚集团旗下的一家互联网技术公司。依托于多年运营的经验及渠道资源，由你电子商务有限公司致力于为美容院提供O2O一体化营销解决方案，为消费者打造跨场景、极致高效与专业的美容消费体验。";
-    [lab sizeToFit];
-    [view addSubview:lab];
+    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [_mainLab.text length])];
     
-    
-    float labH = KMainScreenWidth* 80/320;
-    float labY = view.frame.size.height - labH ;
-    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(0, labY, KMainScreenWidth, labH)];
-    lab1.textColor = [UIColor colorWithHexString:kMainTitleColor];
-    lab1.textAlignment = NSTextAlignmentCenter;
-    lab1.font = [UIFont systemFontOfSize:KMainScreenWidth*11/320];
-    lab1.numberOfLines = 0;
-    lab1.lineBreakMode = 0;
-    lab1.text = @"广州由你电子商务有限公司 版权所有\n Copyright @2015-2021.\n All Rights Reserved";
-    [view addSubview:lab1];
+    _mainLab.attributedText = string;
 
 }
 -(void)navigationControllerLeftBarAction{

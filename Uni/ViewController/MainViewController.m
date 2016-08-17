@@ -93,14 +93,14 @@
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
     __weak id myself = self;
-     MainViewRequest* request = [[MainViewRequest alloc]init];
-    request.rqfirstUrl=^(int code){
-        dispatch_async(dispatch_get_main_queue(), ^{
+//     MainViewRequest* request = [[MainViewRequest alloc]init];
+//    request.rqfirstUrl=^(int code){
+//        dispatch_async(dispatch_get_main_queue(), ^{
             [myself startRequestMain];
             [myself requestActivityShowOrNot];
-        });
-    };
-    [request firstRequestUrl];
+//        });
+//    };
+//    [request firstRequestUrl];
 }
 #pragma mark 获取后台动态URL 下拉刷新
 -(void)requestBackGroundUrl1{

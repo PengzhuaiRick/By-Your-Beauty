@@ -7,19 +7,21 @@
 //
 
 #import "UNIRewardListView.h"
-#import "UNIRewardListCell.h"
+//#import "UNIRewardListCell.h"
 #import "UNIMyRewardRequest.h"
 #import <MJRefresh/MJRefresh.h>
 #import "UNIHttpUrlManager.h"
 #import "UNITransfromX&Y.h"
 #import "UNIShopManage.h"
 #import "BaiduMobStat.h"
+#import "UNIRewardListXibCell.h"
 @implementation UNIRewardListView
 
 -(id)initWithFrame:(CGRect)frame andState:(int)st{
     self = [super initWithFrame:frame];
     if (self) {
         self.status = st;
+        self.backgroundColor = [UIColor clearColor];
         //[self setupTableView];
         self.allArray = [NSMutableArray array];
         [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
@@ -69,6 +71,7 @@
     tabview.delegate = self;
     tabview.dataSource = self;
     tabview.showsVerticalScrollIndicator=NO;
+    tabview.backgroundColor = [UIColor clearColor];
     tabview.separatorStyle = 0;
     [self addSubview:tabview];
     tabview.tableFooterView = [UIView new];
@@ -120,19 +123,29 @@
     
     nodata=nil;img=nil; lab=nil;
 }
--(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 15;
+}
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return self.allArray.count;
-    //return 10;
+}
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return 1;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth*90/320;
+    return KMainScreenWidth*85/414;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     static NSString* name = @"cell";
-    UNIRewardListCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    UNIRewardListXibCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell){
-        cell = [[UNIRewardListCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
+        cell = [[NSBundle mainBundle]loadNibNamed:@"UNIRewardListXibCell" owner:self options:nil].lastObject;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [[cell.stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -146,7 +159,7 @@
      }];
 
     
-    [cell setupCellContentWith:self.allArray[indexPath.row]];
+    [cell setupCellContentWith:self.allArray[indexPath.section]];
     
     return cell;
 }

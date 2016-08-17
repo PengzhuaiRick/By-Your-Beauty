@@ -116,8 +116,12 @@
 }
 #pragma mark 关于我们 方法
 - (IBAction)aboutUsAction:(id)sender {
-    UNIAboutUsController* ab = [[UNIAboutUsController alloc]init];
-    [self.navigationController pushViewController:ab animated:YES];
+//    UNIAboutUsController* ab = [[UNIAboutUsController alloc]init];
+//    [self.navigationController pushViewController:ab animated:YES];
+    
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* view =[st instantiateViewControllerWithIdentifier:@"UNIAboutUsController"];
+    [self.navigationController pushViewController:view animated:YES];
 }
 
 #pragma mark 退出 方法
