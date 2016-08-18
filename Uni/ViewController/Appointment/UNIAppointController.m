@@ -11,7 +11,7 @@
 #import "UNIAppontMid.h"
 #import "UNIMyPojectList.h"
 #import "AccountManager.h"
-//#import "UNIShopView.h"
+#import "UNIShopView.h"
 //#import "UNIShopListController.h"
 #import "UNIHttpUrlManager.h"
 #import "UNIGuideView.h"
@@ -20,7 +20,7 @@
 @interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate>
 {
     int shopID;
-    //UNIShopView* shopView;
+    UNIShopView* shopView;
     UNIAppointTop* appointTop;
     UNIAppontMid* appontMid;
     //UNIAppointBotton* appointBotton;
@@ -94,6 +94,7 @@
 
 -(void)setupUI{
     [self setupMyScroller];
+    [self setupShopView];
     if (_model)
     [self setupTopScrollerWithProjectId:self.model.projectId andCostime:self.model.costTime andShopId:shopID];
     else
@@ -112,10 +113,20 @@
     else
         self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, KMainScreenHeight-64);
 }
+#pragma mark 加载顶部店铺名字View
+-(void)setupShopView{
+    UNIShopView* shop =[[UNIShopView alloc]initWithFrame:CGRectMake(16,10, KMainScreenWidth - 32, KMainScreenWidth*74/414)];
+    shop.backgroundColor = [UIColor whiteColor];
+    [self.myScroller addSubview:shop];
+    shopView = shop;
+    shop=nil;
+}
 
 #pragma mark 加载顶部Scroller
 -(void)setupTopScrollerWithProjectId:(int)project andCostime:(int)cost andShopId:(int)shopId{
-    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(0,0, KMainScreenWidth,KMainScreenWidth*282/414) andModel:_model  andShopId:shopId];
+    float y = CGRectGetMaxY(shopView.frame);
+    
+    UNIAppointTop* top = [[UNIAppointTop alloc]initWithFrame:CGRectMake(16,y+10, KMainScreenWidth-32,KMainScreenWidth*282/414) andModel:_model  andShopId:shopId];
     [self.myScroller addSubview:top];
     appointTop = top;
     top = nil;

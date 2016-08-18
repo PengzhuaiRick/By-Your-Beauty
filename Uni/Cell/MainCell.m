@@ -51,12 +51,13 @@
         NSString* str = [info.time substringWithRange:NSMakeRange(0, info.time.length - 3)];
         NSString* str1 = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
         self.subLab .text = [NSString stringWithFormat:@"我已预约:%@",str1];
-        
+        _handleBtn.enabled = YES;
     }else{
         self.numLab.hidden=YES;
         self.mainImage.image = [UIImage imageNamed:@"main_img_nodata1"];
         self.mainLab.text = @"已约完!";
         self.subLab .text = [UNIHttpUrlManager sharedInstance].APPOINT_DESC;
+        _handleBtn.enabled = NO;
     }
     
 }
@@ -83,6 +84,7 @@
     self.mainImage.image = [UIImage imageNamed:@"main_img_cell4"];
     self.mainLab.text = [UNIHttpUrlManager sharedInstance].SELF_APPOINT_TITLE;
     self.subLab .text = [UNIHttpUrlManager sharedInstance].SELF_APPOINT_CONTENT;
+    _handleImg.image = [UIImage imageNamed:@"main_btn_cell2"];
   }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

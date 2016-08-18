@@ -34,27 +34,15 @@
 
 @implementation UNIAppointDetail
 -(void)viewWillAppear:(BOOL)animated{
-//    self.mappView.delegate = self;
-//    self.myTableView.delegate = self;
-//    self.myTableView.dataSource = self;
-//    self.mappView.showsUserLocation = YES;//显示自己
-//    self.mappView.zoomEnabled = YES;//支持缩放
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"预约详情"];
     [super viewWillAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"预约详情"];
+    
 }
 
 -(void)viewDidDisappear:(BOOL)animated{
-//    CGRect vRe = self.view.frame;
-//    vRe.origin.y = 64;
-//    self.view.frame = vRe;
-//    self.mappView.delegate = nil;
-//    self.mappView.showsUserLocation = NO;//显示自己
-//    self.mappView.zoomEnabled = NO;//支持缩放
-//    self.myTableView.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
-//    self.myTableView.delegate = nil;
-//    self.myTableView.dataSource = nil;
+     [super viewDidDisappear:animated];
      [[BaiduMobStat defaultStat] pageviewEndWithName:@"预约详情"];
-    [super viewDidDisappear:animated];
+   
 }
 
 -(void)viewWillDisappear:(BOOL)animated{
@@ -75,8 +63,6 @@
     self.title=@"预约详情";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
      self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
-    [self setupData];
-    [self setupMyTableView];
     [self startRequest];
 //    [self setupData];
 //    [self setupMyTableView];

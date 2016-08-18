@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIMainProView : UIView
-@property(nonatomic,strong)CAShapeLayer* shapeLayer;
+@property(nonatomic,strong)UIImageView* mainImg;
+//@property(nonatomic,strong)CAShapeLayer* shapeLayer;
 @property(nonatomic,strong)CAShapeLayer* progessLayer;
 @property(nonatomic,assign)float radius; //半径
 @property(nonatomic,strong) UIColor* shapeColor;

@@ -206,11 +206,11 @@
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return KMainScreenWidth*20/414;
+    return KMainScreenWidth*15/414;
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*20/414)];
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*15/414)];
 }
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return self.myData.count;

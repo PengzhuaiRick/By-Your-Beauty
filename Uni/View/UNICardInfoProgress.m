@@ -100,7 +100,7 @@
     
     CALayer *gradientLayer = [CALayer layer];
     CAGradientLayer *gradientLayer1 =  [CAGradientLayer layer];
-    gradientLayer1.frame = CGRectMake(0, 0, rect.size.width/2, rect.size.height);
+    gradientLayer1.frame = CGRectMake(0, 0, rect.size.width, rect.size.height);
     [gradientLayer1 setColors:[NSArray arrayWithObjects:(id)[[UIColor colorWithHexString:@"975ca6"] CGColor],
                                                         (id)[[UIColor colorWithHexString:@"fe63d2"] CGColor],
                                                         nil]];
@@ -109,13 +109,13 @@
     [gradientLayer1 setEndPoint:CGPointMake(0.5, 0)];
     [gradientLayer insertSublayer:gradientLayer1 atIndex:0];
     
-    CAGradientLayer *gradientLayer2 =  [CAGradientLayer layer];
-   // [gradientLayer2 setLocations:@[@0.5]];
-    gradientLayer2.frame = CGRectMake(rect.size.width/2, 0, rect.size.width/2, rect.size.height);
-    [gradientLayer2 setColors:[NSArray arrayWithObjects:(id)[[UIColor purpleColor] CGColor],(id)[[UIColor blueColor] CGColor], nil]];
-    [gradientLayer2 setStartPoint:CGPointMake(0.5, 0)];
-    [gradientLayer2 setEndPoint:CGPointMake(0.5, 1)];
-    [gradientLayer insertSublayer:gradientLayer2 atIndex:0];
+//    CAGradientLayer *gradientLayer2 =  [CAGradientLayer layer];
+//   // [gradientLayer2 setLocations:@[@0.5]];
+//    gradientLayer2.frame = CGRectMake(rect.size.width/2, 0, rect.size.width/2, rect.size.height);
+//    [gradientLayer2 setColors:[NSArray arrayWithObjects:(id)[[UIColor purpleColor] CGColor],(id)[[UIColor blueColor] CGColor], nil]];
+//    [gradientLayer2 setStartPoint:CGPointMake(0.5, 0)];
+//    [gradientLayer2 setEndPoint:CGPointMake(0.5, 1)];
+//    [gradientLayer insertSublayer:gradientLayer2 atIndex:0];
     
 
     [gradientLayer setMask:progressLayer]; //用progressLayer来截取渐变层

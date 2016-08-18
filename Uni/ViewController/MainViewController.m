@@ -382,7 +382,6 @@
         cell.handleBtn.tag =indexPath.section+1;
         [cell setupOtherCell:_bottomData[indexPath.section]];
     }
-    
        return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{

@@ -21,14 +21,23 @@
 -(void)setupUI{
     // _radius = self.frame.size.width /2;
     
-    CAShapeLayer* shape = [CAShapeLayer layer];
-    shape.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-    shape.fillColor = [UIColor clearColor].CGColor;
-    shape.backgroundColor = [UIColor clearColor].CGColor;
-    shape.lineWidth = 1;
-    //shape.transform = CATransform3DMakeRotation(M_PI*2 , 0, 0, 1);//90+30度
-    [self.layer addSublayer:shape];
-    _shapeLayer = shape;
+    UIImageView* backImge = [[UIImageView alloc]initWithFrame:CGRectMake(-7, -7, self.frame.size.width+14, self.frame.size.height+14)];
+    backImge.image = [UIImage imageNamed:@"main_img_menu"];
+    [self addSubview:backImge];
+    _mainImg = backImge;
+    
+//    CAShapeLayer* shape = [CAShapeLayer layer];
+//    shape.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
+//    shape.fillColor = [UIColor clearColor].CGColor;
+//    shape.backgroundColor = [UIColor clearColor].CGColor;
+//    shape.lineWidth = 1;
+//    shape.shadowRadius = 5;
+//    shape.shadowColor = [UIColor whiteColor].CGColor;
+//    shape.shadowOffset = CGSizeMake(0,0);
+//    shape.shadowOpacity = 0.9;
+//    //shape.transform = CATransform3DMakeRotation(M_PI*2 , 0, 0, 1);//90+30度
+//    [self.layer addSublayer:shape];
+//    _shapeLayer = shape;
     
     CAShapeLayer* progess = [CAShapeLayer layer];
     progess.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
@@ -39,16 +48,17 @@
     [self.layer addSublayer:progess];
     _progessLayer = progess;
     
-    shape = nil; progess = nil;
 }
 -(void)drawRect:(CGRect)rect{
     CGFloat radius = self.frame.size.width/2;
     CGPoint center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
     
-    UIBezierPath *bezier = [UIBezierPath bezierPath];
-    [bezier addArcWithCenter:center radius:radius-1 startAngle:M_PI/2 endAngle:M_PI*2+M_PI/2 clockwise:YES];//0到300度
+//    UIBezierPath *bezier = [UIBezierPath bezierPath];
+//    [bezier addArcWithCenter:center radius:radius-1 startAngle:M_PI/2 endAngle:M_PI*2+M_PI/2 clockwise:YES];//0到300度
+//    
+//    _shapeLayer.path = bezier.CGPath;
     
-    _shapeLayer.path = bezier.CGPath;
+    _mainImg.transform = CGAffineTransformMakeRotation(2*M_PI*(_num/_total));
     
     UIBezierPath *progessBezier = [UIBezierPath bezierPath];
     [progessBezier addArcWithCenter:center radius:radius-1 startAngle:M_PI/2 endAngle:(_num * (M_PI*2) /_total)+M_PI/2 clockwise:YES];
@@ -56,9 +66,9 @@
     
 }
 
--(void)setShapeColor:(UIColor *)shapeColor{
-    self.shapeLayer.strokeColor = shapeColor.CGColor;
-}
+//-(void)setShapeColor:(UIColor *)shapeColor{
+//    self.shapeLayer.strokeColor = shapeColor.CGColor;
+//}
 
 -(void)setProgessColor:(UIColor *)progessColor{
     self.progessLayer.strokeColor = progessColor.CGColor;

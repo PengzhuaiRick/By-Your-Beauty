@@ -42,20 +42,17 @@
         
         UILabel* lab = [[UILabel alloc]init];
         lab.text = [[UNIShopManage getShopData] address];
-        lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?14:12];
+        lab.font = [UIFont systemFontOfSize:14];
         lab.textColor = [UIColor whiteColor];
         [lab sizeToFit];
-        float labY =10;
-        lab.frame = CGRectMake(10, labY, lab.frame.size.width, lab.frame.size.height);
+        lab.frame = CGRectMake(10, 0, lab.frame.size.width, 50);
         [_contentView addSubview:lab];
         
         UIButton* but = [UIButton buttonWithType:UIButtonTypeCustom];
         [but setBackgroundImage:[UIImage imageNamed:@"appoint_btn_nav"] forState:UIControlStateNormal];
-        //but.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*12/320];
-        //[but setTitle:@"导航" forState:UIControlStateNormal];
-        //[but setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
         float btnX = CGRectGetMaxX(lab.frame)+5;
-        but.frame = CGRectMake(btnX, 8,(KMainScreenWidth>400?50:40), (KMainScreenWidth>400?20:17));
+        but.frame = CGRectMake(btnX, 0,46,
+                              CGRectGetMaxY(lab.frame));
 //        [[but rac_signalForControlEvents:UIControlEventTouchUpInside]
 //         subscribeNext:^(id x) {
 //             NSLog(@"导航");
@@ -64,8 +61,8 @@
         [_contentView addSubview:but];
         _navBtn = but;
         
-        float contentW = CGRectGetMaxX(but.frame)+10;
-        _contentView.frame = CGRectMake(0, 0, contentW, CGRectGetMaxY(lab.frame)+10);
+        float contentW = CGRectGetMaxX(but.frame);
+        _contentView.frame = CGRectMake(0, 0, contentW, CGRectGetMaxY(lab.frame));
         
         UIImageView* jian = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_img_jian"]];
         jian.frame = CGRectMake(contentW/4, CGRectGetMaxY(_contentView.frame), contentW/2, 10);

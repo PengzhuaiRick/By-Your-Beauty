@@ -7,10 +7,10 @@
 //
 
 #import "UNIAppointTop.h"
-#import "UNIShopManage.h"
+//#import "UNIShopManage.h"
 #import "UNIMyProjectModel.h"
 #import "BaiduMobStat.h"
-
+#import "UNIShopView.h"
 @implementation UNIAppointTop
 
 -(id)initWithFrame:(CGRect)frame andModel:(UNIMyProjectModel*)mod andShopId:(int)shopIp{
@@ -235,8 +235,7 @@
     
     _topBtns = [NSMutableArray arrayWithCapacity:8];
    
-    _topScroller.contentSize = CGSizeMake(btnW*8,btnH);
-    _topScroller.delegate = self;
+    _topScroller.contentSize = CGSizeMake(btnW*8,topH);
     
     NSDateFormatter* forma = [[NSDateFormatter alloc]init];
     [forma setDateFormat:@"yyyy-MM-dd"];
@@ -290,11 +289,6 @@
         btn.titleLabel.font = kWTFont(15);
         [_topScroller addSubview:btn];
         [_topBtns addObject:btn];
-        
-        if (i==0) {
-            [btn setTitleColor:[UIColor colorWithHexString:@"c2c1c0"] forState:UIControlStateNormal];
-            continue;
-        }
        
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x){
@@ -334,7 +328,7 @@
 }
 
 -(void)initSecondView{
-    float viewX = 16;
+    float viewX = 0;
     float viewY = CGRectGetMaxY(_topScroller.frame)+10;
     float viewH = self.frame.size.height - viewY;
     float viewW = self.frame.size.width - 2*viewX;
