@@ -166,7 +166,7 @@
 -(void)setupTableView{
     self.myData = [NSMutableArray array];
 
-    [self setupNodataView];
+    //[self setupNodataView];
     
     _tableView.backgroundColor = [UIColor clearColor];
     _tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{

@@ -375,19 +375,19 @@
     // 添加项目和减少项目的时候 修改 appontMid 的高度 和 sureBtn 的位置
     NSArray* x = appontMid.myData;
     
-    if (x.count>1) {
-        [UIView animateWithDuration:0.2 animations:^{
-            CGRect btnRe = self->sureBtn.frame;
-            //btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
-            btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
-            self-> sureBtn.frame = btnRe;
-        }];
-    }else{
-        CGRect btnRe = self->sureBtn.frame;
-         btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
-        //btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
-        self-> sureBtn.frame = btnRe;
-    }
+//    if (x.count>1) {
+//        [UIView animateWithDuration:0.2 animations:^{
+//            CGRect btnRe = self->sureBtn.frame;
+//            //btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
+//            btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
+//            self-> sureBtn.frame = btnRe;
+//        }];
+//    }else{
+//        CGRect btnRe = self->sureBtn.frame;
+//         btnRe.origin.x = (self->_myScroller.frame.size.width - btnRe.size.width)/2;
+//        //btnRe.origin.x = self->_myScroller.frame.size.width - 10 - btnRe.size.width;
+//        self-> sureBtn.frame = btnRe;
+//    }
     
     int count = (int)x.count;
     if (count>3)

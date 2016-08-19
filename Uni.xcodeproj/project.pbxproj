@@ -122,6 +122,7 @@
 		18CA17921C489B8600636ABF /* UNIRewardDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */; };
 		18CA17951C48A21F00636ABF /* UNIRewardProgessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17941C48A21F00636ABF /* UNIRewardProgessView.m */; };
 		18CB94A01C85664F00F834DA /* UNIHttpUrlManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CB949F1C85664F00F834DA /* UNIHttpUrlManager.m */; };
+		18CC046C1D66B350008DA49A /* UNAlertShowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CC046B1D66B350008DA49A /* UNAlertShowController.m */; };
 		18CC75C41C2C127400625205 /* MainViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CC75C31C2C127400625205 /* MainViewCell.m */; };
 		18CCA0161C02B84000B90092 /* BTKeyboardTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CCA0141C02B84000B90092 /* BTKeyboardTool.m */; };
 		18CCA0171C02B84000B90092 /* BTKeyboardTool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18CCA0151C02B84000B90092 /* BTKeyboardTool.xib */; };
@@ -492,6 +493,8 @@
 		18CA17941C48A21F00636ABF /* UNIRewardProgessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardProgessView.m; sourceTree = "<group>"; };
 		18CB949E1C85664F00F834DA /* UNIHttpUrlManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIHttpUrlManager.h; sourceTree = "<group>"; };
 		18CB949F1C85664F00F834DA /* UNIHttpUrlManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIHttpUrlManager.m; sourceTree = "<group>"; };
+		18CC046A1D66B350008DA49A /* UNAlertShowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UNAlertShowController.h; path = ../Main/CardInfo/UNAlertShowController.h; sourceTree = "<group>"; };
+		18CC046B1D66B350008DA49A /* UNAlertShowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UNAlertShowController.m; path = ../Main/CardInfo/UNAlertShowController.m; sourceTree = "<group>"; };
 		18CC75C21C2C127400625205 /* MainViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCell.h; sourceTree = "<group>"; };
 		18CC75C31C2C127400625205 /* MainViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCell.m; sourceTree = "<group>"; };
 		18CCA0131C02B84000B90092 /* BTKeyboardTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BTKeyboardTool.h; sourceTree = "<group>"; };
@@ -895,6 +898,8 @@
 				184E15461C5F4C4700D65E39 /* UNIAboutUsController.m */,
 				182E8A541C71CA3500870968 /* UNILawViewController.h */,
 				182E8A551C71CA3500870968 /* UNILawViewController.m */,
+				18CC046A1D66B350008DA49A /* UNAlertShowController.h */,
+				18CC046B1D66B350008DA49A /* UNAlertShowController.m */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -1765,6 +1770,7 @@
 				184E15441C5F2DB500D65E39 /* UNISetttingController.m in Sources */,
 				18CB94A01C85664F00F834DA /* UNIHttpUrlManager.m in Sources */,
 				186166361CE06B97006C2285 /* BaseWebController.m in Sources */,
+				18CC046C1D66B350008DA49A /* UNAlertShowController.m in Sources */,
 				18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */,
 				18C3ED041C0EF93400B0A192 /* UNIMapAnnotation.m in Sources */,
 				18BA7D6C1BE9A19100DD7826 /* EAIntroView.m in Sources */,

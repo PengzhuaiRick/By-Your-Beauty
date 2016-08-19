@@ -21,6 +21,8 @@
     
     _backView.layer.masksToBounds=YES;
     _backView.layer.cornerRadius = 5;
+    _backView.layer.borderColor = [UIColor colorWithHexString:@"d5d5d5"].CGColor;
+    _backView.layer.borderWidth =1;
     
     _stateBtn.layer.masksToBounds=YES;
     _stateBtn.layer.borderWidth = 1;

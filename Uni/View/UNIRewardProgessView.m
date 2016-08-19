@@ -50,7 +50,7 @@
             btn.layer.cornerRadius = self.frame.size.height/2;
             btn.layer.borderWidth = 0.5;
             btn.layer.borderColor =theme.CGColor;
-            [btn setBackgroundImage:[self createImageWithColor:theme] forState:UIControlStateNormal];
+            [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_remark"] forState:UIControlStateNormal];
             [btn setBackgroundImage:[self createImageWithColor:white] forState:UIControlStateHighlighted];
             [btn setTitleColor:white forState:UIControlStateNormal];
             [btn setTitleColor:theme forState:UIControlStateHighlighted];
@@ -83,7 +83,7 @@
     CGContextDrawPath(context, kCGPathStroke); //绘制路径
     
     
-    CGContextSetRGBStrokeColor(context,238.f/255, 76.f/255, 125.f/255, 1);//设置画笔颜色
+    CGContextSetRGBStrokeColor(context,253.f/255, 52.f/255, 146.f/255, 1);//设置画笔颜色
     CGContextSetLineWidth(context, 2);//设置线宽
     CGContextAddArc(context, rect.size.width/2, rect.size.height/2,  rect.size.width/2-2, M_PI/2,  M_PI/2+ (2*M_PI * _num / _total) , 0);//画圆
     CGContextDrawPath(context, kCGPathStroke); //绘制路径

@@ -131,9 +131,9 @@
                 [YIToast showText:NETWORKINGPEOBLEM];
                 return ;
             }
-            self->customBtn.hidden=NO;
+            self->customBtn.hidden=YES;
             if (code == INAUDIT) {
-                self->customBtn.hidden=YES;
+                self->customBtn.hidden=NO;
                 [[self->customBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
                  subscribeNext:^(UIButton* x) {
                      x.enabled = NO;

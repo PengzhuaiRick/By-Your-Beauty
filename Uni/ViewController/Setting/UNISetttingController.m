@@ -12,6 +12,7 @@
 #import "AccountManager.h"
 #import "UNIShopManage.h"
 #import "AppDelegate.h"
+#import "UNAlertShowController.h"
 @interface UNISetttingController ()
 @property(nonatomic,copy)NSString* phone;
 @property (weak, nonatomic) IBOutlet UIImageView *apertureImg;//旋转光圈
@@ -126,7 +127,33 @@
 
 #pragma mark 退出 方法
 - (IBAction)logOut:(id)sender {
-    [self cleanAndJump];
+    
+    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UNAlertShowController* view = [story instantiateViewControllerWithIdentifier:@"UNAlertShowController"];
+    view.view.backgroundColor = [UIColor clearColor];
+    
+    // 设置代理信号
+    view.delegateSignal = [RACSubject subject];
+    
+    __weak UNISetttingController* myself =self;
+    // 订阅代理信号
+    [view.delegateSignal subscribeNext:^(id x) {
+        [myself cleanAndJump];
+    }];
+
+    if (IOS_VERSION>=8.0)
+        view.modalPresentationStyle=UIModalPresentationOverCurrentContext;
+    else
+        self.modalPresentationStyle=UIModalPresentationCurrentContext;
+    
+    [self presentViewController:view animated:NO completion:^{
+        //  view.view.superview.backgroundColor = [UIColor clearColor];
+        [UIView animateWithDuration:0.3 animations:^{
+            
+        }];
+        
+    }];
+
 }
 
 #pragma mark 请求公司电话

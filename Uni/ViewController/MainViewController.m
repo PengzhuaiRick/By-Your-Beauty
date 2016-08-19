@@ -331,11 +331,11 @@
     kz=nil; good=nil;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return KMainScreenWidth*20/414;
+    return KMainScreenWidth*15/414;
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*20/414)];
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*15/414)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -361,8 +361,17 @@
                          if (x.tag == -1){ //最后一个cell 自定义预约
                              [myself mainMidViewDelegataButton:nil];
                              return ;}
+                                            
+                                            if (x.tag == 1){ //最后一个cell 自定义预约
+                                                if (myself.midData.count<1)
+                                                    return;
+                                                UIStoryboard* main = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                                                UINavigationController* midController = [main instantiateViewControllerWithIdentifier:@"MainMidController"];
+                                                [self.navigationController pushViewController:midController animated:YES];
+                                                return ;}
+                                    
                          
-                         id model = myself.bottomData[x.tag-1];
+                         id model = myself.bottomData[x.tag-2];
                          [myself mainMidViewDelegataButton:model];
                          
                      }];
@@ -371,16 +380,15 @@
     
     if (indexPath.section == 0) {
         //[cell setupCouponCell:couponArr];
+        cell.handleBtn.tag =indexPath.section+1;
         [cell setupFirstCell:_midData andTotal:appointTotal];
     }else if (indexPath.section == cellNumber-1){
-        if (_bottomData.count<1){
             cell.handleBtn.tag = -1;
             [cell setupCustomCell];
-        }
         
     }else{
         cell.handleBtn.tag =indexPath.section+1;
-        [cell setupOtherCell:_bottomData[indexPath.section]];
+        [cell setupOtherCell:_bottomData[indexPath.section-1]];
     }
        return cell;
 }
