@@ -110,6 +110,21 @@
             </objects>
             <point key="canvasLocation" x="661" y="809"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="Ryx-VC-rdh">
+            <objects>
+                <viewController storyboardIdentifier="shopCar" id="0J0-EN-NL1" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JZd-4D-zRk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HUr-Rg-sfw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1631" y="740"/>
+        </scene>
         <!--我的奖励订单详细界面-->
         <scene sceneID="gmG-sN-Q7B">
             <objects>

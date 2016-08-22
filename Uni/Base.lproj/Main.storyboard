@@ -27,12 +27,15 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2z3-ck-pS4">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2z3-ck-pS4">
                                 <rect key="frame" x="0.0" y="656" width="414" height="80"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <inset key="titleEdgeInsets" minX="0.0" minY="10" maxX="-25" maxY="0.0"/>
                                 <state key="normal" title="购物车" backgroundImage="KZ_btn_payBack"/>
+                                <connections>
+                                    <action selector="shopCarBtn:" destination="BYZ-38-t0r" eventType="touchUpInside" id="LNp-Er-Upu"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="gPr-hD-OWU">
                                 <rect key="frame" x="20" y="34" width="53" height="22"/>
@@ -67,7 +70,7 @@
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="wGO-Jl-zf3"/>
                                 </connections>
                             </collectionView>
-                            <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="function_img_car" id="V21-wO-zqN">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="function_img_car" id="V21-wO-zqN">
                                 <rect key="frame" x="161" y="690" width="32" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>

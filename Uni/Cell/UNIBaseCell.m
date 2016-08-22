@@ -18,7 +18,21 @@
     [super setSelected:selected animated:animated];
     // Configure the view for the selected state
 }
-
+#pragma mark 计算Label 高度
++(CGSize)contentSize:(UILabel*)lab{
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode = lab.lineBreakMode;
+    paragraphStyle.alignment = lab.textAlignment;
+    
+    NSDictionary * attributes = @{NSFontAttributeName : lab.font,
+                                  NSParagraphStyleAttributeName : paragraphStyle};
+    
+    CGSize contentSize = [lab.text boundingRectWithSize:CGSizeMake(KMainScreenWidth, MAXFLOAT)
+                                                options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                             attributes:attributes
+                                                context:nil].size;
+    return contentSize;
+}
 #pragma mark 裁剪图片
 //-(UIImage*)getSubImage:(CGRect)rect andImage:(UIImage*)CGImage
 //{

@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 @interface UNIBaseCell : UITableViewCell
+
+#pragma mark 计算Label 高度
++(CGSize)contentSize:(UILabel*)lab;
 //#pragma mark 裁剪图片
 //-(UIImage*)getSubImage:(CGRect)rect andImage:(UIImage*)CGImage;
 #pragma mark 按指定大小缩放图片

@@ -143,6 +143,14 @@
 
     
 }
+
+#pragma mark 购物车点击事件
+- (IBAction)shopCarBtn:(id)sender {
+    [self selfDismiss:nil];
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"shopCar"];
+    [_tv.navigationController pushViewController:vc animated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -327,29 +335,16 @@
     [delegate judgeFirstTime];
 }
 
-#pragma mark 刷新功能列表上红色小圆圈的数字
-//-(void)flashTheCellNum:(NSNotification*)notificate{
-//    NSDictionary* dic = notificate.userInfo;
-//    int count = [[dic objectForKey:@"count"] intValue];
-//    
-//    NSIndexPath* index = [NSIndexPath indexPathForRow:3 inSection:0];
-//    ViewControllerCell* cell = [_myTableView cellForRowAtIndexPath:index];
-//    if (count>0){
-//        cell.numLab.hidden=NO;
-//        cell.numLab.text = [NSString stringWithFormat:@"%d",count];
-//    }else
-//        cell.numLab.hidden=YES;
-//}
 
 #pragma mark 通知跳转到我的奖励
 -(void)jumpToMyReward{
-    NSIndexPath* index = [NSIndexPath indexPathForRow:2 inSection:0];
+    //NSIndexPath* index = [NSIndexPath indexPathForRow:2 inSection:0];
    // [self tableView:self.myTableView didSelectRowAtIndexPath:index];
 }
 
 #pragma mark 通知跳转到我的优惠券
 -(void)mainToMyCoupon{
-    NSIndexPath* index = [NSIndexPath indexPathForRow:5 inSection:0];
+    //NSIndexPath* index = [NSIndexPath indexPathForRow:5 inSection:0];
    // [self tableView:self.myTableView didSelectRowAtIndexPath:index];
 }
 

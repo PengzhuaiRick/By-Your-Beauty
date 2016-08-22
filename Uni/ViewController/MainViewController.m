@@ -20,7 +20,7 @@
 #import "ViewController.h"
 #import "UNIWalletController.h"
 #import "MainCell.h"
-//#import "MainViewCell.h"
+
 
 @interface MainViewController ()<UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
  //   UITableView* myTable;
@@ -354,7 +354,6 @@
     MainCell* cell = [tableView dequeueReusableCellWithIdentifier:@"name"];
     if (!cell){
          __weak MainViewController* myself = self;
-        //cell = [[MainViewCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cellHight) reuseIdentifier:@"name"];
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainCell" owner:self options:nil].lastObject;
         [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
                                         subscribeNext:^(UIButton* x) {

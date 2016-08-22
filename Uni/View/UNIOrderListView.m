@@ -7,12 +7,18 @@
 //
 
 #import "UNIOrderListView.h"
-#import "UNIOrderListCell.h"
+//#import "UNIOrderListCell.h"
 #import <MJRefresh/MJRefresh.h>
 #import "UNIHttpUrlManager.h"
 #import "UNITransfromX&Y.h"
 #import "UNIShopManage.h"
 #import "BaiduMobStat.h"
+
+#import "UNIOrderListCell1.h"
+#import "UNIOrderListCell2.h"
+#import "UNIOrderListCell3.h"
+#import "UNIOrderList4Cell.h"
+#import "UNIOrderRequest.h"
 @implementation UNIOrderListView
 
 -(id)initWithFrame:(CGRect)frame andState:(int)st{
@@ -107,34 +113,114 @@
         }];
   
 }
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 15;
+}
 
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return self.allArray.count;
+}
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-     return self.allArray.count;
-    //return 10;
+    return 4;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth*90/320;
+    if (indexPath.row == 0)
+        return KMainScreenWidth*38/414;
+    if (indexPath.row == 1)
+        return KMainScreenWidth*82/414;
+    if (indexPath.row == 2)
+        return KMainScreenWidth*49/414;
+    if (indexPath.row == 3)
+        return KMainScreenWidth*60/414;
+    
+    return 0;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString* name = @"cell";
-    UNIOrderListCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-    if (!cell){
-        cell = [[UNIOrderListCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
-    [[cell.stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-    subscribeNext:^(id x) {
-        UNIShopManage* shopMan = [UNIShopManage getShopData];
-        double endLat = [shopMan.x doubleValue];
-        double endLong = [shopMan.y doubleValue];
-        UNITransfromX_Y* xy= [[UNITransfromX_Y alloc]initWithView:self withEndCoor:CLLocationCoordinate2DMake(endLat, endLong) withAim:shopMan.shopName];
-        [xy setupUI];
-        [[BaiduMobStat defaultStat]logEvent:@"btn_reward_get" eventLabel:@"奖励到店领取"];
-    }];
-    [cell setupCellContentWith:self.allArray[indexPath.row]];
+//    static NSString* name = @"cell";
+//    UNIOrderListCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+//    if (!cell){
+//        cell = [[UNIOrderListCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
+//        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    }
+//    [[cell.stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+//    subscribeNext:^(id x) {
+//        UNIShopManage* shopMan = [UNIShopManage getShopData];
+//        double endLat = [shopMan.x doubleValue];
+//        double endLong = [shopMan.y doubleValue];
+//        UNITransfromX_Y* xy= [[UNITransfromX_Y alloc]initWithView:self withEndCoor:CLLocationCoordinate2DMake(endLat, endLong) withAim:shopMan.shopName];
+//        [xy setupUI];
+//        [[BaiduMobStat defaultStat]logEvent:@"btn_reward_get" eventLabel:@"奖励到店领取"];
+//    }];
+//    [cell setupCellContentWith:self.allArray[indexPath.row]];
     
-    return cell;
+    
+    UNIOrderListModel* info = _allArray[indexPath.section];
+    if (indexPath.row == 0) {
+        UNIOrderListCell1* cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
+        if (!cell) {
+            cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderListCell1" owner:self options:nil].lastObject;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.mainLab.text = [NSString stringWithFormat:@"订单编号:%@",info.orderCode];
+        return cell;
+    }
+    if (indexPath.row == 1) {
+        UNIOrderListCell2* cell = [tableView dequeueReusableCellWithIdentifier:@"cell2"];
+        if (!cell) {
+            cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderListCell2" owner:self options:nil].lastObject;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.label1.text =info.projectName;
+        cell.label2.text = nil;
+        cell.label3.text = [NSString stringWithFormat:@"￥%@",info.price];
+        cell.label4.text = [NSString stringWithFormat:@"x%d",info.num];
+        if(info.specifications) cell.label2.text = [NSString stringWithFormat:@"规格: %@",info.specifications];
+        return cell;
+    }
+    if (indexPath.row == 2) {
+        UNIOrderListCell3* cell = [tableView dequeueReusableCellWithIdentifier:@"cell3"];
+        if (!cell) {
+            cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderListCell3" owner:self options:nil].lastObject;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.label2.text =[NSString stringWithFormat:@"%d",info.num];
+        cell.label5.text = [NSString stringWithFormat:@"￥%@",info.price];
+        
+        CGSize size5 = [UNIOrderListCell3 contentSize:cell.label5];
+        CGRect rect5 = cell.label5.frame;
+        rect5.size.width = size5.width;
+        rect5.origin.x = KMainScreenWidth - 16 - size5.width;
+        cell.label5.frame = rect5;
+        
+        CGRect rect4 = cell.label4.frame;
+        rect4.origin.x = CGRectGetMinX(rect5);
+        cell.label4.frame =rect4;
+        
+        return cell;
+    }
+    if (indexPath.row == 3) {
+        UNIOrderList4Cell* cell = [tableView dequeueReusableCellWithIdentifier:@"cell4"];
+        if (!cell) {
+            cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderList4Cell" owner:self options:nil].lastObject;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        cell.label1.text = [NSString stringWithFormat:@"下单时间: %@",info.time];
+        if (info.status == 0) {
+            [cell.handleBtn setTitle:@"到店领取" forState:UIControlStateNormal];
+            [cell.handleBtn setBackgroundImage:[UIImage imageNamed:@"order_btn_handle1"] forState:UIControlStateNormal];
+        }
+        if (info.status == 1) {
+            [cell.handleBtn setTitle:@"已领取" forState:UIControlStateNormal];
+            [cell.handleBtn setBackgroundImage:[UIImage imageNamed:@"order_btn_handle2"] forState:UIControlStateNormal];
+        }
+        return cell;
+    }
+    return nil;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
