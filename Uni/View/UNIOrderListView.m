@@ -26,8 +26,9 @@
     if (self) {
         self.status = st;
         self.allArray = [NSMutableArray array];
-        [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
-         [self startRequest];
+//        [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
+//         [self startRequest];
+        [self setupTableView];
     }
     return self;
 }
@@ -86,11 +87,11 @@
 
 -(void)setupTableView{
 
-   self->noDataView.hidden=self.allArray.count>0;
-    
-    if (self.myTable){
-        [self.myTable reloadData];
-        return;}
+//   self->noDataView.hidden=self.allArray.count>0;
+//    
+//    if (self.myTable){
+//        [self.myTable reloadData];
+//        return;}
     
     UITableView* tabview = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)
                                                        style:UITableViewStylePlain];
@@ -98,10 +99,11 @@
     tabview.dataSource = self;
     tabview.showsVerticalScrollIndicator=NO;
     tabview.separatorStyle = 0;
+    tabview.backgroundColor = [UIColor colorWithHexString:@"f3f3f3"];
     [self addSubview:tabview];
     self.myTable =tabview;
     tabview.tableFooterView = [UIView new];
-    [self setupNodataView];
+    //[self setupNodataView];
         tabview.header= [MJRefreshNormalHeader headerWithRefreshingBlock:^{
             self.page = 0;
             [self startRequest];
@@ -122,7 +124,8 @@
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return self.allArray.count;
+   // return self.allArray.count;
+    return 10;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 4;
@@ -159,14 +162,15 @@
 //    [cell setupCellContentWith:self.allArray[indexPath.row]];
     
     
-    UNIOrderListModel* info = _allArray[indexPath.section];
+    //UNIOrderListModel* info = _allArray[indexPath.section];
     if (indexPath.row == 0) {
         UNIOrderListCell1* cell = [tableView dequeueReusableCellWithIdentifier:@"cell1"];
         if (!cell) {
             cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderListCell1" owner:self options:nil].lastObject;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.mainLab.text = [NSString stringWithFormat:@"订单编号:%@",info.orderCode];
+        cell.mainLab.text =@"订单编号：1243567";
+        //cell.mainLab.text = [NSString stringWithFormat:@"订单编号:%@",info.orderCode];
         return cell;
     }
     if (indexPath.row == 1) {
@@ -175,11 +179,11 @@
             cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderListCell2" owner:self options:nil].lastObject;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.label1.text =info.projectName;
-        cell.label2.text = nil;
-        cell.label3.text = [NSString stringWithFormat:@"￥%@",info.price];
-        cell.label4.text = [NSString stringWithFormat:@"x%d",info.num];
-        if(info.specifications) cell.label2.text = [NSString stringWithFormat:@"规格: %@",info.specifications];
+//        cell.label1.text =info.projectName;
+//        cell.label2.text = nil;
+//        cell.label3.text = [NSString stringWithFormat:@"￥%@",info.price];
+//        cell.label4.text = [NSString stringWithFormat:@"x%d",info.num];
+//        if(info.specifications) cell.label2.text = [NSString stringWithFormat:@"规格: %@",info.specifications];
         return cell;
     }
     if (indexPath.row == 2) {
@@ -188,18 +192,18 @@
             cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderListCell3" owner:self options:nil].lastObject;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.label2.text =[NSString stringWithFormat:@"%d",info.num];
-        cell.label5.text = [NSString stringWithFormat:@"￥%@",info.price];
-        
-        CGSize size5 = [UNIOrderListCell3 contentSize:cell.label5];
-        CGRect rect5 = cell.label5.frame;
-        rect5.size.width = size5.width;
-        rect5.origin.x = KMainScreenWidth - 16 - size5.width;
-        cell.label5.frame = rect5;
-        
-        CGRect rect4 = cell.label4.frame;
-        rect4.origin.x = CGRectGetMinX(rect5);
-        cell.label4.frame =rect4;
+//        cell.label2.text =[NSString stringWithFormat:@"%d",info.num];
+//        cell.label5.text = [NSString stringWithFormat:@"￥%@",info.price];
+//        
+//        CGSize size5 = [UNIOrderListCell3 contentSize:cell.label5];
+//        CGRect rect5 = cell.label5.frame;
+//        rect5.size.width = size5.width;
+//        rect5.origin.x = KMainScreenWidth - 16 - size5.width;
+//        cell.label5.frame = rect5;
+//        
+//        CGRect rect4 = cell.label4.frame;
+//        rect4.origin.x = CGRectGetMinX(rect5);
+//        cell.label4.frame =rect4;
         
         return cell;
     }
@@ -209,22 +213,23 @@
             cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderList4Cell" owner:self options:nil].lastObject;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.label1.text = [NSString stringWithFormat:@"下单时间: %@",info.time];
-        if (info.status == 0) {
-            [cell.handleBtn setTitle:@"到店领取" forState:UIControlStateNormal];
-            [cell.handleBtn setBackgroundImage:[UIImage imageNamed:@"order_btn_handle1"] forState:UIControlStateNormal];
-        }
-        if (info.status == 1) {
-            [cell.handleBtn setTitle:@"已领取" forState:UIControlStateNormal];
-            [cell.handleBtn setBackgroundImage:[UIImage imageNamed:@"order_btn_handle2"] forState:UIControlStateNormal];
-        }
+//        cell.label1.text = [NSString stringWithFormat:@"下单时间: %@",info.time];
+//        if (info.status == 0) {
+//            [cell.handleBtn setTitle:@"到店领取" forState:UIControlStateNormal];
+//            [cell.handleBtn setBackgroundImage:[UIImage imageNamed:@"order_btn_handle1"] forState:UIControlStateNormal];
+//        }
+//        if (info.status == 1) {
+//            [cell.handleBtn setTitle:@"已领取" forState:UIControlStateNormal];
+//            [cell.handleBtn setBackgroundImage:[UIImage imageNamed:@"order_btn_handle2"] forState:UIControlStateNormal];
+//        }
         return cell;
     }
     return nil;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self.delegate UNIOrderListViewDelegate:self.allArray[indexPath.row]];
+   //[self.delegate UNIOrderListViewDelegate:self.allArray[indexPath.row]];
+    [self.delegate UNIOrderListViewDelegate:nil];
 }
 
 

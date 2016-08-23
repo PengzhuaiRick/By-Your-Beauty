@@ -9,7 +9,7 @@
 #import "ViewController.h"
 #import "UIActionSheet+Blocks.h"
 #import "UNIShopManage.h"
-#import "YILocationManager.h"
+//#import "YILocationManager.h"
 #import "MainViewController.h"
 #import "AccountManager.h"
 #import "AppDelegate.h"
@@ -44,7 +44,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupParams];
-    //[self setupTableView];
     //[self setupSelf];
    // [self setupNotification];
    // [self showGuideView:FUNCTIONGUIDE];
@@ -124,31 +123,11 @@
                 @"function_img_scell8"
                 ];
 }
-
-
--(void)setupTableView{
-    
-    UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn1.frame = CGRectMake(self.view.frame.size.width/2, KMainScreenHeight-100,self.view.frame.size.width/2, 30);
-    [btn1 setTitle:@"   退出" forState:UIControlStateNormal];
-    [btn1 setImage:[UIImage imageNamed:@"function_btn_quit"] forState:UIControlStateNormal];
-    btn1.titleLabel.font = [UIFont systemFontOfSize:KMainScreenWidth*20/414];
-    [btn1 setTitleColor: [UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:1] forState:UIControlStateNormal];
-    [self.view addSubview:btn1];
-   // _loginOutBtn = btn1;
-    [[btn1 rac_signalForControlEvents:UIControlEventTouchUpInside]subscribeNext:^(id x) {
-       // [myself loginOut];
-        [[BaiduMobStat defaultStat]logEvent:@"menu_setting" eventLabel:@"首页设置菜单点击"];
-    }];
-
-    
-}
-
 #pragma mark 购物车点击事件
 - (IBAction)shopCarBtn:(id)sender {
     [self selfDismiss:nil];
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"shopCar"];
+    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIShopCarController"];
     [_tv.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {

@@ -124,7 +124,7 @@
 #pragma mark UNIRewardListView 代理方法
 -(void)UNIOrderListViewDelegate:(id)model{
     UNIOrderDetailController* detail = [[UNIOrderDetailController alloc]init];
-    detail.model = model;
+   // detail.model = model;
     [self.navigationController pushViewController:detail animated:YES];
 }
 
