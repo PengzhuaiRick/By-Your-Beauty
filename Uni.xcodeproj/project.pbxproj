@@ -164,6 +164,9 @@
 		18D77DCC1C3B9BE300DFC738 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D77DCB1C3B9BE300DFC738 /* libz.1.2.5.tbd */; };
 		18D77DCE1C3B9BF800DFC738 /* libstdc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D77DCD1C3B9BF800DFC738 /* libstdc++.tbd */; };
 		18D85DF81C475CE800A3FE3D /* UNIAddProjcetCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D85DF71C475CE800A3FE3D /* UNIAddProjcetCell.m */; };
+		18D864401D6D4DA40094EC42 /* UNIOrderDetailCell5.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D8643E1D6D4DA40094EC42 /* UNIOrderDetailCell5.m */; };
+		18D864411D6D4DA40094EC42 /* UNIOrderDetailCell5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D8643F1D6D4DA40094EC42 /* UNIOrderDetailCell5.xib */; };
+		18D864441D6DA0420094EC42 /* UNIShopCarRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D864431D6DA0420094EC42 /* UNIShopCarRequest.m */; };
 		18D9CBE91BEC801F001EF50C /* MainMidMoveBackTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9CBE81BEC801F001EF50C /* MainMidMoveBackTransition.m */; };
 		18DDBC661C97F57D0083D9AB /* UNITouristRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDBC651C97F57D0083D9AB /* UNITouristRequest.m */; };
 		18DDBC691C98008E0083D9AB /* UNITouristModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDBC681C98008E0083D9AB /* UNITouristModel.m */; };
@@ -576,6 +579,11 @@
 		18D77DCD1C3B9BF800DFC738 /* libstdc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.tbd"; path = "usr/lib/libstdc++.tbd"; sourceTree = SDKROOT; };
 		18D85DF61C475CE800A3FE3D /* UNIAddProjcetCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAddProjcetCell.h; sourceTree = "<group>"; };
 		18D85DF71C475CE800A3FE3D /* UNIAddProjcetCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAddProjcetCell.m; sourceTree = "<group>"; };
+		18D8643D1D6D4DA40094EC42 /* UNIOrderDetailCell5.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIOrderDetailCell5.h; sourceTree = "<group>"; };
+		18D8643E1D6D4DA40094EC42 /* UNIOrderDetailCell5.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIOrderDetailCell5.m; sourceTree = "<group>"; };
+		18D8643F1D6D4DA40094EC42 /* UNIOrderDetailCell5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIOrderDetailCell5.xib; sourceTree = "<group>"; };
+		18D864421D6DA0420094EC42 /* UNIShopCarRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopCarRequest.h; sourceTree = "<group>"; };
+		18D864431D6DA0420094EC42 /* UNIShopCarRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopCarRequest.m; sourceTree = "<group>"; };
 		18D9CBE71BEC801F001EF50C /* MainMidMoveBackTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMidMoveBackTransition.h; sourceTree = "<group>"; };
 		18D9CBE81BEC801F001EF50C /* MainMidMoveBackTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMidMoveBackTransition.m; sourceTree = "<group>"; };
 		18DDBC641C97F57D0083D9AB /* UNITouristRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNITouristRequest.h; sourceTree = "<group>"; };
@@ -836,6 +844,9 @@
 				18293A391D6C4A6E00BE3FB6 /* UNIOrderDetailCell3.h */,
 				18293A3A1D6C4A6E00BE3FB6 /* UNIOrderDetailCell3.m */,
 				18293A3B1D6C4A6E00BE3FB6 /* UNIOrderDetailCell3.xib */,
+				18D8643D1D6D4DA40094EC42 /* UNIOrderDetailCell5.h */,
+				18D8643E1D6D4DA40094EC42 /* UNIOrderDetailCell5.m */,
+				18D8643F1D6D4DA40094EC42 /* UNIOrderDetailCell5.xib */,
 			);
 			path = OrderDetail;
 			sourceTree = "<group>";
@@ -1457,6 +1468,8 @@
 				18D5F1AA1C881F630033553D /* UNIShopRequest.m */,
 				18DDBC641C97F57D0083D9AB /* UNITouristRequest.h */,
 				18DDBC651C97F57D0083D9AB /* UNITouristRequest.m */,
+				18D864421D6DA0420094EC42 /* UNIShopCarRequest.h */,
+				18D864431D6DA0420094EC42 /* UNIShopCarRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1631,6 +1644,7 @@
 				18C745961BF0334E000062AF /* Guide.storyboard in Resources */,
 				18C2A8241D5C623D0088F58A /* UNIAppointCell.xib in Resources */,
 				18153C9B1D6A9CAA009E2D9B /* UNIOrderListCell2.xib in Resources */,
+				18D864411D6D4DA40094EC42 /* UNIOrderDetailCell5.xib in Resources */,
 				182939B81D6BF8F600BE3FB6 /* UNIShopCarCell.xib in Resources */,
 				182939BD1D6C3BE700BE3FB6 /* UNIOrderDetailCell1.xib in Resources */,
 				180CD3971BDF180A00C912FE /* LaunchScreen.storyboard in Resources */,
@@ -1741,6 +1755,7 @@
 				18C8D40A1C574A5100E6DDB3 /* MD5DataSigner.m in Sources */,
 				18CCA01A1C030B3400B90092 /* UNIContainController.m in Sources */,
 				18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */,
+				18D864441D6DA0420094EC42 /* UNIShopCarRequest.m in Sources */,
 				18EA4A821C60A3D00033E801 /* CallOutAnnotationVifew.m in Sources */,
 				184E15471C5F4C4700D65E39 /* UNIAboutUsController.m in Sources */,
 				18CD114D1C7DD79500D48808 /* UNIAppointDetail.m in Sources */,
@@ -1794,6 +1809,7 @@
 				1844820B1C5217530047D2EF /* UNIOrderListView.m in Sources */,
 				18F0966B1BF1CA1D00B60A3D /* MainViewRequest.m in Sources */,
 				18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */,
+				18D864401D6D4DA40094EC42 /* UNIOrderDetailCell5.m in Sources */,
 				18DDBC661C97F57D0083D9AB /* UNITouristRequest.m in Sources */,
 				1808385A1BFACDA200727B61 /* UIColor+HexString.m in Sources */,
 				18C315681BFDCDF600B8438E /* UIActionSheet+Blocks.m in Sources */,

@@ -171,4 +171,19 @@
 
 //获取首页优惠券信息
 #define API_URL_GetNewestCoupon @"SellGoods/getNewestCoupon"
+
+
+
+//添加到购物车，修改购物车数量，减少购物车数量
+#define API_URL_ChangeNumOfShopCar @"Cart/addGoodsToCart"
+//获取购物车有多少种商品
+#define API_URL_GetKindOfShopCar @"Cart/getCartGoodsCount"
+//删除购物车物品
+#define API_URL_DelCartGoods @"Cart/delCartGoods"
+//是否全选
+#define API_URL_ChangeCartGoodsIsCheck @"Cart/changeCartGoodsIsCheck"
+//修改某个商品是否选中
+#define API_URL_CartIsCheck @"Cart/cartIsCheck"
+//获取购物车列表
+#define API_URL_GetCartList @"Cart/getCartList"
 #endif /* URLconfig_h */

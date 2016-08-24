@@ -10,6 +10,7 @@
 
 #import "UNIOrderDetailCell1.h"
 #import "UNIOrderDetailCell3.h"
+#import "UNIOrderDetailCell5.h"
 #import "WTOrderDetailCell1.h"
 #import "WTOrderDetailCell2.h"
 
@@ -20,7 +21,9 @@
 #import "UNIOrderListModel.h"
 #import "UNITransfromX&Y.h"
 @interface UNIOrderDetailController ()<UITableViewDelegate,UITableViewDataSource>
-@property(nonatomic,strong)UITableView* topTableView;
+@property (weak, nonatomic) IBOutlet UITableView *topTableView;
+@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
+@property (weak, nonatomic) IBOutlet UIButton *payBtn;
 @end
 
 @implementation UNIOrderDetailController
@@ -37,7 +40,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    [self setupTableView];
+    [self setupUI];
 }
 -(void)setupNavigation{
     self.title = @"订单详情";
@@ -45,45 +48,46 @@
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
+-(void)setupUI{
+    _cancelBtn.titleLabel.font = kWTFont(18);
+    _payBtn.titleLabel.font = kWTFont(18);
+}
+- (IBAction)cancelBtnAction:(UIButton *)sender {
+}
+- (IBAction)payBtnAction:(UIButton *)sender {
+}
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     [self.navigationController popViewControllerAnimated:YES];
 }
 
-
--(void)setupTableView{
-    float tabX = 0;
-    float tabY = 64;
-    float tabH = KMainScreenWidth;
-    float tabW = KMainScreenWidth- tabY;
-    UITableView* top = [[UITableView alloc]initWithFrame:CGRectMake(tabX, tabY, tabW, tabH) style:UITableViewStylePlain];
-    top.delegate = self;
-    top.dataSource = self;
-    top.separatorStyle = 0;
-    [self.view addSubview:top];
-    _topTableView = top;
-    
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 15;
 }
-
+-(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
+}
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    float cellH = 0;
-    if (indexPath.section == 0) {
-        cellH = KMainScreenWidth* 74/414;
-        return cellH;
-    }
-    if (indexPath.section == 1) {
-        cellH = KMainScreenWidth* 110/414;
-        return cellH;
-    }
+    if (indexPath.section == 0)
+        return  KMainScreenWidth* 74/414;
+    
+    if (indexPath.section == 1)
+        return KMainScreenWidth* 110/414;
+    
     if (indexPath.section == 2) {
-        if (indexPath.row == 1) {
-            
-        }
-        return cellH;
+        if (indexPath.row == 1)
+            return KMainScreenWidth* 115/414;
+       else if (indexPath.row == 2|| indexPath.row == 3)
+            return KMainScreenWidth* 40/414;
+       else if (indexPath.row == 4)
+            return KMainScreenWidth* 84/414;
+        else
+            return KMainScreenWidth* 92/414;
     }
-    
-    
-    return cellH;
+    return 0;
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 3;
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     int num=1;
@@ -98,7 +102,10 @@
         switch (indexPath.section) {
             case 0:{
                 UNIOrderDetailCell1* cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell1" owner:self options:nil].lastObject;
+                UNIShopManage* manager = [UNIShopManage getShopData];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.label1.text = manager.shopName;
+                cell.label2.text = manager.address;
                 return cell;
             }break;
             case 1:{
@@ -106,58 +113,43 @@
                 return cell;
             }break;
             case 2:{
-                UNIOrderDetailCell3* cell=[[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell3" owner:self options:nil].lastObject;
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                return cell;
-            }break;
-        }
-    
-        UITableViewCell* cell= [tableView dequeueReusableCellWithIdentifier:@"cell4"];
-        if (!cell) {
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell4"];
-        }
-        UNIShopManage* manager = [UNIShopManage getShopData];
-        switch (indexPath.row) {
-            case 0:{
-                cell.imageView.image = nil;
+                if (indexPath.row == 1) {
+                    WTOrderDetailCell2* cell=[[NSBundle mainBundle]loadNibNamed:@"WTOrderDetailCell2" owner:self options:nil].lastObject;
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    return cell;
+                }
+                else if (indexPath.row == 2 || indexPath.row == 3) {
+                   static NSString* name = @"cell";
+                    UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+                    if (!cell) {
+                        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:name];
+                        cell.selectionStyle= UITableViewCellSelectionStyleNone;
+                        cell.textLabel.textColor = [UIColor colorWithHexString:@"626262"];
+                        cell.textLabel.font = kWTFont(14);
+                        cell.detailTextLabel.font = kWTFont(14);
+                        
+                    }
+                    if (indexPath.row == 2) {
+                        cell.textLabel.text = @"支付方式:";
+                        cell.detailTextLabel.text = @"支付宝";
+                    }else{
+                        cell.textLabel.text = @"配送方式:";
+                        cell.detailTextLabel.text = @"普通快递";
+                    }
+                    return cell;
+                }
+               else if (indexPath.row == 4) {
+                    UNIOrderDetailCell5* cell=[[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell5" owner:self options:nil].lastObject;
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    return cell;
+               }else{
 
-                NSString* name = manager.shortName;
-                cell.textLabel.text =[NSString stringWithFormat:@"请您尽快到%@美容院领取您的宝贝!",name];
-                cell.textLabel.textColor = [UIColor colorWithHexString:kMainThemeColor];
-                cell.textLabel.numberOfLines = 0;
-                cell.textLabel.lineBreakMode = 0;
-                cell.textLabel.font = [UIFont systemFontOfSize:14];
-                cell.selectionStyle = 0;
-                [cell.textLabel sizeToFit];
-                CALayer* LAY = [CALayer layer];
-                LAY.frame = CGRectMake(16, (KMainScreenWidth*44/320)-1, tableView.frame.size.width-32, 1);
-                LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
-                [cell.layer addSublayer:LAY];
-                return cell;
+                   UNIOrderDetailCell3* cell=[[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell3" owner:self options:nil].lastObject;
+                   cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                   return cell;
+               }
+                
             }break;
-            case 1:{
-                cell.imageView.image = [UIImage imageNamed:@"appoint_img_pin"];
-                cell.textLabel.text =manager.address;
-                cell.textLabel.textColor = [UIColor blackColor];
-                cell.textLabel.font = [UIFont systemFontOfSize:14];
-                CALayer* LAY = [CALayer layer];
-                LAY.frame = CGRectMake(16, (KMainScreenWidth*44/320)-1, tableView.frame.size.width-32, 1);
-                LAY.backgroundColor = [UIColor colorWithHexString:kMainSeparatorColor].CGColor;
-                [cell.layer addSublayer:LAY];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                return cell;
-            }break;
-
-            case 2:{
-                cell.imageView.image = [UIImage imageNamed:@"evaluate_img_phone"];
-                cell.textLabel.text =manager.telphone;
-                cell.textLabel.textColor = [UIColor blackColor];
-                cell.textLabel.font = [UIFont systemFontOfSize:14];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                return cell;
-            }break;
-
-
         }
     
     return nil;

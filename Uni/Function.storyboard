@@ -192,6 +192,71 @@
             </objects>
             <point key="canvasLocation" x="1632" y="753"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="nQ7-mV-t5q">
+            <objects>
+                <navigationController id="SfH-Z9-0lG" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Srn-NC-esC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="gwR-aN-pLB" kind="relationship" relationship="rootViewController" id="pcb-EK-3my"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SEo-hd-lg3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1145" y="1541"/>
+        </scene>
+        <!--Order Detail Controller-->
+        <scene sceneID="T3n-sy-PRN">
+            <objects>
+                <viewController storyboardIdentifier="UNIOrderDetailController" id="gwR-aN-pLB" customClass="UNIOrderDetailController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="h7Z-WK-52M">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="OId-TS-Mtk">
+                                <rect key="frame" x="130" y="663" width="284" height="73"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <state key="normal" title="立即支付" backgroundImage="KZ_btn_payBack"/>
+                                <connections>
+                                    <action selector="payBtnAction:" destination="gwR-aN-pLB" eventType="touchUpInside" id="5fu-hJ-4lO"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4Q2-IY-lPZ">
+                                <rect key="frame" x="0.0" y="663" width="130" height="73"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.1529411765" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="取消订单"/>
+                                <connections>
+                                    <action selector="cancelBtnAction:" destination="gwR-aN-pLB" eventType="touchUpInside" id="dWS-bq-6HK"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="w3D-UT-B5Q">
+                                <rect key="frame" x="0.0" y="63" width="414" height="600"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="gwR-aN-pLB" id="jeX-Ad-fMn"/>
+                                    <outlet property="delegate" destination="gwR-aN-pLB" id="9u3-8r-0Vt"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="4ow-LN-9Qr"/>
+                    <connections>
+                        <outlet property="cancelBtn" destination="4Q2-IY-lPZ" id="cVW-01-BaU"/>
+                        <outlet property="payBtn" destination="OId-TS-Mtk" id="dhh-l4-3gT"/>
+                        <outlet property="topTableView" destination="w3D-UT-B5Q" id="Kb8-FM-CKE"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1V7-gR-FMb" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1625" y="1541"/>
+        </scene>
         <!--我的奖励订单详细界面-->
         <scene sceneID="gmG-sN-Q7B">
             <objects>

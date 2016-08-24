@@ -123,9 +123,13 @@
 
 #pragma mark UNIRewardListView 代理方法
 -(void)UNIOrderListViewDelegate:(id)model{
-    UNIOrderDetailController* detail = [[UNIOrderDetailController alloc]init];
-   // detail.model = model;
-    [self.navigationController pushViewController:detail animated:YES];
+//    UNIOrderDetailController* detail = [[UNIOrderDetailController alloc]init];
+//   // detail.model = model;
+//    [self.navigationController pushViewController:detail animated:YES];
+    
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIOrderDetailController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
