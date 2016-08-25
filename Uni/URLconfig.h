@@ -186,4 +186,6 @@
 #define API_URL_CartIsCheck @"Cart/cartIsCheck"
 //获取购物车列表
 #define API_URL_GetCartList @"Cart/getCartList"
+//获取购物车底部信息，比如是否全选，金额等
+#define API_URL_GetCartBottomInfo @"Cart/getCartBottomInfo"
 #endif /* URLconfig_h */

@@ -100,12 +100,17 @@
         }
 
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
-            [self requestSucceed:responseObject andIdenCode:code];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 [self requestSucceed:responseObject andIdenCode:code];
+            });
+           
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error: %@", error);
         if ([self respondsToSelector:@selector(requestFailed:andIdenCode:)]) {
-            [self requestFailed:error andIdenCode:code];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self requestFailed:error andIdenCode:code];
+            });
         }
     }];
 }
@@ -121,12 +126,16 @@
          NSDictionary *content = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSLog(@"code  %@   content  %@ ",code[0],content);
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
-            [self requestSucceed:content andIdenCode:code];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self requestSucceed:responseObject andIdenCode:code];
+            });
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         NSLog(@"Error:%@ %@",code[0], error);
         if ([self respondsToSelector:@selector(requestFailed:andIdenCode:)]) {
-            [self requestFailed:error andIdenCode:code];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self requestFailed:error andIdenCode:code];
+            });
         }
     }];
 }
@@ -146,8 +155,8 @@
 }
 
 -(NSString*)spliceURL:(NSArray*)code{
-    //NSString* str = [NSString stringWithFormat:@"%@/api.php?c=%@&a=%@",API_URL,code[0],code[1]];
-    NSString* str = [NSString stringWithFormat:@"%@/index.php?s=/App/%@/app_version/%@/device/ios",[UNIUrlManager sharedInstance].server_url,code[0],CURRENTVERSION];
+    //NSString* str = [NSString stringWithFormat:@"%@/index.php?s=/App/%@/app_version/%@/device/ios",[UNIUrlManager sharedInstance].server_url,code[0],CURRENTVERSION];
+    NSString* str = [NSString stringWithFormat:@"http://192.168.0.25/uni_project/index.php?s=/App/%@/app_version/%@/device/ios",code[0],CURRENTVERSION];
     return str;
 }
 

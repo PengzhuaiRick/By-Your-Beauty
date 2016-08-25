@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "baseViewController.h"
+#import "UNIGoodsModel.h"
 @interface UNIPurchaseController :baseViewController
-
+@property(nonatomic,strong)UNIGoodsModel* model;
 @end

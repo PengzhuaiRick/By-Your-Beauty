@@ -8,6 +8,7 @@
 
 #import "UNIShopCarController.h"
 #import "UNIShopCarCell.h"
+#import "UNIShopCarRequest.h"
 
 @interface UNIShopCarController ()<UITableViewDelegate,UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -24,6 +25,8 @@
     [super viewDidLoad];
     [self setupNavigation];
     [self setupUI];
+    [self startRequest];
+    [self requestBottomInfo];
 }
 -(void)setupNavigation{
     self.title = @"购物车";
@@ -41,6 +44,59 @@
     [_allSelectBtn setImage:[UIImage imageNamed:@"addpro_btn_selelct1"] forState:UIControlStateNormal];
     [_allSelectBtn setImage:[UIImage imageNamed:@"addpro_btn_selelct2"] forState:UIControlStateSelected];
 }
+#pragma mark 请求购物车列表
+-(void)startRequest{
+    UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
+    [rq postWithSerCode:@[API_URL_GetCartList] params:nil];
+    rq.getCartList=^(NSArray* arr,NSString* tips,NSError* err){
+        
+    };
+}
+
+#pragma mark 请求购物车底部信息
+-(void)requestBottomInfo{
+    UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
+    [rq postWithSerCode:@[API_URL_GetCartBottomInfo] params:nil];
+    rq.getCartBottomInfo=^(float endPrice,int isAll,int isCheckNum,NSString* tips,NSError* err){
+        
+    };
+}
+#pragma mark 添加到购物车，修改购物车数量，减少购物车数量
+-(void)requestChangeNumOfShopCar{
+    UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
+    [rq postWithSerCode:@[API_URL_ChangeNumOfShopCar] params:@{@"num":@"",@"goodId":@"",@"goodType":@"",@"isCheck":@""}];
+    rq.changeGoodsToCart=^(NSString* tips,NSError* err){
+        
+    };
+}
+
+#pragma mark 删除购物车物品
+-(void)requestDelCartGoods{
+    UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
+    [rq postWithSerCode:@[API_URL_DelCartGoods] params:@{@"isAll":@"",@"goodsKeys":@""}];
+    rq.delCartGoods=^(NSString* tips,NSError* err){
+        
+    };
+}
+
+#pragma mark 是否全选
+-(void)requestChangeCartGoodsIsCheck{
+    UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
+    [rq postWithSerCode:@[API_URL_ChangeCartGoodsIsCheck] params:@{@"isAll":@""}];
+    rq.changeCartGoodsIsCheck=^(NSString* tips,NSError* err){
+        
+    };
+}
+#pragma mark 修改某个商品是否选中
+-(void)requestCartIsCheck{
+    UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
+    [rq postWithSerCode:@[API_URL_CartIsCheck] params:@{@"goodId":@"",@"goodType":@"",@"isCheck":@""}];
+    rq.changeCartGoodsIsCheck=^(NSString* tips,NSError* err){
+        
+    };
+}
+
+
 #pragma mark 支付按钮事件
 - (IBAction)payBtnAction:(UIButton *)sender {
 }

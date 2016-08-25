@@ -152,23 +152,67 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZCW-VP-OO9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="800" y="-799"/>
+            <point key="canvasLocation" x="956" y="-935"/>
         </scene>
         <!--支付页面-->
         <scene sceneID="unM-D3-pAJ">
             <objects>
                 <viewController storyboardIdentifier="UNIPurchaseController" title="支付页面" id="5Xg-L9-avA" customClass="UNIPurchaseController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eqz-Jy-XyH">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="v9u-aK-cHa">
+                                <rect key="frame" x="0.0" y="662" width="414" height="74"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vpK-Zt-ZPW">
+                                        <rect key="frame" x="270" y="0.0" width="144" height="74"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
+                                        <state key="normal" title="付款" backgroundImage="KZ_btn_payBack"/>
+                                        <connections>
+                                            <action selector="payBtnAction:" destination="5Xg-L9-avA" eventType="touchUpInside" id="j9R-gf-58M"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xLs-Fe-DVq">
+                                        <rect key="frame" x="26" y="26" width="213" height="21"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <color key="textColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.1529411765" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="fWW-Px-dfS">
+                                <rect key="frame" x="0.0" y="64" width="414" height="597"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                                <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="YWJ-ZS-sse">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </view>
+                                <sections/>
+                                <connections>
+                                    <outlet property="dataSource" destination="5Xg-L9-avA" id="QTu-fM-chW"/>
+                                    <outlet property="delegate" destination="5Xg-L9-avA" id="9kc-Qu-Jgo"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="t5z-z6-sv4"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="bottomPrice" destination="xLs-Fe-DVq" id="wL6-mu-Ho6"/>
+                        <outlet property="myTable" destination="fWW-Px-dfS" id="gZP-50-rBH"/>
+                        <outlet property="payBtn" destination="vpK-Zt-ZPW" id="xg8-tm-1OL"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Bxw-ey-YxL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="829" y="1217"/>
+            <point key="canvasLocation" x="816" y="1372"/>
         </scene>
         <!--商品评论-->
         <scene sceneID="DmZ-4e-Hfw">
@@ -230,7 +274,7 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ttq-i3-kY0" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6lg-Al-Hwg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -242,7 +286,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XVO-g9-w4V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-84" y="1277"/>
+            <point key="canvasLocation" x="361" y="1372"/>
         </scene>
         <!--图文详情-->
         <scene sceneID="UI9-HE-RGG">
@@ -261,7 +305,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mbn-Cp-7OZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="307.73333333333335" y="-882.29333333333329"/>
+            <point key="canvasLocation" x="434" y="-935"/>
         </scene>
     </scenes>
     <resources>
