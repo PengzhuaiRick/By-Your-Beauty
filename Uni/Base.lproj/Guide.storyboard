@@ -536,8 +536,157 @@ All Rights Reserved</string>
             </objects>
             <point key="canvasLocation" x="1895" y="1168"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="BNq-R1-ewL">
+            <objects>
+                <navigationController id="u16-fh-L8J" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="KnD-LH-HBe">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Dt5-Ge-gQp" kind="relationship" relationship="rootViewController" id="4YN-BD-gEW"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MEl-JY-6dy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1848" y="2048"/>
+        </scene>
+        <!--Shop Car Controller-->
+        <scene sceneID="FAo-Bz-kI7">
+            <objects>
+                <viewController storyboardIdentifier="UNIShopCarController" id="Dt5-Ge-gQp" customClass="UNIShopCarController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Bxa-Kl-1k2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="Ckk-xb-pPA">
+                                <rect key="frame" x="0.0" y="662" width="414" height="74"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kgM-fC-na2">
+                                        <rect key="frame" x="270" y="0.0" width="144" height="74"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
+                                        <state key="normal" title="付款(0)" backgroundImage="KZ_btn_payBack"/>
+                                        <connections>
+                                            <action selector="payBtnAction:" destination="Dt5-Ge-gQp" eventType="touchUpInside" id="qWw-Kc-LIo"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="kIu-yT-z1m">
+                                        <rect key="frame" x="0.0" y="0.0" width="80" height="74"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <state key="normal" title="  全选" image="addpro_btn_selelct1"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zev-16-yib">
+                                        <rect key="frame" x="125" y="0.0" width="137" height="74"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.1529411765" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="eon-O5-wmx">
+                                <rect key="frame" x="0.0" y="65" width="414" height="597"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="Alx-qz-9rs">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </view>
+                                <connections>
+                                    <outlet property="dataSource" destination="Dt5-Ge-gQp" id="Wkl-vA-HHP"/>
+                                    <outlet property="delegate" destination="Dt5-Ge-gQp" id="q5A-kA-N4m"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="sdp-v5-PZd"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <connections>
+                        <outlet property="allSelectBtn" destination="kIu-yT-z1m" id="xAT-yr-eOb"/>
+                        <outlet property="bottomView" destination="Ckk-xb-pPA" id="AG4-y0-PMe"/>
+                        <outlet property="payBtn" destination="kgM-fC-na2" id="th1-aa-leN"/>
+                        <outlet property="priceLab" destination="Zev-16-yib" id="Io7-VR-oaD"/>
+                        <outlet property="tableView" destination="eon-O5-wmx" id="kJw-YP-cfG"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h9o-QC-MK2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2301" y="2048"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="UBp-GU-rwR">
+            <objects>
+                <navigationController id="ic8-7u-ZY6" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="iVU-zJ-sUS">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="b5U-Fu-TVA" kind="relationship" relationship="rootViewController" id="rBO-JE-kLi"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Mbb-Tm-8Nh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1837" y="2878"/>
+        </scene>
+        <!--Verify Controller-->
+        <scene sceneID="79S-ra-dwT">
+            <objects>
+                <viewController storyboardIdentifier="UNIVerifyController" id="b5U-Fu-TVA" customClass="UNIVerifyController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Toa-Ll-d8g">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="J6Z-K0-FWP">
+                                <rect key="frame" x="207" y="662" width="207" height="74"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <state key="normal" title="确认订单" backgroundImage="KZ_btn_payBack"/>
+                                <connections>
+                                    <action selector="payBtnAction:" destination="b5U-Fu-TVA" eventType="touchUpInside" id="NYS-FU-4aQ"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="i4m-xz-r6F">
+                                <rect key="frame" x="0.0" y="662" width="207" height="74"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.1529411765" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="UIE-pH-g0R">
+                                <rect key="frame" x="0.0" y="64" width="414" height="598"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="b5U-Fu-TVA" id="g0p-ay-5QX"/>
+                                    <outlet property="delegate" destination="b5U-Fu-TVA" id="lyI-KZ-elT"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="rr1-Ei-960"/>
+                    <connections>
+                        <outlet property="priceLab" destination="i4m-xz-r6F" id="X9f-TW-dST"/>
+                        <outlet property="tableView" destination="UIE-pH-g0R" id="zbX-eU-Pq2"/>
+                        <outlet property="verifyBtn" destination="J6Z-K0-FWP" id="MXB-d0-pwM"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FAB-pt-Y7V" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2313" y="2878"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="KZ_btn_payBack" width="180" height="62"/>
+        <image name="addpro_btn_selelct1" width="18" height="18"/>
         <image name="appoint_img_top" width="72" height="40"/>
         <image name="login_btn_codeback" width="97" height="40"/>
         <image name="login_btn_male" width="14" height="14"/>

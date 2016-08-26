@@ -134,6 +134,7 @@
 		18C8D40D1C574A5100E6DDB3 /* RSADataSigner.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D3FF1C574A5100E6DDB3 /* RSADataSigner.m */; };
 		18C8D40E1C574A5100E6DDB3 /* RSADataVerifier.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C8D4011C574A5100E6DDB3 /* RSADataVerifier.m */; };
 		18C92C0B1C19625C002778C3 /* UNIGoodsDetailRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */; };
+		18C94B7B1D7024970092E2C7 /* UNIVerifyController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18C94B7A1D7024970092E2C7 /* UNIVerifyController.m */; };
 		18C9CB0C1CCA042F00D8FB5F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18C9CB0B1CCA042F00D8FB5F /* AVFoundation.framework */; };
 		18CA17921C489B8600636ABF /* UNIRewardDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */; };
 		18CA17951C48A21F00636ABF /* UNIRewardProgessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18CA17941C48A21F00636ABF /* UNIRewardProgessView.m */; };
@@ -532,6 +533,8 @@
 		18C8D4011C574A5100E6DDB3 /* RSADataVerifier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSADataVerifier.m; sourceTree = "<group>"; };
 		18C92C091C19625C002778C3 /* UNIGoodsDetailRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsDetailRequest.h; sourceTree = "<group>"; };
 		18C92C0A1C19625C002778C3 /* UNIGoodsDetailRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGoodsDetailRequest.m; sourceTree = "<group>"; };
+		18C94B791D7024970092E2C7 /* UNIVerifyController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIVerifyController.h; sourceTree = "<group>"; };
+		18C94B7A1D7024970092E2C7 /* UNIVerifyController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIVerifyController.m; sourceTree = "<group>"; };
 		18C9CB0B1CCA042F00D8FB5F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		18CA17901C489B8600636ABF /* UNIRewardDetailCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIRewardDetailCell.h; sourceTree = "<group>"; };
 		18CA17911C489B8600636ABF /* UNIRewardDetailCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIRewardDetailCell.m; sourceTree = "<group>"; };
@@ -1465,6 +1468,8 @@
 				18EC2E0D1C4A15B900A81DD9 /* UNIGiftController.m */,
 				182939B11D6BE8EE00BE3FB6 /* UNIShopCarController.h */,
 				182939B21D6BE8EE00BE3FB6 /* UNIShopCarController.m */,
+				18C94B791D7024970092E2C7 /* UNIVerifyController.h */,
+				18C94B7A1D7024970092E2C7 /* UNIVerifyController.m */,
 			);
 			path = gift;
 			sourceTree = "<group>";
@@ -1872,6 +1877,7 @@
 				18FD49781C16748900C07BF5 /* UNIRewardListModel.m in Sources */,
 				18E661D51C118067000042B7 /* MyRewardView.m in Sources */,
 				18153D2A1D6AE4B3009E2D9B /* WTOrderDetailCell2.m in Sources */,
+				18C94B7B1D7024970092E2C7 /* UNIVerifyController.m in Sources */,
 				18C3ECF61C0ED53300B0A192 /* UNIAppointDetailCell.m in Sources */,
 				184481FC1C5202CA0047D2EF /* UNIOrderListController.m in Sources */,
 				18F096681BF1C99400B60A3D /* BaseRequest.m in Sources */,

@@ -85,10 +85,12 @@
     
     NSString* URL = [self spliceURL:code];
     NSLog(@"URL :  %@    ,   params : %@",URL , dic);
+   // [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer.timeoutInterval = 10.f;
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
     [manager POST:URL parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        // [LLARingSpinnerView RingSpinnerViewStop1];
         NSLog(@"code  %@   content  %@ ",code[0],responseObject);
         int resultcode = [[self safeObject:dic ForKey:@"code"] intValue];
         if (resultcode == -1) {
@@ -127,7 +129,7 @@
         NSLog(@"code  %@   content  %@ ",code[0],content);
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self requestSucceed:responseObject andIdenCode:code];
+                [self requestSucceed:content andIdenCode:code];
             });
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

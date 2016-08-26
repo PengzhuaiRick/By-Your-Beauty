@@ -111,86 +111,61 @@
             <point key="canvasLocation" x="661" y="809"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="elr-BH-7eg">
+        <scene sceneID="r8r-7b-jj1">
             <objects>
-                <navigationController id="kyx-O5-Z9h" sceneMemberID="viewController">
+                <navigationController id="HJj-Gx-914" sceneMemberID="viewController">
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="wm6-gU-gti">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Nky-MM-IpP">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="0J0-EN-NL1" kind="relationship" relationship="rootViewController" id="mdZ-fM-bwb"/>
+                        <segue destination="zel-NT-sJ6" kind="relationship" relationship="rootViewController" id="5pj-1k-Of9"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ech-GY-VJ7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="psr-IG-4fv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1155" y="740"/>
+            <point key="canvasLocation" x="2097" y="753"/>
         </scene>
-        <!--购物车-->
-        <scene sceneID="Ryx-VC-rdh">
+        <!--确认订单-->
+        <scene sceneID="S48-KW-PAn">
             <objects>
-                <viewController storyboardIdentifier="UNIShopCarController" title="购物车" id="0J0-EN-NL1" customClass="UNIShopCarController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="JZd-4D-zRk">
+                <viewController title="确认订单" id="zel-NT-sJ6" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="d93-rM-EGn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" id="REZ-WE-OE9">
-                                <rect key="frame" x="0.0" y="662" width="414" height="74"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="CqV-Mx-z7C">
-                                        <rect key="frame" x="270" y="0.0" width="144" height="74"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
-                                        <state key="normal" title="付款(0)" backgroundImage="KZ_btn_payBack"/>
-                                        <connections>
-                                            <action selector="payBtnAction:" destination="0J0-EN-NL1" eventType="touchUpInside" id="hMG-wU-DQz"/>
-                                        </connections>
-                                    </button>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="TFQ-Fa-kfh">
-                                        <rect key="frame" x="146" y="0.0" width="116" height="74"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <color key="textColor" red="0.95294117649999999" green="0.95294117649999999" blue="0.95294117649999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="JGh-bj-3jb">
-                                        <rect key="frame" x="0.0" y="0.0" width="80" height="74"/>
-                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" title=" 全选" image="addpro_btn_selelct1"/>
-                                        <connections>
-                                            <action selector="allSelectBtnAction:" destination="0J0-EN-NL1" eventType="touchUpInside" id="maz-cH-vp6"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="VVx-Oh-yFe">
+                                <rect key="frame" x="207" y="663" width="207" height="73"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <state key="normal" title="确认订单" backgroundImage="KZ_btn_payBack"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="合计:" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Jrh-cL-1fp">
+                                <rect key="frame" x="0.0" y="663" width="207" height="73"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.21176470588235294" green="0.15294117647058825" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
-                            </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="u25-nQ-4an">
-                                <rect key="frame" x="0.0" y="64" width="414" height="596"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="OTO-nz-qMx">
+                                <rect key="frame" x="0.0" y="64" width="414" height="599"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="0J0-EN-NL1" id="h7g-5I-Hx2"/>
-                                    <outlet property="delegate" destination="0J0-EN-NL1" id="jsW-Fv-Gf1"/>
-                                </connections>
+                                <view key="tableFooterView" contentMode="scaleToFill" id="qfH-XB-VOT">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </view>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="wwk-6M-gU6"/>
+                    <navigationItem key="navigationItem" id="4ds-Nf-6ug"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
-                    <connections>
-                        <outlet property="allSelectBtn" destination="JGh-bj-3jb" id="vqu-mB-ykD"/>
-                        <outlet property="bottomView" destination="REZ-WE-OE9" id="wp7-ra-CIm"/>
-                        <outlet property="payBtn" destination="CqV-Mx-z7C" id="v8v-h1-J8q"/>
-                        <outlet property="priceLab" destination="TFQ-Fa-kfh" id="0q7-mU-Aic"/>
-                        <outlet property="tableView" destination="u25-nQ-4an" id="jvu-QT-WkV"/>
-                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="HUr-Rg-sfw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="SIb-AM-iHK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1632" y="753"/>
+            <point key="canvasLocation" x="2531" y="753"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="nQ7-mV-t5q">
@@ -402,7 +377,6 @@
     </scenes>
     <resources>
         <image name="KZ_btn_payBack" width="180" height="62"/>
-        <image name="addpro_btn_selelct1" width="18" height="18"/>
         <image name="appoint_img_top" width="72" height="40"/>
     </resources>
     <inferredMetricsTieBreakers>

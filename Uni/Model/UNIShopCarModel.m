@@ -22,7 +22,9 @@
     self.goodId = [[self safeObject:dic ForKey:@"goodId"]intValue];
     self.goodsType = [[self safeObject:dic ForKey:@"goodsType"]intValue];
     self.isCheck = [[self safeObject:dic ForKey:@"isCheck"]intValue];
+    self.shopId = [[self safeObject:dic ForKey:@"shopId"]intValue];
     self.goodName = [self safeObject:dic ForKey:@"goodName"];
-    self.logoUrl = [self safeObject:dic ForKey:@"logoUrl"];
+    self.goodLogoUrl = [self safeObject:dic ForKey:@"goodLogoUrl"];
+    self.specifications = [self safeObject:dic ForKey:@"specifications"];
 }
 @end

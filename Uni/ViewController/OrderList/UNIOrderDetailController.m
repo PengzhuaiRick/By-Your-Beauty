@@ -48,6 +48,9 @@
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
 }
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
+}
 -(void)setupUI{
     _cancelBtn.titleLabel.font = kWTFont(18);
     _payBtn.titleLabel.font = kWTFont(18);
@@ -57,9 +60,7 @@
 - (IBAction)payBtnAction:(UIButton *)sender {
 }
 
--(void)leftBarButtonEvent:(UIBarButtonItem*)item{
-    [self.navigationController popViewControllerAnimated:YES];
-}
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 15;

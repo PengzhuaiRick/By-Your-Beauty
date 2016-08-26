@@ -41,6 +41,11 @@
 }
 -(void)setupNavigation{
     self.title = @"填写订单";
+    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+}
+
+-(void)leftBarButtonEvent:(UIBarButtonItem*)item{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)setupUI{
@@ -52,9 +57,9 @@
     //_bottomPrice.text = [NSString stringWithFormat:@"￥%.2f",_model.shopPrice*_model.sellNum];
     
     __weak UNIPurchaseController* myself = self;
-    [RACObserve(self, self->sellNum)subscribeNext:^(id x) {
-        self->cell1.numField.text = [NSString stringWithFormat:@"%d",self->sellNum];
-         myself.bottomPrice.text = [NSString stringWithFormat:@"￥%.2f",myself.model.shopPrice*self->sellNum];
+    [RACObserve(self.model, sellNum)subscribeNext:^(id x) {
+        self->cell1.numField.text = [NSString stringWithFormat:@"%d",myself.model.sellNum];
+         myself.bottomPrice.text = [NSString stringWithFormat:@"￥%.2f",myself.model.shopPrice*myself.model.sellNum];
         
         self->cell2.detailTextLabel.text =myself.bottomPrice.text;
     }];
@@ -103,8 +108,8 @@
         
         [[cell1.numField rac_textSignal]subscribeNext:^(NSString* x) {
             int num = x.intValue;
-            if (num>0)
-                myself.model.sellNum = num;
+            if (num<1) num = 1;
+            myself.model.sellNum = num;
             
         }];
         

@@ -188,4 +188,13 @@
 #define API_URL_GetCartList @"Cart/getCartList"
 //获取购物车底部信息，比如是否全选，金额等
 #define API_URL_GetCartBottomInfo @"Cart/getCartBottomInfo"
+//确认订单
+#define API_URL_GetCartComfirm @"Cart/getCartComfirm"
+//支付调用
+#define API_URL_GetNewPayInfo @"pay/getNewPayInfo"
+
+
+//新的订单列表接口
+//支付调用
+#define API_URL_GetMyOrder @"Cart/getMyOrder"
 #endif /* URLconfig_h */

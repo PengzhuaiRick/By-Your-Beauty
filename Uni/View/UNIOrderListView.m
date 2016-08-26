@@ -25,18 +25,19 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.status = st;
+        self.page = 1;
         self.allArray = [NSMutableArray array];
 //        [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
-//         [self startRequest];
         [self setupTableView];
+        [self startRequest];
     }
     return self;
 }
 -(void)startRequest{
     
     UNIOrderRequest* request = [[UNIOrderRequest alloc]init];
-    [request postWithSerCode:@[API_URL_MyOrderList]
-                      params:@{@"status":@(self.status),@"page":@(self.page),@"size":@(20)}];
+    [request postWithSerCode:@[API_URL_GetMyOrder]
+                      params:@{@"ifget":@(self.status),@"offset":@(self.page),@"pageSize":@(20)}];
     request.myOrderListBlock=^(NSArray* array ,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.myTable.header endRefreshing];

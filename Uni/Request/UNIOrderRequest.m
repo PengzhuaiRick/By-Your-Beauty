@@ -34,13 +34,33 @@
                 _myOrderListBlock(nil,tips,nil);
     }
     
+    //获取订单列表
+    if ([param2 isEqualToString:API_URL_GetMyOrder]) {
+        if (code == 0) {
+            NSArray* result = [self safeObject:dic ForKey:@"result"];
+            NSMutableArray* models = [NSMutableArray arrayWithCapacity:result.count];
+            for (NSDictionary* dic in result) {
+                UNIOrderListModel* model = [[UNIOrderListModel alloc]initWithDic:dic];
+                [models addObject:model];
+            }
+            _myOrderListBlock(models,tips,nil);
+        }
+        else
+            _myOrderListBlock(nil,tips,nil);
+    }
+
+    
 }
 
 -(void)requestFailed:(NSError *)err andIdenCode:(NSArray *)array{
     //NSString* param1 = array[0];
     NSString* param2 = array[0];
          //获取订单列表
-        if ([param2 isEqualToString:API_URL_MyOrderList])
+    if ([param2 isEqualToString:API_URL_MyOrderList])
             _myOrderListBlock(nil,nil,err);
+    
+    //获取新的订单列表
+    if ([param2 isEqualToString:API_URL_GetMyOrder])
+        _myOrderListBlock(nil,nil,err);
 }
 @end

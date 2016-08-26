@@ -232,8 +232,8 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
 #pragma mark 添加到购物车，修改购物车数量，减少购物车数量
 -(void)requestChangeNumOfShopCar{
     UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
-    [rq postWithSerCode:@[API_URL_ChangeNumOfShopCar] params:@{@"num":_numField.text,@"goodId":@(model.projectId),@"goodType":@(model.type),@"isCheck":@"0"}];
-    rq.changeGoodsToCart=^(NSString* tips,NSError* err){
+    [rq postWithSerCode:@[API_URL_ChangeNumOfShopCar] params:@{@"num":_numField.text,@"goodId":@(model.projectId),@"goodType":@(model.type),@"isCheck":@"1"}];
+    rq.changeGoodsToCart=^(int code,NSString* tips,NSError* err){
         if (err) {
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
@@ -246,6 +246,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
    // [self showThePayStyle];
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
     UNIPurchaseController* vc = [st instantiateViewControllerWithIdentifier:@"UNIPurchaseController"];
+    model.sellNum = _num;
     vc.model = model;
     [self.navigationController pushViewController:vc animated:YES];
     [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_detail" eventLabel:@"产品详情购买按"];

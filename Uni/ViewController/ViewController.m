@@ -125,8 +125,11 @@
 }
 #pragma mark 购物车点击事件
 - (IBAction)shopCarBtn:(id)sender {
-    [self selfDismiss:nil];
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+    [self selfDismiss:@selector(setupShopCar)];
+    
+}
+-(void)setupShopCar{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
     UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIShopCarController"];
     [_tv.navigationController pushViewController:vc animated:YES];
 }

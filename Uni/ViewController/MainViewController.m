@@ -205,7 +205,7 @@
     UIButton* btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
     [btn1 setImage:[UIImage imageNamed:@"main_bar_left"] forState:UIControlStateNormal];
     btn1.frame = CGRectMake(0, 0, 40, 40);
-    [btn1 addTarget:self action:@selector(navigationControllerLeftBarAction:) forControlEvents:UIControlEventTouchUpInside];
+    [btn1 addTarget:self action:@selector(navigationControllerRightBarAction:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:btn1];
     
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
@@ -237,6 +237,12 @@
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     [self showViewController];
+}
+#pragma mark 功能按钮事件
+-(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIShopCarController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)showViewController{
   //  ViewController* view = [[ViewController alloc]init];
