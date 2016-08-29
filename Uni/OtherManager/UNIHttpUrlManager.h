@@ -32,6 +32,7 @@
 @property(nonatomic,copy) NSString* MORE_YH_TIPS;//更多优惠持续更新，敬请关注!
 @property(nonatomic,copy) NSString* SELF_APPOINT_TITLE;//忙里忙外，也要记得体贴自己！\n马上预约，来这里休息片刻~
 @property(nonatomic,copy) NSString* SELF_APPOINT_CONTENT;//更多优惠持续更新，敬请关注!
+@property(nonatomic,copy) NSString* MAIN_BOTTOM_TIPS;//首页点击瓶子提示语
 + (UNIHttpUrlManager *)sharedInstance;
 -(void)initHttpUrlManager:(NSDictionary*)dic;
 @end

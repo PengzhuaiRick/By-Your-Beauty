@@ -33,8 +33,14 @@
     //获取购物车有多少种商品
     if ([param2 isEqualToString:API_URL_GetKindOfShopCar]) {
         if (code == 0) {
-            
+            int count = [[self safeObject:dic ForKey:@"count"]intValue];
+            if (_getCartGoodsCount)
+                _getCartGoodsCount(count,tips,nil);
+        }else{
+            if (_getCartGoodsCount)
+                _getCartGoodsCount(-1,tips,nil);
         }
+            
     }
     
     //删除购物车物品
@@ -141,7 +147,8 @@
     }
     //获取购物车有多少种商品
     if ([param2 isEqualToString:API_URL_GetKindOfShopCar]) {
-      
+        if (_getCartGoodsCount)
+            _getCartGoodsCount(-1,nil,err);
     }
     
     //删除购物车物品

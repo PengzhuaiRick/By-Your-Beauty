@@ -8,7 +8,7 @@
 
 #import "MainMidController.h"
 #import "MainMidMoveBackTransition.h"
-#import "MainMidCell.h"
+#import "MainCell.h"
 #import "MainViewRequest.h"
 #import <MJRefresh/MJRefresh.h>
 //#import "UNIAppointController.h"
@@ -63,14 +63,10 @@
 }
 
 -(void)setupSelf{
-    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
-    view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
-    self.view.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
-    self.tableView.tableHeaderView =view;
-    self.tableView.backgroundColor = [UIColor whiteColor];
+   
+    self.tableView.backgroundColor = [UIColor colorWithHexString:@"eeeeee"];
     self.tableView.tableFooterView = [UIView new];
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    view=nil;
 }
 #pragma mark 设置参数
 -(void)setupParams{
@@ -129,22 +125,64 @@
 }
 
 #pragma mark - Table view data source
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return KMainScreenWidth*15/414;
+}
 
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*15/414)];
+}
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return _myData.count;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return KMainScreenWidth*90/320;
+    return KMainScreenWidth*81/414;;
 }
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString* name = @"CellName";
-    MainMidCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
-    if (!cell)
-        cell = [[MainMidCell alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, KMainScreenWidth*90/320) reuseIdentifier:name];
+    MainCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
+    if (!cell){
+      //  __weak MainMidController* myself = self;
+        cell = [[NSBundle mainBundle]loadNibNamed:@"MainCell" owner:self options:nil].lastObject;
+        [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+         subscribeNext:^(UIButton* x) {
+         }];
+    }
+    UNIMyAppintModel* model = _myData[indexPath.section];
+    cell.mainLab.text =model.projectName;
+    NSString*createTime = [model.createTime substringToIndex:16];
+    cell.subLab.text =[createTime stringByReplacingOccurrencesOfString:@"-" withString:@"."];
+    [cell.mainImage sd_setImageWithURL:[NSURL URLWithString:model.logoUrl] placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
     
-    [cell setupCellContent:_myData[indexPath.row] andType:1];
+    NSString* btnTitle = nil;
+    NSString* imgName= nil;
+    switch (model.status) {
+        case 0:
+            btnTitle = @"待确认";
+            imgName = @"main_btn_cell4";
+            break;
+        case 1:
+            btnTitle = @"待服务";
+            imgName = @"main_btn_cell2";
+            break;
+        case 2:
+            btnTitle = @"已完成";
+            imgName = @"main_btn_cell1";
+            break;
+        case 3:
+            btnTitle = @"已取消";
+            imgName = @"main_btn_cell3";
+            break;
+    }
+    [cell.handleBtn setTitle:btnTitle forState:UIControlStateNormal];
+    cell.handleImg.image = [UIImage imageNamed:imgName];
+    
+
     return cell;
 }
 
@@ -152,7 +190,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
-    UNIMyAppintModel* model =_myData[indexPath.row];
+    UNIMyAppintModel* model =_myData[indexPath.section];
     appoint.order =model.myorder;
     appoint.shopId = model.shopId;
     [self.navigationController pushViewController:appoint animated:YES];

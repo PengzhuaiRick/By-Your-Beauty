@@ -291,11 +291,27 @@
     float pY = KMainScreenWidth* 120/414;
     UNIMainProView* progess = [[UNIMainProView alloc]initWithFrame:CGRectMake(pX, pY, pWH, pWH)];
     progess.backgroundColor =[UIColor clearColor];
+    progess.userInteractionEnabled=YES;
     progess.shapeColor = [UIColor colorWithHexString:@"9e928c"];
     progess.progessColor = [UIColor whiteColor];
     [progess setupProgreaa:0 and:0];
     [_headerView addSubview:progess];
     _progessView =progess;
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
+    [progess addGestureRecognizer:tap];
+    [tap.rac_gestureSignal subscribeNext:^(id x) {
+        if (self->goodId1<1 || self->type1 !=2){
+            NSString* tips= [UNIHttpUrlManager sharedInstance].MAIN_BOTTOM_TIPS;
+            [UIAlertView showWithTitle:tips message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:nil];
+            return ;
+        }
+        
+        NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
+        NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
+        //[self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
+        [myself UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
+        [[BaiduMobStat defaultStat]logEvent:@"btn_main_bottle" eventLabel:@"首页瓶子礼品点击"];
+    }];
     
     _rewardLab.layer.masksToBounds=YES;
     _rewardLab.layer.cornerRadius = _rewardLab.frame.size.height/2;
@@ -303,27 +319,6 @@
     _rewardLab.layer.borderColor = [UIColor colorWithHexString:@"7a777b"].CGColor;
     
     
-}
-
-#pragma mark 创建  tableHeaderView
--(void)setupTabViewHeader:(UIImageView*)imageView{
-
-    UIButton* proBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    proBtn.frame = _progessView.frame;
-    __weak MainViewController* myself = self;
-    [[proBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-     subscribeNext:^(id x) {
-         if (self->goodId1<1)
-             return ;
-         NSString* str1 = [NSString stringWithFormat:@"%d",self->goodId1];
-         NSString* str2 = [NSString stringWithFormat:@"%d",self->type1];
-         //[self UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2];
-         [myself UNIGoodsWebDelegateMethodAndprojectId:str1 Andtype:str2 AndIsHeaderShow:0];
-         str1=nil;
-         str2=nil;
-         [[BaiduMobStat defaultStat]logEvent:@"btn_main_bottle" eventLabel:@"首页瓶子礼品点击"];
-     }];
-    [imageView addSubview:proBtn];
 }
 
 #pragma mark
@@ -666,12 +661,18 @@
         [manager initHttpUrlManager:dic];
     };
 }
+-(void)gotoShopCarController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIShopCarController"];
+    [self.navigationController pushViewController:vc animated:YES];
+}
 
 
 #pragma mark 注册通知
 -(void)setupNotification{
     //预约成功后 刷新 列表 通知
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appointSuccessAndReflash) name:APPOINTANDREFLASH object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(gotoShopCarController) name:@"gotoShopCarController" object:nil];
 }
 
 -(void)appointSuccessAndReflash{
@@ -686,6 +687,7 @@
 
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:APPOINTANDREFLASH object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"gotoShopCarController" object:nil];
 }
 
 -(void)changeNavigationBarAlpha:(CGFloat)alp{

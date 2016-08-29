@@ -129,9 +129,10 @@
     
 }
 -(void)setupShopCar{
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
-    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIShopCarController"];
-    [_tv.navigationController pushViewController:vc animated:YES];
+//    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+//    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIShopCarController"];
+//    [_tv.navigationController pushViewController:vc animated:YES];
+    [_tv gotoShopCarController];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -34,7 +34,15 @@
 @end
 
 @implementation UNIVerifyController
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(dealWithResultOfTheWCpay:) name:@"dealWithResultOfTheWCpay" object:nil];
+}
 
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheWCpay" object:nil];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupData];
@@ -43,7 +51,7 @@
     [self startRequest];
 }
 -(void)setupData{
-    style = @"WXPAY_APP";
+    style = @"WXPAY_APP2";
 
 }
 -(void)setupUI{
@@ -67,7 +75,7 @@
         }
         if (arr) {
             self->allPrice = sumPrice;
-            myself.priceLab.text = [NSString stringWithFormat:@"合计: ￥%.f",sumPrice];
+            myself.priceLab.text = [NSString stringWithFormat:@"合计: ￥%.2f",sumPrice];
             myself.myData = arr;
             [myself.tableView reloadData];
         }else
@@ -166,7 +174,7 @@
                      
                      x.selected = !x.selected;
                      int row = x.tag==1?2:1;
-                     self->style = x.tag==1?@"ALIPAY_APP":@"WXPAY_APP";
+                     self->style = x.tag==2?@"ALIPAY_APP2":@"WXPAY_APP2";
                      NSIndexPath* index = [NSIndexPath indexPathForRow:row inSection:2];
                      UNIPayStyleCell* cell = [myself.tableView cellForRowAtIndexPath:index];
                      cell.handleBtn.selected = !cell.handleBtn.selected;
@@ -195,18 +203,20 @@
 #pragma mark 请求订单号
 -(void)requestTheOrderNo{
     __weak UNIVerifyController* myself = self;
+     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
     [rq postWithSerCode:@[API_URL_GetNewPayInfo] params:@{@"payType":style}];
     rq.getNewPayInfo=^(NSDictionary* dictionary,NSString* tips,NSError* err){
+        [LLARingSpinnerView RingSpinnerViewStop1];
         if (err) {
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
         if (dictionary) {
             self->orderNo =[dictionary objectForKey:@"out_trade_no"];
-            if ( [self->style isEqualToString:@"WXPAY_APP"]){
+            if ( [self->style isEqualToString:@"WXPAY_APP2"]){
                 [myself jumpToBizPay:dictionary];}
-            if ( [self->style isEqualToString:@"ALIPAY_APP"]){
+            if ( [self->style isEqualToString:@"ALIPAY_APP2"]){
                 [myself payWithZFB:dictionary];}
         }else
             [YIToast showText:tips];
@@ -328,6 +338,7 @@
             [LLARingSpinnerView RingSpinnerViewStop1];
             [UIAlertView showWithTitle:tip message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 if (code == 0) {
+                    [self.navigationController popViewControllerAnimated:YES];
                     //                    UNIOrderListController* view = [[UNIOrderListController alloc]init];
                     //                    view.type = 1;
                     //                    [self.navigationController pushViewController:view animated:YES];

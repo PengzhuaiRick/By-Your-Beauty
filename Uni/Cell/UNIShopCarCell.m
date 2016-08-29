@@ -22,7 +22,7 @@
     _numView.layer.borderWidth = 1;
     _numView.layer.borderColor = [UIColor colorWithHexString:@"959595"].CGColor;
     
-    _mainimg.layer.borderColor = [UIColor colorWithHexString:@"959595"].CGColor;
+    _mainimg.layer.borderColor = [UIColor colorWithHexString:@"eeeeee"].CGColor;
     _mainimg.layer.borderWidth = 1;
     
     [_selectBtn setImage:[UIImage imageNamed:@"addpro_btn_selelct1"] forState:UIControlStateNormal];

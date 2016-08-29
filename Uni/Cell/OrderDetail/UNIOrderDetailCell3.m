@@ -13,7 +13,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     _mianimg.layer.borderWidth = 1;
-    _mianimg.layer.borderColor = [UIColor colorWithHexString:@"1B1B1B"].CGColor;
+    _mianimg.layer.borderColor = [UIColor colorWithHexString:@"eeeeee"].CGColor;
     
     _label1.font = kWTFont(14);
     _label2.font = kWTFont(14);

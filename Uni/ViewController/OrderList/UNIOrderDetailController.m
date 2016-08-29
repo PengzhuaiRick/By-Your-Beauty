@@ -20,10 +20,13 @@
 #import "UIActionSheet+Blocks.h"
 #import "UNIOrderListModel.h"
 #import "UNITransfromX&Y.h"
-@interface UNIOrderDetailController ()<UITableViewDelegate,UITableViewDataSource>
+
+#import "UNIOrderRequest.h"
+@interface UNIOrderDetailController ()<UITableViewDelegate,UITableViewDataSource>{
+    
+}
 @property (weak, nonatomic) IBOutlet UITableView *topTableView;
-@property (weak, nonatomic) IBOutlet UIButton *cancelBtn;
-@property (weak, nonatomic) IBOutlet UIButton *payBtn;
+@property (strong, nonatomic)UNIOrderDetailModel* detailModel;
 @end
 
 @implementation UNIOrderDetailController
@@ -41,6 +44,27 @@
     [super viewDidLoad];
     [self setupNavigation];
     [self setupUI];
+    [self startRequest];
+}
+-(void)startRequest{
+    UNIOrderRequest* request = [[UNIOrderRequest alloc]init];
+    [request postWithSerCode:@[API_URL_GetCartOrderDetail]
+                      params:@{@"orderNo":_model.orderNo}];
+    __weak UNIOrderDetailController* myself = self;
+    request.cartOrderDetail=^(UNIOrderDetailModel* model,NSString* tips,NSError* er){
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [LLARingSpinnerView RingSpinnerViewStop1];
+            if (er) {
+                [YIToast showText:NETWORKINGPEOBLEM];
+                return ;
+            }
+            if (model) {
+                myself.detailModel = model;
+                [myself.topTableView reloadData];
+            }else
+                 [YIToast showText:tips];
+        });
+    };
 }
 -(void)setupNavigation{
     self.title = @"订单详情";
@@ -52,12 +76,7 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)setupUI{
-    _cancelBtn.titleLabel.font = kWTFont(18);
-    _payBtn.titleLabel.font = kWTFont(18);
-}
-- (IBAction)cancelBtnAction:(UIButton *)sender {
-}
-- (IBAction)payBtnAction:(UIButton *)sender {
+ 
 }
 
 
@@ -76,11 +95,12 @@
         return KMainScreenWidth* 110/414;
     
     if (indexPath.section == 2) {
-        if (indexPath.row == 1)
+        int num = (int)_model.goods.count;
+        if (indexPath.row == num)
             return KMainScreenWidth* 115/414;
-       else if (indexPath.row == 2|| indexPath.row == 3)
+       else if (indexPath.row == num + 1||indexPath.row == num + 2)
             return KMainScreenWidth* 40/414;
-       else if (indexPath.row == 4)
+       else if (indexPath.row == num + 3)
             return KMainScreenWidth* 84/414;
         else
             return KMainScreenWidth* 92/414;
@@ -93,7 +113,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     int num=1;
     if (section == 2)
-        num = 5;
+        num = (int)_model.goods.count+4;
     
     return num;
 }
@@ -111,15 +131,22 @@
             }break;
             case 1:{
                 WTOrderDetailCell1* cell = [[NSBundle mainBundle]loadNibNamed:@"WTOrderDetailCell1" owner:self options:nil].lastObject;
+                cell.lable1.text = _detailModel.ordertext;
+                cell.lable2.text = _model.orderNo;
+                cell.lable3.text = _model.createtime;
                 return cell;
             }break;
             case 2:{
-                if (indexPath.row == 1) {
+                if (indexPath.row == _model.goods.count) {
                     WTOrderDetailCell2* cell=[[NSBundle mainBundle]loadNibNamed:@"WTOrderDetailCell2" owner:self options:nil].lastObject;
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    cell.label1.text =[NSString stringWithFormat:@"￥%.2f",_detailModel.totalPrice];
+                    cell.label2.text =[NSString stringWithFormat:@"-￥%.2f",_detailModel.totalReturn];
+                    cell.label3.text =@"￥0";
+                    cell.label4.text =[NSString stringWithFormat:@"￥%.2f",_detailModel.endPrice];
                     return cell;
                 }
-                else if (indexPath.row == 2 || indexPath.row == 3) {
+                else if (indexPath.row == _model.goods.count+1 || indexPath.row == _model.goods.count+2) {
                    static NSString* name = @"cell";
                     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
                     if (!cell) {
@@ -132,21 +159,33 @@
                     }
                     if (indexPath.row == 2) {
                         cell.textLabel.text = @"支付方式:";
-                        cell.detailTextLabel.text = @"支付宝";
+                        cell.detailTextLabel.text = _detailModel.paytext;
                     }else{
                         cell.textLabel.text = @"配送方式:";
-                        cell.detailTextLabel.text = @"普通快递";
+                        cell.detailTextLabel.text = _detailModel.deliveryType;
                     }
                     return cell;
                 }
-               else if (indexPath.row == 4) {
+               else if (indexPath.row == _model.goods.count+3) {
                     UNIOrderDetailCell5* cell=[[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell5" owner:self options:nil].lastObject;
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                   cell.label3.text = _model.createtime;
                     return cell;
                }else{
-
                    UNIOrderDetailCell3* cell=[[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell3" owner:self options:nil].lastObject;
                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                   UNIOrderListGoods* info= _model.goods[indexPath.row];
+                   cell.label1.text = info.goodName;
+                   cell.label2.text = nil;
+                   cell.label3.text = [NSString stringWithFormat:@"￥%.2f",info.price];
+                   cell.label4.text = [NSString stringWithFormat:@"x%d",info.num];
+                   if (info.specifications)
+                       cell.label2.text =[NSString stringWithFormat:@"规格: %@",info.specifications];
+                   NSArray* arr = [info.goodLogoUrl componentsSeparatedByString:@","];
+                   NSString* imgUrl=nil;
+                   imgUrl = arr.count>0?arr[0]:info.goodLogoUrl;
+                   [cell.mianimg sd_setImageWithURL:[NSURL URLWithString:imgUrl] placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
+                   
                    return cell;
                }
                 

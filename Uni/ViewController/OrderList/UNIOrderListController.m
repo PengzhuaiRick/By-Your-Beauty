@@ -127,8 +127,9 @@
 //   // detail.model = model;
 //    [self.navigationController pushViewController:detail animated:YES];
     
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIOrderDetailController"];
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UNIOrderDetailController* vc = [st instantiateViewControllerWithIdentifier:@"UNIOrderDetailController"];
+    vc.model = model;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

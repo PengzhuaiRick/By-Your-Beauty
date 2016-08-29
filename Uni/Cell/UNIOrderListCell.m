@@ -101,37 +101,37 @@
 
 
 -(void)setupCellContentWith:(id)model{
-    UNIOrderListModel* info = model;
-    NSString* imgUrl = info.logoUrl;
-    NSArray* arr = [info.logoUrl componentsSeparatedByString:@","];
-    if (arr.count>0)
-        imgUrl = arr[0];
-    
-   // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
-    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
-                    placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
-
-    
-    self.label1.text=info.projectName;
-    self.label2.text=[NSString stringWithFormat:@"规格: %@     x%d",info.specifications,info.num];
-    self.label3.text=[info.time substringWithRange:NSMakeRange(5, 11)];
-    
-    if (info.status==0) {
-        //         self.stateBtn.text= @"到店\n领取";
-        self.stateBtn.enabled=YES;
-        self.stateBtn.layer.borderWidth = 1;
-        //[self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
-        [self.stateBtn setTitle:@"到店\n领取" forState:UIControlStateNormal];
-        [self.stateBtn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
-    }else{
-        // self.stateBtn.text= @"已领取";
-        self.stateBtn.enabled=NO;
-        self.stateBtn.layer.borderWidth = 0;
-        [self.stateBtn setTitle:@"已领取" forState:UIControlStateNormal];
-        [self.stateBtn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainTitleColor]] forState:UIControlStateNormal];
-    }
-    
-    imgUrl =nil; arr=nil;
+//    UNIOrderListModel* info = model;
+//    NSString* imgUrl = info.logoUrl;
+//    NSArray* arr = [info.logoUrl componentsSeparatedByString:@","];
+//    if (arr.count>0)
+//        imgUrl = arr[0];
+//    
+//   // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgUrl];
+//    [self.mainImg sd_setImageWithURL:[NSURL URLWithString:imgUrl]
+//                    placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
+//
+//    
+//    self.label1.text=info.projectName;
+//    self.label2.text=[NSString stringWithFormat:@"规格: %@     x%d",info.specifications,info.num];
+//    self.label3.text=[info.time substringWithRange:NSMakeRange(5, 11)];
+//    
+//    if (info.status==0) {
+//        //         self.stateBtn.text= @"到店\n领取";
+//        self.stateBtn.enabled=YES;
+//        self.stateBtn.layer.borderWidth = 1;
+//        //[self.stateBtn setBackgroundColor:[UIColor colorWithHexString:kMainThemeColor]];
+//        [self.stateBtn setTitle:@"到店\n领取" forState:UIControlStateNormal];
+//        [self.stateBtn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainThemeColor]] forState:UIControlStateNormal];
+//    }else{
+//        // self.stateBtn.text= @"已领取";
+//        self.stateBtn.enabled=NO;
+//        self.stateBtn.layer.borderWidth = 0;
+//        [self.stateBtn setTitle:@"已领取" forState:UIControlStateNormal];
+//        [self.stateBtn setBackgroundImage:[self createImageWithColor:[UIColor colorWithHexString:kMainTitleColor]] forState:UIControlStateNormal];
+//    }
+//    
+//    imgUrl =nil; arr=nil;
 }
 #pragma mark 颜色转图片
 -(UIImage*)createImageWithColor:(UIColor*) color

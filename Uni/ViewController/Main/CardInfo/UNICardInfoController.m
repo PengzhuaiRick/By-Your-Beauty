@@ -107,13 +107,21 @@
                     myself.clockimg.hidden=NO;
                     myself.progressView.hidden=NO;
                     myself.rewardImg.hidden=YES;
+                    myself.intimebtn.enabled = NO;
                     [myself.intimebtn setTitle:[NSString stringWithFormat:@"准时到店满%d次",total] forState:UIControlStateNormal];
                     [myself.progressView setProgrssLayerEndStroke:num and:total];
                 }else{
                     myself.clockimg.hidden=YES;
                     myself.progressView.hidden=YES;
                     myself.rewardImg.hidden=NO;
+                    myself.intimebtn.enabled = YES;
                     [myself.intimebtn setTitle:@"点击领取" forState:UIControlStateNormal];
+                    [[myself.intimebtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+                    subscribeNext:^(id x) {
+                        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+                        UIViewController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
+                        [myself.navigationController pushViewController:mainCtr animated:YES];
+                    }];
                 }
                 
                 myself.rewardNameLab.text =projectName;

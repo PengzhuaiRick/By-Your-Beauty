@@ -40,7 +40,7 @@
 }
 -(void)viewWillDisappear:(BOOL)animated{
      [super viewWillDisappear:animated];
-    self.myTableView.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
+    //self.myTableView.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"我的奖励"];
 }
 
@@ -48,8 +48,7 @@
     [super viewDidLoad];
     [self setupNavigation];
     [self setupUI];
-    //[self setupMyAppointView];
-   // [self setupIntimeView];
+    [self setupTableView];
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
     [self startRequestMyAppoint];
     //[self startRequestIntime];
@@ -68,7 +67,7 @@
         return;
     }
     
-    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height-64)];
+    UITableView* tab = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     tab.delegate = self;
     tab.dataSource = self;
     tab.backgroundColor = [UIColor clearColor];

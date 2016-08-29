@@ -26,18 +26,22 @@
 
 @implementation UNIPurchaseController
 -(void)viewWillAppear:(BOOL)animated{
-    [[BaiduMobStat defaultStat] pageviewStartWithName:@"填写订单"];
     [super viewWillAppear:animated];
+    [[BaiduMobStat defaultStat] pageviewStartWithName:@"填写订单"];
+    
+     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(dealWithResultOfTheWCpay:) name:@"dealWithResultOfTheWCpay" object:nil];
     
 }
 -(void)viewWillDisappear:(BOOL)animated{
+     [super viewWillDisappear:animated];
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"填写订单"];
-    [super viewWillDisappear:animated];
+     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheWCpay" object:nil];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
     [self setupUI];
+    [self changeUIValue];
 }
 -(void)setupNavigation{
     self.title = @"填写订单";
@@ -50,19 +54,27 @@
 
 -(void)setupUI{
     sellNum = 1;
-    style = @"WXPAY_APP";
+    style = @"WXPAY_APP2";
     _bottomPrice.font = kWTFont(18);
     _payBtn.titleLabel.font = kWTFont(18);
     
-    //_bottomPrice.text = [NSString stringWithFormat:@"￥%.2f",_model.shopPrice*_model.sellNum];
+    
     
     __weak UNIPurchaseController* myself = self;
     [RACObserve(self.model, sellNum)subscribeNext:^(id x) {
-        self->cell1.numField.text = [NSString stringWithFormat:@"%d",myself.model.sellNum];
-         myself.bottomPrice.text = [NSString stringWithFormat:@"￥%.2f",myself.model.shopPrice*myself.model.sellNum];
-        
-        self->cell2.detailTextLabel.text =myself.bottomPrice.text;
+//        self->cell1.numField.text = [NSString stringWithFormat:@"%d",myself.model.sellNum];
+//         myself.bottomPrice.text = [NSString stringWithFormat:@"￥%.2f",myself.model.shopPrice*myself.model.sellNum];
+//        
+//        self->cell2.detailTextLabel.text =myself.bottomPrice.text;
+        [myself changeUIValue];
     }];
+}
+-(void)changeUIValue{
+    cell1.numField.text = [NSString stringWithFormat:@"%d",self.model.sellNum];
+    self.bottomPrice.text = [NSString stringWithFormat:@"总价:￥%.2f",self.model.shopPrice*self.model.sellNum];
+    
+    cell2.detailTextLabel.text =self.bottomPrice.text;
+
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -86,7 +98,7 @@
         cell1.selectionStyle = 0;
         cell1.label1.text = _model.projectName;
         cell1.label2.text = [NSString stringWithFormat:@"￥%.2f",_model.shopPrice];
-        cell1.numField.text = [NSString stringWithFormat:@"%d",sellNum];
+        cell1.numField.text = [NSString stringWithFormat:@"%d",_model.sellNum];
         
         NSArray* imgs = [_model.imgUrl componentsSeparatedByString:@","];
         [cell1.mainIma sd_setImageWithURL:[NSURL URLWithString:imgs[0]] placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
@@ -136,7 +148,7 @@
             
             x.selected = !x.selected;
             int row = x.tag==2?3:2;
-            self->style = x.tag==2?@"ALIPAY_APP":@"WXPAY_APP";
+            self->style = x.tag==3?@"ALIPAY_APP2":@"WXPAY_APP2";
             NSIndexPath* index = [NSIndexPath indexPathForRow:row inSection:0];
             UNIPayStyleCell* cell = [myself.myTable cellForRowAtIndexPath:index];
             cell.handleBtn.selected = !cell.handleBtn.selected;
@@ -178,9 +190,9 @@
         }
         if (dictionary) {
             self->orderNo =[dictionary objectForKey:@"out_trade_no"];
-            if ([self->style isEqualToString:@"WXPAY_APP"]){
+            if ([self->style isEqualToString:@"WXPAY_APP2"]){
                 [myself jumpToBizPay:dictionary];}
-            if ( [self->style isEqualToString:@"ALIPAY_APP"]){
+            if ( [self->style isEqualToString:@"ALIPAY_APP2"]){
                 [myself payWithZFB:dictionary];}
         }else
             [YIToast showText:tips];
@@ -302,6 +314,7 @@
             [LLARingSpinnerView RingSpinnerViewStop1];
             [UIAlertView showWithTitle:tip message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 if (code == 0) {
+                    [self.navigationController popViewControllerAnimated:YES];
 //                    UNIOrderListController* view = [[UNIOrderListController alloc]init];
 //                    view.type = 1;
 //                    [self.navigationController pushViewController:view animated:YES];

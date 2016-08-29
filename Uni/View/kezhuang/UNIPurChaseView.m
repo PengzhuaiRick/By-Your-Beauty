@@ -102,11 +102,11 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.row) {
         case 0:
-            self.payStyle = @"WXPAY_APP";
+            self.payStyle = @"WXPAY_APP2";
             break;
         case 1:
 
-             self.payStyle = @"ALIPAY_APP";
+             self.payStyle = @"ALIPAY_APP2";
             break;
     }
    // [self requestTheOrderNo];
@@ -130,9 +130,9 @@
 //            self->getPrice = _price;
 //            self->tolPrice =_price;
 //            self->orderNO = orderNo;
-            if ( [self.payStyle isEqualToString:@"WXPAY_APP"])
+            if ( [self.payStyle isEqualToString:@"WXPAY_APP2"])
                 [self jumpToBizPay:dictionary];
-            if ( [self.payStyle isEqualToString:@"ALIPAY_APP"])
+            if ( [self.payStyle isEqualToString:@"ALIPAY_APP2"])
                 [self payWithZFB:dictionary];
         }else
             [YIToast showText:tips];

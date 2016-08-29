@@ -14,28 +14,23 @@
 #import "UNIImageAndTextController.h"
 #import "BTKeyboardTool.h"
 #import "UNIPurChaseView.h"
-#import "UNIOrderListController.h"
+#import "UNIGoodsDetailRequest.h"
 #import "UNIUrlManager.h"
 #import "UNIShopCarRequest.h"
 @interface UNIGoodsDeatilController ()<UIWebViewDelegate,UIScrollViewDelegate,UITableViewDataSource,
-UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
+UITableViewDelegate,KeyboardToolDelegate>{
     UIView* midView;
-    //UIView* bottomView;
-    //UILabel* priceLab;
-//    UILabel* nonPriceLab;
-//    CALayer* nonLine;
-    //UITextField* numField;
     NSString* orderNo;//生成订单号
     float cell1H;
     UNIGoodsModel* model;
     
-    UNIPurChaseView* purView;
     UIView* bgView;
- //   BOOL ifFirst; //是否第一次消失
     UIWebView* myWeb;
+    UILabel* shopNumLab;
 }
 @property(nonatomic,assign)int num; //购买数量
 @property(nonatomic,strong)NSMutableArray* allArray;
+
 @property (weak, nonatomic) IBOutlet UIScrollView *myScroller;
 @property (weak, nonatomic) IBOutlet UITableView *myTable;
 @property (weak, nonatomic) IBOutlet UITextField *numField;
@@ -57,8 +52,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     [[NSNotificationCenter defaultCenter]removeObserver:self
                                                    name:UIKeyboardWillHideNotification
                                                  object:nil];
-    //[[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheZFB" object:nil];
-    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"dealWithResultOfTheWCpay" object:nil];
+
     [super viewWillDisappear:animated];
 }
 -(void)viewDidDisappear:(BOOL)animated{
@@ -85,6 +79,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     [self setupBottomView];
     [self setupTableView];
     [self startRequestReward];
+    [self requestShopCarNum];
 }
 #pragma mark 开始请求
 -(void)startRequestReward{
@@ -145,7 +140,31 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     //self.title = @"客妆";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+    
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = view.bounds;
+    [btn setImage:[UIImage imageNamed:@"function_img_car"] forState:UIControlStateNormal];
+    [view addSubview:btn];
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+    subscribeNext:^(id x) {
+        [self.navigationController popToRootViewControllerAnimated:NO];
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoShopCarController" object:nil];
+    }];
+    
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(15, -10, 15, 15)];
+    lab.textColor = [UIColor whiteColor];
+    lab.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.font =kWTFont(10);
+    lab.layer.masksToBounds = YES;
+    lab.layer.cornerRadius = 7.5;
+    [view addSubview:lab];
+    shopNumLab = lab;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
 }
+
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     if (self.myScroller.contentOffset.y == 0) {
@@ -157,7 +176,8 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     }
     
 }
-
+- (IBAction)rightBarBtnAction:(id)sender {
+}
 -(void)setupData{
     _num = 1;
     cell1H = KMainScreenWidth*528/414;
@@ -241,9 +261,27 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
         [YIToast showText:tips];
     };
 }
+#pragma mark 获取购物车类型数量
+-(void)requestShopCarNum{
+    UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
+    [rq postWithSerCode:@[API_URL_GetKindOfShopCar] params:nil];
+    rq.getCartGoodsCount=^(int count,NSString* tips,NSError* err){
+        if (err) {
+            [YIToast showText:NETWORKINGPEOBLEM];
+            return ;
+        }
+        if (count == -1)
+            [YIToast showText:tips];
+        else
+            self->shopNumLab.text = [NSString stringWithFormat:@"%d",count];
+    };
+}
 #pragma mark 马上购买按钮
 - (IBAction)payNow:(id)sender {
    // [self showThePayStyle];
+    if (!model)
+        return;
+    
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"KeZhuang" bundle:nil];
     UNIPurchaseController* vc = [st instantiateViewControllerWithIdentifier:@"UNIPurchaseController"];
     model.sellNum = _num;
@@ -251,49 +289,7 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
     [self.navigationController pushViewController:vc animated:YES];
     [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_detail" eventLabel:@"产品详情购买按"];
 }
--(void)showThePayStyle{
-    UIView* bg = [[UIView alloc]initWithFrame:self.view.frame];
-    bg.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    bg.alpha = 0;
-    [self.view addSubview:bg];
-    bgView = bg;
-    UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapAction:)];
-    [bg addGestureRecognizer:tap];
-    
-    UNIPurChaseView* pur = [[UNIPurChaseView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth*0.7,KMainScreenWidth*0.6)
-                                                          andNum:[_numField.text intValue]
-                                                        andModel:model];
-    pur.delegate = self;
-    pur.alpha = 0;
-    pur.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2);
-    pur.layer.masksToBounds = YES;
-    pur.layer.cornerRadius = 3;
-    [self.view addSubview:pur];
-    purView = pur;
-    
-    [UIView animateWithDuration:0.3 animations:^{
-        bg.alpha = 1;
-        pur.alpha = 1;
-    }];
-    
-    bg = nil; tap=nil; pur=nil;
-}
 
-#pragma mark 隐藏 purView 和 bgView
--(void)tapAction:(UIGestureRecognizer*)gesture{
-    
-    purView.delegate=nil;
-    [UIView animateWithDuration:0.3 animations:^{
-        self->bgView.alpha = 0;
-        self->purView.alpha = 0;
-    } completion:^(BOOL finished) {
-        [self->bgView removeFromSuperview];
-        [self->purView removeFromSuperview];
-        self->bgView = nil;
-        self->purView = nil;
-    }];
-   
-}
 -(void)setupMyScroller{
     
     self.myScroller.contentSize = CGSizeMake(KMainScreenWidth, cell1H);
@@ -409,175 +405,6 @@ UITableViewDelegate,KeyboardToolDelegate,UNIPurChaseViewDelegate>{
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
     
-    //处理ZFB支付结果
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dealWithResultOfTheZFB:) name:@"dealWithResultOfTheZFB" object:nil];
-    
-    //处理WC支付结果
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dealWithResultOfTheWCpay:) name:@"dealWithResultOfTheWCpay" object:nil];
-}
-#pragma mark 点击支付方式 隐藏 purView 和 bgView
--(void)UNIPurChaseViewDelegateMethod:(NSString*)payStyle andNum:(int)num{
-    [self tapAction:nil];
-    if (payStyle)
-        [self requestTheOrderNo:payStyle andNum:num];
-    
-    if ( [payStyle isEqualToString:@"WXPAY_APP"])
-        [[BaiduMobStat defaultStat]logEvent:@"btn_pay_weixin" eventLabel:@"产品详情微信支付按钮"];
-  
-    if ( [payStyle isEqualToString:@"ALIPAY_APP"])
-         [[BaiduMobStat defaultStat]logEvent:@"btn_pay_alipay" eventLabel:@"产品详情支付宝支付"];
-}
-#pragma mark 请求订单号
--(void)requestTheOrderNo:(NSString*)payStyle andNum:(int)num{
-    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
-    NSDictionary* dic=@{@"goodsId":@(model.projectId),@"goodsType":@(model.type),@"payType":payStyle,@"shopPrice":[NSString stringWithFormat:@"%.f",model.shopPrice*num],@"price":@(model.shopPrice),
-                        @"num":@(num)};
-    __weak id myself = self;
-    UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
-    [requet postWithSerCode:@[API_URL_GetOutTradeNo] params:dic];
-    requet.kzgoodsGetOrderBlock=^(NSDictionary* dictionary,NSString*tips,NSError* err){
-        [LLARingSpinnerView RingSpinnerViewStop1];
-        if (err) {
-            [YIToast showText:NETWORKINGPEOBLEM];
-            return ;
-        }
-        if (dictionary) {
-            self->orderNo =[dictionary objectForKey:@"out_trade_no"];
-            if ( [payStyle isEqualToString:@"WXPAY_APP"]){
-                [myself jumpToBizPay:dictionary];}
-            if ( [payStyle isEqualToString:@"ALIPAY_APP"]){
-                [myself payWithZFB:dictionary];}
-        }else
-            [YIToast showText:tips];
-    };
-}
-
--(void)payWithZFB:(NSDictionary*)dic{
-    
-    Order *order = [[Order alloc] init];
-    NSString* str =[dic valueForKey:@"orderstr"];
-    if (str) {
-        [order loadOrderString:str];
-    }
-    
-    NSString *appScheme = @"UniZFBPay";
-    NSString *orderString = order.orderString;
-    
-    [[AlipaySDK defaultService] payOrder:orderString fromScheme:appScheme callback:^(NSDictionary *resultDic) {
-        //NSLog(@"reslut = %@",resultDic);
-        [self dealWithResultOfTheZFB:resultDic];
-       // [self resultOfZFBpay:resultDic];
-        
-    }];
-}
-
-- (void)jumpToBizPay:(NSDictionary*)dia{
-    if (![WXApi isWXAppInstalled]) {
-        [UIAlertView showWithTitle:@"提示" message:@"请检查是否安装微信客户端" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
-        return;
-    }
-    
-    PayReq* req = [[PayReq alloc] init];
-    req.openID = [dia objectForKey:@"appid"];
-    req.prepayId= [dia objectForKey:@"prepayid"];
-    req.partnerId= [dia objectForKey:@"partnerid"];
-    req.nonceStr= [dia objectForKey:@"noncestr"];
-    req.timeStamp=[[dia objectForKey:@"timestamp"] intValue];
-    req.package = [dia objectForKey:@"package"];
-    req.sign = [dia objectForKey:@"sign"];
-    NSString* tip = nil;
-    if (!req.openID)  tip = @"参数有误";
-    if (!req.prepayId) tip = @"参数有误";
-    if (!req.partnerId) tip = @"参数有误";
-    if (!req.nonceStr) tip = @"参数有误";
-    if (!req.timeStamp) tip = @"参数有误";
-    if (!req.package) tip = @"参数有误";
-    if (!req.sign) tip = @"参数有误";
-    if(tip){
-        [UIAlertView showWithTitle:@"提示" message:tip cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:nil];
-    }else
-        [WXApi sendReq:req];
-}
-
--(void)dealWithResultOfTheZFB:(NSDictionary*)noiti{
-    int num = [[noiti objectForKey:@"resultStatus"] intValue];
-    NSString* string = @"支付失败!";
-    NSString* message = [noiti objectForKey:@"memo"];
-    if (num == 9000){
-        string = @"支付成功!";
-        [self checkTradeOrderStatus];
-        return;
-    }
-    switch (num) {
-        case 4000: message=@"支付宝系统异常"; break;
-        case 4001: message=@"数据格式不正确";  break;
-        case 4003: message=@"该用户绑定的支付宝账户被冻结或不允许支付"; break;
-        case 4004: message=@"该用户已解除绑定";  break;
-        case 4005: message=@"绑定失败或没有绑定"; break;
-        case 4006: message=@"订单支付失败"; break;
-        case 4010: message=@"重新绑定账户";  break;
-        case 6000: message=@"支付服务正在进行升级操作"; break;
-        case 6001: message=@"用户中途取消支付操作";  break;
-        case 7001: message=@"网页支付失败"; break;
-    }
-    [UIAlertView showWithTitle:string message:message cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-    }];
-}
-
--(void)dealWithResultOfTheWCpay:(NSNotification*)noiti{
-     int num = [[noiti.userInfo objectForKey:@"result"] intValue];
-    NSString* errString = nil;
-    switch (num) {
-        case 0:
-            errString = @"交易成功";
-            break;
-        case -1:
-            errString = @"交易失败";
-            break;
-        case -2:
-            errString = @"用户点击取消并返回";
-            break;
-        case -3:
-            errString = @"发送失败";
-            break;
-        case -4:
-            errString = @"授权失败";
-            break;
-        case -5:
-            errString = @"微信不支持";
-            break;
-            
-    }
-    NSString* result=nil;
-    if (num == 0){
-        result = @"支付成功!";
-         [self checkTradeOrderStatus];
-    }else{
-        result = @"支付失败!";
-    [UIAlertView showWithTitle:result message:errString cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-    }];
-}
-    
-}
-
-#pragma mark 支付成功后 和后台验证
--(void)checkTradeOrderStatus{
-    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
-    UNIGoodsDetailRequest* req = [[UNIGoodsDetailRequest alloc]init];
-    req.ctorderStatusBlock=^(int code, NSString* tip,NSError* err){
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [LLARingSpinnerView RingSpinnerViewStop1];
-            [UIAlertView showWithTitle:tip message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                if (code == 0) {
-                    UNIOrderListController* view = [[UNIOrderListController alloc]init];
-                    view.type = 1;
-                    [self.navigationController pushViewController:view animated:YES];
-                }
-            }];
-        });
-        
-    };
-    [req postWithSerCode:@[API_URL_GetOrderStatus] params:@{@"out_trade_no":orderNo}];
 }
 
 

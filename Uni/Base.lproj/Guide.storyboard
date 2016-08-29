@@ -276,7 +276,7 @@ All Rights Reserved</string>
                                                 <rect key="frame" x="55" y="9" width="255" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -293,7 +293,7 @@ All Rights Reserved</string>
                                                 <rect key="frame" x="55" y="9" width="142" height="30"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <textInputTraits key="textInputTraits"/>
+                                                <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
                                             </textField>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0gn-k5-mt2">
                                                 <rect key="frame" x="205" y="0.0" width="113" height="48"/>
@@ -333,7 +333,7 @@ All Rights Reserved</string>
                                         <rect key="frame" x="224" y="482" width="109" height="37"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <state key="normal" title=" 男士" image="login_btn_male">
+                                        <state key="normal" title=" 先生" image="login_btn_male">
                                             <color key="titleColor" red="0.68627450980392157" green="0.43529411764705883" blue="0.94117647058823528" alpha="1" colorSpace="calibratedRGB"/>
                                         </state>
                                     </button>
@@ -682,6 +682,52 @@ All Rights Reserved</string>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FAB-pt-Y7V" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2313" y="2878"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="vbi-cH-jrz">
+            <objects>
+                <navigationController id="I06-ic-YTj" sceneMemberID="viewController">
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="TCc-gw-aLI">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="1iH-Rk-T9o" kind="relationship" relationship="rootViewController" id="FYf-GP-LZb"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Dt7-vl-ziO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1835" y="3711"/>
+        </scene>
+        <!--确认订单-->
+        <scene sceneID="TiL-73-SlT">
+            <objects>
+                <viewController storyboardIdentifier="UNIOrderDetailController" title="确认订单" id="1iH-Rk-T9o" customClass="UNIOrderDetailController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZcY-WT-jmR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="Z3c-y4-h6a">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="1iH-Rk-T9o" id="BUD-rr-aPI"/>
+                                    <outlet property="delegate" destination="1iH-Rk-T9o" id="Z6k-aU-AGn"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="rYP-5W-yjn"/>
+                    <connections>
+                        <outlet property="topTableView" destination="Z3c-y4-h6a" id="IGf-QM-h7a"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BtS-qc-y8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2323" y="3711"/>
         </scene>
     </scenes>
     <resources>

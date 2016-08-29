@@ -40,7 +40,7 @@
     CGSize mainSize = [UIScreen mainScreen].bounds.size;
     _progressView = [[NJKWebViewProgressView alloc]init];
     _progressView.frame = CGRectMake(0, 44, mainSize.width, 2);
-    _progressView.progressBarView.backgroundColor = [UIColor colorWithHexString:kMainThemeColor];
+    _progressView.progressBarView.backgroundColor = [UIColor colorWithHexString:kMainNavigationColor];
     [self.navigationController.navigationBar addSubview:_progressView];
     
     _progressProxy = [[NJKWebViewProgress alloc]init];

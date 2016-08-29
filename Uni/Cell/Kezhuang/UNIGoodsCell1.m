@@ -112,6 +112,7 @@
         k = (int)imgArr.count;
     _mainImage.contentSize = CGSizeMake(k*imgW, imgH);
     
+    self.label3.hidden = k<2;
     self.label3.text = [NSString stringWithFormat:@"1/%d",k];
     
     if (imgArr.count>0) {

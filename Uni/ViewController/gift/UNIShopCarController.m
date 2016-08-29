@@ -36,12 +36,17 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self startRequest];
+    [self requestBottomInfo];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
     [self setupUI];
-    [self startRequest];
-    [self requestBottomInfo];
+//    [self startRequest];
+//    [self requestBottomInfo];
 }
 -(void)setupNavigation{
     self.title = @"购物车";
@@ -70,12 +75,32 @@
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
-        if (arr) {
-            myself.myData = arr;
-            [myself.tableView reloadData];
-        }else
+        myself.myData = arr;
+        [myself.tableView reloadData];
+        [myself setupNodata];
+        if (!arr)
             [YIToast showText:tips];
     };
+}
+-(void)setupNodata{
+    if (_myData.count>0) {
+        return;
+    }
+    UIView* view = [[UIView alloc]initWithFrame:self.view.bounds];
+    view.backgroundColor = [UIColor colorWithHexString:@"eeeeee"];
+    [self.view addSubview:view];
+    
+    UIImageView* img =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    img.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2 - 50);
+    img.image = [UIImage imageNamed:@"function_img_car"];
+    [view addSubview:img];
+    
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20,KMainScreenWidth, 50)];
+    lab.text = @"购物车空空如也，快去选购商品吧！";
+    lab.textColor = [UIColor colorWithHexString:@"b5b4b4"];
+    lab.font = kWTFont(16);
+    lab.textAlignment = NSTextAlignmentCenter;
+    [view addSubview:lab];
 }
 
 #pragma mark 请求购物车底部信息
@@ -161,6 +186,7 @@
 #pragma mark 修改某个商品是否选中
 -(void)requestCartIsCheck:(UNIShopCarModel*)model{
      __weak UNIShopCarController* myself = self;
+    
     UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
     [rq postWithSerCode:@[API_URL_CartIsCheck] params:@{@"goodId":@(model.goodId),@"goodType":@(model.goodsType),@"isCheck":@(model.isCheck)}];
     rq.cartIsCheck=^(int code,NSString* tips,NSError* err){
@@ -177,6 +203,9 @@
 
 #pragma mark 支付按钮事件
 - (IBAction)payBtnAction:(UIButton *)sender {
+    if (_myData.count<1) 
+        return;
+    
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
     UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIVerifyController"];
     [self.navigationController pushViewController:vc animated:YES];
@@ -219,7 +248,8 @@
     cell.label2.text = [NSString stringWithFormat:@"￥%.2f",model.price];
     cell.numField.text = [NSString stringWithFormat:@"%d",model.num];
     NSArray* arr = [model.goodLogoUrl componentsSeparatedByString:@","];
-    [cell.mainimg sd_setImageWithURL:[NSURL URLWithString:arr[0]] placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
+    NSString* imgUel = arr.count>0?arr[0]:model.goodLogoUrl;
+    [cell.mainimg sd_setImageWithURL:[NSURL URLWithString:imgUel] placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
     
     cell.selectBtn.tag = indexPath.row+1;
     cell.delectBtn.tag = indexPath.row+1;
@@ -237,8 +267,11 @@
     }];
     [[cell.delectBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-         UNIShopCarModel* model =myself.myData[x.tag-1];
-         [myself requestDelCartGoods:model];
+         [UIAlertView showWithTitle:@"提示" message:@"是否确定删除该商品?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"删除"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+             UNIShopCarModel* model =myself.myData[x.tag-1];
+             [myself requestDelCartGoods:model];
+         }];
+        
      }];
     [[cell.addBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {

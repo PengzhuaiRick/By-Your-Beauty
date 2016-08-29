@@ -71,7 +71,8 @@
 #define API_URL_Verify @"Customer/verify"
 
 //奖励信息接口
-#define API_URL_MRInfo @"reward/rewardInfo"
+//#define API_URL_MRInfo @"reward/rewardInfo"
+#define API_URL_MRInfo @"reward/newRewardInfo"
 
 //获取可选时间接口
 #define API_URL_GetFreeTime @"appoint/getFreeTime"
@@ -191,10 +192,12 @@
 //确认订单
 #define API_URL_GetCartComfirm @"Cart/getCartComfirm"
 //支付调用
-#define API_URL_GetNewPayInfo @"pay/getNewPayInfo"
+#define API_URL_GetNewPayInfo @"pay2/getNewPayInfo"
 
 
 //新的订单列表接口
-//支付调用
+//我的订单列表
 #define API_URL_GetMyOrder @"Cart/getMyOrder"
+//订单详情
+#define API_URL_GetCartOrderDetail @"Cart/getCartOrderDetail"
 #endif /* URLconfig_h */

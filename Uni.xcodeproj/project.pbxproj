@@ -157,6 +157,7 @@
 		18D1492B1D6ED4B800CE4D96 /* UNIPayStyleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D149291D6ED4B800CE4D96 /* UNIPayStyleCell.xib */; };
 		18D1492F1D6EE0D400CE4D96 /* UNIPayGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1492D1D6EE0D400CE4D96 /* UNIPayGoodsCell.m */; };
 		18D149301D6EE0D400CE4D96 /* UNIPayGoodsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D1492E1D6EE0D400CE4D96 /* UNIPayGoodsCell.xib */; };
+		18D346551D740F9400AF1370 /* UNIOrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D346541D740F9400AF1370 /* UNIOrderDetailModel.m */; };
 		18D4103E1CC5C8210086FC76 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4103D1CC5C8210086FC76 /* libBaiduMobStat.a */; };
 		18D410401CC5C9570086FC76 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4103F1CC5C9570086FC76 /* JavaScriptCore.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		18D410441CC5CD730086FC76 /* baseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D410431CC5CD730086FC76 /* baseViewController.m */; };
@@ -572,6 +573,8 @@
 		18D1492C1D6EE0D400CE4D96 /* UNIPayGoodsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIPayGoodsCell.h; sourceTree = "<group>"; };
 		18D1492D1D6EE0D400CE4D96 /* UNIPayGoodsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIPayGoodsCell.m; sourceTree = "<group>"; };
 		18D1492E1D6EE0D400CE4D96 /* UNIPayGoodsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIPayGoodsCell.xib; sourceTree = "<group>"; };
+		18D346531D740F9400AF1370 /* UNIOrderDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIOrderDetailModel.h; sourceTree = "<group>"; };
+		18D346541D740F9400AF1370 /* UNIOrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIOrderDetailModel.m; sourceTree = "<group>"; };
 		18D4103C1CC5C8210086FC76 /* BaiduMobStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobStat.h; sourceTree = "<group>"; };
 		18D4103D1CC5C8210086FC76 /* libBaiduMobStat.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libBaiduMobStat.a; sourceTree = "<group>"; };
 		18D4103F1CC5C9570086FC76 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -894,6 +897,8 @@
 				18FD49771C16748900C07BF5 /* UNIRewardListModel.m */,
 				1844820F1C5227EB0047D2EF /* UNIOrderListModel.h */,
 				184482101C5227EB0047D2EF /* UNIOrderListModel.m */,
+				18D346531D740F9400AF1370 /* UNIOrderDetailModel.h */,
+				18D346541D740F9400AF1370 /* UNIOrderDetailModel.m */,
 				187E509D1C803D9500B88786 /* UNIShopModel.h */,
 				187E509E1C803D9500B88786 /* UNIShopModel.m */,
 				18DDBC671C98008E0083D9AB /* UNITouristModel.h */,
@@ -1790,6 +1795,7 @@
 				18AD74C81C3282DA006FA84D /* UNIRewordAndIntimeCell.m in Sources */,
 				18CCA01E1C030FF600B90092 /* UNIMyRewardController.m in Sources */,
 				18C8D40A1C574A5100E6DDB3 /* MD5DataSigner.m in Sources */,
+				18D346551D740F9400AF1370 /* UNIOrderDetailModel.m in Sources */,
 				18CCA01A1C030B3400B90092 /* UNIContainController.m in Sources */,
 				18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */,
 				18D1492A1D6ED4B800CE4D96 /* UNIPayStyleCell.m in Sources */,

@@ -12,4 +12,6 @@
 //#import "UNIContainController.h"
 @interface MainViewController : baseViewController
 @property(nonatomic , assign)int giftNum; //我的礼包数量
+
+-(void)gotoShopCarController;
 @end
