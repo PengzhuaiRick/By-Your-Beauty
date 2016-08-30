@@ -7,7 +7,6 @@
 //
 
 #import "MainMidController.h"
-#import "MainMidMoveBackTransition.h"
 #import "MainCell.h"
 #import "MainViewRequest.h"
 #import <MJRefresh/MJRefresh.h>
@@ -225,11 +224,11 @@
                 [myself.tableView.header endRefreshing];
                 [myself.tableView.footer endRefreshing];
                 if (!err) {
-                    
                     if (page == 0)//下拉刷新
                         [myself.myData removeAllObjects];
-                    if (myAppointArr.count<20)
+                    if (myAppointArr.count<10)
                         [myself.tableView.footer endRefreshingWithNoMoreData];
+                
                     
                     [myself.myData addObjectsFromArray:myAppointArr];
                     [myself changeUI];

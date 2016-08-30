@@ -145,10 +145,10 @@
 
 #pragma mark 加载 添加预约 和 马上预约按钮
 -(void)setupBottomContent{
-    float btnX = 16;
+    float btnX = 0;
     float btnW = (KMainScreenWidth-2*btnX)/2;
     float btnH = KMainScreenWidth * 51/414;
-    float btnY = self.myScroller.contentSize.height - btnH-10 ;
+    float btnY = self.myScroller.contentSize.height - btnH ;
     
     UIButton* btn = [UIButton buttonWithType: UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnW, btnH);

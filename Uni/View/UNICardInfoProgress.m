@@ -128,7 +128,7 @@
     
     [CATransaction begin];
     [CATransaction setDisableActions:NO];
-    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseIn]];
+    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
     [CATransaction setAnimationDuration:1];
     _progressLayer.strokeEnd =num/total;
     [CATransaction commit];

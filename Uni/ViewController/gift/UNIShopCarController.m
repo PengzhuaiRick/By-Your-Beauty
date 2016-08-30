@@ -15,6 +15,7 @@
 @interface UNIShopCarController ()<UITableViewDelegate,UITableViewDataSource,KeyboardToolDelegate,UITextFieldDelegate>{
     CGRect tabRect;
 }
+@property(assign,nonatomic) int selectNum;
 @property(strong,nonatomic) NSArray* myData;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
@@ -115,7 +116,8 @@
             return ;
         }
         if (endPrice>-1) {
-            myself.priceLab.text = [NSString stringWithFormat:@"%.2f",endPrice];
+            myself.selectNum = isCheckNum;
+            myself.priceLab.text = [NSString stringWithFormat:@"合计:%.2f",endPrice];
             myself.allSelectBtn.selected = isAll;
             [myself.payBtn setTitle:[NSString stringWithFormat:@"付款(%d)",isCheckNum] forState:UIControlStateNormal];
         }else
@@ -203,7 +205,7 @@
 
 #pragma mark 支付按钮事件
 - (IBAction)payBtnAction:(UIButton *)sender {
-    if (_myData.count<1) 
+    if (_selectNum<1)
         return;
     
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
@@ -268,10 +270,11 @@
     [[cell.delectBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
          [UIAlertView showWithTitle:@"提示" message:@"是否确定删除该商品?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"删除"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-             UNIShopCarModel* model =myself.myData[x.tag-1];
-             [myself requestDelCartGoods:model];
+             if (buttonIndex>0) {
+                 UNIShopCarModel* model =myself.myData[x.tag-1];
+                 [myself requestDelCartGoods:model];
+             }
          }];
-        
      }];
     [[cell.addBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {

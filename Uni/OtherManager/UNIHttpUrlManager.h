@@ -29,10 +29,11 @@
 @property(nonatomic,copy) NSString* NO_CASE_TIPS;// 无现金券提示
 @property(nonatomic,copy) NSString* NO_ORDER_TIPS;//无订单提示
 @property(nonatomic,copy) NSString* APPOINT_DESC;//忙里忙外，也要记得体贴自己！\n马上预约，来这里休息片刻~
-@property(nonatomic,copy) NSString* MORE_YH_TIPS;//更多优惠持续更新，敬请关注!
+@property(nonatomic,copy) NSString* GOTOBUY_DESC;//更多优惠持续更新，敬请关注!
 @property(nonatomic,copy) NSString* SELF_APPOINT_TITLE;//忙里忙外，也要记得体贴自己！\n马上预约，来这里休息片刻~
 @property(nonatomic,copy) NSString* SELF_APPOINT_CONTENT;//更多优惠持续更新，敬请关注!
 @property(nonatomic,copy) NSString* MAIN_BOTTOM_TIPS;//首页点击瓶子提示语
+@property(nonatomic,copy) NSString* TXT_ABOUT_US;//关于我们界面的文字内容
 + (UNIHttpUrlManager *)sharedInstance;
 -(void)initHttpUrlManager:(NSDictionary*)dic;
 @end

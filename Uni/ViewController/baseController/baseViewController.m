@@ -38,10 +38,10 @@
 
 #pragma mark 显示指引图片
 -(void)showGuideView:(NSString*)className{
-    if (![UNIGuideView determineWhetherFirstTime:className]) {
+//    if (![UNIGuideView determineWhetherFirstTime:className]) {
         UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:className];
         [[UIApplication sharedApplication].keyWindow addSubview:guide];
-    }
+//    }
 }
 
 - (void)didReceiveMemoryWarning {

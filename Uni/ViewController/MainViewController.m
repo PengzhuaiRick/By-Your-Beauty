@@ -240,8 +240,8 @@
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
-    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIShopCarController"];
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIAlbumController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)showViewController{
@@ -265,6 +265,7 @@
 
 }
 
+
 #pragma mark 设置Scroller
 -(void)setupScroller{
     
@@ -274,7 +275,7 @@
     cellHight =KMainScreenWidth*80.5/414;
     
     _progessLab.font = kWTFont(15);
-    _numBtn.titleLabel.font =kWTFont(18);
+    _numBtn.titleLabel.font =kWTFont(20);
     _rewardLab.font =kWTFont(15);
     _couponBtn.titleLabel.font=kWTFont(18);
     _shopBtn.titleLabel.font=kWTFont(18);
@@ -661,18 +662,26 @@
         [manager initHttpUrlManager:dic];
     };
 }
+
+#pragma mark 跳转购物车
 -(void)gotoShopCarController{
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
     UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIShopCarController"];
     [self.navigationController pushViewController:vc animated:YES];
 }
-
+#pragma mark  订单列表
+-(void)setupOrderListController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIOrderListController"];
+    [self.navigationController pushViewController:view animated:YES];
+}
 
 #pragma mark 注册通知
 -(void)setupNotification{
     //预约成功后 刷新 列表 通知
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(appointSuccessAndReflash) name:APPOINTANDREFLASH object:nil];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(gotoShopCarController) name:@"gotoShopCarController" object:nil];
+    [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(setupOrderListController) name:@"setupOrderListController" object:nil];
 }
 
 -(void)appointSuccessAndReflash{
@@ -688,6 +697,7 @@
 -(void)dealloc{
     [[NSNotificationCenter defaultCenter]removeObserver:self name:APPOINTANDREFLASH object:nil];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"gotoShopCarController" object:nil];
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:@"setupOrderListController" object:nil];
 }
 
 -(void)changeNavigationBarAlpha:(CGFloat)alp{

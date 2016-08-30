@@ -161,7 +161,7 @@
                 
                 [myself.myData addObjectsFromArray:muArr1];
                 [myself.tableView reloadData];
-            self->noDataView.hidden = self.myData.count>0;
+                self->noDataView.hidden = self.myData.count>0;
             
 //            else
 //                [YIToast showText:tips];
@@ -174,7 +174,7 @@
 -(void)setupTableView{
     self.myData = [NSMutableArray array];
 
-    //[self setupNodataView];
+    [self setupNodataView];
     
     _tableView.backgroundColor = [UIColor clearColor];
     _tableView.header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
@@ -191,7 +191,7 @@
 }
 -(void)setupNodataView{
     
-    UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0, 0, _tableView.frame.size.width, _tableView.frame.size.height)];
+    UIView* nodata = [[UIView alloc]initWithFrame:CGRectMake(0, _headerView.frame.size.height, _tableView.frame.size.width, _headerView.frame.size.height)];
     nodata.hidden=self.myData.count>0;
     [_tableView addSubview:nodata];
     noDataView = nodata;

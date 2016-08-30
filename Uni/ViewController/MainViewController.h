@@ -14,4 +14,5 @@
 @property(nonatomic , assign)int giftNum; //我的礼包数量
 
 -(void)gotoShopCarController;
+-(void)setupOrderListController;
 @end

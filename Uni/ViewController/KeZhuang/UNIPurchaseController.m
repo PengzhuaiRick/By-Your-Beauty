@@ -58,14 +58,8 @@
     _bottomPrice.font = kWTFont(18);
     _payBtn.titleLabel.font = kWTFont(18);
     
-    
-    
     __weak UNIPurchaseController* myself = self;
     [RACObserve(self.model, sellNum)subscribeNext:^(id x) {
-//        self->cell1.numField.text = [NSString stringWithFormat:@"%d",myself.model.sellNum];
-//         myself.bottomPrice.text = [NSString stringWithFormat:@"￥%.2f",myself.model.shopPrice*myself.model.sellNum];
-//        
-//        self->cell2.detailTextLabel.text =myself.bottomPrice.text;
         [myself changeUIValue];
     }];
 }
@@ -175,10 +169,9 @@
 }
 #pragma mark 请求订单号
 -(void)requestTheOrderNo{
-    int num = sellNum;
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
-    NSDictionary* dic=@{@"goodsId":@(_model.projectId),@"goodsType":@(_model.type),@"payType":style,@"shopPrice":[NSString stringWithFormat:@"%.f",_model.shopPrice*num],@"price":@(_model.shopPrice),
-                        @"num":@(num)};
+    NSDictionary* dic=@{@"goodsId":@(_model.projectId),@"goodsType":@(_model.type),@"payType":style,@"shopPrice":[NSString stringWithFormat:@"%.f",_model.shopPrice*_model.sellNum],@"price":@(_model.shopPrice),
+                        @"num":@(_model.sellNum)};
     __weak id myself = self;
     UNIGoodsDetailRequest* requet = [[UNIGoodsDetailRequest alloc]init];
     [requet postWithSerCode:@[API_URL_GetOutTradeNo] params:dic];
@@ -307,6 +300,7 @@
 }
 #pragma mark 支付成功后 和后台验证
 -(void)checkTradeOrderStatus{
+    __weak UNIPurchaseController* myself = self;
     [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIGoodsDetailRequest* req = [[UNIGoodsDetailRequest alloc]init];
     req.ctorderStatusBlock=^(int code, NSString* tip,NSError* err){
@@ -314,10 +308,9 @@
             [LLARingSpinnerView RingSpinnerViewStop1];
             [UIAlertView showWithTitle:tip message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 if (code == 0) {
-                    [self.navigationController popViewControllerAnimated:YES];
-//                    UNIOrderListController* view = [[UNIOrderListController alloc]init];
-//                    view.type = 1;
-//                    [self.navigationController pushViewController:view animated:YES];
+                    [myself.navigationController popViewControllerAnimated:YES];
+                    if (myself.handleBlock) myself.handleBlock(nil);
+                    
                 }
             }];
         });

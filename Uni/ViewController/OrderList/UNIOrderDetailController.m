@@ -113,7 +113,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     int num=1;
     if (section == 2)
-        num = (int)_model.goods.count+4;
+        num = (int)_model.goods.count+5;
     
     return num;
 }

@@ -369,12 +369,7 @@
 
 //订单列表
 -(void)setupOrderListController{
-//    UNIOrderListController* view = [[UNIOrderListController alloc]init];
-//    [_tv.navigationController pushViewController:view animated:YES];
-    
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
-    UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIOrderListController"];
-    [_tv.navigationController pushViewController:view animated:YES];
+    [_tv setupOrderListController];
 }
 //设置页面
 -(void)setupSettingController{

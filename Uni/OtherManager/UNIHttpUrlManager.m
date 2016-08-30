@@ -40,11 +40,11 @@
     self.NO_CASE_TIPS = [self safeObject:dic ForKey:@"NO_CASE_TIPS"];
     self.NO_ORDER_TIPS = [self safeObject:dic ForKey:@"NO_ORDER_TIPS"];
     self.APPOINT_DESC = [self safeObject:dic ForKey:@"APPOINT_DESC"];
-    self.MORE_YH_TIPS = [self safeObject:dic ForKey:@"MORE_YH_TIPS"];
+    self.GOTOBUY_DESC = [self safeObject:dic ForKey:@"GOTOBUY_DESC"];
     self.SELF_APPOINT_TITLE = [self safeObject:dic ForKey:@"SELF_APPOINT_TITLE"];
     self.SELF_APPOINT_CONTENT = [self safeObject:dic ForKey:@"SELF_APPOINT_CONTENT"];
     self.MAIN_BOTTOM_TIPS = [self safeObject:dic ForKey:@"MAIN_BOTTOM_TIPS"];
-    
+    self.TXT_ABOUT_US = [self safeObject:dic ForKey:@"TXT_ABOUT_US"];
     //NSLog(@"APP_KZ_URL %@  MY_LIBAO_SHARE_RUL %@     WX_GET_PREAPYID %@",self.APP_KZ_URL,self.MY_LIBAO_SHARE_RUL,self.WX_GET_PREAPYID);
 }
 

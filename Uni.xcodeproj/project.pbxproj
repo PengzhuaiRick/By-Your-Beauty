@@ -85,7 +85,6 @@
 		18BA7D721BEA064D00DD7826 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BA7D711BEA064D00DD7826 /* CoreLocation.framework */; };
 		18BA7D741BEA066500DD7826 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18BA7D731BEA066500DD7826 /* MapKit.framework */; };
 		18BA7D781BEA169300DD7826 /* MainMidController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D771BEA169300DD7826 /* MainMidController.m */; };
-		18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BA7D7A1BEA16B900DD7826 /* MainBottomController.m */; };
 		18BF0A041BF44428000AE604 /* LLARingSpinnerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A031BF44428000AE604 /* LLARingSpinnerView.m */; };
 		18BF0A071BF4740F000AE604 /* UNIAppDeleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A061BF4740F000AE604 /* UNIAppDeleRequest.m */; };
 		18BF0A0D1BF48984000AE604 /* UNIWelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18BF0A0C1BF48984000AE604 /* UNIWelController.m */; };
@@ -174,14 +173,14 @@
 		18D864401D6D4DA40094EC42 /* UNIOrderDetailCell5.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D8643E1D6D4DA40094EC42 /* UNIOrderDetailCell5.m */; };
 		18D864411D6D4DA40094EC42 /* UNIOrderDetailCell5.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D8643F1D6D4DA40094EC42 /* UNIOrderDetailCell5.xib */; };
 		18D864441D6DA0420094EC42 /* UNIShopCarRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D864431D6DA0420094EC42 /* UNIShopCarRequest.m */; };
-		18D9CBE91BEC801F001EF50C /* MainMidMoveBackTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D9CBE81BEC801F001EF50C /* MainMidMoveBackTransition.m */; };
 		18DDBC661C97F57D0083D9AB /* UNITouristRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDBC651C97F57D0083D9AB /* UNITouristRequest.m */; };
 		18DDBC691C98008E0083D9AB /* UNITouristModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDBC681C98008E0083D9AB /* UNITouristModel.m */; };
 		18DDD5761BEB5971005F7765 /* MainViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDD5751BEB5971005F7765 /* MainViewModel.m */; };
-		18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DDD5791BEB6074005F7765 /* MainMoveTransition.m */; };
 		18DF959B1D5D6C5400DF945F /* UNICardInfoProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 18DF959A1D5D6C5400DF945F /* UNICardInfoProgress.m */; };
 		18E14C2F1C046F7700AA36C8 /* UNIAppointController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E14C2E1C046F7700AA36C8 /* UNIAppointController.m */; };
 		18E14C321C0471DE00AA36C8 /* UNIAppointTop.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E14C311C0471DE00AA36C8 /* UNIAppointTop.m */; };
+		18E2A6451D756BEE00637E86 /* UNIAlbumController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2A6441D756BEE00637E86 /* UNIAlbumController.m */; };
+		18E2A6481D756E2C00637E86 /* UNIAlbumRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E2A6471D756E2C00637E86 /* UNIAlbumRequest.m */; };
 		18E302871C17D31000990A14 /* UNIGoodsDeatilController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E302861C17D31000990A14 /* UNIGoodsDeatilController.m */; };
 		18E302891C17D6F100990A14 /* KeZhuang.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 18E302881C17D6F100990A14 /* KeZhuang.storyboard */; };
 		18E3028E1C17DCD600990A14 /* UNIGoodsCell1.m in Sources */ = {isa = PBXBuildFile; fileRef = 18E3028C1C17DCD600990A14 /* UNIGoodsCell1.m */; };
@@ -372,8 +371,6 @@
 		18BA7D731BEA066500DD7826 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		18BA7D761BEA169300DD7826 /* MainMidController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMidController.h; sourceTree = "<group>"; };
 		18BA7D771BEA169300DD7826 /* MainMidController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMidController.m; sourceTree = "<group>"; };
-		18BA7D791BEA16B900DD7826 /* MainBottomController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainBottomController.h; sourceTree = "<group>"; };
-		18BA7D7A1BEA16B900DD7826 /* MainBottomController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainBottomController.m; sourceTree = "<group>"; };
 		18BF0A021BF44428000AE604 /* LLARingSpinnerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LLARingSpinnerView.h; sourceTree = "<group>"; };
 		18BF0A031BF44428000AE604 /* LLARingSpinnerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LLARingSpinnerView.m; sourceTree = "<group>"; };
 		18BF0A051BF4740F000AE604 /* UNIAppDeleRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppDeleRequest.h; sourceTree = "<group>"; };
@@ -603,22 +600,22 @@
 		18D8643F1D6D4DA40094EC42 /* UNIOrderDetailCell5.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIOrderDetailCell5.xib; sourceTree = "<group>"; };
 		18D864421D6DA0420094EC42 /* UNIShopCarRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopCarRequest.h; sourceTree = "<group>"; };
 		18D864431D6DA0420094EC42 /* UNIShopCarRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopCarRequest.m; sourceTree = "<group>"; };
-		18D9CBE71BEC801F001EF50C /* MainMidMoveBackTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMidMoveBackTransition.h; sourceTree = "<group>"; };
-		18D9CBE81BEC801F001EF50C /* MainMidMoveBackTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMidMoveBackTransition.m; sourceTree = "<group>"; };
 		18DDBC641C97F57D0083D9AB /* UNITouristRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNITouristRequest.h; sourceTree = "<group>"; };
 		18DDBC651C97F57D0083D9AB /* UNITouristRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNITouristRequest.m; sourceTree = "<group>"; };
 		18DDBC671C98008E0083D9AB /* UNITouristModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNITouristModel.h; sourceTree = "<group>"; };
 		18DDBC681C98008E0083D9AB /* UNITouristModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNITouristModel.m; sourceTree = "<group>"; };
 		18DDD5741BEB5971005F7765 /* MainViewModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewModel.h; sourceTree = "<group>"; };
 		18DDD5751BEB5971005F7765 /* MainViewModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewModel.m; sourceTree = "<group>"; };
-		18DDD5781BEB6074005F7765 /* MainMoveTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMoveTransition.h; sourceTree = "<group>"; };
-		18DDD5791BEB6074005F7765 /* MainMoveTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMoveTransition.m; sourceTree = "<group>"; };
 		18DF95991D5D6C5400DF945F /* UNICardInfoProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNICardInfoProgress.h; sourceTree = "<group>"; };
 		18DF959A1D5D6C5400DF945F /* UNICardInfoProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNICardInfoProgress.m; sourceTree = "<group>"; };
 		18E14C2D1C046F7700AA36C8 /* UNIAppointController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppointController.h; sourceTree = "<group>"; };
 		18E14C2E1C046F7700AA36C8 /* UNIAppointController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppointController.m; sourceTree = "<group>"; };
 		18E14C301C0471DE00AA36C8 /* UNIAppointTop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAppointTop.h; sourceTree = "<group>"; };
 		18E14C311C0471DE00AA36C8 /* UNIAppointTop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAppointTop.m; sourceTree = "<group>"; };
+		18E2A6431D756BEE00637E86 /* UNIAlbumController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAlbumController.h; sourceTree = "<group>"; };
+		18E2A6441D756BEE00637E86 /* UNIAlbumController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAlbumController.m; sourceTree = "<group>"; };
+		18E2A6461D756E2C00637E86 /* UNIAlbumRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAlbumRequest.h; sourceTree = "<group>"; };
+		18E2A6471D756E2C00637E86 /* UNIAlbumRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAlbumRequest.m; sourceTree = "<group>"; };
 		18E302851C17D31000990A14 /* UNIGoodsDeatilController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIGoodsDeatilController.h; sourceTree = "<group>"; };
 		18E302861C17D31000990A14 /* UNIGoodsDeatilController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIGoodsDeatilController.m; sourceTree = "<group>"; };
 		18E302881C17D6F100990A14 /* KeZhuang.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = KeZhuang.storyboard; sourceTree = "<group>"; };
@@ -787,7 +784,6 @@
 				1840FD761BE0712100DC78BC /* ViewModel */,
 				18F096651BF1C91A00B60A3D /* Request */,
 				18D572291BE883560055DE7F /* OtherManager */,
-				18DDD5771BEB603C005F7765 /* Animation */,
 				18BF0A001BF443F2000AE604 /* ThirdTool */,
 				18D5720F1BE867FE0055DE7F /* Library */,
 				180CD3931BDF180A00C912FE /* Assets.xcassets */,
@@ -1075,8 +1071,8 @@
 				18C3FBFA1C1044DC0031AFAC /* CardInfo */,
 				18BA7D761BEA169300DD7826 /* MainMidController.h */,
 				18BA7D771BEA169300DD7826 /* MainMidController.m */,
-				18BA7D791BEA16B900DD7826 /* MainBottomController.h */,
-				18BA7D7A1BEA16B900DD7826 /* MainBottomController.m */,
+				18E2A6431D756BEE00637E86 /* UNIAlbumController.h */,
+				18E2A6441D756BEE00637E86 /* UNIAlbumController.m */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1407,17 +1403,6 @@
 			path = OtherManager;
 			sourceTree = "<group>";
 		};
-		18DDD5771BEB603C005F7765 /* Animation */ = {
-			isa = PBXGroup;
-			children = (
-				18DDD5781BEB6074005F7765 /* MainMoveTransition.h */,
-				18DDD5791BEB6074005F7765 /* MainMoveTransition.m */,
-				18D9CBE71BEC801F001EF50C /* MainMidMoveBackTransition.h */,
-				18D9CBE81BEC801F001EF50C /* MainMidMoveBackTransition.m */,
-			);
-			path = Animation;
-			sourceTree = "<group>";
-		};
 		18E14C2C1C046F4900AA36C8 /* Appointment */ = {
 			isa = PBXGroup;
 			children = (
@@ -1509,6 +1494,8 @@
 				18DDBC651C97F57D0083D9AB /* UNITouristRequest.m */,
 				18D864421D6DA0420094EC42 /* UNIShopCarRequest.h */,
 				18D864431D6DA0420094EC42 /* UNIShopCarRequest.m */,
+				18E2A6461D756E2C00637E86 /* UNIAlbumRequest.h */,
+				18E2A6471D756E2C00637E86 /* UNIAlbumRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1832,7 +1819,6 @@
 				18BA7D631BE99EC100DD7826 /* UNWelcomeController.m in Sources */,
 				18D434A41C229AD0006A8A3F /* UNILocateNotifiDetail.m in Sources */,
 				18D5F1AE1C8848FA0033553D /* UNITransfromX&Y.m in Sources */,
-				18DDD57A1BEB6074005F7765 /* MainMoveTransition.m in Sources */,
 				181347AC1BF33D50001674D9 /* UNILoginViewRequest.m in Sources */,
 				18C3ECFB1C0EEA2100B0A192 /* UNIAppointDetall1Cell.m in Sources */,
 				18BF0A041BF44428000AE604 /* LLARingSpinnerView.m in Sources */,
@@ -1889,7 +1875,6 @@
 				18F096681BF1C99400B60A3D /* BaseRequest.m in Sources */,
 				18D023081CB65D58003AC324 /* UNILoginShopList.m in Sources */,
 				18BA7D6D1BE9A19100DD7826 /* SMPageControl.m in Sources */,
-				18BA7D7B1BEA16B900DD7826 /* MainBottomController.m in Sources */,
 				18C57CE21C05933D00E30B87 /* UNIAppontMid.m in Sources */,
 				18D410441CC5CD730086FC76 /* baseViewController.m in Sources */,
 				182E8A591C71CBA500870968 /* UNILawRequest.m in Sources */,
@@ -1899,7 +1884,6 @@
 				18C3FBF61C0FEFE60031AFAC /* UNIMyAppointInfoRequest.m in Sources */,
 				18C8D4061C574A5100E6DDB3 /* Order.m in Sources */,
 				18C73A831C06FAAD00A3A4CA /* UNIMyPojectList.m in Sources */,
-				18D9CBE91BEC801F001EF50C /* MainMidMoveBackTransition.m in Sources */,
 				18864B881C1AB24E00592DA1 /* UNIGoodsModel.m in Sources */,
 				18D85DF81C475CE800A3FE3D /* UNIAddProjcetCell.m in Sources */,
 				1882FA621BE739C300CC8D51 /* BaseViewModel.m in Sources */,
@@ -1910,6 +1894,7 @@
 				18CA17921C489B8600636ABF /* UNIRewardDetailCell.m in Sources */,
 				18153D1F1D6AAE2B009E2D9B /* UNIOrderList4Cell.m in Sources */,
 				18C8D40B1C574A5100E6DDB3 /* NSDataEx.m in Sources */,
+				18E2A6481D756E2C00637E86 /* UNIAlbumRequest.m in Sources */,
 				18153C951D6A9A2B009E2D9B /* UNIOrderListCell1.m in Sources */,
 				18C8D40D1C574A5100E6DDB3 /* RSADataSigner.m in Sources */,
 				18BA7D781BEA169300DD7826 /* MainMidController.m in Sources */,
@@ -1918,6 +1903,7 @@
 				188F123A1C16E85100EBE345 /* UNIWalletController.m in Sources */,
 				18CD114C1C7D4A7800D48808 /* UNIMapAddressView.m in Sources */,
 				184E15441C5F2DB500D65E39 /* UNISetttingController.m in Sources */,
+				18E2A6451D756BEE00637E86 /* UNIAlbumController.m in Sources */,
 				18CB94A01C85664F00F834DA /* UNIHttpUrlManager.m in Sources */,
 				186166361CE06B97006C2285 /* BaseWebController.m in Sources */,
 				18CC046C1D66B350008DA49A /* UNAlertShowController.m in Sources */,

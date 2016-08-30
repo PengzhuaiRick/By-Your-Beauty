@@ -286,6 +286,10 @@ UITableViewDelegate,KeyboardToolDelegate>{
     UNIPurchaseController* vc = [st instantiateViewControllerWithIdentifier:@"UNIPurchaseController"];
     model.sellNum = _num;
     vc.model = model;
+    __weak UNIGoodsDeatilController* myself= self;
+    vc.handleBlock =^(id model){
+        [myself setupOrderListController];
+    };
     [self.navigationController pushViewController:vc animated:YES];
     [[BaiduMobStat defaultStat]logEvent:@"btn_buy_product_detail" eventLabel:@"产品详情购买按"];
 }
@@ -381,7 +385,12 @@ UITableViewDelegate,KeyboardToolDelegate>{
     }];
             return cell;
 }
-
+//订单列表
+-(void)setupOrderListController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
+    UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIOrderListController"];
+    [self.navigationController pushViewController:view animated:YES];
+}
 
 -(CGSize)suanziti:(NSString*)text andFont:(float)font andWidth:(float)width{
     CGRect rect = [text boundingRectWithSize:CGSizeMake(width, 8000)//限制最大的宽度和高度

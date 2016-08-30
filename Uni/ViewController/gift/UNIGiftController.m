@@ -55,48 +55,7 @@
     
     NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_LIBAO_URL;
     [self setupUI:str1];
-    
-//    UIWebView* web = [[UIWebView alloc]initWithFrame:self.view.frame];
-//    // web.delegate = self;
-//    web.scrollView.delegate = self;
-//    web.scrollView.backgroundColor =[UIColor colorWithHexString:kMainBackGroundColor];
-//    [self.view addSubview:web];
-//    web.scalesPageToFit = YES;//自动对页面进行缩放以适应屏幕
-//    NSString* str1 = [UNIHttpUrlManager sharedInstance].WX_LIBAO_URL;
-//    NSURL* url = [NSURL URLWithString:str1];//创建URL
-//    NSURLRequest* request = [NSURLRequest requestWithURL:url];
-//    
-//    [web loadRequest:request];//加载
-//    webView = web;
-//    __weak id myself = self;
-//    
-//    self.bridge =[WebViewJavascriptBridge bridgeForWebView:web webViewDelegate:self handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"data  %@",data);
-//    }];
-//    
-//    [self.bridge send:@"init" responseCallback:^(id responseData) {}];
-//    
-//    
-//    [self.bridge registerHandler:@"gotoAppoint" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"gotoAppoint %@", data);
-//        NSString* str = [data objectForKey:@"projectId"];
-//        [myself gotoAppoint:str :@""];
-//        [[BaiduMobStat defaultStat]logEvent:@"btn_appoint_gift_list" eventLabel:@"我的礼包预约按钮"];
-//    }];
-//    
-//    [self.bridge registerHandler:@"gotoGoodsDetail" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"gotoGoodsDetail: %@", data);
-//        NSString* str = [data objectForKey:@"projectId"];
-//        [myself gotoGoodsDeatil:str :@"2" :0];
-//        
-//    }];
-//    [self.bridge registerHandler:@"gotoBuyProject" handler:^(id data, WVJBResponseCallback responseCallback) {
-//        NSLog(@"gotoBuyProject: %@", data);
-//        NSString* str = [data objectForKey:@"projectId"];
-//        [myself gotoBuyProject:str :@"3" :0];
-//         [[BaiduMobStat defaultStat]logEvent:@"btn_awarded_gift_list" eventLabel:@"我的礼包已获得按钮"];
-//        
-//    }];
+
 
 }
 
@@ -151,6 +110,7 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
     [self showGuideView:CARDGUIDE];
+    [LLARingSpinnerView RingSpinnerViewStop1];
 }
 
 

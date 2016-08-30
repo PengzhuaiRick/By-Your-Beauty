@@ -182,7 +182,7 @@ All Rights Reserved</string>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WVq-ET-Qow">
-                                <rect key="frame" x="109" y="653" width="196" height="83"/>
+                                <rect key="frame" x="0.0" y="653" width="414" height="83"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <string key="text">广州由你电子商务有限公司 版权所有
 Copyright @2014-2021.
@@ -578,6 +578,9 @@ All Rights Reserved</string>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <state key="normal" title="  全选" image="addpro_btn_selelct1"/>
+                                        <connections>
+                                            <action selector="allSelectBtnAction:" destination="Dt5-Ge-gQp" eventType="touchUpInside" id="6SH-nP-UWv"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Zev-16-yib">
                                         <rect key="frame" x="125" y="0.0" width="137" height="74"/>

@@ -7,7 +7,7 @@
 //
 
 #import "UNIAboutUsController.h"
-
+#import "UNIHttpUrlManager.h"
 @interface UNIAboutUsController ()
 @property (weak, nonatomic) IBOutlet UIImageView *rotationImg;
 @property (weak, nonatomic) IBOutlet UILabel *mainLab;
@@ -38,6 +38,7 @@
 
 -(void)setupUI{
     _mainLab.font = kWTFont(14);
+    _mainLab.text = [UNIHttpUrlManager sharedInstance].TXT_ABOUT_US;
     
     NSMutableAttributedString *string =[[NSMutableAttributedString alloc]initWithString:_mainLab.text];
     long number = KMainScreenWidth* 14/414;

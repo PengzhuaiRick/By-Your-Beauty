@@ -9,7 +9,7 @@
 #import "UNIMyPojectList.h"
 #import "MainViewRequest.h"
 #import <MJRefresh/MJRefresh.h>
-//#import "UNIAddProjcetCell.h"
+#import "UNIHttpUrlManager.h"
 #import "UNIAddProjectsCell.h"
 #define CELLH KMainScreenWidth*85/414
 #define MAXTABLEH KMainScreenHeight-74-60  //tableview最大高度
@@ -87,6 +87,35 @@
 
     needKnowBtn.titleLabel.font = kWTFont(18);
 }
+-(void)setupNodata{
+    if (_myData.count>0) {
+        return;
+    }
+    UIView* view = [[UIView alloc]initWithFrame:self.view.bounds];
+    view.backgroundColor = [UIColor colorWithHexString:@"eeeeee"];
+    [self.view addSubview:view];
+    
+    UIImageView* img =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
+    img.center = CGPointMake(KMainScreenWidth/2-60, KMainScreenHeight/2);
+    img.image = [UIImage imageNamed:@"main_img_nodata2"];
+    [view addSubview:img];
+    
+    UNIHttpUrlManager *manager = [UNIHttpUrlManager sharedInstance];
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(KMainScreenWidth/2, KMainScreenHeight/2-30,KMainScreenWidth/2, 20)];
+    lab.text = @"马上购买去！";
+    lab.textColor = [UIColor colorWithHexString:@"1b1b1b"];
+    lab.font = kWTFont(18);
+    [view addSubview:lab];
+    
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(KMainScreenWidth/2, KMainScreenHeight/2,KMainScreenWidth/2, 40)];
+    lab1.text = manager.GOTOBUY_DESC;
+    lab1.textColor = [UIColor colorWithHexString:@"b5b4b4"];
+    lab1.font = kWTFont(16);
+    lab1.numberOfLines = 0;
+    lab1.lineBreakMode = 0;
+    [view addSubview:lab1];
+}
+
 #pragma mark 选择 按钮事件
 - (IBAction)selectBtnAcvtion:(id)sender {
     NSMutableArray* arr = [NSMutableArray array];
@@ -174,7 +203,7 @@
                     if (myProjectArr.count<20)
                         [self.myTableview.footer endRefreshingWithNoMoreData];
                     
-                    if (myProjectArr.count>0){
+                  //  if (myProjectArr.count>0){
                         NSMutableArray* data = [NSMutableArray arrayWithArray:myProjectArr];
                         NSMutableArray* data1 = [NSMutableArray arrayWithArray:myProjectArr];
                         for (UNIMyProjectModel* info in self.projectIdArr) {
@@ -185,8 +214,8 @@
                         }
                         [self.myData addObjectsFromArray:data1];
                         [self.myTableview reloadData];
-                       //[self.myData addObjectsFromArray:myProjectArr];
-                    }
+                        [self setupNodata];
+                   // }
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
             });

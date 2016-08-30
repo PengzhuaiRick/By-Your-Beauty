@@ -338,10 +338,8 @@
             [LLARingSpinnerView RingSpinnerViewStop1];
             [UIAlertView showWithTitle:tip message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                 if (code == 0) {
-                    [self.navigationController popViewControllerAnimated:YES];
-                    //                    UNIOrderListController* view = [[UNIOrderListController alloc]init];
-                    //                    view.type = 1;
-                    //                    [self.navigationController pushViewController:view animated:YES];
+                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [[NSNotificationCenter defaultCenter]postNotificationName:@"setupOrderListController" object:nil];
                 }
             }];
         });

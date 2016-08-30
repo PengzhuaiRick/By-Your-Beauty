@@ -96,7 +96,8 @@
 #define API_URL_GetSellList @"sellGoods/sellGoodsList"
 
 //获取客妆 订单号
-#define API_URL_GetOutTradeNo @"Pay/getPayInfo"
+//#define API_URL_GetOutTradeNo @"Pay/getPayInfo"
+#define API_URL_GetOutTradeNo @"pay2/getNewPayInfo"
 
 //服务评价接口
 #define API_URL_SetServiceAppraise @"comment/setServiceAppraise"
@@ -200,4 +201,9 @@
 #define API_URL_GetMyOrder @"Cart/getMyOrder"
 //订单详情
 #define API_URL_GetCartOrderDetail @"Cart/getCartOrderDetail"
+
+
+//
+//相册接口
+#define API_URL_GetShopImages @"Cart/getShopImages"
 #endif /* URLconfig_h */

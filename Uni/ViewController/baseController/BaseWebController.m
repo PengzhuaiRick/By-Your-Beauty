@@ -18,12 +18,12 @@
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     self.baseWebView.scrollView.delegate = nil;
-    [_progressView setHidden:YES];
+    //[_progressView setHidden:YES];
 }
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     self.baseWebView.scrollView.delegate = self;
-    [_progressView setHidden:NO];
+    //[_progressView setHidden:NO];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -134,15 +134,16 @@
 }
 
 - (void)webViewDidStartLoad:(UIWebView *)webView{
-    // [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+    [LLARingSpinnerView RingSpinnerViewStop1];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
-   
+   [LLARingSpinnerView RingSpinnerViewStop1];
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
@@ -191,10 +192,10 @@
 
 #pragma mark 显示指引图片
 -(void)showGuideView:(NSString*)className{
-   if (![UNIGuideView determineWhetherFirstTime:className]) {
+//   if (![UNIGuideView determineWhetherFirstTime:className]) {
         UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:className];
         [[UIApplication sharedApplication].keyWindow addSubview:guide];
-    }
+//    }
 }
 
 #pragma mark 百度统计开始

@@ -18,7 +18,8 @@
     _numField.font = kWTFont(13);
     
     _numView.layer.masksToBounds = YES;
-    _numView.layer.cornerRadius = _numView.frame.size.height/2;
+    float h =_numView.frame.size.height*KMainScreenWidth/414;
+    _numView.layer.cornerRadius = h/2;
     _numView.layer.borderWidth = 1;
     _numView.layer.borderColor = [UIColor colorWithHexString:@"959595"].CGColor;
     

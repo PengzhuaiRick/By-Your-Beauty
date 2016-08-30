@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "baseViewController.h"
 #import "UNIGoodsModel.h"
+
 @interface UNIPurchaseController :baseViewController
 @property(nonatomic,strong)UNIGoodsModel* model;
+
+typedef void(^HandleBlock)(id model);
+@property(nonatomic,copy)HandleBlock handleBlock;
 @end
