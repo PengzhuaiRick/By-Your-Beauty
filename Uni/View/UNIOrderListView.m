@@ -166,12 +166,13 @@
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         cell.label2.text =[NSString stringWithFormat:@"%d",info.num];
-        cell.label5.text = [NSString stringWithFormat:@"￥%.f",info.totalPrice];
+        cell.label5.text = [NSString stringWithFormat:@"￥%.2f",info.totalPrice];
         
         CGSize size5 = [UNIOrderListCell3 contentSize:cell.label5];
         CGRect rect5 = cell.label5.frame;
         rect5.size.width = size5.width+20;
-        rect5.origin.x = KMainScreenWidth  - rect5.size.width + 30;
+        int jianGe = KMainScreenWidth>=414?0:30;
+        rect5.origin.x = KMainScreenWidth  - rect5.size.width +jianGe;
         cell.label5.frame = rect5;
         
         CGRect rect4 = cell.label4.frame;
@@ -193,10 +194,17 @@
         if (info.ifGet == 0) {
             [cell.handleBtn setTitle:@"到店领取" forState:UIControlStateNormal];
             [cell.handleBtn setBackgroundImage:[UIImage imageNamed:@"order_btn_handle1"] forState:UIControlStateNormal];
+            cell.handleBtn.enabled = YES;
+            [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+            subscribeNext:^(id x) {
+                [UIAlertView showWithTitle:@"请联系店员领取奖品！" message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:nil];
+            }];
         }
         if (info.ifGet == 1) {
             [cell.handleBtn setTitle:@"已领取" forState:UIControlStateNormal];
             [cell.handleBtn setBackgroundImage:[UIImage imageNamed:@"order_btn_handle2"] forState:UIControlStateNormal];
+            cell.handleBtn.enabled = NO;
+
         }
         return cell;
     }
@@ -209,7 +217,7 @@
             UNIOrderListGoods* model = info.goods[indexPath.row-1];
             cell.label1.text =model.goodName;
             cell.label2.text = nil;
-            cell.label3.text = [NSString stringWithFormat:@"￥%.2f",model.endPrice];
+            cell.label3.text = [NSString stringWithFormat:@"￥%.2f",model.price];
             cell.label4.text = [NSString stringWithFormat:@"x%d",model.num];
             if(model.specifications) cell.label2.text = [NSString stringWithFormat:@"规格: %@",model.specifications];
             NSArray* arr = [model.goodLogoUrl componentsSeparatedByString:@","];

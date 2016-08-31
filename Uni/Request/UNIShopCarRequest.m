@@ -112,6 +112,7 @@
     if ([param2 isEqualToString:API_URL_GetCartComfirm]) {
         if (code == 0) {
             float sumPrice = [[self safeObject:dic ForKey:@"sumPrice"] floatValue];
+            float totalReturn = [[self safeObject:dic ForKey:@"totalReturn"] floatValue];
             NSDictionary* cartInfo = [self safeObject:dic ForKey:@"cartInfo"];
             NSArray* cartGoods = [self safeObject:cartInfo ForKey:@"cartGoods"];
             NSMutableArray* arr = [NSMutableArray arrayWithCapacity:cartGoods.count];
@@ -120,10 +121,10 @@
                 [arr addObject:model];
             }
             if (_getCartComfirm)
-                _getCartComfirm(sumPrice,arr,tips,nil);
+                _getCartComfirm(totalReturn,sumPrice,arr,tips,nil);
         }else{
             if (_getCartComfirm)
-                _getCartComfirm(-1,nil,tips,nil);}
+                _getCartComfirm(-1,-1,nil,tips,nil);}
     }
     //支付调用
     if ([param2 isEqualToString:API_URL_GetNewPayInfo]) {
@@ -183,7 +184,7 @@
     //确认订单
     if ([param2 isEqualToString:API_URL_GetCartComfirm]) {
         if (_getCartComfirm)
-             _getCartComfirm(-1,nil,nil,err);
+             _getCartComfirm(-1,-1,nil,nil,err);
     }
 
     //支付调用

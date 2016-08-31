@@ -157,8 +157,8 @@
 }
 
 -(NSString*)spliceURL:(NSArray*)code{
-    //NSString* str = [NSString stringWithFormat:@"%@/index.php?s=/App/%@/app_version/%@/device/ios",[UNIUrlManager sharedInstance].server_url,code[0],CURRENTVERSION];
-    NSString* str = [NSString stringWithFormat:@"http://192.168.0.25/uni_project/index.php?s=/App/%@/app_version/%@/device/ios",code[0],CURRENTVERSION];
+    NSString* str = [NSString stringWithFormat:@"%@/index.php?s=/App/%@/app_version/%@/device/ios",[UNIUrlManager sharedInstance].server_url,code[0],CURRENTVERSION];
+    //NSString* str = [NSString stringWithFormat:@"http://192.168.0.25/uni_project/index.php?s=/App/%@/app_version/%@/device/ios",code[0],CURRENTVERSION];
     return str;
 }
 

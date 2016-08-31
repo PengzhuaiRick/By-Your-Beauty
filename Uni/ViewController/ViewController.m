@@ -49,6 +49,7 @@
    // [self showGuideView:FUNCTIONGUIDE];
     [self setupBackView];
     [self setupCollestView];
+    [self showGuideView:FUNCTIONGUIDE];
 }
 
 -(void)setupBackView{

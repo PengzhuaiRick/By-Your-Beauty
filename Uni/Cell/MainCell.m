@@ -14,6 +14,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.selectionStyle = 0;
     self.backgroundColor = [UIColor clearColor];
     
     _backView.layer.masksToBounds = YES;
@@ -51,13 +52,17 @@
         NSString* str = [info.time substringWithRange:NSMakeRange(0, info.time.length - 3)];
         NSString* str1 = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
         self.subLab .text = [NSString stringWithFormat:@"我已预约:%@",str1];
-        _handleBtn.enabled = YES;
+        _handleBtn.hidden = NO;
+        _handleImg.hidden =NO;
     }else{
         self.numLab.hidden=YES;
         self.mainImage.image = [UIImage imageNamed:@"main_img_nodata1"];
         self.mainLab.text = @"已约完!";
         self.subLab .text = [UNIHttpUrlManager sharedInstance].APPOINT_DESC;
-        _handleBtn.enabled = NO;
+        _handleBtn.hidden = YES;
+        _handleImg.hidden = YES;
+
+    
     }
     
 }

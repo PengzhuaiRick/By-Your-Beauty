@@ -264,7 +264,7 @@
     }
     
     
-    if (info.ifIntime == 0) {
+    if (info.ifIntime == 1) {
         [cell.handleBtn setTitle:@"准时" forState:UIControlStateNormal];
         cell.handleImg.image = [UIImage imageNamed:@"main_btn_cell2"];
     }

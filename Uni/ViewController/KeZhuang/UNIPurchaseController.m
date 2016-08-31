@@ -65,10 +65,12 @@
 }
 -(void)changeUIValue{
     cell1.numField.text = [NSString stringWithFormat:@"%d",self.model.sellNum];
-    self.bottomPrice.text = [NSString stringWithFormat:@"总价:￥%.2f",self.model.shopPrice*self.model.sellNum];
-    
-    cell2.detailTextLabel.text =self.bottomPrice.text;
-
+    cell2.detailTextLabel.text =[NSString stringWithFormat:@"￥%.2f",self.model.shopPrice*self.model.sellNum];
+    if (_model.reduceMoney <= self.model.shopPrice*self.model.sellNum) {
+         self.bottomPrice.text = [NSString stringWithFormat:@"总价:￥%.2f",self.model.shopPrice*self.model.sellNum - _model.reduceMoney];
+    }else
+         self.bottomPrice.text = [NSString stringWithFormat:@"总价:￥%.2f",self.model.shopPrice*self.model.sellNum];
+   
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -78,7 +80,7 @@
     return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, 15)];
 }
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 4;
+    return 5;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
     if (indexPath.row == 0)
@@ -121,15 +123,26 @@
         
         return cell1;
     }
-    else if (indexPath.row == 1) {
-        cell2= [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell2"];
-        cell2.selectionStyle = 0;
-        cell2.textLabel.text = @"  合计:";
-        cell2.textLabel.font = kWTFont(14);
-        cell2.detailTextLabel.text = _bottomPrice.text;
-        cell2.detailTextLabel.font = kWTFont(14);
-        cell2.detailTextLabel.textColor = [UIColor colorWithHexString:kMainPinkColor];
-        return cell2;
+    else if (indexPath.row == 1 ||indexPath.row == 2) {
+       UITableViewCell* cell= [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"cell2"];
+        cell.selectionStyle = 0;
+        cell.textLabel.font = kWTFont(14);
+        cell.detailTextLabel.font = kWTFont(14);
+        
+        if (indexPath.row == 1){
+            cell.textLabel.text = @"  优惠券:";
+            cell.detailTextLabel.text =[NSString stringWithFormat:@"￥%.2f",_model.reduceMoney];
+            cell.detailTextLabel.textColor = [UIColor colorWithHexString:@"626262"];
+        }
+        if (indexPath.row == 2){
+            cell.textLabel.text = @"  合计:";
+            cell.detailTextLabel.text = _bottomPrice.text;
+            cell.detailTextLabel.textColor = [UIColor colorWithHexString:kMainPinkColor];
+            cell2 = cell;
+        }
+        
+        
+        return cell;
     }else{
         UNIPayStyleCell* cell = [[NSBundle mainBundle]loadNibNamed:@"UNIPayStyleCell" owner:self options:nil].lastObject;
         cell.selectionStyle = 0;
@@ -141,14 +154,14 @@
             if (x.selected) return;
             
             x.selected = !x.selected;
-            int row = x.tag==2?3:2;
-            self->style = x.tag==3?@"ALIPAY_APP2":@"WXPAY_APP2";
+            int row = x.tag==3?4:3;
+            self->style = x.tag==4?@"ALIPAY_APP2":@"WXPAY_APP2";
             NSIndexPath* index = [NSIndexPath indexPathForRow:row inSection:0];
             UNIPayStyleCell* cell = [myself.myTable cellForRowAtIndexPath:index];
             cell.handleBtn.selected = !cell.handleBtn.selected;
             
         }];
-        if (indexPath.row == 2) {
+        if (indexPath.row == 3) {
             cell.mainImg.image = [UIImage imageNamed:@"KZ_img_weixin"];
             cell.label1.text = @"微信支付";
             cell.handleBtn.selected=YES;

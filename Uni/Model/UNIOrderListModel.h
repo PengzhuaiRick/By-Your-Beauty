@@ -15,6 +15,7 @@
 @property(nonatomic,copy)NSString* goodLogoUrl;
 @property(nonatomic,copy)NSString* goodName;         //项目名称
 @property(nonatomic,copy)NSString* specifications;       //规格
+@property(nonatomic,copy)NSString* couponName;       //优惠券名称
 @property(nonatomic,assign)int goodId;
 @property(nonatomic,assign)int goodsType;
 @property(nonatomic,assign)int isProject;
@@ -28,6 +29,7 @@
 @interface UNIOrderListModel : UNIBaseModel
 @property(nonatomic,copy)NSString* orderNo;  //订单号
 @property(nonatomic,assign)float totalPrice;         //价格
+@property(nonatomic,assign)float returnTotal;         //优惠券减少的价格
 @property(nonatomic,copy)NSString* createtime;       //下单时间
 @property(nonatomic,assign)int num;
 @property(nonatomic,assign)int ifGet; // -1:全部 0:未领取 1:已领取

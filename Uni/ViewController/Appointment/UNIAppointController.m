@@ -60,7 +60,7 @@
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     
     [self showGuideView:APPOINTGUIDE1];
-    [self showGuideView];
+    //[self showGuideView];
    
 }
 

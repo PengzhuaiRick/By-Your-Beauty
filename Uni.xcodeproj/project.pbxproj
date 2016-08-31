@@ -165,6 +165,10 @@
 		18D5722E1BE883560055DE7F /* AccountManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722B1BE883560055DE7F /* AccountManager.m */; };
 		18D5722F1BE883560055DE7F /* YILocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5722D1BE883560055DE7F /* YILocationManager.m */; };
 		18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D572311BE891BC0055DE7F /* YIUserLocationMessage.m */; };
+		18D5D5411D76DBC6007DCEE3 /* UNICouponCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5D53F1D76DBC6007DCEE3 /* UNICouponCellTableViewCell.m */; };
+		18D5D5421D76DBC6007DCEE3 /* UNICouponCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D5D5401D76DBC6007DCEE3 /* UNICouponCellTableViewCell.xib */; };
+		18D5D5461D76F583007DCEE3 /* UNIOrderDetailCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5D5441D76F583007DCEE3 /* UNIOrderDetailCell2.m */; };
+		18D5D5471D76F583007DCEE3 /* UNIOrderDetailCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D5D5451D76F583007DCEE3 /* UNIOrderDetailCell2.xib */; };
 		18D5F1AB1C881F630033553D /* UNIShopRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F1AA1C881F630033553D /* UNIShopRequest.m */; };
 		18D5F1AE1C8848FA0033553D /* UNITransfromX&Y.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D5F1AD1C8848FA0033553D /* UNITransfromX&Y.m */; };
 		18D77DCC1C3B9BE300DFC738 /* libz.1.2.5.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D77DCB1C3B9BE300DFC738 /* libz.1.2.5.tbd */; };
@@ -587,6 +591,12 @@
 		18D5722D1BE883560055DE7F /* YILocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YILocationManager.m; sourceTree = "<group>"; };
 		18D572301BE891BC0055DE7F /* YIUserLocationMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YIUserLocationMessage.h; sourceTree = "<group>"; };
 		18D572311BE891BC0055DE7F /* YIUserLocationMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YIUserLocationMessage.m; sourceTree = "<group>"; };
+		18D5D53E1D76DBC6007DCEE3 /* UNICouponCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNICouponCellTableViewCell.h; sourceTree = "<group>"; };
+		18D5D53F1D76DBC6007DCEE3 /* UNICouponCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNICouponCellTableViewCell.m; sourceTree = "<group>"; };
+		18D5D5401D76DBC6007DCEE3 /* UNICouponCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNICouponCellTableViewCell.xib; sourceTree = "<group>"; };
+		18D5D5431D76F583007DCEE3 /* UNIOrderDetailCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIOrderDetailCell2.h; sourceTree = "<group>"; };
+		18D5D5441D76F583007DCEE3 /* UNIOrderDetailCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIOrderDetailCell2.m; sourceTree = "<group>"; };
+		18D5D5451D76F583007DCEE3 /* UNIOrderDetailCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIOrderDetailCell2.xib; sourceTree = "<group>"; };
 		18D5F1A91C881F630033553D /* UNIShopRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIShopRequest.h; sourceTree = "<group>"; };
 		18D5F1AA1C881F630033553D /* UNIShopRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIShopRequest.m; sourceTree = "<group>"; };
 		18D5F1AC1C8848FA0033553D /* UNITransfromX&Y.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UNITransfromX&Y.h"; sourceTree = "<group>"; };
@@ -850,6 +860,9 @@
 				18153D221D6AE4B3009E2D9B /* WTOrderDetailCell1.h */,
 				18153D231D6AE4B3009E2D9B /* WTOrderDetailCell1.m */,
 				18153D241D6AE4B3009E2D9B /* WTOrderDetailCell1.xib */,
+				18D5D5431D76F583007DCEE3 /* UNIOrderDetailCell2.h */,
+				18D5D5441D76F583007DCEE3 /* UNIOrderDetailCell2.m */,
+				18D5D5451D76F583007DCEE3 /* UNIOrderDetailCell2.xib */,
 				18153D251D6AE4B3009E2D9B /* WTOrderDetailCell2.h */,
 				18153D261D6AE4B3009E2D9B /* WTOrderDetailCell2.m */,
 				18153D271D6AE4B3009E2D9B /* WTOrderDetailCell2.xib */,
@@ -862,6 +875,9 @@
 				18D8643D1D6D4DA40094EC42 /* UNIOrderDetailCell5.h */,
 				18D8643E1D6D4DA40094EC42 /* UNIOrderDetailCell5.m */,
 				18D8643F1D6D4DA40094EC42 /* UNIOrderDetailCell5.xib */,
+				18D5D53E1D76DBC6007DCEE3 /* UNICouponCellTableViewCell.h */,
+				18D5D53F1D76DBC6007DCEE3 /* UNICouponCellTableViewCell.m */,
+				18D5D5401D76DBC6007DCEE3 /* UNICouponCellTableViewCell.xib */,
 			);
 			path = OrderDetail;
 			sourceTree = "<group>";
@@ -1677,11 +1693,13 @@
 				184482161C5247B60047D2EF /* Images.xcassets in Resources */,
 				18C745B81BF07EE4000062AF /* PushConfig.plist in Resources */,
 				18CCA0201C0310F600B90092 /* Function.storyboard in Resources */,
+				18D5D5421D76DBC6007DCEE3 /* UNICouponCellTableViewCell.xib in Resources */,
 				18153D2B1D6AE4B3009E2D9B /* WTOrderDetailCell2.xib in Resources */,
 				18D149301D6EE0D400CE4D96 /* UNIPayGoodsCell.xib in Resources */,
 				18C2A8291D5C90380088F58A /* UNIVIPMemberCell.xib in Resources */,
 				18C8D4021C574A5100E6DDB3 /* AlipaySDK.bundle in Resources */,
 				180CD3941BDF180A00C912FE /* Assets.xcassets in Resources */,
+				18D5D5471D76F583007DCEE3 /* UNIOrderDetailCell2.xib in Resources */,
 				18E302891C17D6F100990A14 /* KeZhuang.storyboard in Resources */,
 				18153C961D6A9A2B009E2D9B /* UNIOrderListCell1.xib in Resources */,
 				18D1492B1D6ED4B800CE4D96 /* UNIPayStyleCell.xib in Resources */,
@@ -1773,6 +1791,7 @@
 				18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */,
 				18ED841E1D644200006863DF /* UNIRewardListXibCell.m in Sources */,
 				18C73A7B1C069B1300A3A4CA /* UNIMypointRequest.m in Sources */,
+				18D5D5461D76F583007DCEE3 /* UNIOrderDetailCell2.m in Sources */,
 				180CD38C1BDF180A00C912FE /* AppDelegate.m in Sources */,
 				18E627831BF9EC1500C4C13C /* UNIMyAppintModel.m in Sources */,
 				18D1492F1D6EE0D400CE4D96 /* UNIPayGoodsCell.m in Sources */,
@@ -1868,6 +1887,7 @@
 				18C8D40E1C574A5100E6DDB3 /* RSADataVerifier.m in Sources */,
 				18FD49781C16748900C07BF5 /* UNIRewardListModel.m in Sources */,
 				18E661D51C118067000042B7 /* MyRewardView.m in Sources */,
+				18D5D5411D76DBC6007DCEE3 /* UNICouponCellTableViewCell.m in Sources */,
 				18153D2A1D6AE4B3009E2D9B /* WTOrderDetailCell2.m in Sources */,
 				18C94B7B1D7024970092E2C7 /* UNIVerifyController.m in Sources */,
 				18C3ECF61C0ED53300B0A192 /* UNIAppointDetailCell.m in Sources */,

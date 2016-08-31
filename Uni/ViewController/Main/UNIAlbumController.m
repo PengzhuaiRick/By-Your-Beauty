@@ -13,6 +13,7 @@
 @property (nonatomic,strong)NSArray* imgArray;
 @property (weak, nonatomic) IBOutlet UILabel *descreberLab;
 @property (weak, nonatomic) IBOutlet UILabel *numLab;
+@property (weak, nonatomic) IBOutlet UILabel *nodataLabel;
 @end
 
 @implementation UNIAlbumController
@@ -38,6 +39,7 @@
 }
 
 -(void)setupUI{
+    _nodataLabel.hidden = self.imgArray.count>0;
     _numLab.hidden = self.imgArray.count<1;
     _numLab.text = [NSString stringWithFormat:@"1/%d",(int)self.imgArray.count];
     UNIAlbumModel* model = self.imgArray[0];

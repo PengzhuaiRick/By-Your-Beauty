@@ -9,7 +9,8 @@
 #import "UNIVerifyController.h"
 #import "UNIOrderDetailCell1.h"
 #import "UNIOrderDetailCell3.h"
-#import "WTOrderDetailCell2.h"
+//#import "WTOrderDetailCell2.h"
+#import "UNIOrderDetailCell2.h"
 #import "UNIPayStyleCell.h"
 #import "UNIShopManage.h"
 #import "UNIShopCarRequest.h"
@@ -23,6 +24,7 @@
     NSString* style;
     NSString* orderNo;//生成订单号
     float allPrice;
+    float couponPrice;
     UNIPayStyleCell* cell3;
     UNIPayStyleCell* cell4;
 }
@@ -68,14 +70,19 @@
     __weak UNIVerifyController* myself = self;
     UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
     [rq postWithSerCode:@[API_URL_GetCartComfirm] params:nil];
-    rq.getCartComfirm=^(float sumPrice,NSArray* arr,NSString* tips,NSError* err){
+    rq.getCartComfirm=^(float totalReturn,float sumPrice,NSArray* arr,NSString* tips,NSError* err){
         if (err) {
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
         if (arr) {
+            self->couponPrice = totalReturn;
             self->allPrice = sumPrice;
-            myself.priceLab.text = [NSString stringWithFormat:@"合计: ￥%.2f",sumPrice];
+            if (totalReturn<=sumPrice)
+                myself.priceLab.text = [NSString stringWithFormat:@"合计: ￥%.2f",sumPrice - totalReturn];
+            else
+                myself.priceLab.text = [NSString stringWithFormat:@"合计: ￥%.2f",sumPrice];
+            
             myself.myData = arr;
             [myself.tableView reloadData];
         }else
@@ -145,11 +152,10 @@
                 [cell.mianimg sd_setImageWithURL:[NSURL URLWithString:imgs[0]] placeholderImage:[UIImage imageNamed:@"main_img_cellbg"]];
                 return cell;
             }else{
-                WTOrderDetailCell2* cell=[[NSBundle mainBundle]loadNibNamed:@"WTOrderDetailCell2" owner:self options:nil].lastObject;
+                UNIOrderDetailCell2* cell=[[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell2" owner:self options:nil].lastObject;
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.title4.hidden = YES;
                 cell.label1.text =[NSString stringWithFormat:@"￥%.2f",allPrice];
-                cell.label2.text =@"-￥0";
+                cell.label2.text =[NSString stringWithFormat:@"-￥%.2f",couponPrice];
                 cell.label3.text =@"￥0";
                 return cell;
 

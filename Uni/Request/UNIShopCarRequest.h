@@ -40,7 +40,7 @@ typedef void(^GetCartList)(NSArray* array,NSString* msg,NSError* err);
 typedef void(^GetCartBottomInfo)(float endPrice,int isAll,int isCheckNum,NSString* msg,NSError* err);
 
 //确认订单
-typedef void(^GetCartComfirm)(float sumPrice,NSArray* array,NSString* msg,NSError* err);
+typedef void(^GetCartComfirm)(float totalReturn,float sumPrice,NSArray* array,NSString* msg,NSError* err);
 
 //支付调用
 typedef void(^GetNewPayInfo)(NSDictionary* dic,NSString* msg,NSError* err);

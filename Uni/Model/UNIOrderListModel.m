@@ -19,11 +19,12 @@
     self.goodLogoUrl = [self safeObject:dic ForKey:@"goodLogoUrl"];
     self.goodName = [self safeObject:dic ForKey:@"goodName"];
     self.specifications = [self safeObject:dic ForKey:@"specifications"];
-    
+    self.couponName = [self safeObject:dic ForKey:@"couponName"];
     
     self.endPrice = [[self safeObject:dic ForKey:@"endPrice"] floatValue];
     self.price = [[self safeObject:dic ForKey:@"price"] floatValue];
     self.return_money = [[self safeObject:dic ForKey:@"return_money"] floatValue];
+    
     
     self.goodId = [[self safeObject:dic ForKey:@"goodId"]intValue];
     self.goodsType = [[self safeObject:dic ForKey:@"goodsType"]intValue];
@@ -44,6 +45,7 @@
 -(void)analyDic:(NSDictionary*)dic{
     self.orderNo = [self safeObject:dic ForKey:@"orderNo"];
     self.totalPrice = [[self safeObject:dic ForKey:@"totalPrice"] floatValue];
+    self.returnTotal = [[self safeObject:dic ForKey:@"returnTotal"] floatValue];
     self.createtime = [self safeObject:dic ForKey:@"createtime"];
     self.ifGet = [[self safeObject:dic ForKey:@"ifGet"]intValue];
     self.num = [[self safeObject:dic ForKey:@"num"]intValue];

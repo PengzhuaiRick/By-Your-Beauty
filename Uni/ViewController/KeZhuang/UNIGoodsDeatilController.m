@@ -69,6 +69,10 @@ UITableViewDelegate,KeyboardToolDelegate>{
     [super viewWillAppear:animated];
      [[BaiduMobStat defaultStat] pageviewStartWithName:@"客妆界面"];
 }
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self requestShopCarNum];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -79,7 +83,7 @@ UITableViewDelegate,KeyboardToolDelegate>{
     [self setupBottomView];
     [self setupTableView];
     [self startRequestReward];
-    [self requestShopCarNum];
+    
 }
 #pragma mark 开始请求
 -(void)startRequestReward{
@@ -251,6 +255,7 @@ UITableViewDelegate,KeyboardToolDelegate>{
 }
 #pragma mark 添加到购物车，修改购物车数量，减少购物车数量
 -(void)requestChangeNumOfShopCar{
+    __weak UNIGoodsDeatilController* myself = self;
     UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
     [rq postWithSerCode:@[API_URL_ChangeNumOfShopCar] params:@{@"num":_numField.text,@"goodId":@(model.projectId),@"goodType":@(model.type),@"isCheck":@"1"}];
     rq.changeGoodsToCart=^(int code,NSString* tips,NSError* err){
@@ -258,6 +263,7 @@ UITableViewDelegate,KeyboardToolDelegate>{
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;
         }
+        [myself requestShopCarNum];
         [YIToast showText:tips];
     };
 }

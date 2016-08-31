@@ -305,7 +305,7 @@
                     return ;
                 }
                 
-                if(!rc){
+                if(!ph){
                     x.enabled=YES;
                     [UIAlertView showWithTitle:tip message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
                     return ;
@@ -322,7 +322,7 @@
             
                 }
                 
-                if (rc != nil){
+                if (ph != nil){
                    // btn.enabled = NO;
                     self->countDown = 60;
                     //self->ServierTime = [NSDate dateWithTimeIntervalSince1970:st];

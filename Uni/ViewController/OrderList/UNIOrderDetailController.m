@@ -22,8 +22,10 @@
 #import "UNITransfromX&Y.h"
 
 #import "UNIOrderRequest.h"
+#import "UNICouponCellTableViewCell.h"
 @interface UNIOrderDetailController ()<UITableViewDelegate,UITableViewDataSource>{
-    
+    NSString* couponString;
+    CGSize couponSize;
 }
 @property (weak, nonatomic) IBOutlet UITableView *topTableView;
 @property (strong, nonatomic)UNIOrderDetailModel* detailModel;
@@ -43,7 +45,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupNavigation];
-    [self setupUI];
     [self startRequest];
 }
 -(void)startRequest{
@@ -60,7 +61,9 @@
             }
             if (model) {
                 myself.detailModel = model;
+                [myself setupUI];
                 [myself.topTableView reloadData];
+                
             }else
                  [YIToast showText:tips];
         });
@@ -76,7 +79,29 @@
     [self.navigationController popViewControllerAnimated:YES];
 }
 -(void)setupUI{
- 
+    NSMutableString* str =[NSMutableString string];
+    for (UNIOrderListGoods* mod in _detailModel.goods) {
+        if (mod.couponName.length>1)
+            [str appendFormat:@"%@\n",mod.couponName];
+    }
+    NSString *coupon =nil;
+    if (str.length>5)
+        coupon = [str substringToIndex:str.length-1];
+    else
+        coupon = @"没有对应的优惠券!";
+    couponString = coupon;
+    NSMutableParagraphStyle * paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineBreakMode =0;
+    paragraphStyle.alignment =0;
+    
+    NSDictionary * attributes = @{NSFontAttributeName :kWTFont(14),
+                                  NSParagraphStyleAttributeName : paragraphStyle};
+    
+    CGSize contentSize = [couponString boundingRectWithSize:CGSizeMake(KMainScreenWidth, MAXFLOAT)
+                                                options:(NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)
+                                             attributes:attributes
+                                                context:nil].size;
+    couponSize = contentSize;
 }
 
 
@@ -97,10 +122,12 @@
     if (indexPath.section == 2) {
         int num = (int)_model.goods.count;
         if (indexPath.row == num)
+             return couponSize.height+20;
+       else if (indexPath.row == num+1)
             return KMainScreenWidth* 115/414;
-       else if (indexPath.row == num + 1||indexPath.row == num + 2)
-            return KMainScreenWidth* 40/414;
-       else if (indexPath.row == num + 3)
+       else if (indexPath.row == num + 2||indexPath.row == num + 3)
+            return 44;
+       else if (indexPath.row == num + 4)
             return KMainScreenWidth* 84/414;
         else
             return KMainScreenWidth* 92/414;
@@ -122,15 +149,17 @@
    
         switch (indexPath.section) {
             case 0:{
+                
                 UNIOrderDetailCell1* cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell1" owner:self options:nil].lastObject;
-                UNIShopManage* manager = [UNIShopManage getShopData];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                cell.label1.text = manager.shopName;
-                cell.label2.text = manager.address;
+                UNIShopManage* man =[UNIShopManage getShopData];
+                cell.label1.text = man.shopName;
+                cell.label2.text = man.address;
                 return cell;
-            }break;
+                }break;
             case 1:{
                 WTOrderDetailCell1* cell = [[NSBundle mainBundle]loadNibNamed:@"WTOrderDetailCell1" owner:self options:nil].lastObject;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 cell.lable1.text = _detailModel.ordertext;
                 cell.lable2.text = _model.orderNo;
                 cell.lable3.text = _model.createtime;
@@ -138,6 +167,13 @@
             }break;
             case 2:{
                 if (indexPath.row == _model.goods.count) {
+                    UNICouponCellTableViewCell* cell = [[NSBundle mainBundle]loadNibNamed:@"UNICouponCellTableViewCell" owner:self options:nil].lastObject;
+                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                    cell.label2.text = couponString;
+                    return cell;
+
+                }
+                else if (indexPath.row == _model.goods.count+1) {
                     WTOrderDetailCell2* cell=[[NSBundle mainBundle]loadNibNamed:@"WTOrderDetailCell2" owner:self options:nil].lastObject;
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                     cell.label1.text =[NSString stringWithFormat:@"￥%.2f",_detailModel.totalPrice];
@@ -146,7 +182,8 @@
                     cell.label4.text =[NSString stringWithFormat:@"￥%.2f",_detailModel.endPrice];
                     return cell;
                 }
-                else if (indexPath.row == _model.goods.count+1 || indexPath.row == _model.goods.count+2) {
+                else if (indexPath.row == _model.goods.count+2 ||
+                         indexPath.row == _model.goods.count+3) {
                    static NSString* name = @"cell";
                     UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
                     if (!cell) {
@@ -155,18 +192,21 @@
                         cell.textLabel.textColor = [UIColor colorWithHexString:@"626262"];
                         cell.textLabel.font = kWTFont(14);
                         cell.detailTextLabel.font = kWTFont(14);
+                        cell.detailTextLabel.numberOfLines = 0;
+                        cell.detailTextLabel.lineBreakMode = 0;
                         
                     }
-                    if (indexPath.row == 2) {
+                    if (indexPath.row == _model.goods.count+2) {
                         cell.textLabel.text = @"支付方式:";
                         cell.detailTextLabel.text = _detailModel.paytext;
-                    }else{
+                    }else if (indexPath.row == _model.goods.count+3){
                         cell.textLabel.text = @"配送方式:";
                         cell.detailTextLabel.text = _detailModel.deliveryType;
                     }
+
                     return cell;
                 }
-               else if (indexPath.row == _model.goods.count+3) {
+               else if (indexPath.row == _model.goods.count+4) {
                     UNIOrderDetailCell5* cell=[[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell5" owner:self options:nil].lastObject;
                     cell.selectionStyle = UITableViewCellSelectionStyleNone;
                    cell.label3.text = _model.createtime;

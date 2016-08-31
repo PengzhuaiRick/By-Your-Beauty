@@ -412,7 +412,7 @@
     if (indexPath.section>0 && indexPath.section< cellNumber-1) {
         if (_bottomData.count<1)
             return;
-        id model = self.bottomData[indexPath.section];
+        id model = self.bottomData[indexPath.section-1];
         [self mainMidViewDelegataButton:model];
     }
 }
@@ -502,11 +502,13 @@
                         if (nextRewardNum>num) {
                              myself.reward.text =@"再预约次数";
                             [myself.numBtn setTitle:[NSString stringWithFormat:@"%d",nextRewardNum - num] forState:UIControlStateNormal];
+                            myself.numBtn.hidden = NO;
                         }if (nextRewardNum <= num) {
-                            myself.reward.text =@"恭喜您!";
+                            myself.reward.text =@"恭喜您已完成约满奖励";
                             [myself.numBtn setTitle:@"" forState:UIControlStateNormal];
+                            myself.numBtn.hidden = YES;
                         }
-                        myself.rewardLab.text = projectName;
+                        myself.rewardLab.text =[NSString stringWithFormat:@"%@%@",title,projectName] ;
 
                     }else{
                         myself.progessLab.text = nil;
