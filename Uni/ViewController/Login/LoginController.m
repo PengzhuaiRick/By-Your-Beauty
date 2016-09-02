@@ -15,18 +15,6 @@
 
 @interface LoginController ()<KeyboardToolDelegate,UITextFieldDelegate>{
     
-     // UITextField *codeField;    //验证码
-     // UITextField *phoneField;
-     // UITextField *nikeName;
-      //UIButton *maleBtn;
-     // UIButton *femaleBtn;
-     // UIButton *codeBtn;         //验证码
-    //  UIButton *loginBtn;
-   // UIImageView *headImge;
-    
-//    UIImageView* imgView1 ; //女性别按钮上的圆圈图片
-//    UIImageView* imgView2 ; //男性别按钮上的圆圈图片
-    
    // RACSignal *phoneSignal;
     RACSignal *codeFieldSignal;
     RACSignal *nikeSignal;
@@ -38,7 +26,6 @@
     //int cellH;
     
     NSDate* ServierTime; //服务器时间
-    
     
     __weak IBOutlet UITextField *phoneField;
     __weak IBOutlet UITextField *codeField;
@@ -82,6 +69,7 @@
     [self regirstKeyBoardNotification];
 }
 -(void)setupUI{
+    _scrollerView.scrollEnabled = KMainScreenHeight<500;
     [self rotationTheImg];
     [self modificateUI];
     [self setupPhoneField];
@@ -638,10 +626,10 @@
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
     rotationAnimation.duration = 2;
     rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = 10000000;
+    rotationAnimation.repeatCount = 1;
     [_rotationImg.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
-    //[self performSelector:@selector(rotationTheImg) withObject:nil afterDelay:2.1];
+    [self performSelector:@selector(rotationTheImg) withObject:nil afterDelay:2.5];
 }
 
 @end

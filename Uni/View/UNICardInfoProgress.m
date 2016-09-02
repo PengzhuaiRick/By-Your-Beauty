@@ -29,8 +29,8 @@
 //    CGContextAddArc(context, rect.size.width/2, rect.size.height/2,  rect.size.width/2-8, M_PI/2, 2*M_PI + M_PI/2, 0);//画圆
 //    CGContextSetLineCap(context, kCGLineCapRound); //线的两头为圆角
 //    CGContextDrawPath(context, kCGPathStroke); //绘制路径
-    
-    
+//    
+//    
 //    CGContextSetRGBStrokeColor(context,238.f/255, 76.f/255, 125.f/255, 1);//设置画笔颜色
 //    CGContextSetLineWidth(context, 8);//设置线宽
 //    CGContextAddArc(context, rect.size.width/2, rect.size.height/2,  rect.size.width/2-8, M_PI/2,  M_PI/2+ (2*M_PI * _num / _total) , 0);//画圆
@@ -46,7 +46,18 @@
 //    //开始绘制
 //    CGContextBeginPath(context);
     
+    
+    
+    
+    
     float lw = self.frame.size.width/2;
+//    
+//    UIBezierPath* path = [UIBezierPath bezierPath];
+//    [path addArcWithCenter:CGPointMake(lw, lw) radius:lw-8 startAngle:degreesToRadians(90) endAngle:degreesToRadians((_num/_total)*360+90) clockwise:YES];
+//    _progressLayer.path =[path CGPath];
+//    _progressLayer.strokeEnd =_num/_total;
+//    [gaiLayer setMask:_progressLayer];
+//    [self.layer addSublayer:gaiLayer];
     
     UIFont* font =kWTFont(18.6);
     NSString* str = @"/";
@@ -66,8 +77,9 @@
     CGSize titleSize2 = [str2 boundingRectWithSize:CGSizeMake(rect.size.width, rect.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil].size;
     float tx =lw+Size.width/2;
     [str2 drawInRect:CGRectMake(tx, y1, titleSize2.width, titleSize2.height) withAttributes:@{NSFontAttributeName:font ,NSForegroundColorAttributeName:[UIColor whiteColor]}];
-    
 
+    
+   
 }
 
 #pragma mark 渐变图层
@@ -95,7 +107,7 @@
     progressLayer.lineJoin = kCALineJoinRound;
     progressLayer.lineWidth = 8;
     progressLayer.path = [path CGPath];
-   // progressLayer.strokeEnd = 0;
+    progressLayer.strokeEnd = 0;
     _progressLayer = progressLayer;
     
     CALayer *gradientLayer = [CALayer layer];
@@ -120,15 +132,16 @@
 
     [gradientLayer setMask:progressLayer]; //用progressLayer来截取渐变层
     [self.layer addSublayer:gradientLayer];
+    gaiLayer = gradientLayer;
 }
 
 -(void)setProgrssLayerEndStroke:(float)num and:(float)total{
     _num = num;
     _total = total;
-    
+
     [CATransaction begin];
     [CATransaction setDisableActions:NO];
-    [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
+   [CATransaction setAnimationTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear]];
     [CATransaction setAnimationDuration:1];
     _progressLayer.strokeEnd =num/total;
     [CATransaction commit];

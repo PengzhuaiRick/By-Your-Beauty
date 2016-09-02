@@ -32,24 +32,6 @@
     
     int cellNumber; //Cell的数量
     
-//    UILabel* progessLab; //9/10
-//    UILabel* goods1;
-//    UILabel* goods2;
-//   // UILabel* goods3;
-//    UILabel* goodsLab; //约满奖励商品名称
-//    UILabel* numLab; //再预约次数
-//    UNIMainProView* progessView;//进度条
-//    UIImageView* goodsImg; //奖励产品图片
-//    UIImageView* headerImg;
-//    
-//    NSArray* sellGoods;
-//    UILabel* sell1;
-//    UILabel* sell2;
-//    UILabel* sell3;
-//    UILabel* sell4;
-//    UIButton* sellBtn;
-//    UIButton* alphBtn;
-    
     NSArray* couponArr;
 }
 @property(nonatomic,strong) NSArray* midData;

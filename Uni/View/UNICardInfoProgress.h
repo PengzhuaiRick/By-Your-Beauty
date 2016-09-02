@@ -8,10 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UNICardInfoProgress : UIView
+@interface UNICardInfoProgress : UIView{
+    CALayer* gaiLayer;
+}
 @property(nonatomic,assign)int num;
 @property(nonatomic,assign)int total;
 @property(nonatomic,strong) CAShapeLayer* progressLayer;
+
 
 -(id)initWithFrame:(CGRect)frame andData:(NSArray*)data;
 

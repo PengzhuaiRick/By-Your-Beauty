@@ -171,8 +171,9 @@
         CGSize size5 = [UNIOrderListCell3 contentSize:cell.label5];
         CGRect rect5 = cell.label5.frame;
         rect5.size.width = size5.width+20;
-        int jianGe = KMainScreenWidth>=414?0:30;
-        rect5.origin.x = KMainScreenWidth  - rect5.size.width +jianGe;
+       // int jianGe = KMainScreenWidth>=414?0:30;
+        int jianGe =414- KMainScreenWidth - 8;
+        rect5.origin.x = KMainScreenWidth  - rect5.size.width+jianGe;
         cell.label5.frame = rect5;
         
         CGRect rect4 = cell.label4.frame;

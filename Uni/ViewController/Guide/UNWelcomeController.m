@@ -36,10 +36,10 @@
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
     rotationAnimation.duration = 2;
     rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = 10000000;
+    rotationAnimation.repeatCount = 1;
     [_rotationImg.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
-   // [self performSelector:@selector(rotationTheImg) withObject:nil afterDelay:2.1];
+    [self performSelector:@selector(rotationTheImg) withObject:nil afterDelay:2.5];
 }
 -(void)startRequest{
     BaseRequest* rq = [[BaseRequest alloc]init];
