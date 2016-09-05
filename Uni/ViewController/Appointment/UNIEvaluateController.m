@@ -42,6 +42,10 @@
 -(void)setupNavigation{
    self.title=@"服务评价";
      self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+    __weak UNIEvaluateController* myself = self;
+    [self addPanGesture:^(id model) {
+        [myself leftBarButtonEvent:nil];
+    }];
 }
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     [self.navigationController popViewControllerAnimated:YES];

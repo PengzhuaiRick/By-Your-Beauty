@@ -19,6 +19,9 @@
 @property (strong, nonatomic)  NJKWebViewProgress* progressProxy;
 @property (strong, nonatomic)  NJKWebViewProgressView* progressView;
 
+typedef void(^VCBlock)(id model);
+@property(nonatomic,copy)VCBlock vCBlock;
+-(void)addPanGesture:(VCBlock)vb;
 
 -(void)setupUI:(NSString*)urlString;
 

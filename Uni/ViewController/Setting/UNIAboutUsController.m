@@ -33,7 +33,10 @@
     self.title = @"关于我们";
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction)];
-    
+    __weak UNIAboutUsController* myself = self;
+    [self addPanGesture:^(id model) {
+        [myself navigationControllerLeftBarAction];
+    }];
 }
 
 -(void)setupUI{

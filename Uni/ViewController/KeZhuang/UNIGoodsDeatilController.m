@@ -167,6 +167,11 @@ UITableViewDelegate,KeyboardToolDelegate>{
     shopNumLab = lab;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
+    
+    __weak UNIGoodsDeatilController* myself = self;
+    [self addPanGesture:^(id model) {
+        [myself leftBarButtonEvent:nil];
+    }];
 }
 
 

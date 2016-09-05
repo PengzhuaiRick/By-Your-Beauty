@@ -190,19 +190,23 @@
     [btn1 addTarget:self action:@selector(navigationControllerRightBarAction:) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:btn1];
     
-    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
-   // swipe.direction = UISwipeGestureRecognizerDirectionRight;
-    [self.view addGestureRecognizer:pan];
+//    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
+//   // swipe.direction = UISwipeGestureRecognizerDirectionRight;
+//    [self.view addGestureRecognizer:pan];
+    
+    __weak MainViewController* myself= self;
+    [self addPanGesture:^(id model) {
+        [myself showViewController];
+    }];
 
 }
--(void)panGestureRecognizerAction:(UIPanGestureRecognizer*)x{
-    CGPoint point = [x translationInView:self.view];
-    if (x.state == UIGestureRecognizerStateChanged) {
-        if (point.x>1){
-            [self showViewController];}
-    }
-    
-}
+//-(void)panGestureRecognizerAction:(UIPanGestureRecognizer*)x{
+//    CGPoint point = [x translationInView:self.view];
+//    if (x.state == UIGestureRecognizerStateChanged) {
+//        if (point.x>1){
+//            [self showViewController];}
+//    }
+//}
 #pragma mark 跳转优惠券
 - (IBAction)gotoCouponController:(id)sender {
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
@@ -315,11 +319,11 @@
     kz=nil; good=nil;
 }
 -(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
-    return KMainScreenWidth*15/414;
+    return KMainScreenWidth*20/414;
 }
 
 -(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*15/414)];
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenWidth*20/414)];
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

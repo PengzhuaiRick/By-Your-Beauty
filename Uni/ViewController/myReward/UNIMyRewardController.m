@@ -175,7 +175,11 @@
      self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
-    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    //self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    __weak UNIMyRewardController* myself = self;
+    [self addPanGesture:^(id model) {
+        [myself leftBarButtonEvent:nil];
+    }];
 }
 
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{

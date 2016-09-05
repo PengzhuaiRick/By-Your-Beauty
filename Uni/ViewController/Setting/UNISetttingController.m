@@ -54,7 +54,10 @@
 -(void)setupNavigation{
     self.title = @"设置";
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
-    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    __weak UNISetttingController* myself = self;
+    [self addPanGesture:^(id model) {
+        [myself navigationControllerLeftBarAction:nil];
+    }];
 }
 
 -(void)setupUI{

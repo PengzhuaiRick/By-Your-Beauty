@@ -46,7 +46,7 @@
                                 </connections>
                             </button>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="Zlb-Nl-Zix">
-                                <rect key="frame" x="0.0" y="64" width="414" height="597"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="592"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="5lK-W3-tTA">
                                     <size key="itemSize" width="50" height="50"/>
@@ -204,7 +204,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="0eY-My-WF9" style="IBUITableViewCellStyleDefault" id="x6L-VP-Tck">
-                                <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="x6L-VP-Tck" id="oZf-pP-cVI">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -221,7 +221,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="fJs-UK-FTV" style="IBUITableViewCellStyleDefault" id="HYG-Ih-skS">
-                                <rect key="frame" x="0.0" y="72" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="136" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HYG-Ih-skS" id="7z7-uH-EaU">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -238,7 +238,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="eUZ-ax-GAJ" style="IBUITableViewCellStyleDefault" id="AOL-yZ-nr6">
-                                <rect key="frame" x="0.0" y="116" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="180" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="AOL-yZ-nr6" id="7wU-vQ-NOZ">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -255,7 +255,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Wb6-uT-f6f" style="IBUITableViewCellStyleDefault" id="8o0-FR-c1L">
-                                <rect key="frame" x="0.0" y="160" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="224" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8o0-FR-c1L" id="XZo-SC-VEh">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -272,7 +272,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="0at-HN-JnJ" style="IBUITableViewCellStyleDefault" id="bd4-0P-rzV">
-                                <rect key="frame" x="0.0" y="204" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="268" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bd4-0P-rzV" id="DoP-Fx-LZl">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -289,7 +289,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Rl3-Vg-Pea" style="IBUITableViewCellStyleDefault" id="c4q-Dw-WIH">
-                                <rect key="frame" x="0.0" y="248" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="312" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="c4q-Dw-WIH" id="0Cq-i8-qqW">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -306,7 +306,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="6EB-gT-o29" style="IBUITableViewCellStyleDefault" id="22M-mH-Uf9">
-                                <rect key="frame" x="0.0" y="292" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="356" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="22M-mH-Uf9" id="RWr-JA-S2s">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -323,7 +323,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="P2C-Eg-Xcg" style="IBUITableViewCellStyleDefault" id="eAl-yc-18w">
-                                <rect key="frame" x="0.0" y="336" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="400" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eAl-yc-18w" id="UJe-aK-P8o">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -340,7 +340,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="cS6-d4-WYV" style="IBUITableViewCellStyleDefault" id="QoO-Z8-eeN">
-                                <rect key="frame" x="0.0" y="380" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="444" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QoO-Z8-eeN" id="boH-9t-Hoj">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -357,7 +357,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="2BX-OL-KCB" style="IBUITableViewCellStyleDefault" id="aIk-xw-IOC">
-                                <rect key="frame" x="0.0" y="424" width="414" height="44"/>
+                                <rect key="frame" x="0.0" y="488" width="414" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aIk-xw-IOC" id="GPx-I8-sLh">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="43"/>
@@ -587,7 +587,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <view key="tableHeaderView" contentMode="scaleToFill" id="sPR-0h-GSh">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="538"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="528"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="7M9-um-bY6">
@@ -612,53 +612,55 @@
                                             </subviews>
                                         </view>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Z1b-Hp-Lw7">
-                                            <rect key="frame" x="35" y="400" width="344" height="43"/>
+                                            <rect key="frame" x="35" y="387" width="344" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vV3-wE-gJt">
-                                            <rect key="frame" x="188" y="367" width="38" height="38"/>
+                                            <rect key="frame" x="188" y="354" width="38" height="38"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                             <state key="normal" backgroundImage="main_btn_num"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="qbf-ya-SoG">
-                                            <rect key="frame" x="20" y="458" width="171" height="70"/>
+                                            <rect key="frame" x="20" y="447" width="171" height="70"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <state key="normal" title="      优惠礼包"/>
                                             <connections>
                                                 <action selector="gotoCouponController:" destination="iwN-bq-9NS" eventType="touchUpInside" id="VxC-Cc-ac4"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K6q-pW-zLM">
-                                            <rect key="frame" x="213" y="458" width="171" height="70"/>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="K6q-pW-zLM">
+                                            <rect key="frame" x="235" y="447" width="171" height="70"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="进入商城"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                            <state key="normal" title="              进入商城"/>
                                             <connections>
                                                 <action selector="gotoGoodsWeb:" destination="iwN-bq-9NS" eventType="touchUpInside" id="c0F-xW-t2o"/>
                                             </connections>
                                         </button>
                                         <view contentMode="scaleToFill" id="Hu6-XP-Wya">
-                                            <rect key="frame" x="206" y="471" width="1" height="40"/>
+                                            <rect key="frame" x="206" y="462" width="1" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_btn_coupon" id="CdC-CO-at3">
-                                            <rect key="frame" x="20" y="460" width="69" height="65"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        </imageView>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_btn_shop" id="zee-pG-hXc">
-                                            <rect key="frame" x="246" y="460" width="69" height="65"/>
+                                            <rect key="frame" x="260" y="458" width="47" height="47"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="再预约次数" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Wdw-RG-x1c">
-                                            <rect key="frame" x="85" y="323" width="242" height="21"/>
+                                            <rect key="frame" x="85" y="325" width="242" height="21"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main_btn_coupon" id="CdC-CO-at3">
+                                            <rect key="frame" x="30" y="458" width="47" height="47"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                        </imageView>
                                     </subviews>
                                 </view>
                                 <connections>
@@ -806,9 +808,9 @@
         <image name="cardinfo_img_back" width="360" height="640"/>
         <image name="cardinfo_img_clock" width="135" height="135"/>
         <image name="function_img_car" width="18" height="18"/>
-        <image name="main_btn_coupon" width="66" height="66"/>
+        <image name="main_btn_coupon" width="40" height="40"/>
         <image name="main_btn_num" width="33" height="33"/>
-        <image name="main_btn_shop" width="62" height="62"/>
+        <image name="main_btn_shop" width="40" height="40"/>
         <image name="main_img_back" width="360" height="734"/>
         <image name="main_img_shuang" width="30" height="106"/>
         <image name="view_btn_back" width="18" height="9"/>

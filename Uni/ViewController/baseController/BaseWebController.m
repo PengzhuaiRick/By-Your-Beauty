@@ -31,6 +31,21 @@
     // Do any additional setup after loading the view.
 }
 
+#pragma mark 添加右划返回手势
+-(void)addPanGesture:(VCBlock)vb{
+    //UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
+    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]init];
+    [pan.rac_gestureSignal subscribeNext:^(UIPanGestureRecognizer* x) {
+        CGPoint point = [x translationInView:self.view];
+        if (x.state == UIGestureRecognizerStateChanged) {
+            if (point.x>1){
+                if (vb)
+                    vb(nil);
+            }
+        }
+    }];
+    [self.view addGestureRecognizer:pan];
+}
 
 -(void)setupUI:(NSString*)urlString{
    

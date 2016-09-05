@@ -43,23 +43,23 @@
         [[UIApplication sharedApplication].keyWindow addSubview:guide];
     }
 }
+#pragma mark 添加右划返回手势
+-(void)addPanGesture:(VCBlock)vb{
+    _vCBlock = vb;
+    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
+    [self.view addGestureRecognizer:pan];
+}
+-(void)panGestureRecognizerAction:(UIGestureRecognizer*)gs{
+    if (_vCBlock) {
+        self.vCBlock(nil);
+    }
+}
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
 
-//- (UIStatusBarStyle)preferredStatusBarStyle{
-//    return UIStatusBarStyleDefault;
-//}
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

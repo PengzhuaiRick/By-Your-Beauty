@@ -32,7 +32,7 @@
    
     float labX = 16;
     float labY = 0;
-    float labH = KMainScreenWidth*30/414;
+    float labH = KMainScreenWidth*40/414;
     float labW =  KMainScreenWidth* 120/414;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(labX, labY, labW, labH)];
     lab.text = @"预约项目";
@@ -41,8 +41,8 @@
     self.lab1 = lab;
     
     float lab1WH =  KMainScreenWidth* 18/414;
-    float lab1X = self.frame.size.width - 30 - lab1WH;
-    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, 5, lab1WH, lab1WH)];
+    float lab1X = self.frame.size.width - 15 - lab1WH;
+    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, 10, lab1WH, lab1WH)];
     lab1.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
     lab1.textColor = [UIColor whiteColor];
     lab1.textAlignment = NSTextAlignmentCenter;
@@ -84,7 +84,7 @@
     _myTableView.tableFooterView = [UIView new];
    
     CGRect selfR = self.frame;
-    selfR.size.height = CGRectGetMaxY(_myTableView.frame)+5;
+    selfR.size.height = CGRectGetMaxY(_myTableView.frame)+10;
     self.frame = selfR;
     
 }

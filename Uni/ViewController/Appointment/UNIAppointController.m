@@ -153,7 +153,8 @@
     UIButton* btn = [UIButton buttonWithType: UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
     [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_addPro"] forState:UIControlStateNormal];
-   
+    [btn setTitle:@"添加项目" forState:UIControlStateNormal];
+    btn.titleLabel.font = kWTFont(18);
     [_myScroller addSubview:btn];
     
         [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -186,7 +187,9 @@
     
     UIButton* btn1 = [UIButton buttonWithType: UIButtonTypeCustom];
     btn1.frame = CGRectMake(btn1X, btnY, btnW+1, btnH);
-    [btn1 setBackgroundImage:[UIImage imageNamed:@"appoint_btn_appNow"] forState:UIControlStateNormal];
+    [btn1 setBackgroundImage:[UIImage imageNamed:@"KZ_btn_payBack"] forState:UIControlStateNormal];
+    [btn1 setTitle:@"马上预约" forState:UIControlStateNormal];
+    btn1.titleLabel.font = kWTFont(18);
     [_myScroller addSubview:btn1];
     sureBtn = btn1;
     

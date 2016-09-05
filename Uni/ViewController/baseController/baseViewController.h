@@ -8,7 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "BaiduMobStat.h"
+
+
 @interface baseViewController : UIViewController
+
+typedef void(^VCBlock)(id model);
+@property(nonatomic,copy)VCBlock vCBlock;
+-(void)addPanGesture:(VCBlock)vb;
 
 #pragma mark 显示指引图片
 -(void)showGuideView:(NSString*)className;

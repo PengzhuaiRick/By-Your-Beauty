@@ -52,7 +52,10 @@
 -(void)setupNavigation{
     self.title = @"购物车";
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];
-    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    __weak UNIShopCarController* myself = self;
+    [self addPanGesture:^(id model) {
+        [myself navigationControllerLeftBarAction:nil];
+    }];
 }
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
     [self.navigationController popViewControllerAnimated:YES];
@@ -93,7 +96,7 @@
     
     UIImageView* img =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
     img.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2 - 50);
-    img.image = [UIImage imageNamed:@"function_img_car"];
+    img.image = [UIImage imageNamed:@"shopCar_empty_shop"];
     [view addSubview:img];
     
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20,KMainScreenWidth, 50)];
