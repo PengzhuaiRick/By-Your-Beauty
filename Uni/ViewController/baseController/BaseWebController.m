@@ -33,18 +33,19 @@
 
 #pragma mark 添加右划返回手势
 -(void)addPanGesture:(VCBlock)vb{
-    //UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
-    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]init];
-    [pan.rac_gestureSignal subscribeNext:^(UIPanGestureRecognizer* x) {
-        CGPoint point = [x translationInView:self.view];
-        if (x.state == UIGestureRecognizerStateChanged) {
-            if (point.x>1){
-                if (vb)
-                    vb(nil);
-            }
-        }
-    }];
+    _vCBlock = vb;
+    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
     [self.view addGestureRecognizer:pan];
+}
+-(void)panGestureRecognizerAction:(UIPanGestureRecognizer*)gs{
+    CGPoint point = [gs translationInView:self.view];
+    if (gs.state == UIGestureRecognizerStateEnded) {
+        if (point.x>30){
+            if (_vCBlock)
+                self.vCBlock(nil);
+        }
+    }
+
 }
 
 -(void)setupUI:(NSString*)urlString{

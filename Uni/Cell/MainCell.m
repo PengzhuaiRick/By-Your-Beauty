@@ -49,6 +49,14 @@
         self.mainImage.image = [UIImage imageNamed:@"main_img_cell1"];
         self.mainLab.text = info.projectName;
         
+        CGRect mainR = self.mainImage.frame;
+        CGRect numR = self.numLab.frame;
+        mainR.size.width = mainR.size.width - 10;
+        self.mainImage.frame =mainR;
+    
+        numR.origin.x = numR.origin.x - 10;
+        self.numLab.frame = numR;
+        
         NSString* str = [info.time substringWithRange:NSMakeRange(0, info.time.length - 3)];
         NSString* str1 = [str stringByReplacingOccurrencesOfString:@"-" withString:@"."];
         self.subLab .text = [NSString stringWithFormat:@"我已预约:%@",str1];

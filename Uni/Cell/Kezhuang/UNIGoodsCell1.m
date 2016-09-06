@@ -23,7 +23,8 @@
     float imgWH =size.width;
     UIScrollView* img = [[UIScrollView alloc]initWithFrame:CGRectMake(imgX, imgY, imgWH, imgWH)];
     img.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
-    //img.contentSize = CGSizeMake(3*imgWH, imgWH);
+    img.showsHorizontalScrollIndicator = NO;
+    img.bounces=YES;
     img.pagingEnabled=YES;
     img.delegate = self;
     img.scrollsToTop=NO;
@@ -112,15 +113,14 @@
         k = (int)imgArr.count;
     _mainImage.contentSize = CGSizeMake(k*imgW, imgH);
     
+    
+    
     self.label3.hidden = k<2;
     self.label3.text = [NSString stringWithFormat:@"1/%d",k];
     
     if (imgArr.count>0) {
         for (int i = 0;i<k;i++) {
-           // NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,imgArr[i]];
             UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgW, 0, imgW, imgH)];
-                   // view.image= [UIImage imageNamed:@"KZ_img_bg"];
-                    //view.contentMode = UIViewContentModeScaleAspectFit;
                     [view sd_setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:[UIImage imageNamed:@"KZ_img_goodsBg"]];
                     [_mainImage addSubview:view];
                     view = nil;
@@ -133,9 +133,25 @@
         [_mainImage addSubview:view];
          view = nil;
     }
-
-    imgArr = nil;
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(_mainImage.contentSize.width, 0, 50, _mainImage.frame.size.height)];
+    lab.lineBreakMode = 0;
+    lab.numberOfLines = 0;
+    lab.font = [UIFont systemFontOfSize:13];
+    lab.textAlignment =NSTextAlignmentCenter;
+    lab.textColor = [UIColor colorWithHexString:@"1b1b1b"];
+    lab.text=@"继\n续\n拖\n动\n查\n看\n产\n品\n详\n情";
+    [_mainImage addSubview:lab];
     
+}
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    if (!scrollView.isDragging) {
+        float xx = scrollView.contentOffset.x + scrollView.frame.size.width;
+        if (xx>scrollView.contentSize.width+50){
+            if (_goodsCell1Block)
+                _goodsCell1Block(nil);
+            
+        }
+    }
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     float xx = scrollView.contentOffset.x;

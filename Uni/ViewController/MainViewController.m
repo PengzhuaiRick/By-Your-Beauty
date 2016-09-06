@@ -391,11 +391,11 @@
         [self.navigationController pushViewController:midController animated:YES];
         
     }else if (indexPath.section==cellNumber-1) {
-        if (_bottomData.count<1)
             [self mainMidViewDelegataButton:nil];
     }
 
-    if (indexPath.section>0 && indexPath.section< cellNumber-1) {
+    else //if (indexPath.section>0 && indexPath.section< cellNumber-1)
+    {
         if (_bottomData.count<1)
             return;
         id model = self.bottomData[indexPath.section-1];

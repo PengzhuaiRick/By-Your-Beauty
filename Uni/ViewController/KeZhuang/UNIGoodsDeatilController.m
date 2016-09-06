@@ -144,6 +144,7 @@ UITableViewDelegate,KeyboardToolDelegate>{
     //self.title = @"客妆";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
     UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -167,11 +168,6 @@ UITableViewDelegate,KeyboardToolDelegate>{
     shopNumLab = lab;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
-    
-    __weak UNIGoodsDeatilController* myself = self;
-    [self addPanGesture:^(id model) {
-        [myself leftBarButtonEvent:nil];
-    }];
 }
 
 
@@ -184,8 +180,6 @@ UITableViewDelegate,KeyboardToolDelegate>{
         [self.myScroller setContentOffset:CGPointMake(0, 0) animated:YES];
     }
     
-}
-- (IBAction)rightBarBtnAction:(id)sender {
 }
 -(void)setupData{
     _num = 1;
@@ -347,6 +341,9 @@ UITableViewDelegate,KeyboardToolDelegate>{
 }
 #pragma mark 加载webView
 -(void)setupWebView{
+    if (myWeb)
+        return;
+    
     UIWebView* web = [[UIWebView alloc]initWithFrame:CGRectMake(0,CGRectGetMaxY(_myTable.frame), _myTable.frame.size.width, cell1H)];
     web.scrollView.delegate = self;
     web.delegate= self;
@@ -387,14 +384,25 @@ UITableViewDelegate,KeyboardToolDelegate>{
 
     UNIGoodsCell1* cell =[[UNIGoodsCell1 alloc]initWithCellSize:CGSizeMake(tableView.frame.size.width, cell1H) reuseIdentifier:@"cell"];
     [cell setupCellContentWith:model];
+    __weak UNIGoodsDeatilController* myself = self;
     [[cell.prideBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
     subscribeNext:^(id x) {
-        self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width, self->cell1H*2);
-        [self.myScroller setContentOffset:CGPointMake(0,self->cell1H) animated:YES];
-        self.myTable.footer = nil;
-        [self setupWebView];
+         [myself showTheWebView];
     }];
+    
+    cell.goodsCell1Block=^(id mod){
+        [myself showTheWebView];
+    };
             return cell;
+}
+
+-(void)showTheWebView{
+    if (self.myScroller.contentOffset.y==cell1H)
+        return;
+    self.myScroller.contentSize = CGSizeMake(self.myScroller.frame.size.width,cell1H*2);
+    [self.myScroller setContentOffset:CGPointMake(0,cell1H) animated:YES];
+    self.myTable.footer = nil;
+    [self setupWebView];
 }
 //订单列表
 -(void)setupOrderListController{

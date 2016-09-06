@@ -52,7 +52,7 @@
 }
 -(void)setupBaseUI{
     float viewX = 0;
-    float viewY = 64+15;
+    float viewY = 64;
     float viewW = KMainScreenWidth;
     float viewH = KMainScreenHeight ;
     UIView* view = [[UIView alloc]initWithFrame:CGRectMake(viewX, viewY, viewW, viewH)];

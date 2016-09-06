@@ -54,17 +54,7 @@
     // self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc]initWithTitle:@"" style:0 target:self action:nil];
     
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
-    __weak MainMidController* myself = self;
-    UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]init];
-    [pan.rac_gestureSignal subscribeNext:^(UIPanGestureRecognizer* x) {
-        CGPoint point = [x translationInView:self.view];
-        if (x.state == UIGestureRecognizerStateChanged) {
-            if (point.x>1){
-                [myself leftBarButtonEvent:nil];
-            }
-        }
-    }];
-    [self.tableView addGestureRecognizer:pan];
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
 
 }
 

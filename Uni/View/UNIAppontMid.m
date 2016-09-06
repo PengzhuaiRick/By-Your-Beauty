@@ -41,7 +41,7 @@
     self.lab1 = lab;
     
     float lab1WH =  KMainScreenWidth* 18/414;
-    float lab1X = self.frame.size.width - 15 - lab1WH;
+    float lab1X = self.frame.size.width - 30 - lab1WH;
     UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(lab1X, 10, lab1WH, lab1WH)];
     lab1.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
     lab1.textColor = [UIColor whiteColor];

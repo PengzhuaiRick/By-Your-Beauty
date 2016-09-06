@@ -49,10 +49,17 @@
     UIPanGestureRecognizer* pan = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(panGestureRecognizerAction:)];
     [self.view addGestureRecognizer:pan];
 }
--(void)panGestureRecognizerAction:(UIGestureRecognizer*)gs{
-    if (_vCBlock) {
-        self.vCBlock(nil);
+-(void)panGestureRecognizerAction:(UIPanGestureRecognizer*)gs{
+    CGPoint point = [gs translationInView:self.view];
+    if (gs.state == UIGestureRecognizerStateEnded) {
+        if (point.x>30){
+            if (_vCBlock)
+                self.vCBlock(nil);
+        }
     }
+//    if (_vCBlock) {
+//        self.vCBlock(nil);
+//    }
 }
 
 
