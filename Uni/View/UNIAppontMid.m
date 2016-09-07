@@ -53,28 +53,29 @@
     [self addSubview:lab1];
     self.lab2 = lab1;
     
-    
-    float fieldH =KMainScreenWidth* 32 / 414;
-    UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(labX,CGRectGetMaxY(lab.frame), self.frame.size.width-2*labX,fieldH)];
-    field.hidden =_myData.count>0;
-    field.placeholder = @" 填写您想预约的项目名称";
-    field.layer.masksToBounds = YES;
-    field.layer.cornerRadius = 3;
-    field.layer.borderWidth = 1;
-    field.layer.borderColor = [UIColor colorWithHexString:@"eeeeee"].CGColor;
-    field.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
-    [self addSubview:field];
-    self.remarkField = field;
-    BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
-    tool.toolDelegate= self;
-    [tool dismissTwoBtn];
-    field.inputAccessoryView = tool;
-    
-    //_cellH =(frame.size.height - CGRectGetMaxY(lab.frame) - (KMainScreenWidth>400?40:25) - 10)/3;
+    if (_myData.count<1) {
+        float fieldH =KMainScreenWidth* 32 / 414;
+        UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(labX,CGRectGetMaxY(lab.frame), self.frame.size.width-2*labX,fieldH)];
+        field.hidden =_myData.count>0;
+        field.placeholder = @" 填写您想预约的项目名称";
+        field.layer.masksToBounds = YES;
+        field.layer.cornerRadius = 3;
+        field.layer.borderWidth = 1;
+        field.layer.borderColor = [UIColor colorWithHexString:@"eeeeee"].CGColor;
+        field.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
+        [self addSubview:field];
+        self.remarkField = field;
+        BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
+        tool.toolDelegate= self;
+        [tool dismissTwoBtn];
+        field.inputAccessoryView = tool;
+
+    }
+  
     _cellH = KMainScreenWidth* 76/414;
     
     float tabY =CGRectGetMaxY(lab.frame);
-    if (_myData.count <1) tabY =CGRectGetMaxY(field.frame);
+    if (_myData.count <1) tabY =CGRectGetMaxY(self.remarkField.frame);
     
     float tabH = _myData.count* _cellH;
     _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(10,tabY, self.frame.size.width-20,tabH) style:UITableViewStylePlain];

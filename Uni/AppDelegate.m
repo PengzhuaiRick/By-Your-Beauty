@@ -138,10 +138,17 @@
 }
 #pragma mark 开始登陆界面
 -(void)setupLoginController{
+    // self.window.rootViewController = nil ;
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
     UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"LoginController"];
     self.window.rootViewController = vc;
-    vc=nil;
+    
+//    self.window.backgroundColor = [UIColor whiteColor];
+//    self.window.rootViewController.view.alpha = 0;
+//    [UIView animateWithDuration:1 animations:^{
+//        self.window.rootViewController.view.alpha = 1;
+//    }];
+
 }
 
 #pragma mark 请求当前版本信息

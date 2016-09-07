@@ -71,10 +71,12 @@
 }
 #pragma mark 请求购物车列表
 -(void)startRequest{
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
     __weak UNIShopCarController* myself = self;
     UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
     [rq postWithSerCode:@[API_URL_GetCartList] params:nil];
     rq.getCartList=^(NSArray* arr,NSString* tips,NSError* err){
+         [LLARingSpinnerView RingSpinnerViewStop1];
         if (err) {
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;

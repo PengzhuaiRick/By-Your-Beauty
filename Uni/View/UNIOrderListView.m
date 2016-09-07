@@ -168,6 +168,15 @@
         cell.label2.text =[NSString stringWithFormat:@"%d",info.num];
         cell.label5.text = [NSString stringWithFormat:@"￥%.2f",info.totalPrice];
         
+        CGSize size2 = [UNIOrderListCell3 contentSize:cell.label2];
+        CGRect rect2 = cell.label2.frame;
+        rect2.size.width = size2.width+30;
+        cell.label2.frame = rect2;
+
+        CGRect rect3 = cell.label3.frame;
+        rect3.origin.x = CGRectGetMaxX(rect2);
+        cell.label3.frame = rect3;
+        
         CGSize size5 = [UNIOrderListCell3 contentSize:cell.label5];
         CGRect rect5 = cell.label5.frame;
         rect5.size.width = size5.width+20;

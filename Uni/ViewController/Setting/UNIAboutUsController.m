@@ -46,9 +46,19 @@
     NSMutableAttributedString *string =[[NSMutableAttributedString alloc]initWithString:_mainLab.text];
     long number = KMainScreenWidth* 14/414;
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.alignment = NSTextAlignmentJustified;
+    paragraphStyle.paragraphSpacing = 10;
+    paragraphStyle.paragraphSpacingBefore = 10;
     [paragraphStyle setLineSpacing:number];//调整行间距
     
-    [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [_mainLab.text length])];
+    NSDictionary* dic = @{NSForegroundColorAttributeName :[UIColor whiteColor],
+                          NSFontAttributeName            :_mainLab.font,
+                          NSParagraphStyleAttributeName  :paragraphStyle,
+                          NSUnderlineStyleAttributeName  :[NSNumber numberWithInteger:NSUnderlineStyleNone]};
+    
+    [string setAttributes:dic range:NSMakeRange(0, string.length)];
+    
+   // [string addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [_mainLab.text length])];
     
     _mainLab.attributedText = string;
 

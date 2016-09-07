@@ -39,7 +39,7 @@
 }
 
 -(void)setupNavigation{
-    self.title = @"我的优惠";
+   //self.title = @"我的优惠";
     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
     
 //    self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_function"] style:0 target:self action:@selector(navigationControllerLeftBarAction:)];

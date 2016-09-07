@@ -39,6 +39,8 @@
 
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollerView;
 @property (weak, nonatomic) IBOutlet UIImageView *rotationImg;//旋转光圈
+@property (weak, nonatomic) IBOutlet UIImageView *logImg;//
+@property (weak, nonatomic) IBOutlet UIImageView *ziImg;//美丽由你图片
 
 
 @property(nonatomic,assign)int sex; // 男1 女2
@@ -67,6 +69,25 @@
     [self setupUI];
     [self startRequest];
     [self regirstKeyBoardNotification];
+    [self imageMove];
+}
+
+-(void)imageMove{
+    __weak LoginController* myself = self;
+    CGRect re1 = _rotationImg.frame;
+    CGRect re2 = _logImg.frame;
+    re1.origin.y = 70;
+    re2.origin.y =re1.origin.y+(re1.size.height - re2.size.height)/2;
+    [UIView animateWithDuration:1 animations:^{
+        myself.rotationImg.frame = re1;
+        myself.logImg.frame = re2;
+        myself.ziImg.alpha = 0;
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:1 animations:^{
+             myself.scrollerView.alpha = 1;
+        }];
+       
+    }];
 }
 -(void)setupUI{
     _scrollerView.scrollEnabled = KMainScreenHeight<500;
@@ -300,15 +321,10 @@
                 }
                 self.sex = sex;
                 self->nikeName.text = name;
-                if (sex == 1){
-                    self->maleBtn.selected = YES;
-                    self->femaleBtn.selected = NO;
-                                   }
-                if (sex == 2){
-                    self->maleBtn.selected = NO;
-                    self->femaleBtn.selected = YES;
-            
-                }
+                if (sex == 1)
+                    [self maleBtnSelect];
+                if (sex == 2)
+                    [self femaleBtnSelect];
                 
                 if (ph != nil){
                    // btn.enabled = NO;
@@ -465,36 +481,32 @@
 }
 #pragma mark 设置男女性别按钮
 -(void)setupSexBtn{
-    UIImage* image1 =[UIImage imageNamed:@"login_btn_female"];
+ 
+
     UIImage* image2 =[UIImage imageNamed:@"login_btn_sfemale"];
     UIImage* image3 =[UIImage imageNamed:@"login_btn_male"];
-    UIImage* image4 =[UIImage imageNamed:@"login_btn_smale"];
+    UIImage* image5 =[UIImage imageNamed:@"login_btn_male1"];
+    UIImage* image6 =[UIImage imageNamed:@"login_btn_female1"];
     
-    [maleBtn setImage:image3 forState:UIControlStateNormal];
-    [femaleBtn setImage:image1 forState:UIControlStateNormal];
+    [maleBtn setImage:image5 forState:UIControlStateNormal];
+    [femaleBtn setImage:image6 forState:UIControlStateNormal];
     
-    [maleBtn setImage:image4 forState:UIControlStateSelected];
+    [maleBtn setImage:image3 forState:UIControlStateSelected];
     [femaleBtn setImage:image2 forState:UIControlStateSelected];
+
+    [maleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [femaleBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     
-    [maleBtn setImage:image4 forState:UIControlStateHighlighted];
-    [femaleBtn setImage:image2 forState:UIControlStateHighlighted];
-    
-    [maleBtn setTitleColor:[UIColor colorWithHexString:@"af6ff0"] forState:UIControlStateNormal];
-    [femaleBtn setTitleColor:[UIColor colorWithHexString:@"af6ff0"] forState:UIControlStateNormal];
-    
-     [maleBtn setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateHighlighted];
-     [femaleBtn setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateHighlighted];
-    
-    [maleBtn setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateSelected];
-    [femaleBtn setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateSelected];
-    
-    femaleBtn.selected = YES;
+     [maleBtn setTitleColor:[UIColor colorWithHexString:@"af6ff0"] forState:UIControlStateSelected];
+     [femaleBtn setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateSelected];
+
     
     [[maleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
          self->femaleBtn.selected = NO;
-         x.selected = YES;
+         x.selected=YES;
          self.sex = 1;
+         //[self maleBtnSelect];
     }];
     
     [[femaleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
@@ -502,9 +514,34 @@
          self->maleBtn.selected = NO;
          x.selected=YES;
          self.sex = 2;
+         //[self femaleBtnSelect];
     }];
-
 }
+#pragma mark 选中男性按钮
+-(void)maleBtnSelect{
+     self.sex = 1;
+     UIImage* image4 =[UIImage imageNamed:@"login_btn_smale"];
+     UIImage* image1 =[UIImage imageNamed:@"login_btn_female"];
+    
+    [maleBtn setImage:image4 forState:UIControlStateNormal];
+    [femaleBtn setImage:image1 forState:UIControlStateNormal];
+    
+    [maleBtn setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateNormal];
+    [femaleBtn setTitleColor:[UIColor colorWithHexString:@"af6ff0"] forState:UIControlStateNormal];
+}
+#pragma mark 选中女性按钮
+-(void)femaleBtnSelect{
+    self.sex = 2;
+    UIImage* image4 =[UIImage imageNamed:@"login_btn_male"];
+    UIImage* image1 =[UIImage imageNamed:@"login_btn_sfemale"];
+    
+    [maleBtn setImage:image4 forState:UIControlStateNormal];
+    [femaleBtn setImage:image1 forState:UIControlStateNormal];
+    
+    [maleBtn setTitleColor:[UIColor colorWithHexString:@"af6ff0"] forState:UIControlStateNormal];
+    [femaleBtn setTitleColor:[UIColor colorWithHexString:kMainPinkColor] forState:UIControlStateNormal];
+}
+
 #pragma mark 添加键盘BTkeyBoardTool
 -(void)addBTkeyBoardTool{
     BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
@@ -588,7 +625,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)log:(id)sender {
-    self.view.window.backgroundColor = [UIColor whiteColor];
+    //self.view.window.backgroundColor = [UIColor whiteColor];
     AppDelegate* app = [UIApplication sharedApplication].delegate;
     [app setupViewController];
     
@@ -626,10 +663,10 @@
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
     rotationAnimation.duration = 2;
     rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = 1;
+    rotationAnimation.repeatCount = 10000000000000;
     [_rotationImg.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
-    [self performSelector:@selector(rotationTheImg) withObject:nil afterDelay:2.5];
+   // [self performSelector:@selector(rotationTheImg) withObject:nil afterDelay:2.5];
 }
 
 @end

@@ -72,10 +72,12 @@
     }];
 }
 -(void)startRequest{
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:1];
     __weak UNIVerifyController* myself = self;
     UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
     [rq postWithSerCode:@[API_URL_GetCartComfirm] params:nil];
     rq.getCartComfirm=^(float totalReturn,float sumPrice,NSArray* arr,NSString* tips,NSError* err){
+        [LLARingSpinnerView RingSpinnerViewStop1];
         if (err) {
             [YIToast showText:NETWORKINGPEOBLEM];
             return ;

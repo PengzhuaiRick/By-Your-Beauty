@@ -74,7 +74,7 @@
     _rewardNameLab.font = kWTFont(14);
     
     _rewardNameLab.layer.masksToBounds = YES;
-    _rewardNameLab.layer.borderWidth = 0.5;
+    _rewardNameLab.layer.borderWidth = 0.8;
     _rewardNameLab.layer.borderColor = [UIColor whiteColor].CGColor;
     _rewardNameLab.layer.cornerRadius = _rewardNameLab.frame.size.height/2;
     
@@ -112,14 +112,14 @@
                     myself.clockimg.hidden=NO;
                     myself.progressView.hidden=NO;
                     myself.rewardImg.hidden=YES;
-                    myself.intimebtn.enabled = NO;
+                   // myself.intimebtn.enabled = NO;
                     [myself.intimebtn setTitle:[NSString stringWithFormat:@"准时到店满%d次",total] forState:UIControlStateNormal];
                     [myself.progressView setProgrssLayerEndStroke:num and:total];
                 }else{
                     myself.clockimg.hidden=YES;
                     myself.progressView.hidden=YES;
                     myself.rewardImg.hidden=NO;
-                    myself.intimebtn.enabled = YES;
+                   // myself.intimebtn.enabled = YES;
                     [myself.intimebtn setTitle:@"点击领取" forState:UIControlStateNormal];
                     [[myself.intimebtn rac_signalForControlEvents:UIControlEventTouchUpInside]
                     subscribeNext:^(id x) {

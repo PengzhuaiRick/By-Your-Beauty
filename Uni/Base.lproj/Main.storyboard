@@ -641,7 +641,7 @@
                                                 <action selector="gotoGoodsWeb:" destination="iwN-bq-9NS" eventType="touchUpInside" id="c0F-xW-t2o"/>
                                             </connections>
                                         </button>
-                                        <view contentMode="scaleToFill" id="Hu6-XP-Wya">
+                                        <view alpha="0.20000000000000001" contentMode="scaleToFill" id="Hu6-XP-Wya">
                                             <rect key="frame" x="206" y="462" width="1" height="40"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

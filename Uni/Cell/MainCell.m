@@ -24,7 +24,8 @@
     _subLab.font = kWTFont(14);
     _handleBtn.titleLabel.font = kWTFont(14);
     _numLab.layer.masksToBounds = YES;
-    _numLab.layer.cornerRadius = _numLab.frame.size.height/2;
+    float h1 =_numLab.frame.size.height;
+    _numLab.layer.cornerRadius = (KMainScreenWidth* h1/414)/2;
     
     _handleBtn.layer.masksToBounds = YES;
    // _handleBtn.layer.cornerRadius =_handleBtn.frame.size.height/2;
@@ -36,6 +37,7 @@
     
     float h =_handleBtn.frame.size.height;
     _handleBtn.layer.cornerRadius =(KMainScreenWidth* h /414)/2;
+
 }
 
 #pragma mark 设置 第一次个Cell 预约详情

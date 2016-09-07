@@ -174,7 +174,7 @@ All Rights Reserved</string>
                                 <rect key="frame" x="171" y="267" width="75" height="23"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广州由你电子商务有限公司（简称由你）于2015年创立，是澳亚集团旗下的一家互联网技术公司。依托于多年运营经验及渠道资源，由你电子商务公司致力于为美容院提供O2O一体化营销解决方案，为消费者打造跨场景、极致高效与专业的美容消费体验。" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EDD-2f-NRD">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="广州由你电子商务有限公司（简称由你）于2015年创立，是澳亚集团旗下的一家互联网技术公司。依托于多年运营经验及渠道资源，由你电子商务公司致力于为美容院提供O2O一体化营销解决方案，为消费者打造跨场景、极致高效与专业的美容消费体验。" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EDD-2f-NRD">
                                 <rect key="frame" x="45" y="267" width="324" height="339"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -252,18 +252,10 @@ All Rights Reserved</string>
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             </imageView>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="Egq-gJ-Ytg">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" alpha="0.0" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="Egq-gJ-Ytg">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_img_quan" id="uJt-hx-Btb">
-                                        <rect key="frame" x="130" y="85" width="155" height="155"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                    </imageView>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_header" id="g4D-ME-vJA">
-                                        <rect key="frame" x="183" y="117" width="48" height="92"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                    </imageView>
                                     <view tag="1" contentMode="scaleToFill" id="aqw-ca-2KX">
                                         <rect key="frame" x="48" y="279" width="318" height="48"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
@@ -351,6 +343,18 @@ All Rights Reserved</string>
                                     </button>
                                 </subviews>
                             </scrollView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_img_quan" id="uJt-hx-Btb">
+                                <rect key="frame" x="119" y="221" width="175" height="175"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_img_header" id="g4D-ME-vJA">
+                                <rect key="frame" x="183" y="245" width="48" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="set_img_ziLogo-1" id="6YO-tY-vsE">
+                                <rect key="frame" x="160" y="419" width="95" height="40"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -360,12 +364,14 @@ All Rights Reserved</string>
                         <outlet property="codeField" destination="yAc-m3-pTY" id="A0p-yT-I6b"/>
                         <outlet property="customBtn" destination="bfn-xM-ADL" id="p9O-f1-V4y"/>
                         <outlet property="femaleBtn" destination="T0u-B2-Ir7" id="Qff-ch-6ic"/>
+                        <outlet property="logImg" destination="g4D-ME-vJA" id="1ks-1t-neR"/>
                         <outlet property="loginBtn" destination="kqY-TA-ZZH" id="7Bm-lK-bha"/>
                         <outlet property="maleBtn" destination="nkc-VN-ezf" id="4bl-Lh-Wz9"/>
                         <outlet property="nikeName" destination="2in-l0-iI7" id="7Bn-Ni-VeM"/>
                         <outlet property="phoneField" destination="aP0-78-KK8" id="Oqu-kv-7Zc"/>
                         <outlet property="rotationImg" destination="uJt-hx-Btb" id="n0a-77-LWt"/>
                         <outlet property="scrollerView" destination="Egq-gJ-Ytg" id="28Z-sT-FE4"/>
+                        <outlet property="ziImg" destination="6YO-tY-vsE" id="Y9F-Ah-C1J"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nF4-vS-XLe" userLabel="First Responder" sceneMemberID="firstResponder"/>

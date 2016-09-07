@@ -36,10 +36,10 @@
     rotationAnimation.toValue = [NSNumber numberWithFloat: M_PI * 2.0 ];
     rotationAnimation.duration = 2;
     rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = 1;
+    rotationAnimation.repeatCount = 10000000000000;
     [_rotationImg.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
     
-    [self performSelector:@selector(rotationTheImg) withObject:nil afterDelay:2.5];
+   // [self performSelector:@selector(rotationTheImg) withObject:nil afterDelay:2.5];
 }
 -(void)startRequest{
     BaseRequest* rq = [[BaseRequest alloc]init];
@@ -55,8 +55,9 @@
 
 #pragma mark 跳转到主页面
 
-- (void)intoSystem
-{
+- (void)intoSystem{
+    self.view.window.backgroundColor = [UIColor whiteColor];
+
     AppDelegate* app =  [UIApplication sharedApplication].delegate;
     [app judgeFirstTime];
 }
