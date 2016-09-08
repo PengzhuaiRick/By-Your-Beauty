@@ -30,11 +30,21 @@
 }
 -(void)startRequest{
     __weak UNIAlbumController* myself = self;
+    [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
     UNIAlbumRequest* rq = [[UNIAlbumRequest alloc]init];
     [rq postWithSerCode:@[API_URL_GetShopImages] params:nil];
     rq.getShopImages=^(NSArray* arr,NSString*tips,NSError* err){
-        myself.imgArray = arr;
-        [myself setupUI];
+        [LLARingSpinnerView RingSpinnerViewStop1];
+        if (err) {
+            [YIToast showText:NETWORKINGPEOBLEM];
+            return ;
+        }
+        if (arr) {
+            myself.imgArray = arr;
+            [myself setupUI];
+        }else
+            [YIToast showText:tips];
+        
     };
 }
 
@@ -59,7 +69,10 @@
             }
         }];
     }
+
 }
+
+
 -(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
     float x = scrollView.contentOffset.x;
     int i = x/KMainScreenWidth;

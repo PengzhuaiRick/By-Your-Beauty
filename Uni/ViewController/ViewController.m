@@ -17,7 +17,7 @@
 #import "UNITransfromX&Y.h"
 
 
-#import "UNIMyRewardController.h"
+//#import "UNIMyRewardController.h"
 #import "UNIWalletController.h"
 #import "UNICardInfoController.h"
 #import "UNIGiftController.h"
@@ -343,9 +343,10 @@
 
 //我的奖励
 -(void)setupMyController{
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-    UNIMyRewardController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
-    [_tv.navigationController pushViewController:mainCtr animated:YES];
+//    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+//    UNIMyRewardController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
+//    [_tv.navigationController pushViewController:mainCtr animated:YES];
+    [_tv setupMyController];
 }
 
 //我的钱包

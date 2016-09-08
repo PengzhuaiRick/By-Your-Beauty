@@ -151,7 +151,6 @@
             case 0:{
                 
                 UNIOrderDetailCell1* cell = [[NSBundle mainBundle]loadNibNamed:@"UNIOrderDetailCell1" owner:self options:nil].lastObject;
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 UNIShopManage* man =[UNIShopManage getShopData];
                 cell.label1.text = man.shopName;
                 cell.label2.text = man.address;
@@ -236,6 +235,9 @@
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section ==0) {
+        [self callOtherMapApp];
+    }
     
 }
 #pragma mark 调用其他地图APP

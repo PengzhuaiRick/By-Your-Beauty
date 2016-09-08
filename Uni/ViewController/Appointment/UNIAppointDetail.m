@@ -69,7 +69,7 @@
     }];
     
     [self startRequest];
-    [self setupData];
+    //[self setupData];
     [self setupMyTableView];
    
 }
@@ -99,7 +99,7 @@
                 myself.modelArr = models;
                 [myself setupData];
                 [myself setupMyTableView];
-                
+                [myself setupTabelViewFootView];
               //  [self performSelector:@selector(requestShopInfo) withObject:nil afterDelay:1];
                // [myself requestShopInfo];
             }else
@@ -146,7 +146,7 @@
 }
 
 -(void)setupData{
-    UNIMyAppointInfoModel* model = self.modelArr.lastObject;
+    UNIMyAppointInfoModel* model = self.modelArr[0];
     self.orderState = model.status;
 
     topCellH =KMainScreenWidth * 112 /414;
@@ -171,14 +171,13 @@
     self.myTableView.delegate= self;
     self.myTableView.dataSource =self;
     [self.view addSubview:self.myTableView];
-    [self setupTabelViewFootView];
+    
 }
 
 -(void)setupTabelViewFootView{
     UIView* view =[[UIView alloc]initWithFrame:CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight/2)];
      self.myTableView.tableFooterView = view;
    if (self.orderState == 2){
-       
     float btnWH =KMainScreenWidth*73/414;
     float btnX = (KMainScreenWidth - btnWH)/2;
     float btnY = 30;

@@ -611,13 +611,20 @@
 }
 #pragma mark 键盘出现
 -(void)keyboardWillShow:(NSNotification*)notifi{
-
+    [self showOrHideRotationImg:0];
      [self.scrollerView setContentOffset:CGPointMake(0, KMainScreenHeight*0.2) animated:YES];
 }
 #pragma mark 键盘隐藏
 -(void)keyboardWillHide:(NSNotification*)notifi{
-    //self.scrollerView.frame = CGRectMake(0, 0, KMainScreenWidth, KMainScreenHeight);
+     [self showOrHideRotationImg:1];
     [self.scrollerView setContentOffset:CGPointMake(0, 0) animated:YES];
+}
+-(void)showOrHideRotationImg:(int)alp{
+    __weak LoginController* myself = self;
+    [UIView animateWithDuration:0.5 animations:^{
+        myself.rotationImg.alpha = alp;
+        myself.logImg.alpha = alp;
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

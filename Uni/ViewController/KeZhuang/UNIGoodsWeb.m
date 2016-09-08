@@ -11,9 +11,11 @@
 #import "WebViewJavascriptBridge.h"
 #import "UNIGoodsDeatilController.h"
 #import "UNIAppointController.h"
+#import "UNIShopCarRequest.h"
 @interface UNIGoodsWeb ()<UIWebViewDelegate,UIScrollViewDelegate>
 {
     UIWebView* webView;
+    UILabel* shopNumLab;
 }
 @property WebViewJavascriptBridge* bridge;
 @end
@@ -25,8 +27,9 @@
    // webView.scrollView.delegate = self;
    // [[BaiduMobStat defaultStat] pageviewStartWithName:@"商品列表"];
     
-    [self BaiduStatBegin:@"商品列表"];
     [super viewWillAppear:animated];
+     [self BaiduStatBegin:@"商品列表"];
+    [self requestShopCarNum];
 }
 -(void)viewWillDisappear:(BOOL)animated{
    // webView.delegate = nil;
@@ -41,6 +44,7 @@
     [super viewDidLoad];
     [self setupNavigation];
     
+    
      UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
     [self setupUI:manager.APP_KZ_URL];
 }
@@ -54,6 +58,44 @@
         [myself navigationControllerLeftBarAction:nil];
     }];
 
+    UIView* view = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 20, 20)];
+    UIButton* btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = view.bounds;
+    [btn setImage:[UIImage imageNamed:@"function_img_car"] forState:UIControlStateNormal];
+    [view addSubview:btn];
+    [[btn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         [self.navigationController popViewControllerAnimated:NO];
+         [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoShopCarController" object:nil];
+     }];
+    
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(15, -10, 15, 15)];
+    lab.textColor = [UIColor whiteColor];
+    lab.backgroundColor = [UIColor colorWithHexString:kMainPinkColor];
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.font =kWTFont(10);
+    lab.layer.masksToBounds = YES;
+    lab.layer.cornerRadius = 7.5;
+    [view addSubview:lab];
+    shopNumLab = lab;
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithCustomView:view];
+
+}
+#pragma mark 获取购物车类型数量
+-(void)requestShopCarNum{
+    UNIShopCarRequest* rq = [[UNIShopCarRequest alloc]init];
+    [rq postWithSerCode:@[API_URL_GetKindOfShopCar] params:nil];
+    rq.getCartGoodsCount=^(int count,NSString* tips,NSError* err){
+        if (err) {
+            [YIToast showText:NETWORKINGPEOBLEM];
+            return ;
+        }
+        if (count == -1)
+            [YIToast showText:tips];
+        else
+            self->shopNumLab.text = [NSString stringWithFormat:@"%d",count];
+    };
 }
 
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{

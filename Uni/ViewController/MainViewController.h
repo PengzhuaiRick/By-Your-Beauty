@@ -15,4 +15,6 @@
 
 -(void)gotoShopCarController;
 -(void)setupOrderListController;
+#pragma mark 我的奖励
+-(void)setupMyController;
 @end

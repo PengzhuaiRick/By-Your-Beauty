@@ -17,6 +17,7 @@
 #import "UNIGuideView.h"
 //#import "UNIMyProjectModel.h"
 #import "UNIShopManage.h"
+#import "UNITransfromX&Y.h"
 @interface UNIAppointController ()<UNIMyPojectListDelegate,UNIAppontMidDelegate>
 {
     int shopID;
@@ -117,9 +118,19 @@
 -(void)setupShopView{
     UNIShopView* shop =[[UNIShopView alloc]initWithFrame:CGRectMake(16,10, KMainScreenWidth - 32, KMainScreenWidth*74/414)];
     shop.backgroundColor = [UIColor whiteColor];
+    shop.userInteractionEnabled = YES;
     [self.myScroller addSubview:shop];
     shopView = shop;
-    shop=nil;
+    
+    UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
+    [shop addGestureRecognizer:tap];
+    [tap.rac_gestureSignal subscribeNext:^(id x) {
+        UNIShopManage* shopMan = [UNIShopManage getShopData];
+        double endLat = [shopMan.x doubleValue];
+        double endLong = [shopMan.y doubleValue];
+        UNITransfromX_Y* xy= [[UNITransfromX_Y alloc]initWithView:self.view withEndCoor:CLLocationCoordinate2DMake(endLat, endLong) withAim:shopMan.shopName];
+        [xy setupUI];
+    }];
 }
 
 #pragma mark 加载顶部Scroller
@@ -230,6 +241,8 @@
     NSMutableString* projectIds=[NSMutableString string];
     NSMutableString* dates=[NSMutableString string];
     NSMutableString* costTimes=[NSMutableString string];
+    NSString* remark = @"";
+    if (appontMid.remarkField) remark = appontMid.remarkField.text;
     if(appontMid.myData.count>0){
         for (int i = 0; i< self->appontMid.myData.count; i++) {
             UNIMyProjectModel* model = self->appontMid.myData[i];
@@ -257,7 +270,7 @@
                                    @"dates":dates,
                                    @"shopId":@(shopID),
                                    @"num":@(1),
-                                   @"remark":appontMid.remarkField.text}];
+                                   @"remark":remark}];
              dispatch_async(dispatch_get_main_queue(), ^{
                  [LLARingSpinnerView RingSpinnerViewStop1];
                  req.resetAppoint=^(NSString* order,NSString* tips,NSError* err){

@@ -62,7 +62,8 @@
     pageNum = 0;
     pageSize = 20;
     _myData = [NSMutableArray array];
-     self.view.backgroundColor = [UIColor colorWithHexString:kMainBackGroundColor];
+    
+    _myTableview.backgroundColor = [UIColor colorWithHexString:@"f3f3f3"];
     
     float btnWH = KMainScreenWidth*20/320;
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, btnWH, btnWH)];

@@ -261,7 +261,7 @@
     cellHight =KMainScreenWidth*80.5/414;
     
     _progessLab.font = kWTFont(15);
-    _numBtn.titleLabel.font =kWTFont(20);
+    _numBtn.titleLabel.font =kWTFont(30);
     _rewardLab.font =kWTFont(15);
     _couponBtn.titleLabel.font=kWTFont(18);
     _shopBtn.titleLabel.font=kWTFont(18);
@@ -300,10 +300,16 @@
         [[BaiduMobStat defaultStat]logEvent:@"btn_main_bottle" eventLabel:@"首页瓶子礼品点击"];
     }];
     
+    _rewardLab.userInteractionEnabled = YES;
     _rewardLab.layer.masksToBounds=YES;
     _rewardLab.layer.cornerRadius = _rewardLab.frame.size.height/2;
     _rewardLab.layer.borderWidth =1;
     _rewardLab.layer.borderColor = [UIColor colorWithHexString:@"7a777b"].CGColor;
+    UITapGestureRecognizer* tap1 = [[UITapGestureRecognizer alloc]init];
+    [_rewardLab addGestureRecognizer:tap1];
+    [tap1.rac_gestureSignal subscribeNext:^(id x) {
+        [myself setupMyController];
+    }];
     
     
 }
@@ -487,7 +493,9 @@
                         }];
                         if (nextRewardNum>num) {
                              myself.reward.text =@"再预约次数";
-                            [myself.numBtn setTitle:[NSString stringWithFormat:@"%d",nextRewardNum - num] forState:UIControlStateNormal];
+                           // [myself.numBtn setTitle:[NSString stringWithFormat:@"%d",nextRewardNum - num] forState:UIControlStateNormal];
+                            [myself.numBtn setTitle:@"1" forState:UIControlStateNormal];
+
                             myself.numBtn.hidden = NO;
                         }if (nextRewardNum <= num) {
                             myself.reward.text =@"恭喜您已完成约满奖励";
@@ -662,6 +670,12 @@
     UIStoryboard* st = [UIStoryboard storyboardWithName:@"Guide" bundle:nil];
     UIViewController* view = [st instantiateViewControllerWithIdentifier:@"UNIOrderListController"];
     [self.navigationController pushViewController:view animated:YES];
+}
+#pragma mark 我的奖励
+-(void)setupMyController{
+    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+    UIViewController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
+    [self.navigationController pushViewController:mainCtr animated:YES];
 }
 
 #pragma mark 注册通知

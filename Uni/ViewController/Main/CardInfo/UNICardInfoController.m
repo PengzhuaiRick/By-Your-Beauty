@@ -152,7 +152,7 @@
                 return ;
             }
            NSMutableArray* muArr = [NSMutableArray arrayWithArray:arr];
-             NSMutableArray* muArr1 = [NSMutableArray arrayWithArray:arr];
+            NSMutableArray* muArr1 = [NSMutableArray arrayWithArray:arr];
             for (UNIMyAppointInfoModel* model  in muArr) {
                 if (model.status<2) {
                     [muArr1 removeObject:model];

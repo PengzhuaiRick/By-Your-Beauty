@@ -12,6 +12,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    self.backgroundColor = [UIColor clearColor];
     _backView.layer.masksToBounds=YES;
     _backView.layer.cornerRadius = 5;
     _mainLab.font = kWTFont(14);

@@ -122,7 +122,7 @@
         }
         if (endPrice>-1) {
             myself.selectNum = isCheckNum;
-            myself.priceLab.text = [NSString stringWithFormat:@"合计:%.2f",endPrice];
+            myself.priceLab.text = [NSString stringWithFormat:@"合计:￥%.2f",endPrice];
             myself.allSelectBtn.selected = isAll;
             [myself.payBtn setTitle:[NSString stringWithFormat:@"付款(%d)",isCheckNum] forState:UIControlStateNormal];
         }else
