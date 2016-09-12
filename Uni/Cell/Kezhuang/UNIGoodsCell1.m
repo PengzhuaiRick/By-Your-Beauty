@@ -149,7 +149,6 @@
         if (xx>scrollView.contentSize.width+50){
             if (_goodsCell1Block)
                 _goodsCell1Block(nil);
-            
         }
     }
 }

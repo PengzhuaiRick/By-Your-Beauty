@@ -314,17 +314,23 @@
                     return ;
                 }
                 
-                if(!ph){
+                if(status<0){
                     x.enabled=YES;
                     [UIAlertView showWithTitle:tip message:nil style:UIAlertViewStyleDefault cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
                     return ;
                 }
                 self.sex = sex;
                 self->nikeName.text = name;
-                if (sex == 1)
-                    [self maleBtnSelect];
-                if (sex == 2)
-                    [self femaleBtnSelect];
+                if (sex == 1){
+                    self->maleBtn.selected = YES;
+                    self->femaleBtn.selected = NO;
+                }
+                    //[self maleBtnSelect];
+                if (sex == 2){
+                    self->maleBtn.selected = NO;
+                    self->femaleBtn.selected = YES;
+                }
+                    //[self femaleBtnSelect];
                 
                 if (ph != nil){
                    // btn.enabled = NO;

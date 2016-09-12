@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+typedef void (^GuideBlock)(id model);
 @interface UNIGuideView : UIView
 @property(nonatomic,copy)NSString* className;
 @property(nonatomic,strong)UIImageView* mainImg;
+
+typedef void (^GuideBlock)(id model);
+@property(nonatomic,copy)GuideBlock guideBlock;
 
 -(id)initWithClassName:(NSString*)className;
 
