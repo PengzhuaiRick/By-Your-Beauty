@@ -109,7 +109,6 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView1{
-    [self showGuideView:CARDGUIDE];
     [LLARingSpinnerView RingSpinnerViewStop1];
 }
 

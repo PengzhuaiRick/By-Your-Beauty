@@ -77,6 +77,9 @@
     CGRect re1 = _rotationImg.frame;
     CGRect re2 = _logImg.frame;
     re1.origin.y = 70;
+    if (KMainScreenHeight<500) {
+        re1.origin.y = 40;
+    }
     re2.origin.y =re1.origin.y+(re1.size.height - re2.size.height)/2;
     [UIView animateWithDuration:1 animations:^{
         myself.rotationImg.frame = re1;
@@ -103,7 +106,20 @@
     [self setupSexBtn];
     [self setupLoginBtn];
     [self addBTkeyBoardTool];
+    [self modification480];
 }
+-(void)modification480{
+    if (KMainScreenHeight> 500)
+        return;
+    
+    CGRect roRect = _rotationImg.frame;
+    float w = roRect.size.width;
+    roRect.origin.x +=10;
+    roRect.size.height = w-20;
+    roRect.size.width = roRect.size.height ;
+    _rotationImg.frame = roRect;
+}
+
 -(void)modificateUI{
     for (int i = 1; i<6; i++) {
         UIView *view = [_scrollerView viewWithTag:i];

@@ -159,7 +159,9 @@
 //            else
 //                [YIToast showText:tips];
 
-            [self showGuideView:REWARDGUIDE];
+            [self showGuideView:REWARDGUIDE andBlock:^(id model) {
+                
+            }];
         });
     };
 }

@@ -71,7 +71,19 @@
     [self setupScroller];
     [self setupNotification];//注册通知
     [self requestBackGroundUrl];
+    [self modification480];
 }
+
+#pragma mark 适配3.5尺寸的屏幕
+-(void)modification480{
+    if (KMainScreenHeight>500)
+        return;
+    
+    CGRect pRect = _progessView.frame;
+    pRect.origin.y -=30;
+    _progessView.frame = pRect;
+}
+
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
     __weak id myself = self;
@@ -140,7 +152,7 @@
             if (code != INAUDIT)
                 [myself requestActivityInfo];
             else
-                [myself showGuideView:MAINGUIDE];
+                [myself setupGuideView];
         });
     };
 
@@ -162,10 +174,50 @@
                [myself performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
                //[self setupActivityController:@[@(hasActivity),@(activityId)]];
             else
-                [myself showGuideView:MAINGUIDE];
+                [myself setupGuideView];
         });
     };
 }
+
+-(void)setupGuideView{
+    __weak MainViewController* myself = self;
+    [self showGuideView:MAINGUIDE1 andBlock:^(id model) {
+        [myself showGuideView:MAINGUIDE2 andBlock:^(id model) {
+            [myself showGuideView:MAINGUIDE3 andBlock:^(id model) {
+                    if(myself.midData.count>0){
+                        [myself showGuideView:MAINGUIDE4 andBlock:^(id model) {
+                            if(myself.bottomData.count>0)
+                                [myself showMainGuide5];
+                            else
+                                [myself showMainGuide6];
+                        }];
+                    }
+                    else if(myself.bottomData.count>0)
+                       [myself showMainGuide5];
+                    else
+                        [myself showMainGuide6];
+            }];
+        }];
+    }];
+}
+
+-(void)showMainGuide5{
+     __weak MainViewController* myself = self;
+    [self showGuideView:MAINGUIDE5 andBlock:^(id model) {
+        [myself showMainGuide6];
+    }];
+}
+-(void)showMainGuide6{
+    __weak MainViewController* myself = self;
+    [myself showGuideView:MAINGUIDE7 andBlock:^(id model) {
+        [myself.myTable setContentOffset:CGPointMake(0, myself.myTable.contentSize.height -myself.myTable.bounds.size.height) animated:YES];
+        [myself showGuideView:MAINGUIDE6 andBlock:^(id model) {
+            [myself showGuideView:MAINGUIDE8 andBlock:^(id model) {}];
+
+        }];
+    }];
+}
+
 #pragma mark 有活动就弹出活动界面
 -(void)setupActivityController:(NSArray*)Activity{
     UNITouristController* tourist = [[UNITouristController alloc]init];
@@ -689,7 +741,7 @@
 -(void)appointSuccessAndReflash{
     if ([AccountManager token]) {
         [_myTable.header beginRefreshing];
-        [self showGuideView:MAINGUIDE];
+        [self setupGuideView];
     }else{
         [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
     }

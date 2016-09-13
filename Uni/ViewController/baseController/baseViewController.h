@@ -17,7 +17,8 @@ typedef void(^VCBlock)(id model);
 -(void)addPanGesture:(VCBlock)vb;
 
 #pragma mark 显示指引图片
--(void)showGuideView:(NSString*)className;
+//-(void)showGuideView:(NSString*)className nextClass:(NSString*)vc;
+-(void)showGuideView:(NSString*)className andBlock:(VCBlock)vc;
 
 #pragma mark 百度统计开始
 -(void)BaiduStatBegin:(NSString*)text;

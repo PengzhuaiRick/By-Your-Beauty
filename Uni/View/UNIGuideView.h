@@ -15,7 +15,8 @@ typedef void (^GuideBlock)(id model);
 typedef void (^GuideBlock)(id model);
 @property(nonatomic,copy)GuideBlock guideBlock;
 
--(id)initWithClassName:(NSString*)className;
+//-(id)initWithClassName:(NSString*)className;
+-(id)initWithClassName:(NSString*)className tapBlock:(GuideBlock)cn;
 
 
 #pragma mark 判断是否第一次打开

@@ -123,35 +123,86 @@
 #define INAUDIT 9
 
 /**
- *  是否第一次打开首页
+ *  首页指引图1
  */
-#define MAINGUIDE @"MainGuide"
+#define MAINGUIDE1 @"MainGuide1"
+/**
+ *  首页指引图2
+ */
+#define MAINGUIDE2 @"MainGuide2"
+/**
+ *  首页指引图3
+ */
+#define MAINGUIDE3 @"MainGuide3"
+/**
+ *  首页指引图4
+ */
+#define MAINGUIDE4 @"MainGuide4"
+/**
+ *  首页指引图5
+ */
+#define MAINGUIDE5 @"MainGuide5"
+/**
+ *  首页指引图6
+ */
+#define MAINGUIDE6 @"MainGuide6"
+/**
+ *  首页指引图7
+ */
+#define MAINGUIDE7 @"MainGuide7"
+/**
+ *  首页指引图8
+ */
+#define MAINGUIDE8 @"MainGuide8"
+
 
 /**
- *  是否第一次打开我的礼包
+ *  预约列表指引图
  */
-#define CARDGUIDE @"CardGuide"
+#define APPOINTLIST @"APPOINTLIST"
+
+
 /**
- *  是否第一次打开侧边栏
+ *  侧边栏指引图1
  */
-#define FUNCTIONGUIDE @"FunctionGuide"
+#define FUNCTIONGUIDE1 @"FunctionGuide1"
+/**
+ *  侧边栏指引图2
+ */
+#define FUNCTIONGUIDE2 @"FunctionGuide2"
+/**
+ *  侧边栏指引图3
+ */
+#define FUNCTIONGUIDE3 @"FunctionGuide3"
+/**
+ *  侧边栏指引图4
+ */
+#define FUNCTIONGUIDE4 @"FunctionGuide4"
+
+
+
 /**
  *  是否第一次打开我的奖励
  */
 #define REWARDGUIDE @"RewardGuide"
+
+
 /**
- *  是否第一次打开预约界面1
+ *  预约界面指引图1
  */
 #define APPOINTGUIDE1 @"AppointGuide1"
 /**
- *  是否第一次打开预约界面2
+ *  预约界面指引图2
  */
 #define APPOINTGUIDE2 @"AppointGuide2"
 /**
- *  是否第一次打开删除预约项目
+ *  预约界面指引图3
  */
-#define APPOINTDELGUIDE @"AppointDelGuide"
-
+#define APPOINTGUIDE3 @"AppointGuide3"
+/**
+ *  预约界面指引图4
+ */
+#define APPOINTGUIDE4 @"AppointGuide4"
 
 //支付宝公钥
 #define ZFBPublicKey @"MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB"

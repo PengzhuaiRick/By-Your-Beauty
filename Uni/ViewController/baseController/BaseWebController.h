@@ -26,7 +26,7 @@ typedef void(^VCBlock)(id model);
 -(void)setupUI:(NSString*)urlString;
 
 #pragma mark 显示指引图片
--(void)showGuideView:(NSString*)className;
+-(void)showGuideView:(NSString*)className andBlock:(VCBlock)vc;
 
 #pragma mark 百度统计开始
 -(void)BaiduStatBegin:(NSString*)text;

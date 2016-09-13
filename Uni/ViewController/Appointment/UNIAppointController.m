@@ -32,10 +32,14 @@
 @end
 
 @implementation UNIAppointController
+
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [[BaiduMobStat defaultStat] pageviewStartWithName:@"项目预约界面"];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showGuideView) name:@"AppointGuide" object:nil];
+    if (appontMid.myData.count>1) {
+        [self showGuideView:APPOINTGUIDE4 andBlock:^(id model) {}];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -60,7 +64,13 @@
     self.navigationItem.leftBarButtonItem =  [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"main_btn_back"] style:0 target:self action:@selector(leftBarButtonEvent:)];
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     
-    [self showGuideView:APPOINTGUIDE1];
+    [self showGuideView:APPOINTGUIDE1 andBlock:^(id model) {
+        [self showGuideView:APPOINTGUIDE2 andBlock:^(id model) {
+            [self showGuideView:APPOINTGUIDE3 andBlock:^(id model) {
+            }];
+        }];
+        
+    }];
     //[self showGuideView];
    
 }
@@ -378,7 +388,9 @@
 }
 -(void)showGuideView{
     if (!_model)
-        [self showGuideView:APPOINTDELGUIDE];
+        [self showGuideView:APPOINTGUIDE3 andBlock:^(id model) {
+            
+        }];
 }
 -(void)UNIAppontMidDelegateMethod{
     

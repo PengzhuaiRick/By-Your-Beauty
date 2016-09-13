@@ -49,7 +49,15 @@
    // [self showGuideView:FUNCTIONGUIDE];
     [self setupBackView];
     [self setupCollestView];
-    [self showGuideView:FUNCTIONGUIDE];
+    [self showGuideView:FUNCTIONGUIDE1 andBlock:^(id model) {
+        [self showGuideView:FUNCTIONGUIDE2 andBlock:^(id model) {
+            [self showGuideView:FUNCTIONGUIDE3 andBlock:^(id model) {
+                [self showGuideView:FUNCTIONGUIDE4 andBlock:^(id model) {
+                    
+                }];
+            }];
+        }];
+    }];
 }
 
 -(void)setupBackView{
@@ -94,7 +102,7 @@
 -(void)setupParams{
     
     seletNum = 0;
-    titleArray = @[@"首页",
+    titleArray = @[@"返回首页",
                    @"我的详情",
                    @"我的奖励",
                    @"我的礼包",
