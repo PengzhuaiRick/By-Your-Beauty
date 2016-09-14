@@ -82,6 +82,12 @@
     CGRect pRect = _progessView.frame;
     pRect.origin.y -=30;
     _progessView.frame = pRect;
+    
+    CGRect numR = _numBtn.frame;
+    numR.size.width = KMainScreenWidth*38/414;
+    numR.size.height = numR.size.width;
+    numR.origin.x = (KMainScreenWidth - numR.size.width )/2;
+    _numBtn.frame = numR;
 }
 
 #pragma mark 获取后台动态URL

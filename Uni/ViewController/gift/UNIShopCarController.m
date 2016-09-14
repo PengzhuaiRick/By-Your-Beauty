@@ -96,9 +96,10 @@
     view.backgroundColor = [UIColor colorWithHexString:@"eeeeee"];
     [self.view addSubview:view];
     
-    UIImageView* img =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 100, 100)];
+    UIImageView* img =[[UIImageView alloc]initWithImage: [UIImage imageNamed:@"shopCar_empty_shop"]];
+    img.contentMode = UIViewContentModeScaleAspectFit;
     img.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2 - 50);
-    img.image = [UIImage imageNamed:@"shopCar_empty_shop"];
+    //img.image = [UIImage imageNamed:@"shopCar_empty_shop"];
     [view addSubview:img];
     
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20,KMainScreenWidth, 50)];

@@ -36,7 +36,7 @@
 }
 
 -(void)setupUI{
-    self.mainImg = [[UIImageView alloc]initWithFrame:self.frame];
+    self.mainImg = [[UIImageView alloc]initWithFrame:CGRectMake(-1, 0, KMainScreenWidth+2, KMainScreenHeight)];
     self.mainImg.image = [self accordingToClassNameAndScreenSize];
     [self addSubview:self.mainImg];
     

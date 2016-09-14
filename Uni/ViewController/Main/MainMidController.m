@@ -148,10 +148,11 @@
     static NSString* name = @"CellName";
     MainCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell){
-      //  __weak MainMidController* myself = self;
+        __weak MainMidController* myself = self;
         cell = [[NSBundle mainBundle]loadNibNamed:@"MainCell" owner:self options:nil].lastObject;
         [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
          subscribeNext:^(UIButton* x) {
+             [myself gotoAppointDetail:(int)x.tag-1];
          }];
     }
     UNIMyAppintModel* model = _myData[indexPath.section];
@@ -180,25 +181,32 @@
             imgName = @"main_btn_cell3";
             break;
     }
+    cell.handleBtn.tag = indexPath.section+1;
     [cell.handleBtn setTitle:btnTitle forState:UIControlStateNormal];
     cell.handleImg.image = [UIImage imageNamed:imgName];
-    
-
     return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [self gotoAppointDetail:(int)indexPath.section];
+//    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
+//    UNIMyAppintModel* model =_myData[indexPath.section];
+//    appoint.order =model.myorder;
+//    appoint.shopId = model.shopId;
+//    [self.navigationController pushViewController:appoint animated:YES];
+   
+}
+-(void)gotoAppointDetail:(int)tag{
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
-    UNIMyAppintModel* model =_myData[indexPath.section];
+    UNIMyAppintModel* model =_myData[tag];
     appoint.order =model.myorder;
     appoint.shopId = model.shopId;
     [self.navigationController pushViewController:appoint animated:YES];
-    appoint=nil;
-    story=nil;
-    
 }
+
 -(BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath{
     return YES;
 }

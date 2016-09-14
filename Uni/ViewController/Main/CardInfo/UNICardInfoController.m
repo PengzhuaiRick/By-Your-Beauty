@@ -239,8 +239,12 @@
     static NSString* name = @"cell";
      UNIVIPMemberCell* cell = [tableView dequeueReusableCellWithIdentifier:name];
     if (!cell){
-        //__weak UNICardInfoController* myself = self;
+        __weak UNICardInfoController* myself = self;
         cell = [[NSBundle mainBundle]loadNibNamed:@"UNIVIPMemberCell" owner:self options:nil].lastObject;
+        [[cell.handleBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+        subscribeNext:^(UIButton* x) {
+            [myself gotoAppointDetail:(int)x.tag-1];
+        }];
     }
      UNIMyAppointInfoModel* info = _myData[indexPath.section];
      cell.mainLab.text = info.projectName;
@@ -268,24 +272,34 @@
             break;
     }
     
-    
     if (info.ifIntime == 1) {
         [cell.handleBtn setTitle:@"准时" forState:UIControlStateNormal];
         cell.handleImg.image = [UIImage imageNamed:@"main_btn_cell2"];
     }
-    
+    cell.handleBtn.tag = indexPath.section+1;
     return cell;
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    [self gotoAppointDetail:(int)indexPath.section];
+//    UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
+//    UNIMyAppointInfoModel* model =_myData[indexPath.section];
+//    appoint.order =model.order;
+//    appoint.shopId = model.shopId;
+//    appoint.ifMyDetail = YES;
+//    [self.navigationController pushViewController:appoint animated:YES];
+}
+-(void)gotoAppointDetail:(int)tag{
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
-    UNIMyAppointInfoModel* model =_myData[indexPath.section];
+    UNIMyAppointInfoModel* model =_myData[tag];
     appoint.order =model.order;
     appoint.shopId = model.shopId;
     appoint.ifMyDetail = YES;
     [self.navigationController pushViewController:appoint animated:YES];
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
