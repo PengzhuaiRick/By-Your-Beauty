@@ -173,8 +173,10 @@
     
     UIButton* btn = [UIButton buttonWithType: UIButtonTypeCustom];
     btn.frame = CGRectMake(btnX, btnY, btnW, btnH);
-    [btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_addPro"] forState:UIControlStateNormal];
-    [btn setTitle:@"添加项目" forState:UIControlStateNormal];
+    //[btn setBackgroundImage:[UIImage imageNamed:@"appoint_btn_addPro"] forState:UIControlStateNormal];
+    btn.backgroundColor = [UIColor colorWithHexString:kMainNavigationColor];
+    [btn setImage:[UIImage imageNamed:@"appoint_btn_addPro1"] forState:UIControlStateNormal];
+    [btn setTitle:@" 添加项目" forState:UIControlStateNormal];
     btn.titleLabel.font = kWTFont(18);
     [_myScroller addSubview:btn];
     

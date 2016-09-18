@@ -253,9 +253,11 @@
 -(void)changeUI{
     noData.hidden = _myData.count>0;
     [self.tableView reloadData];
-    UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTLIST tapBlock:^(id model) {
-    }];
-    [[UIApplication sharedApplication].keyWindow addSubview:guide];
+    if (_myData.count>0) {
+        UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTLIST tapBlock:^(id model) {
+        }];
+        [[UIApplication sharedApplication].keyWindow addSubview:guide];
+    }
 }
 
 

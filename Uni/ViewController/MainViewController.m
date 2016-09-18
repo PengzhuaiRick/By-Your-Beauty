@@ -157,8 +157,8 @@
             }
             if (code != INAUDIT)
                 [myself requestActivityInfo];
-            else
-                [myself setupGuideView];
+           
+                
         });
     };
 
@@ -178,9 +178,7 @@
             }
             if (activityId>0 && hasActivity < 2)
                [myself performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
-               //[self setupActivityController:@[@(hasActivity),@(activityId)]];
-            else
-                [myself setupGuideView];
+
         });
     };
 }
@@ -195,13 +193,13 @@
                             if(myself.bottomData.count>0)
                                 [myself showMainGuide5];
                             else
-                                [myself showMainGuide6];
+                                [myself showMainGuide7];
                         }];
                     }
                     else if(myself.bottomData.count>0)
                        [myself showMainGuide5];
                     else
-                        [myself showMainGuide6];
+                        [myself showMainGuide7];
             }];
         }];
     }];
@@ -210,18 +208,26 @@
 -(void)showMainGuide5{
      __weak MainViewController* myself = self;
     [self showGuideView:MAINGUIDE5 andBlock:^(id model) {
+        [myself showMainGuide7];
+    }];
+}
+-(void)showMainGuide7{
+    __weak MainViewController* myself = self;
+    [myself showGuideView:MAINGUIDE7 andBlock:^(id model) {
+        [myself.myTable setContentOffset:CGPointMake(0, myself.myTable.contentSize.height -myself.myTable.bounds.size.height) animated:YES];
         [myself showMainGuide6];
     }];
 }
 -(void)showMainGuide6{
     __weak MainViewController* myself = self;
-    [myself showGuideView:MAINGUIDE7 andBlock:^(id model) {
-        [myself.myTable setContentOffset:CGPointMake(0, myself.myTable.contentSize.height -myself.myTable.bounds.size.height) animated:YES];
-        [myself showGuideView:MAINGUIDE6 andBlock:^(id model) {
-            [myself showGuideView:MAINGUIDE8 andBlock:^(id model) {}];
-
-        }];
+    [myself showGuideView:MAINGUIDE6 andBlock:^(id model) {
+        [myself.myTable setContentOffset:CGPointMake(0, 0) animated:YES];
+        [myself showMainGuide8];
     }];
+}
+-(void)showMainGuide8{
+    // __weak MainViewController* myself = self;
+    [self showGuideView:MAINGUIDE8 andBlock:^(id model) {}];
 }
 
 #pragma mark 有活动就弹出活动界面
@@ -591,10 +597,7 @@
                     myself.midData = nil;
                     myself.midData = myAppointArr;
                     [myself.myTable reloadData];
-                       // [self.midView startReloadData:myAppointArr andType:1];
-                   
-//                    else
-//                        [YIToast showText:tips];
+                    
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
             });
@@ -623,6 +626,7 @@
                 
                     [myself.myTable reloadData];
                     [myself addTableViewReflashFootView];
+                     [myself setupGuideView];
                 
                 }
                 else

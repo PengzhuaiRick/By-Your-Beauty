@@ -80,6 +80,7 @@
     if (arr.count<1) {
         self.midTableview.hidden=YES;
         UIView* view = [[UIView alloc]initWithFrame:self.midTableview.frame];
+        view.hidden = arr.count>0;
         [self addSubview:view];
         nodataView = view;
         
