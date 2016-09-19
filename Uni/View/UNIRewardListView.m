@@ -103,11 +103,11 @@
     UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
     float imgWH = KMainScreenWidth>400?60:50,
     imgX = (nodata.frame.size.width - imgWH)/2;
-    img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
+    img.frame = CGRectMake(imgX, nodata.frame.size.height/2 - imgWH, imgWH, imgWH);
     [nodata addSubview:img];
     
     //UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 30)];
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+10, nodata.frame.size.width, 30)];
    // lab.text=manager.NO_ORDER_TIPS;
     if (self.status == -1)
         lab.text = @"很抱歉，您暂时还没获得奖励哦！";
@@ -150,11 +150,15 @@
     }
     [[cell.stateBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(id x) {
-         UNIShopManage* shopMan = [UNIShopManage getShopData];
-         double endLat = [shopMan.x doubleValue];
-         double endLong = [shopMan.y doubleValue];
-         UNITransfromX_Y* xy= [[UNITransfromX_Y alloc]initWithView:self withEndCoor:CLLocationCoordinate2DMake(endLat, endLong) withAim:shopMan.shopName];
-         [xy setupUI];
+         [UIAlertView showWithTitle:@"请联系店员领取奖励！" message:@"" cancelButtonTitle:@"我知道了" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex){
+             
+             UNIShopManage* shopMan = [UNIShopManage getShopData];
+             double endLat = [shopMan.x doubleValue];
+             double endLong = [shopMan.y doubleValue];
+             UNITransfromX_Y* xy= [[UNITransfromX_Y alloc]initWithView:self withEndCoor:CLLocationCoordinate2DMake(endLat, endLong) withAim:shopMan.shopName];
+             [xy setupUI];
+         }];
+         
          [[BaiduMobStat defaultStat]logEvent:@"btn_reward_get" eventLabel:@"奖励到店领取"];
      }];
 

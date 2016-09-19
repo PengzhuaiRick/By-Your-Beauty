@@ -120,6 +120,7 @@
     [self startRequestReward];//请求约满信息
     [self startRequestAppointInfo];//请求我已预约
     [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+   
     //[self getSellInfo]; //获取首页销售商品
    // [self requestCouponInfo];
 }
@@ -157,6 +158,8 @@
             }
             if (code != INAUDIT)
                 [myself requestActivityInfo];
+            else
+                [myself setupGuideView];
            
                 
         });
@@ -178,6 +181,9 @@
             }
             if (activityId>0 && hasActivity < 2)
                [myself performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
+            else
+                [myself setupGuideView];
+
 
         });
     };
@@ -626,7 +632,7 @@
                 
                     [myself.myTable reloadData];
                     [myself addTableViewReflashFootView];
-                     [myself setupGuideView];
+                    
                 
                 }
                 else
@@ -665,8 +671,8 @@
                         [myself.headerImg sd_setImageWithURL:[NSURL URLWithString:url]
                                            placeholderImage:[UIImage imageNamed:@"main_img_goodsBg"]];
                     }
-                    code=nil; url = nil;
                 }
+                // [myself setupGuideView];
             }
             else
                 [YIToast showText:NETWORKINGPEOBLEM];

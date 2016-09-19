@@ -103,7 +103,7 @@
     [view addSubview:img];
     
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20,KMainScreenWidth, 50)];
-    lab.text = @"购物车空空如也，快去选购商品吧！";
+    lab.text = @"购物车空空如也，快去选购商品吧.";
     lab.textColor = [UIColor colorWithHexString:@"b5b4b4"];
     lab.font = kWTFont(16);
     lab.textAlignment = NSTextAlignmentCenter;

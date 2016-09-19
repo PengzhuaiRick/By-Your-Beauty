@@ -68,11 +68,11 @@
     UIImageView* img = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"main_img_nodata3"]];
     float imgWH = KMainScreenWidth>400?60:50,
     imgX = (nodata.frame.size.width - imgWH)/2;
-    img.frame = CGRectMake(imgX, 30, imgWH, imgWH);
+    img.frame = CGRectMake(imgX, nodata.frame.size.height/2 - imgWH, imgWH, imgWH);
     [nodata addSubview:img];
     
     UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+20, nodata.frame.size.width, 50)];
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, CGRectGetMaxY(img.frame)+10, nodata.frame.size.width, 50)];
     lab.text=manager.NO_ORDER_TIPS;
     lab.font = [UIFont systemFontOfSize:KMainScreenWidth>400?16:14];
     lab.textAlignment = NSTextAlignmentCenter;

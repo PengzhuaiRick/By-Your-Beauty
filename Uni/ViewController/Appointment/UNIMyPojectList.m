@@ -100,25 +100,29 @@
     view.backgroundColor = [UIColor colorWithHexString:@"eeeeee"];
     [self.view addSubview:view];
     
-    UIImageView* img =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 80, 80)];
-    img.center = CGPointMake(KMainScreenWidth/2-60, KMainScreenHeight/2);
+    
+    UIImageView* img =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 70, 70)];
+    img.contentMode = UIViewContentModeScaleAspectFit;
+    img.center = CGPointMake(KMainScreenWidth/2, KMainScreenHeight/2-45);
     img.image = [UIImage imageNamed:@"main_img_nodata2"];
     [view addSubview:img];
     
-    UNIHttpUrlManager *manager = [UNIHttpUrlManager sharedInstance];
-    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(KMainScreenWidth/2, KMainScreenHeight/2-30,KMainScreenWidth/2, 20)];
-    lab.text = @"马上购买去！";
-    lab.textColor = [UIColor colorWithHexString:@"1b1b1b"];
+//    UNIHttpUrlManager *manager = [UNIHttpUrlManager sharedInstance];
+//    float xx = CGRectGetMaxX(img.frame)+10;
+    UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(0, KMainScreenHeight/2+10,KMainScreenWidth, 20)];
+    lab.text = @"你没有更多的项目哦.";
+    lab.textAlignment = NSTextAlignmentCenter;
+    lab.textColor = [UIColor colorWithHexString:@"b5b4b4"];
     lab.font = kWTFont(18);
     [view addSubview:lab];
     
-    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(KMainScreenWidth/2, KMainScreenHeight/2,KMainScreenWidth/2, 40)];
-    lab1.text = manager.GOTOBUY_DESC;
-    lab1.textColor = [UIColor colorWithHexString:@"b5b4b4"];
-    lab1.font = kWTFont(16);
-    lab1.numberOfLines = 0;
-    lab1.lineBreakMode = 0;
-    [view addSubview:lab1];
+//    UILabel* lab1 = [[UILabel alloc]initWithFrame:CGRectMake(xx, KMainScreenHeight/2,KMainScreenWidth/2, 40)];
+//    lab1.text = manager.GOTOBUY_DESC;
+//    lab1.textColor = [UIColor colorWithHexString:@"b5b4b4"];
+//    lab1.font = kWTFont(16);
+//    lab1.numberOfLines = 0;
+//    lab1.lineBreakMode = 0;
+//    [view addSubview:lab1];
 }
 
 #pragma mark 选择 按钮事件

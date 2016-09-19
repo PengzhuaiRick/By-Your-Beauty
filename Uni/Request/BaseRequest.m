@@ -94,11 +94,14 @@
         NSLog(@"code  %@   content  %@ ",code[0],responseObject);
         int resultcode = [[self safeObject:dic ForKey:@"code"] intValue];
         if (resultcode == -1) {
+             dispatch_async(dispatch_get_main_queue(), ^{
             [manager.operationQueue cancelAllOperations];
+            [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
             [UIAlertView showWithTitle:@"提示" message:@"您授权码已过期！请重新登录" cancelButtonTitle:@"知道" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
+                
             }];
-            return ;
+                 return ;
+             });
         }
 
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {

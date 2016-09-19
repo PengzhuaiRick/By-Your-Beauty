@@ -217,6 +217,15 @@
         [[UIApplication sharedApplication].keyWindow addSubview:guide];
     //}
 }
+#pragma mark 清除网络缓存
+-(void)cleanWebCache{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 
 #pragma mark 百度统计开始
 -(void)BaiduStatBegin:(NSString*)text{

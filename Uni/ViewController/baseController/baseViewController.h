@@ -25,4 +25,7 @@ typedef void(^VCBlock)(id model);
 
 #pragma mark 百度统计结束
 -(void)BaiduStatEnd:(NSString*)text;
+
+#pragma mark 清除网络缓存
+-(void)cleanWebCache;
 @end

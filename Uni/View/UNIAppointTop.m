@@ -229,7 +229,7 @@
     float btnH = _topScroller.frame.size.height+1;
     
     UIImageView* backMove = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"appoint_img_top"]];
-    backMove.frame = CGRectMake(0, 0, btnW, btnH);
+    backMove.frame = CGRectMake(btnW, 0, btnW, btnH);
     [view addSubview:backMove];
     arrowImg = backMove;
     
@@ -280,9 +280,11 @@
         btn.titleLabel.textAlignment = NSTextAlignmentCenter;
         [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [btn setBackgroundColor:[UIColor clearColor]];
+        
+        if (i == 0)btn.enabled=NO;
+        
         if (i==1){
             self->selectBtnNum = 1;
-            btn.selected = YES;
             self.selectYear =year;
             self.selectDay =[NSString stringWithFormat:@"%d-%d-%d",year,month,day];
             }

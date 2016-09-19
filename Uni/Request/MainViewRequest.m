@@ -74,6 +74,7 @@
        if ([param1 isEqualToString:API_URL_MRInfo] ) {
            
            if (code == -1) {
+               [self cancelAllOperation];
                 [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
                [UIAlertView showWithTitle:@"提示" message:@"您授权码已过期！请重新登录" cancelButtonTitle:@"知道" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
                }];

@@ -91,6 +91,15 @@
     img.hidden=YES;
     [_headerView addSubview:img];
     _rewardImg = img;
+    
+    __weak UNICardInfoController* myself = self;
+    [[self.intimebtn rac_signalForControlEvents:UIControlEventTouchUpInside]
+     subscribeNext:^(id x) {
+         UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
+         UIViewController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
+         [myself.navigationController pushViewController:mainCtr animated:YES];
+     }];
+
 }
 
 #pragma mark 开始请求准时奖励信息
@@ -121,12 +130,6 @@
                     myself.rewardImg.hidden=NO;
                    // myself.intimebtn.enabled = YES;
                     [myself.intimebtn setTitle:@"点击领取" forState:UIControlStateNormal];
-                    [[myself.intimebtn rac_signalForControlEvents:UIControlEventTouchUpInside]
-                    subscribeNext:^(id x) {
-                        UIStoryboard* st = [UIStoryboard storyboardWithName:@"Function" bundle:nil];
-                        UIViewController* mainCtr= [st instantiateViewControllerWithIdentifier:@"UNIMyRewardController"];
-                        [myself.navigationController pushViewController:mainCtr animated:YES];
-                    }];
                 }
                 
                 myself.rewardNameLab.text =projectName;
@@ -294,6 +297,7 @@
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
     UNIMyAppointInfoModel* model =_myData[tag];
+    appoint.orderState = model.status;
     appoint.order =model.order;
     appoint.shopId = model.shopId;
     appoint.ifMyDetail = YES;

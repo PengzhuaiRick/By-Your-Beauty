@@ -28,7 +28,7 @@
     CalloutMapAnnotation *_calloutAnnotation;
 }
 @property(nonatomic,strong)NSArray* modelArr;
-@property(nonatomic,assign)int orderState;
+
 @property(strong ,nonatomic)UNIShopModel* shopManage;
 @end
 
@@ -146,8 +146,8 @@
 }
 
 -(void)setupData{
-    UNIMyAppointInfoModel* model = self.modelArr[0];
-    self.orderState = model.status;
+//    UNIMyAppointInfoModel* model = self.modelArr[0];
+//    self.orderState = model.status;
 
     topCellH =KMainScreenWidth * 112 /414;
     midCellH =KMainScreenWidth * 100 /414;

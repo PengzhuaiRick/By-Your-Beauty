@@ -56,6 +56,7 @@
     if ([self.baseWebView canGoBack]) {
         [self.baseWebView goBack];
     }else{
+        [self cleanWebCache];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

@@ -184,7 +184,7 @@
      subscribeNext:^(UIButton* x) {
          NSTimeInterval diffTime = [self->appointTop.finalTime timeIntervalSinceDate:self->appointTop.startTime];
          if (diffTime<10) {
-             [UIAlertView showWithTitle:@"提示" message:@"您选择的预约时间点不能添加项目了！" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
+             [UIAlertView showWithTitle:@"提示" message:@"您选择的预约时间点不能添加项目了!" cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
              return ;
          }
          int allCost =0;
@@ -420,8 +420,8 @@
 //    }
     
     int count = (int)x.count;
-    if (count>3)
-        count= 3;
+    if (count>2)
+        count= 2;
     CGRect tabRe = self->appontMid.myTableView.frame;
     tabRe.size.height = self->appontMid.cellH*count;
     self->appontMid.myTableView.frame =tabRe;

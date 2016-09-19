@@ -14,6 +14,7 @@
 #import "UNIPayStyleCell.h"
 #import "UNIShopManage.h"
 #import "UNIShopCarRequest.h"
+#import "UNITransfromX&Y.h"
 
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
@@ -209,6 +210,15 @@
         }break;
     }
     return nil;
+}
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 0) {
+        UNIShopManage* shopMan = [UNIShopManage getShopData];
+        double endLat = [shopMan.x doubleValue];
+        double endLong = [shopMan.y doubleValue];
+        UNITransfromX_Y* xy= [[UNITransfromX_Y alloc]initWithView:self.view withEndCoor:CLLocationCoordinate2DMake(endLat, endLong) withAim:shopMan.shopName];
+        [xy setupUI];
+    }
 }
 - (IBAction)payBtnAction:(id)sender {
     [self requestTheOrderNo];

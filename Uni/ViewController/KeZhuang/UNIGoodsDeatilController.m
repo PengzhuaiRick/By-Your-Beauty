@@ -56,10 +56,7 @@ UITableViewDelegate,KeyboardToolDelegate>{
     [super viewWillDisappear:animated];
 }
 -(void)viewDidDisappear:(BOOL)animated{
-//    if (!ifFirst) {
-//        ifFirst = YES;
-//        self.myScroller.contentInset = UIEdgeInsetsMake(-64, 0, 0, 0);
-//    }
+
     [super viewDidDisappear:animated];
     //清除UIWebView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
@@ -174,7 +171,7 @@ UITableViewDelegate,KeyboardToolDelegate>{
 -(void)leftBarButtonEvent:(UIBarButtonItem*)item{
     if (self.myScroller.contentOffset.y == 0) {
         [LLARingSpinnerView RingSpinnerViewStop1];
-       // [[NSURLCache sharedURLCache] removeAllCachedResponses];
+        [self cleanWebCache];
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         [self.myScroller setContentOffset:CGPointMake(0, 0) animated:YES];
@@ -184,6 +181,7 @@ UITableViewDelegate,KeyboardToolDelegate>{
 -(void)setupData{
     _num = 1;
     cell1H = KMainScreenWidth*528/414;
+    //cell1H =CGRectGetMaxY(self.myTable.frame);
     self.allArray = [NSMutableArray array];
 }
 
@@ -314,7 +312,7 @@ UITableViewDelegate,KeyboardToolDelegate>{
     __weak UNIGoodsDeatilController* myself = self;
     MJRefreshAutoNormalFooter* footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         dispatch_async(dispatch_get_main_queue(), ^{
-            myself.myScroller.contentSize = CGSizeMake(myself.myScroller.frame.size.width,self->cell1H*2);
+            myself.myScroller.contentSize = CGSizeMake(myself.myScroller.frame.size.width,myself.myScroller.frame.size.height*2);
             [myself.myScroller setContentOffset:CGPointMake(0,self->cell1H) animated:YES];
             myself.myTable.footer = nil;
             [myself setupWebView];
@@ -323,21 +321,6 @@ UITableViewDelegate,KeyboardToolDelegate>{
     [footer setTitle:@"继续拖动，查看图文详情" forState:1];
     
     self.myTable.footer =footer;
-}
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    if (scrollView == _myScroller) {
-        if (scrollView.contentOffset.y<-80) {
-            if (self->myWeb) {
-                
-                if (self->myWeb.loading)
-                    return ;
-                
-                //清除UIWebView的缓存
-                [[NSURLCache sharedURLCache] removeAllCachedResponses];
-                [self->myWeb reload];
-            }
-        }
-    }
 }
 #pragma mark 加载webView
 -(void)setupWebView{
@@ -354,7 +337,6 @@ UITableViewDelegate,KeyboardToolDelegate>{
     [web loadRequest:request];
     [_myScroller addSubview:web];
     myWeb = web;
-    web=nil;
 }
 -(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
     NSLog(@"didFailLoadWithError  %@",error);
@@ -366,11 +348,18 @@ UITableViewDelegate,KeyboardToolDelegate>{
 -(void)webViewDidFinishLoad:(UIWebView *)webView{
     [LLARingSpinnerView RingSpinnerViewStop1];
     [_myTable.header endRefreshing];
-    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
-    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
+
+//#pragma mark 清除网络缓存
+//-(void)cleanWebCache{
+//    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+//    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+//    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+//}
+
+
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return cell1H;

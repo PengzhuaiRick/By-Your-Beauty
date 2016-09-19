@@ -36,8 +36,6 @@
 -(void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"wxShareResult" object:nil];
-    //清除UIWebView的缓存
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [[BaiduMobStat defaultStat] pageviewEndWithName:@"首页活动弹出页面"];
 }
 - (void)viewDidLoad {
@@ -221,6 +219,7 @@
 #pragma mark 功能按钮事件
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
      [LLARingSpinnerView RingSpinnerViewStop1];
+    [self cleanWebCache];
     [self dismissViewControllerAnimated:YES completion:^{
         [[NSNotificationCenter defaultCenter]postNotificationName:APPOINTANDREFLASH object:nil];
     }];
@@ -355,9 +354,18 @@
         if (_webView.loading)
             return;
         //清除UIWebView的缓存
-        [[NSURLCache sharedURLCache] removeAllCachedResponses];
+        [self cleanWebCache];
         [_webView reload];
     }
+}
+
+#pragma mark 清除网络缓存
+-(void)cleanWebCache{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark 微信分享成功后

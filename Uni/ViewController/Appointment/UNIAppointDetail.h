@@ -12,6 +12,7 @@
 @property (strong, nonatomic) UITableView *myTableView;
 @property (copy, nonatomic) NSString* order;
 @property (assign , nonatomic)int shopId;
+@property(nonatomic,assign)int orderState;
 
 @property (assign , nonatomic)BOOL ifMyDetail; // 是否从会员中心界面跳入
 @property (nonatomic,strong)MKMapView* mappView;

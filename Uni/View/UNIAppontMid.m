@@ -53,17 +53,26 @@
     [self addSubview:lab1];
     self.lab2 = lab1;
     
+    UIView* v1=nil;
     if (_myData.count<1) {
         float fieldH =KMainScreenWidth* 32 / 414;
-        UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(labX,CGRectGetMaxY(lab.frame), self.frame.size.width-2*labX,fieldH)];
+        v1 = [[UIView alloc]initWithFrame:CGRectMake(labX,CGRectGetMaxY(lab.frame), self.frame.size.width-2*labX,fieldH)];
+        v1.layer.masksToBounds = YES;
+        v1.layer.cornerRadius = 3;
+        v1.layer.borderWidth = 1;
+        v1.layer.borderColor = [UIColor colorWithHexString:@"eeeeee"].CGColor;
+        [self addSubview:v1];
+        
+       
+        UITextField* field = [[UITextField alloc]initWithFrame:CGRectMake(10,0, v1.frame.size.width - 10,v1.frame.size.height)];
         field.hidden =_myData.count>0;
         field.placeholder = @" 填写您想预约的项目名称";
-        field.layer.masksToBounds = YES;
-        field.layer.cornerRadius = 3;
-        field.layer.borderWidth = 1;
-        field.layer.borderColor = [UIColor colorWithHexString:@"eeeeee"].CGColor;
+//        field.layer.masksToBounds = YES;
+//        field.layer.cornerRadius = 3;
+//        field.layer.borderWidth = 1;
+//        field.layer.borderColor = [UIColor colorWithHexString:@"eeeeee"].CGColor;
         field.font = [UIFont systemFontOfSize:KMainScreenWidth*15/414];
-        [self addSubview:field];
+        [v1 addSubview:field];
         self.remarkField = field;
         BTKeyboardTool* tool = [BTKeyboardTool keyboardTool];
         tool.toolDelegate= self;
@@ -75,7 +84,7 @@
     _cellH = KMainScreenWidth* 76/414;
     
     float tabY =CGRectGetMaxY(lab.frame);
-    if (_myData.count <1) tabY =CGRectGetMaxY(self.remarkField.frame);
+    if (_myData.count <1) tabY =CGRectGetMaxY(v1.frame);
     
     float tabH = _myData.count* _cellH;
     _myTableView = [[UITableView alloc]initWithFrame:CGRectMake(10,tabY, self.frame.size.width-20,tabH) style:UITableViewStylePlain];

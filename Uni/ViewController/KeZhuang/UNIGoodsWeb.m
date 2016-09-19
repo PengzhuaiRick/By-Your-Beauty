@@ -101,11 +101,12 @@
 -(void)navigationControllerLeftBarAction:(UIBarButtonItem*)bar{
    [LLARingSpinnerView RingSpinnerViewStop1];
     //清除UIWebView的缓存
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [self cleanWebCache];
     [webView removeFromSuperview];
     webView = nil;
     [self.navigationController popViewControllerAnimated:YES];
 }
+
 #pragma mark 调转预约界面
 -(void)gotoAppoint:(NSString *)ProjectId :(NSString *)Type{
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

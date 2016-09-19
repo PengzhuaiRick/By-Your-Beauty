@@ -117,11 +117,12 @@
             return NSOrderedAscending;
     }];
     
-    if (nodataView)
-        [nodataView removeFromSuperview];
+//    if (nodataView)
+//        [nodataView removeFromSuperview];
     
     [self.dataArray removeAllObjects];
     [self.dataArray addObjectsFromArray:array];
+    nodataView.hidden = self.dataArray.count>0;
     self.midTableview.hidden=NO;
     [self.midTableview reloadData];
     

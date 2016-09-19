@@ -48,6 +48,7 @@
     self.label3.text = [info.time substringWithRange:NSMakeRange(5, 11)];
     
     if (info.status==0) {
+        self.stateBtn.enabled=YES;
         [self.stateBtn setTitle:@"到店\n领取" forState:UIControlStateNormal];
         self.stateImg.image = [UIImage imageNamed:@"main_btn_cell2"];
         

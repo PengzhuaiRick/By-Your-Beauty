@@ -140,6 +140,7 @@
         [self hidenShareView];
     }else{
         [LLARingSpinnerView RingSpinnerViewStop1];
+        [self cleanWebCache];
         [self.navigationController popViewControllerAnimated:YES];
     }
 }

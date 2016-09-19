@@ -38,9 +38,9 @@
 
 #pragma mark 显示指引图片
 -(void)showGuideView:(NSString*)className andBlock:(VCBlock)vc{
-    //if (![UNIGuideView determineWhetherFirstTime:className]) {
     if (KMainScreenHeight<500)
         return;
+    if (![UNIGuideView determineWhetherFirstTime:className]) {
     
         UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:className tapBlock:^(id model) {
             if (vc)
@@ -48,7 +48,7 @@
             //[guide removeFromSuperview];
         }];
         [[UIApplication sharedApplication].keyWindow addSubview:guide];
-    //}
+    }
 }
 #pragma mark 添加右划返回手势
 -(void)addPanGesture:(VCBlock)vb{
@@ -67,6 +67,14 @@
 //    if (_vCBlock) {
 //        self.vCBlock(nil);
 //    }
+}
+#pragma mark 清除网络缓存
+-(void)cleanWebCache{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"WebKitCacheModelPreferenceKey"];
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitDiskImageCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"WebKitOfflineWebApplicationCacheEnabled"];//自己添加的，原文没有提到。
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 

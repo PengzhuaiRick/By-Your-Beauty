@@ -202,6 +202,7 @@
     UIStoryboard* story = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UNIAppointDetail* appoint = [story instantiateViewControllerWithIdentifier:@"UNIAppointDetail"];
     UNIMyAppintModel* model =_myData[tag];
+    appoint.orderState = model.status;
     appoint.order =model.myorder;
     appoint.shopId = model.shopId;
     [self.navigationController pushViewController:appoint animated:YES];
@@ -254,9 +255,15 @@
     noData.hidden = _myData.count>0;
     [self.tableView reloadData];
     if (_myData.count>0) {
-        UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTLIST tapBlock:^(id model) {
-        }];
-        [[UIApplication sharedApplication].keyWindow addSubview:guide];
+        if (KMainScreenHeight<500)
+            return;
+        if (![UNIGuideView determineWhetherFirstTime:APPOINTLIST]) {
+            
+            UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:APPOINTLIST tapBlock:^(id model) {
+            }];
+            [[UIApplication sharedApplication].keyWindow addSubview:guide];
+        }
+
     }
 }
 

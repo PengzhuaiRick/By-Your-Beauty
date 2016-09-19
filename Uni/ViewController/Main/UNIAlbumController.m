@@ -58,6 +58,7 @@
     
     for (int i=0; i<self.imgArray.count; i++) {
         UIImageView* img = [[UIImageView alloc]initWithFrame:CGRectMake(KMainScreenWidth*i, 64, KMainScreenWidth, KMainScreenWidth)];
+        img.contentMode = UIViewContentModeScaleAspectFit;
         [self.scrollView addSubview:img];
         UNIAlbumModel* model = self.imgArray[i];
         [img sd_setImageWithURL:[NSURL URLWithString:model.imgUrl] placeholderImage:[UIImage imageNamed:@"KZ_img_goodsBg"] completed:^(UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL) {
