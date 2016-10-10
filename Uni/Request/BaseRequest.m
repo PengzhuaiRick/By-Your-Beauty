@@ -30,6 +30,7 @@
             
             if (manager.update_type == 2){
                 [UIAlertView showWithTitle:@"更新提示" message:manager.detail style:UIAlertViewStyleDefault cancelButtonTitle:nil otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+                        [AccountManager clearAll];
                         [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
                         [[UIApplication sharedApplication]openURL:[NSURL URLWithString:manager.url]];
                 }];
@@ -37,7 +38,7 @@
             else if (manager.update_type == 1){
                 
                 NSUserDefaults* userD = [NSUserDefaults standardUserDefaults];
-                NSString* promptUpData = [userD objectForKey:PromptUpData];
+                NSString* promptUpData = [userD objectForKey:PromptUpData]; //保存用户是否点击取消 暂不升级
                 
                 if(promptUpData.length<1){
                     [userD setObject:PromptUpData forKey:PromptUpData];
@@ -46,8 +47,11 @@
 
                 if (promptUpData.length<1) {
                     [UIAlertView showWithTitle:@"更新提示" message:manager.detail style:UIAlertViewStyleDefault cancelButtonTitle:@"取消" otherButtonTitles:@[@"更新"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                        if (buttonIndex>0)
+                        if (buttonIndex>0){
+                            [AccountManager clearAll];
+                            [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
                             [[UIApplication sharedApplication]openURL:[NSURL URLWithString:manager.url]];
+                        }
                     }];
                 }
             }
@@ -73,12 +77,13 @@
     }];
 }
 
-
-
-
 -(void)postWithSerCode:(NSArray*)code params:(NSDictionary *)params{
+    NSString* token = [AccountManager token];
+    if (token.length<2) return;
+    
+    
     NSMutableDictionary* dic = [NSMutableDictionary dictionaryWithDictionary:params];
-    [dic setValue:[AccountManager token] forKey:@"token"];
+    [dic setValue:token forKey:@"token"];
     
    if([[params objectForKey:@"shopId"] intValue]<1)
        [dic setValue:@([[AccountManager shopId]intValue]) forKey:@"shopId"];
@@ -91,17 +96,16 @@
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"text/html",@"application/json",@"text/json", @"text/javascript"]];
     [manager POST:URL parameters:dic success:^(AFHTTPRequestOperation *operation, id responseObject) {
          //[LLARingSpinnerView RingSpinnerViewStop1];
-        NSLog(@"code  %@   content  %@ ",code[0],responseObject);
-        int resultcode = [[self safeObject:dic ForKey:@"code"] intValue];
+        SLog(@"code  %@   content  %@ ",code[0],responseObject);
+        int resultcode = [[self safeObject:responseObject ForKey:@"code"] intValue];
         if (resultcode == -1) {
              dispatch_async(dispatch_get_main_queue(), ^{
+            [AccountManager clearAll];
             [manager.operationQueue cancelAllOperations];
             [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
-            [UIAlertView showWithTitle:@"提示" message:@"您授权码已过期！请重新登录" cancelButtonTitle:@"知道" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-                
-            }];
-                 return ;
+            [UIAlertView showWithTitle:@"提示" message:@"您授权码已过期！请重新登录" cancelButtonTitle:@"知道" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {}];
              });
+            return ;
         }
 
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
@@ -111,7 +115,7 @@
            
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error: %@", error);
+        SLog(@"Error: %@", error);
         if ([self respondsToSelector:@selector(requestFailed:andIdenCode:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self requestFailed:error andIdenCode:code];
@@ -129,14 +133,14 @@
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager POST:URL parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
          NSDictionary *content = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"code  %@   content  %@ ",code[0],content);
+        SLog(@"code  %@   content  %@ ",code[0],content);
         if ([self respondsToSelector:@selector(requestSucceed:andIdenCode:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self requestSucceed:content andIdenCode:code];
             });
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        NSLog(@"Error:%@ %@",code[0], error);
+        SLog(@"Error:%@ %@",code[0], error);
         if ([self respondsToSelector:@selector(requestFailed:andIdenCode:)]) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self requestFailed:error andIdenCode:code];

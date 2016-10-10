@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A284" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" colorMatched="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--客妆 商品详情介绍-->
@@ -10,17 +11,17 @@
             <objects>
                 <viewController storyboardIdentifier="UNIGoodsDeatilController" title="客妆 商品详情介绍" id="zCS-Uu-qeR" customClass="UNIGoodsDeatilController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gEf-CY-0Os">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" id="Fui-1V-iap">
-                                <rect key="frame" x="0.0" y="64" width="414" height="528"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <frame key="frameInset" minY="64" height="78.44%"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <tableView clipsSubviews="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="K0j-vh-DjS">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="528"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="473"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <connections>
                                             <outlet property="dataSource" destination="zCS-Uu-qeR" id="hL4-cV-6S9"/>
                                             <outlet property="delegate" destination="zCS-Uu-qeR" id="1qf-Wd-e8V"/>
@@ -32,20 +33,20 @@
                                 </connections>
                             </scrollView>
                             <view contentMode="scaleToFill" id="vGa-2q-YWu">
-                                <rect key="frame" x="0.0" y="592" width="414" height="144"/>
+                                <frame key="frameInset" height="19.64%"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="4F4-UW-d88">
-                                        <rect key="frame" x="0.0" y="71" width="207" height="73"/>
+                                        <frame key="frameInset" width="49.87%" height="51.15%"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES"/>
-                                        <color key="backgroundColor" red="0.21176470588235294" green="0.15294117647058825" blue="0.27058823529411763" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="backgroundColor" red="0.21176470588235294" green="0.15294117647058825" blue="0.27058823529411763" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <state key="normal" title=" 放入购物车" image="function_img_car"/>
                                         <connections>
                                             <action selector="addToShopCar:" destination="zCS-Uu-qeR" eventType="touchUpInside" id="CVX-Hw-vMY"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="DjP-lU-k96">
-                                        <rect key="frame" x="207" y="71" width="207" height="73"/>
+                                        <frame key="frameInset" width="50.13%" height="51.15%"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                         <state key="normal" title="马上购买" backgroundImage="KZ_btn_payBack"/>
                                         <connections>
@@ -53,64 +54,63 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="￥" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="nhO-mM-IHw">
-                                        <rect key="frame" x="27" y="20" width="158" height="30"/>
+                                        <frame key="frameInset" minX="6.40%" minY="13.74%" width="38.13%" height="20.61%"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="23"/>
-                                        <color key="textColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="购买数量:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bmn-VV-dPn">
-                                        <rect key="frame" x="202" y="24" width="75" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="购买数量:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bmn-VV-dPn">
+                                        <frame key="frameInset" minX="44.80%" minY="16.03%" width="21.87%" height="14.50%"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <view contentMode="scaleToFill" id="9wK-t9-vCt">
-                                        <rect key="frame" x="280" y="20" width="111" height="30"/>
+                                        <frame key="frameInset" minX="67.47%" minY="13.74%" width="26.93%" height="20.61%"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="2dJ-6i-6st">
-                                                <rect key="frame" x="2" y="-2" width="33" height="33"/>
+                                                <frame key="frameInset" minX="2" minY="-2" width="29.29%" maxY="-1"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES"/>
                                                 <state key="normal">
-                                                    <color key="titleColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="p1b-ce-gu2">
-                                                <rect key="frame" x="77" y="-2" width="33" height="33"/>
+                                                <frame key="frameInset" minY="-2" width="30.00%" maxX="1" maxY="-1"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                                 <state key="normal">
-                                                    <color key="titleColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="titleColor" red="0.99215686270000003" green="0.20392156859999999" blue="0.57254901960000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                             </button>
                                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="1" textAlignment="center" minimumFontSize="17" id="0UC-kB-NpH">
-                                                <rect key="frame" x="36" y="0.0" width="39" height="30"/>
+                                                <frame key="frameInset" minX="31.68%" minY="0.0%" width="35.64%" height="100.00%"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <textInputTraits key="textInputTraits"/>
                                             </textField>
                                             <view contentMode="scaleToFill" id="4c1-Ot-4QC">
-                                                <rect key="frame" x="36" y="0.0" width="1" height="30"/>
+                                                <frame key="frameInset" minX="32.00%" minY="0.0%" width="1" height="100.00%"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.50588235294117645" green="0.50588235294117645" blue="0.50588235294117645" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.50588235294117645" green="0.50588235294117645" blue="0.50588235294117645" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                             <view contentMode="scaleToFill" id="v4a-P0-EaM">
-                                                <rect key="frame" x="75" y="0.0" width="1" height="30"/>
+                                                <frame key="frameInset" minX="68.00%" minY="0.0%" width="1" height="100.00%"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                                <color key="backgroundColor" red="0.50588235290000005" green="0.50588235290000005" blue="0.50588235290000005" alpha="1" colorSpace="calibratedRGB"/>
+                                                <color key="backgroundColor" red="0.50588235290000005" green="0.50588235290000005" blue="0.50588235290000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             </view>
                                         </subviews>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="0wI-dr-1gE"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="addBtn" destination="p1b-ce-gu2" id="ykX-jc-1g5"/>
                         <outlet property="bottomView" destination="vGa-2q-YWu" id="ikf-3V-ffn"/>
@@ -127,23 +127,23 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R4O-NL-Duc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="419" y="521"/>
+            <point key="canvasLocation" x="418.5" y="520.5"/>
         </scene>
         <!--图文详情-->
         <scene sceneID="aKo-IR-YdQ">
             <objects>
                 <viewController storyboardIdentifier="UNIImageAndTextController" title="图文详情" id="1GG-Za-fun" customClass="UNIImageAndTextController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2IO-PZ-MzK">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <webView contentMode="scaleToFill" id="lL7-WL-KNm">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <frame key="frameInset" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                                <color key="backgroundColor" red="0.28958413004875183" green="0.31462949514389038" blue="0.32950475811958313" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </webView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="JIo-L3-w7O"/>
                     <connections>
@@ -159,15 +159,15 @@
             <objects>
                 <viewController storyboardIdentifier="UNIPurchaseController" title="支付页面" id="5Xg-L9-avA" customClass="UNIPurchaseController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="eqz-Jy-XyH">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" id="v9u-aK-cHa">
-                                <rect key="frame" x="0.0" y="662" width="414" height="74"/>
+                                <frame key="frameInset" height="10.20%"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="vpK-Zt-ZPW">
-                                        <rect key="frame" x="270" y="0.0" width="144" height="74"/>
+                                        <frame key="frameInset" width="34.93%"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" heightSizable="YES"/>
                                         <state key="normal" title="付款" backgroundImage="KZ_btn_payBack"/>
                                         <connections>
@@ -175,22 +175,22 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xLs-Fe-DVq">
-                                        <rect key="frame" x="26" y="26" width="213" height="21"/>
+                                        <frame key="frameInset" minX="26" minY="33.82%" width="54.73%" height="29.41%"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
-                                        <color key="textColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="textColor" red="0.93333333330000001" green="0.93333333330000001" blue="0.93333333330000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.21176470589999999" green="0.1529411765" blue="0.27058823529999998" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.21176470589999999" green="0.1529411765" blue="0.27058823529999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="fWW-Px-dfS">
-                                <rect key="frame" x="0.0" y="64" width="414" height="597"/>
+                                <frame key="frameInset" minY="64" height="88.72%"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="backgroundColor" red="0.93333333333333335" green="0.93333333333333335" blue="0.93333333333333335" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <inset key="separatorInset" minX="15" minY="0.0" maxX="15" maxY="0.0"/>
                                 <view key="tableFooterView" contentMode="scaleToFill" id="YWJ-ZS-sse">
-                                    <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 </view>
                                 <sections/>
@@ -200,10 +200,9 @@
                                 </connections>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="t5z-z6-sv4"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <connections>
                         <outlet property="bottomPrice" destination="xLs-Fe-DVq" id="wL6-mu-Ho6"/>
                         <outlet property="myTable" destination="fWW-Px-dfS" id="gZP-50-rBH"/>
@@ -219,12 +218,11 @@
             <objects>
                 <viewController storyboardIdentifier="UNIGoodsComment" title="商品评论" id="zYc-fJ-m4Y" customClass="UNIGoodsComment" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="zJ2-Cm-dpb">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </view>
                     <navigationItem key="navigationItem" id="GwN-ta-TCm"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="n2Z-td-jEs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -235,7 +233,6 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="r5k-L9-QRg" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="7fy-ga-dd1">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -255,7 +252,6 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cdv-un-l66" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="jh5-yl-hkf"/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="3tt-tF-7Wc">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -274,7 +270,6 @@
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ttq-i3-kY0" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina55"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6lg-Al-Hwg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -293,7 +288,6 @@
             <objects>
                 <navigationController title="图文详情" automaticallyAdjustsScrollViewInsets="NO" id="an9-iV-bOl" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="GWk-8i-5df">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -312,6 +306,11 @@
         <image name="KZ_btn_payBack" width="180" height="62"/>
         <image name="function_img_car" width="18" height="18"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4_7.fullscreen"/>
+    </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
         <segue reference="5TK-Jh-XfZ"/>
         <segue reference="YOD-lI-xe2"/>

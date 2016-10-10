@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11201" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UNIAlbumXibController">
+            <connections>
+                <outlet property="descreberLab" destination="dB8-5j-krU" id="N9a-Va-Y1b"/>
+                <outlet property="nodataLabel" destination="eRi-lL-3hf" id="gBI-7M-1c6"/>
+                <outlet property="numLab" destination="zqo-mB-lPy" id="OOe-32-5pf"/>
+                <outlet property="scrollView" destination="aNk-ui-ZOl" id="5VQ-6X-Rr3"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aNk-ui-ZOl">
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="ekX-bh-M6D"/>
+                    </connections>
+                </scrollView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="暂时没有上传相册！" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eRi-lL-3hf">
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zqo-mB-lPy">
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="0Ng-q1-Pij"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dB8-5j-krU">
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="60" id="Age-1y-Wiv"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstItem="dB8-5j-krU" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="3MJ-uq-1Ob"/>
+                <constraint firstAttribute="bottom" secondItem="dB8-5j-krU" secondAttribute="bottom" id="EpD-we-vRf"/>
+                <constraint firstItem="eRi-lL-3hf" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="FcI-EJ-pny"/>
+                <constraint firstItem="aNk-ui-ZOl" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Fi1-k1-DKN"/>
+                <constraint firstItem="eRi-lL-3hf" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Hzf-mN-gzg"/>
+                <constraint firstItem="aNk-ui-ZOl" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="KP3-WV-3FP"/>
+                <constraint firstItem="zqo-mB-lPy" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="NC6-WX-jpt"/>
+                <constraint firstAttribute="bottom" secondItem="aNk-ui-ZOl" secondAttribute="bottom" id="ag2-RZ-gZL"/>
+                <constraint firstAttribute="trailing" secondItem="aNk-ui-ZOl" secondAttribute="trailing" id="ibu-ge-SVm"/>
+                <constraint firstAttribute="trailing" secondItem="dB8-5j-krU" secondAttribute="trailing" id="kvh-5P-ExJ"/>
+                <constraint firstItem="zqo-mB-lPy" firstAttribute="trailing" secondItem="aNk-ui-ZOl" secondAttribute="trailing" id="sJM-C8-i2U"/>
+                <constraint firstItem="zqo-mB-lPy" firstAttribute="top" secondItem="aNk-ui-ZOl" secondAttribute="top" constant="64" id="sMk-KE-3mz"/>
+            </constraints>
+            <point key="canvasLocation" x="35.5" y="54.5"/>
+        </view>
+    </objects>
+</document>

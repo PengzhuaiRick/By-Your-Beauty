@@ -81,6 +81,10 @@ UITableViewDelegate,KeyboardToolDelegate>{
     [self setupTableView];
     [self startRequestReward];
     
+    CGRect tabR = _myTable.frame;
+    tabR.size.width =KMainScreenWidth;
+    _myTable.frame = tabR;
+    
 }
 #pragma mark 开始请求
 -(void)startRequestReward{

@@ -20,7 +20,7 @@
 #import "ViewController.h"
 #import "UNIWalletController.h"
 #import "MainCell.h"
-
+#import "UNIAlbumXibController.h"
 
 @interface MainViewController ()<UITableViewDataSource,UITableViewDelegate,UNIGoodsWebDelegate>{
  //   UITableView* myTable;
@@ -72,6 +72,18 @@
     [self setupNotification];//注册通知
     [self requestBackGroundUrl];
     [self modification480];
+    
+    NSLog(@"myTable  %@",NSStringFromCGRect(_myTable.frame));
+    NSLog(@"headerView  %@",NSStringFromCGRect(_headerView.frame));
+    CGRect tabR = _myTable.frame;
+    tabR.size.width = KMainScreenWidth;
+    tabR.size.height = KMainScreenHeight;
+    _myTable.frame = tabR;
+    
+    CGRect headR = _headerView.frame;
+    headR.size.width = KMainScreenWidth;
+    headR.size.height = KMainScreenWidth*478/375;
+    _headerView.frame = headR;
 }
 
 #pragma mark 适配3.5尺寸的屏幕
@@ -93,14 +105,9 @@
 #pragma mark 获取后台动态URL
 -(void)requestBackGroundUrl{
     __weak id myself = self;
-//     MainViewRequest* request = [[MainViewRequest alloc]init];
-//    request.rqfirstUrl=^(int code){
-//        dispatch_async(dispatch_get_main_queue(), ^{
-            [myself startRequestMain];
+         //   [myself startRequestMain];
             [myself requestActivityShowOrNot];
-//        });
-//    };
-//    [request firstRequestUrl];
+
 }
 #pragma mark 获取后台动态URL 下拉刷新
 -(void)requestBackGroundUrl1{
@@ -116,11 +123,11 @@
 
 -(void)startRequestMain{
     [self requestAppTips];
-    [self startRequestShopInfo];//请求商家信息
-    [self startRequestReward];//请求约满信息
-    [self startRequestAppointInfo];//请求我已预约
-    [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
-   
+   // [self startRequestShopInfo];//请求商家信息
+   // [self startRequestReward];//请求约满信息
+   // [self startRequestAppointInfo];//请求我已预约
+   // [self getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
+    //[self setupGuideView];
     //[self getSellInfo]; //获取首页销售商品
    // [self requestCouponInfo];
 }
@@ -158,10 +165,9 @@
             }
             if (code != INAUDIT)
                 [myself requestActivityInfo];
-            else
-                [myself setupGuideView];
-           
-                
+            
+            else [myself startRequestMain];
+            
         });
     };
 
@@ -180,11 +186,8 @@
                 return ;
             }
             if (activityId>0 && hasActivity < 2)
-               [myself performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
-            else
-                [myself setupGuideView];
-
-
+              [myself performSelector:@selector(setupActivityController:) withObject:@[@(hasActivity),@(activityId)] afterDelay:1];
+            else [myself startRequestMain];
         });
     };
 }
@@ -296,8 +299,9 @@
 }
 #pragma mark 功能按钮事件
 -(void)navigationControllerRightBarAction:(UIBarButtonItem*)bar{
-    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIAlbumController"];
+//    UIStoryboard* st = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UIViewController* vc = [st instantiateViewControllerWithIdentifier:@"UNIAlbumController"];
+    UNIAlbumXibController* vc = [[UNIAlbumXibController alloc]initWithNibName:@"UNIAlbumXibController" bundle:nil];
     [self.navigationController pushViewController:vc animated:YES];
 }
 -(void)showViewController{
@@ -510,6 +514,8 @@
                           params:nil];
         request.reshopInfoBlock=^(UNIShopManage* manager,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
+                [myself startRequestReward];//请求约满信息
+
                 if (!er) {
                     if (manager) {
                         if (manager.shortName.length>0)
@@ -517,9 +523,9 @@
                         else
                             myself.title =manager.shopName;
                     }
-                     if (!manager.shopName)
-                        //检测不到店铺信息 需要重新登录
-                        [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
+//                     if (!manager.shopName)
+//                        //检测不到店铺信息 需要重新登录
+//                        [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
                     
                 }else
                     [YIToast showText:NETWORKINGPEOBLEM];
@@ -539,6 +545,7 @@
                            params:nil];
         request1.rerewardBlock=^(int nextRewardNum,int num,int type,int goodid,NSString* url,NSString* projectName,NSString* title,NSString*tips,NSError* er){
             dispatch_async(dispatch_get_main_queue(), ^{
+                [myself startRequestAppointInfo];//请求我已预约
                 if (!er) {
                     if (nextRewardNum>0) {
                         self->type1 = type;
@@ -595,7 +602,7 @@
         [request postWithSerCode:@[API_URL_Appoint]
                           params:@{@"page":@(0),@"size":@(1)}];
         request.reappointmentBlock =^(int count,NSArray* myAppointArr,NSString* tips,NSError* err){
-            [self startRequestProjectInfo];
+            [myself startRequestProjectInfo];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [myself.myTable.header endRefreshing];
                 if (!err) {
@@ -616,6 +623,7 @@
         [request1 postWithSerCode:@[API_URL_MyProjectInfo]
                            params:@{@"page":@(bottomPage),@"size":@(10)}];
         request1.remyProjectBlock =^(NSArray* myProjectArr,int count,NSString* tips,NSError* err){
+             [myself getBgImageAndGoodsImage];//请求背景图片 和 奖励商品图片
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (!err) {
                     [myself.myTable.footer endRefreshing];
@@ -672,7 +680,7 @@
                                            placeholderImage:[UIImage imageNamed:@"main_img_goodsBg"]];
                     }
                 }
-                // [myself setupGuideView];
+                [myself setupGuideView];
             }
             else
                 [YIToast showText:NETWORKINGPEOBLEM];
@@ -722,6 +730,8 @@
     [request1 postWithSerCode:@[API_URL_GetAppTips]
                        params:nil];
     request1.rqAppTips=^(NSDictionary* dic,NSString* tips,NSError* err){
+        [self startRequestShopInfo];//请求商家信息
+
         UNIHttpUrlManager* manager = [UNIHttpUrlManager sharedInstance];
         [manager initHttpUrlManager:dic];
     };
@@ -757,8 +767,8 @@
 -(void)appointSuccessAndReflash{
     if ([AccountManager token]) {
         [_myTable.header beginRefreshing];
-        [self setupGuideView];
     }else{
+        [AccountManager clearAll];
         [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
     }
     

@@ -121,17 +121,16 @@
     if (imgArr.count>0) {
         for (int i = 0;i<k;i++) {
             UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(i*imgW, 0, imgW, imgH)];
-                    [view sd_setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:[UIImage imageNamed:@"KZ_img_goodsBg"]];
-                    [_mainImage addSubview:view];
-                    view = nil;
+            view.contentMode = UIViewContentModeScaleAspectFit;
+            [view sd_setImageWithURL:[NSURL URLWithString:imgArr[i]] placeholderImage:[UIImage imageNamed:@"KZ_img_goodsBg"]];
+            [_mainImage addSubview:view];
         }
     }else{
         //NSString* str = [NSString stringWithFormat:@"%@%@",API_IMG_URL,info.imgUrl];
         UIImageView* view = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, imgW, imgH)];
-        // view.contentMode = UIViewContentModeScaleAspectFit;
-        [view sd_setImageWithURL:[NSURL URLWithString:info.imgUrl] placeholderImage:nil];
+         view.contentMode = UIViewContentModeScaleAspectFit;
+        [view sd_setImageWithURL:[NSURL URLWithString:info.imgUrl] placeholderImage:[UIImage imageNamed:@"KZ_img_goodsBg"]];
         [_mainImage addSubview:view];
-         view = nil;
     }
     UILabel* lab = [[UILabel alloc]initWithFrame:CGRectMake(_mainImage.contentSize.width, 0, 50, _mainImage.frame.size.height)];
     lab.lineBreakMode = 0;

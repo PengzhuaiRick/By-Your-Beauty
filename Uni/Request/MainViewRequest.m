@@ -73,14 +73,6 @@
         //获取约满奖励
        if ([param1 isEqualToString:API_URL_MRInfo] ) {
            
-           if (code == -1) {
-               [self cancelAllOperation];
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"setupLoginController" object:nil];
-               [UIAlertView showWithTitle:@"提示" message:@"您授权码已过期！请重新登录" cancelButtonTitle:@"知道" otherButtonTitles:nil tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-               }];
-               
-           }
-           
            if (code == 0) {
                int nextRewardNum = [[self safeObject:dic ForKey:@"nextRewardNum"] intValue];
                int num = [[self safeObject:dic ForKey:@"num"] intValue];

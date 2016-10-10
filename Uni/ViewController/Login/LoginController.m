@@ -149,7 +149,8 @@
 
 -(void)setupTouristBtn{
     UNILoginViewRequest* req = [[UNILoginViewRequest alloc]init];
-    [req postWithSerCode:@[API_URL_RetCode] params:nil];
+   // [req postWithSerCode:@[API_URL_RetCode] params:nil];
+    [req postWithoutUserIdSerCode:@[API_URL_RetCode] params:nil];
     req.rqtouristBtn = ^(int code,NSString* tips,NSError* er){
         dispatch_async(dispatch_get_main_queue(), ^{
             if (er) {

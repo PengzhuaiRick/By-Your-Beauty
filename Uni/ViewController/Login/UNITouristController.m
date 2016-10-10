@@ -201,9 +201,6 @@
     self.title =[webView1 stringByEvaluatingJavaScriptFromString:@"document.title"];//@"document.title";//获取当前页面的title
     [LLARingSpinnerView RingSpinnerViewStop1];
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
-    NSLog(@"%@",error);
-}
 
 -(void)setupNavigation{
     self.title = @"参与活动";

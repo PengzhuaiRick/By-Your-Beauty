@@ -120,7 +120,7 @@
 /**
  *  审核期中的是否显示游客按钮 和 显示活动页面
  */
-#define INAUDIT 9
+#define INAUDIT 12
 
 /**
  *  首页指引图1
@@ -242,4 +242,13 @@ MIICeAIBADANBgkqhkiG9w0BAQEFAASCAmIwggJeAgEAAoGBALWe8nqQhixVAHLgzu2oRJy6JNAtXTyz
 
 // 百度统计
 #define BAIDUSTATAPPKEY @"5b42736457"
+
+
+// 打印输出方法 解决IOS10 打印不全的问题
+#ifdef DEBUG
+#define SLog(format, ...) printf("class: <%p %s:(%d) > method: %s \n%s\n", self, [[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String], __LINE__, __PRETTY_FUNCTION__, [[NSString stringWithFormat:(format), ##__VA_ARGS__] UTF8String] )
+#else
+#define SLog(format, ...)
+#endif
+
 #endif /* Config_h */

@@ -158,7 +158,7 @@
     self.title =[webView stringByEvaluatingJavaScriptFromString:@"document.title"];
     [LLARingSpinnerView RingSpinnerViewStop1];
 }
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(nullable NSError *)error{
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error{
    [LLARingSpinnerView RingSpinnerViewStop1];
 }
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType

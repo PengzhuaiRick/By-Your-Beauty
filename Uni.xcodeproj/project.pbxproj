@@ -156,6 +156,8 @@
 		18D1492B1D6ED4B800CE4D96 /* UNIPayStyleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D149291D6ED4B800CE4D96 /* UNIPayStyleCell.xib */; };
 		18D1492F1D6EE0D400CE4D96 /* UNIPayGoodsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D1492D1D6EE0D400CE4D96 /* UNIPayGoodsCell.m */; };
 		18D149301D6EE0D400CE4D96 /* UNIPayGoodsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D1492E1D6EE0D400CE4D96 /* UNIPayGoodsCell.xib */; };
+		18D18BC41DAB8729005C9A7C /* UNIAlbumXibController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D18BC21DAB8729005C9A7C /* UNIAlbumXibController.m */; };
+		18D18BC51DAB8729005C9A7C /* UNIAlbumXibController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18D18BC31DAB8729005C9A7C /* UNIAlbumXibController.xib */; };
 		18D346551D740F9400AF1370 /* UNIOrderDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 18D346541D740F9400AF1370 /* UNIOrderDetailModel.m */; };
 		18D4103E1CC5C8210086FC76 /* libBaiduMobStat.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4103D1CC5C8210086FC76 /* libBaiduMobStat.a */; };
 		18D410401CC5C9570086FC76 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 18D4103F1CC5C9570086FC76 /* JavaScriptCore.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -574,6 +576,9 @@
 		18D1492C1D6EE0D400CE4D96 /* UNIPayGoodsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIPayGoodsCell.h; sourceTree = "<group>"; };
 		18D1492D1D6EE0D400CE4D96 /* UNIPayGoodsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIPayGoodsCell.m; sourceTree = "<group>"; };
 		18D1492E1D6EE0D400CE4D96 /* UNIPayGoodsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIPayGoodsCell.xib; sourceTree = "<group>"; };
+		18D18BC11DAB8729005C9A7C /* UNIAlbumXibController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIAlbumXibController.h; sourceTree = "<group>"; };
+		18D18BC21DAB8729005C9A7C /* UNIAlbumXibController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIAlbumXibController.m; sourceTree = "<group>"; };
+		18D18BC31DAB8729005C9A7C /* UNIAlbumXibController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UNIAlbumXibController.xib; sourceTree = "<group>"; };
 		18D346531D740F9400AF1370 /* UNIOrderDetailModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIOrderDetailModel.h; sourceTree = "<group>"; };
 		18D346541D740F9400AF1370 /* UNIOrderDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIOrderDetailModel.m; sourceTree = "<group>"; };
 		18D4103C1CC5C8210086FC76 /* BaiduMobStat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaiduMobStat.h; sourceTree = "<group>"; };
@@ -1089,6 +1094,9 @@
 				18BA7D771BEA169300DD7826 /* MainMidController.m */,
 				18E2A6431D756BEE00637E86 /* UNIAlbumController.h */,
 				18E2A6441D756BEE00637E86 /* UNIAlbumController.m */,
+				18D18BC11DAB8729005C9A7C /* UNIAlbumXibController.h */,
+				18D18BC21DAB8729005C9A7C /* UNIAlbumXibController.m */,
+				18D18BC31DAB8729005C9A7C /* UNIAlbumXibController.xib */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -1697,6 +1705,7 @@
 				18153D2B1D6AE4B3009E2D9B /* WTOrderDetailCell2.xib in Resources */,
 				18D149301D6EE0D400CE4D96 /* UNIPayGoodsCell.xib in Resources */,
 				18C2A8291D5C90380088F58A /* UNIVIPMemberCell.xib in Resources */,
+				18D18BC51DAB8729005C9A7C /* UNIAlbumXibController.xib in Resources */,
 				18C8D4021C574A5100E6DDB3 /* AlipaySDK.bundle in Resources */,
 				180CD3941BDF180A00C912FE /* Assets.xcassets in Resources */,
 				18D5D5471D76F583007DCEE3 /* UNIOrderDetailCell2.xib in Resources */,
@@ -1930,6 +1939,7 @@
 				18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */,
 				18C3ED041C0EF93400B0A192 /* UNIMapAnnotation.m in Sources */,
 				18BA7D6C1BE9A19100DD7826 /* EAIntroView.m in Sources */,
+				18D18BC41DAB8729005C9A7C /* UNIAlbumXibController.m in Sources */,
 				18DF959B1D5D6C5400DF945F /* UNICardInfoProgress.m in Sources */,
 				18DDBC691C98008E0083D9AB /* UNITouristModel.m in Sources */,
 			);
