@@ -35,6 +35,8 @@
 		18153D291D6AE4B3009E2D9B /* WTOrderDetailCell1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18153D241D6AE4B3009E2D9B /* WTOrderDetailCell1.xib */; };
 		18153D2A1D6AE4B3009E2D9B /* WTOrderDetailCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = 18153D261D6AE4B3009E2D9B /* WTOrderDetailCell2.m */; };
 		18153D2B1D6AE4B3009E2D9B /* WTOrderDetailCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18153D271D6AE4B3009E2D9B /* WTOrderDetailCell2.xib */; };
+		181DF9A61DBF492F00897134 /* UIActionSheetTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 181DF9A31DBF492F00897134 /* UIActionSheetTool.m */; };
+		181DF9A71DBF492F00897134 /* UIAlertTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 181DF9A51DBF492F00897134 /* UIAlertTool.m */; };
 		18250E6A1C183B670072F795 /* UNIPurchaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18250E691C183B670072F795 /* UNIPurchaseController.m */; };
 		18250E731C18492C0072F795 /* UNIPurChaseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 18250E721C18492C0072F795 /* UNIPurChaseView.m */; };
 		1827CEB71C157CAD00A40B45 /* UNIRewardListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1827CEB61C157CAD00A40B45 /* UNIRewardListController.m */; };
@@ -288,6 +290,10 @@
 		18153D251D6AE4B3009E2D9B /* WTOrderDetailCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTOrderDetailCell2.h; sourceTree = "<group>"; };
 		18153D261D6AE4B3009E2D9B /* WTOrderDetailCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTOrderDetailCell2.m; sourceTree = "<group>"; };
 		18153D271D6AE4B3009E2D9B /* WTOrderDetailCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WTOrderDetailCell2.xib; sourceTree = "<group>"; };
+		181DF9A21DBF492F00897134 /* UIActionSheetTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIActionSheetTool.h; sourceTree = "<group>"; };
+		181DF9A31DBF492F00897134 /* UIActionSheetTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIActionSheetTool.m; sourceTree = "<group>"; };
+		181DF9A41DBF492F00897134 /* UIAlertTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIAlertTool.h; sourceTree = "<group>"; };
+		181DF9A51DBF492F00897134 /* UIAlertTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIAlertTool.m; sourceTree = "<group>"; };
 		18250E681C183B670072F795 /* UNIPurchaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIPurchaseController.h; sourceTree = "<group>"; };
 		18250E691C183B670072F795 /* UNIPurchaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UNIPurchaseController.m; sourceTree = "<group>"; };
 		18250E711C18492C0072F795 /* UNIPurChaseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UNIPurChaseView.h; sourceTree = "<group>"; };
@@ -749,6 +755,10 @@
 		180838571BFACDA200727B61 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
+				181DF9A21DBF492F00897134 /* UIActionSheetTool.h */,
+				181DF9A31DBF492F00897134 /* UIActionSheetTool.m */,
+				181DF9A41DBF492F00897134 /* UIAlertTool.h */,
+				181DF9A51DBF492F00897134 /* UIAlertTool.m */,
 				181355AC1CD303FF001DAB97 /* NullSafe.m */,
 				182EDD851C2405D300949337 /* UIAlertView+Blocks.h */,
 				182EDD861C2405D300949337 /* UIAlertView+Blocks.m */,
@@ -1800,6 +1810,7 @@
 				18D572321BE891BC0055DE7F /* YIUserLocationMessage.m in Sources */,
 				18ED841E1D644200006863DF /* UNIRewardListXibCell.m in Sources */,
 				18C73A7B1C069B1300A3A4CA /* UNIMypointRequest.m in Sources */,
+				181DF9A71DBF492F00897134 /* UIAlertTool.m in Sources */,
 				18D5D5461D76F583007DCEE3 /* UNIOrderDetailCell2.m in Sources */,
 				180CD38C1BDF180A00C912FE /* AppDelegate.m in Sources */,
 				18E627831BF9EC1500C4C13C /* UNIMyAppintModel.m in Sources */,
@@ -1872,6 +1883,7 @@
 				18DDBC661C97F57D0083D9AB /* UNITouristRequest.m in Sources */,
 				1808385A1BFACDA200727B61 /* UIColor+HexString.m in Sources */,
 				18C315681BFDCDF600B8438E /* UIActionSheet+Blocks.m in Sources */,
+				181DF9A61DBF492F00897134 /* UIActionSheetTool.m in Sources */,
 				18CCA0161C02B84000B90092 /* BTKeyboardTool.m in Sources */,
 				18C8D40C1C574A5100E6DDB3 /* openssl_wrapper.m in Sources */,
 				18014C7C1C28F991006A0489 /* WXApiManager.m in Sources */,

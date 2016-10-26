@@ -48,6 +48,7 @@
         _handleImg.image = [UIImage imageNamed:@"main_btn_cell1"];
         self.numLab.hidden=NO;
         self.numLab.text = [NSString stringWithFormat:@"%d",total];
+        [self startTheMsgNumAnimation];
         self.mainImage.image = [UIImage imageNamed:@"main_img_cell1"];
         self.mainLab.text = info.projectName;
         
@@ -107,5 +108,28 @@
 
     // Configure the view for the selected state
 }
+#pragma mark 消息数量 放大缩小的弹性动画
+-(void)startTheMsgNumAnimation{
+    CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform"];
+    //方式1：放大再缩小（类似系统alert）
+    //如果需要更好的效果
+    //可以添加 .keyTimes 属性。
+    NSMutableArray *values = [NSMutableArray array];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.3, 1.3, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.8, 0.8, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.1, 1.1, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(0.9, 0.9, 1.0)]];
+    [values addObject:[NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)]];
+    animation.values = values;
+    
+    animation.fillMode = kCAFillModeForwards;
+    animation.removedOnCompletion = NO;
+    animation.duration = .5;
+    animation.repeatCount = 1;
+    
+    [_numLab.layer addAnimation:animation forKey:@"showAlert"];
+    [self performSelector:@selector(startTheMsgNumAnimation) withObject:nil afterDelay:4];
+}
+
 
 @end

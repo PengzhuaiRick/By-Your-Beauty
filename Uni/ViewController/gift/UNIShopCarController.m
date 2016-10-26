@@ -275,12 +275,16 @@
     }];
     [[cell.delectBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {
-         [UIAlertView showWithTitle:@"提示" message:@"是否确定删除该商品?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"删除"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
-             if (buttonIndex>0) {
-                 UNIShopCarModel* model =myself.myData[x.tag-1];
-                 [myself requestDelCartGoods:model];
-             }
-         }];
+//         [UIAlertView showWithTitle:@"提示" message:@"是否确定删除该商品?" cancelButtonTitle:@"取消" otherButtonTitles:@[@"删除"] tapBlock:^(UIAlertView *alertView, NSInteger buttonIndex) {
+//             if (buttonIndex>0) {
+//                 UNIShopCarModel* model =myself.myData[x.tag-1];
+//                 [myself requestDelCartGoods:model];
+//             }
+//         }];
+         [UIAlertTool showAlertViewTitle:@"提示" Message:@"是否确定删除该商品?" CancelTitle:@"取消" OtherTitle:@[@"删除"] AndBtnsColor:@[@"",@"eeeeee"] Confirm:^(NSInteger buttonIndex) {
+             UNIShopCarModel* model =myself.myData[x.tag-1];
+             [myself requestDelCartGoods:model];
+         } Cancle:^{}];
      }];
     [[cell.addBtn rac_signalForControlEvents:UIControlEventTouchUpInside]
      subscribeNext:^(UIButton* x) {

@@ -64,7 +64,6 @@ static const void *UIAlertViewShouldEnableFirstOtherButtonBlockKey  = &UIAlertVi
             [alertView addButtonWithTitle:buttonTitle];
         }
     }
-    
     if (tapBlock) {
         alertView.tapBlock = tapBlock;
     }
