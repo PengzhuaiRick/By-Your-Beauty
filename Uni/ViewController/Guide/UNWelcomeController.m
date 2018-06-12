@@ -45,7 +45,6 @@
     BaseRequest* rq = [[BaseRequest alloc]init];
     rq.rqfirstUrl=^(int code){
         dispatch_async(dispatch_get_main_queue(), ^{
-            //[self intoSystem];
             [self performSelector:@selector(intoSystem) withObject:nil afterDelay:3];
         });
     };

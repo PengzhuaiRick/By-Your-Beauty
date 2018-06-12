@@ -213,13 +213,6 @@
          mapView=nil;
     }
 }
-#pragma mark 地图移动是会不断请求内存，释放地图内存
-- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
-    [self.mappView removeFromSuperview];
-    [self.myTableView.tableFooterView addSubview:mapView];
-    self.mappView = mapView;
-    mapView = nil;
-}
 
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 15;
@@ -305,7 +298,13 @@
         [self callOtherMapApp];
     
 }
-
+#pragma mark 地图移动是会不断请求内存，释放地图内存
+- (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated{
+    [self.mappView removeFromSuperview];
+    [self.myTableView.tableFooterView addSubview:mapView];
+    self.mappView = mapView;
+   // mapView = nil;
+}
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation {
     if ([annotation isKindOfClass:[CalloutMapAnnotation class]]) {
         CallOutAnnotationVifew *annotationView =(CallOutAnnotationVifew*)[mapView dequeueReusableAnnotationViewWithIdentifier:@"CustomAnnotation"];

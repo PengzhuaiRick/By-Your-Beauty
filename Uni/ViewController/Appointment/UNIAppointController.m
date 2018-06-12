@@ -243,7 +243,7 @@
 -(void)startAppoint{
              [LLARingSpinnerView RingSpinnerViewStart1andStyle:2];
              UNIMypointRequest* req = [[UNIMypointRequest alloc]init];
-             NSMutableArray* arr = [NSMutableArray array];
+             //NSMutableArray* arr = [NSMutableArray array];
               NSString* date = [NSString stringWithFormat:@"%@ %@",self->appointTop.selectDay,self->appointTop.selectTime];
                 NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
                 [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
@@ -300,7 +300,6 @@
                  };
             });
     
-    arr=nil; date = nil;
 }
 
 #pragma mark 添加本地通知任务

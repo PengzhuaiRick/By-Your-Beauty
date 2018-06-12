@@ -13,7 +13,7 @@
 
 -(void)firstRequestUrl{
     NSString* url = [NSString stringWithFormat:
-                     @"http://uni.dodwow.com/v2/index.php?s=/App/Version/index/app_version/%@/device/ios",CURRENTVERSION];
+                     @"http://prj.meiliyouni.com/v2/index.php?s=/App/Version/index/app_version/%@/device/ios",CURRENTVERSION];
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     manager.requestSerializer.timeoutInterval = 10.f;
     manager.responseSerializer.acceptableContentTypes =

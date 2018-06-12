@@ -42,11 +42,11 @@
     [self setupNotifications];
     [self setupWebViewUserAgent];
    // [self rqCurrentVersion];
-    [self setupJPush:launchOptions];
+   // [self setupJPush:launchOptions];
     [self setupNavigationStyle];
-    [self setupWeChat];
+    //[self setupWeChat];
     // 初始化百度统计SDK
-    [self startBaiduMobStat];
+    //[self startBaiduMobStat];
     [self setupGuideController];
     [self.window makeKeyAndVisible];
    // [NSThread sleepForTimeInterval:3.0];//设置启动页面时间

@@ -361,7 +361,6 @@
         
     }];
 }
-
 #pragma mark 请求微信用户的 nickname
 -(void)requestWxNikeName:(NSString*)token{
     NSString* URL =[NSString stringWithFormat:@"https://api.weixin.qq.com/sns/userinfo?access_token=%@&openid=%@",token,wxOpenid];
@@ -383,7 +382,6 @@
         NSLog(@"Error: %@", error);
         
     }];
-
 }
 
 #pragma mark 调用设置游客信息

@@ -209,7 +209,7 @@
             }
         }break;
     }
-    return nil;
+    return [UITableViewCell new];
 }
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0) {
@@ -297,7 +297,7 @@
     NSString* string = @"支付失败!";
     NSString* message = [noiti objectForKey:@"memo"];
     if (num == 9000){
-        string = @"支付成功!";
+        //string = @"支付成功!";
         [self checkTradeOrderStatus];
         return;
     }
@@ -343,7 +343,7 @@
     }
     NSString* result=nil;
     if (num == 0){
-        result = @"支付成功!";
+        //result = @"支付成功!";
         [self checkTradeOrderStatus];
     }else{
         result = @"支付失败!";

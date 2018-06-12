@@ -361,7 +361,7 @@
     UITapGestureRecognizer* tap = [[UITapGestureRecognizer alloc]init];
     [progess addGestureRecognizer:tap];
     [tap.rac_gestureSignal subscribeNext:^(id x) {
-       if (self->goodId1<1 || self->type1 !=2){
+       if (self->goodId1<1){
             NSString* tips= [UNIHttpUrlManager sharedInstance].MAIN_BOTTOM_TIPS;
            [UIAlertView showWithTitle:tips message:nil cancelButtonTitle:@"确定" otherButtonTitles:nil tapBlock:nil];
             return ;

@@ -209,7 +209,7 @@
 #pragma mark 显示指引图片
 -(void)showGuideView:(NSString*)className andBlock:(VCBlock)vc{
    //if (![UNIGuideView determineWhetherFirstTime:className]) {
-        UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:className tapBlock:^(id model) {
+       __block UNIGuideView* guide = [[UNIGuideView alloc]initWithClassName:className tapBlock:^(id model) {
             if(vc)
                 vc(nil);
             [guide removeFromSuperview];
